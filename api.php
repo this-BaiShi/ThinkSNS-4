@@ -23,6 +23,9 @@ if(isset($_REQUEST['api_version'])){
 //载入核心文件
 require(SITE_PATH . '/core/core.php');
 
+/* 加入新的系统 */
+include SITE_PATH . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Build.php';
+
 //实例化一个网站应用实例
 $app = new Api;
 $app->run();

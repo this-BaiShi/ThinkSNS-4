@@ -2299,10 +2299,7 @@ define('UC_SYNC', {$ucopen});
 			'get'  => 'GET方式',
 		);
 
-		$this->opt['service'] = array(
-			'auto'  => '自动判断',
-			'ihuyi' => '互亿无线'
-		);
+		$this->opt['service'] = model('Sms')->getService();
 		
 		$this->displayConfig();
 	}

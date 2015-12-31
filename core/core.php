@@ -7,10 +7,10 @@
 
 if (!defined('SITE_PATH')) exit();
 
-ini_set('magic_quotes_runtime', 0);
+@ini_set('magic_quotes_runtime', 0);
 
 /* # 设置时区 */
-if(!ini_get('date.timezone') and function_exists('date_default_timezone_set'))
+if(function_exists('date_default_timezone_set'))
 {
 	date_default_timezone_set('Asia/Shanghai');
 }

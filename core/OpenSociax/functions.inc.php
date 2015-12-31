@@ -1,4 +1,6 @@
 <?php
+use Vendor\Pinyin\Pinyin;
+
 /**
  * Cookie 设置、获取、清除 (支持数组或对象直接设置) 2009-07-9
  * 1 获取cookie: cookie('name')
@@ -1436,10 +1438,10 @@ function parse_html($html){
 	//外网链接地址处理
 	//$html = preg_replace_callback('/((?:https?|ftp):\/\/(?:www\.)?(?:[a-zA-Z0-9][a-zA-Z0-9\-]*\.)?[a-zA-Z0-9][a-zA-Z0-9\-]*(?:\.[a-zA-Z0-9]+)+(?:\:[0-9]*)?(?:\/[^\x{2e80}-\x{9fff}\s<\'\"“”‘’,，。]*)?)/u', '_parse_url', $html);
 	//表情处理
-	$html = preg_replace_callback("/(\[.+?\])/is",_parse_expression,$html);
+	$html = preg_replace_callback("/(\[.+?\])/is",'_parse_expression',$html);
 	//话题处理
 	$html = str_replace("＃", "#", $html);
-	$html = preg_replace_callback("/#([^#]*[^#^\s][^#]*)#/is",_parse_theme,$html);
+	$html = preg_replace_callback("/#([^#]*[^#^\s][^#]*)#/is",'_parse_theme',$html);
 	//@提到某人处理
 	$html = preg_replace_callback("/@([\w\x{2e80}-\x{9fff}\-]+)/u", "_parse_at_by_uname",$html);
 
@@ -1500,7 +1502,7 @@ function _parse_expression($data) {
     $pkg = $ts['site']['expression'];	
     $pkg = $pkg ? $pkg : 'default';
 	if($info) {
-		return preg_replace("/\[.+?\]/i","<img src='".__THEME__."/image/expression/{$pkg}/".$info['filename']."' />",$data[0]);
+		return preg_replace("/\[.+?\]/i","<img style=\"width:24px;\" src='".__THEME__."/image/expression/{$pkg}/".$info['filename']."' />",$data[0]);
 	}else {
 		return $data[0];
 	}
@@ -1896,8 +1898,27 @@ function getOAuthTokenSecret(){
 	return md5( time() . uniqid() );
 }
 
+/**
+ * 截取一段话首字母
+ *
+ * @param string $string 截取的字符串
+ * @param string $encode 编码，默认 utf-8
+ * @return string
+ * @author Seven Du <lovevipdsw@vip.qq.com>
+ **/
+function getShortPinyin($string, $encode = 'utf-8')
+{
+	$string = Pinyin::getShortPinyin($string, $encode);
+	$string = substr($string, 0, 1);
+	$string = strtoupper($string); /* 转为大写 */
+	return $string;
+}
+
 // 获取字串首字母
 function getFirstLetter($s0) {
+	/* 兼容以前 */
+	return getShortPinyin($s0);
+
 	$firstchar_ord = ord(strtoupper($s0{0}));
 	if($firstchar_ord >= 65 and $firstchar_ord <= 91) return strtoupper($s0{0});
 	if($firstchar_ord >= 48 and $firstchar_ord <= 57) return '#';

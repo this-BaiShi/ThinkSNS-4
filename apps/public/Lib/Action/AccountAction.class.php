@@ -191,6 +191,10 @@ class AccountAction extends Action {
             } else {
                 $save ['search_key'] = $save ['uname'];
             }
+
+            /* 用户首字母 */
+            $save['first_letter'] = getShortPinyin($save['uname']);
+
             $res = model('User')->where("`uid`={$this->mid}")->save($save);
             $res && model('User')->cleanCache($this->mid);
             $user_feeds = model('Feed')->where('uid=' . $this->mid)->field('feed_id')->findAll();

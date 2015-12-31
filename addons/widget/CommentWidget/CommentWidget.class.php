@@ -114,6 +114,7 @@ class CommentWidget extends Widget {
 				'status' => 1,
 				'data' => $content 
 		);
+		// var_dump($return);exit;
 		
 		return $ajax == 1 ? json_encode ( $return ) : $return ['data'];
 	}

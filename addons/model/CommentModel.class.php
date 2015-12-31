@@ -217,11 +217,23 @@ class CommentModel extends Model {
             M($add['app'])->where('feed_id='.$add['row_id'])->setField('rTime', time());
         	// 给应用UID添加一个未读的评论数 原作者
         	if($GLOBALS['ts']['mid'] != $add['app_uid'] && $add['app_uid'] != '' && $add['app_uid'] != $add['to_uid']) {
-                !$notCount && model('UserData')->updateKey('unread_comment', 1, true, $add['app_uid']);
+                // !$notCount && model('UserData')->updateKey('unread_comment', 1, true, $add['app_uid']);
+                /* 如果是微吧 */
+                if (!$notCount and $add['app'] == 'weiba') {
+                    model('UserData')->updateKey('unread_comment_weiba', 1, true, $add['app_uid']);
+                } elseif (!$notCount) {
+                    model('UserData')->updateKey('unread_comment', 1, true, $add['app_uid']);
+                }
         	}
             // 回复发送提示信息
             if(!empty($add['to_uid']) && $add['to_uid'] != $GLOBALS['ts']['mid']) {
-                !$notCount && model('UserData')->updateKey('unread_comment', 1, true, $add['to_uid']);
+                // !$notCount && model('UserData')->updateKey('unread_comment', 1, true, $add['to_uid']);
+                /* 如果是微吧 */
+                if (!$notCount and $add['app'] == 'weiba') {
+                    model('UserData')->updateKey('unread_comment_weiba', 1, true, $add['to_uid']);
+                } elseif (!$notCount) {
+                    model('UserData')->updateKey('unread_comment', 1, true, $add['to_uid']);
+                }
             }
         	// 加积分操作
         	if($add['table'] =='feed'){

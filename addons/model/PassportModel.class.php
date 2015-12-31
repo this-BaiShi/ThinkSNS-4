@@ -243,7 +243,7 @@ class PassportModel {
 		Addons::hook('passport_login_local',array('login'=>$login,'password'=>$password));
 
 		$res = false;
-		if(UC_SYNC && false){
+		if(UC_SYNC){
 			$res = $this->ucLogin($login, $password, $is_remember_me);
 		    if($res){
 			    return true;

@@ -60,16 +60,17 @@ class Db extends Think
     }
 
     /**
-     * 取得数据库类实例
-     * @static
-     * @access public
-     * @return mixed 返回数据库驱动类
-     */
-    public static function getInstance($db_config='') {
-		if ( self::$_instance==null ){
-			self::$_instance = new Db($db_config);
-		}
-		return self::$_instance;
+     * 获取数据库单例实例
+     *
+     * @return object self
+     * @author Seven Du <lovevipdsw@vip.qq.com>
+     **/
+    public static function getInstance($config = null)
+    {
+        if (!self::$_instance instanceof self) {
+            self::$_instance = new self($config);
+        }
+        return self::$_instance;
     }
 
     /**

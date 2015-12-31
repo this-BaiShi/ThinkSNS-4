@@ -230,6 +230,11 @@ class SmsModel extends Model
 			case 'ihuyi':
 				$result = $this->ihuyi($result);
 				break;
+
+			/* 短信宝 */
+			case 'smsbao':
+				$result = $this->smsbao($result);
+				break;
 			
 			default:
 				$result = $this->auto($result);
@@ -275,7 +280,47 @@ class SmsModel extends Model
 		return false;
 	}
 
+	/**
+	 * 短信宝 www.smsbao.com
+	 *
+	 * @param string $data 数据
+	 * @return boolean
+	 * @author Seven Du <lovevipdsw@vip.qq.com>
+	 **/
+	public function smsbao($data)
+	{
+		$code = array(
+			0  => '发送成功',
+			30 => '密码错误',
+			40 => '账号不存在',
+			41 => '余额不足',
+			42 => '帐号过期',
+			43 => 'IP地址限制',
+			50 => '内容含有敏感词',
+			51 => '手机号码不正确'
+		);
+		$data = intval($data);
+		$code[$data] and
+		$this->setMessage($code[$data]);
+		return !$data;
+	}
+
 	/*========================End=================================*/
+
+	/**
+	 * 获取平台配置
+	 *
+	 * @return array
+	 * @author Seven Du <lovevipdsw@vip.qq.com>
+	 **/
+	public function getService()
+	{
+		return array(
+			'auto'   => '自动判断',
+			'ihuyi'  => '互亿无线',
+			'smsbao' => '短信宝'
+		);
+	}
 
 	/**
 	 * undocumented function
