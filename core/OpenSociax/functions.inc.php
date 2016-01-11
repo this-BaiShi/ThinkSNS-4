@@ -1502,7 +1502,7 @@ function _parse_expression($data) {
     $pkg = $ts['site']['expression'];	
     $pkg = $pkg ? $pkg : 'default';
 	if($info) {
-		return preg_replace("/\[.+?\]/i","<img style=\"width:24px;\" src='".__THEME__."/image/expression/{$pkg}/".$info['filename']."' />",$data[0]);
+		return preg_replace("/\[.+?\]/i","<img style=\"width:20px;\" src='".__THEME__."/image/expression/{$pkg}/".$info['filename']."' />",$data[0]);
 	}else {
 		return $data[0];
 	}
@@ -1908,9 +1908,13 @@ function getOAuthTokenSecret(){
  **/
 function getShortPinyin($string, $encode = 'utf-8')
 {
+	$pre    = mb_substr($string, 0, 1, $encode);
 	$string = Pinyin::getShortPinyin($string, $encode);
 	$string = substr($string, 0, 1);
 	$string = strtoupper($string); /* 转为大写 */
+	if (!in_array($string, explode(',', 'Q,W,E,R,T,Y,U,I,O,P,A,S,D,F,G,H,J,K,L,M,N,B,V,C,X,Z'))) {
+		$string = $pre;
+	}
 	return $string;
 }
 

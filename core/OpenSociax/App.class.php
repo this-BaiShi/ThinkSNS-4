@@ -130,11 +130,15 @@ class App
         $GLOBALS['time_run_detail']['addons_end'] = microtime(true);
 
         //创建Action控制器实例
-        $className =  MODULE_NAME.'Action';
-        tsload(APP_ACTION_PATH.'/'.$className.'.class.php');
-        
-        if(!class_exists($className)) {
-          
+        $className =  MODULE_NAME . 'Action';
+        // tsload(APP_ACTION_PATH.'/'.$className.'.class.php');
+
+        /* 以命名空间路径判断 */
+        if (class_exists('Apps\\' . APP_NAME . '\Controller\\' . MODULE_NAME)) {
+            $className = 'Apps\\' . APP_NAME . '\Controller\\' . MODULE_NAME;
+
+        /* 无命名空间 */
+        } elseif (!class_exists($className)) {
             $className  =   'EmptyAction';
             tsload(APP_ACTION_PATH.'/EmptyAction.class.php');
             if(!class_exists($className)){

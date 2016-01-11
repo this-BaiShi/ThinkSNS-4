@@ -3,6 +3,7 @@
 	<?php if ($list['data'] && is_array($list['data'])) { ?>
 	<ul class="comment feed_list msgatme">
 		<?php foreach ($list['data'] as $atData) { ?>
+		<?php isset($atData['sourceInfo']) && $atData = $atData['sourceInfo']; ?>
 		<li>
 			<div class="face">
 				<a href="{$atData['source_user_info']['space_url']}" target="_blank" event-node="face_card" uid="{$atData['source_user_info']['uid']}">
@@ -22,16 +23,17 @@
 				</div>
 			</div>
 			<div class="buttons">
-				<a id="comment" href="#" data-id="reply-{$atData['feed_id']}">评论</a>
+				<?php $id = uniqid(); ?>
+				<a id="comment" href="#" data-id="reply-{$atData['feed_id']}-{$id}">评论</a>
 			</div>
-			<div class="reply" id="reply-{$atData['feed_id']}">
-          <form>
-          	<input type="text" class="text" value="">
-            <input type="submit" class="sbmt" value="评论" args="row_id={$atData['feed_id']}&app_uid={$atData['uid']}&app_row_id={$atData['app_row_id']}&app_row_table={$atData['app_row_table']}&app_name={$atData['app']}&table_name={$atData['source_table']}&to_comment_id=0&to_uid=0">
-            <a href="javascript:;" class="face-icon" event-node="comment_insert_face"></a>
-          </form>
-        <div class="face_parent_div"></div>
-      </div>
+			<div class="reply" id="reply-{$atData['feed_id']}-{$id}">
+	          <form>
+	          	<input type="text" class="text" value="">
+	            <input type="submit" class="sbmt" value="评论" args="row_id={$atData['feed_id']}&app_uid={$atData['uid']}&app_row_id={$atData['app_row_id']}&app_row_table={$atData['app_row_table']}&app_name={$atData['app']}&table_name={$atData['source_table']}&to_comment_id=0&to_uid=0">
+	            <a href="javascript:;" class="face-icon" event-node="comment_insert_face"></a>
+	          </form>
+	        <div class="face_parent_div"></div>
+	      </div>
 		</li>
 		<?php } ?>
 	</ul>

@@ -4,6 +4,7 @@ class DES_MOBILE {
 	var $key = '12345678';
 
 	function  setKey($key){
+		$key = substr($key, 0, 8);
 		$this->key = $key;
 		return $this;
 	}
@@ -17,7 +18,7 @@ class DES_MOBILE {
 
 
  		$size = mcrypt_get_block_size ( MCRYPT_DES, MCRYPT_MODE_CBC );  
-       $string = $this->pkcs5Pad ( $string, $size );  
+       $string = $this->pkcs5Pad ( $string, $size );
 
 		$data =  mcrypt_encrypt(MCRYPT_DES, $this->key, $string, MCRYPT_MODE_CBC, $iv);
 

@@ -63,8 +63,26 @@ class TsAutoLoader
 	 **/
 	public static function TsOldAutoLoader(array $namespace)
 	{
+		$newArr = array();
+		$ext    = '.class.php';
+		foreach ($namespace as $key => $value) {
+			if ($value == 'Apps') {
+				$value = 'apps';
+			} elseif (in_array($value, array('Controller', 'Model'))) {
+				if ($value == 'Controller') {
+					$value = 'Action';
+					$ext   = 'Action.class.php';
+				} elseif ($value == 'Model') {
+					$value = 'Model';
+					$ext   = 'Model.class.php';
+				}
+				array_push($newArr, 'Lib');
+			}
+			array_push($newArr, $value);
+		}
+		$namespace = $newArr;unset($newArr);
 		array_unshift($namespace, TS_ROOT);
-		array_push($namespace, '.class.php');
+		array_push($namespace, $ext);
 		return $namespace;
 	}
 

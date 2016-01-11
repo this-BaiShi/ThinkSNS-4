@@ -8,6 +8,9 @@ set_time_limit(0);
 define('DEBUG',	true);
 // */
 
+$mem_run_end  = memory_get_usage();
+$time_run_end = microtime(true);
+
 /* # 检查PHP版本是否符合运行要求 */
 if (version_compare(PHP_VERSION, '5.3.12', '<')) {
 	header('Content-Type:text/html;charset=utf-8');
@@ -25,11 +28,29 @@ if (version_compare(PHP_VERSION, '5.3.12', '<')) {
 //网站根路径设置
 define('SITE_PATH', dirname(__FILE__));
 
+
 //载入核心文件
 require(SITE_PATH.'/core/core.php');
 
 /* 加入新的系统 */
 include SITE_PATH . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Build.php';
+
+if(isset($_GET['debug'])){
+	C('APP_DEBUG', true);
+	C('SHOW_RUN_TIME', true);
+	C('SHOW_ADV_TIME', true);
+	C('SHOW_DB_TIMES', true);
+	C('SHOW_CACHE_TIMES', true);
+	C('SHOW_USE_MEM', true);
+	C('LOG_RECORD', true);
+	C('LOG_RECORD_LEVEL',  array (
+				'EMERG',
+				'ALERT',
+				'CRIT',
+				'ERR',
+		        'SQL'
+		));
+}
 
 //实例化一个网站应用实例
 $app = new App;
@@ -37,9 +58,6 @@ $app->run();
 unset($app);
 
 if(C('APP_DEBUG')){
-
-	$mem_run_end = memory_get_usage();
-	$time_run_end = microtime(true);
 
 	//数据库查询信息
 	echo '<div align="left">';
