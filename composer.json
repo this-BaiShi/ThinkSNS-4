@@ -4,7 +4,7 @@
     "homepage": "http://www.thinksns.com",
     "type": "library",
     "license": "Apache-2.0",
-    "version": "4.1.712",
+    "version": "master",
     "repositories": [
         {
             "type": "vcs",
