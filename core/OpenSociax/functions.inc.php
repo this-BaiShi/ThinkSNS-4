@@ -1903,12 +1903,13 @@ function getOAuthTokenSecret(){
  *
  * @param string $string 截取的字符串
  * @param string $encode 编码，默认 utf-8
+ * @param string $unknow 不知道的字符返回什么,默认返回第一个字
  * @return string
  * @author Seven Du <lovevipdsw@vip.qq.com>
  **/
-function getShortPinyin($string, $encode = 'utf-8')
+function getShortPinyin($string, $encode = 'utf-8', $unknow = null)
 {
-	$pre    = mb_substr($string, 0, 1, $encode);
+	$pre    = $unknow !== null ? $unknow : mb_substr($string, 0, 1, $encode);
 	$string = Pinyin::getShortPinyin($string, $encode);
 	$string = substr($string, 0, 1);
 	$string = strtoupper($string); /* 转为大写 */
