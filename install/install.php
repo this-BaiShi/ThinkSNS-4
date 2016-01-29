@@ -29,7 +29,7 @@ include 'install_lang.php';
 $timestamp = time();
 $ip = getip();
 $installfile = 'ThinkSNS.sql';
-$installdbname = 'thinksns_4_0';
+$installdbname = 'thinksns_4_r1';
 $thinksns_config_file = 'config.inc.php';
 $_SESSION['thinksns_install'] = $timestamp;
 
