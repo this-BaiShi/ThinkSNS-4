@@ -15,6 +15,5 @@ return array (
 		'wap/*/*' 			=> true, // wap版
 		'w3g/*/*' 			=> true, // 3G版
         'public/Account/alipayNotify' => true, //支付成功的通知，去掉之后无法成功充值
-        'H5/*/*' => true /* H5 */
 	)
 );

@@ -447,6 +447,7 @@ class AppModel extends Model {
 			$info ['APP_ALIAS'] = $info ['NAME'];
 			$info ['PATH_NAME'] = $path_name;
 			$info ['APP_NAME'] = $path_name;
+			$info['version'] = $info['VERSION_NUMBER'];
 			return $using_lowercase ? array_change_key_case ( $info ) : array_change_key_case ( $info, CASE_UPPER );
 		} else {
 			return false;

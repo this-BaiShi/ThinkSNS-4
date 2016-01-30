@@ -133,13 +133,15 @@ class App
         $className =  MODULE_NAME . 'Action';
         // tsload(APP_ACTION_PATH.'/'.$className.'.class.php');
 
+        $action = ACTION_NAME; // action名称
+
         /* 以命名空间路径判断 */
         if (class_exists('Apps\\' . APP_NAME . '\Controller\\' . MODULE_NAME)) {
             $className = 'Apps\\' . APP_NAME . '\Controller\\' . MODULE_NAME;
 
         /* 无命名空间 */
         } elseif (!class_exists($className)) {
-            $className  =   'EmptyAction';
+            $className =  'EmptyAction';
             tsload(APP_ACTION_PATH.'/EmptyAction.class.php');
             if(!class_exists($className)){
                 throw_exception( L('_MODULE_NOT_EXIST_').' '.MODULE_NAME );
@@ -155,9 +157,6 @@ class App
             // 模块不存在 抛出异常
             throw_exception( L('_MODULE_NOT_EXIST_').' '.MODULE_NAME );
         }
-
-        //获取当前操作名
-        $action =   ACTION_NAME;
 
         //执行当前操作
         call_user_func(array(&$module,$action));
@@ -175,23 +174,36 @@ class App
      * @access public
      * @return void
      */
-    static public function execApi() {
+    static public function execApi() {var_dump(123);
         include_once (SITE_PATH.'/api/' . API_VERSION . '/'.MODULE_NAME.'Api.class.php');
         $className = MODULE_NAME.'Api';
         $module = new $className();
         $action = ACTION_NAME;
         //执行当前操作
         $data = call_user_func(array(&$module,$action));
-        $format = (in_array( $_REQUEST['format'] ,array('xml','json','php','test') ) ) ?$_REQUEST['format']:'json';
-        if($format=='json'){
-            exit(json_encode($data));
-        }elseif ($format=='xml'){
+        $format = (in_array( $_REQUEST['format'] ,array('json','php','test') ) ) ?$_REQUEST['format']:'json';
+        $format = strtolower($format);
+        /* json */
+        if ($format == 'json') {
+            ob_end_clean();
+            ob_start(function($buffer, $mode) {
+                if (extension_loaded('zlib') and function_exists('ob_gzhandler')) {
+                    return ob_gzhandler($buffer, $mode);
+                }
+                return $buffer;
+            });
+            header('Content-type:application/json;charset=utf-8');
+            echo json_encode($data);
+            ob_end_flush();
+            exit;
 
-        }elseif($format=='php'){
-            //输出php格式
-            exit(var_export($data));
-        }elseif($format=='test'){
-            //测试输出
+        /* php */
+        } elseif ($format == 'php') {
+            var_export($data);
+            exit;
+
+        /* test */
+        } elseif ($format == 'test') {
             dump($data);
             exit;
         }

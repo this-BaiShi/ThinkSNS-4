@@ -17,7 +17,15 @@ class AreaModel extends Model {
 	public function getAreaList($pid = -1, array $where = array())
 	{
 		$pid != -1 and $where['pid'] = intval($pid);
-		return $this->where($where)->order('`area_id` ASC')->select();
+
+		$name = 'ts_area_' . $pid . '_' . md5(json_encode($where));
+		$data = S($name);
+		if (!$data) {
+			$data = $this->where($where)->order('`area_id` ASC')->select();
+			S($name, $data);
+		}
+
+		return $data;
 
 		// $map = array();
 		// $pid != -1 && $map['pid'] = $pid;
@@ -64,8 +72,13 @@ class AreaModel extends Model {
 	public function getAreaById($id) {
 		$result = array();
 		if(!empty($id)) {
-			$map['area_id'] = $id;
-			$result = $this->where($map)->find();
+			$name   = 'ts_area_aid_' . $id;
+			$result = S($name);
+			if (!$result) {
+				$map['area_id'] = $id;
+				$result = $this->where($map)->find();
+				S($name, $result);
+			}
 		}
 
 		return $result;
@@ -107,18 +120,22 @@ class AreaModel extends Model {
 	 * @return array 树形结构
 	 */
 	private function _MakeTree($pid, $level = '0') {
-		$result = $this->where('pid='.$pid)->findAll();
-		if($result) {
-			foreach($result as $key => $value) {
-				$id = $value['area_id'];
-				$list[$id]['id'] = $value['area_id'];
-				$list[$id]['pid'] = $value['pid'];
-				$list[$id]['title'] = $value['title'];
-				$list[$id]['level'] = $level;
-				$list[$id]['child'] = $this->_MakeTree($value['area_id'], $level + 1);
+		$name = 'ts_area_tree_' . $pid . '_' . $level;
+		$list = S($name);
+		if (!$list) {
+			$result = $this->where('pid='.$pid)->findAll();
+			if($result) {
+				foreach($result as $key => $value) {
+					$id = $value['area_id'];
+					$list[$id]['id'] = $value['area_id'];
+					$list[$id]['pid'] = $value['pid'];
+					$list[$id]['title'] = $value['title'];
+					$list[$id]['level'] = $level;
+					$list[$id]['child'] = $this->_MakeTree($value['area_id'], $level + 1);
+				}
 			}
+			S($name, $list);
 		}
-
 		return $list;
 	}
 }

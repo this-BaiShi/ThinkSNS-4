@@ -20,16 +20,22 @@ class AttachModel extends Model {
 	 * @return array 相关附件数据
 	 */
 	public function getAttachByIds($ids, $field = '*') {
-		if(empty($ids)) {
-			return false;
+		$name = 'attach_ids_' . md5(json_encode($ids) . $field);
+
+		$data = S($name);
+		if (!$data) {
+			if(empty($ids)) {
+				return false;
+			}
+			!is_array($ids) && $ids = explode(',', $ids);
+
+			/* # sql注入，ID过滤 */
+			array_map('intval', $ids);
+
+			$map['attach_id'] =	array('IN', $ids);
+			$data = $this->where($map)->field($field)->order('attach_id asc')->findAll();
+			S($name, $data);
 		}
-		!is_array($ids) && $ids = explode(',', $ids);
-
-		/* # sql注入，ID过滤 */
-		array_map('intval', $ids);
-
-		$map['attach_id'] =	array('IN', $ids);
-		$data = $this->where($map)->field($field)->order('attach_id asc')->findAll();
 
 		return $data;
 	}
@@ -40,23 +46,31 @@ class AttachModel extends Model {
 	 * @return array 指定附件ID的附件信息
 	 */
 	public function getAttachById($id) {
+		$id = intval($id);
 		if(empty($id)) {
 			return false;
 		}
-		// 获取静态缓存
-		$sc = static_cache('attach_infoHash_'.$id);
-		if(!empty($sc)) {
-			return $sc;
+
+		$name = 'ts_attach_id_' . $id;
+		$sc = S($name);
+
+		if (!$sc) {
+			// 获取静态缓存
+			$sc = static_cache('attach_infoHash_'.$id);
+			if(!empty($sc)) {
+				return $sc;
+			}
+			// 获取缓存
+			$sc = model('Cache')->get('Attach_'.$id);
+			if(empty($sc)) {
+				$map['attach_id'] = $id;
+				$sc = $this->where($map)->find();
+				empty($sc) && $sc = array();
+				model('Cache')->set('Attach_'.$id, $sc, 3600);
+			}
+			static_cache('attach_infoHash_'.$id, $sc);
+			S($name, $sc);
 		}
-		// 获取缓存
-		$sc = model('Cache')->get('Attach_'.$id);
-		if(empty($sc)) {
-			$map['attach_id'] = $id;
-			$sc = $this->where($map)->find();
-			empty($sc) && $sc = array();
-			model('Cache')->set('Attach_'.$id, $sc, 3600);
-		}
-		static_cache('attach_infoHash_'.$id, $sc);
 
 		return $sc;
 	}
@@ -111,8 +125,14 @@ class AttachModel extends Model {
 	 * @return array 扩展名数组
 	 */
 	public function getAllExtensions() {
-		$res = $this->field('`extension`')->group('`extension`')->findAll();
-		return getSubByKey($res, 'extension');
+		$name = 'ts_area_ext';
+		$res  = S($name);
+		if (!$res) {
+			$res = $this->field('`extension`')->group('`extension`')->findAll();
+			$res = getSubByKey($res, 'extension');
+			S($name, $res);
+		}
+		return $res;
 	}
 
 	/**

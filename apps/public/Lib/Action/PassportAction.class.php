@@ -200,14 +200,14 @@ class PassportAction extends Action
 		$result = model('Sms')->CheckCaptcha($phone, $code);
 
 		if ($result) {
-			$map['login'] = $mobile;
+			$map['phone'] = $mobile;
 			$user = model('User')->where($map)->find();
 	        $code = md5($user["uid"].'+'.$user["password"].'+'.rand(1111, 9999));
 	        //设置旧的code过期
 	        D('FindPassword')->where('uid='.$user["uid"])->setField('is_used', 1);
 	        //添加新的修改密码code
 	        $add['uid'] = $user['uid'];
-	        $add['email'] = $user['login'];
+	        $add['email'] = $user['phone'];
 	        $add['code'] = $code;
 	        $add['is_used'] = 0;
 	        $result = D('FindPassword')->add($add);

@@ -59,7 +59,10 @@ class AppsAction extends AdministratorAction
 				$v['DOACTION'] .= in_array($v['app_name'],array_keys($inNav)) ? 
 				' <a href="javascript:;" onclick="admin.appnav(this,\''.$name.'\',\''.$v['admin_entry'].'\')" add="1">'.L('PUBLIC_REMOVE_NAV').'</a>'
 				:' <a href="javascript:;" onclick="admin.appnav(this,\''.$name.'\',\''.$v['admin_entry'].'\')" add="0">'.L('PUBLIC_ADD_NAV').'</a>';	
+
+				$v['DOACTION'] .= '&nbsp;-&nbsp;<a href="' . U($v['app_name'] . '/' . $v['app_entry']) . '" target= _blank>访问应用</a>';
 			}
+
 			$v['status'] = $this->appStatus[$v['status']];	//语义化
 
 		}
