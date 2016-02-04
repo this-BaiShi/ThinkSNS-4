@@ -45,6 +45,11 @@
             "Ts\\AutoLoader\\": "src/AutoLoader/"
         }
     },
+    "support": {
+        "email": "1943395309@qq.com",
+        "forum": "http://demo.thinksns.com",
+        "source": "https://github.com/medz/ThinkSNS-4"
+    },
     "suggest":{
         "medz/vendor-pack-pinyin": "This is a converted Chinese characters spelling library."
     }
