@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d568327311dad450f56aa96e7f3ce40c",
-    "content-hash": "c8b8a2bbf34431a4026ba5fe7c3d16e9",
+    "hash": "1806b59d3fd30227837624ad02e9da02",
+    "content-hash": "bb3236d9ceaafc5df53f623feaefb610",
     "packages": [
         {
             "name": "medz/vendor-pack-pinyin",
@@ -26,7 +26,7 @@
     ],
     "packages-dev": [],
     "aliases": [],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": {
         "medz/vendor-pack-pinyin": 20
     },
