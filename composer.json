@@ -33,6 +33,9 @@
         "ext-zip": "*",
         "medz/vendor-pack-pinyin": "@dev"
     },
+    "require-dev": {
+        "ext-xdebug": "*"
+    },
     "config": {
         "vendor-dir": "src/Vendor/"
     },
