@@ -61,6 +61,11 @@ class ShareModel {
 		}
 		
 		$d ['sourceInfo'] = ! empty ( $oldInfo ['sourceInfo'] ) ? $oldInfo ['sourceInfo'] : $oldInfo;
+
+		/* emoji处理 */
+		isset($d['sourceInfo']['source_content']) &&
+		$d['sourceInfo']['source_content'] = formatEmoji(true, $d['sourceInfo']['source_content']);
+
 		// 是否发送@上级节点
 		$isOther = ($from == 'comment') ? false : true;
 		// 获取上个节点资源ID

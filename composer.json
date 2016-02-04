@@ -1,0 +1,48 @@
+{
+    "name": "medz/thinksns-4",
+    "project": "project",
+    "description": "This is a sns system.",
+    "keywords": ["sns", "think", "ts", "thinksns", "t4"],
+    "homepage": "http://www.thinksns.com",
+    "license": "Apache-2.0",
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Seven Du",
+            "email": "lovevipdsw@outlook.com",
+            "homepage": "http://medz.cn",
+            "role": "Developer"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "http://demo.thinksns.com/ts4/"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.12,<7.0",
+        "ext-bz2": "*",
+        "ext-curl": "*",
+        "ext-gd": "*",
+        "ext-iconv": "*",
+        "ext-json": "*",
+        "ext-mcrypt": "*",
+        "ext-mysql": "*",
+        "ext-zlib": "*",
+        "ext-zip": "*",
+        "medz/vendor-pack-pinyin": "@dev"
+    },
+    "config": {
+        "vendor-dir": "src/Vendor/"
+    },
+    "autoload": {
+        "classmap": ["src/Ts.php"],
+        "psr-4": {
+            "Ts\\AutoLoader\\": "src/AutoLoader/"
+        }
+    },
+    "suggest":{
+        "medz/vendor-pack-pinyin": "This is a converted Chinese characters spelling library."
+    }
+}

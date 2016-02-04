@@ -246,11 +246,19 @@ class WebMessageAction extends Action {
             $data[$key]['msg_new'] = $rs['msg_new'];
             if($rs['type'] == 2){
                 $data[$key]['title'] = '来自群消息';
-                $data[$key]['src'] = THEME_PUBLIC_URL.'/image/message/group.png';
+                if ($rs['title']) {
+                    $data[$key]['title'] = '群:' . $rs['title'];
+                }
+                if ($rs['logo'] > 0) {
+                    $data[$key]['src'] = getImageUrlByAttachId($rs['logo'], 50, 50);
+                }
+                if (!isset($data[$key]['src']) or !$data[$key]['src']) {
+                    $data[$key]['src'] = THEME_PUBLIC_URL . '/image/message/group.png';
+                }
             }else{
                 $_uid = intval(trim(str_replace('_'.$this->mid.'_', '_', '_'.$rs['min_max'].'_'), '_'));
                 $_user = getUserInfo($_uid);
-                $data[$key]['title'] = $_user['uname'];
+                $data[$key]['title'] = '联系人:' . $_user['uname'];
                 $data[$key]['src'] = $_user['avatar_small'];
                 $data[$key]['uid'] = $_uid;
                 $data[$key]['min_max'] = $rs['min_max'];
@@ -484,6 +492,7 @@ class WebMessageAction extends Action {
         if(null === $userId){
             $userId = $this->mid;
         }
+        // dump($list);exit;
         $this->assign('prevTime', intval($_REQUEST['msgPrevTime']));
         $this->assign('list', $list);
         $this->assign('isInit', $isInit);

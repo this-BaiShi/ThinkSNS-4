@@ -78,28 +78,18 @@ class PassportModel {
 			    $publicAccess = include APPS_PATH.'/public/Conf/access.inc.php';
 			    $publicAccess = $publicAccess['access'];
 			    $publicAccess && $acl = array_merge($acl, $publicAccess);
-			    unset($publicAccess);
 			    
 			    // 应用的访问控制
-			    $guestaccess = model ( 'Xdata' )->get('guestConfig');
-			    if ( !$guestaccess ){
-			    	$guestaccess = model( 'App' )->getAccess();
-			    }
-			   	$guestaccess && $acl = array_merge( $acl , $guestaccess );
-			   	unset($guestaccess);
+			    $guestaccess = model( 'App' )->getAccess();
+			    is_array($guestaccess) and
+			    $acl = array_merge($acl, $guestaccess);
 
-			   	/* 存在应用模块，就加载应用配置 */
-			   	$path = APPS_PATH . '/' . APP_NAME . '/Conf/access.inc.php';
-			   	if (file_exists($path)) {
-			   		$path = include $path;
-			   		is_array($path)        and
-			   		isset($path['access']) and
-			   		$acl = array_merge($acl, $path['access']);
-			   	}
-			   	unset($apth);
+			    $guestaccess = model ( 'Xdata' )->get('guestConfig');
+			   	$guestaccess && $acl = array_merge( $acl , $guestaccess );
 
 			   	S('system_access', $acl);
 			}
+			
 			return !($acl[APP_NAME.'/'.MODULE_NAME.'/'.ACTION_NAME] === true
 				|| $acl[APP_NAME.'/'.MODULE_NAME.'/*'] === true
 				|| $acl[APP_NAME.'/*/*'] === true);

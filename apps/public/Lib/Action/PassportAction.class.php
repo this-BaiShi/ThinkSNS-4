@@ -197,7 +197,7 @@ class PassportAction extends Action
 		$code = t($_POST['regCode']);
 		// $result = model('Captcha')->checkPasswordCode($mobile, $code);
 
-		$result = model('Sms')->CheckCaptcha($phone, $code);
+		$result = model('Sms')->CheckCaptcha($mobile, $code);
 
 		if ($result) {
 			$map['phone'] = $mobile;

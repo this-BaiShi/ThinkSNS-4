@@ -124,7 +124,7 @@ class App
             isMobile()                                                                           and
             in_array('wap', C('DEFAULT_APPS'))
         ) {
-            U('w3g/Public/home', '', true);
+            U('h5/Public/home', '', true);
         }
         
         $GLOBALS['time_run_detail']['addons_end'] = microtime(true);

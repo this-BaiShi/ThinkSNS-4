@@ -1,0 +1,48 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "d568327311dad450f56aa96e7f3ce40c",
+    "content-hash": "c8b8a2bbf34431a4026ba5fe7c3d16e9",
+    "packages": [
+        {
+            "name": "medz/vendor-pack-pinyin",
+            "version": "dev-master",
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/jifei/Pinyin/archive/master.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "Pinyin.php"
+                ]
+            }
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "medz/vendor-pack-pinyin": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=5.3.12,<7.0",
+        "ext-bz2": "*",
+        "ext-curl": "*",
+        "ext-gd": "*",
+        "ext-iconv": "*",
+        "ext-json": "*",
+        "ext-mcrypt": "*",
+        "ext-mysql": "*",
+        "ext-zlib": "*",
+        "ext-zip": "*"
+    },
+    "platform-dev": []
+}

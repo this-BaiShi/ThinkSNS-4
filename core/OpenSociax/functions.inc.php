@@ -1,5 +1,4 @@
 <?php
-use Vendor\Pinyin\Pinyin;
 
 /**
  * Cookie 设置、获取、清除 (支持数组或对象直接设置) 2009-07-9
@@ -1428,6 +1427,7 @@ function preg_html($html){
 
 //解析数据成网页端显示格式
 function parse_html($html){
+	/* emoji解析 */
 	$html = htmlspecialchars_decode($html);
 	//以下三个过滤是旧版兼容方法-可屏蔽
 	$html = preg_replace("/img{data=([^}]*)}/"," ", $html);
@@ -1444,7 +1444,7 @@ function parse_html($html){
 	$html = preg_replace_callback("/#([^#]*[^#^\s][^#]*)#/is",'_parse_theme',$html);
 	//@提到某人处理
 	$html = preg_replace_callback("/@([\w\x{2e80}-\x{9fff}\-]+)/u", "_parse_at_by_uname",$html);
-
+	$html = formatEmoji(false, $html);
 	return $html;
 }
 
@@ -1459,6 +1459,8 @@ function parseForApi($html){
 	//@提到某人处理
 	$html = preg_replace_callback("/@([\w\x{2e80}-\x{9fff}\-]+)/u", "_parse_wap_at_by_uname",$html);
 	//敏感词过滤
+	/* 解析meoji */
+	$html = formatEmoji(false, $html);
 	return $html;
 }
 
