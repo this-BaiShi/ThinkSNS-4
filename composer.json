@@ -12,6 +12,10 @@
             "email": "lovevipdsw@outlook.com",
             "homepage": "http://medz.cn",
             "role": "Developer"
+        },
+        {
+            "name": "The ThinkSNS Team",
+            "homepage": "http://www.zhiyicx.com"
         }
     ],
     "repositories": [
@@ -48,7 +52,7 @@
     "support": {
         "email": "1943395309@qq.com",
         "forum": "http://demo.thinksns.com",
-        "source": "https://github.com/medz/ThinkSNS-4"
+        "source": "https://github.com/medz/ThinkSNS-4.git"
     },
     "suggest":{
         "medz/vendor-pack-pinyin": "This is a converted Chinese characters spelling library."
