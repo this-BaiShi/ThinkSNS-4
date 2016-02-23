@@ -1,6 +1,8 @@
 <?php
+
+use Composer\Autoload\ClassLoader;
 use Ts\AutoLoader\TsAutoLoader;
-use Ts\AutoLoader\VendorAutoLoader;
+
 /**
  * 新入口核心
  *
@@ -31,13 +33,22 @@ final class Ts
 	protected static $_root;
 
 	/**
+	 * 储存Composer自动加载类的对象
+	 *
+	 * @var new \Composer\Autoload\ClassLoader();
+	 **/
+	protected static $_classLoader;
+
+	/**
 	 * 入口文件
 	 *
+	 * @param \Composer\Autoload\ClassLoader $classLoader
 	 * @return void
 	 * @author Seven Du <lovevipdsw@vip.qq.com>
 	 **/
-	public static function run()
+	public static function run(ClassLoader $classLoader)
 	{
+		self::$_classLoader = $classLoader;
 		self::init();
 		/* 新的自动加载类 */
 		spl_autoload_register(function($namespace) {
@@ -70,8 +81,6 @@ final class Ts
 		{
 			date_default_timezone_set('Asia/Shanghai');
 		}
-		/* 加载必要文件 */
-		self::import(self::getRootPath(), 'AutoLoader', 'TsAutoLoader', '.php');
 	}
 
 	/**
@@ -103,15 +112,14 @@ final class Ts
 	}
 
 	/**
-	 * 添加一个第三方包
+	 * 取得Composer的ClassLoader对象
 	 *
-	 * @param string $vendorName 第三方包 在第三方包目录 /Vendor/$vendorName/Entry.php 这个文件必须存在，否则会失效或者报错，如果，如果是针对Ts开发的第三方包，直接用命名空间使用，无需使用本方法。
-	 * @return void
-	 * @author Seven Du <lovevipdsw@vip.qq.com>
+	 * @return new \Composer\Autoload\ClassLoader();
+	 * @author Seven Du <lovevipdsw@outlook.com>
 	 **/
-	public static function vendor($vendorName)
+	public static function classLoader()
 	{
-		call_user_func_array('self::import', VendorAutoLoader::import($vendorName));
+		return self::$_classLoader;
 	}
 
 } // END final class Ts

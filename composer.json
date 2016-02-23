@@ -35,7 +35,9 @@
         "ext-mysql": "*",
         "ext-zlib": "*",
         "ext-zip": "*",
-        "medz/vendor-pack-pinyin": "@dev"
+
+        "medz/vendor-pack-pinyin": "@dev",
+        "symfony/polyfill-mbstring": "~1.0"
     },
     "require-dev": {
         "ext-xdebug": "*"
@@ -55,6 +57,7 @@
         "source": "https://github.com/medz/ThinkSNS-4.git"
     },
     "suggest":{
-        "medz/vendor-pack-pinyin": "This is a converted Chinese characters spelling library."
+        "medz/vendor-pack-pinyin": "This is a converted Chinese characters spelling library.",
+        "symfony/polyfill-mbstring": "This component provides a partial, native PHP implementation for the[Mbstring](http://php.net/mbstring) extension."
     }
 }
