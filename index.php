@@ -34,9 +34,6 @@ require SITE_PATH . '/src/Build.php';
 //载入核心文件
 require(SITE_PATH.'/core/core.php');
 
-/* 加入新的系统 */
-// require SITE_PATH . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Build.php';
-
 if(isset($_GET['debug'])){
 	C('APP_DEBUG', true);
 	C('SHOW_RUN_TIME', true);
