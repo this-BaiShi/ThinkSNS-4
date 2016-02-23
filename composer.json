@@ -2,7 +2,7 @@
     "name": "medz/thinksns-4",
     "project": "project",
     "description": "This is a sns system.",
-    "keywords": ["sns", "think", "ts", "thinksns", "t4"],
+    "keywords": ["sns", "think", "ts", "thinksns", "t4", "ts4"],
     "homepage": "http://www.thinksns.com",
     "license": "Apache-2.0",
     "minimum-stability": "dev",
