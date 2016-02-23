@@ -12,6 +12,10 @@
             "email": "lovevipdsw@outlook.com",
             "homepage": "http://medz.cn",
             "role": "Developer"
+        },
+        {
+            "name": "The ThinkSNS Team",
+            "homepage": "http://www.zhiyicx.com"
         }
     ],
     "repositories": [
@@ -31,7 +35,9 @@
         "ext-mysql": "*",
         "ext-zlib": "*",
         "ext-zip": "*",
-        "medz/vendor-pack-pinyin": "@dev"
+
+        "medz/vendor-pack-pinyin": "@dev",
+        "symfony/polyfill-mbstring": "~1.0"
     },
     "require-dev": {
         "ext-xdebug": "*"
@@ -48,9 +54,10 @@
     "support": {
         "email": "1943395309@qq.com",
         "forum": "http://demo.thinksns.com",
-        "source": "https://github.com/medz/ThinkSNS-4"
+        "source": "https://github.com/medz/ThinkSNS-4.git"
     },
     "suggest":{
-        "medz/vendor-pack-pinyin": "This is a converted Chinese characters spelling library."
+        "medz/vendor-pack-pinyin": "This is a converted Chinese characters spelling library.",
+        "symfony/polyfill-mbstring": "This component provides a partial, native PHP implementation for the[Mbstring](http://php.net/mbstring) extension."
     }
 }

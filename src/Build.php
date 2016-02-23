@@ -4,7 +4,8 @@
 /**
  * 定义根目录
  **/
-define('TS_ROOT', dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR);
+define('TS_ROOT', dirname(dirname(__FILE__)));
+
 
 // include dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Ts.php';
 // Ts::run();
@@ -20,4 +21,4 @@ if (!file_exists($file)) {
 $loader = include $file;
 
 /* Run */
-Ts::run();
+Ts::run($loader);

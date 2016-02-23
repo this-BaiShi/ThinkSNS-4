@@ -28,12 +28,14 @@ if (version_compare(PHP_VERSION, '5.3.12', '<')) {
 //网站根路径设置
 define('SITE_PATH', dirname(__FILE__));
 
+// 新的系统核心接入
+require SITE_PATH . '/src/Build.php';
 
 //载入核心文件
 require(SITE_PATH.'/core/core.php');
 
 /* 加入新的系统 */
-require SITE_PATH . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Build.php';
+// require SITE_PATH . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Build.php';
 
 if(isset($_GET['debug'])){
 	C('APP_DEBUG', true);
