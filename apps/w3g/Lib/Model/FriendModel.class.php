@@ -1,6 +1,5 @@
 <?php
 
-class FriendModel extends Model {
+class FriendModel extends Model
+{
 }
-
-?>

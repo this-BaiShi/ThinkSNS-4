@@ -22,7 +22,7 @@ class Gateway
      * gateway实例
      * @var object
      */
-    protected static  $businessWorker = null;
+    protected static $businessWorker = null;
 
     /**
      * 向所有客户端(或者client_id_array指定的客户端)广播消息
@@ -35,34 +35,26 @@ class Gateway
         $gateway_data['cmd'] = GatewayProtocol::CMD_SEND_TO_ALL;
         $gateway_data['body'] = $message;
 
-        if($client_id_array)
-        {
+        if ($client_id_array) {
             $params = array_merge(array('N*'), $client_id_array);
             $gateway_data['ext_data'] = call_user_func_array('pack', $params);
-        }
-        elseif(empty($client_id_array) && is_array($client_id_array))
-        {
+        } elseif (empty($client_id_array) && is_array($client_id_array)) {
             return;
         }
 
         // 如果有businessWorker实例，说明运行在workerman环境中，通过businessWorker中的长连接发送数据
-        if(self::$businessWorker)
-        {
-            foreach(self::$businessWorker->gatewayConnections as $gateway_connection)
-            {
+        if (self::$businessWorker) {
+            foreach (self::$businessWorker->gatewayConnections as $gateway_connection) {
                 $gateway_connection->send($gateway_data);
             }
         }
         // 运行在其它环境中，使用udp向worker发送数据
-        else
-        {
+        else {
             $all_addresses = Store::instance('gateway')->get('GLOBAL_GATEWAY_ADDRESS');
-            if(!is_array($all_addresses))
-            {
+            if (!is_array($all_addresses)) {
                 throw new \Exception('bad gateway addresses ' . var_export($all_addresses, true));
             }
-            foreach($all_addresses as $address)
-            {
+            foreach ($all_addresses as $address) {
                 self::sendToGateway($address, $gateway_data);
             }
         }
@@ -86,8 +78,7 @@ class Gateway
     public static function isOnline($client_id)
     {
         $address = Store::instance('gateway')->get('client_id-'.$client_id);
-        if(!$address)
-        {
+        if (!$address) {
             return 0;
         }
         $gateway_data = GatewayProtocol::$empty;
@@ -109,11 +100,9 @@ class Gateway
         $all_addresses = Store::instance('gateway')->get('GLOBAL_GATEWAY_ADDRESS');
         $client_array = $status_data = array();
         // 批量向所有gateway进程发送CMD_GET_ONLINE_STATUS命令
-        foreach($all_addresses as $address)
-        {
+        foreach ($all_addresses as $address) {
             $client = stream_socket_client("udp://$address", $errno, $errmsg);
-            if(strlen($gateway_buffer) === stream_socket_sendto($client, $gateway_buffer))
-            {
+            if (strlen($gateway_buffer) === stream_socket_sendto($client, $gateway_buffer)) {
                 $client_id = (int) $client;
                 $client_array[$client_id] = $client;
             }
@@ -122,25 +111,20 @@ class Gateway
         $time_out = 1;
         $time_start = microtime(true);
         // 批量接收请求
-        while(count($client_array) > 0)
-        {
+        while (count($client_array) > 0) {
             $write = $except = array();
             $read = $client_array;
-            if(@stream_select($read, $write, $except, $time_out))
-            {
-                foreach($read as $client)
-                {
+            if (@stream_select($read, $write, $except, $time_out)) {
+                foreach ($read as $client) {
                     // udp
                     $data = json_decode(fread($client, 65535), true);
-                    if($data)
-                    {
+                    if ($data) {
                         $status_data = array_merge($status_data, $data);
                     }
                     unset($client_array[$client]);
                 }
             }
-            if(microtime(true) - $time_start > $time_out)
-            {
+            if (microtime(true) - $time_start > $time_out) {
                 break;
             }
         }
@@ -155,8 +139,7 @@ class Gateway
     public static function closeClient($client_id)
     {
         $address = Store::instance('gateway')->get('client_id-'.$client_id);
-        if(!$address)
-        {
+        if (!$address) {
             return false;
         }
         return self::kickAddress($address, $client_id);
@@ -183,18 +166,14 @@ class Gateway
      * @param string $message
      * @return boolean
      */
-    protected static function sendCmdAndMessageToClient($client_id, $cmd , $message)
+    protected static function sendCmdAndMessageToClient($client_id, $cmd, $message)
     {
         // 如果是发给当前用户则直接获取上下文中的地址
-        if($client_id === Context::$client_id || $client_id === null)
-        {
+        if ($client_id === Context::$client_id || $client_id === null) {
             $address = Context::$local_ip.':'.Context::$local_port;
-        }
-        else
-        {
+        } else {
             $address = Store::instance('gateway')->get('client_id-'.$client_id);
-            if(!$address)
-            {
+            if (!$address) {
                 return false;
             }
         }
@@ -212,13 +191,12 @@ class Gateway
      * @param string $message
      * @return boolean
      */
-    protected static function sendUdpAndRecv($address , $data)
+    protected static function sendUdpAndRecv($address, $data)
     {
         $buffer = GatewayProtocol::encode($data);
         // 非workerman环境，使用udp发送数据
         $client = stream_socket_client("udp://$address", $errno, $errmsg);
-        if(strlen($buffer) == stream_socket_sendto($client, $buffer))
-        {
+        if (strlen($buffer) == stream_socket_sendto($client, $buffer)) {
             // 阻塞读
             stream_set_blocking($client, 1);
             // 1秒超时
@@ -227,9 +205,7 @@ class Gateway
             $data = fread($client, 655350);
             // 返回结果
             return json_decode($data, true);
-        }
-        else
-        {
+        } else {
             throw new \Exception("sendUdpAndRecv($address, \$bufer) fail ! Can not send UDP data!", 502);
         }
     }
@@ -242,10 +218,8 @@ class Gateway
     protected static function sendToGateway($address, $gateway_data)
     {
         // 有$businessWorker说明是workerman环境，使用$businessWorker发送数据
-        if(self::$businessWorker)
-        {
-            if(!isset(self::$businessWorker->gatewayConnections[$address]))
-            {
+        if (self::$businessWorker) {
+            if (!isset(self::$businessWorker->gatewayConnections[$address])) {
                 return false;
             }
             return self::$businessWorker->gatewayConnections[$address]->send($gateway_data);
@@ -264,7 +238,7 @@ class Gateway
      * @param string $message
      * @param int $client_id
      */
-    protected  static function kickAddress($address, $client_id)
+    protected static function kickAddress($address, $client_id)
     {
         $gateway_data = GatewayProtocol::$empty;
         $gateway_data['cmd'] = GatewayProtocol::CMD_KICK;
@@ -280,7 +254,6 @@ class Gateway
     {
         self::$businessWorker = $business_worker_instance;
     }
-
 }
 /**
  * 上下文 包含当前用户uid， 内部通信local_ip local_port socket_id ，以及客户端client_ip client_port
@@ -320,8 +293,7 @@ class Context
      */
     public static function sessionEncode($session_data = '')
     {
-        if($session_data !== '')
-        {
+        if ($session_data !== '') {
             return serialize($session_data);
         }
         return '';
@@ -411,8 +383,7 @@ class GatewayProtocol
      */
     public static function input($buffer)
     {
-        if(strlen($buffer) < self::HEAD_LEN)
-        {
+        if (strlen($buffer) < self::HEAD_LEN) {
             return 0;
         }
         $data = unpack("Npack_len", $buffer);
@@ -426,8 +397,7 @@ class GatewayProtocol
     public static function encode($data)
     {
         $flag = (int)is_scalar($data['body']);
-        if(!$flag)
-        {
+        if (!$flag) {
             $data['body'] = serialize($data['body']);
         }
         $ext_len = strlen($data['ext_data']);
@@ -448,27 +418,18 @@ class GatewayProtocol
         $data = unpack("Npack_len/Ccmd/Nlocal_ip/nlocal_port/Nclient_ip/nclient_port/Nclient_id/Next_len/Cflag", $buffer);
         $data['local_ip'] = long2ip($data['local_ip']);
         $data['client_ip'] = long2ip($data['client_ip']);
-        if($data['ext_len'] > 0)
-        {
+        if ($data['ext_len'] > 0) {
             $data['ext_data'] = substr($buffer, self::HEAD_LEN, $data['ext_len']);
-            if($data['flag'] & self::FLAG_BODY_IS_SCALAR)
-            {
+            if ($data['flag'] & self::FLAG_BODY_IS_SCALAR) {
                 $data['body'] = substr($buffer, self::HEAD_LEN + $data['ext_len']);
-            }
-            else
-            {
+            } else {
                 $data['body'] = unserialize(substr($buffer, self::HEAD_LEN + $data['ext_len']));
             }
-        }
-        else
-        {
+        } else {
             $data['ext_data'] = '';
-            if($data['flag'] & self::FLAG_BODY_IS_SCALAR)
-            {
+            if ($data['flag'] & self::FLAG_BODY_IS_SCALAR) {
                 $data['body'] = substr($buffer, self::HEAD_LEN);
-            }
-            else
-            {
+            } else {
                 $data['body'] = unserialize(substr($buffer, self::HEAD_LEN));
             }
         }
@@ -495,29 +456,20 @@ class Store
     public static function instance($config_name)
     {
         // memcache 驱动
-        if(\Config\Store::$driver == \Config\Store::DRIVER_MC)
-        {
-            if(!isset(\Config\Store::$$config_name))
-            {
+        if (\Config\Store::$driver == \Config\Store::DRIVER_MC) {
+            if (!isset(\Config\Store::$$config_name)) {
                 throw new \Exception("\\Config\\Store::$config_name not set\n");
             }
-            if(!isset(self::$instance[$config_name]))
-            {
-                if(extension_loaded('Memcached'))
-                {
+            if (!isset(self::$instance[$config_name])) {
+                if (extension_loaded('Memcached')) {
                     self::$instance[$config_name] = new \Memcached;
-                }
-                elseif(extension_loaded('Memcache'))
-                {
+                } elseif (extension_loaded('Memcache')) {
                     self::$instance[$config_name] = new \Memcache;
-                }
-                else
-                {
+                } else {
                     sleep(2);
                     exit("extension memcached is not installed\n");
                 }
-                foreach(\Config\Store::$$config_name as $address)
-                {
+                foreach (\Config\Store::$$config_name as $address) {
                     list($ip, $port) = explode(':', $address);
                     self::$instance[$config_name] ->addServer($ip, $port);
                 }
@@ -525,15 +477,12 @@ class Store
             return self::$instance[$config_name];
         }
         // redis 驱动
-        elseif(\Config\Store::$driver == \Config\Store::DRIVER_REDIS)
-        {
-            if(!isset(\Config\Store::$$config_name))
-            {
+        elseif (\Config\Store::$driver == \Config\Store::DRIVER_REDIS) {
+            if (!isset(\Config\Store::$$config_name)) {
                 echo "\\Config\\Store::$config_name not set\n";
                 throw new \Exception("\\Config\\Store::$config_name not set\n");
             }
-            if(!isset(self::$instance[$config_name]))
-            {
+            if (!isset(self::$instance[$config_name])) {
                 self::$instance[$config_name] = new Redisd();
                 // 只选择第一个ip作为服务端
                 $address = current(\Config\Store::$$config_name);
@@ -545,10 +494,8 @@ class Store
             return self::$instance[$config_name];
         }
         // 文件驱动
-        else
-        {
-            if(!isset(self::$instance[$config_name]))
-            {
+        else {
+            if (!isset(self::$instance[$config_name])) {
                 self::$instance[$config_name] = new FileStore($config_name);
             }
             return self::$instance[$config_name];
@@ -577,20 +524,17 @@ class FileStore
      */
     public function __construct($config_name)
     {
-        if(!is_dir(\Config\Store::$storePath) && !@mkdir(\Config\Store::$storePath, 0777, true))
-        {
+        if (!is_dir(\Config\Store::$storePath) && !@mkdir(\Config\Store::$storePath, 0777, true)) {
             // 可能目录已经被其它进程创建
             clearstatcache();
-            if(!is_dir(\Config\Store::$storePath))
-            {
+            if (!is_dir(\Config\Store::$storePath)) {
                 // 避免狂刷日志
                 sleep(1);
                 throw new \Exception('cant not mkdir('.\Config\Store::$storePath.')');
             }
         }
         $this->dataFileHandle = fopen(__FILE__, 'r');
-        if(!$this->dataFileHandle)
-        {
+        if (!$this->dataFileHandle) {
             throw new \Exception("can not fopen dataFileHandle");
         }
     }
@@ -649,11 +593,9 @@ class FileStore
      */
     public function destroy()
     {
-
     }
 }
-if(\Config\Store::$driver == \Config\Store::DRIVER_REDIS)
-{
+if (\Config\Store::$driver == \Config\Store::DRIVER_REDIS) {
     class Redisd extends \Redis
     {
         public function increment($key)

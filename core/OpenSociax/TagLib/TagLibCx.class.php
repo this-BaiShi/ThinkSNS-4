@@ -24,17 +24,18 @@ import('TagLib');
  +------------------------------------------------------------------------------
  */
 class TagLibCx extends TagLib
-{//类定义开始
-    
-    public function _space($attr,$content)
+{
+    //类定义开始
+
+    public function _space($attr, $content)
     {
-        $tag = $this->parseXmlAttr($attr,'space');
+        $tag = $this->parseXmlAttr($attr, 'space');
         $uid = $tag['uid'];
         $class = ($tag['class'])?$tag['class']:"";
         $target = ($tag['target'])?$tag['target']:"";
         $uid = $this->autoBuildVar($uid);
         return "<php>echo getUserSpace($uid,'$class','$target','$content')</php>";
-    }    
+    }
 
     /**
      +----------------------------------------------------------
@@ -64,7 +65,8 @@ class TagLibCx extends TagLib
      * @return string
      +----------------------------------------------------------
      */
-    public function _php($attr,$content) {
+    public function _php($attr, $content)
+    {
         $parseStr = '<?php '.$content.' ?>';
         return $parseStr;
     }
@@ -86,15 +88,16 @@ class TagLibCx extends TagLib
      * @return string|void
      +----------------------------------------------------------
      */
-    public function _iterate($attr,$content)
+    public function _iterate($attr, $content)
     {
         static $_iterateParseCache = array();
         //如果已经解析过，则直接返回变量值
         $cacheIterateId = md5($attr.$content);
-        if(isset($_iterateParseCache[$cacheIterateId]))
+        if (isset($_iterateParseCache[$cacheIterateId])) {
             return $_iterateParseCache[$cacheIterateId];
+        }
 
-        $tag      = $this->parseXmlAttr($attr,'iterate');
+        $tag      = $this->parseXmlAttr($attr, 'iterate');
         $name   = $tag['name'];
         $id        = $tag['id'];
         $empty  = isset($tag['empty'])?$tag['empty']:'';
@@ -103,11 +106,11 @@ class TagLibCx extends TagLib
         $name   = $this->autoBuildVar($name);
         $parseStr  =  '<?php if(is_array('.$name.')): ?>';
         $parseStr   .= '<?php $'.$key.' = 0;?>';
-		if(isset($tag['length']) && '' !=$tag['length'] ) {
-			$parseStr  .= '<?php $__LIST__ = array_slice('.$name.','.$tag['offset'].','.$tag['length'].') ?>';
-		}elseif(isset($tag['offset'])  && '' !=$tag['offset']){
+        if (isset($tag['length']) && '' !=$tag['length']) {
+            $parseStr  .= '<?php $__LIST__ = array_slice('.$name.','.$tag['offset'].','.$tag['length'].') ?>';
+        } elseif (isset($tag['offset'])  && '' !=$tag['offset']) {
             $parseStr  .= '<?php $__LIST__ = array_slice('.$name.','.$tag['offset'].') ?>';
-        }else{
+        } else {
             $parseStr .= '<?php $__LIST__ = '.$name.'?>';
         }
         $parseStr .= '<?php if( count($__LIST__)==0 ) : echo "'.$empty.'" ; ?>';
@@ -122,33 +125,37 @@ class TagLibCx extends TagLib
         $parseStr .=  '<?php endif; ?>';
         $_iterateParseCache[$cacheIterateId] = $parseStr;
 
-        if(!empty($parseStr)) {
+        if (!empty($parseStr)) {
             return $parseStr;
         }
         return ;
     }
 
-    public function _volist($attr,$content) {
-        return $this->_iterate($attr,$content);
+    public function _volist($attr, $content)
+    {
+        return $this->_iterate($attr, $content);
     }
 
-    public function _resultset($attr,$content) {
-        return $this->_iterate($attr,$content);
+    public function _resultset($attr, $content)
+    {
+        return $this->_iterate($attr, $content);
     }
 
-    public function _sublist($attr,$content) {
-        return $this->_iterate($attr,$content);
+    public function _sublist($attr, $content)
+    {
+        return $this->_iterate($attr, $content);
     }
 
-    public function _foreach($attr,$content)
+    public function _foreach($attr, $content)
     {
         static $_iterateParseCache = array();
         //如果已经解析过，则直接返回变量值
         $cacheIterateId = md5($attr.$content);
-        if(isset($_iterateParseCache[$cacheIterateId]))
+        if (isset($_iterateParseCache[$cacheIterateId])) {
             return $_iterateParseCache[$cacheIterateId];
+        }
 
-        $tag   = $this->parseXmlAttr($attr,'foreach');
+        $tag   = $this->parseXmlAttr($attr, 'foreach');
         $name= $tag['name'];
         $item  = $tag['item'];
         $key   =   !empty($tag['key'])?$tag['key']:'key';
@@ -160,19 +167,20 @@ class TagLibCx extends TagLib
         $parseStr .=  '<?php endif; ?>';
         $_iterateParseCache[$cacheIterateId] = $parseStr;
 
-        if(!empty($parseStr)) {
+        if (!empty($parseStr)) {
             return $parseStr;
         }
         return ;
     }
 
-    public function _subeach($attr,$content)
+    public function _subeach($attr, $content)
     {
-        return $this->_foreach($attr,$content);
+        return $this->_foreach($attr, $content);
     }
 
-    public function _url($attr) {
-        $tag      = $this->parseXmlAttr($attr,'url');
+    public function _url($attr)
+    {
+        $tag      = $this->parseXmlAttr($attr, 'url');
         $action   =   !empty($tag['action'])?$tag['action']:ACTION_NAME;
         $module =   !empty($tag['module'])?$tag['module']:MODULE_NAME;
         $route     =   !empty($tag['route'])?$tag['route']:'';
@@ -182,26 +190,27 @@ class TagLibCx extends TagLib
         return $parseStr;
     }
 
-    public function _var($attr) {
-        $tag          =   $this->parseXmlAttr($attr,'var');
+    public function _var($attr)
+    {
+        $tag          =   $this->parseXmlAttr($attr, 'var');
         $name       = $tag['name'];
         $default     =  !empty($tag['default'])?$tag['default']:'';
-        $varArray   = explode('|',$name);
+        $varArray   = explode('|', $name);
         $name       =   array_shift($varArray);
         $name       = $this->autoBuildVar($name);
-        if(count($varArray)>0) {
-            $name = $this->tpl->parseVarFunction($name,$varArray);
+        if (count($varArray)>0) {
+            $name = $this->tpl->parseVarFunction($name, $varArray);
         }
-        if(!empty($default)) {
+        if (!empty($default)) {
             $name   = '('.$name.')?('.$name.'):\''.$default.'\'';
         }
         $parseStr   =   '<?php echo ('.$name.');?>';
         return $parseStr;
     }
 
-    public function _defined($attr,$content)
+    public function _defined($attr, $content)
     {
-        $tag        = $this->parseXmlAttr($attr,'defined');
+        $tag        = $this->parseXmlAttr($attr, 'defined');
         $name     = $tag['name'];
         $parseStr = '<?php if(defined("'.$name.'")): ?>';
         $parseStr .= $content.'<?php endif; ?>';
@@ -226,8 +235,9 @@ class TagLibCx extends TagLib
      * @return string
      +----------------------------------------------------------
      */
-    public function _if($attr,$content) {
-        $tag          = $this->parseXmlAttr($attr,'if');
+    public function _if($attr, $content)
+    {
+        $tag          = $this->parseXmlAttr($attr, 'if');
         $condition   = $this->parseCondition($tag['condition']);
         $parseStr  = '<?php if('.$condition.'): ?>'.$content.'<?php endif; ?>';
         return $parseStr;
@@ -246,8 +256,9 @@ class TagLibCx extends TagLib
      * @return string
      +----------------------------------------------------------
      */
-    public function _elseif($attr,$content) {
-        $tag          = $this->parseXmlAttr($attr,'elseif');
+    public function _elseif($attr, $content)
+    {
+        $tag          = $this->parseXmlAttr($attr, 'elseif');
         $condition   = $this->parseCondition($tag['condition']);
         $parseStr   = '<?php elseif('.$condition.'): ?>';
         return $parseStr;
@@ -264,7 +275,8 @@ class TagLibCx extends TagLib
      * @return string
      +----------------------------------------------------------
      */
-    public function _else($attr) {
+    public function _else($attr)
+    {
         $parseStr = '<?php else: ?>';
         return $parseStr;
     }
@@ -287,14 +299,16 @@ class TagLibCx extends TagLib
      * @return string
      +----------------------------------------------------------
      */
-    public function _switch($attr,$content) {
-        $tag = $this->parseXmlAttr($attr,'switch');
+    public function _switch($attr, $content)
+    {
+        $tag = $this->parseXmlAttr($attr, 'switch');
         $name = $tag['name'];
-        $varArray = explode('|',$name);
+        $varArray = explode('|', $name);
         $name   =   array_shift($varArray);
         $name = $this->autoBuildVar($name);
-        if(count($varArray)>0)
-            $name = $this->tpl->parseVarFunction($name,$varArray);
+        if (count($varArray)>0) {
+            $name = $this->tpl->parseVarFunction($name, $varArray);
+        }
         $parseStr = '<?php switch('.$name.'): ?>'.$content.'<?php endswitch;?>';
         return $parseStr;
     }
@@ -311,29 +325,31 @@ class TagLibCx extends TagLib
      * @return string
      +----------------------------------------------------------
      */
-    public function _case($attr,$content) {
-        $tag = $this->parseXmlAttr($attr,'case');
-		$value = $tag['value'];
-        if('$' == substr($value,0,1)) {
-            $varArray = explode('|',$value);
-            $value	=	array_shift($varArray);
-			$value  =  $this->autoBuildVar(substr($value,1));
-			if(count($varArray)>0)
-				$value = $this->tpl->parseVarFunction($value,$varArray);
+    public function _case($attr, $content)
+    {
+        $tag = $this->parseXmlAttr($attr, 'case');
+        $value = $tag['value'];
+        if ('$' == substr($value, 0, 1)) {
+            $varArray = explode('|', $value);
+            $value    =    array_shift($varArray);
+            $value  =  $this->autoBuildVar(substr($value, 1));
+            if (count($varArray)>0) {
+                $value = $this->tpl->parseVarFunction($value, $varArray);
+            }
             $value   =  'case '.$value.': ';
-        }elseif(strpos($value,'|')){
-            $values  =  explode('|',$value);
+        } elseif (strpos($value, '|')) {
+            $values  =  explode('|', $value);
             $value   =  '';
-            foreach ($values as $val){
+            foreach ($values as $val) {
                 $value   .=  'case "'.addslashes($val).'": ';
             }
-        }else{
-			$value	=	'case "'.$value.'": ';
-		}
+        } else {
+            $value    =    'case "'.$value.'": ';
+        }
         $parseStr = '<?php '.$value.' ?>'.$content;
-		if('' ==$tag['break'] || $tag['break']) {
-			$parseStr .= '<?php break;?>';
-		}
+        if ('' ==$tag['break'] || $tag['break']) {
+            $parseStr .= '<?php break;?>';
+        }
         return $parseStr;
     }
 
@@ -350,7 +366,8 @@ class TagLibCx extends TagLib
      * @return string
      +----------------------------------------------------------
      */
-    public function _default($attr) {
+    public function _default($attr)
+    {
         $parseStr = '<?php default: ?>';
         return $parseStr;
     }
@@ -369,65 +386,76 @@ class TagLibCx extends TagLib
      * @return string|void
      +----------------------------------------------------------
      */
-    public function _compare($attr,$content,$type='eq')
+    public function _compare($attr, $content, $type='eq')
     {
-        $tag      = $this->parseXmlAttr($attr,'compare');
+        $tag      = $this->parseXmlAttr($attr, 'compare');
         $name   = $tag['name'];
         $value   = $tag['value'];
         $type    =   $tag['type']?$tag['type']:$type;
         $type    =   $this->parseCondition(' '.$type.' ');
-        $varArray = explode('|',$name);
+        $varArray = explode('|', $name);
         $name   =   array_shift($varArray);
         $name = $this->autoBuildVar($name);
-        if(count($varArray)>0)
-            $name = $this->tpl->parseVarFunction($name,$varArray);
-        if('$' == substr($value,0,1)) {
-            $value  =  $this->autoBuildVar(substr($value,1));
-        }else {
+        if (count($varArray)>0) {
+            $name = $this->tpl->parseVarFunction($name, $varArray);
+        }
+        if ('$' == substr($value, 0, 1)) {
+            $value  =  $this->autoBuildVar(substr($value, 1));
+        } else {
             $value  =   '"'.$value.'"';
         }
         $parseStr = '<?php if(('.$name.') '.$type.' '.$value.'): ?>'.$content.'<?php endif; ?>';
         return $parseStr;
     }
 
-    public function _eq($attr,$content) {
-        return $this->_compare($attr,$content,'eq');
+    public function _eq($attr, $content)
+    {
+        return $this->_compare($attr, $content, 'eq');
     }
 
-    public function _equal($attr,$content) {
-        return $this->_eq($attr,$content);
+    public function _equal($attr, $content)
+    {
+        return $this->_eq($attr, $content);
     }
 
-    public function _neq($attr,$content) {
-        return $this->_compare($attr,$content,'neq');
+    public function _neq($attr, $content)
+    {
+        return $this->_compare($attr, $content, 'neq');
     }
 
-    public function _notequal($attr,$content) {
-        return $this->_neq($attr,$content);
+    public function _notequal($attr, $content)
+    {
+        return $this->_neq($attr, $content);
     }
 
-    public function _gt($attr,$content) {
-        return $this->_compare($attr,$content,'gt');
+    public function _gt($attr, $content)
+    {
+        return $this->_compare($attr, $content, 'gt');
     }
 
-    public function _lt($attr,$content) {
-        return $this->_compare($attr,$content,'lt');
+    public function _lt($attr, $content)
+    {
+        return $this->_compare($attr, $content, 'lt');
     }
 
-    public function _egt($attr,$content) {
-        return $this->__compare($attr,$content,'egt');
+    public function _egt($attr, $content)
+    {
+        return $this->__compare($attr, $content, 'egt');
     }
 
-    public function _elt($attr,$content) {
-        return $this->_compare($attr,$content,'elt');
+    public function _elt($attr, $content)
+    {
+        return $this->_compare($attr, $content, 'elt');
     }
 
-    public function _heq($attr,$content) {
-        return $this->_compare($attr,$content,'heq');
+    public function _heq($attr, $content)
+    {
+        return $this->_compare($attr, $content, 'heq');
     }
 
-    public function _nheq($attr,$content) {
-        return $this->_compare($attr,$content,'nheq');
+    public function _nheq($attr, $content)
+    {
+        return $this->_compare($attr, $content, 'nheq');
     }
 
     /**
@@ -444,9 +472,9 @@ class TagLibCx extends TagLib
      * @return string|void
      +----------------------------------------------------------
      */
-    public function _present($attr,$content)
+    public function _present($attr, $content)
     {
-        $tag      = $this->parseXmlAttr($attr,'present');
+        $tag      = $this->parseXmlAttr($attr, 'present');
         $name   = $tag['name'];
         $name   = $this->autoBuildVar($name);
         $parseStr  = '<?php if(isset('.$name.')): ?>'.$content.'<?php endif; ?>';
@@ -467,9 +495,9 @@ class TagLibCx extends TagLib
      * @return string|void
      +----------------------------------------------------------
      */
-    public function _notpresent($attr,$content)
+    public function _notpresent($attr, $content)
     {
-        $tag      = $this->parseXmlAttr($attr,'notpresent');
+        $tag      = $this->parseXmlAttr($attr, 'notpresent');
         $name   = $tag['name'];
         $name   = $this->autoBuildVar($name);
         $parseStr  = '<?php if(!isset('.$name.')): ?>'.$content.'<?php endif; ?>';
@@ -490,27 +518,27 @@ class TagLibCx extends TagLib
      * @return string|void
      +----------------------------------------------------------
      */
-    public function _session($attr,$content)
+    public function _session($attr, $content)
     {
-        $tag  = $this->parseXmlAttr($attr,'session');
+        $tag  = $this->parseXmlAttr($attr, 'session');
         $name  = $tag['name'];
-        if(strpos($name,'|')) {
-            $array  =   explode('|',$name);
+        if (strpos($name, '|')) {
+            $array  =   explode('|', $name);
             $parseStr  = '<?php if( ';
-            for($i=0; $i<count($array); $i++) {
+            for ($i=0; $i<count($array); $i++) {
                 $parseStr  .= 'isset($_SESSION["'.$array[$i].'"]) || ';
             }
-            $parseStr   =   substr($parseStr,0,-3);
+            $parseStr   =   substr($parseStr, 0, -3);
             $parseStr  .='): ?>'.$content.'<?php endif; ?>';
-        }elseif(strpos($name,',')) {
-            $array  =   explode(',',$name);
+        } elseif (strpos($name, ',')) {
+            $array  =   explode(',', $name);
             $parseStr  = '<?php if( ';
-            for($i=0; $i<count($array); $i++) {
+            for ($i=0; $i<count($array); $i++) {
                 $parseStr  .= 'isset($_SESSION["'.$array[$i].'"]) && ';
             }
-            $parseStr   =   substr($parseStr,0,-3);
+            $parseStr   =   substr($parseStr, 0, -3);
             $parseStr  .='): ?>'.$content.'<?php endif; ?>';
-        }else {
+        } else {
             $parseStr  = '<?php if(isset($_SESSION["'.$name.'"])): ?>'.$content.'<?php endif; ?>';
         }
         return $parseStr;
@@ -530,39 +558,40 @@ class TagLibCx extends TagLib
      * @return string|void
      +----------------------------------------------------------
      */
-    public function _nosession($attr,$content)
+    public function _nosession($attr, $content)
     {
-        $tag  = $this->parseXmlAttr($attr,'nosession');
+        $tag  = $this->parseXmlAttr($attr, 'nosession');
         $name  = $tag['name'];
-        if(strpos($name,'|')) {
-            $array  =   explode('|',$name);
+        if (strpos($name, '|')) {
+            $array  =   explode('|', $name);
             $parseStr  = '<?php if( ';
-            for($i=0; $i<count($array); $i++) {
+            for ($i=0; $i<count($array); $i++) {
                 $parseStr  .= '!isset($_SESSION["'.$array[$i].'"]) || ';
             }
-            $parseStr   =   substr($parseStr,0,-3);
+            $parseStr   =   substr($parseStr, 0, -3);
             $parseStr  .='): ?>'.$content.'<?php endif; ?>';
-        }elseif(strpos($name,',')) {
-            $array  =   explode(',',$name);
+        } elseif (strpos($name, ',')) {
+            $array  =   explode(',', $name);
             $parseStr  = '<?php if( ';
-            for($i=0; $i<count($array); $i++) {
+            for ($i=0; $i<count($array); $i++) {
                 $parseStr  .= '!isset($_SESSION["'.$array[$i].'"]) && ';
             }
-            $parseStr   =   substr($parseStr,0,-3);
+            $parseStr   =   substr($parseStr, 0, -3);
             $parseStr  .='): ?>'.$content.'<?php endif; ?>';
-        }else {
+        } else {
             $parseStr  = '<?php if( !isset($_SESSION["'.$name.'"])): ?>'.$content.'<?php endif; ?>';
         }
 
         return $parseStr;
     }
 
-    public function _layout($attr,$content) {
-        $tag      = $this->parseXmlAttr($attr,'layout');
+    public function _layout($attr, $content)
+    {
+        $tag      = $this->parseXmlAttr($attr, 'layout');
         $name   =   $tag['name'];
         $cache   =   $tag['cache']?$tag['cache']:0;
         $parseStr=   "<!-- layout::$name::$cache -->";
         return $parseStr;
     }
 }//类定义结束
-?>
+;

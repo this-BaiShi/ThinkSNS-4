@@ -5,85 +5,94 @@
  * @version TS3.0
  */
 tsload(APPS_PATH.'/admin/Lib/Action/AdministratorAction.class.php');
-class PublicAction extends AdministratorAction {
-	
-	public function _initialize(){
-		if ( !in_array( ACTION_NAME , array('login','doLogin','logout','selectDepartment') ) ){
-			parent::_initialize();
-		}
-		$this->assign('isAdmin',1);	//是否后台
-	}
-	/**
-	 * 登录
-	 * Enter description here ...
-	 */
-	public function login(){
-		if ($_SESSION['adminLogin']) {
-			redirect(U('admin/Index/index'));exit();
-		}
-		$this->setTitle( L('ADMIN_PUBLIC_LOGIN') );
-		$this->display();
-	}
+class PublicAction extends AdministratorAction
+{
+    
+    public function _initialize()
+    {
+        if (!in_array(ACTION_NAME, array('login', 'doLogin', 'logout', 'selectDepartment'))) {
+            parent::_initialize();
+        }
+        $this->assign('isAdmin', 1);    //是否后台
+    }
+    /**
+     * 登录
+     * Enter description here ...
+     */
+    public function login()
+    {
+        if ($_SESSION['adminLogin']) {
+            redirect(U('admin/Index/index'));
+            exit();
+        }
+        $this->setTitle(L('ADMIN_PUBLIC_LOGIN'));
+        $this->display();
+    }
 
-	public function doLogin(){
+    public function doLogin()
+    {
         //检查验证码
         if (md5(strtoupper($_POST['verify'])) != $_SESSION['verify']) {
             $this->error('验证码错误');
         }
-		$login = model('Passport')->adminLogin();
-		if($login){
-			if(CheckPermission('core_admin','admin_login')){
-				$this->success(L('PUBLIC_LOGIN_SUCCESS'));	
-			}else{
-				$this->assign('jumpUrl',SITE_URL);
-				$this->error(L('PUBLIC_NO_FRONTPLATFORM_PERMISSION_ADMIN'));
-			}
-		}else{
+        $login = model('Passport')->adminLogin();
+        if ($login) {
+            if (CheckPermission('core_admin', 'admin_login')) {
+                $this->success(L('PUBLIC_LOGIN_SUCCESS'));
+            } else {
+                $this->assign('jumpUrl', SITE_URL);
+                $this->error(L('PUBLIC_NO_FRONTPLATFORM_PERMISSION_ADMIN'));
+            }
+        } else {
             unset($_SESSION['verify']);
             session_destroy($_SESSION['verify']);
-			$this->error(model('Passport')->getError());
-		}
-	}
-	
-	/**
-	 * 退出登录
-	 * Enter description here ...
-	 */
-	public function logout(){
-		model('Passport')->adminLogout();
-		U('admin/Public/login','',true);
-	}
-	
-	
-	/**
-	 * 通用部门选择数据接口
-	 */
-	public function selectDepartment(){
-		$return = array('status'=>1,'data'=>'');
-		
-		if(empty($_POST['pid'])){
-			$return['status'] = 0;
-			$return['data']   = L('PUBLIC_SYSTEM_CATEGORY_ISNOT');
-			echo json_encode( $return );exit();
-		}
+            $this->error(model('Passport')->getError());
+        }
+    }
+    
+    /**
+     * 退出登录
+     * Enter description here ...
+     */
+    public function logout()
+    {
+        model('Passport')->adminLogout();
+        U('admin/Public/login', '', true);
+    }
+    
+    
+    /**
+     * 通用部门选择数据接口
+     */
+    public function selectDepartment()
+    {
+        $return = array('status'=>1,'data'=>'');
+        
+        if (empty($_POST['pid'])) {
+            $return['status'] = 0;
+            $return['data']   = L('PUBLIC_SYSTEM_CATEGORY_ISNOT');
+            echo json_encode($return);
+            exit();
+        }
 
-		$_POST['pid'] = intval($_POST['pid']);
+        $_POST['pid'] = intval($_POST['pid']);
         $_POST['sid'] = intval($_POST['sid']);
         $ctree = model('Department')->getDepartment($_POST['pid']);
-        if(empty($ctree['_child'])){
-        	$return['status'] = 0;
-			$return['data']   = L('PUBLIC_SYSTEM_SONCATEGORY_ISNOT');	
-        }else{
-        	$return['data'] = "<select name='_parent_dept_id[]' onchange='admin.selectDepart(this.value,$(this))' id='_parent_dept_{$_POST['pid']}'>";
-        	$return['data'] .= "<option value='-1'>".L('PUBLIC_SYSTEM_SELECT')."</option>";
-        	$sid = !empty($_POST['sid']) ? $_POST['sid'] : '';
-        	foreach ($ctree['_child'] as $key => $value) {
-        		$return['data'] .="<option value='{$value['department_id']}' ".($value['department_id'] == $sid ? " selected='selected'":'').">{$value['title']}</option>";	
-        	}	
-			$return['data'] .="</select>";	
+        if (empty($ctree['_child'])) {
+            $return['status'] = 0;
+            $return['data']   = L('PUBLIC_SYSTEM_SONCATEGORY_ISNOT');
+        } else {
+            $return['data'] = "<select name='_parent_dept_id[]' onchange='admin.selectDepart(this.value,$(this))' id='_parent_dept_{$_POST['pid']}'>";
+            $return['data'] .= "<option value='-1'>".L('PUBLIC_SYSTEM_SELECT')."</option>";
+            $sid = !empty($_POST['sid']) ? $_POST['sid'] : '';
+            foreach ($ctree['_child'] as $key => $value) {
+                $return['data'] .="<option value='{$value['department_id']}' ".($value['department_id'] == $sid ? " selected='selected'":'').">{$value['title']}</option>";
+            }
+            $return['data'] .="</select>";
         }
-        echo json_encode( $return );exit();
-	}
+        echo json_encode($return);
+        exit();
+    }
 
     /*** 分类模板接口 ***/
     /**
@@ -97,7 +106,7 @@ class PublicAction extends AdministratorAction {
         $stable = t($_POST['stable']);
         $result = model('CategoryTree')->setTable($stable)->moveTreeCategory($cid, $type);
         // 处理返回结果
-        if($result) {
+        if ($result) {
             $res['status'] = 1;
             $res['data'] = '分类排序成功';
         } else {
@@ -108,14 +117,14 @@ class PublicAction extends AdministratorAction {
         exit(json_encode($res));
     }
 
- 	/**
- 	 * 添加分类窗口API
- 	 * @return void
- 	 */
+    /**
+     * 添加分类窗口API
+     * @return void
+     */
     public function addTreeCategory()
     {
-    	$cid = intval($_GET['cid']);
-    	$this->assign('pid', $cid);
+        $cid = intval($_GET['cid']);
+        $this->assign('pid', $cid);
         $stable = t($_GET['stable']);
         $this->assign('stable', $stable);
         $limit = intval($_GET['limit']);
@@ -123,7 +132,7 @@ class PublicAction extends AdministratorAction {
         $isAttach = t($_GET['attach']);
         $this->assign('isAttach', $isAttach);
 
-    	$this->display('categoryBox');
+        $this->display('categoryBox');
     }
 
     /**
@@ -132,21 +141,21 @@ class PublicAction extends AdministratorAction {
      */
     public function doAddTreeCategory()
     {
-    	$pid = intval($_POST['pid']);
-    	$title = t($_POST['title']);
-    	$stable = t($_POST['stable']);
+        $pid = intval($_POST['pid']);
+        $title = t($_POST['title']);
+        $stable = t($_POST['stable']);
         $data['attach_id'] = intval($_POST['attach_id']);
-    	$result = model('CategoryTree')->setTable($stable)->addTreeCategory($pid, $title, $data);
-    	$res = array();
-    	if($result) {
-    		$res['status'] = 1;
-    		$res['data'] = '添加分类成功';
-    	} else {
-    		$res['status'] = 0;
-    		$res['data'] = '添加分类失败';
-    	}
+        $result = model('CategoryTree')->setTable($stable)->addTreeCategory($pid, $title, $data);
+        $res = array();
+        if ($result) {
+            $res['status'] = 1;
+            $res['data'] = '添加分类成功';
+        } else {
+            $res['status'] = 0;
+            $res['data'] = '添加分类失败';
+        }
 
-    	exit(json_encode($res));
+        exit(json_encode($res));
     }
 
     /**
@@ -165,13 +174,13 @@ class PublicAction extends AdministratorAction {
         $this->assign('isAttach', $isAttach);
         // 获取该分类的信息
         $category = model('CategoryTree')->setTable($stable)->getCategoryById($cid);
-        if(isset($category['attach_id']) && !empty($category['attach_id'])) {
+        if (isset($category['attach_id']) && !empty($category['attach_id'])) {
             $attach = model('Attach')->getAttachById($category['attach_id']);
             $this->assign('attach', $attach);
         }
         $this->assign('category', $category);
 
-    	$this->display('categoryBox');
+        $this->display('categoryBox');
     }
 
     /**
@@ -183,12 +192,12 @@ class PublicAction extends AdministratorAction {
         $cid = intval($_POST['cid']);
         $title = t($_POST['title']);
         $stable = t($_POST['stable']);
-        if($_POST['attach_id'] != 'NaN') {
+        if ($_POST['attach_id'] != 'NaN') {
             $data['attach_id'] = intval($_POST['attach_id']);
         }
         $result = model('CategoryTree')->setTable($stable)->upTreeCategory($cid, $title, $data);
         $res = array();
-        if($result) {
+        if ($result) {
             $res['status'] = 1;
             $res['data'] = '编辑分类成功';
         } else {
@@ -213,7 +222,7 @@ class PublicAction extends AdministratorAction {
         $result = model('CategoryTree')->setApp($app)->setTable($stable)->rmTreeCategory($cid, $module, $method);
         $msg = model('CategoryTree')->setApp($app)->setTable($stable)->getMessage();
         $res = array();
-        if($result) {
+        if ($result) {
             $res['status'] = 1;
             $res['data'] = $msg;
         } else {
@@ -285,11 +294,11 @@ class PublicAction extends AdministratorAction {
         unset($data['systemdata_key']);
         unset($data['pageTitle']);
         unset($data['avoidSubmitByReturn']);
-        foreach($data as &$value) {
+        foreach ($data as &$value) {
             $value = t($value);
         }
         $result = model('CategoryTree')->setTable($stable)->doSetCategoryConf($cid, $data);
-        if($result) {
+        if ($result) {
             $this->success('分类配置成功');
         } else {
             $this->error('分类配置失败');
@@ -297,14 +306,15 @@ class PublicAction extends AdministratorAction {
     }
     
     //发送测试邮件
-    function test_email(){
+    public function test_email()
+    {
         //$data['sendto_email'] = t($_POST['sendto_email']);
         $data = $_POST;
-    	$result = model('Mail')->test_email($data);
+        $result = model('Mail')->test_email($data);
         if ($result === false) {
             echo model('Mail')->message;
-        }else{
+        } else {
             echo 1;
         }
     }
-}	
+}

@@ -7,7 +7,8 @@
  * @author Jason
  * @version TS3.0
  */
-class AreasWidget extends Widget {
+class AreasWidget extends Widget
+{
 
     /**
      * @param integer curPro 当前省的ID
@@ -17,8 +18,8 @@ class AreasWidget extends Widget {
      * @param integer impotval 特殊地区的ID
      * @param string  tpl 选用的地区选择模版 loadCity(链接方式) loadArea(文本框形式)
      */
-    public function render($data) {
-
+    public function render($data)
+    {
         empty($data['tpl']) && $data['tpl'] = 'loadArea';
 
         if ($data['tpl'] == 'loadCity') {
@@ -61,7 +62,8 @@ class AreasWidget extends Widget {
     /**
      * 渲染地区选择弹窗
      */
-    public function area() {
+    public function area()
+    {
         // 已选择的地区
         $selectedArea = explode(',', t($_GET['selected']));
         if (!empty($selectedArea[0])) {
@@ -75,5 +77,4 @@ class AreasWidget extends Widget {
 
         echo $this->renderFile(dirname(__FILE__) . "/" . $tpl . '.html', $data);
     }
-
 }

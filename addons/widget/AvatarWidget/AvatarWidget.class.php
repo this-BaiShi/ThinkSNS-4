@@ -5,14 +5,16 @@
  * @example {:W('Avatar',array('avatar'=>$user_info,'defaultImg'=>$user_info['avatar_big'],'callback'=>'gotoStep3'))}
  * @version TS3.0
  */
-class AvatarWidget extends Widget {
+class AvatarWidget extends Widget
+{
 
     /**
      * @param array avatar 用户信息
      * @param string defaultImg 头像地址
      * @param string callback 回调方法
      */
-    public function render($data) {
+    public function render($data)
+    {
         $template = isset($data['tpl']) ? $data['tpl'] : 'default';
         if (!in_array($template, array('default', 'pop', 'weiba'))) {
             $template = 'default';
@@ -42,7 +44,8 @@ class AvatarWidget extends Widget {
     /**
      * 输出新头像
      */
-    public function getflashHtml() {
+    public function getflashHtml()
+    {
         $password = time();
         $userinfo = model('User')->getUserInfo($GLOBALS['ts']['mid']);
         $defaultImg = $userinfo['avatar_big'];
@@ -54,7 +57,8 @@ class AvatarWidget extends Widget {
         exit();
     }
 
-    public function show() {
+    public function show()
+    {
         $uid = $GLOBALS['ts']['mid'];
         model('User')->cleanCache($uid);
         $var['user_info'] = model('User')->getUserInfo($uid);
@@ -62,5 +66,4 @@ class AvatarWidget extends Widget {
         $content = $this->renderFile(dirname(__FILE__) . '/show.html', $var);
         return $content;
     }
-
 }

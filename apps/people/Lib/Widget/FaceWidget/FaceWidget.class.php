@@ -4,12 +4,13 @@
  */
 class FaceWidget extends Widget
 {
-	/**
-	 * 模板渲染
-	 * @param array $data 相关数据
-	 * @return string 用户身份选择模板
-	 */
-	public function render($data) {
+    /**
+     * 模板渲染
+     * @param array $data 相关数据
+     * @return string 用户身份选择模板
+     */
+    public function render($data)
+    {
         // 设置模板
         $template = empty($data['tpl']) ? 'face' : strtolower(t($data['type']));
         // 获取相关数据

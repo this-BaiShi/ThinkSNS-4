@@ -1,7 +1,7 @@
 <span class="title-from-source hidden"><i class="ico-weiba"></i>发表在 <a href="{$sourceInfo['weiba_url']}" target="_blank">{$sourceInfo['weiba_name']}</a></span>
 <div class="contents clearfix">
 		<p><a target="_blank" href="{$sourceInfo['source_url']}">帖子&nbsp;|&nbsp;{$sourceInfo['title']}</a>&nbsp;{:getShort($sourceInfo['content'], intval(110-get_str_length($sourceInfo['title'])), '...')}</a></p>
-    <?php if(!empty($sourceInfo['pic_url'])): ?>
+    <?php if (!empty($sourceInfo['pic_url'])): ?>
     <div class="feed_img_lists">
     	<ul class="small">
         	<li style="width: 205px; height: auto;">

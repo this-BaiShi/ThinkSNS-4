@@ -17,29 +17,31 @@ defined('THINK_PATH') or exit();
  * @subpackage  Driver.Cache
  * @author    liu21st <liu21st@gmail.com>
  */
-class CacheMemcache extends Cache {
+class CacheMemcache extends Cache
+{
 
     /**
      * 架构函数
      * @param array $options 缓存参数
      * @access public
      */
-    function __construct($options=array()) {
-        if ( !extension_loaded('memcache') ) {
+    public function __construct($options=array())
+    {
+        if (!extension_loaded('memcache')) {
             throw_exception(L('_NOT_SUPPORT_').':memcache');
         }
 
         $hosts    = array(); //服务器列表
         $servers  = explode(',', C('MEMCACHE_HOST'));//支持多服务器配置
-        foreach($servers as $k=>$host){
+        foreach ($servers as $k=>$host) {
             list($host, $port) = explode(':', $host, 2);
             $hosts[] = array(
                 'host' => $host ? $host : '127.0.0.1',
                 'port' => empty($port)?11211:$port,
             );
         }
-        if(empty($options)) {
-            $options = array (
+        if (empty($options)) {
+            $options = array(
                 'host'        =>  $hosts[0]['host'],
                 'port'        =>  $hosts[0]['port'],
                 'timeout'     =>  C('DATA_CACHE_TIMEOUT') ? C('DATA_CACHE_TIMEOUT') : false,
@@ -54,11 +56,11 @@ class CacheMemcache extends Cache {
         $func               =   $options['persistent'] ? 'pconnect' : 'connect';
         $this->handler      =   new Memcache;
         //Memcache集群支持
-        if(isset($hosts[1])){
-            foreach($hosts as $host){
+        if (isset($hosts[1])) {
+            foreach ($hosts as $host) {
                 $this->handler->addServer($host['host'], $host['port'], $options['persistent']);
             }
-        }else{
+        } else {
             $host = $hosts[0];
             $options['timeout'] === false ?
                 $this->handler->$func($host['host'], $host['port']) :
@@ -74,8 +76,9 @@ class CacheMemcache extends Cache {
      * @param string $name 缓存变量名
      * @return mixed
      */
-    public function get($name) {
-        N('cache_read',1);
+    public function get($name)
+    {
+        N('cache_read', 1);
         return $this->handler->get($this->options['prefix'].$name);
     }
 
@@ -85,21 +88,22 @@ class CacheMemcache extends Cache {
      * @param string $prefix 缓存前缀
      * @return mixed
      */
-	public function getMulti( $prefix , $key ){
-		N('cache_read',1);
-		foreach( $key as $k=>$v ){
-			$namelist[] = $this->options['prefix'].$prefix.$v;
-		}
-		
-		$result = $this->handler->get ( $namelist );
-		
-		foreach ( $result as $k=>$v){
-			$k = str_replace( $this->options['prefix'].$prefix , '', $k );
-			$data[ $k ] = $v;
-		}
-		unset( $result );
-		return $data;
-	}
+    public function getMulti($prefix, $key)
+    {
+        N('cache_read', 1);
+        foreach ($key as $k=>$v) {
+            $namelist[] = $this->options['prefix'].$prefix.$v;
+        }
+        
+        $result = $this->handler->get($namelist);
+        
+        foreach ($result as $k=>$v) {
+            $k = str_replace($this->options['prefix'].$prefix, '', $k);
+            $data[ $k ] = $v;
+        }
+        unset($result);
+        return $data;
+    }
 
     /**
      * 写入缓存
@@ -109,14 +113,15 @@ class CacheMemcache extends Cache {
      * @param integer $expire  有效时间（秒）
      * @return boolen
      */
-    public function set($name, $value, $expire = null) {
-        N('cache_write',1);
-        if(is_null($expire)) {
+    public function set($name, $value, $expire = null)
+    {
+        N('cache_write', 1);
+        if (is_null($expire)) {
             $expire  =  $this->options['expire'];
         }
         $name   =   $this->options['prefix'].$name;
-        if($this->handler->set($name, $value, 0, $expire)) {
-            if($this->options['length']>0) {
+        if ($this->handler->set($name, $value, 0, $expire)) {
+            if ($this->options['length']>0) {
                 // 记录缓存队列
                 $this->queue($name);
             }
@@ -131,7 +136,8 @@ class CacheMemcache extends Cache {
      * @param string $name 缓存变量名
      * @return boolen
      */
-    public function rm($name, $ttl = false) {
+    public function rm($name, $ttl = false)
+    {
         $name   =   $this->options['prefix'].$name;
         return $ttl === false ?
             $this->handler->delete($name) :
@@ -143,7 +149,8 @@ class CacheMemcache extends Cache {
      * @access public
      * @return boolen
      */
-    public function clear() {
+    public function clear()
+    {
         return $this->handler->flush();
     }
 }

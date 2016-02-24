@@ -29,7 +29,7 @@
 			<ul class="small">
 				<?php 
                 $attachCount = count($sourceInfo['attach']);
-                $sourceInfo['attach'] = array($sourceInfo['attach'][0]); 
+                $sourceInfo['attach'] = array($sourceInfo['attach'][0]);
                 ?>
                 <volist name='sourceInfo.attach' id='vo'>
                 <li class="m0">

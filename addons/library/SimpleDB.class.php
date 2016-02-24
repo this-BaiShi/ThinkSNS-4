@@ -10,31 +10,31 @@
 class SimpleDB
 {
 
-    static private $_instance	= null;
+    private static $_instance    = null;
     // 是否显示调试信息 如果启用会在知识文件记录sql语句
-    public $debug				= false;
+    public $debug                = false;
     // 是否使用永久连接
     protected $pconnect         = false;
     // 当前SQL指令
-    protected $queryStr			= '';
+    protected $queryStr            = '';
     // 最后插入ID
-    protected $lastInsID		= null;
+    protected $lastInsID        = null;
     // 返回或者影响记录数
-    protected $numRows			= 0;
+    protected $numRows            = 0;
     // 返回字段数
-    protected $numCols			= 0;
+    protected $numCols            = 0;
     // 事务指令数
-    protected $transTimes		= 0;
+    protected $transTimes        = 0;
     // 错误信息
-    protected $error			= '';
+    protected $error            = '';
     // 当前连接ID
-    protected $linkID			=   null;
+    protected $linkID            =   null;
     // 当前查询ID
-    protected $queryID			= null;
+    protected $queryID            = null;
     // 是否已经连接数据库
-    protected $connected		= false;
+    protected $connected        = false;
     // 数据库连接参数配置
-    protected $config			= '';
+    protected $config            = '';
     // SQL 执行时间记录
     protected $beginTime;
     /**
@@ -46,8 +46,9 @@ class SimpleDB
      * @param array $config 数据库配置数组
      +----------------------------------------------------------
      */
-    public function __construct($config=''){
-        if ( !extension_loaded('mysql') ) {
+    public function __construct($config='')
+    {
+        if (!extension_loaded('mysql')) {
             echo('not support mysql');
         }
         $this->config   =   $this->parseConfig($config);
@@ -62,17 +63,18 @@ class SimpleDB
      * @throws ThinkExecption
      +----------------------------------------------------------
      */
-    public function connect() {
-        if(!$this->connected) {
+    public function connect()
+    {
+        if (!$this->connected) {
             $config =   $this->config;
             // 处理不带端口号的socket连接情况
             $host = $config['hostname'].($config['hostport']?":{$config['hostport']}":'');
-            if($this->pconnect) {
-                $this->linkID = mysql_pconnect( $host, $config['username'], $config['password']);
-            }else{
-                $this->linkID = mysql_connect( $host, $config['username'], $config['password'],true);
+            if ($this->pconnect) {
+                $this->linkID = mysql_pconnect($host, $config['username'], $config['password']);
+            } else {
+                $this->linkID = mysql_connect($host, $config['username'], $config['password'], true);
             }
-            if ( !$this->linkID || (!empty($config['database']) && !mysql_select_db($config['database'], $this->linkID)) ) {
+            if (!$this->linkID || (!empty($config['database']) && !mysql_select_db($config['database'], $this->linkID))) {
                 echo(mysql_error());
             }
             $dbVersion = mysql_get_server_info($this->linkID);
@@ -81,8 +83,8 @@ class SimpleDB
                 mysql_query("SET NAMES 'UTF8'", $this->linkID);
             }
             //设置 sql_model
-            if($dbVersion >'5.0.1'){
-                mysql_query("SET sql_mode=''",$this->linkID);
+            if ($dbVersion >'5.0.1') {
+                mysql_query("SET sql_mode=''", $this->linkID);
             }
             // 标记连接成功
             $this->connected    =   true;
@@ -98,7 +100,8 @@ class SimpleDB
      * @access public
      +----------------------------------------------------------
      */
-    public function free() {
+    public function free()
+    {
         mysql_free_result($this->queryID);
         $this->queryID = 0;
     }
@@ -117,20 +120,28 @@ class SimpleDB
      * @throws ThinkExecption
      +----------------------------------------------------------
      */
-    public function query($str='') {
+    public function query($str='')
+    {
         $this->connect();
-        if ( !$this->linkID ) return false;
-        if ( $str != '' ) $this->queryStr = $str;
+        if (!$this->linkID) {
+            return false;
+        }
+        if ($str != '') {
+            $this->queryStr = $str;
+        }
         //释放前次的查询结果
-        if ( $this->queryID ) {    $this->free();    }
+        if ($this->queryID) {
+            $this->free();
+        }
         $this->Q(1);
         $this->queryID = mysql_query($this->queryStr, $this->linkID);
         $this->debug();
-        if ( !$this->queryID ) {
-            if ( $this->debug )
+        if (!$this->queryID) {
+            if ($this->debug) {
                 echo($this->error());
-            else
+            } else {
                 return false;
+            }
         } else {
             $this->numRows = mysql_num_rows($this->queryID);
             return $this->getAll();
@@ -150,20 +161,28 @@ class SimpleDB
      * @throws ThinkExecption
      +----------------------------------------------------------
      */
-    public function execute($str='') {
+    public function execute($str='')
+    {
         $this->connect();
-        if ( !$this->linkID ) return false;
-        if ( $str != '' ) $this->queryStr = $str;
+        if (!$this->linkID) {
+            return false;
+        }
+        if ($str != '') {
+            $this->queryStr = $str;
+        }
         //释放前次的查询结果
-        if ( $this->queryID ) {    $this->free();    }
+        if ($this->queryID) {
+            $this->free();
+        }
         $this->W(1);
         $result =   mysql_query($this->queryStr, $this->linkID) ;
         $this->debug();
-        if ( false === $result) {
-            if ( $this->debug )
+        if (false === $result) {
+            if ($this->debug) {
                 echo($this->error());
-            else
+            } else {
                 return false;
+            }
         } else {
             $this->numRows = mysql_affected_rows($this->linkID);
             $this->lastInsID = mysql_insert_id($this->linkID);
@@ -183,18 +202,19 @@ class SimpleDB
      * @throws ThinkExecption
      +----------------------------------------------------------
      */
-    public function getAll() {
-        if ( !$this->queryID ) {
+    public function getAll()
+    {
+        if (!$this->queryID) {
             echo($this->error());
             return false;
         }
         //返回数据集
         $result = array();
-        if($this->numRows >0) {
-            while($row = mysql_fetch_assoc($this->queryID)){
+        if ($this->numRows >0) {
+            while ($row = mysql_fetch_assoc($this->queryID)) {
                 $result[]   =   $row;
             }
-            mysql_data_seek($this->queryID,0);
+            mysql_data_seek($this->queryID, 0);
         }
         return $result;
     }
@@ -208,10 +228,12 @@ class SimpleDB
      * @throws ThinkExecption
      +----------------------------------------------------------
      */
-    public function close() {
-        if (!empty($this->queryID))
+    public function close()
+    {
+        if (!empty($this->queryID)) {
             mysql_free_result($this->queryID);
-        if ($this->linkID && !mysql_close($this->linkID)){
+        }
+        if ($this->linkID && !mysql_close($this->linkID)) {
             echo($this->error());
         }
         $this->linkID = 0;
@@ -227,9 +249,10 @@ class SimpleDB
      * @return string
      +----------------------------------------------------------
      */
-    public function error() {
+    public function error()
+    {
         $this->error = mysql_error($this->linkID);
-        if($this->queryStr!=''){
+        if ($this->queryStr!='') {
             $this->error .= "\n [ SQL语句 ] : ".$this->queryStr;
         }
         return $this->error;
@@ -246,7 +269,8 @@ class SimpleDB
      * @return string
      +----------------------------------------------------------
      */
-    public function escape_string($str) {
+    public function escape_string($str)
+    {
         return mysql_escape_string($str);
     }
 
@@ -275,10 +299,10 @@ class SimpleDB
      */
     public static function getInstance($db_config='')
     {
-		if ( self::$_instance==null ){
-			self::$_instance = new Db($db_config);
-		}
-		return self::$_instance;
+        if (self::$_instance==null) {
+            self::$_instance = new Db($db_config);
+        }
+        return self::$_instance;
     }
 
     /**
@@ -292,18 +316,19 @@ class SimpleDB
      * @return string
      +----------------------------------------------------------
      */
-    private function parseConfig($_db_config='') {
-		// 如果配置为空，读取配置文件设置
-		$db_config = array (
-			'dbms'		=>   $_db_config['DB_TYPE'],
-			'username'	=>   $_db_config['DB_USER'],
-			'password'	=>   $_db_config['DB_PWD'],
-			'hostname'	=>   $_db_config['DB_HOST'],
-			'hostport'	=>   $_db_config['DB_PORT'],
-			'database'	=>   $_db_config['DB_NAME'],
-			'dsn'		=>   $_db_config['DB_DSN'],
-			'params'	=>   $_db_config['DB_PARAMS'],
-		);
+    private function parseConfig($_db_config='')
+    {
+        // 如果配置为空，读取配置文件设置
+        $db_config = array(
+            'dbms'        =>   $_db_config['DB_TYPE'],
+            'username'    =>   $_db_config['DB_USER'],
+            'password'    =>   $_db_config['DB_PWD'],
+            'hostname'    =>   $_db_config['DB_HOST'],
+            'hostport'    =>   $_db_config['DB_PORT'],
+            'database'    =>   $_db_config['DB_NAME'],
+            'dsn'        =>   $_db_config['DB_DSN'],
+            'params'    =>   $_db_config['DB_PARAMS'],
+        );
         return $db_config;
     }
 
@@ -314,11 +339,12 @@ class SimpleDB
      * @access protected
      +----------------------------------------------------------
      */
-    protected function debug() {
+    protected function debug()
+    {
         // 记录操作结束时间
-        if ( $this->debug )    {
-            $runtime    =   number_format(microtime(TRUE) - $this->beginTime, 6);
-            Log::record(" RunTime:".$runtime."s SQL = ".$this->queryStr,Log::SQL);
+        if ($this->debug) {
+            $runtime    =   number_format(microtime(true) - $this->beginTime, 6);
+            Log::record(" RunTime:".$runtime."s SQL = ".$this->queryStr, Log::SQL);
         }
     }
 
@@ -333,14 +359,15 @@ class SimpleDB
      * @return void
      +----------------------------------------------------------
      */
-    public function Q($times='') {
+    public function Q($times='')
+    {
         static $_times = 0;
-        if(empty($times)) {
+        if (empty($times)) {
             return $_times;
-        }else{
+        } else {
             $_times++;
             // 记录开始执行时间
-            $this->beginTime = microtime(TRUE);
+            $this->beginTime = microtime(true);
         }
     }
 
@@ -355,14 +382,15 @@ class SimpleDB
      * @return void
      +----------------------------------------------------------
      */
-    public function W($times='') {
+    public function W($times='')
+    {
         static $_times = 0;
-        if(empty($times)) {
+        if (empty($times)) {
             return $_times;
-        }else{
+        } else {
             $_times++;
             // 记录开始执行时间
-            $this->beginTime = microtime(TRUE);
+            $this->beginTime = microtime(true);
         }
     }
 
@@ -375,9 +403,9 @@ class SimpleDB
      * @return string
      +----------------------------------------------------------
      */
-    public function getLastSql() {
+    public function getLastSql()
+    {
         return $this->queryStr;
     }
-
 }//类定义结束
-?>
+;

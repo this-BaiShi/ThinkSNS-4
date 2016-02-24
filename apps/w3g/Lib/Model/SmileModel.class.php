@@ -9,20 +9,19 @@
      * @author SamPeng <sampeng87@gmail.com> 
      * @license PHP Version 5.2 {@link www.sampeng.cn}
      */
-    class SmileModel extends Model{
+    class SmileModel extends Model
+    {
          
-        public function getSmile( $type ){
-            $smile = ts_cache( "smile_mini");
-            if( $smile ){
+        public function getSmile($type)
+        {
+            $smile = ts_cache("smile_mini");
+            if ($smile) {
                 return $smile;
-            }else{
-               $data = $this->where("type='mini'")->findAll();
-               return $data;
-			   
-			   //return $this->setCache( $data,$type );
+            } else {
+                $data = $this->where("type='mini'")->findAll();
+                return $data;
+               
+               //return $this->setCache( $data,$type );
             }
         }
-	}
-      
-       
-?>
+    }

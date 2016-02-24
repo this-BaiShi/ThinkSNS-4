@@ -6,7 +6,8 @@
  * @author jason
  * @version TS3.0
  */
-class SearchUserWidget extends Widget {
+class SearchUserWidget extends Widget
+{
 
     private static $rand = 1;
 
@@ -17,7 +18,8 @@ class SearchUserWidget extends Widget {
      * @param integer max 最多可选择的用户个数
      * @param integer editable 是否可修改选择的结果，如果为0则不能选择用户，不能删除已经选择的用户
      */
-    public function render($data) {
+    public function render($data)
+    {
         $var = array();
         $var['follow'] = 0;
         $var['max'] = 0; //最多可以选择用户个数 为0表示不限制
@@ -49,7 +51,8 @@ class SearchUserWidget extends Widget {
      * 搜索用户 
      * @return array 搜索状态及用户列表数据
      */
-    public function search() {
+    public function search()
+    {
         $key = t($_REQUEST['key']);
         $follow = intval($_REQUEST['follow']);
         $noself = intval($_REQUEST['noself']);
@@ -78,11 +81,11 @@ class SearchUserWidget extends Widget {
      * 搜索最近@的人
      * @return array 搜索状态及用户列表数据
      */
-    public function searchAt() {
+    public function searchAt()
+    {
         $users = model('UserData')->where("`key`='user_recentat' and uid=" . $GLOBALS['ts']['mid'])->getField('at_value');
         $data = unserialize($users);
         $msg = array('data' => $data);
         exit(json_encode($msg));
     }
-
 }
