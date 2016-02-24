@@ -127,7 +127,7 @@ class App
             isMobile()                                                                           and
             in_array('wap', C('DEFAULT_APPS'))
         ) {
-            U('h5/Public/home', '', true);
+            U('w3g/Public/home', '', true);
         }
         
         $GLOBALS['time_run_detail']['addons_end'] = microtime(true);
@@ -139,8 +139,8 @@ class App
         $action = ACTION_NAME; // action名称
 
         /* 以命名空间路径判断 */
-        if (class_exists('Apps\\' . APP_NAME . '\Controller\\' . MODULE_NAME)) {
-            $className = 'Apps\\' . APP_NAME . '\Controller\\' . MODULE_NAME;
+        if (class_exists('Apps\\' . APP_NAME . '\\Controller\\' . MODULE_NAME)) {
+            $className = 'Apps\\' . APP_NAME . '\\Controller\\' . MODULE_NAME;
 
         /* 无命名空间 */
         } elseif (!class_exists($className)) {
