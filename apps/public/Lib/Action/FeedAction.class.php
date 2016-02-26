@@ -284,6 +284,7 @@ class FeedAction extends Action
             // 分享配置
             $weiboSet = model('Xdata')->get('admin_Config:feed');
             $this->assign('weibo_premission', $weiboSet ['weibo_premission']);
+            $return['feed_id'] = $return['data']['feed_id'];
             $return ['data'] = $this->fetch('PostFeed');
         }
         
