@@ -34,7 +34,8 @@ core.share = {
 			if(msg.status == 1){
 				updateUserData('weibo_count',1);
 				if(MID == UID){
-					core.weibo.insertToList(msg.data);
+					// console.log(msg);
+					core.weibo.insertToList(msg.data, msg.feed_id);
 				}
 				ui.success( L('PUBLIC_SHARE_SUCCESS') );
 				//隐藏转发弹出
@@ -42,9 +43,9 @@ core.share = {
 					$('#feed-lists').find('.infopen').hide();
 				});
 				// 移动到页面顶部
-				setTimeout(function() {
+				/*setTimeout(function() {
 					$('.top_stick').click();
-				}, 1500);
+				}, 1500);*/
 
 			}else{
 				ui.error(msg.data);
