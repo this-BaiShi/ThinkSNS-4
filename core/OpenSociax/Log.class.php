@@ -4,7 +4,8 @@
  * @author    liu21st <liu21st@gmail.com>
  * @version   $Id: Log.class.php 2425 2011-12-17 07:57:00Z liu21st $
  */
-class Log {
+class Log
+{
 
     // 知识级别 从上到下，由低到高
     const EMERG   = 'EMERG';  // 严重错误: 导致系统崩溃无法使用
@@ -24,10 +25,10 @@ class Log {
     const FILE       = 3;
 
     // 知识信息
-    static $log =   array();
+    public static $log =   array();
 
     // 日期格式
-    static $format =  '[ c ]';
+    public static $format =  '[ c ]';
 
     /**
      * 记录知识 并且会过滤未经设置的级别
@@ -38,11 +39,12 @@ class Log {
      * @param boolean $record  是否强制记录
      * @return void
      */
-    static function record($message,$level=self::ERR,$record=false) {
-        if($record || strpos(C('LOG_RECORD_LEVEL'),$level)) {
+    public static function record($message, $level=self::ERR, $record=false)
+    {
+        if ($record || strpos(C('LOG_RECORD_LEVEL'), $level)) {
             $now = date(self::$format);
             self::$log[] =   "{$now} ".$_SERVER['REQUEST_URI']." \n  {$level}: {$message}\r\n";
-       }
+        }
     }
 
     /**
@@ -54,16 +56,19 @@ class Log {
      * @param string $extra 额外参数
      * @return void
      */
-    static function save($type=self::FILE,$destination='',$extra='') {
-        @mkdir(LOG_PATH,0777,true);
-        if(empty($destination))
+    public static function save($type=self::FILE, $destination='', $extra='')
+    {
+        @mkdir(LOG_PATH, 0777, true);
+        if (empty($destination)) {
             $destination = LOG_PATH.date('y_m_d').".log";
-        if(self::FILE == $type) { // 文件方式记录知识信息
-            //检测知识文件大小，超过配置大小则备份知识文件重新生成
-            if(is_file($destination) && floor(C('LOG_FILE_SIZE')) <= filesize($destination) )
-                  rename($destination,dirname($destination).'/'.time().'-'.basename($destination));
         }
-        error_log(implode("",self::$log), $type,$destination ,$extra);
+        if (self::FILE == $type) { // 文件方式记录知识信息
+            //检测知识文件大小，超过配置大小则备份知识文件重新生成
+            if (is_file($destination) && floor(C('LOG_FILE_SIZE')) <= filesize($destination)) {
+                rename($destination, dirname($destination).'/'.time().'-'.basename($destination));
+            }
+        }
+        error_log(implode("", self::$log), $type, $destination, $extra);
         // 保存后清空知识缓存
         // self::$log = array();
         //clearstatcache();
@@ -80,17 +85,20 @@ class Log {
      * @param string $extra 额外参数
      * @return void
      */
-    static function write($message,$level=self::ERR,$type=self::FILE,$destination='',$extra='') {
-         @mkdir(LOG_PATH,0777,true);
+    public static function write($message, $level=self::ERR, $type=self::FILE, $destination='', $extra='')
+    {
+        @mkdir(LOG_PATH, 0777, true);
         $now = date(self::$format);
-        if(empty($destination))
+        if (empty($destination)) {
             $destination = LOG_PATH.date('y_m_d').".log";
-        if(self::FILE == $type) { // 文件方式记录知识
-            //检测知识文件大小，超过配置大小则备份知识文件重新生成
-            if(is_file($destination) && floor(C('LOG_FILE_SIZE')) <= filesize($destination) )
-                  rename($destination,dirname($destination).'/'.time().'-'.basename($destination));
         }
-        error_log("{$now} ".$_SERVER['REQUEST_URI']." | {$level}: {$message}\r\n", $type,$destination,$extra );
+        if (self::FILE == $type) { // 文件方式记录知识
+            //检测知识文件大小，超过配置大小则备份知识文件重新生成
+            if (is_file($destination) && floor(C('LOG_FILE_SIZE')) <= filesize($destination)) {
+                rename($destination, dirname($destination).'/'.time().'-'.basename($destination));
+            }
+        }
+        error_log("{$now} ".$_SERVER['REQUEST_URI']." | {$level}: {$message}\r\n", $type, $destination, $extra);
         //clearstatcache();
     }
 }

@@ -1,8 +1,16 @@
 <div class="contents clearfix">
 			<div class="mb10 clearfix">{$body|t|replaceUrl}</div>
 			<div class="feed_img" id="video_mini_show_{$feedid}">
-          <a href="javascript:void(0);" <php>if(!$transfering){</php>onclick="switchVideo({$feedid},0,'open','{$host}','{$flashvar}','<?php if(strpos($flashimg, '://')) { echo $flashimg; } else { echo getImageUrl($flashimg); } ?>')"<php>}</php> >
-            <img src="<?php if(strpos($flashimg, '://')) { echo $flashimg; } else { echo getImageUrl($flashimg, 205); } ?>" style="width:205px;height:auto;overflow:hidden" data-medz-name="outside-video" onerror="javascript:var default_img = THEME_URL + '/image/video_bk.png';$(this).attr('src',default_img);">
+          <a href="javascript:void(0);" <php>if(!$transfering){</php>onclick="switchVideo({$feedid},0,'open','{$host}','{$flashvar}','<?php if (strpos($flashimg, '://')) {
+    echo $flashimg;
+} else {
+    echo getImageUrl($flashimg);
+} ?>')"<php>}</php> >
+            <img src="<?php if (strpos($flashimg, '://')) {
+    echo $flashimg;
+} else {
+    echo getImageUrl($flashimg, 205);
+} ?>" style="width:205px;height:auto;overflow:hidden" data-medz-name="outside-video" onerror="javascript:var default_img = THEME_URL + '/image/video_bk.png';$(this).attr('src',default_img);">
           </a>
           <div class="video_play" ><a href="javascript:void(0);" <php>if(!$transfering){</php>onclick="switchVideo({$feedid},0,'open','{$host}','{$flashvar}','{$flashimg}')"<php>}</php> ></a>
           </div>

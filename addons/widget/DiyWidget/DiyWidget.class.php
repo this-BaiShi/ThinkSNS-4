@@ -4,119 +4,129 @@
  * @example {:W('Diy',array())}
  * @version TS3.0
  */
-class DiyWidget extends Widget{
-	
-	/**
-	 * [render description]
-	 * @param  integer id [description]
-	 * @return integer widget_user_id [description]
-	 */
-	public function render($data){
-		
-		$var['id'] = 1; //自定义diy的位置
-		
-		!empty($data) && $var = array_merge($var,$data);
+class DiyWidget extends Widget
+{
+    
+    /**
+     * [render description]
+     * @param  integer id [description]
+     * @return integer widget_user_id [description]
+     */
+    public function render($data)
+    {
+        $var['id'] = 1; //自定义diy的位置
 
-		$wigdetList  = model('Widget')->getUserWidget($var['id'],$GLOBALS['ts']['uid']);
-		
-		$var = array_merge($var,$wigdetList);
+        !empty($data) && $var = array_merge($var, $data);
 
-		return $this->renderFile(dirname(__FILE__)."/default.html",$var);
-	}
+        $wigdetList  = model('Widget')->getUserWidget($var['id'], $GLOBALS['ts']['uid']);
+        
+        $var = array_merge($var, $wigdetList);
 
-	public function addWidget(){
-		$var = $_REQUEST;
-		//全部列表
-		$var['list'] = model('Widget')->getWidgetList();
+        return $this->renderFile(dirname(__FILE__)."/default.html", $var);
+    }
 
-		$wigdetList  = model('Widget')->getUserWidget($var['diyId'],$GLOBALS['ts']['uid']);
+    public function addWidget()
+    {
+        $var = $_REQUEST;
+        //全部列表
+        $var['list'] = model('Widget')->getWidgetList();
 
-		foreach($wigdetList['widget_list'] as $v){
-			$var['selected'][] = $v['appname'].':'.$v['name'];
-		}
+        $wigdetList  = model('Widget')->getUserWidget($var['diyId'], $GLOBALS['ts']['uid']);
 
-		return $this->renderFile(dirname(__FILE__)."/add.html",$var);
-	}
+        foreach ($wigdetList['widget_list'] as $v) {
+            $var['selected'][] = $v['appname'].':'.$v['name'];
+        }
 
-	public function dosort(){
-		$id = intval($_REQUEST['diyId']);
-		$uid = $GLOBALS['ts']['mid'];
-		$targets = t($_REQUEST['targets']);
-		model('Widget')->dosort($id,$uid,$targets);
-	}
+        return $this->renderFile(dirname(__FILE__)."/add.html", $var);
+    }
 
-	public function doadd(){
-		if(model('Widget')->saveUserWigdet(intval($_POST['diyId']),$GLOBALS['ts']['uid'],t($_POST['selected']))){
-			$return = array('status'=>1,'data'=>'','info'=>L('PUBLIC_SAVE_SUCCESS'));
-		}else{
-			$return = array('status'=>0,'data'=>'','info'=>L('PUBLIC_SAVE_FAIL'));
-		}
+    public function dosort()
+    {
+        $id = intval($_REQUEST['diyId']);
+        $uid = $GLOBALS['ts']['mid'];
+        $targets = t($_REQUEST['targets']);
+        model('Widget')->dosort($id, $uid, $targets);
+    }
 
-		echo json_encode($return);exit();
-	}
+    public function doadd()
+    {
+        if (model('Widget')->saveUserWigdet(intval($_POST['diyId']), $GLOBALS['ts']['uid'], t($_POST['selected']))) {
+            $return = array('status'=>1,'data'=>'','info'=>L('PUBLIC_SAVE_SUCCESS'));
+        } else {
+            $return = array('status'=>0,'data'=>'','info'=>L('PUBLIC_SAVE_FAIL'));
+        }
 
-	public function set(){
-		
-		$var = $_REQUEST;
-		
-		$data = $_POST;
+        echo json_encode($return);
+        exit();
+    }
 
-		$return = model('Widget')->updateUserWidget($var['diyId'],$GLOBALS['ts']['uid'],$var['appname'].':'.$var['widget_name'],$data);
+    public function set()
+    {
+        $var = $_REQUEST;
+        
+        $data = $_POST;
 
-		if($return){
-			$return = array('status'=>1,'data'=>'','info'=>L('PUBLIC_SETING_SUCCESS'));			
-		}else{
-			$return = array('status'=>0,'data'=>'','info'=>L('PUBLIC_SYSTEM_SETTING_FAIL'));
-		}
+        $return = model('Widget')->updateUserWidget($var['diyId'], $GLOBALS['ts']['uid'], $var['appname'].':'.$var['widget_name'], $data);
 
-		echo json_encode($return);exit();
-	}
+        if ($return) {
+            $return = array('status'=>1,'data'=>'','info'=>L('PUBLIC_SETING_SUCCESS'));
+        } else {
+            $return = array('status'=>0,'data'=>'','info'=>L('PUBLIC_SYSTEM_SETTING_FAIL'));
+        }
 
-	public function del(){
-		
-		$var = $_REQUEST;
+        echo json_encode($return);
+        exit();
+    }
 
-		$return = model('Widget')->deleteUserWidget($var['diyId'],$GLOBALS['ts']['uid'],$var['appname'].':'.$var['widget_name']);
+    public function del()
+    {
+        $var = $_REQUEST;
 
-		if($return){
-			$return = array('status'=>1,'data'=>'','info'=>L('PUBLIC_DELETE_SUCCESS'));			
-		}else{
-			$return = array('status'=>0,'data'=>'','info'=>L('PUBLIC_DELETE_FAIL'));
-		}
+        $return = model('Widget')->deleteUserWidget($var['diyId'], $GLOBALS['ts']['uid'], $var['appname'].':'.$var['widget_name']);
 
-		echo json_encode($return);exit();
-	}
+        if ($return) {
+            $return = array('status'=>1,'data'=>'','info'=>L('PUBLIC_DELETE_SUCCESS'));
+        } else {
+            $return = array('status'=>0,'data'=>'','info'=>L('PUBLIC_DELETE_FAIL'));
+        }
 
-	public function updateWidget(){
-		model('Widget')->updateWidget();
-		echo 'Wigdet'.L('PUBLIC_UPDATE_SUCCESS');exit();
-	}
+        echo json_encode($return);
+        exit();
+    }
 
-	public function config(){
+    public function updateWidget()
+    {
+        model('Widget')->updateWidget();
+        echo 'Wigdet'.L('PUBLIC_UPDATE_SUCCESS');
+        exit();
+    }
 
-		$var['diyId'] = intval($_REQUEST['id']);
+    public function config()
+    {
+        $var['diyId'] = intval($_REQUEST['id']);
 
-		$var['list'] = model('Widget')->getWidgetList();
+        $var['list'] = model('Widget')->getWidgetList();
 
-		$slist = model('Widget')->getDiyWidgetById($var['diyId']);
+        $slist = model('Widget')->getDiyWidgetById($var['diyId']);
 
 
-		$slist = unserialize($slist['widget_list']);
+        $slist = unserialize($slist['widget_list']);
 
-		foreach($slist as $v){
-			$var['selected'][] = $v['appname'].':'.$v['name'];
-		}
+        foreach ($slist as $v) {
+            $var['selected'][] = $v['appname'].':'.$v['name'];
+        }
 
-		return $this->renderFile(dirname(__FILE__)."/config.html",$var);
-	}
-	public function doconfig(){
-		
-		if(model('Widget')->configWidget(intval($_POST['diyId']),t($_POST['selected']))){
-			$return = array('status'=>1,'data'=>'','info'=>L('PUBLIC_SAVE_SUCCESS'));
-		}else{
-			$return = array('status'=>0,'data'=>'','info'=>L('PUBLIC_SAVE_FAIL'));
-		}
+        return $this->renderFile(dirname(__FILE__)."/config.html", $var);
+    }
+    public function doconfig()
+    {
+        if (model('Widget')->configWidget(intval($_POST['diyId']), t($_POST['selected']))) {
+            $return = array('status'=>1,'data'=>'','info'=>L('PUBLIC_SAVE_SUCCESS'));
+        } else {
+            $return = array('status'=>0,'data'=>'','info'=>L('PUBLIC_SAVE_FAIL'));
+        }
 
-		echo json_encode($return);exit();
-	}
+        echo json_encode($return);
+        exit();
+    }
 }

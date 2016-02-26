@@ -3,7 +3,8 @@
 require_once(dirname(__FILE__)."/lib/alipay_submit.class.php");
 require_once(dirname(__FILE__)."/lib/alipay_notify.class.php");
 
-function getAlipayConfig(array $alipayConfig = null){
+function getAlipayConfig(array $alipayConfig = null)
+{
     $config = array(
         'partner' => '',
         'seller_email' => '',
@@ -13,29 +14,30 @@ function getAlipayConfig(array $alipayConfig = null){
         'cacert' => dirname(__FILE__).'/cacert.pem',
         'transport' => 'http',
     );
-    if($alipayConfig){
+    if ($alipayConfig) {
         $config = array_merge($config, $alipayConfig);
     }
     return $config;
 }
 
-function createAlipayUrl(array $alipayConfig, array $parameter){
+function createAlipayUrl(array $alipayConfig, array $parameter)
+{
     $alipayConfig = getAlipayConfig($alipayConfig);
     $parameter = array_merge(array(
         "service" => "create_direct_pay_by_user",
         "partner" => trim($alipayConfig['partner']),
         "seller_email" => trim($alipayConfig['seller_email']),
-        "payment_type"	=> 1,
-        "notify_url"	=> '',
-        "return_url"	=> '',
-        "out_trade_no"	=> time(),
-        "subject"	=> '支付订单',
-        "total_fee"	=> 0.01,
-        "body"	=> '',
+        "payment_type"    => 1,
+        "notify_url"    => '',
+        "return_url"    => '',
+        "out_trade_no"    => time(),
+        "subject"    => '支付订单',
+        "total_fee"    => 0.01,
+        "body"    => '',
         "show_url"  => '',
-        "anti_phishing_key"	=> '',
-        "exter_invoke_ip"	=> '',
-        "_input_charset"	=> trim(strtolower($alipayConfig['input_charset']))
+        "anti_phishing_key"    => '',
+        "exter_invoke_ip"    => '',
+        "_input_charset"    => trim(strtolower($alipayConfig['input_charset']))
     ), $parameter);
     $alipaySubmit = new AlipaySubmit($alipayConfig);
     $url = $alipaySubmit->alipay_gateway_new;
@@ -43,14 +45,16 @@ function createAlipayUrl(array $alipayConfig, array $parameter){
     return $url;
 }
 
-function verifyAlipayReturn(array $alipayConfig){
+function verifyAlipayReturn(array $alipayConfig)
+{
     $alipayConfig = getAlipayConfig($alipayConfig);
     $alipayNotify = new AlipayNotify($alipayConfig);
     $verifyResult = $alipayNotify->verifyReturn();
     return (bool)$verifyResult;
 }
 
-function verifyAlipayNotify(array $alipayConfig){
+function verifyAlipayNotify(array $alipayConfig)
+{
     $alipayConfig = getAlipayConfig($alipayConfig);
     $alipayNotify = new AlipayNotify($alipayConfig);
     $verifyResult = (bool)$alipayNotify->verifyNotify();

@@ -17,9 +17,10 @@
  * @author		liuxiaoqing <liuxiaoqing@thinksns.com>
  * @version		$0.1$
  */
-abstract class Modelite {
+abstract class Modelite
+{
 
-	// 最近错误信息
+    // 最近错误信息
     protected $error = '';
 
     /**
@@ -28,17 +29,20 @@ abstract class Modelite {
      * @param string $name 模型名称
      * @access public
      */
-    public function __construct($name='') {
+    public function __construct($name='')
+    {
         // 模型初始化
         $this->_initialize();
     }
 
     // 回调方法 初始化模型
-    protected function _initialize() {}
-	
-	// 获取最近的错误信息
-	public function getError() {
+    protected function _initialize()
+    {
+    }
+    
+    // 获取最近的错误信息
+    public function getError()
+    {
         return $this->error;
     }
 }
-?>

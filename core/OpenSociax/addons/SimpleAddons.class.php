@@ -8,8 +8,8 @@
 tsload(CORE_LIB_PATH.'/addons/AbstractAddons.class.php');
 abstract class SimpleAddons extends AbstractAddons
 {
-	private $name;
-	private $hooklist= array();
+    private $name;
+    private $hooklist= array();
     /**
      * getHooksList
      * 获取该插件的所有钩子列表
@@ -17,32 +17,36 @@ abstract class SimpleAddons extends AbstractAddons
      * @return void
      */
     public function getHooksList($name)
-	{
-		$this->name = $name;
+    {
+        $this->name = $name;
         $this->getHooksInfo();
         return $this->hooklist;
-	}
+    }
 
-	//管理面板
-	public function adminMenu(){
+    //管理面板
+    public function adminMenu()
+    {
         return array();
     }
 
-	//注册hook位该执行的方法
-	public function apply($hook,$method)
-	{
-		$this->hooklist[$hook][$this->name][] = $method;
-	}
+    //注册hook位该执行的方法
+    public function apply($hook, $method)
+    {
+        $this->hooklist[$hook][$this->name][] = $method;
+    }
 
-	public function start(){
-		return true;
-	}
+    public function start()
+    {
+        return true;
+    }
 
-	public function install(){
-		return true;
-	}
+    public function install()
+    {
+        return true;
+    }
 
-	public function uninstall(){
-		return true;
-	}
+    public function uninstall()
+    {
+        return true;
+    }
 }

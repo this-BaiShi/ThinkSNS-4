@@ -4,28 +4,29 @@
  * @author Stream
  *
  */
-class GroupFeedModel extends Model{
-	//表名
-    var $tableName = 'group_feed';
+class GroupFeedModel extends Model
+{
+    //表名
+    public $tableName = 'group_feed';
     //表结构
     protected $fields = array(
-    		1=>'feed_id',
-    		2=>'gid',
-    		3=>'uid',
-    		4=>'type',
-    		5=>'app',
-    		6=>'app_row_table',
-    		7=>'app_row_id',
-    		8=>'publish_time',
-    		9=>'is_del',
-    		10=>'from',
-    		11=>'comment_count',
-    		12=>'repost_count',
-    		13=>'comment_all_count',
-    		14=>'is_repost',
-    		15=>'is_audit'
-    		);
-	/**
+            1=>'feed_id',
+            2=>'gid',
+            3=>'uid',
+            4=>'type',
+            5=>'app',
+            6=>'app_row_table',
+            7=>'app_row_id',
+            8=>'publish_time',
+            9=>'is_del',
+            10=>'from',
+            11=>'comment_count',
+            12=>'repost_count',
+            13=>'comment_all_count',
+            14=>'is_repost',
+            15=>'is_audit'
+            );
+    /**
      * 添加分享
      * @param integer $uid 操作用户ID
      * @param string $app 分享应用类型，默认为public
@@ -38,17 +39,18 @@ class GroupFeedModel extends Model{
      * @param boolean $isAtMe 是否为进行发送，默认为true
      * @return mix 添加失败返回false，成功返回新的分享ID
      */
-    public function put($uid, $app = 'group', $type = '', $data = array(), $app_id = 0, $app_table = 'group_feed', $extUid = null, $lessUids = null, $isAtMe = true, $is_repost = 0) {
+    public function put($uid, $app = 'group', $type = '', $data = array(), $app_id = 0, $app_table = 'group_feed', $extUid = null, $lessUids = null, $isAtMe = true, $is_repost = 0)
+    {
         
-    	// 判断数据的正确性
-        if(!$uid || $type == '') {
+        // 判断数据的正确性
+        if (!$uid || $type == '') {
             return false;
         }
-        if ( strpos( $type , 'postvideo' ) !== false ){
+        if (strpos($type, 'postvideo') !== false) {
             $type = 'postvideo';
         }
         //分享类型合法性验证 - 临时解决方案
-        if ( !in_array( $type , array('post','repost','postvideo','postfile','postimage') )){
+        if (!in_array($type, array('post', 'repost', 'postvideo', 'postfile', 'postimage'))) {
             $type = 'post';
         }
         // //应用类型验证 用于分享框 - 临时解决方案
@@ -57,7 +59,7 @@ class GroupFeedModel extends Model{
         //     $type = 'post';
         //     $app_table = 'feed';
         // }
-        
+
         $app_table = strtolower($app_table);
         // 添加feed表记录
         $data['gid'] = $data['gid'];
@@ -79,9 +81,9 @@ class GroupFeedModel extends Model{
         $data['is_audit'] = 1;
 //         }
         // 分享内容处理
-        if(Addons::requireHooks('weibo_publish_content')){
-            Addons::hook("weibo_publish_content",array(&$data));
-        }else{
+        if (Addons::requireHooks('weibo_publish_content')) {
+            Addons::hook("weibo_publish_content", array(&$data));
+        } else {
             // 拼装数据，如果是评论再转发、回复评论等情况，需要额外叠加对话数据
             $data['body'] = str_replace(SITE_URL, '[SITE_URL]', preg_html($data['body']));
             // 获取用户发送的内容，仅仅以//进行分割
@@ -90,10 +92,10 @@ class GroupFeedModel extends Model{
             $feedConf = model('Xdata')->get('admin_Config:feed');
             $feedNums = $feedConf['weibo_nums'];
             $body = array();
-            foreach($scream as $value) {
+            foreach ($scream as $value) {
                 $tbody[] = $value;
                 $bodyStr = implode('//', $tbody);
-                if(get_str_length($bodyStr) > $feedNums) {
+                if (get_str_length($bodyStr) > $feedNums) {
                     break;
                 }
                 $body[] = $value;
@@ -113,18 +115,19 @@ class GroupFeedModel extends Model{
         //  Addons::hook("weibo_type",array("typeId"=>$type,"typeData"=>$type_data,"result"=>&$addonsData));
         //  $data = array_merge($data,$addonsData);
         // }
-        if( $type == 'postvideo' ){
-            $typedata = model('Video')->_weiboTypePublish( $_POST['videourl'] );
-            if ( $typedata && $typedata['flashvar'] && $typedata['flashimg'] ){
-                $data = array_merge( $data , $typedata );
+        if ($type == 'postvideo') {
+            $typedata = model('Video')->_weiboTypePublish($_POST['videourl']);
+            if ($typedata && $typedata['flashvar'] && $typedata['flashimg']) {
+                $data = array_merge($data, $typedata);
             } else {
                 $data['type'] = 'post';
             }
-                
-        }   
+        }
         // 添加分享信息
         $feed_id =  $this->data($data)->add();
-        if(!$feed_id) return false;
+        if (!$feed_id) {
+            return false;
+        }
 //         if(!$data['is_audit']){
 //             $touid = D('user_group_link')->where('user_group_id=1')->field('uid')->findAll();
 //             foreach($touid as $k=>$v){
@@ -132,23 +135,23 @@ class GroupFeedModel extends Model{
 //             }
 //         }
         // 添加关联数据
-        $feed_data = D('group_feed_data')->data(array('feed_id'=>$feed_id,'feed_data'=>serialize($data),'client_ip'=>get_client_ip(),'feed_content'=>$data['body']))->add();
+        $feed_data = D('group_feed_data')->data(array('feed_id'=>$feed_id, 'feed_data'=>serialize($data), 'client_ip'=>get_client_ip(), 'feed_content'=>$data['body']))->add();
         // 添加分享成功后
-        if($feed_id && $feed_data) {
+        if ($feed_id && $feed_data) {
 
             //分享发布成功后的钩子
 //             Addons::hook("weibo_publish_after",array('weibo_id'=>$feed_id,'post'=>$data));
 
             // 发送通知消息 - 重点 - 需要简化把上节点的信息去掉.
-            if($data['is_repost'] == 1) {
+            if ($data['is_repost'] == 1) {
                 // 转发分享
                 $isAtMe && $content = $data['content'];                                 // 内容用户
                 $extUid[] = $data['sourceInfo']['transpond_data']['uid'];               // 资源作者用户
-                if($isAtMe && !empty($data['curid'])) {
+                if ($isAtMe && !empty($data['curid'])) {
                     // 上节点用户
                     $appRowData = $this->get($data['curid']);
                     $extUid[] = $appRowData['uid'];
-                }   
+                }
             } else {
                 // 其他分享
                 $content = $data['content'];
@@ -171,7 +174,7 @@ class GroupFeedModel extends Model{
             // if($app =='public'){ //TODO 分享验证条件
 //                 model('UserData')->setUid($uid)->updateKey('weibo_count', 1);
             // }
-            if(!$return) {
+            if (!$return) {
                 $this->error = L('PUBLIC_CACHE_FAIL');              // Feed缓存写入失败
             }
             return $return;
@@ -187,19 +190,20 @@ class GroupFeedModel extends Model{
      * @param mixed attach_ids 附件ID
      * @return integer feed_id 分享ID
      */
-    public function syncToFeed($content,$uid,$attach_ids,$from,$gid) {
-    	$d['content'] = '';
-    	$d['body'] = $content;
-    	$d['from'] = 0; //TODO
-    	$d['gid'] = $gid;
-    	if($attach_ids){
-    		$type = 'postimage';
-    		$d['attach_id'] = $attach_ids;
-    	}else{
-    		$type = 'post';
-    	}
-    	$feed = $this->put($uid, 'group', $type, $d, '', 'group_feed');
-    	return $feed['feed_id'];
+    public function syncToFeed($content, $uid, $attach_ids, $from, $gid)
+    {
+        $d['content'] = '';
+        $d['body'] = $content;
+        $d['from'] = 0; //TODO
+        $d['gid'] = $gid;
+        if ($attach_ids) {
+            $type = 'postimage';
+            $d['attach_id'] = $attach_ids;
+        } else {
+            $type = 'post';
+        }
+        $feed = $this->put($uid, 'group', $type, $d, '', 'group_feed');
+        return $feed['feed_id'];
     }
     /**
      * 获取分享列表
@@ -207,8 +211,9 @@ class GroupFeedModel extends Model{
      * @param integer $limit 结果集数目，默认为10
      * @return array 分享列表数据
      */
-    public function getList($map, $limit = 10 , $order = 'publish_time DESC') {
-        $feedlist = $this->field('feed_id')->where($map)->order($order)->findPage($limit); 
+    public function getList($map, $limit = 10, $order = 'publish_time DESC')
+    {
+        $feedlist = $this->field('feed_id')->where($map)->order($order)->findPage($limit);
         $feed_ids = getSubByKey($feedlist['data'], 'feed_id');
         $feedlist['data'] = $this->getFeeds($feed_ids);
         return $feedlist;
@@ -218,35 +223,37 @@ class GroupFeedModel extends Model{
      * @param integer $feed_id 分享ID
      * @return mix 获取失败返回false，成功返回分享信息
      */
-    public function get($feed_id) {
-    	$feed_list = $this->getFeeds(array($feed_id));
-    	if(!$feed_list) {
-    		$this->error = L('PUBLIC_INFO_GET_FAIL');			// 获取信息失败
-    		return false;
-    	} else {
-    		return $feed_list[0];
-    	}
+    public function get($feed_id)
+    {
+        $feed_list = $this->getFeeds(array($feed_id));
+        if (!$feed_list) {
+            $this->error = L('PUBLIC_INFO_GET_FAIL');            // 获取信息失败
+            return false;
+        } else {
+            return $feed_list[0];
+        }
     }
     /**
      * 获取给定分享ID的分享信息
      * @param array $feed_ids 分享ID数组
      * @return array 给定分享ID的分享信息
      */
-    public function getFeeds($feed_ids) {
+    public function getFeeds($feed_ids)
+    {
         $feedlist = array();
         $feed_ids = array_filter(array_unique($feed_ids));
         
         // 获取数据
-        if(count($feed_ids) > 0) {
+        if (count($feed_ids) > 0) {
             $cacheList = model('Cache')->getList('gfd_', $feed_ids);
         } else {
             return false;
         }
 
         // 按照传入ID顺序进行排序
-        foreach($feed_ids as $key => $v) {
-            if($cacheList[$v]) {
-                $feedlist[$key] = $cacheList[$v]; 
+        foreach ($feed_ids as $key => $v) {
+            if ($cacheList[$v]) {
+                $feedlist[$key] = $cacheList[$v];
             } else {
                 $feed = $this->setFeedCache(array(), $v);
                 $feedlist[$key] = $feed[$v];
@@ -260,8 +267,9 @@ class GroupFeedModel extends Model{
      * @param array $value 分享相关数据
      * @param array $feed_id 分享ID数组
      */
-    public function setFeedCache($value = array(), $feed_id = array()) {
-        if(!empty($feed_id)) {
+    public function setFeedCache($value = array(), $feed_id = array())
+    {
+        if (!empty($feed_id)) {
             !is_array($feed_id) && $feed_id = explode(',', $feed_id);
             $map['a.feed_id'] = array('IN', $feed_id);
             $list = $this->where($map)
@@ -270,7 +278,7 @@ class GroupFeedModel extends Model{
                          ->findAll();
 
             $r = array();
-            foreach($list as &$v) {
+            foreach ($list as &$v) {
                 // 格式化数据模板
                 $parseData = $this->__paseTemplate($v);
                 $v['info'] = $parseData['info'];
@@ -303,37 +311,39 @@ class GroupFeedModel extends Model{
      * @param integer $uid 用户ID，默认为空
      * @return void
      */
-    public function cleanCache($feed_ids = array(), $uid = '') {
-    	if(!empty($uid)) {
-    		model('Cache')->rm('gfd_foli_'.$uid);
-    		model('Cache')->rm('gfd_uli_'.$uid);
-    	}
-    	if(empty($feed_ids)) {
-    		return true;
-    	}
-    	if(is_array($feed_ids)) {
-    		foreach($feed_ids as $v) {
-    			model('Cache')->rm('gfd_'.$v);
-    		}
-    	} else {
-    		model('Cache')->rm('gfd_'.$feed_ids);
-    	}
+    public function cleanCache($feed_ids = array(), $uid = '')
+    {
+        if (!empty($uid)) {
+            model('Cache')->rm('gfd_foli_'.$uid);
+            model('Cache')->rm('gfd_uli_'.$uid);
+        }
+        if (empty($feed_ids)) {
+            return true;
+        }
+        if (is_array($feed_ids)) {
+            foreach ($feed_ids as $v) {
+                model('Cache')->rm('gfd_'.$v);
+            }
+        } else {
+            model('Cache')->rm('gfd_'.$feed_ids);
+        }
     }
     /**
      * 解析分享模板标签
      * @param array $_data 分享的原始数据
      * @return array 解析分享模板后的分享数据
      */
-    private function __paseTemplate($_data) {
+    private function __paseTemplate($_data)
+    {
         // 获取作者信息
         $user = model('User')->getUserInfo($_data['uid']);
         // 处理数据
         $_data['data'] = unserialize($_data['feed_data']);
         // 模版变量赋值
         $var = $_data['data'];
-        if(!empty($var['attach_id'])) {
+        if (!empty($var['attach_id'])) {
             $var['attachInfo'] = model('Attach')->getAttachByIds($var['attach_id']);
-            foreach($var['attachInfo'] as $ak => $av) {
+            foreach ($var['attachInfo'] as $ak => $av) {
                 $_attach = array(
                             'attach_id'   => $av['attach_id'],
                             'attach_name' => $av['name'],
@@ -341,37 +351,37 @@ class GroupFeedModel extends Model{
                             'extension'   => $av['extension'],
                             'size'        => $av['size']
                         );
-                if($_data['type'] == 'postimage') {
+                if ($_data['type'] == 'postimage') {
                     $_attach['attach_small'] = getImageUrl($av['save_path'].$av['save_name'], 100, 100, true);
                     $_attach['attach_middle'] = getImageUrl($av['save_path'].$av['save_name'], 740);
                 }
                 $var['attachInfo'][$ak] = $_attach;
             }
         }
-        if ( $_data['type'] == 'postvideo' && !$var['flashimg']){
+        if ($_data['type'] == 'postvideo' && !$var['flashimg']) {
             $var['flashimg'] = '__THEME__/image/video.png';
         }
         $var['uid'] = $_data['uid'];
         $var["actor"] = "<a href='{$user['space_url']}' class='name' event-node='face_card' uid='{$user['uid']}'>{$user['uname']}</a>";
         $var["actor_uid"] = $user['uid'];
         $var["actor_uname"] = $user['uname'];
-        $var['feedid'] = $_data['feed_id'];   
+        $var['feedid'] = $_data['feed_id'];
         //微吧类型分享用到
         // $var["actor_groupData"] = model('UserGroupLink')->getUserGroupData($user['uid']);
         //需要获取资源信息的分享：所有类型的分享，只要有资源信息就获取资源信息并赋值模版变量，交给模版解析处理
-        if(!empty($_data['app_row_id'])) {
+        if (!empty($_data['app_row_id'])) {
             //empty($_data['app_row_table']) && $_data['app_row_table'] = 'group_weibo';
             $var['sourceInfo'] = model('Source')->getSourceInfo($_data['app_row_table'], $_data['app_row_id'], false, $_data['app']);
             $var['sourceInfo']['groupData'] = model('UserGroupLink')->getUserGroupData($var['sourceInfo']['source_user_info']['uid']);
         }
         // 解析Feed模版
         $feed_template_file = APPS_PATH.'/'.$_data['app'].'/Conf/'.$_data['type'].'.feed.php';
-        if(!file_exists($feed_template_file)){
+        if (!file_exists($feed_template_file)) {
             $feed_template_file = APPS_PATH.'/public/Conf/post.feed.php';
         }
         $feed_xml_content = fetch($feed_template_file, $var);
         $s = simplexml_load_string($feed_xml_content);
-        if(!$s){
+        if (!$s) {
             return false;
         }
         $result = $s->xpath("//feed[@type='".t($_data['type'])."']");
@@ -396,18 +406,19 @@ class GroupFeedModel extends Model{
     }
 
     // 临时解决方案 - 去除#话题#
-    private function parseHtml ($html) {
+    private function parseHtml($html)
+    {
         $html = htmlspecialchars_decode($html);
         //以下三个过滤是旧版兼容方法-可屏蔽
-        $html = preg_replace("/img{data=([^}]*)}/"," ", $html);
-        $html = preg_replace("/topic{data=([^}]*)}/",'<a href="$1" topic="true">#$1#</a>', $html);
+        $html = preg_replace("/img{data=([^}]*)}/", " ", $html);
+        $html = preg_replace("/topic{data=([^}]*)}/", '<a href="$1" topic="true">#$1#</a>', $html);
         $html = preg_replace_callback("/@{uid=([^}]*)}/", "_parse_at_by_uid", $html);
         //链接替换
-        $html = str_replace('[SITE_URL]',SITE_URL,$html);
+        $html = str_replace('[SITE_URL]', SITE_URL, $html);
         //表情处理
-        $html = preg_replace_callback("/(\[.+?\])/is","_parse_expression",$html);
+        $html = preg_replace_callback("/(\[.+?\])/is", "_parse_expression", $html);
         //@提到某人处理
-        $html = preg_replace_callback("/@([\w\x{2e80}-\x{9fff}\-]+)/u", "_parse_at_by_uname",$html);
+        $html = preg_replace_callback("/@([\w\x{2e80}-\x{9fff}\-]+)/u", "_parse_at_by_uname", $html);
         return $html;
     }
 
@@ -418,8 +429,9 @@ class GroupFeedModel extends Model{
      * @param boolean $forApi 是否提供API，默认为false
      * @return array 格式化后的资源数据
      */
-    public function getSourceInfo($row_id, $forApi) {
-        $info = $this->getFeedInfo($row_id,$forApi);
+    public function getSourceInfo($row_id, $forApi)
+    {
+        $info = $this->getFeedInfo($row_id, $forApi);
         $info['source_user_info'] = model('User')->getUserInfo($info['uid']);
         $info['source_user'] = $info['uid'] == $GLOBALS['ts']['mid'] ? L('PUBLIC_ME'): $info['source_user_info']['space_link'];         // 我
         $info['source_type'] = L('PUBLIC_WEIBO');
@@ -437,77 +449,78 @@ class GroupFeedModel extends Model{
      * @param boolean $forApi 是否提供API数据，默认为false
      * @return array 指定分享数据
      */
-    public function getFeedInfo($id, $forApi = false) {
-       $data = model( 'Cache' )->get( 'group_feed_info_'.$id );
-		if ( $data ){
-			return $data;
-		}
-		$map['a.feed_id'] = $id;
-		// $map['a.is_del'] = 0;//过滤已删除的分享
-		$data = $this->where($map)
-					 ->table("{$this->tablePrefix}group_feed AS a LEFT JOIN {$this->tablePrefix}group_feed_data AS b ON a.feed_id = b.feed_id ")
-					 ->find();
-		$fd = unserialize($data['feed_data']);	
+    public function getFeedInfo($id, $forApi = false)
+    {
+        $data = model('Cache')->get('group_feed_info_'.$id);
+        if ($data) {
+            return $data;
+        }
+        $map['a.feed_id'] = $id;
+        // $map['a.is_del'] = 0;//过滤已删除的分享
+        $data = $this->where($map)
+                     ->table("{$this->tablePrefix}group_feed AS a LEFT JOIN {$this->tablePrefix}group_feed_data AS b ON a.feed_id = b.feed_id ")
+                     ->find();
+        $fd = unserialize($data['feed_data']);
 
-		$userInfo = model('User')->getUserInfo($data['uid']);
-		$data['ctime'] = date('Y-m-d H:i',$data['publish_time']);
-		$data['content'] = $forApi ? parseForApi($fd['body']):$fd['body'];
-		$data['uname'] = $userInfo['uname'];
-		$data['avatar_big'] = $userInfo['avatar_big'];
-		$data['avatar_middle'] = $userInfo['avatar_middle'];
-		$data['avatar_small']  = $userInfo['avatar_small'];
-		unset($data['feed_data']);
-		// 分享转发
-		if($data['type'] == 'repost'){
-			$data['transpond_id'] = $data['app_row_id'];
-			$data['transpond_data'] = $this->getFeedInfo($data['transpond_id'], $forApi);
-		}
-		// 附件处理
-		if(!empty($fd['attach_id'])) {
-			$data['has_attach'] = 1;
-			$attach = model('Attach')->getAttachByIds($fd['attach_id']);
-			foreach($attach as $ak => $av) {
-				$_attach = array(
-							'attach_id'   => $av['attach_id'],
-							'attach_name' => $av['name'],
-							'attach_url'  => getImageUrl($av['save_path'].$av['save_name']),
-							'extension'   => $av['extension'],
-							'size'		  => $av['size']
-						);
-				if($data['type'] == 'postimage') {
-					$_attach['attach_small'] = getImageUrl($av['save_path'].$av['save_name'], 100, 100, true);
- 					$_attach['attach_middle'] = getImageUrl($av['save_path'].$av['save_name'], 740);
-				}
-				$data['attach'][] = $_attach;
-			}
-		} else {
-			$data['has_attach'] = 0;
-		}
-		if( $data['type'] == 'postvideo' ){
-			$data['host'] = $fd['host'];
-			$data['flashvar'] = $fd['flashvar'];
-			$data['source'] = $fd['source'];
-			$data['flashimg'] = $fd['flashimg'];
-			$data['title'] = $fd['title'];
-		}
-		$data['feedType'] = $data['type'];
-		
-		// 是否收藏分享
-		if($forApi) {
-			$data['iscoll'] = model('Collection')->getCollection($data['feed_id'],'feed');
-			if(empty($data['iscoll'])) {
-				$data['iscoll']['colled'] = 0;
-			} else {
-				$data['iscoll']['colled'] = 1;
-			}
-		}
+        $userInfo = model('User')->getUserInfo($data['uid']);
+        $data['ctime'] = date('Y-m-d H:i', $data['publish_time']);
+        $data['content'] = $forApi ? parseForApi($fd['body']):$fd['body'];
+        $data['uname'] = $userInfo['uname'];
+        $data['avatar_big'] = $userInfo['avatar_big'];
+        $data['avatar_middle'] = $userInfo['avatar_middle'];
+        $data['avatar_small']  = $userInfo['avatar_small'];
+        unset($data['feed_data']);
+        // 分享转发
+        if ($data['type'] == 'repost') {
+            $data['transpond_id'] = $data['app_row_id'];
+            $data['transpond_data'] = $this->getFeedInfo($data['transpond_id'], $forApi);
+        }
+        // 附件处理
+        if (!empty($fd['attach_id'])) {
+            $data['has_attach'] = 1;
+            $attach = model('Attach')->getAttachByIds($fd['attach_id']);
+            foreach ($attach as $ak => $av) {
+                $_attach = array(
+                            'attach_id'   => $av['attach_id'],
+                            'attach_name' => $av['name'],
+                            'attach_url'  => getImageUrl($av['save_path'].$av['save_name']),
+                            'extension'   => $av['extension'],
+                            'size'          => $av['size']
+                        );
+                if ($data['type'] == 'postimage') {
+                    $_attach['attach_small'] = getImageUrl($av['save_path'].$av['save_name'], 100, 100, true);
+                    $_attach['attach_middle'] = getImageUrl($av['save_path'].$av['save_name'], 740);
+                }
+                $data['attach'][] = $_attach;
+            }
+        } else {
+            $data['has_attach'] = 0;
+        }
+        if ($data['type'] == 'postvideo') {
+            $data['host'] = $fd['host'];
+            $data['flashvar'] = $fd['flashvar'];
+            $data['source'] = $fd['source'];
+            $data['flashimg'] = $fd['flashimg'];
+            $data['title'] = $fd['title'];
+        }
+        $data['feedType'] = $data['type'];
+        
+        // 是否收藏分享
+        if ($forApi) {
+            $data['iscoll'] = model('Collection')->getCollection($data['feed_id'], 'feed');
+            if (empty($data['iscoll'])) {
+                $data['iscoll']['colled'] = 0;
+            } else {
+                $data['iscoll']['colled'] = 1;
+            }
+        }
 
-		// 分享详细信息
-		$feedInfo = $this->get($id);
-		$data['source_body'] = $feedInfo['body'];
-		//一分钟缓存
-		model( 'Cache' )->set( 'group_feed_info_'.$id , $data , 60);
-		return $data;               
+        // 分享详细信息
+        $feedInfo = $this->get($id);
+        $data['source_body'] = $feedInfo['body'];
+        //一分钟缓存
+        model('Cache')->set('group_feed_info_'.$id, $data, 60);
+        return $data;
     }
     /**
      * 分享操作，彻底删除、假删除、回复
@@ -517,59 +530,60 @@ class GroupFeedModel extends Model{
      * @param string $uid 删除分享的用户ID（区别超级管理员）
      * @return array 分享操作后的结果信息数组
      */
-    public function doEditFeed($feed_id, $type, $title ,$uid = null) {
-    	$return = array('status'=>'0');
-    	if(empty($feed_id)) {
-    		//$return['data'] = '分享ID不能为空！';
-    	} else {
-    		$map['feed_id'] = is_array($feed_id) ? array('IN', $feed_id) : intval($feed_id);
-    		$save['is_del'] = $type =='delFeed' ? 1 : 0;
+    public function doEditFeed($feed_id, $type, $title, $uid = null)
+    {
+        $return = array('status'=>'0');
+        if (empty($feed_id)) {
+            //$return['data'] = '分享ID不能为空！';
+        } else {
+            $map['feed_id'] = is_array($feed_id) ? array('IN', $feed_id) : intval($feed_id);
+            $save['is_del'] = $type =='delFeed' ? 1 : 0;
     
-    		if($type == 'deleteFeed') {
-    			$res = $this->where($map)->delete();
-    			// 删除分享相关信息
-    			if($res) {
-    				$this->_deleteFeedAttach($feed_id, 'deleteAttach');
-    			}
-    		} else {
-    			$ids = !is_array($feed_id) ? array($feed_id) : $feed_id;
-    			$feedList = $this->getFeeds($ids);
-    			$res = $this->where($map)->save($save);
-    			if($type == 'feedRecover'){
-//     				// 添加分享数
+            if ($type == 'deleteFeed') {
+                $res = $this->where($map)->delete();
+                // 删除分享相关信息
+                if ($res) {
+                    $this->_deleteFeedAttach($feed_id, 'deleteAttach');
+                }
+            } else {
+                $ids = !is_array($feed_id) ? array($feed_id) : $feed_id;
+                $feedList = $this->getFeeds($ids);
+                $res = $this->where($map)->save($save);
+                if ($type == 'feedRecover') {
+                    //     				// 添加分享数
 //     				foreach($feedList as $v) {
 //     					model('UserData')->setUid($v['user_info']['uid'])->updateKey('feed_count', 1);
 //     					model('UserData')->setUid($v['user_info']['uid'])->updateKey('weibo_count', 1);
 //     				}
-    				$this->_deleteFeedAttach($ids, 'recoverAttach');
-    			} else {
-//     				// 减少分享数
+                    $this->_deleteFeedAttach($ids, 'recoverAttach');
+                } else {
+                    //     				// 减少分享数
 //     				foreach($feedList as $v) {
 //     					model('UserData')->setUid($v['user_info']['uid'])->updateKey('feed_count', -1);
 //     					model('UserData')->setUid($v['user_info']['uid'])->updateKey('weibo_count', -1);
 //     				}
-    				$this->_deleteFeedAttach($ids, 'delAttach');
-    			}
-    			$this->cleanCache($ids); 		// 删除分享缓存信息
-    			// 资源分享缓存相关分享
-    			$sids = $this->where('app_row_id='.$feed_id)->getAsFieldArray('feed_id');
-    			$this->cleanCache($sids);
-    		}
-    		// 删除评论信息
-    		$cmap['app'] = 'group';
-    		$cmap['table'] = 'group_feed';
-    		$cmap['row_id'] = is_array($feed_id) ? array('IN', $feed_id) : intval($feed_id);
-    		$commentIds = D('GroupComment')->where($cmap)->getAsFieldArray('comment_id');
-    		D('GroupComment')->setAppName('group')->setAppTable('group_feed')->deleteComment($commentIds);
-    		if($res) {
-    			// TODO:是否记录知识，以及后期缓存处理
-    			$return = array('status'=>1);
+                    $this->_deleteFeedAttach($ids, 'delAttach');
+                }
+                $this->cleanCache($ids);        // 删除分享缓存信息
+                // 资源分享缓存相关分享
+                $sids = $this->where('app_row_id='.$feed_id)->getAsFieldArray('feed_id');
+                $this->cleanCache($sids);
+            }
+            // 删除评论信息
+            $cmap['app'] = 'group';
+            $cmap['table'] = 'group_feed';
+            $cmap['row_id'] = is_array($feed_id) ? array('IN', $feed_id) : intval($feed_id);
+            $commentIds = D('GroupComment')->where($cmap)->getAsFieldArray('comment_id');
+            D('GroupComment')->setAppName('group')->setAppTable('group_feed')->deleteComment($commentIds);
+            if ($res) {
+                // TODO:是否记录知识，以及后期缓存处理
+                $return = array('status'=>1);
 //     			//添加积分
 //     			model('Credit')->setUserCredit($uid,'delete_weibo');
-    		}
-    	}
+            }
+        }
     
-    	return $return;
+        return $return;
     }
     
     /**
@@ -580,16 +594,16 @@ class GroupFeedModel extends Model{
      */
     private function _deleteFeedAttach($feedIds, $type)
     {
-    	// 查询分享内是否存在附件
-    	$feeddata = $this->getFeeds($feedIds);
-    	$feedDataInfo = getSubByKey($feeddata, 'feed_data');
-    	$attachIds = array();
-    	foreach($feedDataInfo as $value) {
-    		$value = unserialize($value);
-    		!empty($value['attach_id']) && $attachIds = array_merge($attachIds, $value['attach_id']);
-    	}
-    	array_filter($attachIds);
-    	array_unique($attachIds);
-    	!empty($attachIds) && model('Attach')->doEditAttach($attachIds, $type, '');
+        // 查询分享内是否存在附件
+        $feeddata = $this->getFeeds($feedIds);
+        $feedDataInfo = getSubByKey($feeddata, 'feed_data');
+        $attachIds = array();
+        foreach ($feedDataInfo as $value) {
+            $value = unserialize($value);
+            !empty($value['attach_id']) && $attachIds = array_merge($attachIds, $value['attach_id']);
+        }
+        array_filter($attachIds);
+        array_unique($attachIds);
+        !empty($attachIds) && model('Attach')->doEditAttach($attachIds, $type, '');
     }
 }

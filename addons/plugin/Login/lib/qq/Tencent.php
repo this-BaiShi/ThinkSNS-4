@@ -20,7 +20,9 @@ class OAuth
      */
     public static function init($client_id, $client_secret)
     {
-        if (!$client_id || !$client_secret) exit('client_id or client_secret is null');
+        if (!$client_id || !$client_secret) {
+            exit('client_id or client_secret is null');
+        }
         self::$client_id = $client_id;
         self::$client_secret = $client_secret;
     }
@@ -76,7 +78,8 @@ class OAuth
         $url = self::$accessTokenURL.'?'.http_build_query($params);
         $r = Http::request($url);
         parse_str($r, $out);
-        if ($out['access_token']) {//获取成功
+        if ($out['access_token']) {
+            //获取成功
             $_SESSION['t_access_token'] = $out['access_token'];
             $_SESSION['t_refresh_token'] = $out['refresh_token'];
             $_SESSION['t_expire_in'] = $out['expires_in'];
@@ -105,12 +108,24 @@ class OAuth
      */
     public static function clearOAuthInfo()
     {
-        if (isset($_SESSION['t_access_token'])) unset($_SESSION['t_access_token']);
-        if (isset($_SESSION['t_expire_in'])) unset($_SESSION['t_expire_in']);
-        if (isset($_SESSION['t_code'])) unset($_SESSION['t_code']);
-        if (isset($_SESSION['t_openid'])) unset($_SESSION['t_openid']);
-        if (isset($_SESSION['t_openkey'])) unset($_SESSION['t_openkey']);
-        if (isset($_SESSION['t_oauth_version'])) unset($_SESSION['t_oauth_version']);
+        if (isset($_SESSION['t_access_token'])) {
+            unset($_SESSION['t_access_token']);
+        }
+        if (isset($_SESSION['t_expire_in'])) {
+            unset($_SESSION['t_expire_in']);
+        }
+        if (isset($_SESSION['t_code'])) {
+            unset($_SESSION['t_code']);
+        }
+        if (isset($_SESSION['t_openid'])) {
+            unset($_SESSION['t_openid']);
+        }
+        if (isset($_SESSION['t_openkey'])) {
+            unset($_SESSION['t_openkey']);
+        }
+        if (isset($_SESSION['t_oauth_version'])) {
+            unset($_SESSION['t_oauth_version']);
+        }
     }
 }
 
@@ -138,7 +153,8 @@ class Tencent
      */
     public static function api($command, $params = array(), $method = 'GET', $multi = false)
     {
-        if (isset($_SESSION['t_access_token'])) {//OAuth 2.0 方式
+        if (isset($_SESSION['t_access_token'])) {
+            //OAuth 2.0 方式
             //鉴权参数
             $params['access_token'] = $_SESSION['t_access_token'];
             $params['oauth_consumer_key'] = OAuth::$client_id;
@@ -151,7 +167,8 @@ class Tencent
             $params['serverip'] = $_SERVER['SERVER_ADDR'];
             
             $url = self::$apiUrlHttps.trim($command, '/');
-        } elseif (isset($_SESSION['t_openid']) && isset($_SESSION['t_openkey'])) {//openid & openkey方式
+        } elseif (isset($_SESSION['t_openid']) && isset($_SESSION['t_openkey'])) {
+            //openid & openkey方式
             $params['appid'] = OAuth::$client_id;
             $params['openid'] = $_SESSION['t_openid'];
             $params['openkey'] = $_SESSION['t_openkey'];
@@ -200,9 +217,11 @@ class Http
      * @param $extheaders 扩展的包头信息
      * @return string
      */
-    public static function request( $url , $params = array(), $method = 'GET' , $multi = false, $extheaders = array())
+    public static function request($url, $params = array(), $method = 'GET', $multi = false, $extheaders = array())
     {
-        if(!function_exists('curl_init')) exit('Need to open the curl extension');
+        if (!function_exists('curl_init')) {
+            exit('Need to open the curl extension');
+        }
         $method = strtoupper($method);
         $ci = curl_init();
         curl_setopt($ci, CURLOPT_USERAGENT, 'PHP-SDK OAuth2.0');
@@ -214,23 +233,17 @@ class Http
         curl_setopt($ci, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ci, CURLOPT_HEADER, false);
         $headers = (array)$extheaders;
-        switch ($method)
-        {
+        switch ($method) {
             case 'POST':
-                curl_setopt($ci, CURLOPT_POST, TRUE);
-                if (!empty($params))
-                {
-                    if($multi)
-                    {
-                        foreach($multi as $key => $file)
-                        {
+                curl_setopt($ci, CURLOPT_POST, true);
+                if (!empty($params)) {
+                    if ($multi) {
+                        foreach ($multi as $key => $file) {
                             $params[$key] = '@' . $file;
                         }
                         curl_setopt($ci, CURLOPT_POSTFIELDS, $params);
                         $headers[] = 'Expect: ';
-                    }
-                    else
-                    {
+                    } else {
                         curl_setopt($ci, CURLOPT_POSTFIELDS, http_build_query($params));
                     }
                 }
@@ -238,22 +251,20 @@ class Http
             case 'DELETE':
             case 'GET':
                 $method == 'DELETE' && curl_setopt($ci, CURLOPT_CUSTOMREQUEST, 'DELETE');
-                if (!empty($params))
-                {
+                if (!empty($params)) {
                     $url = $url . (strpos($url, '?') ? '&' : '?')
                         . (is_array($params) ? http_build_query($params) : $params);
                 }
                 break;
         }
-        curl_setopt($ci, CURLINFO_HEADER_OUT, TRUE );
+        curl_setopt($ci, CURLINFO_HEADER_OUT, true);
         curl_setopt($ci, CURLOPT_URL, $url);
-        if($headers)
-        {
-            curl_setopt($ci, CURLOPT_HTTPHEADER, $headers );
+        if ($headers) {
+            curl_setopt($ci, CURLOPT_HTTPHEADER, $headers);
         }
 
         $response = curl_exec($ci);
-        curl_close ($ci);
+        curl_close($ci);
         return $response;
     }
 }
@@ -268,16 +279,17 @@ class Common
     //获取客户端IP
     public static function getClientIp()
     {
-        if (getenv ( "HTTP_CLIENT_IP" ) && strcasecmp ( getenv ( "HTTP_CLIENT_IP" ), "unknown" ))
-            $ip = getenv ( "HTTP_CLIENT_IP" );
-        else if (getenv ( "HTTP_X_FORWARDED_FOR" ) && strcasecmp ( getenv ( "HTTP_X_FORWARDED_FOR" ), "unknown" ))
-            $ip = getenv ( "HTTP_X_FORWARDED_FOR" );
-        else if (getenv ( "REMOTE_ADDR" ) && strcasecmp ( getenv ( "REMOTE_ADDR" ), "unknown" ))
-            $ip = getenv ( "REMOTE_ADDR" );
-        else if (isset ( $_SERVER ['REMOTE_ADDR'] ) && $_SERVER ['REMOTE_ADDR'] && strcasecmp ( $_SERVER ['REMOTE_ADDR'], "unknown" ))
+        if (getenv("HTTP_CLIENT_IP") && strcasecmp(getenv("HTTP_CLIENT_IP"), "unknown")) {
+            $ip = getenv("HTTP_CLIENT_IP");
+        } elseif (getenv("HTTP_X_FORWARDED_FOR") && strcasecmp(getenv("HTTP_X_FORWARDED_FOR"), "unknown")) {
+            $ip = getenv("HTTP_X_FORWARDED_FOR");
+        } elseif (getenv("REMOTE_ADDR") && strcasecmp(getenv("REMOTE_ADDR"), "unknown")) {
+            $ip = getenv("REMOTE_ADDR");
+        } elseif (isset($_SERVER ['REMOTE_ADDR']) && $_SERVER ['REMOTE_ADDR'] && strcasecmp($_SERVER ['REMOTE_ADDR'], "unknown")) {
             $ip = $_SERVER ['REMOTE_ADDR'];
-        else
+        } else {
             $ip = "unknown";
+        }
         return ($ip);
     }
 }
@@ -296,23 +308,23 @@ class SnsSign
      * @param array     $params 表单参数
      * @param string    $secret 密钥
      */
-    public static function makeSig($method, $url_path, $params, $secret) 
+    public static function makeSig($method, $url_path, $params, $secret)
     {
-        $mk = self::makeSource ( $method, $url_path, $params );
-        $my_sign = hash_hmac ( "sha1", $mk, strtr ( $secret, '-_', '+/' ), true );
-        $my_sign = base64_encode ( $my_sign );
+        $mk = self::makeSource($method, $url_path, $params);
+        $my_sign = hash_hmac("sha1", $mk, strtr($secret, '-_', '+/'), true);
+        $my_sign = base64_encode($my_sign);
         return $my_sign;
     }
     
-    private static function makeSource($method, $url_path, $params) 
+    private static function makeSource($method, $url_path, $params)
     {
-        ksort ( $params );
-        $strs = strtoupper($method) . '&' . rawurlencode ( $url_path ) . '&';
-        $str = ""; 
-        foreach ( $params as $key => $val ) { 
+        ksort($params);
+        $strs = strtoupper($method) . '&' . rawurlencode($url_path) . '&';
+        $str = "";
+        foreach ($params as $key => $val) {
             $str .= "$key=$val&";
-        }   
-        $strc = substr ( $str, 0, strlen ( $str ) - 1 );
-        return $strs . rawurlencode ( $strc );
+        }
+        $strc = substr($str, 0, strlen($str) - 1);
+        return $strs . rawurlencode($strc);
     }
 }

@@ -1,3 +1,4 @@
 <?php
-if (!defined('SITE_PATH')) exit();
-
+if (!defined('SITE_PATH')) {
+    exit();
+}

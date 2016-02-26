@@ -6,21 +6,21 @@
  */
 abstract class Hooks
 {
-	protected $mid;                // 登录用户ID
-	protected $model;              // 插件数据模型对象
-	protected $tVar;               // 模板变量
+    protected $mid;                // 登录用户ID
+    protected $model;              // 插件数据模型对象
+    protected $tVar;               // 模板变量
     protected $path;               // 插件路径
     protected $htmlPath;           // 插件HTML路径
 
     /**
      * 初始化相关信息
      */
-	public function __construct()
-	{
-		$this->mid = $_SESSION['mid'];
-		$this->model = model('AddonData');
-		$this->tVar = array();
-	}
+    public function __construct()
+    {
+        $this->mid = $_SESSION['mid'];
+        $this->model = model('AddonData');
+        $this->tVar = array();
+    }
 
     /**
      * 设置该插件的路径，不能进行重写
@@ -28,14 +28,14 @@ abstract class Hooks
      * @param boolean $html 是否为HTML路径，默认为false
      * @return void
      */
-	public final function setPath($path, $html = false)
+    final public function setPath($path, $html = false)
     {
-        if($html) {
-		    $this->htmlPath = $path;
+        if ($html) {
+            $this->htmlPath = $path;
         } else {
-		    $this->path = $path;
+            $this->path = $path;
         }
-	}
+    }
 
     /**
      * 将数据渲染到HTML页面，设置模板变量的值
@@ -57,7 +57,7 @@ abstract class Hooks
      */
     public function fetch($templateFile = '', $charset = 'utf-8', $contentType = 'text/html')
     {
-        if(!is_file($templateFile)) {
+        if (!is_file($templateFile)) {
             $templateFile = realpath($this->path.DIRECTORY_SEPARATOR."html".DIRECTORY_SEPARATOR.$templateFile.'.html');
         }
 
@@ -114,29 +114,31 @@ abstract class Hooks
         unset($GLOBALS['ts']['ad']);
 
         // 提示标题
-        $this->assign('msgTitle',$status? L('_OPERATION_SUCCESS_') : L('_OPERATION_FAIL_'));
-        $this->assign('status',$status);   // 状态
-        $this->assign('message',$message);// 提示信息
+        $this->assign('msgTitle', $status? L('_OPERATION_SUCCESS_') : L('_OPERATION_FAIL_'));
+        $this->assign('status', $status);   // 状态
+        $this->assign('message', $message);// 提示信息
         //保证输出不受静态缓存影响
-        C('HTML_CACHE_ON',false);
-        if($status) { //发送成功信息
+        C('HTML_CACHE_ON', false);
+        if ($status) { //发送成功信息
             // 成功操作后默认停留1秒
-            $this->assign('waitSecond',"1");
+            $this->assign('waitSecond', "1");
             // 默认操作成功自动返回操作前页面            
             //if(!$this->get('jumpUrl')) 
-                $this->assign("jumpUrl",$_SERVER["HTTP_REFERER"]);
+                $this->assign("jumpUrl", $_SERVER["HTTP_REFERER"]);
              
             echo $this->fetch(THEME_PATH.'/success.html');
-        }else{
+        } else {
             //发生错误时候默认停留3秒
-            $this->assign('waitSecond',"5");
+            $this->assign('waitSecond', "5");
             // 默认发生错误的话自动返回上页
             //if(!$this->get('jumpUrl'))  
-                $this->assign('jumpUrl',"javascript:history.back(-1);");
+                $this->assign('jumpUrl', "javascript:history.back(-1);");
 
             echo $this->fetch(THEME_PATH.'/success.html');
         }
-        if(C('LOG_RECORD')) Log::save();
+        if (C('LOG_RECORD')) {
+            Log::save();
+        }
         // 中止执行  避免出错后继续执行
         exit ;
     }
@@ -147,10 +149,10 @@ abstract class Hooks
      * @param string $class 类名后缀，默认为Model
      * @return object 返回一个模型对象
      */
-	protected function model($name, $class = "Model")
-	{
-		$className = ucfirst($name).$class;
+    protected function model($name, $class = "Model")
+    {
+        $className = ucfirst($name).$class;
         tsload($this->path.DIRECTORY_SEPARATOR.$className.'.class.php');
-		return new $className();
-	}
+        return new $className();
+    }
 }

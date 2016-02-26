@@ -21,8 +21,9 @@ require_once "Google_MemcacheCache.php";
  *
  * @author Chris Chabot <chabotc@google.com>
  */
-abstract class Google_Cache {
-  /**
+abstract class Google_Cache
+{
+    /**
    * Retrieves the data for the given key, or false if they
    * key is unknown or expired
    *
@@ -30,7 +31,7 @@ abstract class Google_Cache {
    * @param boolean|int $expiration Expiration time in seconds
    *
    */
-  abstract function get($key, $expiration = false);
+  abstract public function get($key, $expiration = false);
   /**
    * Store the key => $value set. The $value is serialized
    * by this function so can be of any type
@@ -38,11 +39,11 @@ abstract class Google_Cache {
    * @param string $key Key of the data
    * @param string $value data
    */
-  abstract function set($key, $value);
+  abstract public function set($key, $value);
   /**
    * Removes the key/data pair for the given $key
    *
    * @param String $key
    */
-  abstract function delete($key);
+  abstract public function delete($key);
 }

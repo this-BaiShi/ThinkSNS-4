@@ -23,12 +23,13 @@ defined('THINK_PATH') or exit();
  * @subpackage  Driver.Session
  * @author    liu21st <liu21st@gmail.com>
  */
-class SessionDb {
+class SessionDb
+{
 
     /**
      * Session有效时间
      */
-   protected $lifeTime      = ''; 
+   protected $lifeTime      = '';
 
     /**
      * session保存的数据库名
@@ -38,7 +39,7 @@ class SessionDb {
     /**
      * 数据库句柄
      */
-   protected $hander  = array(); 
+   protected $hander  = array();
 
     /**
      * 打开Session 
@@ -46,23 +47,25 @@ class SessionDb {
      * @param string $savePath 
      * @param mixed $sessName  
      */
-    public function open($savePath, $sessName) { 
-       $this->lifeTime = C('SESSION_EXPIRE')?C('SESSION_EXPIRE'):ini_get('session.gc_maxlifetime');
-       $this->sessionTable  =   C('SESSION_TABLE')?C('SESSION_TABLE'):C("DB_PREFIX")."session";
+    public function open($savePath, $sessName)
+    {
+        $this->lifeTime = C('SESSION_EXPIRE')?C('SESSION_EXPIRE'):ini_get('session.gc_maxlifetime');
+        $this->sessionTable  =   C('SESSION_TABLE')?C('SESSION_TABLE'):C("DB_PREFIX")."session";
        //分布式数据库
-       $host = explode(',',C('DB_HOST'));
-       $port = explode(',',C('DB_PORT'));
-       $name = explode(',',C('DB_NAME'));
-       $user = explode(',',C('DB_USER'));
-       $pwd  = explode(',',C('DB_PWD'));
-       if(1 == C('DB_DEPLOY_TYPE')){
-           //读写分离
-           if(C('DB_RW_SEPARATE')){
-               $w = floor(mt_rand(0,C('DB_MASTER_NUM')-1));
-               if(is_numeric(C('DB_SLAVE_NO'))){//指定服务器读
+       $host = explode(',', C('DB_HOST'));
+        $port = explode(',', C('DB_PORT'));
+        $name = explode(',', C('DB_NAME'));
+        $user = explode(',', C('DB_USER'));
+        $pwd  = explode(',', C('DB_PWD'));
+        if (1 == C('DB_DEPLOY_TYPE')) {
+            //读写分离
+           if (C('DB_RW_SEPARATE')) {
+               $w = floor(mt_rand(0, C('DB_MASTER_NUM')-1));
+               if (is_numeric(C('DB_SLAVE_NO'))) {
+                   //指定服务器读
                    $r = C('DB_SLAVE_NO');
-               }else{
-                   $r = floor(mt_rand(C('DB_MASTER_NUM'),count($host)-1));
+               } else {
+                   $r = floor(mt_rand(C('DB_MASTER_NUM'), count($host)-1));
                }
                //主数据库链接
                $hander = mysql_connect(
@@ -71,10 +74,10 @@ class SessionDb {
                    isset($pwd[$w])?$pwd[$w]:$pwd[0]
                    );
                $dbSel = mysql_select_db(
-                   isset($name[$w])?$name[$w]:$name[0]
-                   ,$hander);
-               if(!$hander || !$dbSel)
+                   isset($name[$w])?$name[$w]:$name[0], $hander);
+               if (!$hander || !$dbSel) {
                    return false;
+               }
                $this->hander[0] = $hander;
                //从数据库链接
                $hander = mysql_connect(
@@ -83,57 +86,59 @@ class SessionDb {
                    isset($pwd[$r])?$pwd[$r]:$pwd[0]
                    );
                $dbSel = mysql_select_db(
-                   isset($name[$r])?$name[$r]:$name[0]
-                   ,$hander);
-               if(!$hander || !$dbSel)
+                   isset($name[$r])?$name[$r]:$name[0], $hander);
+               if (!$hander || !$dbSel) {
                    return false;
+               }
                $this->hander[1] = $hander;
                return true;
            }
-       }
+        }
        //从数据库链接
-       $r = floor(mt_rand(0,count($host)-1));
-       $hander = mysql_connect(
+       $r = floor(mt_rand(0, count($host)-1));
+        $hander = mysql_connect(
            $host[$r].(isset($port[$r])?':'.$port[$r]:':'.$port[0]),
            isset($user[$r])?$user[$r]:$user[0],
            isset($pwd[$r])?$pwd[$r]:$pwd[0]
            );
-       $dbSel = mysql_select_db(
-           isset($name[$r])?$name[$r]:$name[0]
-           ,$hander);
-       if(!$hander || !$dbSel) 
-           return false; 
-       $this->hander = $hander; 
-       return true; 
-    } 
+        $dbSel = mysql_select_db(
+           isset($name[$r])?$name[$r]:$name[0], $hander);
+        if (!$hander || !$dbSel) {
+            return false;
+        }
+        $this->hander = $hander;
+        return true;
+    }
 
     /**
      * 关闭Session 
      * @access public 
      */
-   public function close() {
-       if(is_array($this->hander)){
+   public function close()
+   {
+       if (is_array($this->hander)) {
            $this->gc($this->lifeTime);
            return (mysql_close($this->hander[0]) && mysql_close($this->hander[1]));
        }
-       $this->gc($this->lifeTime); 
-       return mysql_close($this->hander); 
-   } 
+       $this->gc($this->lifeTime);
+       return mysql_close($this->hander);
+   }
 
     /**
      * 读取Session 
      * @access public 
      * @param string $sessID 
      */
-   public function read($sessID) { 
+   public function read($sessID)
+   {
        $hander = is_array($this->hander)?$this->hander[1]:$this->hander;
-       $res = mysql_query("SELECT session_data AS data FROM ".$this->sessionTable." WHERE session_id = '$sessID'   AND session_expire >".time(),$hander); 
-       if($res) {
+       $res = mysql_query("SELECT session_data AS data FROM ".$this->sessionTable." WHERE session_id = '$sessID'   AND session_expire >".time(), $hander);
+       if ($res) {
            $row = mysql_fetch_assoc($res);
-           return $row['data']; 
+           return $row['data'];
        }
-       return ""; 
-   } 
+       return "";
+   }
 
     /**
      * 写入Session 
@@ -141,49 +146,55 @@ class SessionDb {
      * @param string $sessID 
      * @param String $sessData  
      */
-   public function write($sessID,$sessData) { 
+   public function write($sessID, $sessData)
+   {
        $hander = is_array($this->hander)?$this->hander[0]:$this->hander;
-       $expire = time() + $this->lifeTime; 
-       mysql_query("REPLACE INTO  ".$this->sessionTable." (  session_id, session_expire, session_data)  VALUES( '$sessID', '$expire',  '$sessData')",$hander); 
-       if(mysql_affected_rows($hander)) 
-           return true; 
-       return false; 
-   } 
+       $expire = time() + $this->lifeTime;
+       mysql_query("REPLACE INTO  ".$this->sessionTable." (  session_id, session_expire, session_data)  VALUES( '$sessID', '$expire',  '$sessData')", $hander);
+       if (mysql_affected_rows($hander)) {
+           return true;
+       }
+       return false;
+   }
 
     /**
      * 删除Session 
      * @access public 
      * @param string $sessID 
      */
-   public function destroy($sessID) { 
+   public function destroy($sessID)
+   {
        $hander = is_array($this->hander)?$this->hander[0]:$this->hander;
-       mysql_query("DELETE FROM ".$this->sessionTable." WHERE session_id = '$sessID'",$hander); 
-       if(mysql_affected_rows($hander)) 
-           return true; 
-       return false; 
-   } 
+       mysql_query("DELETE FROM ".$this->sessionTable." WHERE session_id = '$sessID'", $hander);
+       if (mysql_affected_rows($hander)) {
+           return true;
+       }
+       return false;
+   }
 
     /**
      * Session 垃圾回收
      * @access public 
      * @param string $sessMaxLifeTime 
      */
-   public function gc($sessMaxLifeTime) { 
+   public function gc($sessMaxLifeTime)
+   {
        $hander = is_array($this->hander)?$this->hander[0]:$this->hander;
-       mysql_query("DELETE FROM ".$this->sessionTable." WHERE session_expire < ".time(),$hander); 
-       return mysql_affected_rows($hander); 
-   } 
+       mysql_query("DELETE FROM ".$this->sessionTable." WHERE session_expire < ".time(), $hander);
+       return mysql_affected_rows($hander);
+   }
 
     /**
      * 打开Session 
      * @access public 
      */
-    public function execute() {
-        session_set_save_handler(array(&$this,"open"), 
-                         array(&$this,"close"), 
-                         array(&$this,"read"), 
-                         array(&$this,"write"), 
-                         array(&$this,"destroy"), 
-                         array(&$this,"gc")); 
+    public function execute()
+    {
+        session_set_save_handler(array(&$this, "open"),
+                         array(&$this, "close"),
+                         array(&$this, "read"),
+                         array(&$this, "write"),
+                         array(&$this, "destroy"),
+                         array(&$this, "gc"));
     }
 }

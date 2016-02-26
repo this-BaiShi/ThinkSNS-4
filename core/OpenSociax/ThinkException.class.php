@@ -22,7 +22,8 @@
  +------------------------------------------------------------------------------
  */
 class ThinkException extends Exception
-{//类定义开始
+{
+    //类定义开始
 
     /**
      +----------------------------------------------------------
@@ -46,9 +47,9 @@ class ThinkException extends Exception
      * @param string $message  异常信息
      +----------------------------------------------------------
      */
-    public function __construct($message,$code=0,$extra=false)
+    public function __construct($message, $code=0, $extra=false)
     {
-        parent::__construct($message,$code);
+        parent::__construct($message, $code);
         $this->type = get_class($this);
         $this->extra = $extra;
     }
@@ -67,9 +68,10 @@ class ThinkException extends Exception
     public function __toString()
     {
         $trace = $this->getTrace();
-        if($this->extra)
+        if ($this->extra) {
             // 通过throw_exception抛出的异常要去掉多余的调试信息
             array_shift($trace);
+        }
         $this->class = $trace[0]['class'];
         $this->function = $trace[0]['function'];
         $this->file = $trace[0]['file'];
@@ -77,7 +79,7 @@ class ThinkException extends Exception
         $file   =   file($this->file);
         $traceInfo='';
         $time = date("y-m-d H:i:m");
-        foreach($trace as $t) {
+        foreach ($trace as $t) {
             $traceInfo .= '['.$time.'] '.$t['file'].' ('.$t['line'].') ';
             $traceInfo .= $t['class'].$t['type'].$t['function'].'(';
             $traceInfo .= implode(', ', $t['args']);
@@ -102,6 +104,5 @@ class ThinkException extends Exception
 
         return $error ;
     }
-
 }//类定义结束
-?>
+;

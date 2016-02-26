@@ -5,7 +5,8 @@
  * @author liuxiaoqing <liuxiaoqing@zhishisoft.com>
  * @version TS3.0
  */
-class AccountAction extends Action {
+class AccountAction extends Action
+{
 
     private $_profile_model; // 用户档案模型对象字段
 
@@ -15,7 +16,8 @@ class AccountAction extends Action {
      * @return void
      */
 
-    protected function _initialize() {
+    protected function _initialize()
+    {
         $this->_profile_model = model('UserProfile');
         // 从数据库读取
         $profile_category_list = $this->_profile_model->getCategoryList();
@@ -81,7 +83,7 @@ class AccountAction extends Action {
             'field_key' => 'invite',
             'field_name' => '链接邀请'
         ); // 链接邀请
-        
+
         $this->assign('tab_list', $tab_list);
         $this->assign('tab_list_score', $tab_list_score);
         $this->assign('tab_list_preference', $tab_list_preference);
@@ -92,7 +94,8 @@ class AccountAction extends Action {
     /**
      * 基本设置页面
      */
-    public function index() {
+    public function index()
+    {
         $this->appCssList [] = 'account.css';
         $user_info = model('User')->getUserInfo($this->mid);
         $data = $this->_getUserProfile();
@@ -122,7 +125,8 @@ class AccountAction extends Action {
      * @param string $extend
      *        	扩展类目名称(为插件准备)
      */
-    public function _empty($extend) {
+    public function _empty($extend)
+    {
         $cid = D('user_profile_setting')->where("field_key='" . ACTION_NAME . "'")->getField('field_id');
         $data = $this->_getUserProfile();
         $data ['cid'] = $cid;
@@ -135,7 +139,8 @@ class AccountAction extends Action {
      *
      * @return 登录用户的档案信息
      */
-    private function _getUserProfile() {
+    private function _getUserProfile()
+    {
         $data ['user_profile'] = $this->_profile_model->getUserProfile($this->mid);
         $data ['user_profile_setting'] = $this->_profile_model->getUserProfileSettingTree();
 
@@ -147,7 +152,8 @@ class AccountAction extends Action {
      *
      * @return json 返回操作后的JSON信息数据
      */
-    public function doSaveProfile() {
+    public function doSaveProfile()
+    {
         $res = true;
         // 保存用户表信息
         if (!empty($_POST ['sex'])) {
@@ -209,17 +215,17 @@ class AccountAction extends Action {
         $tagIds = t($_REQUEST ['user_tags']);
         // 注册配置信息
         $this->_config = model('Xdata')->get('admin_Config:register');
-        if(!empty($tagIds)){
-        	$tagIds = explode(',', $tagIds);
-        	$rowId = intval($this->mid);
-        	if (!empty($rowId)) {
-        		$registerConfig = model('Xdata')->get('admin_Config:register');
-        		if (count($tagIds) > $registerConfig ['tag_num']) {
-        			return $this->ajaxReturn(null, '最多只能设置' . $registerConfig ['tag_num'] . '个标签', false);
-        		}
-        		model('Tag')->setAppName('public')->setAppTable('user')->updateTagData($rowId, $tagIds);
-        	}
-        }else if(empty($tagIds) && isset($_REQUEST['user_tags'])){
+        if (!empty($tagIds)) {
+            $tagIds = explode(',', $tagIds);
+            $rowId = intval($this->mid);
+            if (!empty($rowId)) {
+                $registerConfig = model('Xdata')->get('admin_Config:register');
+                if (count($tagIds) > $registerConfig ['tag_num']) {
+                    return $this->ajaxReturn(null, '最多只能设置' . $registerConfig ['tag_num'] . '个标签', false);
+                }
+                model('Tag')->setAppName('public')->setAppTable('user')->updateTagData($rowId, $tagIds);
+            }
+        } elseif (empty($tagIds) && isset($_REQUEST['user_tags'])) {
             return $this->ajaxReturn(null, '请至少选择一个标签', false);
         }
         $result = $this->ajaxReturn(null, $this->_profile_model->getError(), $res);
@@ -229,7 +235,8 @@ class AccountAction extends Action {
     /**
      * 头像设置页面
      */
-    public function avatar() {
+    public function avatar()
+    {
         model('User')->cleanCache($this->mid);
         $user_info = model('User')->getUserInfo($this->mid);
         $this->assign('user_info', $user_info);
@@ -256,14 +263,15 @@ class AccountAction extends Action {
      *
      * @return json 返回操作后的JSON信息数据
      */
-    public function doSaveAvatar() {
+    public function doSaveAvatar()
+    {
         $dAvatar = model('Avatar');
         $dAvatar->init($this->mid); // 初始化Model用户id
         // 安全过滤
         $step = t($_GET ['step']);
         if ('upload' == $step) {
             $result = $dAvatar->upload();
-        } else if ('save' == $step) {
+        } elseif ('save' == $step) {
             $result = $dAvatar->dosave();
         }
         model('User')->cleanCache($this->mid);
@@ -280,14 +288,15 @@ class AccountAction extends Action {
      *
      * @return json 返回操作后的JSON信息数据
      */
-    public function doSaveAvatars() {
+    public function doSaveAvatars()
+    {
         $dAvatar = model('Avatar');
         $dAvatar->init($this->mid); // 初始化Model用户id
         // 安全过滤
         $step = t($_GET ['step']);
         if ('upload' == $step) {
             $result = $dAvatar->uploadAvatars();
-        } else if ('save' == $step) {
+        } elseif ('save' == $step) {
             $result = $dAvatar->dosaveAvatars();
         }
         model('User')->cleanCache($this->mid);
@@ -299,7 +308,8 @@ class AccountAction extends Action {
      *
      * @return string 操作后的反馈信息
      */
-    public function doSaveUploadAvatar() {
+    public function doSaveUploadAvatar()
+    {
         $data ['big'] = base64_decode($_POST ['png1']);
         $data ['middle'] = base64_decode($_POST ['png2']);
         $data ['small'] = base64_decode($_POST ['png3']);
@@ -316,7 +326,8 @@ class AccountAction extends Action {
     /**
      * 标签设置页面
      */
-    public function tag() {
+    public function tag()
+    {
         $registerConfig = model('Xdata')->get('admin_Config:register');
         $this->assign('tag_num', $registerConfig ['tag_num']);
         $this->display();
@@ -325,7 +336,8 @@ class AccountAction extends Action {
     /**
      * 隐私设置页面
      */
-    public function privacy() {
+    public function privacy()
+    {
         $user_privacy = D('UserPrivacy')->getUserSet($this->mid);
         $this->assign('user_privacy', $user_privacy);
 
@@ -352,7 +364,8 @@ class AccountAction extends Action {
      *
      * @return json 返回操作后的JSON信息数据
      */
-    public function doSavePrivacy() {
+    public function doSavePrivacy()
+    {
         // dump($_POST);exit;
         $res = model('UserPrivacy')->dosave($this->mid, $_POST);
         $this->ajaxReturn(null, model('UserPrivacy')->getError(), $res);
@@ -361,7 +374,8 @@ class AccountAction extends Action {
     /**
      * 个性域名设置页面
      */
-    public function domain() {
+    public function domain()
+    {
         // 是否启用个性化域名
         $user = model('User')->getUserInfo($this->mid);
         $data ['user_domain'] = $user ['domain'];
@@ -389,7 +403,8 @@ class AccountAction extends Action {
      *
      * @return json 返回操作后的JSON信息数据
      */
-    public function doSaveDomain() {
+    public function doSaveDomain()
+    {
         $domain = t($_POST ['domain']);
         // 验证信息
         if (strlen($domain) < 5) {
@@ -428,7 +443,8 @@ class AccountAction extends Action {
     /**
      * 账号安全设置页面
      */
-    public function security() {
+    public function security()
+    {
         $user = model('User')->getUserInfo($this->mid);
         $mobile = $user ['phone'];
         $email = $user ['email'];
@@ -465,7 +481,8 @@ class AccountAction extends Action {
      *
      * @return json 返回操作后的JSON信息数据
      */
-    public function doModifyPassword() {
+    public function doModifyPassword()
+    {
         $_POST ['oldpassword'] = t($_POST ['oldpassword']);
         $_POST ['password'] = t($_POST ['password']);
         $_POST ['repassword'] = t($_POST ['repassword']);
@@ -512,7 +529,8 @@ class AccountAction extends Action {
      *
      * @return void
      */
-    public function authenticate() {
+    public function authenticate()
+    {
         $auType = model('UserGroup')->where('is_authenticate=1')->findall();
         $this->assign('auType', $auType);
         $verifyInfo = D('user_verified')->where('uid=' . $this->mid)->find();
@@ -612,18 +630,21 @@ class AccountAction extends Action {
      *
      * @return void
      */
-    public function doAuthenticate() {
-		//检查认证类型
+    public function doAuthenticate()
+    {
+        //检查认证类型
         $data ['usergroup_id'] = intval($_POST ['usergroup_id']);
-		$hasUserGroup = model('UserGroup')->where(array('user_group_id'=>$data ['usergroup_id'], 'is_authenticate'=>1))->count() > 0;
-        if (!$hasUserGroup) exit('认证的分类不存在');
-		//检查认证分类
-		$data['user_verified_category_id'] = intval($_POST['verifiedCategory']);
-		$hasVCatId = D('user_verified_category')->where("pid={$data['usergroup_id']} and user_verified_category_id={$data['user_verified_category_id']}")->count() > 0;
-		if(!$hasVCatId) {
-			$data['user_verified_category_id'] = 0;
-		}
-		//取得认证信息
+        $hasUserGroup = model('UserGroup')->where(array('user_group_id'=>$data ['usergroup_id'], 'is_authenticate'=>1))->count() > 0;
+        if (!$hasUserGroup) {
+            exit('认证的分类不存在');
+        }
+        //检查认证分类
+        $data['user_verified_category_id'] = intval($_POST['verifiedCategory']);
+        $hasVCatId = D('user_verified_category')->where("pid={$data['usergroup_id']} and user_verified_category_id={$data['user_verified_category_id']}")->count() > 0;
+        if (!$hasVCatId) {
+            $data['user_verified_category_id'] = 0;
+        }
+        //取得认证信息
         $data ['company']   = trim(t($_POST ['company']));
         $data ['realname']  = trim(t($_POST ['realname']));
         $data ['idcard']    = trim(t($_POST ['idcard']));
@@ -637,31 +658,39 @@ class AccountAction extends Action {
         $Regx3 = '/^[A-Za-z|\x{4e00}-\x{9fa5}]+$/u';
 
         if ($data ['usergroup_id'] == 6) {
-            if (!$data['company'])  exit('机构名称不能为空');
+            if (!$data['company']) {
+                exit('机构名称不能为空');
+            }
         }
-		if (!$data['realname']) exit(($data['usergroup_id']==5?'负责人':'真实').'姓名不能为空');
-		if (!$data['idcard'])   exit('身份证号码不能为空');
-		if (!$data['phone'])    exit('联系方式不能为空');
-		if (preg_match($Regx3, $data ['realname'])==0 || strlen($data ['realname'])>30) {
-			exit('请输入正确的姓名格式');
-		}
-		if (preg_match($Regx2, $data ['idcard']) == 0 || preg_match($Regx1, substr($data ['idcard'], 0, 17)) == 0 || strlen($data ['idcard']) !== 18) {
-			exit('请输入正确的身份证号码');
-		}
-		if (preg_match($Regx1, $data ['phone']) == 0) {
-			exit('请输入正确的手机号码格式');
-		}
+        if (!$data['realname']) {
+            exit(($data['usergroup_id']==5?'负责人':'真实').'姓名不能为空');
+        }
+        if (!$data['idcard']) {
+            exit('身份证号码不能为空');
+        }
+        if (!$data['phone']) {
+            exit('联系方式不能为空');
+        }
+        if (preg_match($Regx3, $data ['realname'])==0 || strlen($data ['realname'])>30) {
+            exit('请输入正确的姓名格式');
+        }
+        if (preg_match($Regx2, $data ['idcard']) == 0 || preg_match($Regx1, substr($data ['idcard'], 0, 17)) == 0 || strlen($data ['idcard']) !== 18) {
+            exit('请输入正确的身份证号码');
+        }
+        if (preg_match($Regx1, $data ['phone']) == 0) {
+            exit('请输入正确的手机号码格式');
+        }
         preg_match_all('/./us', $data ['reason'], $matchs); // 一个汉字也为一个字符
         if (count($matchs [0]) > 255) {
             exit('认证补充不能超过255个字符');
         }
         preg_match_all('/./us', $data['info'], $match); //一个汉字也为一个字符
-        if(count($match[0]) > 140){
-        	exit('认证资料不能超过255个字符');
+        if (count($match[0]) > 140) {
+            exit('认证资料不能超过255个字符');
         }
 
-		$data ['verified'] = 0; //认证状态为未认证
-		$verifyInfo = D('user_verified')->where('uid=' . $this->mid)->count() > 0;
+        $data ['verified'] = 0; //认证状态为未认证
+        $verifyInfo = D('user_verified')->where('uid=' . $this->mid)->count() > 0;
         if ($verifyInfo) {
             $res = D('user_verified')->where('uid=' . $this->mid)->save($data);
         } else {
@@ -674,7 +703,8 @@ class AccountAction extends Action {
             foreach ($touid as $k => $v) {
                 model('Notify')->sendNotify($v ['uid'], 'verify_audit');
             }
-            echo '1'; exit;
+            echo '1';
+            exit;
         } else {
             exit('认证信息提交失败');
         }
@@ -685,7 +715,8 @@ class AccountAction extends Action {
      *
      * @return bool 操作是否成功 1:成功 0:失败
      */
-    public function delverify() {
+    public function delverify()
+    {
         $verified_group_id = D('user_verified')->where('uid=' . $this->mid)->getField('usergroup_id');
         $res = D('user_verified')->where('uid=' . $this->mid)->delete();
         $res2 = D('user_group_link')->where('uid=' . $this->mid . ' and user_group_id=' . $verified_group_id)->delete();
@@ -705,7 +736,8 @@ class AccountAction extends Action {
      *
      * @return void
      */
-    public function blacklist() {
+    public function blacklist()
+    {
         $user = model('User')->getUserInfo($this->mid);
         $this->setTitle('黑名单');
         $this->setKeywords('黑名单');
@@ -729,7 +761,8 @@ class AccountAction extends Action {
      *
      * @return void
      */
-    public function notify() {
+    public function notify()
+    {
         $user_privacy = D('UserPrivacy')->getUserSet($this->mid);
         $this->assign('user_privacy', $user_privacy);
 
@@ -754,7 +787,8 @@ class AccountAction extends Action {
     /**
      * 修改用户身份
      */
-    public function editUserCategory() {
+    public function editUserCategory()
+    {
         $this->assign('mid', $this->mid);
         $this->display();
     }
@@ -762,7 +796,8 @@ class AccountAction extends Action {
     /**
      * 执行修改用户身份操作
      */
-    public function doEditUserCategory() {
+    public function doEditUserCategory()
+    {
         $userCategoryIds = t($_POST ['user_category_ids']);
         empty($userCategoryIds) && exit($this->error('请至少选择一个职业信息'));
         $userCategoryIds = explode(',', $userCategoryIds);
@@ -787,7 +822,8 @@ class AccountAction extends Action {
     /**
      * 帐号绑定
      */
-    public function bind() {
+    public function bind()
+    {
         // 邮箱绑定
         // $user = M('user')->where('uid='.$this->mid)->field('email')->find();
         // $replace = substr($user['email'],2,-3);
@@ -1000,7 +1036,8 @@ class AccountAction extends Action {
         }
     }*/
 
-    public function scoredetail() {
+    public function scoredetail()
+    {
         $user_info = model('User')->getUserInfo($this->mid);
         $this->assign('user_info', $user_info);
 
@@ -1014,7 +1051,8 @@ class AccountAction extends Action {
         $this->display();
     }
 
-    public function scorerule() {
+    public function scorerule()
+    {
         $list = M('credit_setting')->order('type ASC')->findPage(100);
         $creditType = M('credit_type')->order('id ASC')->findAll();
         $this->assign('creditType', $creditType);
@@ -1024,13 +1062,15 @@ class AccountAction extends Action {
         $this->display();
     }
 
-    public function scorelevel() {
+    public function scorelevel()
+    {
         $list = model('Credit')->getLevel();
         $this->assign('list', $list);
         $this->display();
     }
 
-    public function scorecharge() {
+    public function scorecharge()
+    {
         // 删除7天前还没支付的记录
         D('credit_charge')->where('status=0 AND ctime<'.(time()-(86400*7)));
         $data = model('Xdata')->get('admin_Config:charge');
@@ -1040,7 +1080,8 @@ class AccountAction extends Action {
         $this->display();
     }
     
-    public function scoretransfer() {
+    public function scoretransfer()
+    {
         if ($_POST) {
             $_POST ['fromUid'] = $this->mid;
             $result = model('Credit')->startTransfer();
@@ -1057,22 +1098,23 @@ class AccountAction extends Action {
         $this->display();
     }
 
-    public function do_scorecharge() {
+    public function do_scorecharge()
+    {
         $price = intval($_POST['charge_value']);
-        if($price < 1){
+        if ($price < 1) {
             exit(json_encode(array('status'=>0, 'info'=>'充值金额不正确')));
         }
         $type = intval($_POST['charge_type']);
         $types = array('alipay', 'weixin');
-        if(!isset($types[$type])){
+        if (!isset($types[$type])) {
             exit(json_encode(array('status'=>0, 'info'=>'充值方式不支持')));
         }
         $chargeConfigs = model('Xdata')->get('admin_Config:charge');
-        if(!in_array($types[$type], $chargeConfigs['charge_platform'])){
+        if (!in_array($types[$type], $chargeConfigs['charge_platform'])) {
             exit(json_encode(array('status'=>0, 'info'=>'充值方式不支持')));
         }
 
-        $data ['serial_number'] = 'CZ'.date('YmdHis').rand(0,9).rand(0,9);
+        $data ['serial_number'] = 'CZ'.date('YmdHis').rand(0, 9).rand(0, 9);
         $data ['charge_type'] = $type;
         $data ['charge_value'] = $price;
         $data ['uid'] = $this->mid;
@@ -1086,12 +1128,11 @@ class AccountAction extends Action {
             $data['charge_id'] = $result;
             $res ['status'] = 1;
             $res ['info'] = 'OK';
-            switch($type){
+            switch ($type) {
                 case 0: $res['request_url'] = $this->alipay($data); break;
                 case 1: $res['request_url'] = $this->weixin($data); break;
                 default : $res['request_url'] = '';
             }
-            
         } else {
             $res ['status'] = 0;
             $res ['info'] = '充值创建失败';
@@ -1100,7 +1141,8 @@ class AccountAction extends Action {
         exit(json_encode($res));
     }
     
-    protected function alipay(array $data){
+    protected function alipay(array $data)
+    {
         $chargeConfigs = model('Xdata')->get('admin_Config:charge');
         require_once ADDON_PATH.'/library/alipay/alipay.php';
         $configs = $parameter = array();
@@ -1108,13 +1150,13 @@ class AccountAction extends Action {
         $configs['seller_email'] = $chargeConfigs['alipay_email'];
         $configs['key'] = $chargeConfigs['alipay_key'];
         $parameter = array(
-            "notify_url"	=> SITE_URL.'/public/pay/alipay_notify.php',
-            "return_url"	=> SITE_URL.'/public/pay/alipay_return.php',
-            "out_trade_no"	=> $data['serial_number'],
-            "subject"	=> '积分充值:'.$data['charge_sroce'].'积分',
-            "total_fee"	=> $data['charge_value'],
+            "notify_url"    => SITE_URL.'/public/pay/alipay_notify.php',
+            "return_url"    => SITE_URL.'/public/pay/alipay_return.php',
+            "out_trade_no"    => $data['serial_number'],
+            "subject"    => '积分充值:'.$data['charge_sroce'].'积分',
+            "total_fee"    => $data['charge_value'],
             //"total_fee"	=> 0.01,
-            "body"	=> '',
+            "body"    => '',
             "show_url"  => '',
             "app" => 'public',
             "mod" => 'Account',
@@ -1123,7 +1165,8 @@ class AccountAction extends Action {
         return createAlipayUrl($configs, $parameter);
     }
 
-    public function alipayReturn(){
+    public function alipayReturn()
+    {
         require_once ADDON_PATH.'/library/alipay/alipay.php';
         $chargeConfigs = model('Xdata')->get('admin_Config:charge');
         $configs = array(
@@ -1132,14 +1175,14 @@ class AccountAction extends Action {
             'key'=>$chargeConfigs['alipay_key']
         );
         unset($_GET['app'], $_GET['mod'], $_GET['act']);
-        if(verifyAlipayReturn($configs)){
-            if(model('Credit')->charge_success(t($_GET['out_trade_no']))){
+        if (verifyAlipayReturn($configs)) {
+            if (model('Credit')->charge_success(t($_GET['out_trade_no']))) {
                 $this->assign('jumpUrl', U('public/Account/scoredetail'));
                 $this->success('积分充值成功');
-            }else{
+            } else {
                 $this->redirect('public/Account/scoredetail');
             }
-        }else{
+        } else {
             $map = array(
                 'uid'=>$this->mid,
                 'serial_number'=>t($_GET['out_trade_no']),
@@ -1150,7 +1193,8 @@ class AccountAction extends Action {
             $this->error('积分充值失败');
         }
     }
-    public function alipayNotify(){
+    public function alipayNotify()
+    {
         header('Content-type:text/html;charset=utf-8');
         require_once ADDON_PATH.'/library/alipay/alipay.php';
         $chargeConfigs = model('Xdata')->get('admin_Config:charge');
@@ -1160,10 +1204,9 @@ class AccountAction extends Action {
             'key'=>$chargeConfigs['alipay_key']
         );
         unset($_GET['app'], $_GET['mod'], $_GET['act']);
-        if(verifyAlipayNotify($configs)){
+        if (verifyAlipayNotify($configs)) {
             model('Credit')->charge_success(t($_POST['out_trade_no']));
         }
         exit;
     }
-
 }

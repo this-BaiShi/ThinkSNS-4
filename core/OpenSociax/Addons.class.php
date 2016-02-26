@@ -29,7 +29,7 @@ class Addons
     {
         // 验证钩子是否能够请求
         $hasValid = self::requireHooks($name);
-        if(!$hasValid) {
+        if (!$hasValid) {
             return false;
         }
         // 获取指定钩子下的插件列表
@@ -39,9 +39,9 @@ class Addons
         // 插件URL
         $urlDir = SITE_URL.'/addons/plugin';
         // 调用插件中的钩子
-        foreach($list as $key => $value) {
+        foreach ($list as $key => $value) {
             // 获取插件对象
-            if(isset(self::$addonsObj[$key])) {
+            if (isset(self::$addonsObj[$key])) {
                 $obj = self::$addonsObj[$key];
             } else {
                 $addonPath = $dirName.'/'.$key;
@@ -57,11 +57,11 @@ class Addons
             // 判断是否是简单插件
             $simple = $obj instanceof SimpleAddons;
             // 执行插件的钩子
-            foreach($value as $hook) {
-                if($simple) {
+            foreach ($value as $hook) {
+                if ($simple) {
                     $obj->$hook($param);
                 } else {
-                    if(isset(self::$hooksObj[$hook])) {
+                    if (isset(self::$hooksObj[$hook])) {
                         self::$hooksObj[$hook]->$name($param);
                     } else {
                         $filename = $dirName.'/'.$key.'/hooks/'.$hook.'.class.php';
@@ -87,8 +87,9 @@ class Addons
      */
     public static function addonsHook($addonsName, $name, $param = array(), $admin = false)
     {
-        if(!$addonsName)
+        if (!$addonsName) {
             return;
+        }
         $addonsName = basename($addonsName);
         $dirName = ADDON_PATH.'/plugin';
         $urlDir = SITE_URL.'/addons/plugin';
@@ -96,14 +97,14 @@ class Addons
         $addonUrl = $urlDir.'/'.$addonsName;
 
         $adminHooks = array();
-        if(isset(self::$addonsObj[$addonsName])) {
+        if (isset(self::$addonsObj[$addonsName])) {
             $obj = self::$addonsObj[$addonsName];
         } else {
             $filename = $path.'/'.$addonsName.'Addons.class.php';
             tsload($filename);
             $className = $addonsName.'Addons';
-            if ( !class_exists($className) ){
-            	die('不存在该类');
+            if (!class_exists($className)) {
+                die('不存在该类');
             }
             $obj = new $className();
             $obj->setPath($path);
@@ -113,16 +114,16 @@ class Addons
         $simple = $obj instanceof SimpleAddons;
 
         $adminHooks = $obj->adminMenu();
-        if(!$admin && isset($adminHooks[$name])) {
+        if (!$admin && isset($adminHooks[$name])) {
             throw new ThinkException('非法操作，该操作只允许管理员操作');
         }
 
-        if($simple) {
+        if ($simple) {
             $obj->$name($param);
         } else {
             $list = self::$validHooks[$name];
-            foreach($list[$addonsName] as $hooks) {
-                if(isset(self::$hooksObj[$hooks])) {
+            foreach ($list[$addonsName] as $hooks) {
+                if (isset(self::$hooksObj[$hooks])) {
                     self::$hooksObj[$hooks]->$name($param);
                 } else {
                     $filename = $dirName.'/'.$addonsName.'/hooks/'.$hooks.'.class.php';
@@ -143,11 +144,11 @@ class Addons
      */
     public static function loadAllValidAddons()
     {
-			// self::$validHooks = S('system_addons_list');
-		if (empty ( self::$validHooks )) {
-			self::$validHooks = model ( 'Addon' )->resetAddonCache ( true );
-			//dump(self::$validHooks);
-		}
+        // self::$validHooks = S('system_addons_list');
+        if (empty(self::$validHooks)) {
+            self::$validHooks = model('Addon')->resetAddonCache(true);
+            //dump(self::$validHooks);
+        }
     }
 
     /**
@@ -158,7 +159,7 @@ class Addons
      */
     public static function requireHooks($hookname, $addon = null)
     {
-        if(empty($addon)) {
+        if (empty($addon)) {
             return isset(self::$validHooks[$hookname]);
         }
     }
@@ -209,7 +210,7 @@ class Addons
      * @access public
      * @return void
      */
-    static public function createAddonShow($name,$hooks,$param=null)
+    public static function createAddonShow($name, $hooks, $param=null)
     {
         $param['addon'] = $name;
         $param['hook'] = $hooks;

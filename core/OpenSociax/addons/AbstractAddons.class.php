@@ -59,15 +59,15 @@ abstract class AbstractAddons implements AddonsInterface
     protected $pluginName;      // 插件名字
     protected $path;            // 插件路径
     protected $url;             // 插件URL
-    protected $tVar;	        // 模板变量
+    protected $tVar;            // 模板变量
     protected $mid;             // 登录用户ID
     protected $model;           // 插件数据模型对象
-	
+
     /**
      * 初始化相关信息
      * @return void
      */
-	public function __construct()
+    public function __construct()
     {
         $this->mid = @intval($_SESSION['mid']);
         $this->model = model("AddonData");
@@ -111,7 +111,7 @@ abstract class AbstractAddons implements AddonsInterface
         $this->path = $path;
     }
 
-    abstract function getHooksList($name);
+    abstract public function getHooksList($name);
 
     /**
      * 获取插件信息
@@ -125,7 +125,7 @@ abstract class AbstractAddons implements AddonsInterface
         $data['info'] = $this->info;
         $data['pluginName'] = $this->pluginName;
         $data['tsVersion'] = $this->tsVersion;
-		$data['is_weixin'] = intval($this->is_weixin);
+        $data['is_weixin'] = intval($this->is_weixin);
         return $data;
     }
 
@@ -148,7 +148,7 @@ abstract class AbstractAddons implements AddonsInterface
     protected function get($name)
     {
         $data = isset($this->tVar[$name]) ? $this->tVar[$name] : false;
-    	return $data;
+        return $data;
     }
 
     /**
@@ -206,31 +206,37 @@ abstract class AbstractAddons implements AddonsInterface
      */
     private function _dispatch_jump($message, $status = 1)
     {
-		// 跳转时不展示广告
-		unset($GLOBALS['ts']['ad']);
+        // 跳转时不展示广告
+        unset($GLOBALS['ts']['ad']);
 
         // 提示标题
-        $this->assign('msgTitle',$status? L('_OPERATION_SUCCESS_') : L('_OPERATION_FAIL_'));
-        $this->assign('status',$status);   // 状态
-        $this->assign('message',$message);// 提示信息
+        $this->assign('msgTitle', $status? L('_OPERATION_SUCCESS_') : L('_OPERATION_FAIL_'));
+        $this->assign('status', $status);   // 状态
+        $this->assign('message', $message);// 提示信息
         //保证输出不受静态缓存影响
-        C('HTML_CACHE_ON',false);
-        if($status) { //发送成功信息
+        C('HTML_CACHE_ON', false);
+        if ($status) { //发送成功信息
             // 成功操作后默认停留1秒
-            $this->assign('waitSecond',"1");
+            $this->assign('waitSecond', "1");
             // 默认操作成功自动返回操作前页面            
-            if(!$this->get('jumpUrl')) $this->assign("jumpUrl",$_SERVER["HTTP_REFERER"]);
+            if (!$this->get('jumpUrl')) {
+                $this->assign("jumpUrl", $_SERVER["HTTP_REFERER"]);
+            }
              
-			echo $this->fetch(THEME_PATH.'/success.html');
-		}else{
+            echo $this->fetch(THEME_PATH.'/success.html');
+        } else {
             //发生错误时候默认停留3秒
-            $this->assign('waitSecond',"5");
+            $this->assign('waitSecond', "5");
             // 默认发生错误的话自动返回上页
-            if(!$this->get('jumpUrl'))  $this->assign('jumpUrl',"javascript:history.back(-1);");
+            if (!$this->get('jumpUrl')) {
+                $this->assign('jumpUrl', "javascript:history.back(-1);");
+            }
 
-			echo $this->fetch(THEME_PATH.'/success.html');
+            echo $this->fetch(THEME_PATH.'/success.html');
         }
-        if(C('LOG_RECORD')) Log::save();
+        if (C('LOG_RECORD')) {
+            Log::save();
+        }
         // 中止执行  避免出错后继续执行
         exit ;
     }

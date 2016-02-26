@@ -9,32 +9,41 @@
 // | Author: pengyong <i@pengyong.info>
 // +----------------------------------------------------------------------
 
-class Ftp {
+class Ftp
+{
         
     //FTP 连接资源
     private $link;
-	
+    
     //FTP连接时间
     public $link_time;
-	
+    
     //错误代码
     private $err_code = 0;
-	
+    
     //传送模式{文本模式:FTP_ASCII, 二进制模式:FTP_BINARY}
     public $mode = FTP_BINARY;
-	
-	/**
-		初始化类
-	
-	**/
-	public function start($data)
-	{
-		if(empty($data['port'])) $data['port'] ='21';
-		if(empty($data['pasv'])) $data['pasv'] =false;
-		if(empty($data['ssl'])) $data['ssl'] = false;
-		if(empty($data['timeout'])) $data['timeout'] = 30;
-		return $this->connect($data['server'],$data['username'],$data['password'],$data['port'],$data['pasv'],$data['ssl'],$data['timeout']);
-	}
+    
+    /**
+        初始化类
+    
+    **/
+    public function start($data)
+    {
+        if (empty($data['port'])) {
+            $data['port'] ='21';
+        }
+        if (empty($data['pasv'])) {
+            $data['pasv'] =false;
+        }
+        if (empty($data['ssl'])) {
+            $data['ssl'] = false;
+        }
+        if (empty($data['timeout'])) {
+            $data['timeout'] = 30;
+        }
+        return $this->connect($data['server'], $data['username'], $data['password'], $data['port'], $data['pasv'], $data['ssl'], $data['timeout']);
+    }
         
     /**
      * 连接FTP服务器
@@ -46,7 +55,8 @@ class Ftp {
      * @param boolean $ssl　　　　 　是否使用SSL连接
      * @param integer $timeout     超时时间　
      */
-    public function connect($host, $username = '', $password = '', $port = '21', $pasv = false, $ssl = false, $timeout = 30) {
+    public function connect($host, $username = '', $password = '', $port = '21', $pasv = false, $ssl = false, $timeout = 30)
+    {
         $start = time();
         if ($ssl) {
             if (!$this->link = @ftp_ssl_connect($host, $port, $timeout)) {
@@ -61,8 +71,9 @@ class Ftp {
         }
         
         if (@ftp_login($this->link, $username, $password)) {
-            if ($pasv)
+            if ($pasv) {
                 ftp_pasv($this->link, true);
+            }
             $this->link_time = time() - $start;
             return true;
         } else {
@@ -76,7 +87,8 @@ class Ftp {
      * 创建文件夹
      * @param string $dirname 目录名，
      */
-    public function mkdir($dirname) {
+    public function mkdir($dirname)
+    {
         if (!$this->link) {
             $this->err_code = 2;
             return false;
@@ -85,12 +97,14 @@ class Ftp {
         $nowdir = '/';
         foreach ($dirname as $v) {
             if ($v && !$this->chdir($nowdir . $v)) {
-                if ($nowdir)
+                if ($nowdir) {
                     $this->chdir($nowdir);
+                }
                 @ftp_mkdir($this->link, $v);
             }
-            if ($v)
+            if ($v) {
                 $nowdir .= $v . '/';
+            }
         }
         return true;
     }
@@ -100,7 +114,8 @@ class Ftp {
      * @param string $remote 远程存放地址
      * @param string $local 本地存放地址
      */
-    public function put($remote, $local) {
+    public function put($remote, $local)
+    {
         if (!$this->link) {
             $this->err_code = 2;
             return false;
@@ -122,7 +137,8 @@ class Ftp {
      * @param string $dirname  目录地址
      * @param boolean $enforce 强制删除
      */
-    public function rmdir($dirname, $enforce = false) {
+    public function rmdir($dirname, $enforce = false)
+    {
         if (!$this->link) {
             $this->err_code = 2;
             return false;
@@ -145,7 +161,8 @@ class Ftp {
      * 删除指定文件
      * @param string $filename 文件名
      */
-    public function delete($filename) {
+    public function delete($filename)
+    {
         if (!$this->link) {
             $this->err_code = 2;
             return false;
@@ -163,7 +180,8 @@ class Ftp {
      * @param string $dirname  目录地址
      * @return array 文件列表数据
      */
-    public function nlist($dirname) {
+    public function nlist($dirname)
+    {
         if (!$this->link) {
             $this->err_code = 2;
             return false;
@@ -180,7 +198,8 @@ class Ftp {
      * 在 FTP 服务器上改变当前目录
      * @param string $dirname 修改服务器上当前目录
      */
-    public function chdir($dirname) {
+    public function chdir($dirname)
+    {
         if (!$this->link) {
             $this->err_code = 2;
             return false;
@@ -196,9 +215,11 @@ class Ftp {
     /**
      * 获取错误信息
      */
-    public function get_error() {
-        if (!$this->err_code)
+    public function get_error()
+    {
+        if (!$this->err_code) {
             return false;
+        }
         $err_msg = array(
             '1' => 'Server can not connect',
             '2' => 'Not connect to server',
@@ -216,7 +237,8 @@ class Ftp {
      * @param string $url 目录
      * @return 由 / 分开的返回数组
      */
-    private function ck_dirname($url) {
+    private function ck_dirname($url)
+    {
         $url = str_replace('', '/', $url);
         $urls = explode('/', $url);
         return $urls;
@@ -225,9 +247,9 @@ class Ftp {
     /**
      * 关闭FTP连接
      */
-	 
-    public function close() {
+     
+    public function close()
+    {
         return @ftp_close($this->link);
     }
-
 }

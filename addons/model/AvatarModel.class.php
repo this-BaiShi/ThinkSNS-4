@@ -5,7 +5,8 @@
  * @author jason <yangjs17@yeah.net>
  * @version TS3.0
  */
-class AvatarModel {
+class AvatarModel
+{
 
     protected $_uid;   // 用户UID字段
 
@@ -31,7 +32,8 @@ class AvatarModel {
      * @param integer $uid 用户UID
      * @return object 头像模型对象
      */
-    public function init($uid) {
+    public function init($uid)
+    {
         $this->_uid = intval($uid);
         return $this;
     }
@@ -40,7 +42,8 @@ class AvatarModel {
      * 判断用户是否上传头像
      * @return array 
      */
-    public function hasAvatar() {
+    public function hasAvatar()
+    {
         $original_file_name = '/avatar' . $this->convertUidToPath($this->_uid) . '/original.jpg';
 
         //头像云存储
@@ -64,7 +67,8 @@ class AvatarModel {
      * 获取当前登录用户头像
      * @return array 用户的头像链接
      */
-    public function getUserAvatar() {
+    public function getUserAvatar()
+    {
         $empty_url = THEME_URL . '/_static/image/noavatar';
         $avatar_url = array(
             'avatar_original' => $empty_url . '/big.jpg',
@@ -108,7 +112,8 @@ class AvatarModel {
      * @param array $oldUserInfo 貌似无用字段，与此flash组件有关
      * @return boolean 是否保存成功
      */
-    public function saveUploadAvatar($data, $oldUserInfo) {
+    public function saveUploadAvatar($data, $oldUserInfo)
+    {
         $original_file_name = '/avatar' . $this->convertUidToPath($this->_uid) . '/original.jpg';
         // Log::write(var_export($data,true));
         //如果是又拍上传
@@ -139,7 +144,8 @@ class AvatarModel {
      * 上传头像
      * @return array 上传头像操作信息
      */
-    public function upload($fromApi = false) {
+    public function upload($fromApi = false)
+    {
         $data['attach_type'] = 'avatar';
         $data['upload_type'] = 'image';
         $info = model('Attach')->upload($data);
@@ -199,7 +205,8 @@ class AvatarModel {
      * 保存用户头像图片 - 本地上传
      * @return array 头像图片信息
      */
-    public function dosave($facedata = false, $forceReturn = false) {
+    public function dosave($facedata = false, $forceReturn = false)
+    {
         //Log::write(var_export($facedata,true));
         if (!$facedata) {
             $facedata = $_POST;
@@ -286,7 +293,8 @@ class AvatarModel {
         die(json_encode($return));
     }
 
-    public function uploadAvatars($fromApi = false) {
+    public function uploadAvatars($fromApi = false)
+    {
         $data['attach_type'] = 'avatar';
         $data['upload_type'] = 'image';
         $info = model('Attach')->upload($data);
@@ -346,7 +354,8 @@ class AvatarModel {
      * 保存用户头像图片 - 本地上传
      * @return array 头像图片信息
      */
-    public function dosaveAvatars($facedata = false, $forceReturn = false) {
+    public function dosaveAvatars($facedata = false, $forceReturn = false)
+    {
         //Log::write(var_export($facedata,true));
         if (!$facedata) {
             $facedata = $_POST;
@@ -434,7 +443,8 @@ class AvatarModel {
      * 保存用户头像图片 - 本地上传
      * @return array 头像图片信息
      */
-    public function saveRemoteAvatar($src, $uid) {
+    public function saveRemoteAvatar($src, $uid)
+    {
 
         //原图存储地址
         $original_file_name = '/avatar' . $this->convertUidToPath($uid) . '/original.jpg';
@@ -474,7 +484,6 @@ class AvatarModel {
                 return $return;
             }
         } else {
-
             if (!file_exists(UPLOAD_PATH . $original_file_name)) {
                 $this->_createFolder(UPLOAD_PATH . '/avatar' . $this->convertUidToPath($uid));
             }
@@ -499,7 +508,8 @@ class AvatarModel {
      * @param integer $uid 用户UID
      * @return string 用户路径
      */
-    public function convertUidToPath($uid) {
+    public function convertUidToPath($uid)
+    {
         // 静态缓存
         $sc = static_cache('avatar_uidpath_' . $uid);
         if (!empty($sc)) {
@@ -516,11 +526,11 @@ class AvatarModel {
      * @param string $path 路径名称
      * @return void
      */
-    private function _createFolder($path) {
+    private function _createFolder($path)
+    {
         if (!is_dir($path)) {
             $this->_createFolder(dirname($path));
             mkdir($path, 0777, true);
         }
     }
-
 }

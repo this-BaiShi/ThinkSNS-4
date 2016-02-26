@@ -6,56 +6,55 @@
  */
 class AdSpaceAddons extends NormalAddons
 {
-	protected $version = '1.0';
-	protected $author = '智士软件';
-	protected $site = 'http://www.thinksns.com';
-	protected $info = '广告位官方版';
-	protected $pluginName = '广告位 - 官方版';
-	protected $tsVersion = '3.0';
+    protected $version = '1.0';
+    protected $author = '智士软件';
+    protected $site = 'http://www.thinksns.com';
+    protected $info = '广告位官方版';
+    protected $pluginName = '广告位 - 官方版';
+    protected $tsVersion = '3.0';
 
-	/**
-	 * 获取该插件使用钩子
-	 * @return array 钩子信息数组
-	 */
-	public function getHooksInfo()
-	{
-		$hooks['list'] = array('AdSpaceHooks');
+    /**
+     * 获取该插件使用钩子
+     * @return array 钩子信息数组
+     */
+    public function getHooksInfo()
+    {
+        $hooks['list'] = array('AdSpaceHooks');
 
-		return $hooks;
-	}
+        return $hooks;
+    }
 
-	/**
-	 * 插件后台管理入口
-	 * @return array 管理相关数据
-	 */
-	public function adminMenu()
-	{
-		$menu = array();
-		$menu['config'] = '广告位管理';
-		$menu['addAdSpace'] = '添加广告位';
-		$page = isset($_GET['page']) ? t($_GET['page']) : 'addAdSpace';
-		if ($page === 'editAdSpace') {
-			unset($menu['addAdSpace']);
-			$menu['editAdSpace'] = array('content'=>'编辑广告位','param'=>array('id'=>intval($_GET['id'])));
-		}
+    /**
+     * 插件后台管理入口
+     * @return array 管理相关数据
+     */
+    public function adminMenu()
+    {
+        $menu = array();
+        $menu['config'] = '广告位管理';
+        $menu['addAdSpace'] = '添加广告位';
+        $page = isset($_GET['page']) ? t($_GET['page']) : 'addAdSpace';
+        if ($page === 'editAdSpace') {
+            unset($menu['addAdSpace']);
+            $menu['editAdSpace'] = array('content'=>'编辑广告位','param'=>array('id'=>intval($_GET['id'])));
+        }
 
-		return $menu;
-	}
+        return $menu;
+    }
 
-	public function start()
-	{
+    public function start()
+    {
+    }
 
-	}
-
-	/**
-	 * 插件安装入口
-	 * @return boolean 是否安装成功
-	 */
-	public function install()
-	{
-		// 插入数据表
-		$dbPrefix = C('DB_PREFIX');
-		$sql = "CREATE TABLE `{$dbPrefix}ad` (
+    /**
+     * 插件安装入口
+     * @return boolean 是否安装成功
+     */
+    public function install()
+    {
+        // 插入数据表
+        $dbPrefix = C('DB_PREFIX');
+        $sql = "CREATE TABLE `{$dbPrefix}ad` (
 				  `ad_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '广告ID，主键',
 				  `title` varchar(255) DEFAULT NULL COMMENT '广告标题',
 				  `place` tinyint(1) NOT NULL DEFAULT '0' COMMENT '广告位置：0-中部；1-头部；2-左下；3-右下；4-底部；5-右上；',
@@ -68,20 +67,20 @@ class AdSpaceAddons extends NormalAddons
 				  `content` text COMMENT '广告位内容',
 				  PRIMARY KEY (`ad_id`)
 				) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='广告位表';";
-		D()->execute($sql);
-		return true;
-	}
+        D()->execute($sql);
+        return true;
+    }
 
-	/**
-	 * 插件卸载入口
-	 * @return boolean 是否卸载成功
-	 */
-	public function uninstall()
-	{
-		// 卸载数据表
-		$dbPrefix = C('DB_PREFIX');
-		$sql = "DROP TABLE IF EXISTS `{$dbPrefix}ad`;";
-		D()->execute($sql);
-		return true;
-	}
+    /**
+     * 插件卸载入口
+     * @return boolean 是否卸载成功
+     */
+    public function uninstall()
+    {
+        // 卸载数据表
+        $dbPrefix = C('DB_PREFIX');
+        $sql = "DROP TABLE IF EXISTS `{$dbPrefix}ad`;";
+        D()->execute($sql);
+        return true;
+    }
 }

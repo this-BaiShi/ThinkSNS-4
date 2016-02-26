@@ -1,7 +1,8 @@
 <?php
-class CacheBae extends Cache {
+class CacheBae extends Cache
+{
 
-    static $_cache;
+    public static $_cache;
     private $_handler;
    
     /**
@@ -11,8 +12,9 @@ class CacheBae extends Cache {
      * @access public
      +----------------------------------------------------------
      */
-    public function __construct($options='') {
-        if(!empty($options)) {
+    public function __construct($options='')
+    {
+        if (!empty($options)) {
             $this->options =  $options;
         }
         $this->options['expire'] = isset($options['expire'])?$options['expire']:C('DATA_CACHE_TIME');
@@ -30,9 +32,10 @@ class CacheBae extends Cache {
      * @return boolen
      +----------------------------------------------------------
      */
-    private function init() {
-	$this->_handler = new BaeMemcache();
-	$this->connected = true;
+    private function init()
+    {
+        $this->_handler = new BaeMemcache();
+        $this->connected = true;
     }
 
     /**
@@ -44,7 +47,8 @@ class CacheBae extends Cache {
      * @return boolen
      +----------------------------------------------------------
      */
-    private function isConnected() {
+    private function isConnected()
+    {
         return $this->connected;
     }
     /**
@@ -58,28 +62,30 @@ class CacheBae extends Cache {
      * @return mixed
      +----------------------------------------------------------
      */
-    public function get($name) {
-        N('cache_read',1);
-	$content = $this->_handler->get($name);
-	if(false !== $content ){
-            if(C('DATA_CACHE_COMPRESS') && function_exists('gzcompress')) {
-		$content = substr($content,0,-1);  //remvoe \0 in the end
-	    }
-            if(C('DATA_CACHE_CHECK')) {//开启数据校验
-                $check  =  substr($content,0, 32);
-                $content   =  substr($content,32);
-                if($check != md5($content)) {//校验错误
+    public function get($name)
+    {
+        N('cache_read', 1);
+        $content = $this->_handler->get($name);
+        if (false !== $content) {
+            if (C('DATA_CACHE_COMPRESS') && function_exists('gzcompress')) {
+                $content = substr($content, 0, -1);  //remvoe \0 in the end
+            }
+            if (C('DATA_CACHE_CHECK')) {
+                //开启数据校验
+                $check  =  substr($content, 0, 32);
+                $content   =  substr($content, 32);
+                if ($check != md5($content)) {
+                    //校验错误
                     return false;
                 }
             }
-            if(C('DATA_CACHE_COMPRESS') && function_exists('gzcompress')) {
+            if (C('DATA_CACHE_COMPRESS') && function_exists('gzcompress')) {
                 //启用数据压缩
                 $content   =   gzuncompress($content);
             }
             $content    =   unserialize($content);
-	    return $content;
-        }
-        else {
+            return $content;
+        } else {
             return false;
         }
     }
@@ -97,31 +103,33 @@ class CacheBae extends Cache {
      * @return boolen
      +----------------------------------------------------------
      */
-    public function set($name,$value,$expire=null) {
-        N('cache_write',1);
-        if(is_null($expire)) {
+    public function set($name, $value, $expire=null)
+    {
+        N('cache_write', 1);
+        if (is_null($expire)) {
             $expire =  $this->options['expire'];
         }
         $data   =   serialize($value);
-        if( C('DATA_CACHE_COMPRESS') && function_exists('gzcompress')) {
+        if (C('DATA_CACHE_COMPRESS') && function_exists('gzcompress')) {
             //数据压缩
         //    $data   =   gzcompress($data,3);
-	      $data =  gzencode($data) . "\0";
+          $data =  gzencode($data) . "\0";
         }
-        if(C('DATA_CACHE_CHECK')) {//开启数据校验
+        if (C('DATA_CACHE_CHECK')) {
+            //开启数据校验
             $check  =  md5($data);
-        }else {
+        } else {
             $check  =  '';
         }
-	$data = $check.$data;
-	$result =  $this->_handler->set($name,$data,0,intval($expire));
-        if($result) {
-            if($this->options['length']>0) {
+        $data = $check.$data;
+        $result =  $this->_handler->set($name, $data, 0, intval($expire));
+        if ($result) {
+            if ($this->options['length']>0) {
                 // 记录缓存队列
                 $this->queue($name);
             }
-	    return true;
-        }else {
+            return true;
+        } else {
             return false;
         }
     }
@@ -137,27 +145,28 @@ class CacheBae extends Cache {
      * @return boolen
      +----------------------------------------------------------
      */
-    public function rm($name) {
+    public function rm($name)
+    {
         return $this->_handler->delete($name);
     }
-    static function queueSet($name,$value)
+    public static function queueSet($name, $value)
     {
-	$h = new BaeMemcache();
-	if ( $h->set($name,$value) ){
-		self::$_cache = array($name => $value);
-	}
+        $h = new BaeMemcache();
+        if ($h->set($name, $value)) {
+            self::$_cache = array($name => $value);
+        }
     }
-    static function queueGet($name)
+    public static function queueGet($name)
     {
-	if(isset(self::$_cache[$name]))
-		return self::$_cache[$name];
-	$h = new BaeMemcache();
-	$r = $h->get($name);
-	if ( false === $r ){
-		return false;
-	}
-	self::$_cache[$name] = $r;
-	return $r;
+        if (isset(self::$_cache[$name])) {
+            return self::$_cache[$name];
+        }
+        $h = new BaeMemcache();
+        $r = $h->get($name);
+        if (false === $r) {
+            return false;
+        }
+        self::$_cache[$name] = $r;
+        return $r;
     }
-
 }

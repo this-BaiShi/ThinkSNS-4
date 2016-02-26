@@ -1,5 +1,5 @@
 <?php
-$_CACHE['settings'] = array (
+$_CACHE['settings'] = array(
   'accessemail' => '',
   'censoremail' => '',
   'censorusername' => '',
@@ -27,5 +27,3 @@ $_CACHE['settings'] = array (
   'mailsilent' => '1',
   'version' => '1.6.0',
 );
-
-?>

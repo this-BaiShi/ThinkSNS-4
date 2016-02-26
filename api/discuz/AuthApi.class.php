@@ -23,7 +23,7 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 $contents = curl_exec($ch);
 curl_close($ch);
 preg_match('/<input\s*type="hidden"\s*name="formhash"\s*value="(.*?)"\s*\/>/i', $contents, $matches);
-if(!empty($matches)) {
+if (!empty($matches)) {
     $formhash = $matches[1];
 } else {
     die('Not found the forumhash.');
@@ -32,7 +32,7 @@ if(!empty($matches)) {
 
 
 //POST数据，获取COOKIE,cookie文件放在网站的temp目录下
-$cookie_file = tempnam('./temp','cookie');
+$cookie_file = tempnam('./temp', 'cookie');
 
 $ch = curl_init($login_url);
 curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -56,7 +56,7 @@ curl_close($ch);
 
 //这里的hash码和登陆窗口的hash码的正则不太一样，这里的hidden多了一个id属性
 preg_match('/<input\s*type="hidden"\s*name="formhash"\s*id="formhash"\s*value="(.*?)"\s*\/>/i', $contents, $matches);
-if(!empty($matches)) {
+if (!empty($matches)) {
     $formhash = $matches[1];
 } else {
     die('Not found the forumhash.');
@@ -88,5 +88,3 @@ curl_close($ch);
 
 //清理cookie文件
 unlink($cookie_file);
-
-?>

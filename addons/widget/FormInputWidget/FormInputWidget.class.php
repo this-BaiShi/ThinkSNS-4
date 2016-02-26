@@ -13,36 +13,35 @@
  */
 class FormInputWidget extends Widget
 {
-	/**
-	 * @param string type 输入框类型
-	 * @param string name 输入框字段名
-	 * @param mixed default_value 输入框默认值或者选项
-	 * @param mixed value 用户保存的值
-	 */
-	public function render($data)
-	{
-		$var = array('type' => 'input');
-		$var['canChange'] = 1;
+    /**
+     * @param string type 输入框类型
+     * @param string name 输入框字段名
+     * @param mixed default_value 输入框默认值或者选项
+     * @param mixed value 用户保存的值
+     */
+    public function render($data)
+    {
+        $var = array('type' => 'input');
+        $var['canChange'] = 1;
 
-		//is_array($data) && $var = array_merge($var, array_filter($data));
-		
-		is_array($data) && $var = array_merge($var, $data);
-		
-		if($var['name'] == 'department'){
-			$var['value'] = str_replace('|', ' - ', trim($var['value'],'|'));
-			$var['defaultId'] = model('Department')->getUserDepartId($GLOBALS['ts']['mid']);
-			
-		}
+        //is_array($data) && $var = array_merge($var, array_filter($data));
 
-		!$var['value'] && $var['value'] = $var['default_value'];
-		('date' == $var['type']) && is_numeric($var['value']) && ($var['value'] = date('Y-m-d', $var['value']));
+        is_array($data) && $var = array_merge($var, $data);
+        
+        if ($var['name'] == 'department') {
+            $var['value'] = str_replace('|', ' - ', trim($var['value'], '|'));
+            $var['defaultId'] = model('Department')->getUserDepartId($GLOBALS['ts']['mid']);
+        }
 
-		
-		$content = $this->renderFile(dirname(__FILE__) . "/{$var['type']}.html", $var);
+        !$var['value'] && $var['value'] = $var['default_value'];
+        ('date' == $var['type']) && is_numeric($var['value']) && ($var['value'] = date('Y-m-d', $var['value']));
 
-		unset($var,$data);
+        
+        $content = $this->renderFile(dirname(__FILE__) . "/{$var['type']}.html", $var);
 
-		//输出数据
-		return $content;
+        unset($var, $data);
+
+        //输出数据
+        return $content;
     }
 }

@@ -40,12 +40,12 @@ class Uploader
      * @param array $config  配置项
      * @param bool $base64  是否解析base64编码，可省略。若开启，则$fileField代表的是base64编码的字符串表单名
      */
-    public function __construct( $fileField , $config , $base64 = false )
+    public function __construct($fileField, $config, $base64 = false)
     {
         $this->fileField = $fileField;
         $this->config = $config;
         $this->stateInfo = $this->stateMap[ 0 ];
-        $this->upFile( $base64 );
+        $this->upFile($base64);
     }
 
     /**
@@ -53,27 +53,27 @@ class Uploader
      * @param $base64
      * @return mixed
      */
-    private function upFile( $base64 )
+    private function upFile($base64)
     {
         //处理base64上传
-        if ( "base64" == $base64 ) {
+        if ("base64" == $base64) {
             $content = $_POST[ $this->fileField ];
-            $this->base64ToImage( $content );
+            $this->base64ToImage($content);
             return;
         }
 
         //处理普通上传
         $file = $this->file = $_FILES[ $this->fileField ];
-        if ( !$file ) {
-            $this->stateInfo = $this->getStateInfo( 'POST' );
+        if (!$file) {
+            $this->stateInfo = $this->getStateInfo('POST');
             return;
         }
-        if ( $this->file[ 'error' ] ) {
-            $this->stateInfo = $this->getStateInfo( $file[ 'error' ] );
+        if ($this->file[ 'error' ]) {
+            $this->stateInfo = $this->getStateInfo($file[ 'error' ]);
             return;
         }
-        if ( !is_uploaded_file( $file[ 'tmp_name' ] ) ) {
-            $this->stateInfo = $this->getStateInfo( "UNKNOWN" );
+        if (!is_uploaded_file($file[ 'tmp_name' ])) {
+            $this->stateInfo = $this->getStateInfo("UNKNOWN");
             return;
         }
 
@@ -81,27 +81,27 @@ class Uploader
         $this->fileSize = $file[ 'size' ];
         $this->fileType = $this->getFileExt();
 
-        if ( !$this->checkSize() ) {
-            $this->stateInfo = $this->getStateInfo( "SIZE" );
+        if (!$this->checkSize()) {
+            $this->stateInfo = $this->getStateInfo("SIZE");
             return;
         }
-        if ( !$this->checkType() ) {
-            $this->stateInfo = $this->getStateInfo( "TYPE" );
+        if (!$this->checkType()) {
+            $this->stateInfo = $this->getStateInfo("TYPE");
             return;
         }
 
         $folder = $this->getFolder();
 
-        if ( $folder === false ) {
-            $this->stateInfo = $this->getStateInfo( "DIR_ERROR" );
+        if ($folder === false) {
+            $this->stateInfo = $this->getStateInfo("DIR_ERROR");
             return;
         }
 
         $this->fullName = $folder . '/' . $this->getName();
 
-        if ( $this->stateInfo == $this->stateMap[ 0 ] ) {
-            if ( !move_uploaded_file( $file[ "tmp_name" ] , $this->fullName ) ) {
-                $this->stateInfo = $this->getStateInfo( "MOVE" );
+        if ($this->stateInfo == $this->stateMap[ 0 ]) {
+            if (!move_uploaded_file($file[ "tmp_name" ], $this->fullName)) {
+                $this->stateInfo = $this->getStateInfo("MOVE");
             }
         }
     }
@@ -111,17 +111,17 @@ class Uploader
      * @param $base64Data
      * @return mixed
      */
-    private function base64ToImage( $base64Data )
+    private function base64ToImage($base64Data)
     {
-        $img = base64_decode( $base64Data );
-        $this->fileName = time() . rand( 1 , 10000 ) . ".png";
+        $img = base64_decode($base64Data);
+        $this->fileName = time() . rand(1, 10000) . ".png";
         $this->fullName = $this->getFolder() . '/' . $this->fileName;
-        if ( !file_put_contents( $this->fullName , $img ) ) {
-            $this->stateInfo = $this->getStateInfo( "IO" );
+        if (!file_put_contents($this->fullName, $img)) {
+            $this->stateInfo = $this->getStateInfo("IO");
             return;
         }
         $this->oriName = "";
-        $this->fileSize = strlen( $img );
+        $this->fileSize = strlen($img);
         $this->fileType = ".png";
     }
 
@@ -146,7 +146,7 @@ class Uploader
      * @param $errCode
      * @return string
      */
-    private function getStateInfo( $errCode )
+    private function getStateInfo($errCode)
     {
         return !$this->stateMap[ $errCode ] ? $this->stateMap[ "UNKNOWN" ] : $this->stateMap[ $errCode ];
     }
@@ -157,7 +157,7 @@ class Uploader
      */
     private function getName()
     {
-        return $this->fileName = time() . rand( 1 , 10000 ) . $this->getFileExt();
+        return $this->fileName = time() . rand(1, 10000) . $this->getFileExt();
     }
 
     /**
@@ -166,16 +166,16 @@ class Uploader
      */
     private function checkType()
     {
-        return in_array( $this->getFileExt() , $this->config[ "allowFiles" ] );
+        return in_array($this->getFileExt(), $this->config[ "allowFiles" ]);
     }
 
     /**
      * 文件大小检测
      * @return bool
      */
-    private function  checkSize()
+    private function checkSize()
     {
-        return $this->fileSize <= ( $this->config[ "maxSize" ] * 1024 );
+        return $this->fileSize <= ($this->config[ "maxSize" ] * 1024);
     }
 
     /**
@@ -184,7 +184,7 @@ class Uploader
      */
     private function getFileExt()
     {
-        return strtolower( strrchr( $this->file[ "name" ] , '.' ) );
+        return strtolower(strrchr($this->file[ "name" ], '.'));
     }
 
     /**
@@ -194,12 +194,12 @@ class Uploader
     private function getFolder()
     {
         $pathStr = $this->config[ "savePath" ];
-        if ( strrchr( $pathStr , "/" ) != "/" ) {
+        if (strrchr($pathStr, "/") != "/") {
             $pathStr .= "/";
         }
-        $pathStr .= date( "Ymd" );
-        if ( !file_exists( $pathStr ) ) {
-            if ( !mkdir( $pathStr , 0777 , true ) ) {
+        $pathStr .= date("Ymd");
+        if (!file_exists($pathStr)) {
+            if (!mkdir($pathStr, 0777, true)) {
                 return false;
             }
         }

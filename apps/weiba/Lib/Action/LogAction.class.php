@@ -12,7 +12,7 @@
 // 	public function _initialize() {
 
 // 		if(!$_REQUEST['weiba_id']) $this->error('参数错误!');
-		
+
 // 	}
 
 // 	/**
@@ -144,5 +144,5 @@
 // 			$this->error('保存失败');
 // 		}
 // 	}
-	
+
 // }

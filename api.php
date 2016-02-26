@@ -13,11 +13,11 @@ define('SITE_PATH', dirname(__FILE__));
 $_GET['app'] = 'api';
 
 define('APP_NAME', 'api');
-if(isset($_REQUEST['api_version'])){
-	$api_version = preg_replace('/[^A-Za-z0-9\._-]/','',$_REQUEST['api_version']);
-	define('API_VERSION', $api_version);
-}else{
-	define('API_VERSION', 'sociax');
+if (isset($_REQUEST['api_version'])) {
+    $api_version = preg_replace('/[^A-Za-z0-9\._-]/', '', $_REQUEST['api_version']);
+    define('API_VERSION', $api_version);
+} else {
+    define('API_VERSION', 'sociax');
 }
 
 // 新的系统核心接入
