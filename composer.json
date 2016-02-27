@@ -6,6 +6,7 @@
     "homepage": "http://www.thinksns.com",
     "license": "Apache-2.0",
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "authors": [
         {
             "name": "Seven Du",
@@ -25,7 +26,7 @@
         }
     ],
     "require": {
-        "php": ">=5.3.12,<7.0",
+        "php": ">=5.3,<7.0",
         "ext-bz2": "*",
         "ext-curl": "*",
         "ext-gd": "*",
