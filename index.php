@@ -1,4 +1,5 @@
 <?php
+
 //设置错误级别
 error_reporting(0);
 /** ///调试、找错时请去掉///前空格
@@ -12,11 +13,11 @@ $mem_run_end  = memory_get_usage();
 $time_run_end = microtime(true);
 
 /* # 检查PHP版本是否符合运行要求 */
-if (version_compare(PHP_VERSION, '5.3', '<')) {
+if (version_compare(PHP_VERSION, '5.3.12', '<')) {
     header('Content-Type:text/html;charset=utf-8');
     echo '您的PHP版本为：' . PHP_VERSION,
          '<br>',
-         'ThinkSNS程序运行版本不得低于：PHP 5.3';
+         'ThinkSNS程序运行版本不得低于：PHP 5.3.12';
     exit;
 
 /* # 检查是否安装过ThinkSNS */
