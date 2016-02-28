@@ -4,7 +4,7 @@
       <fieldset>
         <legend class="inter-txt"><php>echo $sexName?$sexName.'的':' ';</php>成就</legend>
       </fieldset>
-      <php>$profile = $user_info[$uid]; $profile['medals'] = array_slice($profile['medals'], 0, 3);</php>
+      <php>$profile = $user_info[$uid]; //$profile['medals'] = array_slice($profile['medals'], 0, 3);</php>
       <div class="userinfo clearfix mb20" id="jump-score" data-url="{:U('public/Account/scoredetail')}">
         <php>foreach($profile['credit_info']['credit'] as $k=>$vo) { </php>
         <span class="left">{$vo.alias}:{$vo.value}</span>
@@ -12,10 +12,29 @@
       </div>
       <ul>
         <volist name="profile.medals" id="vo">
-          <li style="padding-right:12px;"><img  src="{$vo.src}" width="50" height="50"/></li>
+          <php>
+              $share_card=explode('|',$vo['share_card']);
+          </php>
+          <li style="padding:0 10px 10px 0;">
+              <img src="{$vo.src}" width="50" height="50" onmousemove="showShare_card('share_card_{$share_card[0]}');"/>
+              <div style="position:absolute;display: none;z-index: 88;" id="share_card_{$share_card[0]}">
+                  <img src="__ROOT__/data/upload/{$share_card[1]}"/>
+              </div>
+              </li>
         </volist>
         <li><a href="{:U('public/Medal/index')}"><img src="__APP__/image/task/medal-more.png" width="50" height="50" /></a></li>
       </ul>
+        <script>
+            var last_share_card='';
+            $('body').click(function(){
+                $('#'+last_share_card).hide();
+            });
+            function showShare_card(id){
+                $('#'+last_share_card).hide();
+                last_share_card=id;
+                $('#'+id).show();
+            }
+        </script>
     </div>
   </div>
   <div class="right-wrap">
