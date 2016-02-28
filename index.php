@@ -52,10 +52,7 @@ if (isset($_GET['debug'])) {
         ));
 }
 
-//实例化一个网站应用实例
-$app = new App;
-$app->run();
-unset($app);
+App::run();
 
 if (C('APP_DEBUG')) {
 

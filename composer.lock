@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8f30e4d0656128fb70ae52b739a7a41c",
-    "content-hash": "2821766b9abc208693987d671128f92b",
+    "hash": "8f2060c1fa96f48cba8a9dce588be20a",
+    "content-hash": "0a7e7531ba778a2e149e9d9fd475d659",
     "packages": [
         {
             "name": "medz/vendor-pack-pinyin",
@@ -25,7 +25,7 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "dev-master",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
@@ -89,7 +89,7 @@
     "stability-flags": {
         "medz/vendor-pack-pinyin": 20
     },
-    "prefer-stable": false,
+    "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": ">=5.3.12,<7.0",

@@ -49,7 +49,8 @@
     "autoload": {
         "classmap": ["src/Ts.php"],
         "psr-4": {
-            "Ts\\AutoLoader\\": "src/AutoLoader/"
+            "Ts\\": "src/",
+            "App\\": "apps/"
         }
     },
     "support": {

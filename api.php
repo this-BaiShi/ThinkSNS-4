@@ -26,9 +26,6 @@ require SITE_PATH . '/src/Build.php';
 //载入核心文件
 require(SITE_PATH . '/core/core.php');
 
-//实例化一个网站应用实例
-$app = new Api;
-$app->run();
-unset($app);
+Api::run();
 
 /* # The end */
