@@ -1,6 +1,6 @@
 {
     "name": "medz/thinksns-4",
-    "project": "project",
+    "type": "project",
     "description": "This is a sns system.",
     "keywords": ["sns", "think", "ts", "thinksns", "t4", "ts4"],
     "homepage": "http://www.thinksns.com",
@@ -36,8 +36,8 @@
         "ext-mysql": "*",
         "ext-zlib": "*",
         "ext-zip": "*",
-
         "medz/vendor-pack-pinyin": "@dev",
+        "medz/filesystem": "~1.0",
         "symfony/polyfill-mbstring": "~1.0"
     },
     "require-dev": {
@@ -60,6 +60,7 @@
     },
     "suggest":{
         "medz/vendor-pack-pinyin": "This is a converted Chinese characters spelling library.",
+        "medz/filesystem": "Medz Filesystem Component.",
         "symfony/polyfill-mbstring": "This component provides a partial, native PHP implementation for the[Mbstring](http://php.net/mbstring) extension."
     }
 }

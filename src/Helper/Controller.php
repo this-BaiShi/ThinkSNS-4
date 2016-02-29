@@ -63,7 +63,7 @@ class Controller
      * @return void
      * @author Seven Du <lovevipdsw@outlook.com>
      **/
-    protected static function build($empty = false)
+    protected static function build($oldControllerName = false)
     {
         $className = null;
         foreach (self::$controllerClass as $key => $value) {
@@ -88,13 +88,14 @@ class Controller
             }
         }
 
-        if (!class_exists($className) && $empty) {
+        if (!class_exists($className) && !$oldControllerName) {
+            $className = self::$controllerName;
             self::setController('empty');
-            self::build(true);
+            self::build($className);
             return false;
 
         } elseif (!class_exists($className)) {
-            throw_exception(L('_MODULE_NOT_EXIST_') . ' ' . self::$controllerName);
+            throw_exception(L('_MODULE_NOT_EXIST_') . ' ' . $oldControllerName);
         }
         self::$controllers[self::$appName] = new $className;
     }

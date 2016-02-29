@@ -4,9 +4,53 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8f2060c1fa96f48cba8a9dce588be20a",
-    "content-hash": "0a7e7531ba778a2e149e9d9fd475d659",
+    "hash": "874e492128c28b1ed0b6f1931cadb205",
+    "content-hash": "78831e18a8a45113a2f8537d2d2d1fce",
     "packages": [
+        {
+            "name": "medz/filesystem",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/medz/filesystem.git",
+                "reference": "58b48b2a5a15995a078b7818619780e5f676722d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "http://packagist.phpcomposer.com/files/medz/filesystem/58b48b2a5a15995a078b7818619780e5f676722d.zip",
+                "reference": "58b48b2a5a15995a078b7818619780e5f676722d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9",
+                "symfony/filesystem": "~2.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Medz\\Component\\Filesystem\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Seven Du",
+                    "email": "lovevipdsw@outlook.com",
+                    "homepage": "http://medz.cn"
+                }
+            ],
+            "description": "Static call function Symfony Filesystem Component.",
+            "homepage": "http://medz.cn",
+            "keywords": [
+                "filesystem",
+                "medz",
+                "php"
+            ],
+            "time": "2016-02-29 06:50:33"
+        },
         {
             "name": "medz/vendor-pack-pinyin",
             "version": "dev-master",
@@ -22,6 +66,55 @@
                     "Pinyin.php"
                 ]
             }
+        },
+        {
+            "name": "symfony/filesystem",
+            "version": "v2.8.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/filesystem.git",
+                "reference": "65cb36b6539b1d446527d60457248f30d045464d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "http://packagist.phpcomposer.com/files/symfony/filesystem/65cb36b6539b1d446527d60457248f30d045464d.zip",
+                "reference": "65cb36b6539b1d446527d60457248f30d045464d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.8-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Filesystem\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Filesystem Component",
+            "homepage": "https://symfony.com",
+            "time": "2016-02-22 15:02:30"
         },
         {
             "name": "symfony/polyfill-mbstring",
