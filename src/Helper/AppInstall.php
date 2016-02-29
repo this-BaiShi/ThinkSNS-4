@@ -117,7 +117,6 @@ class AppInstall
     {
         $handle = opendir(TS_APPLICATION);
         while (($file = readdir($handle)) !== false) {
-            $file = strtolower($file);
             if (in_array($file, array('.', '..'))) {
                 continue;
             }
@@ -132,7 +131,7 @@ class AppInstall
             }
             Filesystem::mirror(
                 sprintf('%s/%s/%s', TS_APPLICATION, $file, $manageInfo['resource']),
-                sprintf('%s/%s/app/%s', TS_ROOT, TS_STORAGE, $file)
+                sprintf('%s/%s/app/%s', TS_ROOT, TS_STORAGE, strtolower($file))
             );
         }
         closedir($handle);
