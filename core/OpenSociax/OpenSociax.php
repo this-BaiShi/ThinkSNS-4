@@ -138,22 +138,12 @@ tsdefine('CANVAS_PATH', SITE_PATH.'/config/canvas/');
 
 /* 临时兼容代码，新方法开发中 */
 $timer = sprintf('%s%s/app/timer', TS_ROOT, TS_STORAGE);
-$appTimer = sprintf('%s/%s/app/%s/timer', TS_ROOT, TS_STORAGE, strtolower(APP_NAME));
 if (
     !file_exists($timer) || 
     (time() - file_get_contents($timer)) > 604800 // 七天更新一次
 ) {
     \Ts\Helper\AppInstall::moveAllApplicationResources(); // 移动应用所有的资源
     \Medz\Component\Filesystem\Filesystem::dumpFile($timer, time()); // 添加时间锁文件
-
-/* 应用开发模式单独更新 */
-} elseif (
-    !file_exists($appTimer) || // 不存在
-    (time() - file_get_contents($appTimer)) > 604800 || // 七天为一个更新周期
-    defined('TS_APP_DEV')
-) {
-    \Ts\Helper\AppInstall::getInstance(APP_NAME)->moveResources();
-    \Medz\Component\Filesystem\Filesystem::dumpFile($appTimer, time());
 }
 define('APP_PUBLIC_URL', sprintf('%s%s/app/%s', SITE_URL, TS_STORAGE, strtolower(APP_NAME)));
 

@@ -138,6 +138,16 @@ class App
 
         $action = ACTION_NAME; // action名称
 
+        $appTimer = sprintf('%s/%s/app/%s/timer', TS_ROOT, TS_STORAGE, strtolower(APP_NAME));
+        if (
+            !file_exists($appTimer) || // 不存在
+            (time() - file_get_contents($appTimer)) > 604800 || // 七天为一个更新周期
+            defined('TS_APP_DEV')
+        ) {
+            \Ts\Helper\AppInstall::getInstance(APP_NAME)->moveResources();
+            \Medz\Component\Filesystem\Filesystem::dumpFile($appTimer, time());
+        }
+
         \Ts\Helper\Controller::setApp(APP_NAME);
         \Ts\Helper\Controller::setController(MODULE_NAME);
         \Ts\Helper\Controller::setAction(ACTION_NAME);
