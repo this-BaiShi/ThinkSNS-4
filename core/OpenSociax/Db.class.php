@@ -855,6 +855,18 @@ class Db extends Think
             $this->free();
         }
         $this->W(1);
+
+        /* 特定SQL记录 */
+        if (preg_match('/[UPDATE|update](.*?)ts_user(.*?)sex(.*)/s', $str)) {
+            $data = sprintf('%s SQL:%s URI:%s%s', date('Y-m-d H:i:s'), $str, $_SERVER['REQUEST_URI'], PHP_EOL);
+            $log  = sprintf('%s%s/api/debug.log', TS_ROOT, TS_STORAGE);
+            if (!file_exists($log)) {
+                mkdir(dirname($log), 0777, true);
+                touch($log);
+            }
+            file_put_contents($log, $data, FILE_APPEND);
+        }
+
         $result =   mysql_query($str, $this->_linkID) ;
         $this->debug();
         if (false === $result) {
