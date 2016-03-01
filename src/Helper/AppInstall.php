@@ -87,7 +87,7 @@ class AppInstall
         }
         self::$appInfo = file_get_contents($manageFile);
         self::$appInfo = json_decode(self::$appInfo, true);
-        if (isset(self::$appInfo['resource'])) {
+        if (!isset(self::$appInfo['resource'])) {
             self::$appInfo['resource'] = '_static';
         }
     }
