@@ -858,8 +858,18 @@ class Db extends Think
 
         /* 特定SQL记录 */
         if (preg_match('/[UPDATE|update](.*?)ts_user(.*?)sex(.*)/s', $str)) {
-            $data = sprintf('%s SQL:%s URI:%s%s', date('Y-m-d H:i:s'), $str, $_SERVER['REQUEST_URI'], PHP_EOL);
-            $log  = sprintf('%s%s/api/debug.log', TS_ROOT, TS_STORAGE);
+            $data = sprintf('time:%s%sSQL:%s%sURL:%s%s%s%s', date('Y-m-d H:i:s'), PHP_EOL, $str, PHP_EOL, $_SERVER['REQUEST_URI'], PHP_EOL, '----------------------------', PHP_EOL);
+            $log  = sprintf('%s%s/debug/ts_user.log', TS_ROOT, TS_STORAGE);
+            if (!file_exists($log)) {
+                mkdir(dirname($log), 0777, true);
+                touch($log);
+            }
+            file_put_contents($log, $data, FILE_APPEND);
+
+        /* 用户短信 */
+        } elseif (preg_match('/INSERT INTO(.*?)ts_sms(.*)/s', $str)) {
+            $data = sprintf('time:%s%sSQL:%s%sURL:%s%s%s%s', date('Y-m-d H:i:s'), PHP_EOL, $str, PHP_EOL, $_SERVER['REQUEST_URI'], PHP_EOL, '----------------------------', PHP_EOL);
+            $log  = sprintf('%s%s/debug/ts_sms.log', TS_ROOT, TS_STORAGE);
             if (!file_exists($log)) {
                 mkdir(dirname($log), 0777, true);
                 touch($log);

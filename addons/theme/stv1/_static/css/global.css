@@ -32,6 +32,11 @@ p {
     visibility: hidden;
 }
 
+/* Scrollbar */
+::-webkit-scrollbar {width: 2px; height:2px; }
+::-webkit-scrollbar-thumb {background-color:#33BBBA !important;}
+::-webkit-scrollbar-track {background-color:#333 !important}
+
 /*背景半透明*/
 .o_000_3{
      display:block;
