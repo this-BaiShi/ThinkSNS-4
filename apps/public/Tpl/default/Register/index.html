@@ -81,7 +81,20 @@
                 <input id="phone" event-node="phone" placeholder="输入手机号码" name="phone" checkurl="{:U('public/Register/isPhoneAvailable')}" autocomplete="off" type="text" value="" />
               </div>
               <div class="info-list clearfix">
-                <span class="input-outer"> <i class="ui-regCode"></i></span><input name="regCode" type="text" id="regCode" placeholder="输入验证码" tel="" event-node="input_reg_code" checkurl="{:U('public/Register/isRegCodeAvailable')}" class="s-txt" style="width:325px;" />
+                <span class="input-outer"> <i class="ui-regCode"></i></span>
+                <input class="s-txt" style="width: 325px;" id="image-code" placeholder="图形验证码">
+                <img id="image-code-button" style="margin-left: 5px;width: 120px;height: 50px;cursor: pointer;" src="__ROOT__/public/captcha.php" data-url="__ROOT__/public/captcha.php?time=%d" title="刷新验证码">
+                <script type="text/javascript">
+                  $('#image-code-button').on('click', function(event) {
+                    event.preventDefault();
+                    var time = (new Date()).getTime()
+                    var src  = $(this).data('url').replace(/\%d/ig, time);
+                    $(this).attr('src', src);
+                  });
+                </script>
+              </div>
+              <div class="info-list clearfix">
+                <span class="input-outer"> <i class="ui-regCode"></i></span><input name="regCode" type="text" id="regCode" placeholder="输入手机验证码" tel="" event-node="input_reg_code" checkurl="{:U('public/Register/isRegCodeAvailable')}" class="s-txt" style="width:325px;" />
                 <a id="reg_msg" href="javascript:;" onclick="regMsg()" style="height:33px;line-height:33px;"><span>获取短信验证码</span></a>
                 <div class="captcha-tips"> </div>
                 <div class="txt-info" id="reg_msg_tip" style="display:none;">验证码已发送到您的手机，30分钟内输入有效，请勿泄露。</div>
@@ -136,7 +149,7 @@ var regMsg = function() {
 		clearInterval(timefun);
 		lock = 1;
 	}
-	$.post(U('public/Register/sendReigterCode'), {phone:phone}, function(res) {
+	$.post(U('public/Register/sendReigterCode'), {phone:phone, verify: $('#image-code').val()}, function(res) {
 		if (res.status == 0) {
 			lock = 0;
 			ui.error(res.data);

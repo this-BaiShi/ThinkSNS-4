@@ -1176,6 +1176,15 @@ class RegisterAction extends Action
 
     public function sendReigterCode()
     {
+        //检查验证码
+        if (md5(strtoupper($_POST['verify'])) != $_SESSION['verify']) {
+            echo json_encode(array(
+                'status' => 0,
+                'data'   => '图像验证码错误！'
+            ));
+            exit;
+        }
+
         $phone = floatval($_POST['phone']);
 
         /* # session记录手机号码 */
