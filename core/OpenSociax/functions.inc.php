@@ -1059,11 +1059,11 @@ function fetch($templateFile='', $tvar=array(), $charset='utf-8', $contentType='
 
     // 模版名为空.
     if (''==$templateFile) {
-        $templateFile   =   APP_TPL_PATH.'/'.MODULE_NAME.'/'.ACTION_NAME.'.html';
+        $templateFile   =   APP_TPL_PATH.'/'.ucfirst(MODULE_NAME).'/'.ACTION_NAME.'.html';
 
         // 模版名为ACTION_NAME
-    } elseif (file_exists(APP_TPL_PATH.'/'.MODULE_NAME.'/'.$templateFile.'.html')) {
-        $templateFile   =   APP_TPL_PATH.'/'.MODULE_NAME.'/'.$templateFile.'.html';
+    } elseif (file_exists(APP_TPL_PATH.'/'.ucfirst(MODULE_NAME).'/'.$templateFile.'.html')) {
+        $templateFile   =   APP_TPL_PATH.'/'.ucfirst(MODULE_NAME).'/'.$templateFile.'.html';
     } elseif (file_exists(APP_TPL_PATH.'/'.$templateFile.'.html')) {
         $templateFile   =   APP_TPL_PATH.'/'.$templateFile.'.html';
 

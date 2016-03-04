@@ -138,31 +138,20 @@ class App
 
         $action = ACTION_NAME; // action名称
 
-        /* 以命名空间路径判断 */
-        if (class_exists('Apps\\' . APP_NAME . '\\Controller\\' . MODULE_NAME)) {
-            $className = 'Apps\\' . APP_NAME . '\\Controller\\' . MODULE_NAME;
-
-        /* 无命名空间 */
-        } elseif (!class_exists($className)) {
-            $className =  'EmptyAction';
-            tsload(APP_ACTION_PATH.'/EmptyAction.class.php');
-            if (!class_exists($className)) {
-                throw_exception(L('_MODULE_NOT_EXIST_').' '.MODULE_NAME);
-            }
+        $appTimer = sprintf('%s/%s/app/%s/timer', TS_ROOT, TS_STORAGE, strtolower(APP_NAME));
+        if (
+            !file_exists($appTimer) || // 不存在
+            (time() - file_get_contents($appTimer)) > 604800 || // 七天为一个更新周期
+            defined('TS_APP_DEV')
+        ) {
+            \Ts\Helper\AppInstall::getInstance(APP_NAME)->moveResources();
+            \Medz\Component\Filesystem\Filesystem::dumpFile($appTimer, time());
         }
 
-        $module =   new $className();
-
-        $GLOBALS['time_run_detail']['action_instance'] = microtime(true);
-
-        //异常处理
-        if (!$module) {
-            // 模块不存在 抛出异常
-            throw_exception(L('_MODULE_NOT_EXIST_').' '.MODULE_NAME);
-        }
-
-        //执行当前操作
-        call_user_func(array(&$module, $action));
+        \Ts\Helper\Controller::setApp(APP_NAME);
+        \Ts\Helper\Controller::setController(MODULE_NAME);
+        \Ts\Helper\Controller::setAction(ACTION_NAME);
+        \Ts\Helper\Controller::run();
 
         //执行计划任务
         model('Schedule')->run();

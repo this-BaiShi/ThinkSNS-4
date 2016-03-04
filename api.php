@@ -20,15 +20,17 @@ if (isset($_REQUEST['api_version'])) {
     define('API_VERSION', 'sociax');
 }
 
+/* 新系统需要的一些配置 */
+define('TS_ROOT', dirname(__FILE__));        // Ts根
+define('TS_APPLICATION', TS_ROOT . '/apps'); // 应用存在的目录
+define('TS_CONFIGURE', TS_ROOT . '/config'); // 配置文件存在的目录
+define('TS_STORAGE', '/storage');            // 储存目录，需要可以公开访问，相对于域名根
 // 新的系统核心接入
 require SITE_PATH . '/src/Build.php';
 
 //载入核心文件
 require(SITE_PATH . '/core/core.php');
 
-//实例化一个网站应用实例
-$app = new Api;
-$app->run();
-unset($app);
+Api::run();
 
 /* # The end */

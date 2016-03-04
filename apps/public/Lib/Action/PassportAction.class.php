@@ -182,6 +182,11 @@ class PassportAction extends Action
      **/
     public function sendPasswordCode()
     {
+        //检查验证码
+        if (md5(strtoupper($_POST['verify'])) != $_SESSION['verify']) {
+            $this->ajaxReturn(null, '图像验证码错误！', 0);
+        }
+
         $phone = floatval($_POST['mobile']);
 
         /* # 检查是否是手机号码 */

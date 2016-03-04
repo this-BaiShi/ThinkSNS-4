@@ -130,11 +130,23 @@ tsdefine('THEME_URL', ADDON_URL.'/theme/'.THEME_NAME);
 tsdefine('THEME_PUBLIC_PATH', THEME_PATH.'/_static');
 tsdefine('THEME_PUBLIC_URL', THEME_URL.'/_static');
 tsdefine('APP_PUBLIC_PATH', APP_PATH.'/_static');
-tsdefine('APP_PUBLIC_URL', APP_URL.'/_static');
+// tsdefine('APP_PUBLIC_URL', APP_URL.'/_static');
 tsdefine('APP_TPL_PATH', APP_PATH.'/Tpl/default');
 tsdefine('APP_TPL_URL', APP_URL.'/Tpl/default');
 
 tsdefine('CANVAS_PATH', SITE_PATH.'/config/canvas/');
+
+/* 临时兼容代码，新方法开发中 */
+$timer = sprintf('%s%s/app/timer', TS_ROOT, TS_STORAGE);
+if (
+    !file_exists($timer) || 
+    (time() - file_get_contents($timer)) > 604800 // 七天更新一次
+) {
+    \Ts\Helper\AppInstall::moveAllApplicationResources(); // 移动应用所有的资源
+    \Medz\Component\Filesystem\Filesystem::dumpFile($timer, time()); // 添加时间锁文件
+}
+define('APP_PUBLIC_URL', sprintf('%s%s/app/%s', SITE_URL, TS_STORAGE, strtolower(APP_NAME)));
+
 
 //设置语言包
 setLang();

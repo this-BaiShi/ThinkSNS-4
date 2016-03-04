@@ -22,7 +22,7 @@ if (strtolower(ini_get("session.save_handler")) == "files") {
 }
 session_start();
 
-$_TSVERSION = '4.0';
+$_TSVERSION = '4-R1';
 
 include 'install_function.php';
 include 'install_lang.php';
