@@ -142,6 +142,7 @@ class Controller
     public static function run()
     {
         self::build();
+
         $GLOBALS['time_run_detail']['action_instance'] = microtime(true); // 旧系统的时间记录
         return call_user_func(array(self::$controllers[self::$appName], self::$appAction));
     }
