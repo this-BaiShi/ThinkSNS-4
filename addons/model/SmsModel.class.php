@@ -410,7 +410,14 @@ class SmsModel extends Model
         $this->buildParam();
         $this->InLock();
         
-        if ($result = $this->send()) {
+        $debug = false;
+        if (isset($_REQUEST['client_debuging'])) {
+            $this->setMessage($this->getCode());
+            $debug = true;
+            $result = false;
+        }
+
+        if ($debug || ($result = $this->send())) {
             $this->add(array(
                 'phone'   => $this->phone,
                 'code'    => $this->code,
