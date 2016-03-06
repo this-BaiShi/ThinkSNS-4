@@ -35,7 +35,7 @@ class DiyCustom extends TagsAbstract
         }
         return dirname(__FILE__).'/DiyCustom/temp.html';
     }
-    public function replaceTag($attr, $value = '', $tagInfo)
+    public function replaceTag($attr, $value = '')
     {
         $this->init($attr, $value);
         $widgetDao = model('DiyWidget');
@@ -54,6 +54,6 @@ class DiyCustom extends TagsAbstract
      */
     public function replace()
     {
-        // TODO Auto-generated method stub
+        // TODO
     }
 }
