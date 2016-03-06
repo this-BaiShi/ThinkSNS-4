@@ -79,6 +79,7 @@ if (C('APP_DEBUG')) {
     }
     //print_r(Cache::$log);
     echo '<hr>';
+    echo sprintf('PHP version: PHP %s', PHP_VERSION);
     echo ' Memories: '."<br/>";
     echo 'ToTal: ',number_format(($mem_run_end - $mem_include_start)/1024),'k',"<br/>";
     echo 'Include:',number_format(($mem_run_start - $mem_include_start)/1024),'k',"<br/>";

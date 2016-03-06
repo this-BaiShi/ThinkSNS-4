@@ -38,7 +38,8 @@
         "ext-zip": "*",
         "medz/vendor-pack-pinyin": "@dev",
         "medz/filesystem": "~1.0",
-        "symfony/polyfill-mbstring": "~1.0"
+        "symfony/polyfill-mbstring": "~1.0",
+        "illuminate/database": "4.1.*"
     },
     "require-dev": {
         "ext-xdebug": "*"

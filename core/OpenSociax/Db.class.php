@@ -5,6 +5,8 @@
  * @version TS3.0
  */
 
+use Illuminate\Database\Capsule\Manager as Capsule;
+
 // 定义MySQL查询输出封装为多结果，必须用循环处理
 define('CLIENT_MULTI_RESULTS', 131072);
 
@@ -53,9 +55,9 @@ class Db extends Think
      */
     public function __construct($config='')
     {
-        if (!extension_loaded('mysql')) {
-            throw_exception(L('_NOT_SUPPORT_').':mysql');
-        }
+        // if (!extension_loaded('mysql')) {
+        //     throw_exception(L('_NOT_SUPPORT_').':mysql');
+        // }
         $this->debug = isset($_GET['debug']) ? true : C('APP_DEBUG');
         $this->config   =   $this->parseConfig($config);
     }
@@ -801,7 +803,7 @@ class Db extends Think
      */
     public function free()
     {
-        @mysql_free_result($this->queryID);
+        // @mysql_free_result($this->queryID);
         $this->queryID = 0;
     }
 
@@ -815,25 +817,43 @@ class Db extends Think
      */
     public function query($str)
     {
-        $this->initConnect(false);
-        if (!$this->_linkID) {
-            return false;
+        try {
+            // $sth = Capsule::getReadPdo()->prepare($str);
+            // var_dump($sth);exit;
+            $this->queryStr = $str;
+            $pdos = Capsule::getReadPdo()->query($str);
+            $this->debug();
+            $this->numRows = $pdos->rowCount();
+            return $pdos->fetchAll();
+        } catch (PDOException $e) {
+            $this->error = $e->getMessage();
         }
-        $this->queryStr = $str;
-        //释放前次的查询结果
-        if ($this->queryID) {
-            $this->free();
-        }
-        $this->Q(1);
-        $this->queryID = mysql_query($str, $this->_linkID);
-        $this->debug();
-        if (false === $this->queryID) {
-            $this->error();
-            return false;
-        } else {
-            $this->numRows = mysql_num_rows($this->queryID);
-            return $this->getAll();
-        }
+        return false;
+
+        // // var_dump(Capsule::getReadPdo()->query('show tablesa'));exit;
+        // return Capsule::select($str);
+        // $this->initConnect(false);
+        // if (!$this->_linkID) {
+        //     return false;
+        // }
+        // $this->queryStr = $str;
+        // //释放前次的查询结果
+        // if ($this->queryID) {
+        //     $this->free();
+        // }
+        // $this->Q(1);
+        // // var_dump($str);exit;
+        // // var_dump(Capsule::select($str));
+        // $this->queryID = mysql_query($str, $this->_linkID);
+        // $this->debug();
+        // if (false === $this->queryID) {
+        //     $this->error();
+        //     return false;
+        // } else {
+        //     $this->numRows = mysql_num_rows($this->queryID);
+        //     // var_dump($this->numRows);exit;
+        //     return $this->getAll();
+        // }
     }
 
     /**
@@ -845,48 +865,39 @@ class Db extends Think
      */
     public function execute($str)
     {
-        $this->initConnect(true);
-        if (!$this->_linkID) {
-            return false;
-        }
-        $this->queryStr = $str;
-        //释放前次的查询结果
-        if ($this->queryID) {
-            $this->free();
-        }
-        $this->W(1);
-
-        // /* 特定SQL记录 */
-        // if (preg_match('/[UPDATE|update](.*?)ts_user(.*?)sex(.*)/s', $str)) {
-        //     $data = sprintf('time:%s%sSQL:%s%sURL:%s%s%s%s', date('Y-m-d H:i:s'), PHP_EOL, $str, PHP_EOL, $_SERVER['REQUEST_URI'], PHP_EOL, '----------------------------', PHP_EOL);
-        //     $log  = sprintf('%s%s/debug/ts_user.log', TS_ROOT, TS_STORAGE);
-        //     if (!file_exists($log)) {
-        //         mkdir(dirname($log), 0777, true);
-        //         touch($log);
-        //     }
-        //     file_put_contents($log, $data, FILE_APPEND);
-
-        // /* 用户短信 */
-        // } elseif (preg_match('/INSERT INTO(.*?)ts_sms(.*)/s', $str)) {
-        //     $data = sprintf('time:%s%sSQL:%s%sURL:%s%s%s%s', date('Y-m-d H:i:s'), PHP_EOL, $str, PHP_EOL, $_SERVER['REQUEST_URI'], PHP_EOL, '----------------------------', PHP_EOL);
-        //     $log  = sprintf('%s%s/debug/ts_sms.log', TS_ROOT, TS_STORAGE);
-        //     if (!file_exists($log)) {
-        //         mkdir(dirname($log), 0777, true);
-        //         touch($log);
-        //     }
-        //     file_put_contents($log, $data, FILE_APPEND);
-        // }
-
-        $result =   mysql_query($str, $this->_linkID) ;
-        $this->debug();
-        if (false === $result) {
-            $this->error();
-            return false;
-        } else {
-            $this->numRows = mysql_affected_rows($this->_linkID);
-            $this->lastInsID = mysql_insert_id($this->_linkID);
+        try {
+            $this->queryStr = $str;
+            $this->numRows   = Capsule::getReadPdo()->exec($str);
+            $this->lastInsID = Capsule::getReadPdo()->lastInsertId();
+            $this->debug();
             return $this->numRows;
+        } catch (PDOException $e) {
+            $this->error = $e->getMessage();
         }
+        return false;
+
+        // // return Capsule::select($str);
+        // $this->initConnect(true);
+        // if (!$this->_linkID) {
+        //     return false;
+        // }
+        // $this->queryStr = $str;
+        // //释放前次的查询结果
+        // if ($this->queryID) {
+        //     $this->free();
+        // }
+        // $this->W(1);
+        // // var_dump($str);exit;
+        // $result =   mysql_query($str, $this->_linkID) ;
+        // $this->debug();
+        // if (false === $result) {
+        //     $this->error();
+        //     return false;
+        // } else {
+        //     $this->numRows = mysql_affected_rows($this->_linkID);
+        //     $this->lastInsID = mysql_insert_id($this->_linkID);
+        //     return $this->numRows;
+        // }
     }
 
     /**
@@ -897,13 +908,14 @@ class Db extends Think
      */
     public function startTrans()
     {
-        $this->initConnect(true);
+        /*$this->initConnect(true);
         if (!$this->_linkID) {
             return false;
-        }
+        }*/
         //数据rollback 支持
         if ($this->transTimes == 0) {
-            mysql_query('START TRANSACTION', $this->_linkID);
+            Capsule::getReadPdo()->beginTransaction();
+            // mysql_query('START TRANSACTION', $this->_linkID);
         }
         $this->transTimes++;
         return ;
@@ -918,9 +930,10 @@ class Db extends Think
     public function commit()
     {
         if ($this->transTimes > 0) {
-            $result = mysql_query('COMMIT', $this->_linkID);
+            Capsule::getReadPdo()->commit();
+            // $result = mysql_query('COMMIT', $this->_linkID);
             $this->transTimes = 0;
-            if (!$result) {
+            if (!Capsule::getReadPdo()->commit()) {
                 throw_exception($this->error());
             }
         }
@@ -936,9 +949,9 @@ class Db extends Think
     public function rollback()
     {
         if ($this->transTimes > 0) {
-            $result = mysql_query('ROLLBACK', $this->_linkID);
+            // $result = mysql_query('ROLLBACK', $this->_linkID);
             $this->transTimes = 0;
-            if (!$result) {
+            if (!Capsule::getReadPdo()->rollBack()) {
                 throw_exception($this->error());
             }
         }
@@ -961,6 +974,7 @@ class Db extends Think
             }
             mysql_data_seek($this->queryID, 0);
         }
+        // var_dump($result);
         return $result;
     }
     
@@ -1117,12 +1131,12 @@ class Db extends Think
      */
     public function close()
     {
-        if (!empty($this->queryID)) {
-            mysql_free_result($this->queryID);
-        }
-        if ($this->_linkID && !mysql_close($this->_linkID)) {
-            throw_exception($this->error());
-        }
+        // if (!empty($this->queryID)) {
+        //     mysql_free_result($this->queryID);
+        // }
+        // if ($this->_linkID && !mysql_close($this->_linkID)) {
+        //     throw_exception($this->error());
+        // }
         $this->_linkID = 0;
     }
 
@@ -1151,9 +1165,10 @@ class Db extends Think
      */
     public function escape_string($str)
     {
-        $res = @mysql_escape_string($str);
-        $res === false && $res = $str;
-        return $res;
+        // $res = @mysql_escape_string($str);
+        // $res === false && $res = $str;
+        // return $res;
+        return $str;
     }
 
     /**

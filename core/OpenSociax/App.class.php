@@ -168,7 +168,6 @@ class App
      */
     public static function execApi()
     {
-        var_dump(123);
         include_once(SITE_PATH.'/api/' . API_VERSION . '/'.MODULE_NAME.'Api.class.php');
         $className = MODULE_NAME.'Api';
         $module = new $className();
