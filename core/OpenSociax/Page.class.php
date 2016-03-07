@@ -247,9 +247,11 @@ class Page
             return;
         }
 
-        $url    =    eregi_replace("(#.+$|p=[0-9]+)", '', $_SERVER['REQUEST_URI']);
+        // $url    =    eregi_replace("(#.+$|p=[0-9]+)", '', $_SERVER['REQUEST_URI']);
+        $url    = preg_replace(sprintf('/(#.+$|%s=[0-9]+)/is', C('VAR_PAGE')), '', t($_SERVER['SCRIPT_NAME']) . '?' . $url);
         $url    =    $url.(strpos($url, '?')?'':"?");
-        $url    =    eregi_replace("(&+)", '&', $url);
+        // $url    =    eregi_replace("(&+)", '&', $url);
+        $url    = preg_replace('/(\&+)/is', '&', $url);
         $url    =   trim($url, '&');
 
         //上下翻页字符串
