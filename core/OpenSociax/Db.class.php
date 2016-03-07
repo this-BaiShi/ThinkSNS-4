@@ -824,7 +824,7 @@ class Db extends Think
             $pdos = Capsule::getReadPdo()->query($str);
             $this->debug();
             $this->numRows = $pdos->rowCount();
-            return $pdos->fetchAll();
+            return $pdos->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             $this->error = $e->getMessage();
         }
