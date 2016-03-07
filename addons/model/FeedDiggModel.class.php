@@ -196,6 +196,11 @@ class FeedDiggModel extends Model
 
         if ($digg === false) {
             $map['feed_id'] = array('IN', $feed_ids);
+
+            if (!$feed_ids) {
+                unset($map['feed_id']);
+            }
+
             $map['uid'] = $uid;
             $list = $this->where($map)->field('feed_id')->findAll();
             foreach ($list as $v) {

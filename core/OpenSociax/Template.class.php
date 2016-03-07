@@ -165,7 +165,15 @@ class Template
             // 开启短标签的情况要将<?标签用echo方式输出 否则无法正常输出xml标识
             $tmplContent = preg_replace('/(<\?(?!php|=|$))/i', '<?php echo \'\\1\'; ?>'."\n", $tmplContent );*/
         // 还原被替换的Literal标签
-        $tmplContent = preg_replace('/<!--###literal(\d)###-->/eis', "\$this->restoreLiteral('\\1')", $tmplContent);
+        // $tmplContent = preg_replace('/<!--###literal(\d)###-->/eis', "\$this->restoreLiteral('\\1')", $tmplContent);
+        $tmplContent = preg_replace_callback(
+            '/<!--###literal(\d)###-->/is', 
+            function($value)
+            {
+                return $this->restoreLiteral($value[1]);
+            }, 
+            $tmplContent
+        );
         // 添加安全代码
         $tmplContent  =  '<?php if (!defined(\'THINK_PATH\')) exit();?>'.$tmplContent;
         // if(C('TMPL_STRIP_SPACE')) {
@@ -197,7 +205,15 @@ class Template
         // 检查PHP语法
         $content    =   $this->parsePhp($content);
         // 首先替换literal标签内容
-        $content = preg_replace('/'.$begin.'literal'.$end.'(.*?)'.$begin.'\/literal'.$end.'/eis', "\$this->parseLiteral('\\1')", $content);
+        // $content = preg_replace('/'.$begin.'literal'.$end.'(.*?)'.$begin.'\/literal'.$end.'/eis', "\$this->parseLiteral('\\1')", $content);
+        $content = preg_replace_callback(
+            '/'.$begin.'literal'.$end.'(.*?)'.$begin.'\/literal'.$end.'/is', 
+            function($value)
+            {
+                return $this->parseLiteral($value[1]);
+            }, 
+            $content
+        );
 
         // 获取需要引入的标签库列表
         // 标签库只需要定义一次，允许引入多个一次
@@ -236,7 +252,17 @@ class Template
             $this->parseTagLib($tag, $content, true);
         }
         //解析普通模板标签 {tagName:}
-        $content = preg_replace('/('.$this->config['tmpl_begin'].')(\S.+?)('.$this->config['tmpl_end'].')/eis', "\$this->parseTag('\\2')", $content);
+        // $content = preg_replace('/('.$this->config['tmpl_begin'].')(\S.+?)('.$this->config['tmpl_end'].')/eis', "\$this->parseTag('\\2')", $content);
+
+        $content = preg_replace_callback(
+            '/('.$this->config['tmpl_begin'].')(\S.+?)('.$this->config['tmpl_end'].')/is', 
+            function($value)
+            {
+                return $this->parseTag($value[2]);
+            }, 
+            $content
+        );
+
         return $content;
     }
 
@@ -404,20 +430,52 @@ class Template
                         // 无属性标签
                         if ($tag['content'] !='empty') {
                             for ($i=0;$i<$level;$i++) {
-                                $content = preg_replace('/'.$begin.$startTag.'(\s*?)'.$end.'(.*?)'.$begin.'\/'.$endTag.'(\s*?)'.$end.'/eis', "\$this->parseXmlTag('".$tagLib."','".$tag['name']."','\\1','\\2')", $content);
+                                // $content = preg_replace('/'.$begin.$startTag.'(\s*?)'.$end.'(.*?)'.$begin.'\/'.$endTag.'(\s*?)'.$end.'/eis', "\$this->parseXmlTag('".$tagLib."','".$tag['name']."','\\1','\\2')", $content);
+                                $content = preg_replace_callback(
+                                    '/'.$begin.$startTag.'(\s*?)'.$end.'(.*?)'.$begin.'\/'.$endTag.'(\s*?)'.$end.'/is', 
+                                    function($value) use ($tagLib, $tag)
+                                    {
+                                        return $this->parseXmlTag($tagLib, $tag['name'], $value[1], $value[2]);
+                                    }, 
+                                    $content
+                                );
                             }
                         } else {
-                            $content = preg_replace('/'.$begin.$startTag.'(\s*?)\/(\s*?)'.$end.'/eis', "\$this->parseXmlTag('".$tagLib."','".$tag['name']."','\\1','')", $content);
+                            // $content = preg_replace('/'.$begin.$startTag.'(\s*?)\/(\s*?)'.$end.'/eis', "\$this->parseXmlTag('".$tagLib."','".$tag['name']."','\\1','')", $content);
+                            $content = preg_replace_callback(
+                                '/'.$begin.$startTag.'(\s*?)\/(\s*?)'.$end.'/is', 
+                                function($value) use ($tagLib, $tag)
+                                {
+                                    return $this->parseXmlTag($tagLib, $tag['name'], $value[1], '');
+                                }, 
+                                $content
+                            );
                         }
                     } elseif ($tag['content'] !='empty') {
                         //闭合标签解析
                         for ($i=0;$i<$level;$i++) {
-                            $content = preg_replace('/'.$begin.$startTag.'\s(.*?)'.$end.'(.+?)'.$begin.'\/'.$endTag.'(\s*?)'.$end.'/eis', "\$this->parseXmlTag('".$tagLib."','".$tag['name']."','\\1','\\2')", $content);
+                            // $content = preg_replace('/'.$begin.$startTag.'\s(.*?)'.$end.'(.+?)'.$begin.'\/'.$endTag.'(\s*?)'.$end.'/eis', "\$this->parseXmlTag('".$tagLib."','".$tag['name']."','\\1','\\2')", $content);
+                            $content = preg_replace_callback(
+                                '/'.$begin.$startTag.'\s(.*?)'.$end.'(.+?)'.$begin.'\/'.$endTag.'(\s*?)'.$end.'/is', 
+                                function($value) use ($tagLib, $tag)
+                                {
+                                    return $this->parseXmlTag($tagLib, $tag['name'], $value[1], $value[2]);
+                                }, 
+                                $content
+                            );
                         }
                     } else {
                         //开放标签解析
                         // 开始标签必须有一个空格
-                        $content = preg_replace('/'.$begin.$startTag.'\s(.*?)\/(\s*?)'.$end.'/eis', "\$this->parseXmlTag('".$tagLib."','".$tag['name']."','\\1','')", $content);
+                        // $content = preg_replace('/'.$begin.$startTag.'\s(.*?)\/(\s*?)'.$end.'/eis', "\$this->parseXmlTag('".$tagLib."','".$tag['name']."','\\1','')", $content);
+                        $content = preg_replace_callback(
+                            '/'.$begin.$startTag.'\s(.*?)\/(\s*?)'.$end.'/is', 
+                            function($value) use ($tagLib, $tag)
+                            {
+                                return $this->parseXmlTag($tagLib, $tag['name'], $value[1], '');
+                            }, 
+                            $content
+                        );
                     }
                 }
             }

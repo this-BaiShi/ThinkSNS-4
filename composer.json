@@ -21,13 +21,22 @@
     ],
     "repositories": [
         {
-            "type": "composer",
-            "url": "http://demo.thinksns.com/ts4/"
+            "type": "package",
+            "package": {
+                "name": "medz/vendor-pack-pinyin",
+                "version": "dev-master",
+                "dist": {
+                    "url": "https://github.com/jifei/Pinyin/archive/master.zip",
+                    "type": "zip"
+                },
+                "autoload": {
+                    "classmap": ["Pinyin.php"]
+                }
+            }
         }
     ],
     "require": {
         "php": ">=5.3.12,<7.0",
-        "ext-bz2": "*",
         "ext-curl": "*",
         "ext-gd": "*",
         "ext-iconv": "*",
@@ -38,13 +47,15 @@
         "ext-zip": "*",
         "medz/vendor-pack-pinyin": "@dev",
         "medz/filesystem": "~1.0",
-        "symfony/polyfill-mbstring": "~1.0"
+        "symfony/polyfill-mbstring": "~1.0",
+        "illuminate/database": "4.1.*"
     },
     "require-dev": {
         "ext-xdebug": "*"
     },
     "config": {
-        "vendor-dir": "src/Vendor/"
+        "vendor-dir": "src/Vendor/",
+        "preferred-install": "dist"
     },
     "autoload": {
         "classmap": ["src/Ts.php"],

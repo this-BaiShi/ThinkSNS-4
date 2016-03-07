@@ -2,6 +2,9 @@
 
 use Composer\Autoload\ClassLoader;
 use Ts\AutoLoader\TsAutoLoader;
+use Illuminate\Database\Capsule\Manager as Capsule;
+use Illuminate\Events\Dispatcher;
+use Illuminate\Container\Container;
 
 /**
  * 新入口核心
@@ -17,6 +20,13 @@ final class Ts
      * @var string
      **/
     const DS = DIRECTORY_SEPARATOR;
+
+    /**
+     * 储存数据库管理链接
+     *
+     * @var Illuminate\Database\Capsule\Manager
+     **/
+    protected static $capsule;
 
     /**
      * 文件列表
@@ -54,6 +64,8 @@ final class Ts
         spl_autoload_register(function ($namespace) {
             TsAutoLoader::entry($namespace);
         });
+
+        // var_dump(Capsule::select('show tables'));exit;
     }
 
     /**
@@ -80,6 +92,15 @@ final class Ts
         if (function_exists('date_default_timezone_set')) {
             date_default_timezone_set('Asia/Shanghai');
         }
+
+        /* 初始化数据库 */
+        self::$capsule = new Capsule;
+        self::$capsule->addConnection((array) include TS_CONFIGURE . '/database.php');
+        self::$capsule->setEventDispatcher(new Dispatcher(new Container));
+        // Make this Capsule instance available globally via static methods... (optional)
+        self::$capsule->setAsGlobal();
+        // Setup the Eloquent ORM... (optional; unless you've used setEventDispatcher())
+        self::$capsule->bootEloquent();
     }
 
     /**
@@ -121,4 +142,16 @@ final class Ts
     {
         return self::$_classLoader;
     }
+
+    /**
+     * 取得 Illuminate\Database\Capsule\Manager
+     *
+     * @return Illuminate\Database\Capsule\Manager
+     * @author Seven Du <lovevipdsw@outlook.com>
+     **/
+    public static function getCapsule()
+    {
+        return self::$capsule;
+    }
+
 } // END final class Ts
