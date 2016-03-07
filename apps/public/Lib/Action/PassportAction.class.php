@@ -136,7 +136,16 @@ class PassportAction extends Action
         if (!$res) {
             $this->ajaxReturn(null, '无效的手机号', 0);
         }
-        $count = model('User')->where('`phone`="'.mysql_escape_string($mobile).'"')->count();
+        $count = model('User')
+            ->where(array(
+                'phone' => array(
+                    'eq',
+                    floatval($mobile)
+                )
+            ))
+            ->count()
+        ;
+        // $count = model('User')->where('`phone`="'.mysql_escape_string($mobile).'"')->count();
         if ($res && $count == 0) {
             $this->ajaxReturn(null, '此手机号没有注册该站点', 0);
         }
