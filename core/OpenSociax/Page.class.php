@@ -139,7 +139,7 @@ class Page
         $url = str_replace("\t", "&nbsp; &nbsp; ", $url);
         $url = str_replace("\r", "", $url);
         $url = str_replace("   ", "&nbsp; &nbsp;", $url);
-        $url = preg_replace(sprintf('/(#.+$|%s=[0-9]+)/is', C('VAR_PAGE')), '', t($_SERVER['PHP_SELF']) . '?' . $url);
+        $url = preg_replace(sprintf('/(#.+$|%s=[0-9]+)/is', C('VAR_PAGE')), '', t($_SERVER['SCRIPT_NAME']) . '?' . $url);
         // $url = eregi_replace("(#.+$|".C('VAR_PAGE')."=[0-9]+)", '', t($_SERVER['PHP_SELF']).'?'.$url);
         $url = $url.(strpos($url, '?')?'':"?");
         // $url = eregi_replace("(&+)", '&', $url);
