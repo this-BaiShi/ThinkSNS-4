@@ -74,7 +74,7 @@ class Image
     public static function buildImageVerify($length=4, $mode=1, $type='png', $width=48, $height=22, $verifyName='verify')
     {
         //tsload(ADDON_PATH.'/liberary/String.class.php');
-        $randval = String::rand_string($length, $mode);
+        $randval = StringTool::rand_string($length, $mode);
         //转换成大写字母.
         $_SESSION[$verifyName]= md5(strtoupper($randval));
         $width = ($length*10+10)>$width?$length*10+10:$width;
@@ -117,7 +117,7 @@ class Image
     public static function GBVerify($length=4, $type='png', $width=120, $height=30, $fontface='simhei.ttf', $verifyName='verify')
     {
         //tsload(ADDON_PATH.'/liberary/String.class.php');
-        $code = String::rand_string($length, 4);
+        $code = StringTool::rand_string($length, 4);
         $width = ($length*45)>$width?$length*45:$width;
         $_SESSION[$verifyName]= md5($code);
         $im=imagecreatetruecolor($width, $height);
@@ -139,7 +139,7 @@ class Image
         }
         for ($i=0;$i<$length;$i++) {
             $fontcolor=imagecolorallocate($im, mt_rand(0, 120), mt_rand(0, 120), mt_rand(0, 120)); //这样保证随机出来的颜色较深。
-            $codex= String::msubstr($code, $i, 1);
+            $codex= StringTool::msubstr($code, $i, 1);
             imagettftext($im, mt_rand(16, 20), mt_rand(-60, 60), 40*$i+20, mt_rand(30, 35), $fontcolor, $fontface, $codex);
         }
         Image::output($im, $type);
@@ -158,7 +158,7 @@ class Image
     }
 }//类定义结束
 
-class String
+class StringTool
 {
 
     /**
@@ -389,13 +389,13 @@ class String
                 $char = substr($format, $i, 1);
                 switch ($char) {
                     case "*"://字母和数字混合
-                        $strtemp   .= String::rand_string(1);
+                        $strtemp   .= StringTool::rand_string(1);
                         break;
                     case "#"://数字
-                        $strtemp  .= String::rand_string(1, 1);
+                        $strtemp  .= StringTool::rand_string(1, 1);
                         break;
                     case "$"://大写字母
-                        $strtemp .=  String::rand_string(1, 2);
+                        $strtemp .=  StringTool::rand_string(1, 2);
                         break;
                     default://其它格式均不转换
                         $strtemp .=   $char;
