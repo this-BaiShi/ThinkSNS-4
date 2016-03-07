@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2c90ec85d5544c1068191b2204ba350e",
-    "content-hash": "63d7e5e3f572ecafc7ec39d5c7950404",
+    "hash": "64e384096b0e546bafd814e3a9d61a7f",
+    "content-hash": "9c08cb6620398d336170f1568fb788f8",
     "packages": [
         {
             "name": "illuminate/container",
@@ -333,7 +333,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "http://packagist.phpcomposer.com/files/symfony/filesystem/65cb36b6539b1d446527d60457248f30d045464d.zip",
+                "url": "https://packagist.phpcomposer.com/files/symfony/filesystem/65cb36b6539b1d446527d60457248f30d045464d.zip",
                 "reference": "65cb36b6539b1d446527d60457248f30d045464d",
                 "shasum": ""
             },
@@ -382,7 +382,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "http://packagist.phpcomposer.com/files/symfony/polyfill-mbstring/1289d16209491b584839022f29257ad859b8532d.zip",
+                "url": "https://packagist.phpcomposer.com/files/symfony/polyfill-mbstring/1289d16209491b584839022f29257ad859b8532d.zip",
                 "reference": "1289d16209491b584839022f29257ad859b8532d",
                 "shasum": ""
             },
