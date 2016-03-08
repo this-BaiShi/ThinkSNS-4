@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "64e384096b0e546bafd814e3a9d61a7f",
-    "content-hash": "9c08cb6620398d336170f1568fb788f8",
+    "hash": "2618cb7ef894adcf8350e1663fa1b770",
+    "content-hash": "babb1fd6eaeedbdb2710a09a4f173e13",
     "packages": [
         {
             "name": "illuminate/container",
@@ -510,18 +510,14 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.3.12,<7.0",
-        "ext-bz2": "*",
+        "php": ">=5.3.12",
         "ext-curl": "*",
         "ext-gd": "*",
         "ext-iconv": "*",
         "ext-json": "*",
         "ext-mcrypt": "*",
-        "ext-mysql": "*",
         "ext-zlib": "*",
         "ext-zip": "*"
     },
-    "platform-dev": {
-        "ext-xdebug": "*"
-    }
+    "platform-dev": []
 }

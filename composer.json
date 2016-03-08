@@ -57,6 +57,7 @@
         "classmap": ["src/Ts.php"],
         "psr-4": {
             "Ts\\": "src/",
+            "Ts\\Base\\": "src/Bases/",
             "App\\": "apps/"
         }
     },
