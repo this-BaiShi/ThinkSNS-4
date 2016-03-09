@@ -95,10 +95,10 @@ core.message = new function(){
         /* # 初始化SmartButton */
         initSmartButton: function() {
             /* # 针对非chrome浏览器的兼容处理 */
-            if (/*navigator.userAgent.toLowerCase().match(/edge/) == null && */window.chrome) {
+            //if (/*navigator.userAgent.toLowerCase().match(/edge/) == null && */window.chrome) {
                 taskbar.jq('.wrap').addClass('chrome');
                 taskbar.limitHeight = 40;
-            };
+            //};
             /* # 前置判断，判断分辨率问题 */
             taskbar.messageStatus = $(document).width() < 1140;
             if (!taskbar.messageStatus) {
