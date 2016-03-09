@@ -20,4 +20,4 @@
 /_runtime/
 /src/Vendor
 /storage
-composer.lock
+/composer.lock
