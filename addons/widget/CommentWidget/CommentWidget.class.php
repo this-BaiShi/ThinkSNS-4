@@ -213,7 +213,7 @@ class CommentWidget extends Widget
         }
         
         // 添加评论操作
-        $data ['comment_id'] = model('Comment')->addComment($data, false, true);
+        $data ['comment_id'] = model('Comment')->addComment($data);
         $return['sql'] = D()->getLastSql();
         if ($data ['comment_id']) {
             $talkbox = intval($_POST['talkbox']);
