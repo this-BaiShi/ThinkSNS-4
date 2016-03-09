@@ -148,10 +148,13 @@ class App
             \Medz\Component\Filesystem\Filesystem::dumpFile($appTimer, time());
         }
 
-        \Ts\Helper\Controller::setApp(APP_NAME);
-        \Ts\Helper\Controller::setController(MODULE_NAME);
-        \Ts\Helper\Controller::setAction(ACTION_NAME);
-        \Ts\Helper\Controller::run();
+        $app = new \Ts\Helper\Controller;
+        $app
+            ->setApp(APP_NAME)
+            ->setController(MODULE_NAME)
+            ->setAction(ACTION_NAME)
+            ->run()
+        ;
 
         //执行计划任务
         model('Schedule')->run();
@@ -168,7 +171,6 @@ class App
      */
     public static function execApi()
     {
-        var_dump(123);
         include_once(SITE_PATH.'/api/' . API_VERSION . '/'.MODULE_NAME.'Api.class.php');
         $className = MODULE_NAME.'Api';
         $module = new $className();

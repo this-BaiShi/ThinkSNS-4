@@ -23,7 +23,7 @@
         <div class="reply">
           <form>
             <input type="text" class="text" maxlength="140" value-prefix="回复@{$vo.user_info.uname}：" value="" />
-            <input type="submit" class="sbmt" value="回复" args="row_id={$vo['row_id']}&app_uid={$vo['app_uid']}&app_row_id={$vo['row_id']}&app_row_table=&app_name={$vo['app']}&table_name={$vo['table']}&to_comment_id={$vo['comment_id']}&to_uid={$vo['to_uid']}&ifShareFeed=0&comment_old=0&talkbox=0" to_comment_uname="{$vo['user_info']['uname']}" />
+            <input type="submit" class="sbmt" value="回复" args="row_id={$vo['row_id']}&app_uid={$vo['app_uid']}&app_row_id={$vo['row_id']}&app_row_table=&app_name={$vo['app']}&table_name={$vo['table']}&to_comment_id={$vo['comment_id']}&to_uid={$vo['uid']}&ifShareFeed=0&comment_old=0&talkbox=0" to_comment_uname="{$vo['user_info']['uname']}" />
             <a href="javascript:;" class="face-icon" event-node="comment_insert_face"></a>
           </form>
           <div class="face_parent_div"></div>

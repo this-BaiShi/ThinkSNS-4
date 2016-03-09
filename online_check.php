@@ -1,4 +1,7 @@
 <?php
+
+use Illuminate\Database\Capsule\Manager as Capsule;
+
 //exit;
 define('SITE_PATH', dirname(__FILE__));
 
@@ -41,14 +44,22 @@ $cTime            =    time();
 $ext            =    '';
 
 //加载数据库查询类
-require(SITE_PATH.'/addons/library/SimpleDB.class.php');
+// require(SITE_PATH.'/addons/library/SimpleDB.class.php');
 
-//全局配置
-$config        =    require(SITE_PATH.'/config/config.inc.php');
+// //全局配置
+// $config        =    require(SITE_PATH.'/config/config.inc.php');
 
 //数据库配置
-$dbconfig   =    !empty($config['ONLINE_DB']) ? array_merge($config, $config['ONLINE_DB']) : $config;
-$db =   new SimpleDB($dbconfig);
+// $dbconfig   =    !empty($config['ONLINE_DB']) ? array_merge($config, $config['ONLINE_DB']) : $config;
+// $db =   new SimpleDB($dbconfig);
+
+/* 新系统需要的一些配置 */
+define('TS_ROOT', dirname(__FILE__));        // Ts根
+define('TS_APPLICATION', TS_ROOT . '/apps'); // 应用存在的目录
+define('TS_CONFIGURE', TS_ROOT . '/config'); // 配置文件存在的目录
+define('TS_STORAGE', '/storage');            // 储存目录，需要可以公开访问，相对于域名根
+// 新的系统核心接入
+require TS_ROOT . '/src/Build.php';
 
 //记录在线统计.
 if ($_GET['action']=='trace') {
@@ -56,12 +67,29 @@ if ($_GET['action']=='trace') {
     
     /* ===================================== step 1 record track ========================================== */
         
-    $sql    =    "INSERT INTO ".$config['DB_PREFIX']."online_logs 
+    /*$sql    =    "INSERT INTO ".$config['DB_PREFIX']."online_logs 
 				(day,uid,uname,action,refer,isGuest,isIntranet,ip,agent,ext)
 				VALUES ( CURRENT_DATE,'$uid','$uname','$action','$refer','$isGuest','$isIntranet','$ip','$agent','$ext');";
     
               
-    $result    =    $db->execute("$sql");
+    $result    =    $db->execute("$sql");*/
+
+    $result = Capsule::table('online_logs')
+        ->insert(
+            array(
+                'day'        => 'CURRENT_DATE',
+                'uid'        => $uid,
+                'uname'      => $uname,
+                'action'     => $action,
+                'refer'      => $refer,
+                'isGuest'    => $isGuest,
+                'isIntranet' => $isIntranet,
+                'ip'         => $ip,
+                'agent'      => $agent,
+                'ext'        => $ext
+            )
+        )
+    ;
     
 
     /* ===================================== step 2 update hits ========================================== */
@@ -79,22 +107,46 @@ if ($_GET['action']=='trace') {
 
         //$_SESSION['online_pageviews']	=	0;
 
+        $online = Capsule::table('online');
+
         //判断是否存在记录.
         if ($uid>0) {
-            $where    =    "WHERE (uid='$uid')";
+            // $where    =    "WHERE (uid='$uid')";
+            $online->where('uid', '=', $uid);
         } else {
-            $where    =    "WHERE (uid=0 AND ip='$ip')";
+            // $where    =    "WHERE (uid=0 AND ip='$ip')";
+            $online
+                ->where('uid', '=', 0, 'and')
+                ->where('ip', '=', $ip)
+            ;
         }
-        $sql    =    "SELECT uid FROM ".$config['DB_PREFIX']."online ".$where;
+        // $sql    =    "SELECT uid FROM ".$config['DB_PREFIX']."online ".$where;
        
-        $result    =    $db->query("$sql");
+        // $result    =    $db->query("$sql");
+
+        $result = $online->select('uid')->get();
+
         //如果没有记录.添加记录.
         if ($result) {
-            $sql    =    "UPDATE ".$config['DB_PREFIX']."online SET activeTime=$cTime,ip='$ip' ".$where;
-            $result    =    $db->execute("$sql");
+            // $sql    =    "UPDATE ".$config['DB_PREFIX']."online SET activeTime=$cTime,ip='$ip' ".$where;
+            // $result    =    $db->execute("$sql");
+
+            $result = $online->update(array(
+                'activeTime' => $cTime,
+                'ip'         => $ip
+            ));
+
         } else {
-            $sql    =    "INSERT INTO ".$config['DB_PREFIX']."online (uid,uname,app,ip,agent,activeTime) VALUES ('$uid','{$uname}','$app','$ip','$agent',$cTime);";
-            $result    =    $db->execute("$sql");
+            // $sql    =    "INSERT INTO ".$config['DB_PREFIX']."online (uid,uname,app,ip,agent,activeTime) VALUES ('$uid','{$uname}','$app','$ip','$agent',$cTime);";
+            // $result    =    $db->execute("$sql");
+            $result = $online->insert(array(
+                'uid'        => $uid,
+                'uname'      => $uname,
+                'app'        => $app,
+                'ip'         => $ip,
+                'agent'      => $agent,
+                'activeTime' => $cTime
+            ));
         }
     }
     if ($result) {

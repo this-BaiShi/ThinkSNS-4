@@ -36,7 +36,7 @@ define('TS_APPLICATION', TS_ROOT . '/apps'); // 应用存在的目录
 define('TS_CONFIGURE', TS_ROOT . '/config'); // 配置文件存在的目录
 define('TS_STORAGE', '/storage');            // 储存目录，需要可以公开访问，相对于域名根
 /* 应用开发中的配置 */
-define('TS_APP_DEV', true);
+// define('TS_APP_DEV', true);
 // 新的系统核心接入
 require TS_ROOT . '/src/Build.php';
 
@@ -79,6 +79,7 @@ if (C('APP_DEBUG')) {
     }
     //print_r(Cache::$log);
     echo '<hr>';
+    echo sprintf('PHP version: PHP %s', PHP_VERSION);
     echo ' Memories: '."<br/>";
     echo 'ToTal: ',number_format(($mem_run_end - $mem_include_start)/1024),'k',"<br/>";
     echo 'Include:',number_format(($mem_run_start - $mem_include_start)/1024),'k',"<br/>";

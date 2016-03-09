@@ -55,7 +55,7 @@ class UserAction extends AdministratorAction
         // 初始化用户列表管理菜单
         $this->_initUserListAdminMenu('index');
         // 数据的格式化与listKey保持一致
-        $listData = $this->_getUserList('20', $map, 'index');
+        $listData = $this->_getUserList('20', array(), 'index');
         // 列表批量操作按钮
         $this->pageButton[] = array('title'=>L('PUBLIC_SEARCH_USER'),'onclick'=>"admin.fold('search_form')");
         $this->pageButton[] = array('title'=>L('PUBLIC_TRANSFER_USER_GROUP'),'onclick'=>"admin.changeUserGroup()");
@@ -281,7 +281,7 @@ class UserAction extends AdministratorAction
      * @param string $type 格式化数据类型，index、pending、dellist
      * @return array 解析后的用户列表数据
      */
-    private function _getUserList($limit = 20, $map = array(), $type = 'index')
+    private function _getUserList($limit = 20, array $map = array(), $type = 'index')
     {
         // 设置列表主键
         $this->_listpk = 'uid';

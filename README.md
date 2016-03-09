@@ -1,6 +1,8 @@
 # ThinkSNS-4
 ThinkSNS v4开源社交系统 [Web page](http://www.thinksns.com)
 
+[![Latest Stable Version](https://poser.pugx.org/medz/thinksns-4/v/stable)](https://packagist.org/packages/medz/thinksns-4) [![Total Downloads](https://poser.pugx.org/medz/thinksns-4/downloads)](https://packagist.org/packages/medz/thinksns-4) [![Latest Unstable Version](https://poser.pugx.org/medz/thinksns-4/v/unstable)](https://packagist.org/packages/medz/thinksns-4) [![License](https://poser.pugx.org/medz/thinksns-4/license)](https://packagist.org/packages/medz/thinksns-4)
+
 # 如何获得ThinkSNS
 >* Composer
 ```shell

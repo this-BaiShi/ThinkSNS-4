@@ -14,7 +14,7 @@ class DiySendFrame extends TagsAbstract
     /* (non-PHPdoc)
      * @see TagsAbstract::getTemplateFile()
      */
-    public function getTemplateFile($tpl = '')
+    public function getTemplateFile()
     {
         //返回需要渲染的模板
         return dirname(__FILE__).'/DiySendFrame/sendframe.html';

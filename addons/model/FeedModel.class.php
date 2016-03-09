@@ -1,4 +1,7 @@
 <?php
+
+use Illuminate\Database\Capsule\Manager as Capsule;
+
 /**
  * 分享模型 - 数据对象模型
  * @author jason <yangjs17@yeah.net>
@@ -144,7 +147,17 @@ class FeedModel extends Model
         $data['content'] = str_replace(chr(31), '', $data['content']);
         $data['body'] = str_replace(chr(31), '', $data['body']);
         // 添加关联数据
-        $feed_data = D('FeedData')->data(array('feed_id'=>$feed_id, 'feed_data'=>serialize($data), 'client_ip'=>get_client_ip(), 'client_port'=>get_client_port(), 'feed_content'=>$data['body']))->add();
+        // $feed_data = D('FeedData')->data(array('feed_id'=>$feed_id, 'feed_data'=>serialize($data), 'client_ip'=>get_client_ip(), 'client_port'=>get_client_port(), 'feed_content'=>$data['body']))->add();
+        // var_dump($feed_data);exit;
+        $feed_data =  Capsule::table('feed_data')
+            ->insert(array(
+                'feed_id'      => $feed_id,
+                'feed_data'    => serialize($data),
+                'client_ip'    => get_client_ip(),
+                'client_port'  => get_client_port(),
+                'feed_content' => $data['body']
+            ))
+        ;
         // 添加分享成功后
         if ($feed_id && $feed_data) {
             //锁定发布
