@@ -1,4 +1,3 @@
-<span class="title-from-source"><i class="ico-weiba"></i>发表在 <a href="{$sourceInfo['weiba_url']}" target="_blank">{$sourceInfo['weiba_name']}</a></span>
 <div class="contents clearfix">
 		<p><a target="_blank" href="{$sourceInfo['source_url']}">帖子&nbsp;|&nbsp;{$sourceInfo['title']}</a>&nbsp;{:getShort($sourceInfo['content'], intval(110-get_str_length($sourceInfo['title'])), '...')}</p>
     <?php if (!empty($sourceInfo['pic_url'])): ?>

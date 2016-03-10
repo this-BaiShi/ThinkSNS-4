@@ -64,7 +64,7 @@ abstract class Controller extends BaseController
         /* class 重载之前 */
         $notCallOld = null;
         method_exists($this, 'classCallBefore') &&
-        $notCallOld = $this->classCallBefore();
+        $notCallOld = $this->classCallBefore($method, $params);
 
         if (
             $notCallOld === null ||
@@ -75,7 +75,7 @@ abstract class Controller extends BaseController
 
         /* class 重载之后 */
         method_exists($this, 'classCallAfter') &&
-        $this->classCallAfter();
+        $this->classCallAfter($method, $params);
     }
 
 } // END abstract class Controller extends Controller
