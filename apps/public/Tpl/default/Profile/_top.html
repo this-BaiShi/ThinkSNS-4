@@ -30,7 +30,7 @@
       </dl>
     </div>
     <div class="personal-control" id="personal-control">
-      <a class="personal-data" href="{:U('public/Profile/data')}"><i class="i-personal-data"></i>个人资料</a>
+      <a class="personal-data" href="{:U('public/Profile/data', array('uid'=>$uid))}"><i class="i-personal-data"></i>个人资料</a>
       <if condition="$mid==$uid"><a class="personal-set" href="{:U('public/Account/index')}"><i class="i-set"></i>个人设置</a></if>
     </div>
   </div>
