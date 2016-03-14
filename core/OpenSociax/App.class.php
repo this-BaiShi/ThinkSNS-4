@@ -145,7 +145,8 @@ class App
             defined('TS_APP_DEV')
         ) {
             \Ts\Helper\AppInstall::getInstance(APP_NAME)->moveResources();
-            \Medz\Component\Filesystem\Filesystem::dumpFile($appTimer, time());
+            \Medz\Component\Filesystem\Filesystem::mkdir(dirname($appTimer), 0777);
+            file_put_contents($appTimer, time());
         }
 
         $app = new \Ts\Helper\Controller;

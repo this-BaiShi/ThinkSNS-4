@@ -143,7 +143,8 @@ if (
     (time() - file_get_contents($timer)) > 604800 // 七天更新一次
 ) {
     \Ts\Helper\AppInstall::moveAllApplicationResources(); // 移动应用所有的资源
-    \Medz\Component\Filesystem\Filesystem::dumpFile($timer, time()); // 添加时间锁文件
+    \Medz\Component\Filesystem\Filesystem::mkdir(dirname($timer), 0777);
+    file_put_contents($timer, time());
 }
 define('APP_PUBLIC_URL', sprintf('%s%s/app/%s', SITE_URL, TS_STORAGE, strtolower(APP_NAME)));
 

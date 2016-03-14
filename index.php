@@ -1,14 +1,16 @@
 <?php
 
 //设置错误级别
-error_reporting(E_ERROR ^ E_NOTICE ^ E_WARNING);
+// error_reporting(E_ERROR ^ E_NOTICE ^ E_WARNING);
+error_reporting(E_ALL);
 
 /** ///调试、找错时请去掉///前空格
-ini_set('display_errors',true);
+// ini_set('display_errors',true);
 error_reporting(E_ALL);
 set_time_limit(0);
-define('DEBUG',	true);
 // */
+
+define('DEBUG', false);
 
 $mem_run_end  = memory_get_usage();
 $time_run_end = microtime(true);
@@ -30,14 +32,13 @@ if (version_compare(PHP_VERSION, '5.3.12', '<')) {
 //网站根路径设置
 define('SITE_PATH', dirname(__FILE__));
 
-
 /* 新系统需要的一些配置 */
 define('TS_ROOT', dirname(__FILE__));        // Ts根
 define('TS_APPLICATION', TS_ROOT . '/apps'); // 应用存在的目录
 define('TS_CONFIGURE', TS_ROOT . '/config'); // 配置文件存在的目录
 define('TS_STORAGE', '/storage');            // 储存目录，需要可以公开访问，相对于域名根
 /* 应用开发中的配置 */
-// define('TS_APP_DEV', true);
+define('TS_APP_DEV', false);
 // 新的系统核心接入
 require TS_ROOT . '/src/Build.php';
 

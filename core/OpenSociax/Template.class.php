@@ -407,6 +407,7 @@ class Template
         $begin = $this->config['taglib_begin'];
         $end   = $this->config['taglib_end'];
         $tLib =  get_instance_of('TagLibCx');
+        $_this = $this;
         if ($tLib->valid()) {
             //如果标签库有效则取出支持标签列表
             $tagList =  $tLib->getTagList();
@@ -433,7 +434,7 @@ class Template
                                 // $content = preg_replace('/'.$begin.$startTag.'(\s*?)'.$end.'(.*?)'.$begin.'\/'.$endTag.'(\s*?)'.$end.'/eis', "\$this->parseXmlTag('".$tagLib."','".$tag['name']."','\\1','\\2')", $content);
                                 $content = preg_replace_callback(
                                     '/'.$begin.$startTag.'(\s*?)'.$end.'(.*?)'.$begin.'\/'.$endTag.'(\s*?)'.$end.'/is', 
-                                    function($value) use ($tagLib, $tag)
+                                    function($value) use ($tagLib, $tag, $_this)
                                     {
                                         return $this->parseXmlTag($tagLib, $tag['name'], $value[1], $value[2]);
                                     }, 
@@ -444,7 +445,7 @@ class Template
                             // $content = preg_replace('/'.$begin.$startTag.'(\s*?)\/(\s*?)'.$end.'/eis', "\$this->parseXmlTag('".$tagLib."','".$tag['name']."','\\1','')", $content);
                             $content = preg_replace_callback(
                                 '/'.$begin.$startTag.'(\s*?)\/(\s*?)'.$end.'/is', 
-                                function($value) use ($tagLib, $tag)
+                                function($value) use ($tagLib, $tag, $_this)
                                 {
                                     return $this->parseXmlTag($tagLib, $tag['name'], $value[1], '');
                                 }, 
@@ -457,7 +458,7 @@ class Template
                             // $content = preg_replace('/'.$begin.$startTag.'\s(.*?)'.$end.'(.+?)'.$begin.'\/'.$endTag.'(\s*?)'.$end.'/eis', "\$this->parseXmlTag('".$tagLib."','".$tag['name']."','\\1','\\2')", $content);
                             $content = preg_replace_callback(
                                 '/'.$begin.$startTag.'\s(.*?)'.$end.'(.+?)'.$begin.'\/'.$endTag.'(\s*?)'.$end.'/is', 
-                                function($value) use ($tagLib, $tag)
+                                function($value) use ($tagLib, $tag, $_this)
                                 {
                                     return $this->parseXmlTag($tagLib, $tag['name'], $value[1], $value[2]);
                                 }, 
@@ -470,7 +471,7 @@ class Template
                         // $content = preg_replace('/'.$begin.$startTag.'\s(.*?)\/(\s*?)'.$end.'/eis', "\$this->parseXmlTag('".$tagLib."','".$tag['name']."','\\1','')", $content);
                         $content = preg_replace_callback(
                             '/'.$begin.$startTag.'\s(.*?)\/(\s*?)'.$end.'/is', 
-                            function($value) use ($tagLib, $tag)
+                            function($value) use ($tagLib, $tag, $_this)
                             {
                                 return $this->parseXmlTag($tagLib, $tag['name'], $value[1], '');
                             }, 
