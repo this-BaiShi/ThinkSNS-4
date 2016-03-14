@@ -377,11 +377,6 @@ class AddonModel extends Model
                 $class = $entry . 'Addons';
                 $fileAddons [$entry] = new $class ();
                 $fileAddons [$entry]->setPath($path);
-                
-                $is_weixin = intval($fileAddons [$entry]->is_weixin);
-                if (intval($_GET ['is_weixin']) != $is_weixin) {
-                    unset($fileAddons [$entry]);
-                }
             }
         }
 
