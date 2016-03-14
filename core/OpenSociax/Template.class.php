@@ -166,11 +166,12 @@ class Template
             $tmplContent = preg_replace('/(<\?(?!php|=|$))/i', '<?php echo \'\\1\'; ?>'."\n", $tmplContent );*/
         // 还原被替换的Literal标签
         // $tmplContent = preg_replace('/<!--###literal(\d)###-->/eis', "\$this->restoreLiteral('\\1')", $tmplContent);
+        $_this = $this;
         $tmplContent = preg_replace_callback(
             '/<!--###literal(\d)###-->/is', 
-            function($value)
+            function($value) use ($_this)
             {
-                return $this->restoreLiteral($value[1]);
+                return $_this->restoreLiteral($value[1]);
             }, 
             $tmplContent
         );
@@ -194,6 +195,7 @@ class Template
      */
     public function parse($content)
     {
+        $_this = $this;
         // 内容为空不解析
         if (empty($content)) {
             return '';
@@ -208,9 +210,9 @@ class Template
         // $content = preg_replace('/'.$begin.'literal'.$end.'(.*?)'.$begin.'\/literal'.$end.'/eis', "\$this->parseLiteral('\\1')", $content);
         $content = preg_replace_callback(
             '/'.$begin.'literal'.$end.'(.*?)'.$begin.'\/literal'.$end.'/is', 
-            function($value)
+            function($value) use ($_this)
             {
-                return $this->parseLiteral($value[1]);
+                return $_this->parseLiteral($value[1]);
             }, 
             $content
         );
@@ -256,9 +258,9 @@ class Template
 
         $content = preg_replace_callback(
             '/('.$this->config['tmpl_begin'].')(\S.+?)('.$this->config['tmpl_end'].')/is', 
-            function($value)
+            function($value) use ($_this)
             {
-                return $this->parseTag($value[2]);
+                return $_this->parseTag($value[2]);
             }, 
             $content
         );
@@ -436,7 +438,7 @@ class Template
                                     '/'.$begin.$startTag.'(\s*?)'.$end.'(.*?)'.$begin.'\/'.$endTag.'(\s*?)'.$end.'/is', 
                                     function($value) use ($tagLib, $tag, $_this)
                                     {
-                                        return $this->parseXmlTag($tagLib, $tag['name'], $value[1], $value[2]);
+                                        return $_this->parseXmlTag($tagLib, $tag['name'], $value[1], $value[2]);
                                     }, 
                                     $content
                                 );
@@ -447,7 +449,7 @@ class Template
                                 '/'.$begin.$startTag.'(\s*?)\/(\s*?)'.$end.'/is', 
                                 function($value) use ($tagLib, $tag, $_this)
                                 {
-                                    return $this->parseXmlTag($tagLib, $tag['name'], $value[1], '');
+                                    return $_this->parseXmlTag($tagLib, $tag['name'], $value[1], '');
                                 }, 
                                 $content
                             );
@@ -460,7 +462,7 @@ class Template
                                 '/'.$begin.$startTag.'\s(.*?)'.$end.'(.+?)'.$begin.'\/'.$endTag.'(\s*?)'.$end.'/is', 
                                 function($value) use ($tagLib, $tag, $_this)
                                 {
-                                    return $this->parseXmlTag($tagLib, $tag['name'], $value[1], $value[2]);
+                                    return $_this->parseXmlTag($tagLib, $tag['name'], $value[1], $value[2]);
                                 }, 
                                 $content
                             );
@@ -473,7 +475,7 @@ class Template
                             '/'.$begin.$startTag.'\s(.*?)\/(\s*?)'.$end.'/is', 
                             function($value) use ($tagLib, $tag, $_this)
                             {
-                                return $this->parseXmlTag($tagLib, $tag['name'], $value[1], '');
+                                return $_this->parseXmlTag($tagLib, $tag['name'], $value[1], '');
                             }, 
                             $content
                         );
