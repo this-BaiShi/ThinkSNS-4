@@ -58,6 +58,7 @@
         "psr-4": {
             "Ts\\": "src/",
             "Ts\\Base\\": "src/Bases/",
+            "Ts\\Model\\": "src/Models/",
             "App\\": "apps/"
         }
     },

@@ -22,7 +22,7 @@ if (strtolower(ini_get("session.save_handler")) == "files") {
 }
 session_start();
 
-$_TSVERSION = '4-R1';
+$_TSVERSION = '4-R2';
 
 include 'install_function.php';
 include 'install_lang.php';
@@ -30,7 +30,7 @@ include 'install_lang.php';
 $timestamp = time();
 $ip = getip();
 $installfile = 'ThinkSNS.sql';
-$installdbname = 'thinksns_4_r1';
+$installdbname = 'thinksns_4_r2';
 $thinksns_config_file = 'config.inc.php';
 $_SESSION['thinksns_install'] = $timestamp;
 

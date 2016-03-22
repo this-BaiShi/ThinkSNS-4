@@ -12,10 +12,4 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
  **/
 abstract class Model extends Eloquent
 {
-    abstract protected $table;
-
-    abstract protected $fillable = array();
-
-    protected $softDelete = true; // 默认开启软删除
-
 } // END abstract class Model extends Eloquent

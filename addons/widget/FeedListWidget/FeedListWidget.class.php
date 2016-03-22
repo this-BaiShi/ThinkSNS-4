@@ -53,13 +53,17 @@ class FeedListWidget extends Widget
         } else {
             /* # 是否是频道 */
             if ($var['type'] == 'channel') {
-                $sql = 'SELECT COUNT(`c`.`channel_category_id`) AS `num` FROM `%s` AS `f` LEFT JOIN `%s` AS `c` ON `f`.`channel_category_id` = `c`.`channel_category_id` WHERE `f`.`uid` = %d';
-                $sql = sprintf($sql, D('channel_follow')->getTableName(), D('channel_category')->getTableName(), intval($this->mid));
-                $num = D()->query($sql);
-                $num = array_shift($num);
-                $num = array_shift($num);
-                $var['channel'] = $num;
-                unset($sql, $num);
+                // $sql = 'SELECT COUNT(`c`.`channel_category_id`) AS `num` FROM `%s` AS `f` LEFT JOIN `%s` AS `c` ON `f`.`channel_category_id` = `c`.`channel_category_id` WHERE `f`.`uid` = %d';
+                // $sql = sprintf($sql, D('channel_follow')->getTableName(), D('channel_category')->getTableName(), intval($this->mid));
+                // $num = D()->query($sql);
+                // $num = array_shift($num);
+                // $num = array_shift($num);
+                // $var['channel'] = $num;
+                // unset($sql, $num);
+
+                $var['channel'] = \Ts\Model\ChannelCategory::whereHas('follows', function($q) use ($uid) {
+                    $q->where('uid', $uid);
+                })->count();
             }
 
             /* # 取得数据 */
@@ -270,6 +274,7 @@ class FeedListWidget extends Widget
                             $where .= " AND type = '" . t($var ['feed_type']) . "'";
                         }
                     }
+
                     // 设定可查看的全站分享总数，可以提高大数据量下的查询效率
                     $max = null;//10000;
                     $list = model('Feed')->getList($where, $this->limitnums, '', $max);
