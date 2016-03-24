@@ -142,7 +142,7 @@ class App
         if (
             !file_exists($appTimer) || // 不存在
             (time() - file_get_contents($appTimer)) > 604800 || // 七天为一个更新周期
-            defined('TS_APP_DEV')
+            (defined('TS_APP_DEV') && TS_APP_DEV == true)
         ) {
             \Ts\Helper\AppInstall::getInstance(APP_NAME)->moveResources();
             \Medz\Component\Filesystem\Filesystem::mkdir(dirname($appTimer), 0777);
