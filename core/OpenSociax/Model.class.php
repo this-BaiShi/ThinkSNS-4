@@ -1371,8 +1371,7 @@ class Model extends Think
                     $db_charset = (strpos($db_charset, '-') === false) ? $db_charset : str_replace('-', '', $db_charset);
                     $type   = strtoupper(preg_replace("/^\s*CREATE TABLE\s+.+\s+\(.+?\).*(ENGINE|TYPE)\s*=\s*([a-z]+?).*$/isU", "\\2", $query));
                     $type   = in_array($type, array("MYISAM", "HEAP")) ? $type : "MYISAM";
-                    $_temp_query = preg_replace("/^\s*(CREATE TABLE\s+.+\s+\(.+?\)).*$/isU", "\\1", $query).
-                        (mysql_get_server_info() > "4.1" ? " ENGINE=$type DEFAULT CHARSET=$db_charset" : " TYPE=$type");
+                    $_temp_query = preg_replace("/^\s*(CREATE TABLE\s+.+\s+\(.+?\)).*$/isU", "\\1", $query) . sprintf(' ENGINE=%s DEFAULT CHARSET=%s', $type, $db_charset);
 
                     $res = $this->execute($_temp_query);
                 } else {
