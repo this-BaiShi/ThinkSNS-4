@@ -1612,14 +1612,13 @@ function _parse_expression($data)
     if (preg_match("/#.+#/i", $data[0])) {
         return $data[0];
     }
-    $from           = $data[1] == 'weiba' ? 'weiba' : '';
     $allexpression = model('Expression')->getAllExpression();
     $info = $allexpression[$data[0]];
     global $ts;
     $pkg = $ts['site']['expression'];
     $pkg = $pkg ? $pkg : 'default';
     if ($info) {
-        return  $from ? preg_replace("/\[.+?\]/i", "<img class=\"emot\" src='".__THEME__."/image/expression/{$pkg}/".$info['filename']."' />", $data[0]) : preg_replace("/\[.+?\]/i", "<img class=\"emot\" width=\"20px\" src='".__THEME__."/image/expression/{$pkg}/".$info['filename']."' />", $data[0]);
+        return preg_replace("/\[.+?\]/i", "<img class=\"emot\" style=\"width:20px;\" src='".__THEME__."/image/expression/{$pkg}/".$info['filename']."' />", $data[0]);
     } else {
         return $data[0];
     }
