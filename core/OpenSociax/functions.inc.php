@@ -1079,7 +1079,7 @@ function fetch($templateFile='', $tvar=array(), $charset='utf-8', $contentType='
     $templateCacheFile  =   C('TMPL_CACHE_PATH').'/'.APP_NAME.'_'.tsmd5($templateFile).'.php';
 
     //载入模版缓存
-    if (!$ts['_debug'] && file_exists($templateCacheFile)) {
+    if ((!$ts['_debug'] && file_exists($templateCacheFile)) && (!defined('TS_APP_DEV') || TS_APP_DEV == false)) {
         //if(1==2){ //TODO  开发
         extract($tvar, EXTR_OVERWRITE);
         //载入模版缓存文件
