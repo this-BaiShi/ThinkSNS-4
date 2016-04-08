@@ -211,7 +211,7 @@ class CommentWidget extends Widget
         } else {
             $data['app_detail_summary'] = $data ['app_detail_summary'] . '<a class="ico-details" href="' . $data['app_detail_url'] . '"></a>';
         }
-        
+        $data['from'] = 'feed';
         // 添加评论操作
         $data ['comment_id'] = model('Comment')->addComment($data);
         $return['sql'] = D()->getLastSql();

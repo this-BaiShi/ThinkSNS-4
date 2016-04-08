@@ -145,6 +145,7 @@ class WeibaReplyWidget extends Widget
             $datas['uid'] = $this->mid;
             $datas['ctime'] = time();
             $datas['client_type'] = getVisitorClient();
+            $datas['from'] = 'weiba';
             $data['cancomment'] = 1;
             $data['list_count'] = intval($_POST['list_count']);
             // 解锁
