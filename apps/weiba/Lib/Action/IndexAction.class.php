@@ -633,6 +633,7 @@ class IndexAction extends Action
         $checkContent = str_replace('</p>', '', $checkContent);
         $checkContents = preg_replace('/<img(.*?)src=/i', 'img', $checkContent);
         $checkContents = preg_replace('/<embed(.*?)src=/i', 'img', $checkContents);
+        $checkContents = RemoveXSS($checkContents);
         if (strlen(t($_POST['title']))==0) {
             $this->error('帖子标题不能为空，等待返回添加标题', $type);
         }
@@ -750,7 +751,7 @@ class IndexAction extends Action
         $post_detail['content'] = formatEmoji(false, $post_detail['content']);
         $post_detail['title'] = formatEmoji(false, $post_detail['title']);
 
-        $post_detail['content'] = html_entity_decode($post_detail['content'], ENT_QUOTES, 'UTF-8');
+        // $post_detail['content'] = html_entity_decode($post_detail['content'], ENT_QUOTES, 'UTF-8');
         $this->assign('post_detail', $post_detail);
         //dump($post_detail);
         D('weiba_post')->where('post_id='.$post_id)->setInc('read_count');
