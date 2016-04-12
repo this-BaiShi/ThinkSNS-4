@@ -92,6 +92,7 @@ class FeedDiggModel extends Model
         if ($res) {
             $feed = model('Source')->getSourceInfo('feed', $feed_id);
             $result = model('Feed')->where('feed_id='.$feed_id)->setDec('digg_count');
+            model('UserData')->updateKey('unread_digg', -1, true, $feed['uid']);
             model('Feed')->cleanCache($feed_id);
 
             $this->setDiggCache($mid, $feed_id, 'del');
