@@ -214,10 +214,17 @@ class RegisterModel extends Model
             return false;
         }
         //是否已被使用
-        if (($name != $old_name) && $this->_user_model->where('`uname`="'.mysql_escape_string($name).'"')->find()) {
-            $this->_error = L('PUBLIC_ACCOUNT_USED');                // 该用户名已被使用
+        // if (($name != $old_name) && $this->_user_model->where('`uname`="'.mysql_escape_string($name).'"')->find()) {
+        //     $this->_error = L('PUBLIC_ACCOUNT_USED');                // 该用户名已被使用
+        //     return false;
+        // }
+        // 
+        
+        if (($name != $old_name) && \Ts\Model\User::where('uname', '=', $name)->where('is_del', 0)->find()) {
+            $this->_error = '当前用户名已经存在';
             return false;
         }
+
         //敏感词
         if (filter_keyword($name) !== $name) {
             $this->_error = '抱歉，该昵称包含敏感词不允许被使用';
