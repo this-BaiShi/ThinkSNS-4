@@ -1149,7 +1149,7 @@ class Db extends Think
      */
     public function error()
     {
-        $this->error = mysql_error($this->_linkID);
+        // $this->error = mysql_error($this->_linkID);
         if ($this->debug && '' != $this->queryStr) {
             $this->error .= "\n [ SQL语句 ] : ".$this->queryStr;
         }

@@ -13,7 +13,7 @@ class RegisterModel extends Model
     private $_email_reg = '/[_a-zA-Z\d\-\.]+(@[_a-zA-Z\d\-\.]+\.[_a-zA-Z\d\-]+)+$/i';        // 邮箱正则规则
     private $_mobile_reg = '/^1[34578][0-9]{1}[0-9]{8}$/';                        //手机正在规则
     private $_name_reg = "/^[\x{4e00}-\x{9fa5}A-Za-z0-9_\.]+$/u";                            // 昵称正则规则
-    private $_phone_reg = "/^[1][3578]\d{9}$/";
+    private $_phone_reg = "/^1[34578][0-9]{1}[0-9]{8}$/";
 
     /**
      * 初始化操作，获取注册配置信息；实例化用户模型对象 
@@ -214,10 +214,17 @@ class RegisterModel extends Model
             return false;
         }
         //是否已被使用
-        if (($name != $old_name) && $this->_user_model->where('`uname`="'.mysql_escape_string($name).'"')->find()) {
-            $this->_error = L('PUBLIC_ACCOUNT_USED');                // 该用户名已被使用
+        // if (($name != $old_name) && $this->_user_model->where('`uname`="'.mysql_escape_string($name).'"')->find()) {
+        //     $this->_error = L('PUBLIC_ACCOUNT_USED');                // 该用户名已被使用
+        //     return false;
+        // }
+        // 
+        
+        if (($name != $old_name) && \Ts\Model\User::where('uname', '=', $name)->where('is_del', 0)->first()) {
+            $this->_error = '当前用户名已经存在';
             return false;
         }
+
         //敏感词
         if (filter_keyword($name) !== $name) {
             $this->_error = '抱歉，该昵称包含敏感词不允许被使用';

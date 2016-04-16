@@ -173,8 +173,9 @@ class CommentModel extends Model
 
         /* # 将Emoji编码 */
         $data['content'] = formatEmoji(true, $data['content']);
-
         // 检测数据安全性
+        $comment_from = $data['from'];
+        unset($data['from']);
         $add = $this->_escapeData($data);
         if ($add['content'] === '') {
             $this->error = L('PUBLIC_COMMENT_CONTENT_REQUIRED');        // 评论内容不可为空
@@ -225,9 +226,9 @@ class CommentModel extends Model
             if ($GLOBALS['ts']['mid'] != $add['app_uid'] && $add['app_uid'] != '' && $add['app_uid'] != $add['to_uid']) {
                 // !$notCount && model('UserData')->updateKey('unread_comment', 1, true, $add['app_uid']);
                 /* 如果是微吧 */
-                if (!$notCount and $add['app'] == 'weiba') {
+                if (!$notCount and $add['app'] == 'weiba' && $comment_from == 'weiba') {
                     model('UserData')->updateKey('unread_comment_weiba', 1, true, $add['app_uid']);
-                } elseif (!$notCount) {
+                } elseif (!$notCount && $comment_from == 'feed') {
                     model('UserData')->updateKey('unread_comment', 1, true, $add['app_uid']);
                 }
             }
@@ -235,9 +236,9 @@ class CommentModel extends Model
             if (!empty($add['to_uid']) && $add['to_uid'] != $GLOBALS['ts']['mid']) {
                 // !$notCount && model('UserData')->updateKey('unread_comment', 1, true, $add['to_uid']);
                 /* 如果是微吧 */
-                if (!$notCount and $add['app'] == 'weiba') {
+                if (!$notCount and $add['app'] == 'weiba' && $comment_from == 'weiba') {
                     model('UserData')->updateKey('unread_comment_weiba', 1, true, $add['to_uid']);
-                } elseif (!$notCount) {
+                } elseif (!$notCount &&  $comment_from == 'feed') {
                     model('UserData')->updateKey('unread_comment', 1, true, $add['to_uid']);
                 }
             }
