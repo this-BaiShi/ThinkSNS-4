@@ -3137,6 +3137,7 @@ if (!function_exists('array_column')) {
 
 /**
  * 格式化Emoji
+ * 该方法兼容以前使用的地方~如果开发需要，请按照下面示例，使用新的依赖包。
  *
  * @param boolean $type true为将emoji格式化为代码，false为将代码格式化为emoji
  * @param string|array 数据，如果数数组，就递归，解析多维内部数据
@@ -3145,24 +3146,11 @@ if (!function_exists('array_column')) {
  **/
 function formatEmoji($type = false, $data)
 {
-    if (is_array($data)) {
-        foreach ($data as $key => $value) {
-            $data[$key] = formatEmoji($type, $data);
-        }
-        return $data;
-    } elseif ($type) {
-        return preg_replace_callback('/[\xf0-\xf7].{3}/', function ($data) {
-            $data = array_pop($data);
-            $data = base64_encode($data);
-            $data = '[emoji:' . $data . ']';
-            return $data;
-        }, $data);
+    if ($type) {
+        return \Medz\Component\EmojiFormat::en($data);
     }
-    return preg_replace_callback('/\[emoji\:(.*?)\]/is', function ($data) {
-            $data = $data[1];
-            $data = base64_decode($data);
-            return $data;
-        }, $data);
+
+    return \Medz\Component\EmojiFormat::de($data);
 }
 
 /** 

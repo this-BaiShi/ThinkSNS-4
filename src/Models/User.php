@@ -7,7 +7,7 @@ use Ts\Base\Model;
 /**
  * 用户数据模型
  *
- * @package App\H5\Model\User
+ * @package Ts\Model\User
  * @author Seven Du <lovevipdsw@outlook.com>
  **/
 class User extends Model
