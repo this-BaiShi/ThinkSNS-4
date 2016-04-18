@@ -720,7 +720,7 @@ class FeedModel extends Model
     {
         $feedlist = array();
         $feed_ids = array_filter(array_unique($feed_ids));
-        
+
         // 获取数据
         if (count($feed_ids) > 0) {
             $cacheList = model('Cache')->getList('fd_', $feed_ids);
@@ -848,6 +848,7 @@ class FeedModel extends Model
         // 模版变量赋值
         $var = $_data['data'];
         if (!empty($var['attach_id'])) {
+
             $var['attachInfo'] = model('Attach')->getAttachByIds($var['attach_id']);
             foreach ($var['attachInfo'] as $ak => $av) {
                 $_attach = array(

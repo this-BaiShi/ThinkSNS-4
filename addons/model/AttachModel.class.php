@@ -22,6 +22,14 @@ class AttachModel extends Model
      */
     public function getAttachByIds($ids, $field = '*')
     {
+        foreach($ids as $key => $id) {
+            $ids[$key] = intval($id);
+            if($ids[$key] <= 0) {
+                unset($ids[$key]);
+            }
+        }
+        if(empty($ids)) return null;
+
         $name = 'attach_ids_' . md5(json_encode($ids) . $field);
 
         $data = S($name);
