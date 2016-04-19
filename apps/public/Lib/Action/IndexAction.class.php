@@ -60,7 +60,6 @@ class IndexAction extends Action
             $initHtml = '#' . $initHtml . '#';
         }
         $this->assign('initHtml', $initHtml);
-        
         if ($d ['type']=='weiba') {
             $sfollow = D('weiba_follow')->where('follower_uid='.$this->mid)->findAll();
             if ($sfollow) {
@@ -103,7 +102,6 @@ class IndexAction extends Action
             //dump($list);exit;
             $this->assign('post_recommend_list', $list);
         }
-        
         
         $title = empty($weiboSet ['weibo_send_info']) ? '随时记录' : $weiboSet ['weibo_send_info'];
         $this->assign('title', $title);
@@ -157,7 +155,6 @@ class IndexAction extends Action
             $prompt = '投稿正在审核中';
         }
         
-        
         $sfollow = D('weiba_follow')->where('follower_uid=' . $this->mid)->findAll();
         unset($map);
         $map ['weiba_id'] = array(
@@ -167,8 +164,8 @@ class IndexAction extends Action
         $map ['is_del'] = 0;
         $map ['status'] = 1;
         $wcategory = D('Weiba')->where($map)->field('weiba_id,weiba_name')->findAll();
-        $this->assign('weiba_category', $wcategory);
-        $this->display();
+	$this->assign('weiba_category', $wcategory);
+	$this->display();
     }
     public function loginWithoutInit()
     {
