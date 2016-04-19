@@ -469,6 +469,8 @@ class ProfileAction extends Action
                     $feedInfo ['fileInfo']['files'] = $files;
                 }
             }
+            if(isset($feedInfo ['content_txt'])) // 分享详情页链接优化
+                     $feedInfo ['content_txt'] = replaceUrl($feedInfo ['content_txt']);
             $this->assign('feedInfo', $feedInfo);
         } else {
             $this->_assignUserInfo($this->uid);
