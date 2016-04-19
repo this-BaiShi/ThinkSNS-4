@@ -8,7 +8,7 @@ class SphinxModel
 {
     private $tableName = 'user';
     private $host = 'dev.zhishisoft.com';
-    private $port =    9306;
+    private $port = 9306;
     private $sdb;        // 实例
 
     /**
@@ -17,10 +17,10 @@ class SphinxModel
      */
     public function __construct()
     {
-        $connection    = array(
-                        'dbms'=>'mysql',
-                        'hostname'=>(C('SEARCHD_HOST') ? C('SEARCHD_HOST') : $this->host),
-                        'hostport'=>(C('SEARCHD_PORT') ? C('SEARCHD_PORT') : $this->port),
+        $connection = array(
+                        'dbms' => 'mysql',
+                        'hostname' => (C('SEARCHD_HOST') ? C('SEARCHD_HOST') : $this->host),
+                        'hostport' => (C('SEARCHD_PORT') ? C('SEARCHD_PORT') : $this->port),
                       );
         $this->sdb = new Db($connection);
     }
@@ -33,10 +33,10 @@ class SphinxModel
      */
     public function connect($host, $port = 9306)
     {
-        $connection    = array(
-                            'dbms'=>'mysql',
-                            'hostname'=>$host,
-                            'hostport'=>$port,
+        $connection = array(
+                            'dbms' => 'mysql',
+                            'hostname' => $host,
+                            'hostport' => $port,
                       );
         $this->sdb = new Db($connection);
 
@@ -68,8 +68,8 @@ class SphinxModel
             return false;
         }
 
-        $query .=' limit '.$this->getLimit($limit);        // limit处理
-        $datas    =    $this->sdb->query($query);            // 执行SphinxQL查询
+        $query .= ' limit '.$this->getLimit($limit);        // limit处理
+        $datas = $this->sdb->query($query);            // 执行SphinxQL查询
 
         if (!$datas) {
             return false;

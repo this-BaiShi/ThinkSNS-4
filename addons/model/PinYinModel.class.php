@@ -8,7 +8,7 @@ class PinYinModel
     /***
      * 返回中文拼音
      * */
-    public function Pinyin($_String, $_Code='UTF8')
+    public function Pinyin($_String, $_Code = 'UTF8')
     { //GBK页面可改为gb2312，其他随意填写为UTF8
         $_DataKey = 'a|ai|an|ang|ao|ba|bai|ban|bang|bao|bei|ben|beng|bi|bian|biao|bie|bin|bing|bo|bu|ca|cai|can|cang|cao|ce|ceng|cha'.
                 '|chai|chan|chang|chao|che|chen|cheng|chi|chong|chou|chu|chuai|chuan|chuang|chui|chun|chuo|ci|cong|cou|cu|'.
@@ -53,20 +53,20 @@ class PinYinModel
                 '|-11052|-11045|-11041|-11038|-11024|-11020|-11019|-11018|-11014|-10838|-10832|-10815|-10800|-10790|-10780'.
                 '|-10764|-10587|-10544|-10533|-10519|-10331|-10329|-10328|-10322|-10315|-10309|-10307|-10296|-10281|-10274'.
                 '|-10270|-10262|-10260|-10256|-10254';
-        $_TDataKey   = explode('|', $_DataKey);
+        $_TDataKey = explode('|', $_DataKey);
         $_TDataValue = explode('|', $_DataValue);
         $_Data = array_combine($_TDataKey, $_TDataValue);
         arsort($_Data);
         reset($_Data);
-        if ($_Code!= 'gb2312') {
+        if ($_Code != 'gb2312') {
             $_String = $this->_U2_Utf8_Gb($_String);
         }
         $_Res = '';
-        for ($i=0; $i<strlen($_String); $i++) {
+        for ($i = 0; $i < strlen($_String); $i++) {
             $_P = ord(substr($_String, $i, 1));
-            if ($_P>160) {
+            if ($_P > 160) {
                 $_Q = ord(substr($_String, ++$i, 1));
-                $_P = $_P*256 + $_Q - 65536;
+                $_P = $_P * 256 + $_Q - 65536;
             }
             $_Res .= $this->_Pinyin($_P, $_Data);
         }
@@ -75,13 +75,13 @@ class PinYinModel
     }
     private function _Pinyin($_Num, $_Data)
     {
-        if ($_Num>0 && $_Num<160) {
+        if ($_Num > 0 && $_Num < 160) {
             return chr($_Num);
-        } elseif ($_Num<-20319 || $_Num>-10247) {
+        } elseif ($_Num < -20319 || $_Num > -10247) {
             return '';
         } else {
-            foreach ($_Data as $k=>$v) {
-                if ($v<=$_Num) {
+            foreach ($_Data as $k => $v) {
+                if ($v <= $_Num) {
                     break;
                 }
             }
@@ -95,16 +95,16 @@ class PinYinModel
         if ($_C < 0x80) {
             $_String .= $_C;
         } elseif ($_C < 0x800) {
-            $_String .= chr(0xC0 | $_C>>6);
+            $_String .= chr(0xC0 | $_C >> 6);
             $_String .= chr(0x80 | $_C & 0x3F);
         } elseif ($_C < 0x10000) {
-            $_String .= chr(0xE0 | $_C>>12);
-            $_String .= chr(0x80 | $_C>>6 & 0x3F);
+            $_String .= chr(0xE0 | $_C >> 12);
+            $_String .= chr(0x80 | $_C >> 6 & 0x3F);
             $_String .= chr(0x80 | $_C & 0x3F);
         } elseif ($_C < 0x200000) {
-            $_String .= chr(0xF0 | $_C>>18);
-            $_String .= chr(0x80 | $_C>>12 & 0x3F);
-            $_String .= chr(0x80 | $_C>>6 & 0x3F);
+            $_String .= chr(0xF0 | $_C >> 18);
+            $_String .= chr(0x80 | $_C >> 12 & 0x3F);
+            $_String .= chr(0x80 | $_C >> 6 & 0x3F);
             $_String .= chr(0x80 | $_C & 0x3F);
         }
 

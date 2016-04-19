@@ -53,9 +53,9 @@ class SourceModel
             case 'event' :
                 $event = D('event')->where('id='.$row_id)->field('title,uid,sTime,eTime,address,joinCount,attentionCount,coverId,feed_id')->find();
                 $info['source_user_info'] = model('User')->getUserInfo($event['uid']);
-                $info['source_url'] = U('event/Index/eventDetail', array('id'=>$row_id, 'uid'=>$event['uid']));
+                $info['source_url'] = U('event/Index/eventDetail', array('id' => $row_id, 'uid' => $event['uid']));
                 $info['source_content'] = ($info['source_user_info'] !== false) ? '发表了一个活动' : '内容已被删除';
-                $info['source_body'] = $event['title'].'<a class="ico-details" href="'.U('event/Index/eventDetail', array('id'=>$row_id, 'uid'=>$event['uid'])).'"></a>';
+                $info['source_body'] = $event['title'].'<a class="ico-details" href="'.U('event/Index/eventDetail', array('id' => $row_id, 'uid' => $event['uid'])).'"></a>';
                 $info['title'] = $event['title'];
                 $info['feed_id'] = $event['feed_id'];
                 $info['start_time'] = $event['sTime'];
@@ -75,9 +75,9 @@ class SourceModel
             case 'blog':
                 $blog = D('blog')->where('id='.$row_id.' AND `status` = 1')->field('title,category,uid,content,feed_id')->find();
                 $info['source_user_info'] = model('User')->getUserInfo($blog ['uid']);
-                $info['source_url'] = U('blog/Index/show', array('id'=>$row_id, 'mid'=>$blog['uid']));
+                $info['source_url'] = U('blog/Index/show', array('id' => $row_id, 'mid' => $blog['uid']));
                 $info['source_content'] = ($info['source_user_info'] !== false) ? '发表了一篇知识' : '内容已被删除';
-                $info['source_body'] = $blog['title'].'<a class="ico-details" href="'.U('blog/Index/show', array('id'=>$row_id, 'mid'=>$blog['uid'])).'"></a>';
+                $info['source_body'] = $blog['title'].'<a class="ico-details" href="'.U('blog/Index/show', array('id' => $row_id, 'mid' => $blog['uid'])).'"></a>';
                 $info['title'] = $blog['title'];
                 $info['content'] = strip_tags($blog['content']);
                 $info['feed_id'] = $blog['feed_id'];
@@ -91,7 +91,7 @@ class SourceModel
             case 'photo':
                 $photo = D('photo')->where('id='.$row_id)->field('name, albumId, userId, savepath, feed_id')->find();
                 $info['source_user_info'] = model('User')->getUserInfo($photo['userId']);
-                $info['source_url'] = U('photo/Index/photo', array('id'=>$row_id, 'aid'=>$photo['albumId'], 'uid'=>$photo['userId']));
+                $info['source_url'] = U('photo/Index/photo', array('id' => $row_id, 'aid' => $photo['albumId'], 'uid' => $photo['userId']));
                 $uploadCount = D('photo')->where('feed_id='.$photo['feed_id'])->count();
                 $info['photo_upload_count'] = $uploadCount;
                 $info['source_content'] = ($info['source_user_info'] !== false) ? '上传了'.$uploadCount.'张照片' : '内容已被删除';
@@ -102,14 +102,14 @@ class SourceModel
                 $info['photo_count'] = $album['photoCount'];
                 $info['cover_image_path_small'] = getImageUrl($photo['savepath'], 100, 100, true);
                 $info['cover_image_path'] = getImageUrl($photo['savepath'], 200, 200, true);
-                $info['album_url'] = U('photo/Index/album', array('uid'=>$photo['userId'], 'id'=>$photo['albumId']));
+                $info['album_url'] = U('photo/Index/album', array('uid' => $photo['userId'], 'id' => $photo['albumId']));
                 break;
             case 'vote' :
                 $vote = D('vote')->where('id='.$row_id)->field('title, uid, vote_num, cTime,feed_id')->find();
                 $info['source_user_info'] = model('User')->getUserInfo($vote['uid']);
-                $info['source_url'] = U('vote/Index/pollDetail', array('id'=>$row_id));
+                $info['source_url'] = U('vote/Index/pollDetail', array('id' => $row_id));
                 $info['source_content'] = ($info['source_user_info'] !== false) ? '发表了一个投票' : '内容已被删除';
-                $info['source_body'] = $vote ['title'].'<a class="ico-details" href="'.U('vote/Index/pollDetail', array('id'=>$row_id)).'"></a>';
+                $info['source_body'] = $vote ['title'].'<a class="ico-details" href="'.U('vote/Index/pollDetail', array('id' => $row_id)).'"></a>';
                 $info['feed_id'] = $vote['feed_id'];
                 $voteOpts = D('VoteOpt')->where('vote_id='.$row_id)->order('id ASC')->findAll();
                 $info['vote_opts'] = $voteOpts;
@@ -120,24 +120,24 @@ class SourceModel
             case 'develop':
                 $develop = D('develop')->where('develop_id='.$row_id)->field('title, uid')->find();
                 $info['source_user_info'] = model('User')->getUserInfo($develop['uid']);
-                $info['source_url'] = U('develop/Index/detail', array('id'=>$row_id));
-                $info['source_body'] = $develop['title'].'<a class="ico-details" href="'.U('develop/Index/detail', array('id'=>$row_id)).'"></a>';
+                $info['source_url'] = U('develop/Index/detail', array('id' => $row_id));
+                $info['source_body'] = $develop['title'].'<a class="ico-details" href="'.U('develop/Index/detail', array('id' => $row_id)).'"></a>';
                 break;
             case 'weiba_post':
                 $weiba = D('weiba_post')->where('post_id='.$row_id.' AND is_del = 0')->field('weiba_id, post_uid, title, content,feed_id,post_time')->find();
-                $info['publish_time']     = $weiba['post_time'];
+                $info['publish_time'] = $weiba['post_time'];
                 $info['source_user_info'] = model('User')->getUserInfo($weiba['post_uid']);
-                $info['source_url'] = U('weiba/Index/postDetail', array('post_id'=>$row_id));
+                $info['source_url'] = U('weiba/Index/postDetail', array('post_id' => $row_id));
                 $info['source_content'] = ($info['source_user_info'] !== false) ? '发表了一个帖子' : '内容已被删除';
-                $info['source_body'] = $weiba['title'].'<a class="ico-details" href="'.U('weiba/Index/postDetail', array('post_id'=>$row_id)).'"></a>';
+                $info['source_body'] = $weiba['title'].'<a class="ico-details" href="'.U('weiba/Index/postDetail', array('post_id' => $row_id)).'"></a>';
                 $info['title'] = $weiba['title'];
                 $info['content'] = trim(strip_tags($weiba['content']));
                 $info['feed_id'] = $weiba['feed_id'];
                 $info['weiba_name'] = D('weiba')->where('weiba_id='.$weiba['weiba_id'])->getField('weiba_name');
-                $info['weiba_url'] = U('weiba/Index/detail', array('weiba_id'=>$weiba['weiba_id']));
+                $info['weiba_url'] = U('weiba/Index/detail', array('weiba_id' => $weiba['weiba_id']));
                 // 获取编辑器中的图片内容
                 $editorImage = $this->getEditorImages($weiba['content']);
-                $info['pic_url_small']  = $editorImage['pic_url_small'];
+                $info['pic_url_small'] = $editorImage['pic_url_small'];
                 $info['pic_url_medium'] = $editorImage['pic_url_medium'];
                 $info['pic_url'] = $editorImage['pic_url'];
                 break;
@@ -236,9 +236,9 @@ class SourceModel
         return $info;
     }
 
-    public function getCommentSource($data, $forApi=false)
+    public function getCommentSource($data, $forApi = false)
     {
-        if ($data['table']=='feed'||$data['table']=='comment'||empty($data['app_detail_summary']) || $forApi) {
+        if ($data['table'] == 'feed' || $data['table'] == 'comment' || empty($data['app_detail_summary']) || $forApi) {
             return $this->getSourceInfo($data['table'], $data['row_id'], $forApi, $data['app']);
         }
         //新的应用评论机制 20130607

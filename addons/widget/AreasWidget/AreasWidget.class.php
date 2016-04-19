@@ -30,7 +30,7 @@ class AreasWidget extends Widget
             }
         }
         if (!empty($data['area'])) {
-            $data['city_ids'] .=','.$data['area'];
+            $data['city_ids'] .= ','.$data['area'];
         }
 
         if ($data['tpl'] == 'selectArea') {

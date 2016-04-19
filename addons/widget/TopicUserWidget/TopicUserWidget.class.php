@@ -16,12 +16,12 @@ class TopicUserWidget extends Widget
      */
     public function render($data)
     {
-        $limit = isset($data['limit'])?intval($data['limit']):12;
-        if ($data['type']==1) {
+        $limit = isset($data['limit']) ? intval($data['limit']) : 12;
+        if ($data['type'] == 1) {
             $topic = model('FeedTopic')->where('topic_id='.$data['topic_id'])->find();
             $var['topic_user'] = array_slice(explode(',', $topic['topic_user']), 0, 12);
         }
-        if ($data['type']==2) {
+        if ($data['type'] == 2) {
             $feedTopicId = getSubByKey(D('feed_topic_link')->where('topic_id='.$data['topic_id'])->order('feed_id desc')->field('feed_id')->findAll(), 'feed_id');
             $map['feed_id'] = array('in', $feedTopicId);
             $topic_user = array_unique(getSubByKey(D('feed')->where($map)->field('uid')->order('feed_id desc')->findAll(), 'uid'));

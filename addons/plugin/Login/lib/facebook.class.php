@@ -25,13 +25,13 @@ class facebook
         //dump($user);
         //dump($profile);
         //exit;
-        $user['id']         =  $user['uid'];
-        $user['uname']       = $user['uname'];
-        $user['province']    = 0;
-        $user['city']        = 0;
-        $user['location']    = '';
-        $user['userface']    = $profile['portrait'];
-        $user['sex']         = $profile['sex'];
+        $user['id'] = $user['uid'];
+        $user['uname'] = $user['uname'];
+        $user['province'] = 0;
+        $user['city'] = 0;
+        $user['location'] = '';
+        $user['userface'] = $profile['portrait'];
+        $user['sex'] = $profile['sex'];
 
         return $user;
     }
@@ -39,7 +39,7 @@ class facebook
     //验证用户
     public function checkUser()
     {
-        $redirect_uri = Addons::createAddonShow('Login', 'no_register_display', array('type'=>'facebook', 'do'=>'bind'));
+        $redirect_uri = Addons::createAddonShow('Login', 'no_register_display', array('type' => 'facebook', 'do' => 'bind'));
         $facebook = new FacebookAPI(array('appId' => FACEBOOK_KEY, 'secret' => FACEBOOK_SECRET));
         $token = $facebook->getAccessTokenFromCode($_GET['code'], $redirect_uri);
         //dump($token);
@@ -69,7 +69,7 @@ class facebook
     }
 
     //转发一条分享
-    public function transpond($transpondId, $reId, $content='', $opt=null)
+    public function transpond($transpondId, $reId, $content = '', $opt = null)
     {
         return true;
     }

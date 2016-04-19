@@ -117,8 +117,8 @@ class GdThumb extends ThumbBase
         }
 
         $this->currentDimensions = array(
-            'width'    => imagesx($this->oldImage),
-            'height'    => imagesy($this->oldImage),
+            'width' => imagesx($this->oldImage),
+            'height' => imagesy($this->oldImage),
         );
 
         $this->setOptions($options);
@@ -169,11 +169,11 @@ class GdThumb extends ThumbBase
 
         // make sure we're not exceeding our image size if we're not supposed to
         if ($this->options['resizeUp'] === false) {
-            $this->maxHeight    = (intval($maxHeight) > $this->currentDimensions['height']) ? $this->currentDimensions['height'] : $maxHeight;
-            $this->maxWidth        = (intval($maxWidth) > $this->currentDimensions['width']) ? $this->currentDimensions['width'] : $maxWidth;
+            $this->maxHeight = (intval($maxHeight) > $this->currentDimensions['height']) ? $this->currentDimensions['height'] : $maxHeight;
+            $this->maxWidth = (intval($maxWidth) > $this->currentDimensions['width']) ? $this->currentDimensions['width'] : $maxWidth;
         } else {
-            $this->maxHeight    = intval($maxHeight);
-            $this->maxWidth        = intval($maxWidth);
+            $this->maxHeight = intval($maxHeight);
+            $this->maxWidth = intval($maxWidth);
         }
 
         // get the new dimensions...
@@ -203,9 +203,9 @@ class GdThumb extends ThumbBase
         );
 
         // update all the variables and resources to be correct
-        $this->oldImage                    = $this->workingImage;
-        $this->currentDimensions['width']    = $this->newDimensions['newWidth'];
-        $this->currentDimensions['height']    = $this->newDimensions['newHeight'];
+        $this->oldImage = $this->workingImage;
+        $this->currentDimensions['width'] = $this->newDimensions['newWidth'];
+        $this->currentDimensions['height'] = $this->newDimensions['newHeight'];
 
         return $this;
     }
@@ -233,11 +233,11 @@ class GdThumb extends ThumbBase
 
         // make sure we're not exceeding our image size if we're not supposed to
         if ($this->options['resizeUp'] === false) {
-            $this->maxHeight    = (intval($height) > $this->currentDimensions['height']) ? $this->currentDimensions['height'] : $height;
-            $this->maxWidth        = (intval($width) > $this->currentDimensions['width']) ? $this->currentDimensions['width'] : $width;
+            $this->maxHeight = (intval($height) > $this->currentDimensions['height']) ? $this->currentDimensions['height'] : $height;
+            $this->maxWidth = (intval($width) > $this->currentDimensions['width']) ? $this->currentDimensions['width'] : $width;
         } else {
-            $this->maxHeight    = intval($height);
-            $this->maxWidth        = intval($width);
+            $this->maxHeight = intval($height);
+            $this->maxWidth = intval($width);
         }
 
         $this->calcImageSizeStrict($this->currentDimensions['width'], $this->currentDimensions['height']);
@@ -247,11 +247,11 @@ class GdThumb extends ThumbBase
 
         // reset the max dimensions...
         if ($this->options['resizeUp'] === false) {
-            $this->maxHeight    = (intval($height) > $this->currentDimensions['height']) ? $this->currentDimensions['height'] : $height;
-            $this->maxWidth        = (intval($width) > $this->currentDimensions['width']) ? $this->currentDimensions['width'] : $width;
+            $this->maxHeight = (intval($height) > $this->currentDimensions['height']) ? $this->currentDimensions['height'] : $height;
+            $this->maxWidth = (intval($width) > $this->currentDimensions['width']) ? $this->currentDimensions['width'] : $width;
         } else {
-            $this->maxHeight    = intval($height);
-            $this->maxWidth        = intval($width);
+            $this->maxHeight = intval($height);
+            $this->maxWidth = intval($width);
         }
 
         // create the working image
@@ -263,10 +263,10 @@ class GdThumb extends ThumbBase
 
         $this->preserveAlpha();
 
-        $cropWidth    = $this->maxWidth;
-        $cropHeight    = $this->maxHeight;
-        $cropX        = 0;
-        $cropY        = 0;
+        $cropWidth = $this->maxWidth;
+        $cropHeight = $this->maxHeight;
+        $cropX = 0;
+        $cropY = 0;
 
         // now, figure out how to crop the rest of the image...
         if ($this->currentDimensions['width'] > $this->maxWidth) {
@@ -289,9 +289,9 @@ class GdThumb extends ThumbBase
         );
 
         // update all the variables and resources to be correct
-        $this->oldImage                    = $this->workingImage;
-        $this->currentDimensions['width']    = $this->maxWidth;
-        $this->currentDimensions['height']    = $this->maxHeight;
+        $this->oldImage = $this->workingImage;
+        $this->currentDimensions['width'] = $this->maxWidth;
+        $this->currentDimensions['height'] = $this->maxHeight;
 
         return $this;
     }
@@ -335,9 +335,9 @@ class GdThumb extends ThumbBase
             $this->currentDimensions['height']
         );
 
-        $this->oldImage                    = $this->workingImage;
-        $this->currentDimensions['width']    = $this->newDimensions['newWidth'];
-        $this->currentDimensions['height']    = $this->newDimensions['newHeight'];
+        $this->oldImage = $this->workingImage;
+        $this->currentDimensions['width'] = $this->newDimensions['newWidth'];
+        $this->currentDimensions['height'] = $this->newDimensions['newHeight'];
 
         return $this;
     }
@@ -365,7 +365,7 @@ class GdThumb extends ThumbBase
             $cropHeight = $cropWidth;
         }
 
-        $cropWidth    = ($this->currentDimensions['width'] < $cropWidth) ? $this->currentDimensions['width'] : $cropWidth;
+        $cropWidth = ($this->currentDimensions['width'] < $cropWidth) ? $this->currentDimensions['width'] : $cropWidth;
         $cropHeight = ($this->currentDimensions['height'] < $cropHeight) ? $this->currentDimensions['height'] : $cropHeight;
 
         $cropX = intval(($this->currentDimensions['width'] - $cropWidth) / 2);
@@ -405,7 +405,7 @@ class GdThumb extends ThumbBase
         }
 
         // do some calculations
-        $cropWidth    = ($this->currentDimensions['width'] < $cropWidth) ? $this->currentDimensions['width'] : $cropWidth;
+        $cropWidth = ($this->currentDimensions['width'] < $cropWidth) ? $this->currentDimensions['width'] : $cropWidth;
         $cropHeight = ($this->currentDimensions['height'] < $cropHeight) ? $this->currentDimensions['height'] : $cropHeight;
 
         // ensure everything's in bounds
@@ -447,9 +447,9 @@ class GdThumb extends ThumbBase
             $cropHeight
         );
 
-        $this->oldImage                    = $this->workingImage;
-        $this->currentDimensions['width']    = $cropWidth;
-        $this->currentDimensions['height']    = $cropHeight;
+        $this->oldImage = $this->workingImage;
+        $this->currentDimensions['width'] = $cropWidth;
+        $this->currentDimensions['height'] = $cropHeight;
 
         return $this;
     }
@@ -489,11 +489,11 @@ class GdThumb extends ThumbBase
 
         $this->workingImage = imagerotate($this->oldImage, $degrees, 0);
 
-        $newWidth                            = $this->currentDimensions['height'];
-        $newHeight                            = $this->currentDimensions['width'];
-        $this->oldImage                    = $this->workingImage;
-        $this->currentDimensions['width']    = $newWidth;
-        $this->currentDimensions['height']    = $newHeight;
+        $newWidth = $this->currentDimensions['height'];
+        $newHeight = $this->currentDimensions['width'];
+        $this->oldImage = $this->workingImage;
+        $this->currentDimensions['width'] = $newWidth;
+        $this->currentDimensions['height'] = $newHeight;
 
         return $this;
     }
@@ -638,13 +638,13 @@ class GdThumb extends ThumbBase
         // we've yet to init the default options, so create them here
         if (sizeof($this->options) == 0) {
             $defaultOptions = array(
-                'resizeUp'                => false,
-                'jpegQuality'            => 100,
-                'correctPermissions'    => false,
-                'preserveAlpha'            => true,
-                'alphaMaskColor'        => array(255, 255, 255),
-                'preserveTransparency'    => true,
-                'transparencyMaskColor'    => array(0, 0, 0),
+                'resizeUp' => false,
+                'jpegQuality' => 100,
+                'correctPermissions' => false,
+                'preserveAlpha' => true,
+                'alphaMaskColor' => array(255, 255, 255),
+                'preserveTransparency' => true,
+                'transparencyMaskColor' => array(0, 0, 0),
             );
         }
         // otherwise, let's use what we've got already
@@ -825,12 +825,12 @@ class GdThumb extends ThumbBase
      */
     protected function calcWidth($width, $height)
     {
-        $newWidthPercentage    = (100 * $this->maxWidth) / $width;
-        $newHeight            = ($height * $newWidthPercentage) / 100;
+        $newWidthPercentage = (100 * $this->maxWidth) / $width;
+        $newHeight = ($height * $newWidthPercentage) / 100;
 
         return array(
-            'newWidth'    => intval($this->maxWidth),
-            'newHeight'    => intval($newHeight),
+            'newWidth' => intval($this->maxWidth),
+            'newHeight' => intval($newHeight),
         );
     }
 
@@ -843,12 +843,12 @@ class GdThumb extends ThumbBase
      */
     protected function calcHeight($width, $height)
     {
-        $newHeightPercentage    = (100 * $this->maxHeight) / $height;
-        $newWidth                = ($width * $newHeightPercentage) / 100;
+        $newHeightPercentage = (100 * $this->maxHeight) / $height;
+        $newWidth = ($width * $newHeightPercentage) / 100;
 
         return array(
-            'newWidth'    => ceil($newWidth),
-            'newHeight'    => ceil($this->maxHeight),
+            'newWidth' => ceil($newWidth),
+            'newHeight' => ceil($this->maxHeight),
         );
     }
 
@@ -861,12 +861,12 @@ class GdThumb extends ThumbBase
      */
     protected function calcPercent($width, $height)
     {
-        $newWidth    = ($width * $this->percent) / 100;
-        $newHeight    = ($height * $this->percent) / 100;
+        $newWidth = ($width * $this->percent) / 100;
+        $newHeight = ($height * $this->percent) / 100;
 
         return array(
-            'newWidth'    => ceil($newWidth),
-            'newHeight'    => ceil($newHeight),
+            'newWidth' => ceil($newWidth),
+            'newHeight' => ceil($newHeight),
         );
     }
 
@@ -881,8 +881,8 @@ class GdThumb extends ThumbBase
     protected function calcImageSize($width, $height)
     {
         $newSize = array(
-            'newWidth'    => $width,
-            'newHeight'    => $height,
+            'newWidth' => $width,
+            'newHeight' => $height,
         );
 
         if ($this->maxWidth > 0) {
@@ -1011,8 +1011,8 @@ class GdThumb extends ThumbBase
      */
     protected function verifyFormatCompatiblity()
     {
-        $isCompatible    = true;
-        $gdInfo            = gd_info();
+        $isCompatible = true;
+        $gdInfo = gd_info();
 
         switch ($this->format) {
             case 'GIF':

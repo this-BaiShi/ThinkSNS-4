@@ -43,7 +43,7 @@ class FeedTopHomeHooks extends Hooks
         $uid = intval($_POST['uid']);
         $feedId = intval($_POST['feed_id']);
         if (empty($uid) || empty($feedId)) {
-            exit(json_encode(array('status'=>0, 'info'=>'设置失败')));
+            exit(json_encode(array('status' => 0, 'info' => '设置失败')));
         }
         $result = $this->model('FeedTopHome')->setFeedTopHome($uid, $feedId);
         $res = array();
@@ -62,7 +62,7 @@ class FeedTopHomeHooks extends Hooks
         $uid = intval($_POST['uid']);
         $feedId = intval($_POST['feed_id']);
         if (empty($uid) || empty($feedId)) {
-            exit(json_encode(array('status'=>0, 'info'=>'设置失败')));
+            exit(json_encode(array('status' => 0, 'info' => '设置失败')));
         }
         $result = $this->model('FeedTopHome')->delFeedTopHome($uid, $feedId);
         $res = array();

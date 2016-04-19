@@ -14,7 +14,7 @@ class StringTextWidget extends Widget
     {
         $var = array();
 
-        $var['tpl']  = 'default';
+        $var['tpl'] = 'default';
 
         is_array($data) && $var = array_merge($var, $data);
         //渲染模版

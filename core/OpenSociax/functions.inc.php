@@ -12,24 +12,24 @@
  * 支持query形式字符串:cookie('name','value','prefix=tp_&expire=10000')
  * 2010-1-17 去掉自动序列化操作，兼容其他语言程序。
  */
-function cookie($name, $value='', $option=null)
+function cookie($name, $value = '', $option = null)
 {
     // 默认设置
     $config = array(
         'prefix' => C('COOKIE_PREFIX'), // cookie 名称前缀
         'expire' => C('COOKIE_EXPIRE'), // cookie 保存时间
-        'path'   => C('COOKIE_PATH'),   // cookie 保存路径
+        'path' => C('COOKIE_PATH'),   // cookie 保存路径
         'domain' => C('COOKIE_DOMAIN'), // cookie 有效域名
     );
 
     // 参数设置(会覆盖黙认设置)
     if (!empty($option)) {
         if (is_numeric($option)) {
-            $option = array('expire'=>$option);
+            $option = array('expire' => $option);
         } elseif (is_string($option)) {
             parse_str($option, $option);
         }
-        $config =   array_merge($config, array_change_key_case($option));
+        $config = array_merge($config, array_change_key_case($option));
     }
 
     // 清除指定前缀的所有cookie
@@ -38,14 +38,14 @@ function cookie($name, $value='', $option=null)
             return;
         }
         // 要删除的cookie前缀，不指定则删除config设置的指定前缀
-        $prefix = empty($value)? $config['prefix'] : $value;
+        $prefix = empty($value) ? $config['prefix'] : $value;
         if (!empty($prefix)) {
             // 如果前缀为空字符串将不作处理直接返回
 
-            foreach ($_COOKIE as $key=>$val) {
+            foreach ($_COOKIE as $key => $val) {
                 if (0 === stripos($key, $prefix)) {
                     //todo:https判断
-                    setcookie($_COOKIE[$key], '', time()-3600, $config['path'], $config['domain'], false, true);
+                    setcookie($_COOKIE[$key], '', time() - 3600, $config['path'], $config['domain'], false, true);
                     unset($_COOKIE[$key]);
                 }
             }
@@ -55,16 +55,16 @@ function cookie($name, $value='', $option=null)
     }
     $name = $config['prefix'].$name;
 
-    if (''===$value) {
+    if ('' === $value) {
         //return isset($_COOKIE[$name]) ? unserialize($_COOKIE[$name]) : null;// 获取指定Cookie
         return isset($_COOKIE[$name]) ? ($_COOKIE[$name]) : null;// 获取指定Cookie
     } else {
         if (is_null($value)) {
-            setcookie($name, '', time()-3600, $config['path'], $config['domain']);
+            setcookie($name, '', time() - 3600, $config['path'], $config['domain']);
             unset($_COOKIE[$name]);// 删除指定cookie
         } else {
             // 设置cookie
-            $expire = !empty($config['expire'])? time()+ intval($config['expire']):0;
+            $expire = !empty($config['expire']) ? time() + intval($config['expire']) : 0;
             //setcookie($name,serialize($value),$expire,$config['path'],$config['domain']);
             setcookie($name, ($value), $expire, $config['path'], $config['domain']);
             //$_COOKIE[$name] = ($value);
@@ -108,7 +108,7 @@ function session($name, $value = '')
             ini_set('session.use_trans_sid', $name['use_trans_sid'] ? 1 : 0);
         }
         if (isset($name['use_cookies'])) {
-            ini_set('session.use_cookies', $name['use_cookies']?1:0);
+            ini_set('session.use_cookies', $name['use_cookies'] ? 1 : 0);
         }
         if (isset($name['cache_limiter'])) {
             session_cache_limiter($name['cache_limiter']);
@@ -239,7 +239,7 @@ function isAjax()
  * @param  int    $type 转换类型
  * @return string
  */
-function parse_name($name, $type=0)
+function parse_name($name, $type = 0)
 {
     if ($type) {
         return ucfirst(preg_replace('/_([a-zA-Z])/e', "strtoupper('\\1')", $name));
@@ -256,7 +256,7 @@ function parse_name($name, $type=0)
  * @param  bool   $return 是否return
  * @return mixed
  */
-function dump($var, $return=false)
+function dump($var, $return = false)
 {
     ob_start();
     var_dump($var);
@@ -281,7 +281,7 @@ function dump($var, $return=false)
  * @param  string $type 异常类型
  * @return string
  */
-function throw_exception($msg, $type='')
+function throw_exception($msg, $type = '')
 {
     header('Content-Type:text/html; charset=UTF8');
     if (defined('IS_CGI') && IS_CGI) {
@@ -349,10 +349,10 @@ function to_guid_string($mix)
  * @param  string $args   参数
  * @return object 对象实例
  */
-function get_instance_of($name, $method='', $args=array())
+function get_instance_of($name, $method = '', $args = array())
 {
     static $_instance = array();
-    $identify   =   empty($args)?$name.$method:$name.$method.to_guid_string($args);
+    $identify = empty($args) ? $name.$method : $name.$method.to_guid_string($args);
     if (!isset($_instance[$identify])) {
         if (class_exists($name)) {
             $o = new $name();
@@ -384,14 +384,14 @@ function __autoload($name)
         return ;
     }
     // 自动加载当前项目的Actioon类和Model类
-    if (substr($name, -5)=='Model') {
+    if (substr($name, -5) == 'Model') {
         import(APP_LIB_PATH.'Model/'.ucfirst($name).'.class.php');
-    } elseif (substr($name, -6)=='Action') {
+    } elseif (substr($name, -6) == 'Action') {
         import(APP_LIB_PATH.'Action/'.ucfirst($name).'.class.php');
     } else {
         // 根据自动加载路径设置进行尝试搜索
         if (C('APP_AUTOLOAD_PATH')) {
-            $paths  =   explode(',', C('APP_AUTOLOAD_PATH'));
+            $paths = explode(',', C('APP_AUTOLOAD_PATH'));
             foreach ($paths as $path) {
                 if (import($path.'/'.$name.'.class.php')) {
                     // 如果加载类成功则返回
@@ -442,7 +442,7 @@ function import($filename)
  * @param string value 值
  * @return mixed 配置值|设置状态
  */
-function C($name=null, $value=null)
+function C($name = null, $value = null)
 {
     global $ts;
     // 无参数时获取所有
@@ -454,7 +454,7 @@ function C($name=null, $value=null)
         if (!strpos($name, '.')) {
             $name = strtolower($name);
             if (is_null($value)) {
-                return isset($ts['_config'][$name])? $ts['_config'][$name] : null;
+                return isset($ts['_config'][$name]) ? $ts['_config'][$name] : null;
             }
             $ts['_config'][$name] = $value;
 
@@ -462,7 +462,7 @@ function C($name=null, $value=null)
         }
         // 二维数组设置和获取支持
         $name = explode('.', $name);
-        $name[0]   = strtolower($name[0]);
+        $name[0] = strtolower($name[0]);
         if (is_null($value)) {
             return isset($ts['_config'][$name[0]][$name[1]]) ? $ts['_config'][$name[0]][$name[1]] : null;
         }
@@ -479,7 +479,7 @@ function C($name=null, $value=null)
 }
 
 //D函数的别名
-function M($name='', $app='@')
+function M($name = '', $app = '@')
 {
     return D($name, $app);
 }
@@ -490,7 +490,7 @@ function M($name='', $app='@')
  * @param string app Model所在项目
  * @return object
  */
-function D($name='', $app='@', $inclueCommonFunction=true)
+function D($name = '', $app = '@', $inclueCommonFunction = true)
 {
     static $_model = array();
 
@@ -501,8 +501,8 @@ function D($name='', $app='@', $inclueCommonFunction=true)
     if (empty($name)) {
         return new Model;
     }
-    if (empty($app) || $app=='@') {
-        $app =  APP_NAME;
+    if (empty($app) || $app == '@') {
+        $app = APP_NAME;
     }
 
     $name = ucfirst($name);
@@ -512,7 +512,7 @@ function D($name='', $app='@', $inclueCommonFunction=true)
     }
 
     $OriClassName = $name;
-    $className =  $name.'Model';
+    $className = $name.'Model';
 
     //优先载入核心的 所以不要和核心的model重名
     if (file_exists(ADDON_PATH.'/model/'.$className.'.class.php')) {
@@ -528,9 +528,9 @@ function D($name='', $app='@', $inclueCommonFunction=true)
     if (class_exists($className)) {
         $model = new $className();
     } else {
-        $model  = new Model($name);
+        $model = new Model($name);
     }
-    $_model[$app.$OriClassName] =  $model;
+    $_model[$app.$OriClassName] = $model;
 
     return $model;
 }
@@ -541,12 +541,12 @@ function D($name='', $app='@', $inclueCommonFunction=true)
  * @param string app Model所在项目
  * @return object
  */
-function A($name, $app='@')
+function A($name, $app = '@')
 {
     static $_action = array();
 
-    if (empty($app) || $app=='@') {
-        $app =  APP_NAME;
+    if (empty($app) || $app == '@') {
+        $app = APP_NAME;
     }
 
     if (isset($_action[$app.$name])) {
@@ -554,7 +554,7 @@ function A($name, $app='@')
     }
 
     $OriClassName = $name;
-    $className =  $name.'Action';
+    $className = $name.'Action';
     tsload(APP_ACTION_PATH.'/'.$className.'.class.php');
 
     if (class_exists($className)) {
@@ -579,7 +579,7 @@ function L($key, $data = array())
     if (!isset($GLOBALS['_lang'][$key])) {
         if (C('APP_DEBUG')) {
             $notValveForKey = F('notValveForKey', '', DATA_PATH.'/develop');
-            if ($notValveForKey==false) {
+            if ($notValveForKey == false) {
                 $notValveForKey = array();
             }
             if (!isset($notValveForKey[$key])) {
@@ -618,29 +618,29 @@ function L($key, $data = array())
  * @param  int|string $dec   小数位或者m
  * @return mixed
  */
-function G($start, $end='', $dec=4)
+function G($start, $end = '', $dec = 4)
 {
-    static $_info       =   array();
-    static $_mem        =   array();
+    static $_info = array();
+    static $_mem = array();
     if (is_float($end)) { // 记录时间
-        $_info[$start]  =   $end;
+        $_info[$start] = $end;
     } elseif (!empty($end)) { // 统计时间和内存使用
         if (!isset($_info[$end])) {
-            $_info[$end]       =  microtime(true);
+            $_info[$end] = microtime(true);
         }
-        if (MEMORY_LIMIT_ON && $dec=='m') {
+        if (MEMORY_LIMIT_ON && $dec == 'm') {
             if (!isset($_mem[$end])) {
-                $_mem[$end]     =  memory_get_usage();
+                $_mem[$end] = memory_get_usage();
             }
 
-            return number_format(($_mem[$end]-$_mem[$start])/1024);
+            return number_format(($_mem[$end] - $_mem[$start]) / 1024);
         } else {
-            return number_format(($_info[$end]-$_info[$start]), $dec);
+            return number_format(($_info[$end] - $_info[$start]), $dec);
         }
     } else { // 记录时间和内存使用
-        $_info[$start]  =  microtime(true);
+        $_info[$start] = microtime(true);
         if (MEMORY_LIMIT_ON) {
-            $_mem[$start]           =  memory_get_usage();
+            $_mem[$start] = memory_get_usage();
         }
     }
 }
@@ -658,11 +658,11 @@ function G($start, $end='', $dec=4)
  * @param  int    $step 步进值
  * @return mixed
  */
-function N($key, $step=0, $save=false)
+function N($key, $step = 0, $save = false)
 {
-    static $_num    = array();
+    static $_num = array();
     if (!isset($_num[$key])) {
-        $_num[$key] = (false !== $save)? S('N_'.$key) :  0;
+        $_num[$key] = (false !== $save) ? S('N_'.$key) :  0;
     }
     if (empty($step)) {
         return $_num[$key];
@@ -728,21 +728,21 @@ function t($text)
 function h($text, $type = 'html')
 {
     // 无标签格式
-    $text_tags  = '';
+    $text_tags = '';
     //只保留链接
-    $link_tags  = '<a>';
+    $link_tags = '<a>';
     //只保留图片
     $image_tags = '<img>';
     //只存在字体样式
-    $font_tags  = '<i><b><u><s><em><strong><font><big><small><sup><sub><bdo><h1><h2><h3><h4><h5><h6>';
+    $font_tags = '<i><b><u><s><em><strong><font><big><small><sup><sub><bdo><h1><h2><h3><h4><h5><h6>';
     //标题摘要基本格式
-    $base_tags  = $font_tags.'<p><br><hr><a><img><map><area><pre><code><q><blockquote><acronym><cite><ins><del><center><strike>';
+    $base_tags = $font_tags.'<p><br><hr><a><img><map><area><pre><code><q><blockquote><acronym><cite><ins><del><center><strike>';
     //兼容Form格式
-    $form_tags  = $base_tags.'<form><input><textarea><button><select><optgroup><option><label><fieldset><legend>';
+    $form_tags = $base_tags.'<form><input><textarea><button><select><optgroup><option><label><fieldset><legend>';
     //内容等允许HTML的格式
-    $html_tags  = $base_tags.'<meta><ul><ol><li><dl><dd><dt><table><caption><td><th><tr><thead><tbody><tfoot><col><colgroup><div><span><object><embed><param>';
+    $html_tags = $base_tags.'<meta><ul><ol><li><dl><dd><dt><table><caption><td><th><tr><thead><tbody><tfoot><col><colgroup><div><span><object><embed><param>';
     //专题等全HTML格式
-    $all_tags   = $form_tags.$html_tags.'<!DOCTYPE><html><head><title><body><base><basefont><script><noscript><applet><object><param><style><frame><frameset><noframes><iframe>';
+    $all_tags = $form_tags.$html_tags.'<!DOCTYPE><html><head><title><body><base><basefont><script><noscript><applet><object><param><style><frame><frameset><noframes><iframe>';
     //过滤标签
     $text = real_strip_tags($text, ${$type.'_tags'});
     // 过滤攻击代码
@@ -766,30 +766,30 @@ function h($text, $type = 'html')
  * @param  bool   $redirect 是否自动跳转到生成的URL
  * @return string 输出URL
  */
-function U($url, $params=false, $redirect=false)
+function U($url, $params = false, $redirect = false)
 {
 
     //普通模式
-    if (false==strpos($url, '/')) {
-        $url    .='//';
+    if (false == strpos($url, '/')) {
+        $url    .= '//';
     }
 
     //填充默认参数
-    $urls   =   explode('/', $url);
-    $app    =   isset($urls[0]) && !empty($urls[0]) ? $urls[0] : APP_NAME;
-    $mod    =   isset($urls[1]) && !empty($urls[1]) ? ucfirst($urls[1]) : 'Index';
-    $act    =   isset($urls[2]) && !empty($urls[2]) ? $urls[2] : 'index';
+    $urls = explode('/', $url);
+    $app = isset($urls[0]) && !empty($urls[0]) ? $urls[0] : APP_NAME;
+    $mod = isset($urls[1]) && !empty($urls[1]) ? ucfirst($urls[1]) : 'Index';
+    $act = isset($urls[2]) && !empty($urls[2]) ? $urls[2] : 'index';
 
     //组合默认路径
-    $site_url   =   SITE_URL.'/'.ROOT_FILE.'?app='.$app.'&mod='.$mod.'&act='.$act;
+    $site_url = SITE_URL.'/'.ROOT_FILE.'?app='.$app.'&mod='.$mod.'&act='.$act;
 
     //填充附加参数
     if ($params) {
         if (is_array($params)) {
-            $params =   http_build_query($params);
-            $params =   urldecode($params);
+            $params = http_build_query($params);
+            $params = urldecode($params);
         }
-        $params     =   str_replace('&amp;', '&', $params);
+        $params = str_replace('&amp;', '&', $params);
         $site_url   .=  '&'.$params;
     }
 
@@ -797,17 +797,17 @@ function U($url, $params=false, $redirect=false)
     if (C('URL_ROUTER_ON')) {
 
         //载入路由
-        $router_ruler   =   C('router');
-        $router_key     =   $app.'/'.$mod.'/'.$act;
+        $router_ruler = C('router');
+        $router_key = $app.'/'.$mod.'/'.$act;
 
         //路由命中
         if (isset($router_ruler[$router_key])) {
 
             //填充路由参数
-            if (false==strpos($router_ruler[$router_key], '://')) {
-                $site_url   =   SITE_URL.'/'.$router_ruler[$router_key];
+            if (false == strpos($router_ruler[$router_key], '://')) {
+                $site_url = SITE_URL.'/'.$router_ruler[$router_key];
             } else {
-                $site_url   =   $router_ruler[$router_key];
+                $site_url = $router_ruler[$router_key];
             }
 
             //填充附加参数
@@ -815,16 +815,16 @@ function U($url, $params=false, $redirect=false)
 
                 //解析替换URL中的参数
                 parse_str($params, $r);
-                foreach ($r as $k=>$v) {
+                foreach ($r as $k => $v) {
                     if (strpos($site_url, '['.$k.']')) {
-                        $site_url   =   str_replace('['.$k.']', $v, $site_url);
+                        $site_url = str_replace('['.$k.']', $v, $site_url);
                     } else {
-                        $lr[$k] =   $v;
+                        $lr[$k] = $v;
                     }
                 }
 
                 //填充剩余参数
-                if (isset($lr) && is_array($lr) && count($lr)>0) {
+                if (isset($lr) && is_array($lr) && count($lr) > 0) {
                     $site_url   .=  '?'.http_build_query($lr);
                 }
             }
@@ -845,16 +845,16 @@ function U($url, $params=false, $redirect=false)
  * @param int    $time 跳转延时(秒)
  * @param string $msg  提示语
  */
-function redirect($url, $time=0, $msg='')
+function redirect($url, $time = 0, $msg = '')
 {
     //多行URL地址支持
     $url = str_replace(array("\n", "\r"), '', $url);
     if (empty($msg)) {
-        $msg    =   "系统将在{$time}秒之后自动跳转到{$url}！";
+        $msg = "系统将在{$time}秒之后自动跳转到{$url}！";
     }
     if (!headers_sent()) {
         // redirect
-        if (0===$time) {
+        if (0 === $time) {
             header('Location: '.$url);
         } else {
             header('Content-type: text/html; charset=utf-8');
@@ -863,8 +863,8 @@ function redirect($url, $time=0, $msg='')
         }
         exit();
     } else {
-        $str    = "<meta http-equiv='Refresh' content='{$time};URL={$url}'>";
-        if ($time!=0) {
+        $str = "<meta http-equiv='Refresh' content='{$time};URL={$url}'>";
+        if ($time != 0) {
             $str   .=   $msg;
         }
         exit($str);
@@ -876,7 +876,7 @@ function redirect($url, $time=0, $msg='')
  *
  * $expire = null/0 表示永久缓存，否则为缓存有效期
  */
-function S($name, $value='', $expire=null)
+function S($name, $value = '', $expire = null)
 {
     static $_cache = array();   //减少缓存读取
 
@@ -887,7 +887,7 @@ function S($name, $value='', $expire=null)
     if ('' !== $value) {
         if (is_null($value)) {
             // 删除缓存
-            $result =   $cache->rm($name);
+            $result = $cache->rm($name);
             if ($result) {
                 unset($_cache[$name]);
             }
@@ -896,7 +896,7 @@ function S($name, $value='', $expire=null)
         } else {
             // 缓存数据
             $cache->set($name, $value, $expire);
-            $_cache[$name]     =   $value;
+            $_cache[$name] = $value;
         }
 
         return true;
@@ -905,8 +905,8 @@ function S($name, $value='', $expire=null)
         return $_cache[$name];
     }
     // 获取缓存数据
-    $value      =  $cache->get($name);
-    $_cache[$name]     =   $value;
+    $value = $cache->get($name);
+    $_cache[$name] = $value;
 
     return $value;
 }
@@ -915,26 +915,26 @@ function S($name, $value='', $expire=null)
  * 文件缓存,多用来缓存配置信息
  *
  */
-function F($name, $value='', $path=false)
+function F($name, $value = '', $path = false)
 {
-    if (C('TS_CACHE_TYPE')=='SAEMC') {
+    if (C('TS_CACHE_TYPE') == 'SAEMC') {
         return S('F_'.$path.'_'.$name, $value);
     }
     static $_cache = array();
     if (!$path) {
-        $path   =   C('F_CACHE_PATH');
+        $path = C('F_CACHE_PATH');
     }
     if (!is_dir($path)) {
         @mkdir($path, 0777, true);
     }
-    $filename   =   $path.'/'.C('DATA_CACHE_PREFIX').$name.'.php';
+    $filename = $path.'/'.C('DATA_CACHE_PREFIX').$name.'.php';
     if ('' !== $value) {
         if (is_null($value)) {
             // 删除缓存
             return unlink($filename);
         } else {
             // 缓存数据
-            $dir   =  dirname($filename);
+            $dir = dirname($filename);
             // 目录不存在则创建
             if (!is_dir($dir)) {
                 @mkdir($dir, 0777, true);
@@ -948,16 +948,16 @@ function F($name, $value='', $path=false)
     }
     // 获取缓存数据
     if (is_file($filename)) {
-        $value   =  include $filename;
-        $_cache[$name]   =   $value;
+        $value = include $filename;
+        $_cache[$name] = $value;
     } else {
-        $value  =   false;
+        $value = false;
     }
 
     return $value;
 }
 
-function W($name, $data=array(), $return=false)
+function W($name, $data = array(), $return = false)
 {
     $class = $name.'Widget';
     if (file_exists(APP_WIDGET_PATH.'/'.$class.'/'.$class.'.class.php')) {
@@ -971,8 +971,8 @@ function W($name, $data=array(), $return=false)
     if (!class_exists($class)) {
         throw_exception(L('_CLASS_NOT_EXIST_').':'.$class);
     }
-    $widget     =   new $class();
-    $content    =   $widget->render($data);
+    $widget = new $class();
+    $content = $widget->render($data);
     if ($return) {
         return $content;
     } else {
@@ -981,7 +981,7 @@ function W($name, $data=array(), $return=false)
 }
 
 // 实例化服务
-function api($name, $api_version=false)
+function api($name, $api_version = false)
 {
     static $_api = array();
     if (isset($_api[$name])) {
@@ -1008,29 +1008,29 @@ function api($name, $api_version=false)
 }
 
 // 实例化服务
-function service($name, $params=array())
+function service($name, $params = array())
 {
     return X($name, $params, 'service');
 }
 
 // 实例化服务
-function widget($name, $params=array(), $return=false)
+function widget($name, $params = array(), $return = false)
 {
     return X($name, $params, 'widget');
 }
 
 // 实例化model
-function model($name, $params=array())
+function model($name, $params = array())
 {
     return X($name, $params, 'model');
 }
 
 // 调用接口服务
-function X($name, $params=array(), $domain='model')
+function X($name, $params = array(), $domain = 'model')
 {
     static $_service = array();
 
-    $app =  'public';
+    $app = 'public';
 
     $domain = ucfirst($domain);
 
@@ -1046,8 +1046,8 @@ function X($name, $params=array(), $domain='model')
     }
     //服务不可用时 记录知识 或 抛出异常
     if (class_exists($class)) {
-        $obj   =  new $class($params);
-        $_service[$domain.'_'.$app.'_'.$name] =  $obj;
+        $obj = new $class($params);
+        $_service[$domain.'_'.$app.'_'.$name] = $obj;
 
         return $obj;
     } else {
@@ -1057,7 +1057,7 @@ function X($name, $params=array(), $domain='model')
 
 // 渲染模板
 //$charset 不能是UTF8 否则IE下会乱码
-function fetch($templateFile='', $tvar=array(), $charset='utf-8', $contentType='text/html', $display=false)
+function fetch($templateFile = '', $tvar = array(), $charset = 'utf-8', $contentType = 'text/html', $display = false)
 {
     //注入全局变量ts
     global  $ts;
@@ -1065,7 +1065,7 @@ function fetch($templateFile='', $tvar=array(), $charset='utf-8', $contentType='
     unset($tvar['templateCacheFile'], $tvar['templateFile']);
     //$GLOBALS['_viewStartTime'] = microtime(TRUE);
 
-    if (null===$templateFile) {
+    if (null === $templateFile) {
         // 使用null参数作为模版名直接返回不做任何输出
     return ;
     }
@@ -1084,14 +1084,14 @@ function fetch($templateFile='', $tvar=array(), $charset='utf-8', $contentType='
     ob_implicit_flush(0);
 
     // 模版名为空.
-    if (''==$templateFile) {
-        $templateFile   =   APP_TPL_PATH.'/'.ucfirst(MODULE_NAME).'/'.ACTION_NAME.'.html';
+    if ('' == $templateFile) {
+        $templateFile = APP_TPL_PATH.'/'.ucfirst(MODULE_NAME).'/'.ACTION_NAME.'.html';
 
         // 模版名为ACTION_NAME
     } elseif (file_exists(APP_TPL_PATH.'/'.ucfirst(MODULE_NAME).'/'.$templateFile.'.html')) {
-        $templateFile   =   APP_TPL_PATH.'/'.ucfirst(MODULE_NAME).'/'.$templateFile.'.html';
+        $templateFile = APP_TPL_PATH.'/'.ucfirst(MODULE_NAME).'/'.$templateFile.'.html';
     } elseif (file_exists(APP_TPL_PATH.'/'.$templateFile.'.html')) {
-        $templateFile   =   APP_TPL_PATH.'/'.$templateFile.'.html';
+        $templateFile = APP_TPL_PATH.'/'.$templateFile.'.html';
 
         // 模版是绝对路径
     } elseif (file_exists($templateFile)) {
@@ -1102,16 +1102,16 @@ function fetch($templateFile='', $tvar=array(), $charset='utf-8', $contentType='
     }
 
     //模版缓存文件
-    $templateCacheFile  =   C('TMPL_CACHE_PATH').'/'.APP_NAME.'_'.tsmd5($templateFile).'.php';
+    $templateCacheFile = C('TMPL_CACHE_PATH').'/'.APP_NAME.'_'.tsmd5($templateFile).'.php';
 
     //载入模版缓存
     if ((!$ts['_debug'] && file_exists($templateCacheFile)) && (!defined('TS_APP_DEV') || TS_APP_DEV == false)) {
         //if(1==2){ //TODO  开发
         extract($tvar, EXTR_OVERWRITE);
         //载入模版缓存文件
-        if (C('TS_CACHE_TYPE')=='SAEMC') {
-            $mmc=memcache_init();
-            if ($mmc==false) {
+        if (C('TS_CACHE_TYPE') == 'SAEMC') {
+            $mmc = memcache_init();
+            if ($mmc == false) {
                 exit("mc init failed\n");
             }
             $content = memcache_get($mmc, $templateCacheFile);
@@ -1129,7 +1129,7 @@ function fetch($templateFile='', $tvar=array(), $charset='utf-8', $contentType='
         tsload(CORE_LIB_PATH.'/TagLib.class.php');
         tsload(CORE_LIB_PATH.'/TagLib/TagLibCx.class.php');
 
-        $tpl    =   Template::getInstance();
+        $tpl = Template::getInstance();
         // 编译并加载模板文件
         $tpl->load($templateFile, $tvar, $charset);
     }
@@ -1138,23 +1138,23 @@ function fetch($templateFile='', $tvar=array(), $charset='utf-8', $contentType='
     $content = ob_get_clean();
 
     // 模板内容替换
-    $replace =  array(
-        '__ROOT__'      =>  SITE_URL,           // 当前网站地址
-        '__UPLOAD__'    =>  UPLOAD_URL,         // 上传文件地址
+    $replace = array(
+        '__ROOT__' => SITE_URL,           // 当前网站地址
+        '__UPLOAD__' => UPLOAD_URL,         // 上传文件地址
         //'__PUBLIC__'    =>  PUBLIC_URL,       // 公共静态地址
-        '__PUBLIC__'    =>  THEME_PUBLIC_URL,   // 公共静态地址
-        '__THEME__'     =>  THEME_PUBLIC_URL,   // 主题静态地址
-        '__APP__'       =>  APP_PUBLIC_URL,     // 应用静态地址
-        '__URL__'       =>  __ROOT__.'/'.ROOT_FILE.'?app='.APP_NAME.'&mod='.MODULE_NAME,
+        '__PUBLIC__' => THEME_PUBLIC_URL,   // 公共静态地址
+        '__THEME__' => THEME_PUBLIC_URL,   // 主题静态地址
+        '__APP__' => APP_PUBLIC_URL,     // 应用静态地址
+        '__URL__' => __ROOT__.'/'.ROOT_FILE.'?app='.APP_NAME.'&mod='.MODULE_NAME,
     );
 
     if (C('TOKEN_ON')) {
         if (strpos($content, '{__TOKEN__}')) {
             // 指定表单令牌隐藏域位置
-            $replace['{__TOKEN__}'] =  $this->buildFormToken();
+            $replace['{__TOKEN__}'] = $this->buildFormToken();
         } elseif (strpos($content, '{__NOTOKEN__}')) {
             // 标记为不需要令牌验证
-            $replace['{__NOTOKEN__}'] =  '';
+            $replace['{__NOTOKEN__}'] = '';
         } elseif (preg_match('/<\/form(\s*)>/is', $content, $match)) {
             // 智能生成表单令牌隐藏域
             $replace[$match[0]] = $this->buildFormToken().$match[0];
@@ -1163,7 +1163,7 @@ function fetch($templateFile='', $tvar=array(), $charset='utf-8', $contentType='
 
     // 允许用户自定义模板的字符串替换
     if (is_array(C('TMPL_PARSE_STRING'))) {
-        $replace =  array_merge($replace, C('TMPL_PARSE_STRING'));
+        $replace = array_merge($replace, C('TMPL_PARSE_STRING'));
     }
 
     $content = str_replace(array_keys($replace), array_values($replace), $content);
@@ -1179,7 +1179,7 @@ function fetch($templateFile='', $tvar=array(), $charset='utf-8', $contentType='
 }
 
 // 输出模版
-function display($templateFile='', $tvar=array(), $charset='UTF8', $contentType='text/html')
+function display($templateFile = '', $tvar = array(), $charset = 'UTF8', $contentType = 'text/html')
 {
     fetch($templateFile, $tvar, $charset, $contentType, true);
 }
@@ -1200,7 +1200,7 @@ function mk_dir($dir, $mode = 0755)
  * 字节格式化 把字节数格式为 B K M G T 描述的大小
  * @return string
  */
-function byte_format($size, $dec=2)
+function byte_format($size, $dec = 2)
 {
     $a = array('B', 'KB', 'MB', 'GB', 'TB', 'PB');
     $pos = 0;
@@ -1217,26 +1217,26 @@ function byte_format($size, $dec=2)
  */
 function get_client_ip($type = 0)
 {
-    $type       =  $type ? 1 : 0;
-    static $ip  =   null;
+    $type = $type ? 1 : 0;
+    static $ip = null;
     if ($ip !== null) {
         return $ip[$type];
     }
     if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-        $arr    =   explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-        $pos    =   array_search('unknown', $arr);
+        $arr = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+        $pos = array_search('unknown', $arr);
         if (false !== $pos) {
             unset($arr[$pos]);
         }
-        $ip     =   trim($arr[0]);
+        $ip = trim($arr[0]);
     } elseif (isset($_SERVER['HTTP_CLIENT_IP'])) {
-        $ip     =   $_SERVER['HTTP_CLIENT_IP'];
+        $ip = $_SERVER['HTTP_CLIENT_IP'];
     } elseif (isset($_SERVER['REMOTE_ADDR'])) {
-        $ip     =   $_SERVER['REMOTE_ADDR'];
+        $ip = $_SERVER['REMOTE_ADDR'];
     }
     // IP地址合法验证
     $long = sprintf('%u', ip2long($ip));
-    $ip   = $long ? array($ip, $long) : array('127.0.0.1', 0);
+    $ip = $long ? array($ip, $long) : array('127.0.0.1', 0);
 
     return $ip[$type];
 }
@@ -1257,7 +1257,7 @@ function get_client_port()
  * @param unknown_type $data
  * @param unknown_type $isAdmin   是否管理员知识
  */
-function LogRecord($app_group, $action, $data, $isAdmin=false)
+function LogRecord($app_group, $action, $data, $isAdmin = false)
 {
     static $log = null;
     if ($log == null) {
@@ -1359,7 +1359,7 @@ function isVerified($uid)
  * @param $pKey 数组的键的名称
  * @return 返回新的一维数组
  */
-function getSubByKey($pArray, $pKey='', $pCondition='')
+function getSubByKey($pArray, $pKey = '', $pCondition = '')
 {
     $result = array();
     if (is_array($pArray)) {
@@ -1367,8 +1367,8 @@ function getSubByKey($pArray, $pKey='', $pCondition='')
             if (is_object($temp_array)) {
                 $temp_array = (array) $temp_array;
             }
-            if ((''!=$pCondition && $temp_array[$pCondition[0]]==$pCondition[1]) || ''==$pCondition) {
-                $result[] = (''==$pKey) ? $temp_array : isset($temp_array[$pKey]) ? $temp_array[$pKey] : '';
+            if (('' != $pCondition && $temp_array[$pCondition[0]] == $pCondition[1]) || '' == $pCondition) {
+                $result[] = ('' == $pKey) ? $temp_array : isset($temp_array[$pKey]) ? $temp_array[$pKey] : '';
             }
         }
 
@@ -1399,11 +1399,11 @@ function get_str_length($str, $filter = false)
 
 function getShort($str, $length = 40, $ext = '')
 {
-    $str    =   htmlspecialchars($str);
-    $str    =   strip_tags($str);
-    $str    =   htmlspecialchars_decode($str);
-    $strlenth   =   0;
-    $out        =   '';
+    $str = htmlspecialchars($str);
+    $str = strip_tags($str);
+    $str = htmlspecialchars_decode($str);
+    $strlenth = 0;
+    $out = '';
     preg_match_all("/[\x01-\x7f]|[\xc2-\xdf][\x80-\xbf]|[\xe0-\xef][\x80-\xbf]{2}|[\xf0-\xff][\x80-\xbf]{3}/", $str, $match);
     foreach ($match[0] as $v) {
         preg_match("/[\xe0-\xef][\x80-\xbf]{2}/", $v, $matchs);
@@ -1452,8 +1452,8 @@ if (!function_exists('is_utf8')) {
 // 自动转换字符集 支持数组转换
 function auto_charset($fContents, $from, $to)
 {
-    $from   =  strtoupper($from)=='UTF8'? 'utf-8':$from;
-    $to       =  strtoupper($to)=='UTF8'? 'utf-8':$to;
+    $from = strtoupper($from) == 'UTF8' ? 'utf-8' : $from;
+    $to = strtoupper($to) == 'UTF8' ? 'utf-8' : $to;
     if (strtoupper($from) === strtoupper($to) || empty($fContents) || (is_scalar($fContents) && !is_string($fContents))) {
         //如果编码相同或者非字符串标量则不转换
         return $fContents;
@@ -1466,7 +1466,7 @@ function auto_charset($fContents, $from, $to)
         }
     } elseif (is_array($fContents)) {
         foreach ($fContents as $key => $val) {
-            $_key =     auto_charset($key, $from, $to);
+            $_key = auto_charset($key, $from, $to);
             $fContents[$_key] = auto_charset($val, $from, $to);
             if ($key != $_key) {
                 unset($fContents[$key]);
@@ -1493,13 +1493,13 @@ function friendlyDate($sTime, $type = 'normal', $alt = 'false')
         return '';
     }
     //sTime=源时间，cTime=当前时间，dTime=时间差
-    $cTime      =   time();
-    $dTime      =   $cTime - $sTime;
-    $dDay       =   intval(date('z', $cTime)) - intval(date('z', $sTime));
+    $cTime = time();
+    $dTime = $cTime - $sTime;
+    $dDay = intval(date('z', $cTime)) - intval(date('z', $sTime));
     //$dDay     =   intval($dTime/3600/24);
-    $dYear      =   intval(date('Y', $cTime)) - intval(date('Y', $sTime));
+    $dYear = intval(date('Y', $cTime)) - intval(date('Y', $sTime));
     //normal：n秒前，n分钟前，n小时前，日期
-    if ($type=='normal') {
+    if ($type == 'normal') {
         if ($dTime < 60) {
             if ($dTime < 10) {
                 return '刚刚';    //by yangjs
@@ -1507,43 +1507,43 @@ function friendlyDate($sTime, $type = 'normal', $alt = 'false')
                 return intval(floor($dTime / 10) * 10).'秒前';
             }
         } elseif ($dTime < 3600) {
-            return intval($dTime/60).'分钟前';
+            return intval($dTime / 60).'分钟前';
             //今天的数据.年份相同.日期相同.
-        } elseif ($dYear==0 && $dDay == 0) {
+        } elseif ($dYear == 0 && $dDay == 0) {
             //return intval($dTime/3600)."小时前";
             return '今天'.date('H:i', $sTime);
-        } elseif ($dYear==0) {
+        } elseif ($dYear == 0) {
             return date('m月d日 H:i', $sTime);
         } else {
             return date('Y-m-d H:i', $sTime);
         }
-    } elseif ($type=='mohu') {
+    } elseif ($type == 'mohu') {
         if ($dTime < 60) {
             return $dTime.'秒前';
         } elseif ($dTime < 3600) {
-            return intval($dTime/60).'分钟前';
+            return intval($dTime / 60).'分钟前';
         } elseif ($dTime >= 3600 && $dDay == 0) {
-            return intval($dTime/3600).'小时前';
-        } elseif ($dDay > 0 && $dDay<=7) {
+            return intval($dTime / 3600).'小时前';
+        } elseif ($dDay > 0 && $dDay <= 7) {
             return intval($dDay).'天前';
         } elseif ($dDay > 7 &&  $dDay <= 30) {
-            return intval($dDay/7).'周前';
+            return intval($dDay / 7).'周前';
         } elseif ($dDay > 30) {
-            return intval($dDay/30).'个月前';
+            return intval($dDay / 30).'个月前';
         }
         //full: Y-m-d , H:i:s
-    } elseif ($type=='full') {
+    } elseif ($type == 'full') {
         return date('Y-m-d , H:i:s', $sTime);
-    } elseif ($type=='ymd') {
+    } elseif ($type == 'ymd') {
         return date('Y-m-d', $sTime);
     } else {
         if ($dTime < 60) {
             return $dTime.'秒前';
         } elseif ($dTime < 3600) {
-            return intval($dTime/60).'分钟前';
+            return intval($dTime / 60).'分钟前';
         } elseif ($dTime >= 3600 && $dDay == 0) {
-            return intval($dTime/3600).'小时前';
-        } elseif ($dYear==0) {
+            return intval($dTime / 3600).'小时前';
+        } elseif ($dYear == 0) {
             return date('Y-m-d H:i:s', $sTime);
         } else {
             return date('Y-m-d H:i:s', $sTime);
@@ -1565,7 +1565,7 @@ function preg_html($html)
             '/<[img|IMG][^>]+(src=")+([^"]+)"[^>]*+>/', );
     $t = array('topic{data=$2}','$2','img{data=$2}');
     $html = preg_replace($p, $t, $html);
-    $html   = strip_tags($html, '<br/>');
+    $html = strip_tags($html, '<br/>');
 
     return $html;
 }
@@ -1619,7 +1619,7 @@ function parseForApi($html)
  * @param  bool   $url     是否替换URL
  * @return string
  */
-function format($content, $url=false)
+function format($content, $url = false)
 {
     $content = stripslashes($content);
     $content = formatEmoji(false, $content);
@@ -1694,8 +1694,8 @@ function _parse_url($url)
 function _parse_theme($data)
 {
     //如果话题被锁定，则不带链接
-    if (!model('FeedTopic')->where(array('name'=>$data[1]))->getField('lock')) {
-        return '<a href='.U('public/Topic/index', array('k'=>urlencode($data[1]))).'>'.$data[0].'</a>';
+    if (!model('FeedTopic')->where(array('name' => $data[1]))->getField('lock')) {
+        return '<a href='.U('public/Topic/index', array('k' => urlencode($data[1]))).'>'.$data[0].'</a>';
     } else {
         return $data[0];
     }
@@ -1747,7 +1747,7 @@ function _parse_wap_at_by_uname($name)
         static_cache('user_info_uname_'.$name[1], $info);
     }
     if ($info && $info['is_active'] && $info['is_audit'] && $info['is_init']) {
-        return '<a href="'.U('wap/Index/weibo', array('uid'=>$info['uid'])).'" >'.$name[0].'</a>';
+        return '<a href="'.U('wap/Index/weibo', array('uid' => $info['uid'])).'" >'.$name[0].'</a>';
     } else {
         return $name[0];
     }
@@ -1778,12 +1778,12 @@ function _parse_img_forapi($html)
  */
 function filter_keyword($html)
 {
-    static $audit  =null;
+    static $audit = null;
     static $auditSet = null;
     if ($audit == null) { //第一次
         $audit = model('Xdata')->get('keywordConfig');
         $audit = explode(',', $audit);
-        $auditSet =  model('Xdata')->get('admin_Config:audit');
+        $auditSet = model('Xdata')->get('admin_Config:audit');
     }
     // 不需要替换
     if (empty($audit) || $auditSet['open'] == '0') {
@@ -1802,46 +1802,46 @@ function filter_keyword($html)
  * @param  unknown_type $cut      是否切割 默认不切割
  * @return string
  */
-function getThumbImage($filename, $width=100, $height='auto', $cut=false, $replace=false)
+function getThumbImage($filename, $width = 100, $height = 'auto', $cut = false, $replace = false)
 {
-    $filename  = str_ireplace(UPLOAD_URL, '', $filename); //将URL转化为本地地址
-    $info      = pathinfo($filename);
-    $oldFile   = $info['dirname'].DIRECTORY_SEPARATOR.$info['filename'].'.'.$info['extension'];
+    $filename = str_ireplace(UPLOAD_URL, '', $filename); //将URL转化为本地地址
+    $info = pathinfo($filename);
+    $oldFile = $info['dirname'].DIRECTORY_SEPARATOR.$info['filename'].'.'.$info['extension'];
     $thumbFile = $info['dirname'].DIRECTORY_SEPARATOR.$info['filename'].'_'.$width.'_'.$height.'.'.$info['extension'];
 
     $oldFile = str_replace('\\', '/', $oldFile);
     $thumbFile = str_replace('\\', '/', $thumbFile);
 
-    $filename   = '/'.ltrim($filename, '/');
-    $oldFile    = '/'.ltrim($oldFile, '/');
-    $thumbFile  = '/'.ltrim($thumbFile, '/');
+    $filename = '/'.ltrim($filename, '/');
+    $oldFile = '/'.ltrim($oldFile, '/');
+    $thumbFile = '/'.ltrim($thumbFile, '/');
 
     //原图不存在直接返回
     if (!file_exists(UPLOAD_PATH.$oldFile)) {
         @unlink(UPLOAD_PATH.$thumbFile);
-        $info['src']    = $oldFile;
-        $info['width']  = intval($width);
+        $info['src'] = $oldFile;
+        $info['width'] = intval($width);
         $info['height'] = intval($height);
 
         return $info;
         //缩图已存在并且 replace替换为false
     } elseif (file_exists(UPLOAD_PATH.$thumbFile) && !$replace) {
-        $imageinfo      = getimagesize(UPLOAD_PATH.$thumbFile);
-        $info['src']    = $thumbFile;
-        $info['width']  = intval($imageinfo[0]);
+        $imageinfo = getimagesize(UPLOAD_PATH.$thumbFile);
+        $info['src'] = $thumbFile;
+        $info['width'] = intval($imageinfo[0]);
         $info['height'] = intval($imageinfo[1]);
 
         return $info;
         //执行缩图操作
     } else {
-        $oldimageinfo     = getimagesize(UPLOAD_PATH.$oldFile);
-        $old_image_width  = intval($oldimageinfo[0]);
+        $oldimageinfo = getimagesize(UPLOAD_PATH.$oldFile);
+        $old_image_width = intval($oldimageinfo[0]);
         $old_image_height = intval($oldimageinfo[1]);
-        if ($old_image_width<=$width && $old_image_height<=$height) {
+        if ($old_image_width <= $width && $old_image_height <= $height) {
             @unlink(UPLOAD_PATH.$thumbFile);
             @copy(UPLOAD_PATH.$oldFile, UPLOAD_PATH.$thumbFile);
-            $info['src']    = $thumbFile;
-            $info['width']  = $old_image_width;
+            $info['src'] = $thumbFile;
+            $info['width'] = $old_image_width;
             $info['height'] = $old_image_height;
 
             return $info;
@@ -1854,8 +1854,8 @@ function getThumbImage($filename, $width=100, $height='auto', $cut=false, $repla
             //     Image::thumb(UPLOAD_PATH.$filename, UPLOAD_PATH.$thumbFile, '', $width, $height);
             // }
             //生成缩略图 - 更好的方法
-            if ($height=='auto') {
-                $height=0;
+            if ($height == 'auto') {
+                $height = 0;
             }
             tsload(ADDON_PATH.'/library/phpthumb/ThumbLib.inc.php');
             $thumb = PhpThumbFactory::create(UPLOAD_PATH.$filename);
@@ -1892,13 +1892,13 @@ function getImageInfo($file)
 }
 
 //获取图片地址 - 兼容云
-function getImageUrl($file, $width='0', $height='auto', $cut=false, $replace=false)
+function getImageUrl($file, $width = '0', $height = 'auto', $cut = false, $replace = false)
 {
     $cloud = model('CloudImage');
     if ($cloud->isOpen()) {
         $imageUrl = $cloud->getImageUrl($file, $width, $height, $cut);
     } else {
-        if ($width>0) {
+        if ($width > 0) {
             $thumbInfo = getThumbImage($file, $width, $height, $cut, $replace);
             $imageUrl = UPLOAD_URL.'/'.ltrim($thumbInfo['src'], '/');
         } else {
@@ -1912,14 +1912,14 @@ function getImageUrl($file, $width='0', $height='auto', $cut=false, $replace=fal
 //保存远程图片
 function saveImageToLocal($url)
 {
-    if (strncasecmp($url, 'http', 4)!=0) {
+    if (strncasecmp($url, 'http', 4) != 0) {
         return false;
     }
     $opts = array(
-    'http'=>array(
+    'http' => array(
       'method' => 'GET',
       'timeout' => 30, //超时30秒
-      'user_agent'=>'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)',
+      'user_agent' => 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)',
       ),
       );
     $context = stream_context_create($opts);
@@ -1948,7 +1948,7 @@ function saveImageToLocal($url)
     }
 }
 
-function getImageUrlByAttachId($attachid, $width='0', $height='auto', $cut=false)
+function getImageUrlByAttachId($attachid, $width = '0', $height = 'auto', $cut = false)
 {
     if ($attachInfo = model('Attach')->getAttachById($attachid)) {
         if ($width) {
@@ -2019,12 +2019,12 @@ function getVisitorClient()
 }
 
 //获取一条分享的来源信息
-function getFromClient($type=0, $app='public', $app_name = '')
+function getFromClient($type = 0, $app = 'public', $app_name = '')
 {
     if ($app != 'public') {
         $appUpper = strtoupper($app);
         $appName = L('PUBLIC_APPNAME_'.$appUpper);
-        if (empty($app_name) && $appUpper!=$appName) {
+        if (empty($app_name) && $appUpper != $appName) {
             $app_name = $appName;
         }
         if (isMobile() || APP_NAME === 'w3g') {
@@ -2103,7 +2103,7 @@ function getOAuthTokenSecret()
  **/
 function getShortPinyin($string, $encode = 'utf-8', $unknow = null)
 {
-    $pre    = $unknow !== null ? $unknow : mb_substr($string, 0, 1, $encode);
+    $pre = $unknow !== null ? $unknow : mb_substr($string, 0, 1, $encode);
     $string = Pinyin::getShortPinyin($string, $encode);
     $string = substr($string, 0, 1);
     $string = strtoupper($string); /* 转为大写 */
@@ -2129,73 +2129,73 @@ function getFirstLetter($s0)
     }
     $s = iconv('UTF-8', 'gb2312', $s0);
     $asc = ord($s{0}) * 256 + ord($s{1}) - 65536;
-    if ($asc>=-20319 and $asc<=-20284) {
+    if ($asc >= -20319 and $asc <= -20284) {
         return 'A';
     }
-    if ($asc>=-20283 and $asc<=-19776) {
+    if ($asc >= -20283 and $asc <= -19776) {
         return 'B';
     }
-    if ($asc>=-19775 and $asc<=-19219) {
+    if ($asc >= -19775 and $asc <= -19219) {
         return 'C';
     }
-    if ($asc>=-19218 and $asc<=-18711) {
+    if ($asc >= -19218 and $asc <= -18711) {
         return 'D';
     }
-    if ($asc>=-18710 and $asc<=-18527) {
+    if ($asc >= -18710 and $asc <= -18527) {
         return 'E';
     }
-    if ($asc>=-18526 and $asc<=-18240) {
+    if ($asc >= -18526 and $asc <= -18240) {
         return 'F';
     }
-    if ($asc>=-18239 and $asc<=-17923) {
+    if ($asc >= -18239 and $asc <= -17923) {
         return 'G';
     }
-    if ($asc>=-17922 and $asc<=-17418) {
+    if ($asc >= -17922 and $asc <= -17418) {
         return 'H';
     }
-    if ($asc>=-17417 and $asc<=-16475) {
+    if ($asc >= -17417 and $asc <= -16475) {
         return 'J';
     }
-    if ($asc>=-16474 and $asc<=-16213) {
+    if ($asc >= -16474 and $asc <= -16213) {
         return 'K';
     }
-    if ($asc>=-16212 and $asc<=-15641) {
+    if ($asc >= -16212 and $asc <= -15641) {
         return 'L';
     }
-    if ($asc>=-15640 and $asc<=-15166) {
+    if ($asc >= -15640 and $asc <= -15166) {
         return 'M';
     }
-    if ($asc>=-15165 and $asc<=-14923) {
+    if ($asc >= -15165 and $asc <= -14923) {
         return 'N';
     }
-    if ($asc>=-14922 and $asc<=-14915) {
+    if ($asc >= -14922 and $asc <= -14915) {
         return 'O';
     }
-    if ($asc>=-14914 and $asc<=-14631) {
+    if ($asc >= -14914 and $asc <= -14631) {
         return 'P';
     }
-    if ($asc>=-14630 and $asc<=-14150) {
+    if ($asc >= -14630 and $asc <= -14150) {
         return 'Q';
     }
-    if ($asc>=-14149 and $asc<=-14091) {
+    if ($asc >= -14149 and $asc <= -14091) {
         return 'R';
     }
-    if ($asc>=-14090 and $asc<=-13319) {
+    if ($asc >= -14090 and $asc <= -13319) {
         return 'S';
     }
-    if ($asc>=-13318 and $asc<=-12839) {
+    if ($asc >= -13318 and $asc <= -12839) {
         return 'T';
     }
-    if ($asc>=-12838 and $asc<=-12557) {
+    if ($asc >= -12838 and $asc <= -12557) {
         return 'W';
     }
-    if ($asc>=-12556 and $asc<=-11848) {
+    if ($asc >= -12556 and $asc <= -11848) {
         return 'X';
     }
-    if ($asc>=-11847 and $asc<=-11056) {
+    if ($asc >= -11847 and $asc <= -11056) {
         return 'Y';
     }
-    if ($asc>=-11055 and $asc<=-10247) {
+    if ($asc >= -11055 and $asc <= -10247) {
         return 'Z';
     }
 
@@ -2203,19 +2203,19 @@ function getFirstLetter($s0)
 }
 
 // 区间调试开始
-function debug_start($label='')
+function debug_start($label = '')
 {
     $GLOBALS[$label]['_beginTime'] = microtime(true);
     $GLOBALS[$label]['_beginMem'] = memory_get_usage();
 }
 
 // 区间调试结束，显示指定标记到当前位置的调试
-function debug_end($label='')
+function debug_end($label = '')
 {
     $GLOBALS[$label]['_endTime'] = microtime(true);
-    $log =  'Process '.$label.': Times '.number_format($GLOBALS[$label]['_endTime']-$GLOBALS[$label]['_beginTime'], 6).'s ';
+    $log = 'Process '.$label.': Times '.number_format($GLOBALS[$label]['_endTime'] - $GLOBALS[$label]['_beginTime'], 6).'s ';
     $GLOBALS[$label]['_endMem'] = memory_get_usage();
-    $log .= ' Memories '.number_format(($GLOBALS[$label]['_endMem']-$GLOBALS[$label]['_beginMem'])/1024).' k';
+    $log .= ' Memories '.number_format(($GLOBALS[$label]['_endMem'] - $GLOBALS[$label]['_beginMem']) / 1024).' k';
     $GLOBALS['logs'][$label] = $log;
 }
 
@@ -2289,7 +2289,7 @@ function getLang()
     $cLang = cookie('lang');
     $lang = '';
     // 判断是否已经登录
-    if (isset($_SESSION['mid']) && $_SESSION['mid']>0) {
+    if (isset($_SESSION['mid']) && $_SESSION['mid'] > 0) {
         $userInfo = model('User')->getUserInfo($_SESSION['mid']);
         if (isset($userInfo['lang'])) {
             return $userInfo['lang'];
@@ -2327,7 +2327,7 @@ function ShowNavMenu($apps)
         if (empty($child_menu)) {
             continue;
         }
-        foreach ($child_menu as $k=>$cm) {
+        foreach ($child_menu as $k => $cm) {
             if ($k == $app['app_name']) {
                 //我的XXX
                 $title = L('PUBLIC_MY').L('PUBLIC_APPNAME_'.strtoupper($k));
@@ -2339,7 +2339,7 @@ function ShowNavMenu($apps)
                 $url = U($cm);
             }
 
-            $html .="<dd><a href='{$url}'>{$title}</a></dd>";
+            $html .= "<dd><a href='{$url}'>{$title}</a></dd>";
         }
     }
 
@@ -2355,12 +2355,12 @@ function showNavProfile($apps)
         if (empty($child_menu)) {
             continue;
         }
-        foreach ($child_menu as $k=>$cm) {
+        foreach ($child_menu as $k => $cm) {
             if ($k == $app['app_name'] && $cm['public'] == 1) {
                 //我的XXX 只会显示这类数据
                 $title = "<img width='16' src='{$app['icon_url']}'> ".L('PUBLIC_APPNAME_'.strtoupper($k));
-                $url   = U('public/Profile/appprofile', array('appname'=>$k));
-                $html .="<dd class='profile_{$app['app_name']}'><a href='{$url}'>{$title}</a></dd>";
+                $url = U('public/Profile/appprofile', array('appname' => $k));
+                $html .= "<dd class='profile_{$app['app_name']}'><a href='{$url}'>{$title}</a></dd>";
             }
         }
     }
@@ -2414,7 +2414,7 @@ function showTreeCategory($data, $stable, $left, $delParam, $level = 0, $ext = '
         } else {
             $html .= '<a href="javascript:;" onclick="admin.rmTreeCategory('.$val['id'].', \''.$stable.'\', \''.$delParam['app'].'\', \''.$delParam['module'].'\', \''.$delParam['method'].'\');">删除</a>';
         }
-        $ext !== '' && $html .= '&nbsp;-&nbsp;<a href="'.U('admin/Public/setCategoryConf', array('cid'=>$val['id'], 'stable'=>$stable)).'&'.$ext.'">分类配置</a>';
+        $ext !== '' && $html .= '&nbsp;-&nbsp;<a href="'.U('admin/Public/setCategoryConf', array('cid' => $val['id'], 'stable' => $stable)).'&'.$ext.'">分类配置</a>';
         $html .= '</div><div class="c3">';
         $html .= '<a href="javascript:;" onclick="admin.moveTreeCategory('.$val['id'].', \'up\', \''.$stable.'\')" class="ico_top mr5"></a>';
         $html .= '<a href="javascript:;" onclick="admin.moveTreeCategory('.$val['id'].', \'down\', \''.$stable.'\')" class="ico_btm"></a>';
@@ -2490,10 +2490,10 @@ function getUserSpace($uid, $class, $target, $text, $icon = true)
         } else {
             preg_match('/{uavatar}|{uavatar\\=(.*?)}/e', $text, $face_type);
             switch ($face_type[1]) {
-                case 'b':
+                case 'b' :
                     $userface = 'big';
                     break;
-                case 'm':
+                case 'm' :
                     $userface = 'middle';
                     break;
                 default:
@@ -2523,7 +2523,7 @@ function getUserSpace($uid, $class, $target, $text, $icon = true)
         // 	$user_space_info .= '&nbsp;'.implode('&nbsp;', $group_icon);
         // }
         $union = model('Union')->getUnionState($GLOBALS['mid'], $uid);
-        if ($union['unioning']==1 && $union['unioner']==1) {
+        if ($union['unioning'] == 1 && $union['unioner'] == 1) {
             $user_space_info .= '&nbsp;<img title="联盟" src="'.SITE_URL.'/addons/theme/stv1/_static/image/usergroup/union.png" class="space-group-icon" />';
         }
     }
@@ -2547,7 +2547,7 @@ function getUserSpaceLink($uid)
 function isMobile()
 {
     $mobile = array();
-    static $mobilebrowser_list ='Mobile|iPhone|Android|WAP|NetFront|JAVA|OperasMini|UCWEB|WindowssCE|Symbian|Series|webOS|SonyEricsson|Sony|BlackBerry|Cellphone|dopod|Nokia|samsung|PalmSource|Xphone|Xda|Smartphone|PIEPlus|MEIZU|MIDP|CLDC';
+    static $mobilebrowser_list = 'Mobile|iPhone|Android|WAP|NetFront|JAVA|OperasMini|UCWEB|WindowssCE|Symbian|Series|webOS|SonyEricsson|Sony|BlackBerry|Cellphone|dopod|Nokia|samsung|PalmSource|Xphone|Xda|Smartphone|PIEPlus|MEIZU|MIDP|CLDC';
     //note 获取手机浏览器
     if (preg_match("/$mobilebrowser_list/i", $_SERVER['HTTP_USER_AGENT'], $mobile)) {
         return true;
@@ -2643,7 +2643,7 @@ function text($text)
     return t($text);
 }
 
-function real_strip_tags($str, $allowable_tags='')
+function real_strip_tags($str, $allowable_tags = '')
 {
     $str = html_entity_decode($str, ENT_QUOTES, 'UTF-8');
 
@@ -2680,12 +2680,12 @@ function keyWordFilter($text)
     return filter_keyword($text);
 }
 
-function getFollowState($uid, $fid, $type=0)
+function getFollowState($uid, $fid, $type = 0)
 {
     if ($uid <= 0 || $fid <= 0) {
         return 'unfollow';
     }
-    if ($uid==$fid) {
+    if ($uid == $fid) {
         return 'unfollow';
     }
     if (M('user_follow')->where("(uid=$uid AND fid=$fid) OR (uid=$fid AND fid=$uid)")->count() == 2) {
@@ -2774,7 +2774,7 @@ function tsauthcode($string, $operation = 'DECODE', $key = '')
     $key = md5($key ? $key : SITE_URL);
     $keya = md5(substr($key, 0, 16));
     $keyb = md5(substr($key, 16, 16));
-    $keyc = $ckey_length ? ($operation == 'DECODE' ? substr($string, 0, $ckey_length): substr(md5(microtime()), -$ckey_length)) : '';
+    $keyc = $ckey_length ? ($operation == 'DECODE' ? substr($string, 0, $ckey_length) : substr(md5(microtime()), -$ckey_length)) : '';
     $cryptkey = $keya.md5($keya.$keyc);
     $key_length = strlen($cryptkey);
     $string = $operation == 'DECODE' ? base64_decode(substr($string, $ckey_length)) : sprintf('%010d', $expiry ? $expiry + time() : 0).substr(md5($string.$keyb), 0, 16).$string;
@@ -2827,7 +2827,7 @@ function tsauthcode($string, $operation = 'DECODE', $key = '')
  * @return string
  +----------------------------------------------------------
  */
-function mStr($str, $length, $charset='utf-8', $suffix=true)
+function mStr($str, $length, $charset = 'utf-8', $suffix = true)
 {
     return msubstr($str, 0, $length, $charset, $suffix);
 }
@@ -2847,17 +2847,17 @@ function mStr($str, $length, $charset='utf-8', $suffix=true)
  * @return string
  +----------------------------------------------------------
  */
-function msubstr($str, $start=0, $length, $charset='utf-8', $suffix=true)
+function msubstr($str, $start = 0, $length, $charset = 'utf-8', $suffix = true)
 {
     if (function_exists('mb_substr')) {
         $slice = mb_substr($str, $start, $length, $charset);
     } elseif (function_exists('iconv_substr')) {
         $slice = iconv_substr($str, $start, $length, $charset);
     } else {
-        $re['utf-8']   = "/[\x01-\x7f]|[\xc2-\xdf][\x80-\xbf]|[\xe0-\xef][\x80-\xbf]{2}|[\xf0-\xff][\x80-\xbf]{3}/";
+        $re['utf-8'] = "/[\x01-\x7f]|[\xc2-\xdf][\x80-\xbf]|[\xe0-\xef][\x80-\xbf]{2}|[\xf0-\xff][\x80-\xbf]{3}/";
         $re['gb2312'] = "/[\x01-\x7f]|[\xb0-\xf7][\xa0-\xfe]/";
-        $re['gbk']    = "/[\x01-\x7f]|[\x81-\xfe][\x40-\xfe]/";
-        $re['big5']   = "/[\x01-\x7f]|[\x81-\xfe]([\x40-\x7e]|\xa1-\xfe])/";
+        $re['gbk'] = "/[\x01-\x7f]|[\x81-\xfe][\x40-\xfe]/";
+        $re['big5'] = "/[\x01-\x7f]|[\x81-\xfe]([\x40-\x7e]|\xa1-\xfe])/";
         preg_match_all($re[$charset], $str, $match);
         $slice = implode('', array_slice($match[0], $start, $length));
     }
@@ -2886,7 +2886,7 @@ function isValidEmail($email)
     return preg_match("/^[_a-zA-Z\d\-\.]+@[_a-zA-Z\d\-]+(\.[_a-zA-Z\d\-]+)+$/i", $email) !== 0;
 }
 // 发送常用http header信息
-function send_http_header($type='utf8')
+function send_http_header($type = 'utf8')
 {
     //utf8,html,wml,xml,图片、文档类型 等常用header
     switch ($type) {
@@ -2906,7 +2906,7 @@ function send_http_header($type='utf8')
  * @param  unknown_type $user
  * @return bool
  */
-function CheckAuthorPermission($dao, $id, $field='id', $getfield='uid')
+function CheckAuthorPermission($dao, $id, $field = 'id', $getfield = 'uid')
 {
     $map[$field] = $id;
     $value = $dao->where($map)->getField($getfield);

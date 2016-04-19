@@ -9,8 +9,8 @@ class WeibaReplyModel extends Model
     protected $tableName = 'weiba_reply';
     protected $error = '';
     protected $fields = array(
-                            0 =>'reply_id',1=>'weiba_id',2=>'post_id',3=>'post_uid',4=>'uid',5=>'ctime',
-                            6=>'content',7=>'is_del',8=>'comment_id',9=>'storey',10=>'attach_id','_autoinc'=>true,'_pk'=>'post_id',
+                            0 => 'reply_id',1 => 'weiba_id',2 => 'post_id',3 => 'post_uid',4 => 'uid',5 => 'ctime',
+                            6 => 'content',7 => 'is_del',8 => 'comment_id',9 => 'storey',10 => 'attach_id','_autoinc' => true,'_pk' => 'post_id',
                         );
 
     /**
@@ -46,7 +46,7 @@ class WeibaReplyModel extends Model
      * @param  int    $limit 结果集数目，默认为10
      * @return array  评论列表信息
      */
-    public function getReplyListForApi($map=null, $order='reply_id desc', $limit=20, $page=1)
+    public function getReplyListForApi($map = null, $order = 'reply_id desc', $limit = 20, $page = 1)
     {
         !isset($map['is_del']) && ($map['is_del'] = 0);
         $limit = intval($limit);
@@ -55,7 +55,7 @@ class WeibaReplyModel extends Model
         $end = $limit;
         $data = $this->where($map)->limit("{$start},{$end}")->order($order)->findAll();
         // TODO:后续优化
-        foreach ($data as $k=>$v) {
+        foreach ($data as $k => $v) {
             $data[$k]['author_info'] = model('User')->getUserInfo($v['uid']);
             $data[$k]['storey'] = $start + $k + 1;
         }

@@ -37,7 +37,7 @@ class CanvasModel extends Model
      * @param  string $fields
      * @return array  or false
      */
-    public function getCanvasList($limit = 20, $map, $fields='id,title,canvas_name,description')
+    public function getCanvasList($limit = 20, $map, $fields = 'id,title,canvas_name,description')
     {
         $list = $this->where($map)->field($fields)->findPage($limit);
 
@@ -143,12 +143,12 @@ class CanvasModel extends Model
     private function convert($type, $data)
     {
         // 模板内容替换
-        $replace =  array(
-            '__ROOT__'      =>  '__root__',           // 当前网站地址
-            '__UPLOAD__'    =>  '__upload__',         // 上传文件地址
-            '__PUBLIC__'    =>  '__public__',         // 公共静态地址
-            '__THEME__'     =>  '__theme__',   // 主题静态地址
-            '__APP__'       =>  '__app__',     // 应用静态地址
+        $replace = array(
+            '__ROOT__' => '__root__',           // 当前网站地址
+            '__UPLOAD__' => '__upload__',         // 上传文件地址
+            '__PUBLIC__' => '__public__',         // 公共静态地址
+            '__THEME__' => '__theme__',   // 主题静态地址
+            '__APP__' => '__app__',     // 应用静态地址
         );
         if ($type == 'lower') {
             $data = str_replace(array_keys($replace), array_values($replace), $data);

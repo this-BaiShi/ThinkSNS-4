@@ -58,7 +58,7 @@ class PeopleModel extends model
         // 获取用户ID
         $uids = getSubByKey($list['data'], 'uid');
 
-        foreach ($list['data'] as $k=>$vo) {
+        foreach ($list['data'] as $k => $vo) {
             $list['data'][$k]['user_tag'] = model('Tag')->setAppName('User')->setAppTable('user')->getAppTags($vo['uid']);
             //$list['data'][$k]['user_tag'] = empty ( $list['data'][$k]['user_tag'] ) ? '' : implode ( '、', $list['data'][$k]['user_tag'] );
             $list['data'][$k]['userdata'] = model('UserData')->getUserData($vo['uid']);
@@ -70,7 +70,7 @@ class PeopleModel extends model
         return $list;
     }
 
-    public function searchUser($searchKey, $lastUid, $curType=1, $limit = 20, $page=1)
+    public function searchUser($searchKey, $lastUid, $curType = 1, $limit = 20, $page = 1)
     {
         $userlist = array();
         if ($searchKey != '') {
@@ -326,8 +326,8 @@ class PeopleModel extends model
             if ($tagInfo['pid'] == 0) {
                 $tags = model('UserCategory')->where('pid='.$tagInfo['user_category_id'])->findAll();
 
-                foreach ($tags as $k=>$v) {
-                    $tag_id = D('tag')->where(array('name'=>t($v['title'])))->getField('tag_id');
+                foreach ($tags as $k => $v) {
+                    $tag_id = D('tag')->where(array('name' => t($v['title'])))->getField('tag_id');
                     if ($tag_id) {
                         $tagId[] = $tag_id;
                         unset($tag_id);
@@ -335,7 +335,7 @@ class PeopleModel extends model
                 }
                 $maps['tag_id'] = array('in',$tagId);
             } else {
-                $tagId = D('tag')->where(array('name'=>t($tagInfo['title'])))->getField('tag_id');
+                $tagId = D('tag')->where(array('name' => t($tagInfo['title'])))->getField('tag_id');
                 $maps['tag_id'] = $tagId;
             }
             //dump($tagId);exit;
@@ -365,10 +365,10 @@ class PeopleModel extends model
         $pid1 = model('Area')->where('area_id='.$data['area'])->getField('pid');
         $level = 1;
         if ($pid1 != 0) {
-            $level = $level +1;
+            $level = $level + 1;
             $pid2 = model('Area')->where('area_id='.$pid1)->getField('pid');
             if ($pid2 != 0) {
-                $level = $level +1;
+                $level = $level + 1;
             }
         }
         switch ($level) {

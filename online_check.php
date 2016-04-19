@@ -26,22 +26,22 @@ session_start();
 //exit;
 /* ===================================== 配置部分 ========================================== */
 
-$check_time        =    300;    //10分钟检查一次
-$online_time    =    1800;    //统计30分钟的在线用户
+$check_time = 300;    //10分钟检查一次
+$online_time = 1800;    //统计30分钟的在线用户
 
-$app            =    t($_GET['app'])?t($_GET['app']):'square';
-$mod            =    t($_GET['mod'])?t($_GET['mod']):'Index';
-$act            =    t($_GET['act'])?t($_GET['act']):'index';
-$action            =    $app.'/'.$mod.'/'.$act;
-$uid            =    isset($_GET['uid'])?intval($_GET['uid']):0;
-$uname            =    t($_GET['uname'])?t($_GET['uname']):'guest';
-$agent            =    getBrower();
-$ip                =    getClientIp();
-$refer            =    addslashes($_SERVER['HTTP_REFERER']);
-$isGuest        =    ($uid==-1 || $uid==0)?1:0;
-$isIntranet        =    (substr($ip, 0, 2)=='10.')?1:0;
-$cTime            =    time();
-$ext            =    '';
+$app = t($_GET['app']) ? t($_GET['app']) : 'square';
+$mod = t($_GET['mod']) ? t($_GET['mod']) : 'Index';
+$act = t($_GET['act']) ? t($_GET['act']) : 'index';
+$action = $app.'/'.$mod.'/'.$act;
+$uid = isset($_GET['uid']) ? intval($_GET['uid']) : 0;
+$uname = t($_GET['uname']) ? t($_GET['uname']) : 'guest';
+$agent = getBrower();
+$ip = getClientIp();
+$refer = addslashes($_SERVER['HTTP_REFERER']);
+$isGuest = ($uid == -1 || $uid == 0) ? 1 : 0;
+$isIntranet = (substr($ip, 0, 2) == '10.') ? 1 : 0;
+$cTime = time();
+$ext = '';
 
 //加载数据库查询类
 // require(SITE_PATH.'/addons/library/SimpleDB.class.php');
@@ -62,7 +62,7 @@ define('TS_STORAGE', '/storage');            // 储存目录，需要可以公�
 require TS_ROOT.'/src/Build.php';
 
 //记录在线统计.
-if ($_GET['action']=='trace') {
+if ($_GET['action'] == 'trace') {
 
     /* ===================================== step 1 record track ========================================== */
 
@@ -76,16 +76,16 @@ if ($_GET['action']=='trace') {
     $result = Capsule::table('online_logs')
         ->insert(
             array(
-                'day'        => 'CURRENT_DATE',
-                'uid'        => $uid,
-                'uname'      => $uname,
-                'action'     => $action,
-                'refer'      => $refer,
-                'isGuest'    => $isGuest,
+                'day' => 'CURRENT_DATE',
+                'uid' => $uid,
+                'uname' => $uname,
+                'action' => $action,
+                'refer' => $refer,
+                'isGuest' => $isGuest,
                 'isIntranet' => $isIntranet,
-                'ip'         => $ip,
-                'agent'      => $agent,
-                'ext'        => $ext,
+                'ip' => $ip,
+                'agent' => $agent,
+                'ext' => $ext,
             )
         )
     ;
@@ -107,7 +107,7 @@ if ($_GET['action']=='trace') {
         $online = Capsule::table('online');
 
         //判断是否存在记录.
-        if ($uid>0) {
+        if ($uid > 0) {
             // $where    =    "WHERE (uid='$uid')";
             $online->where('uid', '=', $uid);
         } else {
@@ -130,17 +130,17 @@ if ($_GET['action']=='trace') {
 
             $result = $online->update(array(
                 'activeTime' => $cTime,
-                'ip'         => $ip,
+                'ip' => $ip,
             ));
         } else {
             // $sql    =    "INSERT INTO ".$config['DB_PREFIX']."online (uid,uname,app,ip,agent,activeTime) VALUES ('$uid','{$uname}','$app','$ip','$agent',$cTime);";
             // $result    =    $db->execute("$sql");
             $result = $online->insert(array(
-                'uid'        => $uid,
-                'uname'      => $uname,
-                'app'        => $app,
-                'ip'         => $ip,
-                'agent'      => $agent,
+                'uid' => $uid,
+                'uname' => $uname,
+                'app' => $app,
+                'ip' => $ip,
+                'agent' => $agent,
                 'activeTime' => $cTime,
             ));
         }
@@ -181,7 +181,7 @@ function t($text)
     return addslashes($text);
 }
 
-function real_strip_tags($str, $allowable_tags='')
+function real_strip_tags($str, $allowable_tags = '')
 {
     $str = stripslashes(htmlspecialchars_decode($str));
 
@@ -249,24 +249,24 @@ function dump($var)
 }
 
 // 设置cookie
-function cookie($name, $value='', $option=null)
+function cookie($name, $value = '', $option = null)
 {
     // 默认设置
     $config = array(
         'prefix' => $GLOBALS['config']['COOKIE_PREFIX'], // cookie 名称前缀
         'expire' => $GLOBALS['config']['COOKIE_EXPIRE'], // cookie 保存时间
-        'path'   => '/',   // cookie 保存路径
+        'path' => '/',   // cookie 保存路径
         'domain' => '', // cookie 有效域名
     );
 
     // 参数设置(会覆盖黙认设置)
     if (!empty($option)) {
         if (is_numeric($option)) {
-            $option = array('expire'=>$option);
+            $option = array('expire' => $option);
         } elseif (is_string($option)) {
             parse_str($option, $option);
         }
-        $config =   array_merge($config, array_change_key_case($option));
+        $config = array_merge($config, array_change_key_case($option));
     }
 
     // 清除指定前缀的所有cookie
@@ -275,13 +275,13 @@ function cookie($name, $value='', $option=null)
             return;
         }
        // 要删除的cookie前缀，不指定则删除config设置的指定前缀
-       $prefix = empty($value)? $config['prefix'] : $value;
+       $prefix = empty($value) ? $config['prefix'] : $value;
         if (!empty($prefix)) {
             // 如果前缀为空字符串将不作处理直接返回
 
-           foreach ($_COOKIE as $key=>$val) {
+           foreach ($_COOKIE as $key => $val) {
                if (0 === stripos($key, $prefix)) {
-                   setcookie($_COOKIE[$key], '', time()-3600, $config['path'], $config['domain']);
+                   setcookie($_COOKIE[$key], '', time() - 3600, $config['path'], $config['domain']);
                    unset($_COOKIE[$key]);
                }
            }
@@ -291,16 +291,16 @@ function cookie($name, $value='', $option=null)
     }
     $name = $config['prefix'].$name;
 
-    if (''===$value) {
+    if ('' === $value) {
         //return isset($_COOKIE[$name]) ? unserialize($_COOKIE[$name]) : null;// 获取指定Cookie
         return isset($_COOKIE[$name]) ? ($_COOKIE[$name]) : null;// 获取指定Cookie
     } else {
         if (is_null($value)) {
-            setcookie($name, '', time()-3600, $config['path'], $config['domain']);
+            setcookie($name, '', time() - 3600, $config['path'], $config['domain']);
             unset($_COOKIE[$name]);// 删除指定cookie
         } else {
             // 设置cookie
-            $expire = !empty($config['expire'])? time()+ intval($config['expire']):0;
+            $expire = !empty($config['expire']) ? time() + intval($config['expire']) : 0;
             //setcookie($name,serialize($value),$expire,$config['path'],$config['domain']);
 
             setcookie($name, ($value), $expire, $config['path'], $config['domain'], false, true);

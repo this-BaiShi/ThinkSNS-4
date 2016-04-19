@@ -141,12 +141,12 @@ class ConfigAction extends AdministratorAction
                 'welcome_notify',
         );
         // 指定邮箱后缀，任何邮箱后缀，关闭注册
-        $this->opt['register_type'] = array('open'=>'开放注册', 'invite'=>'仅邀请注册', 'admin'=>'仅管理员邀请注册', 'other'=>'仅第三方帐号绑定');
-        $this->opt['account_type'] = array('email'=>'仅邮箱', 'phone'=>'仅手机', 'all'=>'手机或邮箱');
+        $this->opt['register_type'] = array('open' => '开放注册', 'invite' => '仅邀请注册', 'admin' => '仅管理员邀请注册', 'other' => '仅第三方帐号绑定');
+        $this->opt['account_type'] = array('email' => '仅邮箱', 'phone' => '仅手机', 'all' => '手机或邮箱');
         // 开启，关闭
-        $this->opt['register_audit'] = $this->opt['captcha'] = array(1=>L('PUBLIC_OPEN'), 0=>L('PUBLIC_CLOSE'));
+        $this->opt['register_audit'] = $this->opt['captcha'] = array(1 => L('PUBLIC_OPEN'), 0 => L('PUBLIC_CLOSE'));
         // 是，否
-        $this->opt['need_active'] = array(1=>L('PUBLIC_OPEN'), 0=>L('PUBLIC_CLOSE'));
+        $this->opt['need_active'] = array(1 => L('PUBLIC_OPEN'), 0 => L('PUBLIC_CLOSE'));
 /*		$this->opt ['photo_open'] = array (
                 1 => L ( 'PUBLIC_OPEN' ),
                 0 => L ( 'PUBLIC_CLOSE' ) 
@@ -159,12 +159,12 @@ class ConfigAction extends AdministratorAction
                 1 => L ( 'PUBLIC_OPEN' ),
                 0 => L ( 'PUBLIC_CLOSE' ) 
         );*/
-        $this->opt['personal_open'] = array(1=>L('PUBLIC_OPEN'), 0=>L('PUBLIC_CLOSE'));
-        $this->opt['personal_required'] = array('face'=>'头像', 'location'=>'地区', 'tag'=>'标签', 'intro'=>'简介');
+        $this->opt['personal_open'] = array(1 => L('PUBLIC_OPEN'), 0 => L('PUBLIC_CLOSE'));
+        $this->opt['personal_required'] = array('face' => '头像', 'location' => '地区', 'tag' => '标签', 'intro' => '简介');
         // $this->opt['interester_open'] = array(1=>L('PUBLIC_OPEN'), 0=>L('PUBLIC_CLOSE'));
         // $this->opt['interester_rule'] = array('area'=>'按地区匹配', 'tag'=>'按标签匹配', 'face'=>'过滤无头像用户');
-        $this->opt['interester_rule'] = array('area'=>'按地区匹配', 'tag'=>'按标签匹配');
-        $this->opt['welcome_notify'] = array(1=>L('PUBLIC_OPEN'), 0=>L('PUBLIC_CLOSE'));
+        $this->opt['interester_rule'] = array('area' => '按地区匹配', 'tag' => '按标签匹配');
+        $this->opt['welcome_notify'] = array(1 => L('PUBLIC_OPEN'), 0 => L('PUBLIC_CLOSE'));
         // 用户组信息
         $this->opt['default_user_group'] = model('UserGroup')->getHashUsergroup();
 
@@ -217,7 +217,7 @@ class ConfigAction extends AdministratorAction
             unset($_POST['systemdata_key']);
             unset($_POST['pageTitle']);
             $data = array();
-            foreach ($_POST as $k=>$v) {
+            foreach ($_POST as $k => $v) {
                 $data[$k] = (bool) $v;
             }
             model('Xdata')->put('guestConfig', $data);
@@ -226,7 +226,7 @@ class ConfigAction extends AdministratorAction
             $access = array_keys(model('App')->getAccess());
             foreach ($access as &$v) {
                 $value = $v;
-                $this->opt[$v] = array('1'=>'是','0'=>'否');
+                $this->opt[$v] = array('1' => '是','0' => '否');
             }
             $this->pageKeyList = $access;
         }
@@ -237,7 +237,7 @@ class ConfigAction extends AdministratorAction
                 $data[$c] = '1';
             }
         } else {
-            foreach ($data as $k=>&$v) {
+            foreach ($data as $k => &$v) {
                 $k = str_replace('/', '_', $k);
                 $k = str_replace('*', '', $k);
                 $data[$k] = $v;
@@ -607,7 +607,7 @@ class ConfigAction extends AdministratorAction
                 'url' => U('admin/Config/cloudattach'),
         );
 
-        $this->opt['auto_thumb'] = array('0'=>'使用原图', '1'=>'自动缩图');
+        $this->opt['auto_thumb'] = array('0' => '使用原图', '1' => '自动缩图');
 
         $this->pageKeyList = array('attach_max_size', 'attach_allow_extension', 'auto_thumb');
 
@@ -748,7 +748,7 @@ class ConfigAction extends AdministratorAction
 
         $this->pageKeyList = array('word', 'type_name', 'replace', 'sensitive_category', 'uname', 'format_ctime', 'DOACTION');
 
-        $this->pageButton[] = array('title'=>'新增敏感词', 'onclick'=>'admin.setSensitiveBox()');
+        $this->pageButton[] = array('title' => '新增敏感词', 'onclick' => 'admin.setSensitiveBox()');
         // $this->pageButton[] = array('title'=>'删除', 'onclick'=>"admin.rmSensitive('search_form')");
 
         $listData = model('SensitiveWord')->getSensitiveWordList();
@@ -788,7 +788,7 @@ class ConfigAction extends AdministratorAction
         $cid = intval($_POST['cid']);
 
         if (empty($word) || !in_array($type, array(1, 2, 3)) || empty($cid) || ($type == 3 && empty($replace))) {
-            exit(json_encode(array('status'=>0, 'info'=>'操作失败')));
+            exit(json_encode(array('status' => 0, 'info' => '操作失败')));
         }
 
         $result = false;
@@ -799,9 +799,9 @@ class ConfigAction extends AdministratorAction
         }
         $res = array();
         if ($result) {
-            $res = array('status'=>1, 'info'=>'操作成功');
+            $res = array('status' => 1, 'info' => '操作成功');
         } else {
-            $res = array('status'=>0, 'info'=>'操作失败');
+            $res = array('status' => 0, 'info' => '操作失败');
         }
         exit(json_encode($res));
     }
@@ -810,14 +810,14 @@ class ConfigAction extends AdministratorAction
     {
         $id = intval($_POST['id']);
         if (empty($id)) {
-            exit(json_encode(array('status'=>0, 'info'=>'操作失败')));
+            exit(json_encode(array('status' => 0, 'info' => '操作失败')));
         }
         $result = model('SensitiveWord')->rmSensitiveWord($id);
         $res = array();
         if ($result) {
-            $res = array('status'=>1, 'info'=>'操作成功');
+            $res = array('status' => 1, 'info' => '操作成功');
         } else {
-            $res = array('status'=>0, 'info'=>'操作失败');
+            $res = array('status' => 0, 'info' => '操作失败');
         }
         exit(json_encode($res));
     }
@@ -833,8 +833,8 @@ class ConfigAction extends AdministratorAction
 
     private function _sensitiveTab()
     {
-        $this->pageTab[] = array('title'=>L('PUBLIC_FILTER_SETTING'), 'tabHash'=>'sensitive', 'url'=>U('admin/Config/sensitive'));
-        $this->pageTab[] = array('title'=>'敏感词分类', 'tabHash'=>'sensitiveCategory', 'url'=>U('admin/Config/sensitiveCategory'));
+        $this->pageTab[] = array('title' => L('PUBLIC_FILTER_SETTING'), 'tabHash' => 'sensitive', 'url' => U('admin/Config/sensitive'));
+        $this->pageTab[] = array('title' => '敏感词分类', 'tabHash' => 'sensitiveCategory', 'url' => U('admin/Config/sensitiveCategory'));
         // $this->pageTab[] = array('title'=>'敏感审核', 'tabHash'=>'sensitiveAudit', 'url'=>U('admin/Config/sensitiveAudit'));
     }
 
@@ -1335,7 +1335,7 @@ class ConfigAction extends AdministratorAction
                 '_self' => L('PUBLIC_CURRENT_WINDOW'),
                 '_parent' => L('PUBLIC_PARENT_WINDOW'),
         );
-        $opt = array(1=>L('PUBLIC_HEAD_NAVIGATION'),2=>L('PUBLIC_BOTTOM_NAVIGATION'),3=>'游客导航');
+        $opt = array(1 => L('PUBLIC_HEAD_NAVIGATION'),2 => L('PUBLIC_BOTTOM_NAVIGATION'),3 => '游客导航');
         $addtitle = $opt[$addtype] ;
         $this->opt ['position'] = isset($_GET ['id']) ? array(
                 $defaultdata ['position'] => $addtitle,
@@ -1456,9 +1456,9 @@ class ConfigAction extends AdministratorAction
         $this->pageTitle['feedVideo'] = '分享第三方视频信息接口信息配置';
 
         $this->systemdata_list = 'outside';
-        $this->systemdata_key  = 'video';
+        $this->systemdata_key = 'video';
 
-        $this->pageKeyList     = array('youku_client_id', 'tudou_app_key');
+        $this->pageKeyList = array('youku_client_id', 'tudou_app_key');
 
         $this->displayConfig();
     }
@@ -2361,7 +2361,7 @@ define('UC_SYNC', {$ucopen});
         $this->opt['send_type'] = array(
             'auto' => '自动判断',
             'post' => 'POST方式',
-            'get'  => 'GET方式',
+            'get' => 'GET方式',
         );
 
         $this->opt['service'] = model('Sms')->getService();

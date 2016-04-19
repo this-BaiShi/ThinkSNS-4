@@ -100,9 +100,9 @@ class FeedbackModel extends Model
         /* # 添加数据 */
         return parent::add(array(
             'content' => $content,
-            'cTime'   => time(),
-            'type'    => $type,
-            'uid'     => intval($uid),
+            'cTime' => time(),
+            'type' => $type,
+            'uid' => intval($uid),
         ));
     }
 
@@ -126,7 +126,7 @@ class FeedbackModel extends Model
 
         /* # 更新数据 */
         return $this->where('`id` = '.$fid)->save(array(
-            'mTime'   => time(),
+            'mTime' => time(),
             'content' => $content,
         ));
     }

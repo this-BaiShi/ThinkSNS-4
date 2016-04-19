@@ -5,9 +5,9 @@ class qq
 {
     public $loginUrl;
 
-    private function getCallback($type='', $do='login')
+    private function getCallback($type = '', $do = 'login')
     {
-        $callbackurl = Addons::createAddonShow('Login', 'no_register_display', array('type'=>$type, 'do'=>$do));
+        $callbackurl = Addons::createAddonShow('Login', 'no_register_display', array('type' => $type, 'do' => $do));
 
         return urlencode($callbackurl);
     }
@@ -33,13 +33,13 @@ class qq
         OAuth::init(QQ_KEY, QQ_SECRET);
         $r = Tencent::api('user/info');
         $me = json_decode($r, true);
-        $user['id']          = $me['data']['name'];
-        $user['uname']       = $me['data']['nick'];
-        $user['province']    = $me['data']['province_code'];
-        $user['city']        = $me['data']['city_code'];
-        $user['location']    = $me['data']['location'];
-        $user['userface']    = $me['data']['head'].'/120';
-        $user['sex']         = ($me['data']['sex']=='1')?1:0;
+        $user['id'] = $me['data']['name'];
+        $user['uname'] = $me['data']['nick'];
+        $user['province'] = $me['data']['province_code'];
+        $user['city'] = $me['data']['city_code'];
+        $user['location'] = $me['data']['location'];
+        $user['userface'] = $me['data']['head'].'/120';
+        $user['sex'] = ($me['data']['sex'] == '1') ? 1 : 0;
 
         return $user;
     }
@@ -71,9 +71,9 @@ class qq
                 $_SESSION['t_code'] = $code;
                 $_SESSION['t_openid'] = $openid;
                 $_SESSION['t_openkey'] = $openkey;
-                $_SESSION['qq']['access_token']  = $out['access_token'];
+                $_SESSION['qq']['access_token'] = $out['access_token'];
                 $_SESSION['qq']['refresh_token'] = $out['refresh_token'];
-                $_SESSION['open_platform_type']  = 'qq';
+                $_SESSION['open_platform_type'] = 'qq';
 
                 //验证授权
                 $r = OAuth::checkOAuthValid();
@@ -135,7 +135,7 @@ class qq
     }
 
     //转发一条分享
-    public function transpond($transpondId, $reId, $content='', $opt=null)
+    public function transpond($transpondId, $reId, $content = '', $opt = null)
     {
         return true;
     }

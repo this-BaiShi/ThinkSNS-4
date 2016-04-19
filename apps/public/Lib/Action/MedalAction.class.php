@@ -36,9 +36,9 @@ class MedalAction extends Action
             $this->assign('uid', $user['uid']);
         } else {
             $list = model('Medal')->getList('', 12);
-            $list['all_count']  = $list['count'];
+            $list['all_count'] = $list['count'];
             /*用户的勋章数量*/
-            $user   = model('User')->getUserInfo($uid);
+            $user = model('User')->getUserInfo($uid);
             $medals = $user['medals'];
             if ($medals) {
                 $map['id'] = array( 'in' , getSubByKey($medals, 'id') );

@@ -320,7 +320,7 @@ class Context
      */
     public static function clear()
     {
-        self::$local_ip = self::$local_port  = self::$client_ip = self::$client_port = self::$client_id  = null;
+        self::$local_ip = self::$local_port = self::$client_ip = self::$client_port = self::$client_id = null;
     }
 }
 /**

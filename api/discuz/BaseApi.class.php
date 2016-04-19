@@ -2,6 +2,7 @@
 
 /** *  * @author jason * */include SITE_PATH.'/api/uc_client/client.php';class BaseApi extends Api
 {
+
     public $discuzURl = 'http://i/dz3';
 
     public $version = 1;
@@ -24,13 +25,13 @@
 
     }
 
-    public function getContentFormDiscuz($module, $opt='', $moth='GET')
+    public function getContentFormDiscuz($module, $opt = '', $moth = 'GET')
     {
         $qry_str = 'module='.$module.'&version='.$this->version.$opt;
 
         $tuCurl = curl_init();
 
-        if ($moth='GET') {
+        if ($moth = 'GET') {
             curl_setopt($tuCurl, CURLOPT_URL, $this->discuzURl.'/api/mobile/index.php?'.$qry_str);
 
         } else {
@@ -42,7 +43,7 @@
 
         }
 
-        foreach ($_COOKIE as $k=>$v) {
+        foreach ($_COOKIE as $k => $v) {
             $cookieStr .= $k.'='.URLencode($v).'; ';
 
         }

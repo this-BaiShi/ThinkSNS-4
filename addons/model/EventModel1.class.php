@@ -14,14 +14,14 @@ include_once SITE_PATH.'/apps/event/Lib/Model/BaseModel.class.php';
 class EventModel extends BaseModel
 {
     public $mid;
-    public function getConfig($key=null)
+    public function getConfig($key = null)
     {
         $config = model('Xdata')->lget('event');
-        $config['limitpage']    || $config['limitpage'] =10;
-        $config['canCreate']===0 || $config['canCreat']=1;
-        ($config['credit'] > 0   || '0' === $config['credit']) || $config['credit']=100;
-        $config['credit_type']  || $config['credit_type'] ='experience';
-        ($config['limittime']   || $config['limittime']==='0') || $config['limittime']=10;//换算为秒
+        $config['limitpage']    || $config['limitpage'] = 10;
+        $config['canCreate'] === 0 || $config['canCreat'] = 1;
+        ($config['credit'] > 0   || '0' === $config['credit']) || $config['credit'] = 100;
+        $config['credit_type']  || $config['credit_type'] = 'experience';
+        ($config['limittime']   || $config['limittime'] === '0') || $config['limittime'] = 10;//换算为秒
 
         if ($key) {
             return $config[$key];
@@ -29,17 +29,17 @@ class EventModel extends BaseModel
             return $config;
         }
     }
-    public function getEventList($map='', $order='id DESC', $mid)
+    public function getEventList($map = '', $order = 'id DESC', $mid)
     {
         $this->mid = $mid;
-        $result  = $this->where($map)->order($order)->findPage($this->getConfig('limitpage'));
+        $result = $this->where($map)->order($order)->findPage($this->getConfig('limitpage'));
         //追加必须的信息
         if (!empty($result['data'])) {
             $user = self::factoryModel('user');
                //$friendsId = $this->api->friend_get();
                $map = array();
-            $map['action']    = 'joinIn';
-            $map['status']    = 1;
+            $map['action'] = 'joinIn';
+            $map['status'] = 1;
             //$map['uid']       = $friendsId?array( 'in',$friendsId):NULL;
             foreach ($result['data'] as &$value) {
                 $value = $this->appendContent($value);
@@ -70,16 +70,16 @@ class EventModel extends BaseModel
 
         //反解析时间
         $data['time'] = date('Y-m-d H:i:s', $data['sTime']).' 至 '.date('Y-m-d H:i:s', $data['eTime']);
-        $data['dl']   = date('Y-m-d H:i:s', $data['deadline']);
+        $data['dl'] = date('Y-m-d H:i:s', $data['deadline']);
 
         //追加选项内容
-        $opts_list    = $opts->getOpts($data['optsId']);
+        $opts_list = $opts->getOpts($data['optsId']);
         //追加城市和其它选项
-        $data['city']        = $opts_list['province'].' '.$opts_list['city'].' '.$opts_list['area'];
-        $data['opts']        = unserialize($opts_list['opts']);
-        $data['cost']        = $opts_list['cost'];
+        $data['city'] = $opts_list['province'].' '.$opts_list['city'].' '.$opts_list['area'];
+        $data['opts'] = unserialize($opts_list['opts']);
+        $data['cost'] = $opts_list['cost'];
         $data['costExplain'] = $opts_list['costExplain'];
-        $data['isHot']       = $opts_list['isHot'];
+        $data['isHot'] = $opts_list['isHot'];
 
         //追加权限
         $data += $this->checkMember($data['uid'], $data['opts'], $this->mid);
@@ -87,8 +87,8 @@ class EventModel extends BaseModel
         //追加是否已参加和是否已关注的判定
         $userDao = self::factoryModel('user');
         if ($result = $userDao->hasUser($this->mid, $data['id'], 'joinIn')) {
-            $data['canJoin']   = false;
-            $data['canAtt']    = false;
+            $data['canJoin'] = false;
+            $data['canAtt'] = false;
             $data['hasMember'] = $result['status'];
 
             return $data;
@@ -107,17 +107,17 @@ class EventModel extends BaseModel
     public function checkMember($eventAdmin, $opts, $mid)
     {
         $result = array(
-                        'admin'   => false,
-                        'follow'  => true,
+                        'admin' => false,
+                        'follow' => true,
                         'canJoin' => true,
-                        'canAtt'  => true,
-                        'hasMember' =>false,
+                        'canAtt' => true,
+                        'hasMember' => false,
                         );
         if ($mid == $eventAdmin) {
-            $result['admin']   = true;
-            $result['follow']  = false;
+            $result['admin'] = true;
+            $result['follow'] = false;
             $result['canJoin'] = false;
-            $result['canAtt']  = false;
+            $result['canAtt'] = false;
 
             return $result;
         }
@@ -126,7 +126,7 @@ class EventModel extends BaseModel
         if (1 == $opts['friend']) {
             if ('unfollow' == getFollowState($eventAdmin, $mid)) {
                 $result['canJoin'] = false;
-                $result['follow']  = false;
+                $result['follow'] = false;
             }
         }
 
@@ -142,27 +142,27 @@ class EventModel extends BaseModel
      */
     public function doAddEvent($eventMap, $optsMap, $cover)
     {
-        $eventMap['cTime'] = isset($eventMap['cTime'])?$eventMap['cTime']:time();
-        $eventMap['coverId']    = $cover['status']?$cover['info'][0]['attach_id']:0;
-        $eventMap['limitCount'] = 0 == intval($eventMap['limitCount']) ? 999999999:$eventMap['limitCount'];
-        $has_friend        = $optsMap['opts']['friend'];
-        $optsMap['opts']   = serialize($optsMap['opts']);
+        $eventMap['cTime'] = isset($eventMap['cTime']) ? $eventMap['cTime'] : time();
+        $eventMap['coverId'] = $cover['status'] ? $cover['info'][0]['attach_id'] : 0;
+        $eventMap['limitCount'] = 0 == intval($eventMap['limitCount']) ? 999999999 : $eventMap['limitCount'];
+        $has_friend = $optsMap['opts']['friend'];
+        $optsMap['opts'] = serialize($optsMap['opts']);
 
         //false
         $optsDao = self::factoryModel('opts');
         if ($eventMap['optsId'] = $optsDao->add($optsMap)) {
-            $addId    = $this->add($eventMap);
+            $addId = $this->add($eventMap);
         } else {
             return false;
         }
 
         //添加参与动作
-        $user           = self::factoryModel('user');
-        $map['uid']     = $eventMap['uid'];
+        $user = self::factoryModel('user');
+        $map['uid'] = $eventMap['uid'];
         $map['eventId'] = $addId;
         $map['contact'] = $eventMap['contact'];
-        $map['action']  = 'admin';
-        $map['cTime']   = time();
+        $map['action'] = 'admin';
+        $map['cTime'] = time();
         $user->add($map);
 
         //如果是只有我关注的人可参与，给所有我关注的人发送通知
@@ -180,7 +180,7 @@ class EventModel extends BaseModel
         // }
 
         //发布到微薄
-        $_SESSION['new_event']=1;
+        $_SESSION['new_event'] = 1;
 
         return $addId;
     }
@@ -213,16 +213,16 @@ class EventModel extends BaseModel
         $join = $att = array();
         $att['action'] = 'attention';
         $att['eventId'] = $result['id'];
-        $att['status']  = 1;
+        $att['status'] = 1;
         $join = $att;
         $join['action'] = 'joinIn';
 
         $result['attention'] = $user->getUserList($att, 4);
 
-        $result['member']    = $user->getUserList($join, 16);
+        $result['member'] = $user->getUserList($join, 16);
 
-        $result['lc'] = 5000000 < $result['limitCount'] ? '无限制':$result['limitCount'];
-        $result['cover']     = getCover($result['coverId'], 200, 200);
+        $result['lc'] = 5000000 < $result['limitCount'] ? '无限制' : $result['limitCount'];
+        $result['cover'] = getCover($result['coverId'], 200, 200);
         $result = $this->appendContent($result);
 
         return $result;
@@ -230,17 +230,17 @@ class EventModel extends BaseModel
 
     public function doEditEvent($eventMap, $optsMap, $cover, $id)
     {
-        $eventMap['cTime'] = isset($eventMap['cTime'])?$eventMap['cTime']:time();
-        $eventMap['coverId']   = $cover['info'][0]['attach_id']>0?$cover['info'][0]['attach_id']:0;
-        $eventMap['limitCount']  = 0 == intval($eventMap['limitCount']) ? 999999999:$eventMap['limitCount'];
+        $eventMap['cTime'] = isset($eventMap['cTime']) ? $eventMap['cTime'] : time();
+        $eventMap['coverId'] = $cover['info'][0]['attach_id'] > 0 ? $cover['info'][0]['attach_id'] : 0;
+        $eventMap['limitCount'] = 0 == intval($eventMap['limitCount']) ? 999999999 : $eventMap['limitCount'];
 
-        $has_friend        = $optsMap['opts']['friend'];
-        $optsMap['opts']   = serialize($optsMap['opts']);
+        $has_friend = $optsMap['opts']['friend'];
+        $optsMap['opts'] = serialize($optsMap['opts']);
 
         //false
         $optsDao = self::factoryModel('opts');
         if (false !== $optsDao->where('id='.$id['optsId'])->save($optsMap)) {
-            $addId    = $this->where('id ='.$id['id'])->save($eventMap);
+            $addId = $this->where('id ='.$id['id'])->save($eventMap);
         } else {
             return false;
         }
@@ -280,8 +280,8 @@ class EventModel extends BaseModel
         if ($data['action'] === 'joinIn') {
             //自动获取已填写的联系方式
             $contact_fields = M('user_set')->where('module=\'contact\'')->findAll();
-            $contact_info   = M('user_profile')->getField('data', "uid={$data['uid']} AND module='contact'");
-            $contact_info   = unserialize($contact_info);
+            $contact_info = M('user_profile')->getField('data', "uid={$data['uid']} AND module='contact'");
+            $contact_info = unserialize($contact_info);
 
             $need_fields = array('手机','QQ','MSN');
             foreach ($contact_fields as $field) {
@@ -308,7 +308,7 @@ class EventModel extends BaseModel
         $map = $data;
         $map['eventId'] = $data['id'];
         unset($map['id']);
-        $map['cTime']   = time();
+        $map['cTime'] = time();
         $map['contact'] = $contacts;
         switch ($data['action']) {
             case 'attention':
@@ -330,12 +330,12 @@ class EventModel extends BaseModel
                 if (!$role['follow']) {
                     return 0;
                 }
-                $map['status'] = $opt['allow']?0:1;
+                $map['status'] = $opt['allow'] ? 0 : 1;
 
                 //如果有关注的情况，直接更新为参与
-                $temp_map['uid']      = $map['uid'];
-                $temp_map['action']   = 'attention';
-                $temp_map['eventId']  = $map['eventId'];
+                $temp_map['uid'] = $map['uid'];
+                $temp_map['action'] = 'attention';
+                $temp_map['eventId'] = $map['eventId'];
                 if ($id = $userDao->where($temp_map)->getField('id')) {
                     if ($res = $userDao->where("id={$id}")->save($map)) {
                         $this->setDec('attentionCount', 'id='.$map['eventId']);
@@ -400,9 +400,9 @@ class EventModel extends BaseModel
             return -1;
         }
         //检查是否存在。如果存在，删除这条记录
-        $map['uid']     = $data['uid'];
+        $map['uid'] = $data['uid'];
         $map['eventId'] = $data['id'];
-        $map['action']  = $data['action'];
+        $map['action'] = $data['action'];
         //检测是否存在这个用户
         if ($event_user = $userDao->hasUser($data['uid'], $data['id'], $data['action'])) {
             //删除用户操作记录
@@ -433,11 +433,11 @@ class EventModel extends BaseModel
 
     public function getMember($map, $uid)
     {
-        $user    = self::factoryModel('user') ;
+        $user = self::factoryModel('user') ;
         $result = $user->getUserList($map, 20, true);
-        $data    = $result['data'];
+        $data = $result['data'];
         //修正成员状态
-        foreach ($data as $key=>$value) {
+        foreach ($data as $key => $value) {
             if ($value['uid'] == $uid) {
                 $result['data'][$key]['role'] = '发起者';
             } else {
@@ -504,7 +504,7 @@ class EventModel extends BaseModel
         }
         //取出选项ID
         $optsIds = $this->field('uid,optsId')->where($eventId)->findAll();
-        $uIds    = array();
+        $uIds = array();
         foreach ($optsIds as &$v) {
             //积分
             model('Credit')->setUserCredit($v['uid'], 'delete_event');
@@ -576,15 +576,15 @@ class EventModel extends BaseModel
      */
     public function getHotList()
     {
-        $opts_ids  = self::factoryModel('opts')->field('id')->where('isHot=1')->limit(5)->findAll();
+        $opts_ids = self::factoryModel('opts')->field('id')->where('isHot=1')->limit(5)->findAll();
         foreach ($opts_ids as &$v) {
             $v = $v['id'];
         }
         $event_map['optsId'] = array('in',$opts_ids);
         $event_ids = $this->where($event_map)->findAll();
-        $typeDao   = self::factoryModel('type');
+        $typeDao = self::factoryModel('type');
         foreach ($event_ids as &$v) {
-            $v['type']    = $typeDao->getTypeName($v['type']);
+            $v['type'] = $typeDao->getTypeName($v['type']);
             $v['address'] = getShort($v['address'], 6);
             $v['coverId'] = getCover($v['coverId'], 100, 100);
         }

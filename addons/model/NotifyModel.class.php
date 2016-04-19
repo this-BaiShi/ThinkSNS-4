@@ -10,7 +10,7 @@
 class NotifyModel extends Model
 {
     protected $tableName = 'notify_node';
-    protected $fields = array(0=>'id',1=>'node',2=>'nodeinfo',3=>'appname',4=>'content_key',5=>'title_key',6=>'send_email',7=>'send_message',8=>'type');
+    protected $fields = array(0 => 'id',1 => 'node',2 => 'nodeinfo',3 => 'appname',4 => 'content_key',5 => 'title_key',6 => 'send_email',7 => 'send_message',8 => 'type');
 
     protected $_config = array();            // 配置字段
 
@@ -201,7 +201,7 @@ class NotifyModel extends Model
                     $map['key'] = $node.'_email';
                     $map['uid'] = $v['uid'];
                     $isEmail = D('user_privacy')->where($map)->getField('value');
-                    $isEmail==0 && $this->sendEmail($data);
+                    $isEmail == 0 && $this->sendEmail($data);
                 } else {
                     $this->sendEmail($data);
                 }
@@ -234,7 +234,7 @@ class NotifyModel extends Model
                     $map['key'] = $node.'_email';
                     $map['uid'] = $v['uid'];
                     $isEmail = D('user_privacy')->where($map)->getField('value');
-                    $isEmail==0 && $this->sendEmail($data);
+                    $isEmail == 0 && $this->sendEmail($data);
                 } else {
                     $this->sendEmail($data);
                 }
@@ -298,7 +298,7 @@ class NotifyModel extends Model
         $s['from_uid'] = intval($data['from_uid']);
         $body = html_entity_decode($data['body']);
         $site = model('Xdata')->get('admin_Config:site');
-        $s['body']= '<style>a.email_btn,a.email_btn:link,a.email_btn:visited{background:#0F8CA8;padding:5px 10px;color:#fff;width:80px;text-align:center;}</style><div style="width:540px;border:#0F8CA8 solid 2px;margin:0 auto"><div style="color:#bbb;background:#0f8ca8;padding:5px;overflow:hidden;zoom:1"><div style="float:right;height:15px;line-height:15px;padding:10px 0;display:none">2012年07月15日</div>
+        $s['body'] = '<style>a.email_btn,a.email_btn:link,a.email_btn:visited{background:#0F8CA8;padding:5px 10px;color:#fff;width:80px;text-align:center;}</style><div style="width:540px;border:#0F8CA8 solid 2px;margin:0 auto"><div style="color:#bbb;background:#0f8ca8;padding:5px;overflow:hidden;zoom:1"><div style="float:right;height:15px;line-height:15px;padding:10px 0;display:none">2012年07月15日</div>
 					<div style="float:left;overflow:hidden;position:relative"><a><img style="border:0 none" src="'.$GLOBALS['ts']['site']['logo'].'"></a></div></div>
 					<div style="background:#fff;padding:20px;min-height:300px;position:relative">		<div style="font-size:14px;">			
 						            	<p style="padding:0 0 20px;margin:0;font-size:12px">'.$body.'</p>
@@ -484,7 +484,7 @@ class NotifyModel extends Model
             $count = count($list);
         } else {
             // if(!empty($since_id) || empty($max_id)) {
-                $where =' uid = '.$uid;
+                $where = ' uid = '.$uid;
             // 	if(!empty($since_id)) {
             // 		$where .= ' AND id > '.$since_id;
             // 	}
@@ -497,7 +497,7 @@ class NotifyModel extends Model
             // }
         }
 
-        return array('list'=>$list,'count'=>$count);
+        return array('list' => $list,'count' => $count);
     }
 
     /**
@@ -521,7 +521,7 @@ class NotifyModel extends Model
             $sendto = $touid;
         } elseif (strpos($touid, ',') !== false) {
             $touid = array_unique(explode(',', $touid));
-            foreach ($touid as $key=>$value) {
+            foreach ($touid as $key => $value) {
                 $sendto[] = $value;
             }
         } else {

@@ -226,16 +226,16 @@ class ChannelModel extends Model
             //获取分页
             $result = $this->where($countmap)->order('feed_channel_link_id DESC')->findPage($limit * 4);
             if ($_REQUEST['newload']) {
-                $loadId = $result['data'][0]['feed_channel_link_id']-1;
+                $loadId = $result['data'][0]['feed_channel_link_id'] - 1;
             }
             !empty($loadId) && $map['feed_channel_link_id'] = array('LT', $loadId);
             //获取数据
             $data = $this->where($map)->order('feed_channel_link_id DESC')->limit($limit)->findAll();
             // 设置指定的宽高
         } else {
-            $result = $this->field('ts_channel.*,ts_feed.comment_count')->join('ts_feed on ts_channel.feed_id = ts_feed.feed_id')->where($countmap)->order('comment_count DESC,feed_channel_link_id DESC')->findPage($limit*4);
+            $result = $this->field('ts_channel.*,ts_feed.comment_count')->join('ts_feed on ts_channel.feed_id = ts_feed.feed_id')->where($countmap)->order('comment_count DESC,feed_channel_link_id DESC')->findPage($limit * 4);
             //获取数据
-            $limit = ($loadCount-1)*$limit+((intval($_REQUEST['p'])-1)*$limit*4).','.$limit;
+            $limit = ($loadCount - 1) * $limit + ((intval($_REQUEST['p']) - 1) * $limit * 4).','.$limit;
             $data = $this->field('ts_channel.*,ts_feed.comment_count')->join('ts_feed on ts_channel.feed_id = ts_feed.feed_id')->where($map)->order('comment_count DESC,feed_channel_link_id DESC')->limit($limit)->findAll();
         }
 

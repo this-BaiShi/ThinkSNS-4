@@ -62,7 +62,7 @@ class Controller
     protected static $controllerClass = array(
         'Ts-2016' => 'App\\%s\\Controller\\%s',
         'Ts-2015' => 'Apps\\%s\\Controller\\%s',
-        'Ts-old'  => '%sAction',
+        'Ts-old' => '%sAction',
     );
 
     /**

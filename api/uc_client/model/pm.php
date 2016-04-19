@@ -282,7 +282,7 @@ class pmmodel
         } else {
             $lastmessage = array('firstauthorid' => $fromuid, 'firstauthor' => $fromusername, 'firstsummary' => $lastsummary);
             $lastmessage = addslashes(serialize($lastmessage));
-            $this->db->query('INSERT INTO '.UC_DBTABLEPRE."pm_lists(authorid, pmtype, subject, members, min_max, dateline, lastmessage) VALUES('$fromuid', '2', '$subject', '".(count($touids)+1)."', '', '".$this->base->time."', '$lastmessage')");
+            $this->db->query('INSERT INTO '.UC_DBTABLEPRE."pm_lists(authorid, pmtype, subject, members, min_max, dateline, lastmessage) VALUES('$fromuid', '2', '$subject', '".(count($touids) + 1)."', '', '".$this->base->time."', '$lastmessage')");
             $plid = $this->db->insert_id();
             $this->db->query('INSERT INTO '.UC_DBTABLEPRE."pm_indexes(plid) VALUES('$plid')");
             $pmid = $this->db->insert_id();
@@ -730,7 +730,7 @@ class pmmodel
             $addsql[] = 'p.delstatus IN (0,1)';
         }
         if ($starttime) {
-            $addsql[]= "p.dateline>'$starttime'";
+            $addsql[] = "p.dateline>'$starttime'";
         }
         if ($endtime) {
             $addsql[] = "p.dateline<'$endtime'";
@@ -762,7 +762,7 @@ class pmmodel
         $pms = $addsql = array();
         $addsql[] = "p.plid='$plid'";
         if ($starttime) {
-            $addsql[]= "p.dateline>'$starttime'";
+            $addsql[] = "p.dateline>'$starttime'";
         }
         if ($endtime) {
             $addsql[] = "p.dateline<'$endtime'";
@@ -1044,7 +1044,7 @@ class pmmodel
         if (!$maxnum) {
             return 1;
         }
-        $num = $this->db->result_first('SELECT COUNT(*) FROM '.UC_DBTABLEPRE.'pm_members m LEFT JOIN '.UC_DBTABLEPRE."pm_lists t ON m.plid=t.plid WHERE uid='$uid' AND lastupdate>'".($this->base->time-86400)."' AND t.pmtype=1");
+        $num = $this->db->result_first('SELECT COUNT(*) FROM '.UC_DBTABLEPRE.'pm_members m LEFT JOIN '.UC_DBTABLEPRE."pm_lists t ON m.plid=t.plid WHERE uid='$uid' AND lastupdate>'".($this->base->time - 86400)."' AND t.pmtype=1");
         if ($maxnum - $num < 0) {
             return 0;
         } else {
@@ -1061,7 +1061,7 @@ class pmmodel
         if (!$maxnum) {
             return 1;
         }
-        $num = $this->db->result_first('SELECT COUNT(*) FROM '.UC_DBTABLEPRE."pm_lists WHERE authorid='$uid' AND dateline>'".($this->base->time-86400)."'");
+        $num = $this->db->result_first('SELECT COUNT(*) FROM '.UC_DBTABLEPRE."pm_lists WHERE authorid='$uid' AND dateline>'".($this->base->time - 86400)."'");
         if ($maxnum - $num < 0) {
             return 0;
         } else {

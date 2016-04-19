@@ -25,9 +25,9 @@ class FeedTopModel extends Model
      */
     public function getFeedTopList($type)
     {
-        if ($type==1) {
+        if ($type == 1) {
             $data = $this->where('status = 0')->order('id DESC')->findAll();
-        } elseif ($type==0) {
+        } elseif ($type == 0) {
             $data = $this->limit(6)->order('id DESC')->findAll();
         } else {
             $data = $this->order('id DESC')->findpage(20);

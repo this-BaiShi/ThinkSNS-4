@@ -23,7 +23,7 @@ class ucclient_db
 
     public $goneaway = 5;
 
-    public function connect($dbhost, $dbuser, $dbpw, $dbname = '', $dbcharset = '', $pconnect = 0, $tablepre='', $time = 0)
+    public function connect($dbhost, $dbuser, $dbpw, $dbname = '', $dbcharset = '', $pconnect = 0, $tablepre = '', $time = 0)
     {
         $this->dbhost = $dbhost;
         $this->dbuser = $dbuser;

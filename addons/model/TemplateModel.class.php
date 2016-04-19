@@ -160,8 +160,8 @@ class TemplateModel extends Model
         }
         // 内容模板
         if (!empty($template['body'])) {
-            $keys    = array_keys($data['body']);
-            $values    = array_values($data['body']);
+            $keys = array_keys($data['body']);
+            $values = array_values($data['body']);
             foreach ($keys as $k => $v) {
                 $keys[$k] = '{'.$v.'}';
             }
@@ -171,14 +171,14 @@ class TemplateModel extends Model
 
         //自动添加模板记录
         if ($auto_record) {
-            $record_data['uid']            = isset($data['uid']) ? $data['uid'] : $_SESSION['mid'];
-            $record_data['tpl_name']    = $template['name'];
-            $record_data['tpl_alias']    = $template['alias'];
-            $record_data['type']        = $template['type'];
-            $record_data['type2']        = $template['type2'];
-            $record_data['ctime']        = time();
+            $record_data['uid'] = isset($data['uid']) ? $data['uid'] : $_SESSION['mid'];
+            $record_data['tpl_name'] = $template['name'];
+            $record_data['tpl_alias'] = $template['alias'];
+            $record_data['type'] = $template['type'];
+            $record_data['type2'] = $template['type2'];
+            $record_data['ctime'] = time();
             unset($template['tpl_id']);
-            $record_data['data']        = serialize($template);
+            $record_data['data'] = serialize($template);
 
             return $this->addTemplateRecord($record_data);
         } else {

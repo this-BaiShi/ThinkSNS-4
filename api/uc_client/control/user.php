@@ -71,7 +71,7 @@ class usercontrol extends base
     {
         $this->init_input();
         $username = $this->input('username');
-        $password =  $this->input('password');
+        $password = $this->input('password');
         $email = $this->input('email');
         $questionid = $this->input('questionid');
         $answer = $this->input('answer');

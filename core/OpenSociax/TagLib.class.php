@@ -20,7 +20,7 @@ class TagLib
      * @var string
      * @access protected
      */
-    protected $tagLib ='';
+    protected $tagLib = '';
 
     /**
      * 标签库标签列表
@@ -50,7 +50,7 @@ class TagLib
      */
     protected $tpl;
 
-    protected $comparison = array(' nheq '=>' !== ',' heq '=>' === ',' neq '=>' != ',' eq '=>' == ',' egt '=>' >= ',' gt '=>' > ',' elt '=>' <= ',' lt '=>' < ');
+    protected $comparison = array(' nheq ' => ' !== ',' heq ' => ' === ',' neq ' => ' != ',' eq ' => ' == ',' egt ' => ' >= ',' gt ' => ' > ',' elt ' => ' <= ',' lt ' => ' < ');
 
     /**
      * 架构函数
@@ -58,8 +58,8 @@ class TagLib
      */
     public function __construct()
     {
-        $this->tagLib    =    strtolower(substr(get_class($this), 6));
-        $this->tpl        =    Template::getInstance();//ThinkTemplate::getInstance();
+        $this->tagLib = strtolower(substr(get_class($this), 6));
+        $this->tpl = Template::getInstance();//ThinkTemplate::getInstance();
         $this->_initialize();
         $this->load();
     }
@@ -120,40 +120,40 @@ class TagLib
             $tags = $this->parse['tag'];
             $list = array();
             if (is_object($tags)) {
-                $list[] =  array(
-                    'name'=>$tags->name,
-                    'content'=>$tags->bodycontent,
-                    'nested'=>(!empty($tags->nested) && $tags->nested !='false') ?$tags->nested:0,
-                    'attribute'=>isset($tags->attribute)?$tags->attribute:'',
+                $list[] = array(
+                    'name' => $tags->name,
+                    'content' => $tags->bodycontent,
+                    'nested' => (!empty($tags->nested) && $tags->nested != 'false') ? $tags->nested : 0,
+                    'attribute' => isset($tags->attribute) ? $tags->attribute : '',
                     );
                 if (isset($tags->alias)) {
-                    $alias  =   explode(',', $tag->alias);
+                    $alias = explode(',', $tag->alias);
                     foreach ($alias as $tag) {
-                        $list[] =  array(
-                            'name'=>$tag,
-                            'content'=>$tags->bodycontent,
-                            'nested'=>(!empty($tags->nested) && $tags->nested != 'false') ?$tags->nested:0,
-                            'attribute'=>isset($tags->attribute)?$tags->attribute:'',
+                        $list[] = array(
+                            'name' => $tag,
+                            'content' => $tags->bodycontent,
+                            'nested' => (!empty($tags->nested) && $tags->nested != 'false') ? $tags->nested : 0,
+                            'attribute' => isset($tags->attribute) ? $tags->attribute : '',
                             );
                     }
                 }
             } else {
                 foreach ($tags as $tag) {
                     $tag = (array) $tag;
-                    $list[] =  array(
-                        'name'=>$tag['name'],
-                        'content'=>$tag['bodycontent'],
-                        'nested'=>(!empty($tag['nested']) && $tag['nested'] != 'false')?$tag['nested']:0,
-                        'attribute'=>isset($tag['attribute'])?$tag['attribute']:'',
+                    $list[] = array(
+                        'name' => $tag['name'],
+                        'content' => $tag['bodycontent'],
+                        'nested' => (!empty($tag['nested']) && $tag['nested'] != 'false') ? $tag['nested'] : 0,
+                        'attribute' => isset($tag['attribute']) ? $tag['attribute'] : '',
                         );
                     if (isset($tag['alias'])) {
-                        $alias  =   explode(',', $tag['alias']);
+                        $alias = explode(',', $tag['alias']);
                         foreach ($alias as $tag1) {
-                            $list[] =  array(
-                                'name'=>$tag1,
-                                'content'=>$tag['bodycontent'],
-                                'nested'=>(!empty($tag['nested']) && $tag['nested'] != 'false')?$tag['nested']:0,
-                                'attribute'=>isset($tag['attribute'])?$tag['attribute']:'',
+                            $list[] = array(
+                                'name' => $tag1,
+                                'content' => $tag['bodycontent'],
+                                'nested' => (!empty($tag['nested']) && $tag['nested'] != 'false') ? $tag['nested'] : 0,
+                                'attribute' => isset($tag['attribute']) ? $tag['attribute'] : '',
                                 );
                         }
                     }
@@ -172,8 +172,8 @@ class TagLib
      */
     public function getTagAttrList($tagName)
     {
-        static $_tagCache   = array();
-        $_tagCacheId        =   md5($this->tagLib.$tagName);
+        static $_tagCache = array();
+        $_tagCacheId = md5($this->tagLib.$tagName);
         if (isset($_tagCache[$_tagCacheId])) {
             return $_tagCache[$_tagCacheId];
         }
@@ -187,23 +187,23 @@ class TagLib
                         // 只有一个属性
                         $attr = $tag['attribute'];
                         $list[] = array(
-                            'name'=>$attr->name,
-                            'required'=>$attr->required,
+                            'name' => $attr->name,
+                            'required' => $attr->required,
                             );
                     } else {
                         // 存在多个属性
                         foreach ($tag['attribute'] as $attr) {
                             $attr = (array) $attr;
                             $list[] = array(
-                                'name'=>$attr['name'],
-                                'required'=>$attr['required'],
+                                'name' => $attr['name'],
+                                'required' => $attr['required'],
                                 );
                         }
                     }
                 }
             }
         }
-        $_tagCache[$_tagCacheId]    =   $list;
+        $_tagCache[$_tagCacheId] = $list;
 
         return $list;
     }
@@ -218,16 +218,16 @@ class TagLib
     {
         //XML解析安全过滤
         $attr = str_replace(array('&', 'THEME_PATH', 'APP_TPL_PATH'), array('___', THEME_PATH, APP_TPL_PATH), $attr);
-        $xml =  '<tpl><tag '.$attr.' /></tpl>';
+        $xml = '<tpl><tag '.$attr.' /></tpl>';
         $xml = simplexml_load_string($xml);
         if (!$xml) {
             throw_exception(L('_XML_TAG_ERROR_').' : '.$attr);
         }
         $xml = (array) ($xml->tag->attributes());
         $array = array_change_key_case($xml['@attributes']);
-        $attrs  = $this->getTagAttrList($tag);
+        $attrs = $this->getTagAttrList($tag);
         foreach ($attrs as $val) {
-            $name   = strtolower($val['name']);
+            $name = strtolower($val['name']);
             if (!isset($array[$name])) {
                 $array[$name] = '';
             } else {
@@ -275,12 +275,12 @@ class TagLib
             return $this->parseThinkVar($name);
         } elseif (strpos($name, '.')) {
             $vars = explode('.', $name);
-            $var  =  array_shift($vars);
+            $var = array_shift($vars);
             switch (strtolower(C('TMPL_VAR_IDENTIFY'))) {
                 case 'array': // 识别为数组
                     $name = '$'.$var;
-                    foreach ($vars as $key=>$val) {
-                        if (0===strpos($val, '$')) {
+                    foreach ($vars as $key => $val) {
+                        if (0 === strpos($val, '$')) {
                             $name .= '["{'.$val.'}"]';
                         } else {
                             $name .= '["'.$val.'"]';
@@ -289,7 +289,7 @@ class TagLib
                     break;
                 case 'obj':  // 识别为对象
                     $name = '$'.$var;
-                    foreach ($vars as $key=>$val) {
+                    foreach ($vars as $key => $val) {
                         $name .= '->'.$val;
                     }
                     break;
@@ -298,7 +298,7 @@ class TagLib
             }
         } elseif (strpos($name, ':')) {
             // 额外的对象方式支持
-            $name   =   '$'.str_replace(':', '->', $name);
+            $name = '$'.str_replace(':', '->', $name);
         } elseif (!defined($name)) {
             $name = '$'.$name;
         }
@@ -318,7 +318,7 @@ class TagLib
         $vars = explode('.', $varStr);
         $vars[1] = strtoupper(trim($vars[1]));
         $parseStr = '';
-        if (count($vars)>=3) {
+        if (count($vars) >= 3) {
             $vars[2] = trim($vars[2]);
             switch ($vars[1]) {
                 case 'SERVER':    $parseStr = '$_SERVER[\''.$vars[2].'\']';break;
@@ -332,7 +332,7 @@ class TagLib
                 case 'LANG':       $parseStr = 'L("'.$vars[2].'")';break;
                 case 'CONFIG':    $parseStr = 'C("'.$vars[2].'")';break;
             }
-        } elseif (count($vars)==2) {
+        } elseif (count($vars) == 2) {
             switch ($vars[1]) {
                 case 'NOW':       $parseStr = "date('Y-m-d g:i a',time())";break;
                 case 'VERSION':  $parseStr = 'THINK_VERSION';break;

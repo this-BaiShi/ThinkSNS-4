@@ -20,15 +20,15 @@ class MailModel
         tsload(ADDON_PATH.'/library/phpmailer/class.smtp.php');
         $emailset = model('Xdata')->get('admin_Config:email');
         $this->option = array(
-            'email_sendtype'        => $emailset['email_sendtype'],
-            'email_host'            => $emailset['email_host'],
-            'email_port'            => $emailset['email_port'],
-            'email_ssl'                => $emailset['email_ssl'],
-            'email_account'            => $emailset['email_account'],
-            'email_password'        => $emailset['email_password'],
-            'email_sender_name'        => $emailset['email_sender_name'],
-            'email_sender_email'    => $emailset['email_sender_email'],
-            'email_reply_account'    => $emailset['email_sender_email'],
+            'email_sendtype' => $emailset['email_sendtype'],
+            'email_host' => $emailset['email_host'],
+            'email_port' => $emailset['email_port'],
+            'email_ssl' => $emailset['email_ssl'],
+            'email_account' => $emailset['email_account'],
+            'email_password' => $emailset['email_password'],
+            'email_sender_name' => $emailset['email_sender_name'],
+            'email_sender_email' => $emailset['email_sender_email'],
+            'email_reply_account' => $emailset['email_sender_email'],
         );
     }
 
@@ -64,10 +64,10 @@ class MailModel
             $sender_email = $senderInfo['email_sender_email'];
         }
 
-        if ($this->option['email_sendtype'] =='smtp') {
+        if ($this->option['email_sendtype'] == 'smtp') {
             $mail->Mailer = 'smtp';
-            $mail->Host    = $this->option['email_host'];    // sets GMAIL as the SMTP server
-            $mail->Port    = $this->option['email_port'];    // set the SMTP port
+            $mail->Host = $this->option['email_host'];    // sets GMAIL as the SMTP server
+            $mail->Port = $this->option['email_port'];    // set the SMTP port
             if ($this->option['email_ssl']) {
                 $mail->SMTPSecure = 'ssl';    // sets the prefix to the servier  tls,ssl
             }
@@ -76,9 +76,9 @@ class MailModel
                 $mail->Username = $this->option['email_account'];     // SMTP username
                 $mail->Password = $this->option['email_password']; // SMTP password
             }
-        } elseif ($this->option['email_sendtype'] =='sendmail') {
+        } elseif ($this->option['email_sendtype'] == 'sendmail') {
             $mail->Mailer = 'sendmail';
-            $mail->Sendmail    = '/usr/sbin/sendmail';
+            $mail->Sendmail = '/usr/sbin/sendmail';
         } else {
             $mail->Mailer = 'mail';
         }
@@ -88,7 +88,7 @@ class MailModel
         $mail->SetFrom($sender_email, $sender_name, 0);                // 设置发件人信息
 
         $mail->CharSet = 'UTF-8';                                    // 这里指定字符集！
-        $mail->Encoding    = 'base64';
+        $mail->Encoding = 'base64';
 
         if (is_array($sendto_email)) {
             foreach ($sendto_email as $v) {

@@ -22,18 +22,18 @@ class BaiduApiClient
      * Scheme & domain for Baidu OpenAPI interfaces.
      */
     public static $BD_OPENAPI_DEFAULT_DOMAINS = array(
-        'public'    => 'http://openapi.baidu.com',
-        'rest'        => 'https://openapi.baidu.com',
-        'file'        => 'https://openapi.baidu.com',
+        'public' => 'http://openapi.baidu.com',
+        'rest' => 'https://openapi.baidu.com',
+        'file' => 'https://openapi.baidu.com',
     );
 
     /**
      * URL prefixs for Baidu OpenAPI interfaces.
      */
     public static $BD_OPENAPI_DEFAULT_PREFIXS = array(
-        'public'    => 'http://openapi.baidu.com/public/2.0/',
-        'rest'        => 'https://openapi.baidu.com/rest/2.0/',
-        'file'        => 'https://openapi.baidu.com/file/2.0/',
+        'public' => 'http://openapi.baidu.com/public/2.0/',
+        'rest' => 'https://openapi.baidu.com/rest/2.0/',
+        'file' => 'https://openapi.baidu.com/file/2.0/',
     );
 
     protected $clientId;

@@ -23,9 +23,9 @@ class BlogCategoryModel extends BaseModel
         //重组数据集结构
         $newresult = array();
         foreach ($result as $value) {
-            $newresult[$value['id']]['id']   = $value['id'];
+            $newresult[$value['id']]['id'] = $value['id'];
             $newresult[$value['id']]['name'] = $value['name'];
-            $newresult[$value['id']]['uid']  = $value['uid'];
+            $newresult[$value['id']]['uid'] = $value['uid'];
             $newresult[$value['id']]['child'] = $res = $this->where('pid='.$value['id'])->field('name,uid,id')->select();
         }
 
@@ -35,8 +35,8 @@ class BlogCategoryModel extends BaseModel
     public function isCategoryExist($name, $uid = 0, $gid = 0)
     {
         $map['name'] = $name;
-        $map['uid']     = array('in', "$uid,0");
-        $map['id']   = array('neq', $gid);
+        $map['uid'] = array('in', "$uid,0");
+        $map['id'] = array('neq', $gid);
 
         return $this->where($map)->find() ? true : false;
     }
@@ -143,7 +143,7 @@ class BlogCategoryModel extends BaseModel
      */
     public function editCategory($data)
     {
-        foreach ($data as $key=>$value) {
+        foreach ($data as $key => $value) {
             $map1[] = "`id` = $key";
             $map2[] = "WHEN `id` = $key THEN '$value'";
         }
@@ -181,7 +181,7 @@ class BlogCategoryModel extends BaseModel
     public function getUserCategory($uid)
     {
         $map['uid'] = array( 'in',"$uid,0" );
-        $result     = $this->where($map)->field('name,id,uid')->order('`uid` ASC, id ASC')->findAll();
+        $result = $this->where($map)->field('name,id,uid')->order('`uid` ASC, id ASC')->findAll();
 
         return $result;
     }

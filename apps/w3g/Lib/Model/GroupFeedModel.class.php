@@ -10,21 +10,21 @@ class GroupFeedModel extends Model
     public $tableName = 'group_feed';
     //表结构
     protected $fields = array(
-            1=>'feed_id',
-            2=>'gid',
-            3=>'uid',
-            4=>'type',
-            5=>'app',
-            6=>'app_row_table',
-            7=>'app_row_id',
-            8=>'publish_time',
-            9=>'is_del',
-            10=>'from',
-            11=>'comment_count',
-            12=>'repost_count',
-            13=>'comment_all_count',
-            14=>'is_repost',
-            15=>'is_audit',
+            1 => 'feed_id',
+            2 => 'gid',
+            3 => 'uid',
+            4 => 'type',
+            5 => 'app',
+            6 => 'app_row_table',
+            7 => 'app_row_id',
+            8 => 'publish_time',
+            9 => 'is_del',
+            10 => 'from',
+            11 => 'comment_count',
+            12 => 'repost_count',
+            13 => 'comment_all_count',
+            14 => 'is_repost',
+            15 => 'is_audit',
             );
     /**
      * 添加分享
@@ -124,7 +124,7 @@ class GroupFeedModel extends Model
             }
         }
         // 添加分享信息
-        $feed_id =  $this->data($data)->add();
+        $feed_id = $this->data($data)->add();
         if (!$feed_id) {
             return false;
         }
@@ -135,7 +135,7 @@ class GroupFeedModel extends Model
 //             }
 //         }
         // 添加关联数据
-        $feed_data = D('group_feed_data')->data(array('feed_id'=>$feed_id, 'feed_data'=>serialize($data), 'client_ip'=>get_client_ip(), 'feed_content'=>$data['body']))->add();
+        $feed_data = D('group_feed_data')->data(array('feed_id' => $feed_id, 'feed_data' => serialize($data), 'client_ip' => get_client_ip(), 'feed_content' => $data['body']))->add();
         // 添加分享成功后
         if ($feed_id && $feed_data) {
 
@@ -348,11 +348,11 @@ class GroupFeedModel extends Model
             $var['attachInfo'] = model('Attach')->getAttachByIds($var['attach_id']);
             foreach ($var['attachInfo'] as $ak => $av) {
                 $_attach = array(
-                            'attach_id'   => $av['attach_id'],
+                            'attach_id' => $av['attach_id'],
                             'attach_name' => $av['name'],
-                            'attach_url'  => getImageUrl($av['save_path'].$av['save_name']),
-                            'extension'   => $av['extension'],
-                            'size'        => $av['size'],
+                            'attach_url' => getImageUrl($av['save_path'].$av['save_name']),
+                            'extension' => $av['extension'],
+                            'size' => $av['size'],
                         );
                 if ($_data['type'] == 'postimage') {
                     $_attach['attach_small'] = getImageUrl($av['save_path'].$av['save_name'], 100, 100, true);
@@ -390,15 +390,15 @@ class GroupFeedModel extends Model
         $result = $s->xpath("//feed[@type='".t($_data['type'])."']");
         $actions = (array) $result[0]->feedAttr;
         //输出模版解析后信息
-        $return['userInfo']  = $user;
+        $return['userInfo'] = $user;
         $return['actor_groupData'] = $var['actor_groupData'];
         $return['title'] = trim((string) $result[0]->title);
-        $return['body'] =  trim((string) $result[0]->body);
+        $return['body'] = trim((string) $result[0]->body);
         // $return['sbody'] = trim((string) $result[0]->sbody);
-        $return['info'] =  trim((string) $result[0]['info']);
+        $return['info'] = trim((string) $result[0]['info']);
         //$return['title'] =  parse_html($return['title']); 
         // $return['body']  =  parse_html($return['body']);
-        $return['body']  =  $this->parseHtml($return['body']);
+        $return['body'] = $this->parseHtml($return['body']);
         // $return['sbody'] =  parse_html($return['sbody']); 
         $return['actions'] = $actions['@attributes'];
         //验证转发的原信息是否存在
@@ -437,10 +437,10 @@ class GroupFeedModel extends Model
     {
         $info = $this->getFeedInfo($row_id, $forApi);
         $info['source_user_info'] = model('User')->getUserInfo($info['uid']);
-        $info['source_user'] = $info['uid'] == $GLOBALS['ts']['mid'] ? L('PUBLIC_ME'): $info['source_user_info']['space_link'];         // 我
+        $info['source_user'] = $info['uid'] == $GLOBALS['ts']['mid'] ? L('PUBLIC_ME') : $info['source_user_info']['space_link'];         // 我
         $info['source_type'] = L('PUBLIC_WEIBO');
         $info['source_title'] = $forApi ? parseForApi($info['user_info']['space_link']) : $info['user_info']['space_link'];   //分享title暂时为空
-        $info['source_url'] = U('group/Group/detail', array('feed_id'=>$row_id, 'uid'=>$info['uid'], 'gid'=> $info['gid']));
+        $info['source_url'] = U('group/Group/detail', array('feed_id' => $row_id, 'uid' => $info['uid'], 'gid' => $info['gid']));
         $info['source_content'] = $info['content'];
         $info['ctime'] = $info['publish_time'];
         unset($info['content']);
@@ -469,11 +469,11 @@ class GroupFeedModel extends Model
 
         $userInfo = model('User')->getUserInfo($data['uid']);
         $data['ctime'] = date('Y-m-d H:i', $data['publish_time']);
-        $data['content'] = $forApi ? parseForApi($fd['body']):$fd['body'];
+        $data['content'] = $forApi ? parseForApi($fd['body']) : $fd['body'];
         $data['uname'] = $userInfo['uname'];
         $data['avatar_big'] = $userInfo['avatar_big'];
         $data['avatar_middle'] = $userInfo['avatar_middle'];
-        $data['avatar_small']  = $userInfo['avatar_small'];
+        $data['avatar_small'] = $userInfo['avatar_small'];
         unset($data['feed_data']);
         // 分享转发
         if ($data['type'] == 'repost') {
@@ -486,11 +486,11 @@ class GroupFeedModel extends Model
             $attach = model('Attach')->getAttachByIds($fd['attach_id']);
             foreach ($attach as $ak => $av) {
                 $_attach = array(
-                            'attach_id'   => $av['attach_id'],
+                            'attach_id' => $av['attach_id'],
                             'attach_name' => $av['name'],
-                            'attach_url'  => getImageUrl($av['save_path'].$av['save_name']),
-                            'extension'   => $av['extension'],
-                            'size'          => $av['size'],
+                            'attach_url' => getImageUrl($av['save_path'].$av['save_name']),
+                            'extension' => $av['extension'],
+                            'size' => $av['size'],
                         );
                 if ($data['type'] == 'postimage') {
                     $_attach['attach_small'] = getImageUrl($av['save_path'].$av['save_name'], 100, 100, true);
@@ -538,12 +538,12 @@ class GroupFeedModel extends Model
      */
     public function doEditFeed($feed_id, $type, $title, $uid = null)
     {
-        $return = array('status'=>'0');
+        $return = array('status' => '0');
         if (empty($feed_id)) {
             //$return['data'] = '分享ID不能为空！';
         } else {
             $map['feed_id'] = is_array($feed_id) ? array('IN', $feed_id) : intval($feed_id);
-            $save['is_del'] = $type =='delFeed' ? 1 : 0;
+            $save['is_del'] = $type == 'delFeed' ? 1 : 0;
 
             if ($type == 'deleteFeed') {
                 $res = $this->where($map)->delete();
@@ -583,7 +583,7 @@ class GroupFeedModel extends Model
             D('GroupComment')->setAppName('group')->setAppTable('group_feed')->deleteComment($commentIds);
             if ($res) {
                 // TODO:是否记录知识，以及后期缓存处理
-                $return = array('status'=>1);
+                $return = array('status' => 1);
 //     			//添加积分
 //     			model('Credit')->setUserCredit($uid,'delete_weibo');
             }

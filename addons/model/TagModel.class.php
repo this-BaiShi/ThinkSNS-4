@@ -7,7 +7,7 @@
 class TagModel extends Model
 {
     protected $tableName = 'tag';
-    protected $fields = array(0=>'tag_id',1=>'name','_pk'=>'tag_id');
+    protected $fields = array(0 => 'tag_id',1 => 'name','_pk' => 'tag_id');
 
     private $_app = null;                    // 所属应用
     private $_app_table = null;                // 所属资源表
@@ -135,7 +135,7 @@ class TagModel extends Model
                 continue;
             }
             if ($id = $this->addAppTag($row_id, $t)) {
-                $r[] = array('tag_id'=>$id, 'name'=>$t);
+                $r[] = array('tag_id' => $id, 'name' => $t);
             }
         }
 
@@ -179,7 +179,7 @@ class TagModel extends Model
                 $this->error = L('PUBLIC_TAG').L('PUBLIC_ADD_SUCCESS');        // 标签，添加成功
                 return $data['tag_id'];
             } else {
-                $this->error =  L('PUBLIC_TAG').L('PUBLIC_ADD_FAIL');        // 标签，添加失败
+                $this->error = L('PUBLIC_TAG').L('PUBLIC_ADD_FAIL');        // 标签，添加失败
                 return false;
             }
         } else {
@@ -329,7 +329,7 @@ class TagModel extends Model
                            ->group('`tag_id`')->order('`count` DESC')
                            ->limit($limit)->findAll();
             // 获得标签文字
-            $hot_names  = $this->getTagNames(getSubByKey($hot_tag_ids, 'tag_id'));
+            $hot_names = $this->getTagNames(getSubByKey($hot_tag_ids, 'tag_id'));
             $hot_tag_list = array();
             // 指针引用
             foreach ($hot_tag_ids as $h_v) {

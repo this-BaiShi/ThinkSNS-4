@@ -7,7 +7,7 @@
 class UserDataModel extends Model
 {
     protected $tableName = 'user_data';
-    protected $fields = array(0=>'id',1=>'uid',2=>'key',3=>'value',4=>'mtime',5=>'at_value');
+    protected $fields = array(0 => 'id',1 => 'uid',2 => 'key',3 => 'value',4 => 'mtime',5 => 'at_value');
     protected $uid = '';
 
     /**
@@ -61,7 +61,7 @@ class UserDataModel extends Model
             $data = array();
             $data[$key] = $nums;
         } else {
-            $data[$key] = $add ? ($data[$key] + abs($nums)) :($data[$key] - abs($nums));
+            $data[$key] = $add ? ($data[$key] + abs($nums)) : ($data[$key] - abs($nums));
         }
 
         $data[$key] < 0 && $data[$key] = 0;
@@ -225,7 +225,7 @@ class UserDataModel extends Model
         }
         // 收藏collect_total_count数目
         foreach ($res as $i => $v) {
-            $res[$i]['collect_total_count'] = intval($v['favorite_count']+$v['collect_blog_count']+$v['collect_topic_count']);
+            $res[$i]['collect_total_count'] = intval($v['favorite_count'] + $v['collect_blog_count'] + $v['collect_topic_count']);
         }
         $uids = array_keys($res);
         if (empty($uids)) {
@@ -236,9 +236,9 @@ class UserDataModel extends Model
         $map['key'] = array('in', array('feed_count', 'weibo_count', 'favorite_count', 'following_count', 'follower_count','collect_blog_count','collect_topic_count','collect_total_count'));
         $this->where($map)->delete();
 
-        foreach ($res as $uid=>$vo) {
+        foreach ($res as $uid => $vo) {
             $data['uid'] = $uid;
-            foreach ($vo as $key=>$val) {
+            foreach ($vo as $key => $val) {
                 $data['key'] = $key;
                 $data['value'] = intval($val);
                 $this->add($data);

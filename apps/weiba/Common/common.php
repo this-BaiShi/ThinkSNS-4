@@ -398,13 +398,13 @@ function bbcode($message)
 
     $message = str_replace('[img=700,28]static/image/hrline/4.gif[/img]', '', $message);
 
-    $neter_mo=array(
+    $neter_mo = array(
       "/\[img=([0-9]+),([0-9]+)\](.+?)\[\/img\]/is",
       "/\[img\](.+?)\[\/img\]/is",
       "/\[hide\](.+?)\[\/hide\]/is",
     );
 
-    $neter_str=array(
+    $neter_str = array(
       '<img width="\\1" height="\\2" src="\\3" />',
       '<img src="\\1" />',
       '<div class="hide">\\1</div>',

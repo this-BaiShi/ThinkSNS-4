@@ -9,11 +9,11 @@ class DatabaseModel extends Model
         return M('')->query('SHOW TABLE STATUS LIKE "'.C('DB_PREFIX').'%"');
     }
 
-    public function getTableSql($table, $startfrom=0, $filesize, $currentsize, $complete=true)
+    public function getTableSql($table, $startfrom = 0, $filesize, $currentsize, $complete = true)
     {
-        $tabledump        = '';
-        $offset            = 200;
-        $tablefields    = array();
+        $tabledump = '';
+        $offset = 200;
+        $tablefields = array();
 
         $tablefields = M('')->query('SHOW FULL COLUMNS FROM '.$table);
         if (!$tablefields) {
@@ -21,26 +21,26 @@ class DatabaseModel extends Model
         }
 
         if ($startfrom == 0) {
-            $createtable    = M('')->query('SHOW CREATE TABLE '.$table);
+            $createtable = M('')->query('SHOW CREATE TABLE '.$table);
             $tabledump       .= "DROP TABLE IF EXISTS $table;\n";
             $tabledump       .= $createtable[0]['Create Table'].";\n\n";
         }
 
-        $first_field    = $tablefields[0];
-        $numrows        = $offset;
+        $first_field = $tablefields[0];
+        $numrows = $offset;
         while ($currentsize + strlen($tabledump) + 500  < $filesize && $numrows == $offset) {
             if ($first_field['Extra'] == 'auto_increment') {
                 $sql = 'SELECT * FROM '.$table.' WHERE '.$first_field['Field']." > $startfrom LIMIT $offset";
             } else {
-                $sql =    'SELECT *FROM '.$table." LIMIT  $startfrom,$offset";
+                $sql = 'SELECT *FROM '.$table." LIMIT  $startfrom,$offset";
             }
 
-            $tableData    = $this->query($sql);
-            $numrows    = count($tableData);
+            $tableData = $this->query($sql);
+            $numrows = count($tableData);
 
             if ($numrows && $tableData) {
-                $linkid    = $this->db->connect();
-                $query    = mysql_query($sql);
+                $linkid = $this->db->connect();
+                $query = mysql_query($sql);
 
                 while ($oneRow = mysql_fetch_assoc($query)) {
                     $dumpsql = $comma = '';
@@ -49,7 +49,7 @@ class DatabaseModel extends Model
                         $comma = ',';
                     }
 
-                    if (strlen($dumpsql)+$currentsize+strlen($tabledump)+500 < $filesize) {
+                    if (strlen($dumpsql) + $currentsize + strlen($tabledump) + 500 < $filesize) {
                         if ($first_field['Extra'] == 'auto_increment') {
                             $startfrom = $oneRow[$first_field['Field']];
                         } else {
@@ -66,7 +66,7 @@ class DatabaseModel extends Model
 
         $tabledump .= "\n";
 
-        return array('complete'=>$complete,'startform'=>$startfrom,'tabledump'=>$tabledump);
+        return array('complete' => $complete,'startform' => $startfrom,'tabledump' => $tabledump);
     }
 
     public function splitsql($sqldump)

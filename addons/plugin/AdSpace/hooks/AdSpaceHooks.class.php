@@ -104,7 +104,7 @@ class AdSpaceHooks extends Hooks
             case 3:
                 $picData = array();
                 for ($i = 0; $i < count($_POST['banner']); $i++) {
-                    $picData[] = array('banner'=>$_POST['banner'][$i], 'bannerurl'=>$_POST['bannerurl'][$i]);
+                    $picData[] = array('banner' => $_POST['banner'][$i], 'bannerurl' => $_POST['bannerurl'][$i]);
                 }
                 $data['content'] = serialize($picData);
                 break;
@@ -189,7 +189,7 @@ class AdSpaceHooks extends Hooks
             case 3:
                 $picData = array();
                 for ($i = 0; $i < count($_POST['banner']); $i++) {
-                    $picData[] = array('banner'=>$_POST['banner'][$i], 'bannerurl'=>$_POST['bannerurl'][$i]);
+                    $picData[] = array('banner' => $_POST['banner'][$i], 'bannerurl' => $_POST['bannerurl'][$i]);
                 }
                 $data['content'] = serialize($picData);
                 break;
@@ -253,7 +253,7 @@ class AdSpaceHooks extends Hooks
     private function _getPlaceByID($id)
     {
         $data = $this->_getPlaceData();
-        foreach ($data as $k=>$v) {
+        foreach ($data as $k => $v) {
             if ($v['id'] != $id) {
                 continue;
             }

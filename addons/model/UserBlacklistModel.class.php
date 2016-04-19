@@ -7,7 +7,7 @@
 class UserBlacklistModel extends Model
 {
     protected $tableName = 'user_blacklist';
-    protected $fields = array(0 =>'uid',1=>'fid',2=>'ctime');
+    protected $fields = array(0 => 'uid',1 => 'fid',2 => 'ctime');
     public static $blackHash = array();
 
     /**
@@ -55,7 +55,7 @@ class UserBlacklistModel extends Model
 
             return false;
         }
-        $blackList[$fid] = array('uid'=>$uid, 'fid'=>$fid, 'ctime'=>time());
+        $blackList[$fid] = array('uid' => $uid, 'fid' => $fid, 'ctime' => time());
         if ($this->add($blackList[$fid])) {
             model('Follow')->unFollow($uid, $fid);
             model('Follow')->unFollow($fid, $uid);

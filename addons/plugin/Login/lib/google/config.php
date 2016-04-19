@@ -32,14 +32,14 @@ $apiConfig = array(
     // Site name to show in the Google's OAuth 1 authentication screen.
     'site_name' => 'www.example.org',
     // Which Authentication, Storage and HTTP IO classes to use.
-    'authClass'    => 'Google_OAuth2',
-    'ioClass'      => 'Google_CurlIO',
-    'cacheClass'   => 'Google_FileCache',
+    'authClass' => 'Google_OAuth2',
+    'ioClass' => 'Google_CurlIO',
+    'cacheClass' => 'Google_FileCache',
     // Don't change these unless you're working against a special development or testing environment.
     'basePath' => 'https://www.googleapis.com',
     // IO Class dependent configuration, you only have to configure the values
     // for the class that was configured as the ioClass above
-    'ioFileCache_directory'  => (function_exists('sys_get_temp_dir') ?
+    'ioFileCache_directory' => (function_exists('sys_get_temp_dir') ?
             sys_get_temp_dir().'/Google_Client' :
         '/tmp/Google_Client'),
     // Definition of service specific values like scopes, oauth token URLs, etc

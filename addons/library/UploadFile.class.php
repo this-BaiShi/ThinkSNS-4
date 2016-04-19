@@ -40,28 +40,28 @@ class UploadFile
     public $allowTypes = array();
 
     // 使用对上传图片进行缩略图处理
-    public $thumb   =  false;
+    public $thumb = false;
     // 缩略图最大宽度
     public $thumbMaxWidth;
     // 缩略图最大高度
     public $thumbMaxHeight;
     // 缩略图前缀
-    public $thumbPrefix   =  'thumb_';
-    public $thumbSuffix  =  '';
+    public $thumbPrefix = 'thumb_';
+    public $thumbSuffix = '';
     // 缩略图保存路径
     public $thumbPath = '';
     // 缩略图文件名
-    public $thumbFile        =    '';
+    public $thumbFile = '';
     // 是否移除原图
     public $thumbRemoveOrigin = false;
     // 压缩图片文件上传
     public $zipImages = false;
     // 启用子目录保存文件
-    public $autoSub   =  false;
+    public $autoSub = false;
     // 子目录创建方式 可以使用hash date
-    public $subType   = 'hash';
+    public $subType = 'hash';
     public $dateFormat = 'Ymd';
-    public $hashLevel =  1; // hash的目录层次
+    public $hashLevel = 1; // hash的目录层次
     // 上传文件保存路径
     public $savePath = '';
     public $saveName = '';
@@ -91,7 +91,7 @@ class UploadFile
      * @access public
      +----------------------------------------------------------
      */
-    public function __construct($maxSize='', $allowExts='', $allowTypes='', $savePath=UPLOAD_PATH, $saveRule='')
+    public function __construct($maxSize = '', $allowExts = '', $allowTypes = '', $savePath = UPLOAD_PATH, $saveRule = '')
     {
         if (!empty($maxSize) && is_numeric($maxSize)) {
             $this->maxSize = $maxSize;
@@ -113,7 +113,7 @@ class UploadFile
         if (!empty($saveRule)) {
             $this->saveRule = $saveRule;
         } else {
-            $this->saveRule    =    C('UPLOAD_FILE_RULE');
+            $this->saveRule = C('UPLOAD_FILE_RULE');
         }
         $this->savePath = $savePath;
     }
@@ -137,7 +137,7 @@ class UploadFile
         $filename = $file['savepath'].$file['savename'];
         if (!$this->uploadReplace && is_file($filename)) {
             // 不覆盖同名文件
-            $this->error    =    '文件已经存在！'.$filename;
+            $this->error = '文件已经存在！'.$filename;
 
             return false;
         }
@@ -176,7 +176,7 @@ class UploadFile
      * @throws ThinkExecption
      +----------------------------------------------------------
      */
-    public function upload($savePath ='')
+    public function upload($savePath = '')
     {
         mkdir($savePath, 0777, true);
         //如果不指定保存文件名，则由系统默认
@@ -187,42 +187,42 @@ class UploadFile
         if (!is_dir($savePath)) {
             // 检查目录是否编码后的
             if (is_dir(base64_decode($savePath))) {
-                $savePath    =    base64_decode($savePath);
+                $savePath = base64_decode($savePath);
             } else {
                 // 尝试创建目录
                 if (!mkdir($savePath, 0777, true)) {
-                    $this->error  =  '上传目录'.$savePath.'不存在';
+                    $this->error = '上传目录'.$savePath.'不存在';
 
                     return false;
                 }
             }
         } else {
             if (!is_writeable($savePath)) {
-                $this->error  =  '上传目录'.$savePath.'不可写';
+                $this->error = '上传目录'.$savePath.'不可写';
 
                 return false;
             }
         }
         $fileInfo = array();
-        $isUpload   = false;
+        $isUpload = false;
 
         // 获取上传的文件信息
         // 对$_FILES数组信息处理
-        $files     =     $this->dealFiles($_FILES);
+        $files = $this->dealFiles($_FILES);
 
         foreach ($files as $key => $file) {
             //过滤无效的上传
             if (!empty($file['name'])) {
-                $file['key']        = $key;
-                $file['extension']  = $this->getExt($file['name']);
-                $file['savepath']   = $savePath;
-                $file['savename']   = uniqid().substr(str_shuffle('0123456789abcdef'), rand(0, 9), 7).'.'.$file['extension'];
+                $file['key'] = $key;
+                $file['extension'] = $this->getExt($file['name']);
+                $file['savepath'] = $savePath;
+                $file['savename'] = uniqid().substr(str_shuffle('0123456789abcdef'), rand(0, 9), 7).'.'.$file['extension'];
                 //$this->getSaveName($file);
 
                 if ($GLOBALS['fromMobile'] == true && empty($file['extension'])) {
                     //移动设备上传的无后缀的图片，默认为jpg
-                        $file['extension']  = 'jpg';
-                    $file['savename']   = trim($file['savename'], '.').'.jpg';
+                        $file['extension'] = 'jpg';
+                    $file['savename'] = trim($file['savename'], '.').'.jpg';
                 } else {
                     // 自动检查附件
                     if ($this->autoCheck) {
@@ -237,13 +237,13 @@ class UploadFile
                     return false;
                 }
                 if (function_exists($this->hashType)) {
-                    $fun =  $this->hashType;
-                    $file['hash']   =  $fun(auto_charset($file['savepath'].$file['savename'], 'utf-8', 'gbk'));
+                    $fun = $this->hashType;
+                    $file['hash'] = $fun(auto_charset($file['savepath'].$file['savename'], 'utf-8', 'gbk'));
                 }
                 //上传成功后保存文件信息，供其它地方调用
                 unset($file['tmp_name'], $file['error']);
                 $fileInfo[] = $file;
-                $isUpload   = true;
+                $isUpload = true;
                 //图片上传裁剪
                 //$this->resetimg($savePath,$file['savename'],$file['save_Path']);
             }
@@ -253,7 +253,7 @@ class UploadFile
 
             return true;
         } else {
-            $this->error  = '上传出错！文件不符合上传要求。';
+            $this->error = '上传出错！文件不符合上传要求。';
 
             return false;
         }
@@ -276,14 +276,14 @@ class UploadFile
         foreach ($files as $file) {
             if (is_array($file['name'])) {
                 $keys = array_keys($file);
-                $count     =     count($file['name']);
-                for ($i=0; $i<$count; $i++) {
+                $count = count($file['name']);
+                for ($i = 0; $i < $count; $i++) {
                     foreach ($keys as $key) {
                         $fileArray[$i][$key] = $file[$key][$i];
                     }
                 }
             } else {
-                $fileArray    =    $files;
+                $fileArray = $files;
             }
             break;
         }
@@ -309,8 +309,8 @@ class UploadFile
             case 1:
 
                 $size = ini_get('upload_max_filesize');
-                if (strpos($size, 'M')!==false || strpos($size, 'm')!==false) {
-                    $size = intval($size)*1024;
+                if (strpos($size, 'M') !== false || strpos($size, 'm') !== false) {
+                    $size = intval($size) * 1024;
                     $size = byte_format($size);
                 }
                 //edit by  yangjs
@@ -321,8 +321,8 @@ class UploadFile
                 break;
             case 2:
                  $size = ini_get('upload_max_filesize');
-                if (strpos($size, 'M')!==false || strpos($size, 'm')!==false) {
-                    $size = intval($size)*1024;
+                if (strpos($size, 'M') !== false || strpos($size, 'm') !== false) {
+                    $size = intval($size) * 1024;
                     $size = byte_format($size);
                 }
                 //edit by  yangjs
@@ -382,7 +382,7 @@ class UploadFile
             }
             if ($this->autoSub) {
                 // 使用子目录保存文件
-                $saveName   =  $this->getSubName($filename).'/'.$saveName;
+                $saveName = $this->getSubName($filename).'/'.$saveName;
             }
 
             return $saveName;
@@ -404,13 +404,13 @@ class UploadFile
     {
         switch ($this->subType) {
             case 'date':
-                $dir   =  date($this->dateFormat, time());
+                $dir = date($this->dateFormat, time());
                 break;
             case 'hash':
             default:
                 $name = md5($file['savename']);
-                $dir   =  '';
-                for ($i=0;$i<$this->hashLevel;$i++) {
+                $dir = '';
+                for ($i = 0;$i < $this->hashLevel;$i++) {
                     $dir   .=  $name{0}
                     .'/';
                 }
@@ -436,7 +436,7 @@ class UploadFile
      */
     private function check($file)
     {
-        if ($file['error']!== 0) {
+        if ($file['error'] !== 0) {
             //文件上传失败
             //捕获错误代码
             $this->error($file['error']);
@@ -459,7 +459,7 @@ class UploadFile
         }
         //检查文件类型
         if (!$this->checkExt($file['extension'])) {
-            $this->error ='上传文件类型不允许';
+            $this->error = '上传文件类型不允许';
 
             return false;
         }
@@ -508,7 +508,7 @@ class UploadFile
     private function checkExt($ext)
     {
         if (in_array($ext, array('php', 'php3', 'exe', 'sh', 'html', 'asp', 'aspx'))) {
-            $this->error    =   '不允许上传可执行的脚本文件，如：php、exe、html后缀的文件';
+            $this->error = '不允许上传可执行的脚本文件，如：php、exe、html后缀的文件';
 
             return false;
         }
@@ -610,10 +610,10 @@ class UploadFile
     public function resetimg($savePath, $image_name, $save_path)
     {
         $file_path = date('/Y/md/H/');
-        $filename  = UPLOAD_URL.$file_path.$image_name; //将URL转化为本地地址
+        $filename = UPLOAD_URL.$file_path.$image_name; //将URL转化为本地地址
 
         $oldimageinfo = getimagesize($filename);
-        $w  = intval($oldimageinfo[0]);
+        $w = intval($oldimageinfo[0]);
         $h = intval($oldimageinfo[1]);
         $type = intval($oldimageinfo[2]);
 
@@ -630,22 +630,22 @@ class UploadFile
                 break;
         }
         if ($image) {
-            if ($w<=1000&&$w) {
+            if ($w <= 1000 && $w) {
             } elseif ($w) {
-                $temp = 1000/$w;
+                $temp = 1000 / $w;
                 $width = 1000;
-                $height = floor($h*$temp);
+                $height = floor($h * $temp);
 
                 $image_p = imagecreatetruecolor($width, $height);
                 imagealphablending($image_p, false);
                 imagesavealpha($image_p, true);
                 $res = imagecopyresampled($image_p, $image, 0, 0, 0, 0, $width, $height, $w, $h);
                 $size = filesize($filename);
-                $real = 500*1024;
+                $real = 500 * 1024;
                 if ($size > $real) {
-                    $temp = sqrt($real/$size);
-                    $width = floor($width*$temp);
-                    $height = floor($height*$temp);
+                    $temp = sqrt($real / $size);
+                    $width = floor($width * $temp);
+                    $height = floor($height * $temp);
                     $image_p = imagecreatetruecolor($width, $height);
                     imagealphablending($image_p, false);
                     imagesavealpha($image_p, true);

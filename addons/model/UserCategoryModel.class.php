@@ -7,7 +7,7 @@
 class UserCategoryModel extends Model
 {
     protected $tableName = 'user_category';
-    protected $fields = array(0=>'user_category_id',1=>'title',2=>'pid');
+    protected $fields = array(0 => 'user_category_id',1 => 'title',2 => 'pid');
 
     /**
      * 当指定pid时，查询该父用户身份的所有子用户身份；否则查询所有用户身份

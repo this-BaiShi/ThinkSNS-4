@@ -169,7 +169,7 @@ class Addons
      */
     public static function adminPage($page, $param = null)
     {
-        return U('admin/Addons/admin', array('pluginid'=>intval($_GET['pluginid']), 'page'=>$page) + (array) $param);
+        return U('admin/Addons/admin', array('pluginid' => intval($_GET['pluginid']), 'page' => $page) + (array) $param);
     }
 
     /**
@@ -180,7 +180,7 @@ class Addons
      */
     public static function adminUrl($page, $param = null)
     {
-        return U('admin/Addons/doAdmin', array('pluginid'=>intval($_GET['pluginid']), 'page'=>$page) + (array) $param);
+        return U('admin/Addons/doAdmin', array('pluginid' => intval($_GET['pluginid']), 'page' => $page) + (array) $param);
     }
 
     /**
@@ -207,7 +207,7 @@ class Addons
      * @static
      * @access public
      */
-    public static function createAddonShow($name, $hooks, $param=null)
+    public static function createAddonShow($name, $hooks, $param = null)
     {
         $param['addon'] = $name;
         $param['hook'] = $hooks;

@@ -10,7 +10,7 @@ class UserProfileModel    extends    Model
     const DEPARTMENT_KEY = 'department';            // 部门的字段KEY
 
     protected $tableName = 'user_profile';
-    protected $fields = array(0=>'uid',1=>'field_id',2=>'field_data',3=>'privacy');
+    protected $fields = array(0 => 'uid',1 => 'field_id',2 => 'field_data',3 => 'privacy');
 
     public static $profileSetting = array();        // 静态档案配置字段
     public static $sysProfile = array('intro', 'work_position', 'mobile', 'tel', 'work_director', 'department');            // 系统默认的字段，用户数据里面必须有的
@@ -99,7 +99,7 @@ class UserProfileModel    extends    Model
             $map['uid'] = $uid;
             $profile = $this->where($map)->findAll();
             $profile = $this->_formatUserProfile($profile);
-            $data = empty($profile[$uid])? array():$profile[$uid];
+            $data = empty($profile[$uid]) ? array() : $profile[$uid];
             model('Cache')->set('user_profile_'.$uid, $data);
         }
 
@@ -147,15 +147,15 @@ class UserProfileModel    extends    Model
     public function getUserProfileInputType()
     {
         $input_type = array(
-            'input'=>L('PUBLIC_INPUT_FORM'),                    // 输入表单
-            'inputnums' =>L('PUBLIC_NUM_INPUT'),                // 纯数字input输入
-            'textarea'=>L('PUBLIC_SEVERAL_TEXTFIELD'),            // 多行文本
-            'select'=>L('PUBLIC_DROPDOWN_MENU'),                // 下拉菜单
-            'radio'=>L('PUBLIC_RADIO_BUTTON'),                    // 单选框
-            'checkbox'=>L('PUBLIC_CHECK_BOX'),                    // 复选框
-            'date'=>L('PUBLIC_TIME_SELECT'),                    // 时间选择
-            'selectUser'=>L('PUBLIC_USER_SELECT'),                // 用户选择
-            'selectDepart'=>L('PUBLIC_DEPARTMENT_SELECT'),        // 部门选择
+            'input' => L('PUBLIC_INPUT_FORM'),                    // 输入表单
+            'inputnums' => L('PUBLIC_NUM_INPUT'),                // 纯数字input输入
+            'textarea' => L('PUBLIC_SEVERAL_TEXTFIELD'),            // 多行文本
+            'select' => L('PUBLIC_DROPDOWN_MENU'),                // 下拉菜单
+            'radio' => L('PUBLIC_RADIO_BUTTON'),                    // 单选框
+            'checkbox' => L('PUBLIC_CHECK_BOX'),                    // 复选框
+            'date' => L('PUBLIC_TIME_SELECT'),                    // 时间选择
+            'selectUser' => L('PUBLIC_USER_SELECT'),                // 用户选择
+            'selectDepart' => L('PUBLIC_DEPARTMENT_SELECT'),        // 部门选择
         );
 
         return $input_type;
@@ -174,7 +174,7 @@ class UserProfileModel    extends    Model
         if (isset($_POST['cid'])) {
             $cmap['field_type'] = intval($_POST['cid']);
             $setting = $this->getUserProfileSetting($cmap);
-            foreach ($setting as $sk=>$se) {
+            foreach ($setting as $sk => $se) {
                 if (!isset($data[$se['field_key']])) {
                     $data[$se['field_key']] = '';
                 }
@@ -200,12 +200,12 @@ class UserProfileModel    extends    Model
 
                 $d_v = t($d_v);
                 if ($setting[$d_k]['required'] > 0 && empty($d_v)) {
-                    $this->error = L('PUBLIC_INPUT_SOME', array('input'=>$setting[$d_k]['field_name']));            // 请输入{input}
+                    $this->error = L('PUBLIC_INPUT_SOME', array('input' => $setting[$d_k]['field_name']));            // 请输入{input}
                     return false;
                 }
 
-                if ($setting[$d_k]['form_type'] =='inputnums' && !is_numeric($d_v) && $d_v) {
-                    $this->error = L('PUBLIC_SOME_NOT_RIGHT', array('input'=>$setting[$d_k]['field_name']));        // {input}格式不正确
+                if ($setting[$d_k]['form_type'] == 'inputnums' && !is_numeric($d_v) && $d_v) {
+                    $this->error = L('PUBLIC_SOME_NOT_RIGHT', array('input' => $setting[$d_k]['field_name']));        // {input}格式不正确
                     return false;
                 }
 
@@ -352,7 +352,7 @@ class UserProfileModel    extends    Model
 
         foreach ($profile as $k => $v) {
             if (isset($profileSetting[$k])) {
-                $r[$profileSetting[$k]['field_key']] = array('name'=>$profileSetting[$k]['field_name'],'value'=>$v['field_data']);
+                $r[$profileSetting[$k]['field_key']] = array('name' => $profileSetting[$k]['field_name'],'value' => $v['field_data']);
             }
         }
 

@@ -55,10 +55,10 @@ class PeopleAction extends BaseAction
                 $this->error('参数错误！');
             }
         }
-        $_GET        = array_merge($_GET, $_POST);
-        $curType    = intval($_GET['t']) ? intval($_GET['t']) : 1;
-        $limit    = intval($_GET['limit']) ? intval($_GET['limit']) : 20;
-        $searchKey    = t($_GET['k']);
+        $_GET = array_merge($_GET, $_POST);
+        $curType = intval($_GET['t']) ? intval($_GET['t']) : 1;
+        $limit = intval($_GET['limit']) ? intval($_GET['limit']) : 20;
+        $searchKey = t($_GET['k']);
         $lastUid = intval($_GET['lastUid']) ? intval($_GET['lastUid']) : 0;
         $page = $_GET['page'] ? intval($_GET['page']) : 1;
         $this->assign('page', $page);
@@ -274,7 +274,7 @@ class PeopleAction extends BaseAction
                 if ($area) {
                     //$pid = model('Area')->where('area_id='.$area)->find();
                     //if($pid){
-                        $pInfo =  model('Area')->where('area_id='.$area)->find();
+                        $pInfo = model('Area')->where('area_id='.$area)->find();
                     $_title = $pInfo['title'];
                     //}
                 }

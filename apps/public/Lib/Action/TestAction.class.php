@@ -194,21 +194,21 @@ class TestAction extends Action
     {
         $nums = 1000;//测试数
         $add = array();
-        $add['version']        = 1;
-        $add['language']        = 'all';
-        $add['source_faq_id']    = 0;
-        $add['creator_uid']    = $this->mid;
-        $add['create_time']    = time();
-        $add['comment_count']   = 0;
-        for ($i=0;$i<$nums;$i++) {
+        $add['version'] = 1;
+        $add['language'] = 'all';
+        $add['source_faq_id'] = 0;
+        $add['creator_uid'] = $this->mid;
+        $add['create_time'] = time();
+        $add['comment_count'] = 0;
+        for ($i = 0;$i < $nums;$i++) {
             $add['status'] = rand(0, 2);
             $add['active'] = rand(0, 1);
             $add['category_id'] = rand(1, 4);
-            $add['tags']        ='测试tag'.$i;
+            $add['tags'] = '测试tag'.$i;
             $add['question_cn'] = '这里是测试的问题中文'.$i;
             $add['question_en'] = 'here is  test question english'.$i;
-            $add['answer_cn']    = '这里是测试的答案'.$i;
-            $add['answer_en']    = 'here is test answer english'.$i;
+            $add['answer_cn'] = '这里是测试的答案'.$i;
+            $add['answer_en'] = 'here is test answer english'.$i;
             D('')->table('sociax_support')->add($add);
         }
     }
@@ -243,7 +243,7 @@ class TestAction extends Action
         $filePath[] = SITE_PATH.'/apps/admin';
         $filePath[] = SITE_PATH.'/apps/task';
 
-        $filelist    = array();
+        $filelist = array();
         require_once ADDON_PATH.'/library/io/Dir.class.php';
 
         foreach ($filePath as $v) {
@@ -254,10 +254,10 @@ class TestAction extends Action
 
         foreach ($filelist as $vlist) {
             foreach ($vlist as $v) {
-                $ext = substr($v, strrpos($v, '.')+1, strlen($v));
+                $ext = substr($v, strrpos($v, '.') + 1, strlen($v));
                 $data = file_get_contents($v);
 
-                if ($ext == 'php' || $ext=='js') {
+                if ($ext == 'php' || $ext == 'js') {
                     $data = preg_replace("!((/\*)[\s\S]*?(\*/))|(//.*)!", '', $data);//去掉注释里的中文
                 }
                 preg_match_all('/([\x{4e00}-\x{9fa5}])+/u', $data, $result);
@@ -270,8 +270,8 @@ class TestAction extends Action
     }
     public function getDir($dir, $list = array())
     {
-        $dirs    = new Dir($dir);
-        $dirs    = $dirs->toArray();
+        $dirs = new Dir($dir);
+        $dirs = $dirs->toArray();
         foreach ($dirs as $v) {
             if ($v['isDir']) {
                 $list = $this->getDir($v['pathname'], $list);
@@ -319,12 +319,12 @@ class TestAction extends Action
     public function tree()
     {
         $category = array(
-            array('id'=>1, 'name'=>'A1', 'pid'=>0 ),
-            array('id'=>2, 'name'=>'A2', 'pid'=>1 ),
-            array('id'=>3, 'name'=>'A3', 'pid'=>1 ),
-            array('id'=>4, 'name'=>'A4', 'pid'=>2 ),
-            array('id'=>5, 'name'=>'A5', 'pid'=>4 ),
-            array('id'=>6, 'name'=>'A6', 'pid'=>3 ),
+            array('id' => 1, 'name' => 'A1', 'pid' => 0 ),
+            array('id' => 2, 'name' => 'A2', 'pid' => 1 ),
+            array('id' => 3, 'name' => 'A3', 'pid' => 1 ),
+            array('id' => 4, 'name' => 'A4', 'pid' => 2 ),
+            array('id' => 5, 'name' => 'A5', 'pid' => 4 ),
+            array('id' => 6, 'name' => 'A6', 'pid' => 3 ),
         );
 
         print_r($this->_tree($category));
@@ -437,10 +437,10 @@ class TestAction extends Action
     {
         $lang = include CONF_PATH.'/lang/ask_zh-cn2.php';
         $sql = 'insert into sociax_lang (`key`,`appname`,`filetype`,`zh-cn`) VALUES ';
-        foreach ($lang as $k=>$v) {
+        foreach ($lang as $k => $v) {
             $k = trim($k);
             $v = trim($v);
-            $sqlArr[] =" ('{$k}','ASK','0','{$v}') ";
+            $sqlArr[] = " ('{$k}','ASK','0','{$v}') ";
         }
         $sql = $sql.implode(',', $sqlArr).';';
         D('')->query($sql);
@@ -488,7 +488,7 @@ class TestAction extends Action
         // }
 
         $lang = include CONF_PATH.'/lang/ask_en.php';
-        foreach ($lang as $k=>$v) {
+        foreach ($lang as $k => $v) {
             $map = $save = array();
             $map['filetype'] = 0;
             $map['key'] = $k;
@@ -497,7 +497,7 @@ class TestAction extends Action
         }
 
         $lang = include CONF_PATH.'/lang/ask_zh-tw.php';
-        foreach ($lang as $k=>$v) {
+        foreach ($lang as $k => $v) {
             $map = $save = array();
             $map['filetype'] = 0;
             $map['key'] = $k;
@@ -509,7 +509,7 @@ class TestAction extends Action
     public function langEdit()
     {
         $data = include CONF_PATH.'/lang/tt.php';
-        foreach ($data as $k=>$v) {
+        foreach ($data as $k => $v) {
             $key = trim($k);
             $value = trim($v);
             $map['key'] = $key;
@@ -778,8 +778,8 @@ class TestAction extends Action
                 $sql = 'INSERT INTO '.C('DB_PREFIX').'user_data (`uid`,`key`,`value`) values';
                 $data['uid'] = $uid;
                 $k = 0;
-                foreach ($res as $key=>$val) {
-                    if ($k==0) {
+                foreach ($res as $key => $val) {
+                    if ($k == 0) {
                         $sql .= " ($uid,'$key','$val')";
                     } else {
                         $sql .= " , ($uid,'$key','$val')";
@@ -800,7 +800,7 @@ class TestAction extends Action
             }
 
             $p += 1;
-            echo '<script>window.location.href="'.U('public/Test/upUserData', array('p'=>$p)).'";</script>';
+            echo '<script>window.location.href="'.U('public/Test/upUserData', array('p' => $p)).'";</script>';
         }
     }
     /**
@@ -837,7 +837,7 @@ class TestAction extends Action
             }
 
             $p += 1;
-            echo '<script>window.location.href="'.U('public/Test/upFacePath', array('p'=>$p)).'";</script>';
+            echo '<script>window.location.href="'.U('public/Test/upFacePath', array('p' => $p)).'";</script>';
         }
     }
 
@@ -880,49 +880,49 @@ class TestAction extends Action
             $arr = 'array(';
             if ($val['value']['key']) {
                 $arr .= '\'key\'=>array(';
-                foreach ($val['value']['key'] as $k0=>$v0) {
+                foreach ($val['value']['key'] as $k0 => $v0) {
                     $arr .= '\''.$k0.'\'=>\''.htmlspecialchars($v0, ENT_QUOTES).'\',';
                 }
                 $arr .= '),';
             }
             if ($val['value']['key_name']) {
                 $arr .= '\'key_name\'=>array(';
-                foreach ($val['value']['key_name'] as $k1=>$v1) {
+                foreach ($val['value']['key_name'] as $k1 => $v1) {
                     $arr .= '\''.$k1.'\'=>\''.htmlspecialchars($v1, ENT_QUOTES).'\',';
                 }
                 $arr .= '),';
             }
             if ($val['value']['key_hidden']) {
                 $arr .= '\'key_hidden\'=>array(';
-                foreach ($val['value']['key_hidden'] as $k2=>$v2) {
+                foreach ($val['value']['key_hidden'] as $k2 => $v2) {
                     $arr .= '\''.$k2.'\'=>\''.htmlspecialchars($v2, ENT_QUOTES).'\',';
                 }
                 $arr .= '),';
             }
             if ($val['value']['key_type']) {
                 $arr .= '\'key_type\'=>array(';
-                foreach ($val['value']['key_type'] as $k3=>$v3) {
+                foreach ($val['value']['key_type'] as $k3 => $v3) {
                     $arr .= '\''.$k3.'\'=>\''.htmlspecialchars($v3, ENT_QUOTES).'\',';
                 }
                 $arr .= '),';
             }
             if ($val['value']['key_default']) {
                 $arr .= '\'key_default\'=>array(';
-                foreach ($val['value']['key_default'] as $k4=>$v4) {
+                foreach ($val['value']['key_default'] as $k4 => $v4) {
                     $arr .= '\''.$k4.'\'=>\''.htmlspecialchars($v4, ENT_QUOTES).'\',';
                 }
                 $arr .= '),';
             }
             if ($val['value']['key_tishi']) {
                 $arr .= '\'key_tishi\'=>array(';
-                foreach ($val['value']['key_tishi'] as $k5=>$v5) {
+                foreach ($val['value']['key_tishi'] as $k5 => $v5) {
                     $arr .= '\''.$k5.'\'=>\''.htmlspecialchars($v5, ENT_QUOTES).'\',';
                 }
                 $arr .= '),';
             }
             if ($val['value']['key_javascript']) {
                 $arr .= '\'key_javascript\'=>array(';
-                foreach ($val['value']['key_javascript'] as $k6=>$v6) {
+                foreach ($val['value']['key_javascript'] as $k6 => $v6) {
                     $arr .= '\''.$k6.'\'=>\''.htmlspecialchars($v6, ENT_QUOTES).'\',';
                 }
                 $arr .= ')';
@@ -972,6 +972,6 @@ class TestAction extends Action
 
     public function info()
     {
-        $c = model('Credit')->setUserCredit($this->mid, 'user_login', '1', array('user'=>'<a href="http://www.baidu.com">呵呵</a>', 'content'=>'<a href="http://www.google.com">hh</a>'));
+        $c = model('Credit')->setUserCredit($this->mid, 'user_login', '1', array('user' => '<a href="http://www.baidu.com">呵呵</a>', 'content' => '<a href="http://www.google.com">hh</a>'));
     }
 }

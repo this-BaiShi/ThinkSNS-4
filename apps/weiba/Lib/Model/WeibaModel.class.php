@@ -45,9 +45,9 @@ class WeibaModel extends Model
     {
         // 个人兴趣
         $user_tag = model('Tag')->setAppName('User')->setAppTable('user')->getAppTags($uid);
-        $i=0;
-        foreach ((array) $user_tag as $k=>$v) {
-            if ($i==0) {
+        $i = 0;
+        foreach ((array) $user_tag as $k => $v) {
+            if ($i == 0) {
                 $_tag_in_name .= " AND ( g.weiba_name LIKE '%{$v}%' ";
                 $_tag_in_intro .= " OR g.intro LIKE '%{$v}%' ";
             } else {
@@ -661,12 +661,12 @@ class WeibaModel extends Model
         }
     }
 
-    public function setNewcount($weiba_id, $num=1)
+    public function setNewcount($weiba_id, $num = 1)
     {
         $map['weiba_id'] = $weiba_id;
         $time = time();
         $weiba = D('weiba')->where($map)->find();
-        if ($weiba['new_day']!= date('Y-m-d', $time)) {
+        if ($weiba['new_day'] != date('Y-m-d', $time)) {
             D('weiba')->where($map)->setField('new_day', date('Y-m-d', $time));
             D('weiba')->where($map)->setField('new_count', 0);
         }
@@ -674,7 +674,7 @@ class WeibaModel extends Model
             D('weiba')->where($map)->setField('new_count', 0);
         }
         if ($num > 0) {
-            D('weiba')->where($map)->setField('new_count', (int) $num+(int) $weiba['new_count']);
+            D('weiba')->where($map)->setField('new_count', (int) $num + (int) $weiba['new_count']);
         }
 
         return true;

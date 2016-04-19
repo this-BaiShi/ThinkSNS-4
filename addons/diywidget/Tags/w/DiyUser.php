@@ -42,7 +42,7 @@ class DiyUser extends TagsAbstract
         $limit = 10;
         if (!empty($attr['limit'])) {
             $limit = intval($attr['limit']);
-            $limit = $limit>100 ? 100 : $limit;
+            $limit = $limit > 100 ? 100 : $limit;
         }
         switch ($attr['source']) {
             case 'new'://最新注册
@@ -74,7 +74,7 @@ class DiyUser extends TagsAbstract
             // 粉丝数
             $follower = model('Follow')->field('COUNT(1) AS `count`,`fid`')->where($follower_map)->group('`fid`')->findAll();
             foreach ($follower as $v) {
-                $followercount[$v['fid']]['follower'] =  $v['count'];
+                $followercount[$v['fid']]['follower'] = $v['count'];
             }
 
             $mid = $GLOBALS['ts']['mid'];

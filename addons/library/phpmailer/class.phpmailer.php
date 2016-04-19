@@ -52,64 +52,64 @@ class PHPMailer
    * Email priority (1 = High, 3 = Normal, 5 = low).
    * @var int
    */
-  public $Priority          = 3;
+  public $Priority = 3;
 
   /**
    * Sets the CharSet of the message.
    * @var string
    */
-  public $CharSet           = 'iso-8859-1';
+  public $CharSet = 'iso-8859-1';
 
   /**
    * Sets the Content-type of the message.
    * @var string
    */
-  public $ContentType       = 'text/plain';
+  public $ContentType = 'text/plain';
 
   /**
    * Sets the Encoding of the message. Options for this are
    *  "8bit", "7bit", "binary", "base64", and "quoted-printable".
    * @var string
    */
-  public $Encoding          = '8bit';
+  public $Encoding = '8bit';
 
   /**
    * Holds the most recent mailer error message.
    * @var string
    */
-  public $ErrorInfo         = '';
+  public $ErrorInfo = '';
 
   /**
    * Sets the From email address for the message.
    * @var string
    */
-  public $From              = 'root@localhost';
+  public $From = 'root@localhost';
 
   /**
    * Sets the From name of the message.
    * @var string
    */
-  public $FromName          = 'Root User';
+  public $FromName = 'Root User';
 
   /**
    * Sets the Sender email (Return-Path) of the message.  If not empty,
    * will be sent via -f to sendmail or as 'MAIL FROM' in smtp mode.
    * @var string
    */
-  public $Sender            = '';
+  public $Sender = '';
 
   /**
    * Sets the Subject of the message.
    * @var string
    */
-  public $Subject           = '';
+  public $Subject = '';
 
   /**
    * Sets the Body of the message.  This can be either an HTML or text body.
    * If HTML then run IsHTML(true).
    * @var string
    */
-  public $Body              = '';
+  public $Body = '';
 
   /**
    * Sets the text-only body of the message.  This automatically sets the
@@ -118,39 +118,39 @@ class PHPMailer
    * that can read HTML will view the normal Body.
    * @var string
    */
-  public $AltBody           = '';
+  public $AltBody = '';
 
   /**
    * Sets word wrapping on the body of the message to a given number of
    * characters.
    * @var int
    */
-  public $WordWrap          = 0;
+  public $WordWrap = 0;
 
   /**
    * Method to send mail: ("mail", "sendmail", or "smtp").
    * @var string
    */
-  public $Mailer            = 'mail';
+  public $Mailer = 'mail';
 
   /**
    * Sets the path of the sendmail program.
    * @var string
    */
-  public $Sendmail          = '/usr/sbin/sendmail';
+  public $Sendmail = '/usr/sbin/sendmail';
 
   /**
    * Path to PHPMailer plugins.  Useful if the SMTP class
    * is in a different directory than the PHP include path.
    * @var string
    */
-  public $PluginDir         = '';
+  public $PluginDir = '';
 
   /**
    * Sets the email address that a reading confirmation will be sent.
    * @var string
    */
-  public $ConfirmReadingTo  = '';
+  public $ConfirmReadingTo = '';
 
   /**
    * Sets the hostname to use in Message-Id and Received headers
@@ -158,14 +158,14 @@ class PHPMailer
    * by SERVER_NAME is used or 'localhost.localdomain'.
    * @var string
    */
-  public $Hostname          = '';
+  public $Hostname = '';
 
   /**
    * Sets the message ID to be used in the Message-Id header.
    * If empty, a unique id will be generated.
    * @var string
    */
-  public $MessageID         = '';
+  public $MessageID = '';
 
   /////////////////////////////////////////////////
   // PROPERTIES FOR SMTP
@@ -179,57 +179,57 @@ class PHPMailer
    * Hosts will be tried in order.
    * @var string
    */
-  public $Host          = 'localhost';
+  public $Host = 'localhost';
 
   /**
    * Sets the default SMTP server port.
    * @var int
    */
-  public $Port          = 25;
+  public $Port = 25;
 
   /**
    * Sets the SMTP HELO of the message (Default is $Hostname).
    * @var string
    */
-  public $Helo          = '';
+  public $Helo = '';
 
   /**
    * Sets connection prefix.
    * Options are "", "ssl" or "tls"
    * @var string
    */
-  public $SMTPSecure    = '';
+  public $SMTPSecure = '';
 
   /**
    * Sets SMTP authentication. Utilizes the Username and Password variables.
    * @var bool
    */
-  public $SMTPAuth      = false;
+  public $SMTPAuth = false;
 
   /**
    * Sets SMTP username.
    * @var string
    */
-  public $Username      = '';
+  public $Username = '';
 
   /**
    * Sets SMTP password.
    * @var string
    */
-  public $Password      = '';
+  public $Password = '';
 
   /**
    * Sets the SMTP server timeout in seconds.
    * This function will not work with the win32 version.
    * @var int
    */
-  public $Timeout       = 3;
+  public $Timeout = 3;
 
   /**
    * Sets SMTP class debugging on or off.
    * @var bool
    */
-  public $SMTPDebug     = false;
+  public $SMTPDebug = false;
 
   /**
    * Prevents the SMTP connection from being closed after each mail
@@ -244,7 +244,7 @@ class PHPMailer
    * emails, instead of sending to entire TO addresses
    * @var bool
    */
-  public $SingleTo      = false;
+  public $SingleTo = false;
 
   /**
    * If SingleTo is true, this provides the array to hold the email addresses
@@ -256,34 +256,34 @@ class PHPMailer
    * Provides the ability to change the line ending
    * @var string
    */
-  public $LE              = "\n";
+  public $LE = "\n";
 
   /**
    * Used with DKIM DNS Resource Record
    * @var string
    */
-  public $DKIM_selector   = 'phpmailer';
-
-  /**
-   * Used with DKIM DNS Resource Record
-   * optional, in format of email address 'you@yourdomain.com'
-   * @var string
-   */
-  public $DKIM_identity   = '';
+  public $DKIM_selector = 'phpmailer';
 
   /**
    * Used with DKIM DNS Resource Record
    * optional, in format of email address 'you@yourdomain.com'
    * @var string
    */
-  public $DKIM_domain     = '';
+  public $DKIM_identity = '';
 
   /**
    * Used with DKIM DNS Resource Record
    * optional, in format of email address 'you@yourdomain.com'
    * @var string
    */
-  public $DKIM_private    = '';
+  public $DKIM_domain = '';
+
+  /**
+   * Used with DKIM DNS Resource Record
+   * optional, in format of email address 'you@yourdomain.com'
+   * @var string
+   */
+  public $DKIM_private = '';
 
   /**
    * Callback Action function name
@@ -302,34 +302,34 @@ class PHPMailer
    * Sets the PHPMailer Version number
    * @var string
    */
-  public $Version         = '5.1';
+  public $Version = '5.1';
 
   /////////////////////////////////////////////////
   // PROPERTIES, PRIVATE AND PROTECTED
   /////////////////////////////////////////////////
 
-  private $smtp           = null;
-    private $to             = array();
-    private $cc             = array();
-    private $bcc            = array();
-    private $ReplyTo        = array();
+  private $smtp = null;
+    private $to = array();
+    private $cc = array();
+    private $bcc = array();
+    private $ReplyTo = array();
     private $all_recipients = array();
-    private $attachment     = array();
-    private $CustomHeader   = array();
-    private $message_type   = '';
-    private $boundary       = array();
-    protected $language       = array();
-    private $error_count    = 0;
+    private $attachment = array();
+    private $CustomHeader = array();
+    private $message_type = '';
+    private $boundary = array();
+    protected $language = array();
+    private $error_count = 0;
     private $sign_cert_file = '';
-    private $sign_key_file  = '';
-    private $sign_key_pass  = '';
-    private $exceptions     = false;
+    private $sign_key_file = '';
+    private $sign_key_pass = '';
+    private $exceptions = false;
 
   /////////////////////////////////////////////////
   // CONSTANTS
   /////////////////////////////////////////////////
 
-  const STOP_MESSAGE  = 0; // message only, continue processing
+  const STOP_MESSAGE = 0; // message only, continue processing
   const STOP_CONTINUE = 1; // message?, likely ok to continue processing
   const STOP_CRITICAL = 2; // message, plus full stop, critical error reached
 
@@ -496,7 +496,7 @@ class PHPMailer
    * @param string $name
    * @return bool
    */
-  public function SetFrom($address, $name = '', $auto=1)
+  public function SetFrom($address, $name = '', $auto = 1)
   {
       $address = trim($address);
       $name = trim(preg_replace('/[\r\n]+/', '', $name)); //Strip breaks and trim
@@ -668,7 +668,7 @@ class PHPMailer
       $to = implode(', ', $toArr);
 
       $params = sprintf('-oi -f %s', $this->Sender);
-      if ($this->Sender != '' && strlen(ini_get('safe_mode'))< 1) {
+      if ($this->Sender != '' && strlen(ini_get('safe_mode')) < 1) {
           $old_from = ini_get('sendmail_from');
           ini_set('sendmail_from', $this->Sender);
           if ($this->SingleTo === true && count($toArr) > 1) {
@@ -818,7 +818,7 @@ class PHPMailer
             $tls = ($this->SMTPSecure == 'tls');
             $ssl = ($this->SMTPSecure == 'ssl');
 
-            if ($this->smtp->Connect(($ssl ? 'ssl://':'').$host, $port, $this->Timeout)) {
+            if ($this->smtp->Connect(($ssl ? 'ssl://' : '').$host, $port, $this->Timeout)) {
                 $hello = ($this->Helo != '' ? $this->Helo : $this->ServerHostname());
                 $this->smtp->Hello($hello);
 
@@ -972,10 +972,10 @@ class PHPMailer
 
       $line = explode($this->LE, $message);
       $message = '';
-      for ($i=0 ;$i < count($line); $i++) {
+      for ($i = 0 ;$i < count($line); $i++) {
           $line_part = explode(' ', $line[$i]);
           $buf = '';
-          for ($e = 0; $e<count($line_part); $e++) {
+          for ($e = 0; $e < count($line_part); $e++) {
               $word = $line_part[$e];
               if ($qp_mode and (strlen($word) > $length)) {
                   $space_left = $length - strlen($buf) - 1;
@@ -1450,13 +1450,13 @@ class PHPMailer
         if (in_array($attachment[0], $incl)) {
             continue;
         }
-        $filename    = $attachment[1];
-        $name        = $attachment[2];
-        $encoding    = $attachment[3];
-        $type        = $attachment[4];
+        $filename = $attachment[1];
+        $name = $attachment[2];
+        $encoding = $attachment[3];
+        $type = $attachment[4];
         $disposition = $attachment[6];
-        $cid         = $attachment[7];
-        $incl[]      = $attachment[0];
+        $cid = $attachment[7];
+        $incl[] = $attachment[0];
         if ($disposition == 'inline' && isset($cidUniq[$cid])) {
             continue;
         }
@@ -1518,8 +1518,8 @@ class PHPMailer
               $magic_quotes = get_magic_quotes_runtime();
               set_magic_quotes_runtime(0);
           }
-          $file_buffer  = file_get_contents($path);
-          $file_buffer  = $this->EncodeString($file_buffer, $encoding);
+          $file_buffer = file_get_contents($path);
+          $file_buffer = $this->EncodeString($file_buffer, $encoding);
           if (PHP_VERSION < 6) {
               set_magic_quotes_runtime($magic_quotes);
           }
@@ -1606,7 +1606,7 @@ class PHPMailer
 
       $maxlen = 75 - 7 - strlen($this->CharSet);
     // Try to select the encoding which should produce the shortest output
-    if (strlen($str)/3 < $x) {
+    if (strlen($str) / 3 < $x) {
         $encoding = 'B';
         if (function_exists('mb_strlen') && $this->HasMultiBytes($str)) {
             // Use a custom function which correctly encodes and wraps long
@@ -1717,8 +1717,8 @@ class PHPMailer
                       $c = '=20';
                   }
               } elseif (($dec == 61) || ($dec < 32) || ($dec > 126)) { // always encode "\t", which is *not* required
-          $h2 = floor($dec/16);
-                  $h1 = floor($dec%16);
+          $h2 = floor($dec / 16);
+                  $h1 = floor($dec % 16);
                   $c = $escape.$hex[$h2].$hex[$h1];
               }
               if ((strlen($newline) + strlen($c)) >= $line_max) { // CRLF is not counted
@@ -1991,7 +1991,7 @@ class PHPMailer
       $tz = date('Z');
       $tzs = ($tz < 0) ? '-' : '+';
       $tz = abs($tz);
-      $tz = (int) ($tz/3600)*100 + ($tz%3600)/60;
+      $tz = (int) ($tz / 3600) * 100 + ($tz % 3600) / 60;
       $result = sprintf('%s %s%04d', date('D, j M Y H:i:s'), $tzs, $tz);
 
       return $result;
@@ -2080,10 +2080,10 @@ class PHPMailer
         if (!preg_match('#^[A-z]+://#', $url)) {
             $filename = basename($url);
             $directory = dirname($url);
-            ($directory == '.')?$directory='':'';
+            ($directory == '.') ? $directory = '' : '';
             $cid = 'cid:'.md5($filename);
             $ext = pathinfo($filename, PATHINFO_EXTENSION);
-            $mimeType  = self::_mime_types($ext);
+            $mimeType = self::_mime_types($ext);
             if (strlen($basedir) > 1 && substr($basedir, -1) != '/') {
                 $basedir .= '/';
             }
@@ -2117,93 +2117,93 @@ class PHPMailer
   public static function _mime_types($ext = '')
   {
       $mimes = array(
-      'hqx'   =>  'application/mac-binhex40',
-      'cpt'   =>  'application/mac-compactpro',
-      'doc'   =>  'application/msword',
-      'bin'   =>  'application/macbinary',
-      'dms'   =>  'application/octet-stream',
-      'lha'   =>  'application/octet-stream',
-      'lzh'   =>  'application/octet-stream',
-      'exe'   =>  'application/octet-stream',
-      'class' =>  'application/octet-stream',
-      'psd'   =>  'application/octet-stream',
-      'so'    =>  'application/octet-stream',
-      'sea'   =>  'application/octet-stream',
-      'dll'   =>  'application/octet-stream',
-      'oda'   =>  'application/oda',
-      'pdf'   =>  'application/pdf',
-      'ai'    =>  'application/postscript',
-      'eps'   =>  'application/postscript',
-      'ps'    =>  'application/postscript',
-      'smi'   =>  'application/smil',
-      'smil'  =>  'application/smil',
-      'mif'   =>  'application/vnd.mif',
-      'xls'   =>  'application/vnd.ms-excel',
-      'ppt'   =>  'application/vnd.ms-powerpoint',
-      'wbxml' =>  'application/vnd.wap.wbxml',
-      'wmlc'  =>  'application/vnd.wap.wmlc',
-      'dcr'   =>  'application/x-director',
-      'dir'   =>  'application/x-director',
-      'dxr'   =>  'application/x-director',
-      'dvi'   =>  'application/x-dvi',
-      'gtar'  =>  'application/x-gtar',
-      'php'   =>  'application/x-httpd-php',
-      'php4'  =>  'application/x-httpd-php',
-      'php3'  =>  'application/x-httpd-php',
-      'phtml' =>  'application/x-httpd-php',
-      'phps'  =>  'application/x-httpd-php-source',
-      'js'    =>  'application/x-javascript',
-      'swf'   =>  'application/x-shockwave-flash',
-      'sit'   =>  'application/x-stuffit',
-      'tar'   =>  'application/x-tar',
-      'tgz'   =>  'application/x-tar',
-      'xhtml' =>  'application/xhtml+xml',
-      'xht'   =>  'application/xhtml+xml',
-      'zip'   =>  'application/zip',
-      'mid'   =>  'audio/midi',
-      'midi'  =>  'audio/midi',
-      'mpga'  =>  'audio/mpeg',
-      'mp2'   =>  'audio/mpeg',
-      'mp3'   =>  'audio/mpeg',
-      'aif'   =>  'audio/x-aiff',
-      'aiff'  =>  'audio/x-aiff',
-      'aifc'  =>  'audio/x-aiff',
-      'ram'   =>  'audio/x-pn-realaudio',
-      'rm'    =>  'audio/x-pn-realaudio',
-      'rpm'   =>  'audio/x-pn-realaudio-plugin',
-      'ra'    =>  'audio/x-realaudio',
-      'rv'    =>  'video/vnd.rn-realvideo',
-      'wav'   =>  'audio/x-wav',
-      'bmp'   =>  'image/bmp',
-      'gif'   =>  'image/gif',
-      'jpeg'  =>  'image/jpeg',
-      'jpg'   =>  'image/jpeg',
-      'jpe'   =>  'image/jpeg',
-      'png'   =>  'image/png',
-      'tiff'  =>  'image/tiff',
-      'tif'   =>  'image/tiff',
-      'css'   =>  'text/css',
-      'html'  =>  'text/html',
-      'htm'   =>  'text/html',
-      'shtml' =>  'text/html',
-      'txt'   =>  'text/plain',
-      'text'  =>  'text/plain',
-      'log'   =>  'text/plain',
-      'rtx'   =>  'text/richtext',
-      'rtf'   =>  'text/rtf',
-      'xml'   =>  'text/xml',
-      'xsl'   =>  'text/xml',
-      'mpeg'  =>  'video/mpeg',
-      'mpg'   =>  'video/mpeg',
-      'mpe'   =>  'video/mpeg',
-      'qt'    =>  'video/quicktime',
-      'mov'   =>  'video/quicktime',
-      'avi'   =>  'video/x-msvideo',
-      'movie' =>  'video/x-sgi-movie',
-      'doc'   =>  'application/msword',
-      'word'  =>  'application/msword',
-      'xl'    =>  'application/excel',
-      'eml'   =>  'message/rfc822',
+      'hqx' => 'application/mac-binhex40',
+      'cpt' => 'application/mac-compactpro',
+      'doc' => 'application/msword',
+      'bin' => 'application/macbinary',
+      'dms' => 'application/octet-stream',
+      'lha' => 'application/octet-stream',
+      'lzh' => 'application/octet-stream',
+      'exe' => 'application/octet-stream',
+      'class' => 'application/octet-stream',
+      'psd' => 'application/octet-stream',
+      'so' => 'application/octet-stream',
+      'sea' => 'application/octet-stream',
+      'dll' => 'application/octet-stream',
+      'oda' => 'application/oda',
+      'pdf' => 'application/pdf',
+      'ai' => 'application/postscript',
+      'eps' => 'application/postscript',
+      'ps' => 'application/postscript',
+      'smi' => 'application/smil',
+      'smil' => 'application/smil',
+      'mif' => 'application/vnd.mif',
+      'xls' => 'application/vnd.ms-excel',
+      'ppt' => 'application/vnd.ms-powerpoint',
+      'wbxml' => 'application/vnd.wap.wbxml',
+      'wmlc' => 'application/vnd.wap.wmlc',
+      'dcr' => 'application/x-director',
+      'dir' => 'application/x-director',
+      'dxr' => 'application/x-director',
+      'dvi' => 'application/x-dvi',
+      'gtar' => 'application/x-gtar',
+      'php' => 'application/x-httpd-php',
+      'php4' => 'application/x-httpd-php',
+      'php3' => 'application/x-httpd-php',
+      'phtml' => 'application/x-httpd-php',
+      'phps' => 'application/x-httpd-php-source',
+      'js' => 'application/x-javascript',
+      'swf' => 'application/x-shockwave-flash',
+      'sit' => 'application/x-stuffit',
+      'tar' => 'application/x-tar',
+      'tgz' => 'application/x-tar',
+      'xhtml' => 'application/xhtml+xml',
+      'xht' => 'application/xhtml+xml',
+      'zip' => 'application/zip',
+      'mid' => 'audio/midi',
+      'midi' => 'audio/midi',
+      'mpga' => 'audio/mpeg',
+      'mp2' => 'audio/mpeg',
+      'mp3' => 'audio/mpeg',
+      'aif' => 'audio/x-aiff',
+      'aiff' => 'audio/x-aiff',
+      'aifc' => 'audio/x-aiff',
+      'ram' => 'audio/x-pn-realaudio',
+      'rm' => 'audio/x-pn-realaudio',
+      'rpm' => 'audio/x-pn-realaudio-plugin',
+      'ra' => 'audio/x-realaudio',
+      'rv' => 'video/vnd.rn-realvideo',
+      'wav' => 'audio/x-wav',
+      'bmp' => 'image/bmp',
+      'gif' => 'image/gif',
+      'jpeg' => 'image/jpeg',
+      'jpg' => 'image/jpeg',
+      'jpe' => 'image/jpeg',
+      'png' => 'image/png',
+      'tiff' => 'image/tiff',
+      'tif' => 'image/tiff',
+      'css' => 'text/css',
+      'html' => 'text/html',
+      'htm' => 'text/html',
+      'shtml' => 'text/html',
+      'txt' => 'text/plain',
+      'text' => 'text/plain',
+      'log' => 'text/plain',
+      'rtx' => 'text/richtext',
+      'rtf' => 'text/rtf',
+      'xml' => 'text/xml',
+      'xsl' => 'text/xml',
+      'mpeg' => 'video/mpeg',
+      'mpg' => 'video/mpeg',
+      'mpe' => 'video/mpeg',
+      'qt' => 'video/quicktime',
+      'mov' => 'video/quicktime',
+      'avi' => 'video/x-msvideo',
+      'movie' => 'video/x-sgi-movie',
+      'doc' => 'application/msword',
+      'word' => 'application/msword',
+      'xl' => 'application/excel',
+      'eml' => 'message/rfc822',
     );
 
       return (!isset($mimes[strtolower($ext)])) ? 'application/octet-stream' : $mimes[strtolower($ext)];
@@ -2276,14 +2276,14 @@ class PHPMailer
    */
   public function DKIM_QP($txt)
   {
-      $tmp='';
-      $line='';
-      for ($i=0;$i<strlen($txt);$i++) {
-          $ord=ord($txt[$i]);
+      $tmp = '';
+      $line = '';
+      for ($i = 0;$i < strlen($txt);$i++) {
+          $ord = ord($txt[$i]);
           if (((0x21 <= $ord) && ($ord <= 0x3A)) || $ord == 0x3C || ((0x3E <= $ord) && ($ord <= 0x7E))) {
-              $line.=$txt[$i];
+              $line .= $txt[$i];
           } else {
-              $line.='='.sprintf('%02X', $ord);
+              $line .= '='.sprintf('%02X', $ord);
           }
       }
 
@@ -2299,7 +2299,7 @@ class PHPMailer
   public function DKIM_Sign($s)
   {
       $privKeyStr = file_get_contents($this->DKIM_private);
-      if ($this->DKIM_passphrase!='') {
+      if ($this->DKIM_passphrase != '') {
           $privKey = openssl_pkey_get_private($privKeyStr, $this->DKIM_passphrase);
       } else {
           $privKey = $privKeyStr;
@@ -2317,15 +2317,15 @@ class PHPMailer
    */
   public function DKIM_HeaderC($s)
   {
-      $s=preg_replace("/\r\n\s+/", ' ', $s);
-      $lines=explode("\r\n", $s);
-      foreach ($lines as $key=>$line) {
-          list($heading, $value)=explode(':', $line, 2);
-          $heading=strtolower($heading);
-          $value=preg_replace("/\s+/", ' ', $value) ; // Compress useless spaces
-      $lines[$key]=$heading.':'.trim($value) ; // Don't forget to remove WSP around the value
+      $s = preg_replace("/\r\n\s+/", ' ', $s);
+      $lines = explode("\r\n", $s);
+      foreach ($lines as $key => $line) {
+          list($heading, $value) = explode(':', $line, 2);
+          $heading = strtolower($heading);
+          $value = preg_replace("/\s+/", ' ', $value) ; // Compress useless spaces
+      $lines[$key] = $heading.':'.trim($value) ; // Don't forget to remove WSP around the value
       }
-      $s=implode("\r\n", $lines);
+      $s = implode("\r\n", $lines);
 
       return $s;
   }
@@ -2342,11 +2342,11 @@ class PHPMailer
           return "\r\n";
       }
     // stabilize line endings
-    $body=str_replace("\r\n", "\n", $body);
-      $body=str_replace("\n", "\r\n", $body);
+    $body = str_replace("\r\n", "\n", $body);
+      $body = str_replace("\n", "\r\n", $body);
     // END stabilize line endings
-    while (substr($body, strlen($body)-4, 4) == "\r\n\r\n") {
-        $body=substr($body, 0, strlen($body)-2);
+    while (substr($body, strlen($body) - 4, 4) == "\r\n\r\n") {
+        $body = substr($body, 0, strlen($body) - 2);
     }
 
       return $body;
@@ -2362,26 +2362,26 @@ class PHPMailer
    */
   public function DKIM_Add($headers_line, $subject, $body)
   {
-      $DKIMsignatureType    = 'rsa-sha1'; // Signature & hash algorithms
+      $DKIMsignatureType = 'rsa-sha1'; // Signature & hash algorithms
     $DKIMcanonicalization = 'relaxed/simple'; // Canonicalization of header/body
-    $DKIMquery            = 'dns/txt'; // Query method
-    $DKIMtime             = time() ; // Signature Timestamp = seconds since 00:00:00 - Jan 1, 1970 (UTC time zone)
-    $subject_header       = "Subject: $subject";
-      $headers              = explode("\r\n", $headers_line);
+    $DKIMquery = 'dns/txt'; // Query method
+    $DKIMtime = time() ; // Signature Timestamp = seconds since 00:00:00 - Jan 1, 1970 (UTC time zone)
+    $subject_header = "Subject: $subject";
+      $headers = explode("\r\n", $headers_line);
       foreach ($headers as $header) {
           if (strpos($header, 'From:') === 0) {
-              $from_header=$header;
+              $from_header = $header;
           } elseif (strpos($header, 'To:') === 0) {
-              $to_header=$header;
+              $to_header = $header;
           }
       }
-      $from     = str_replace('|', '=7C', $this->DKIM_QP($from_header));
-      $to       = str_replace('|', '=7C', $this->DKIM_QP($to_header));
-      $subject  = str_replace('|', '=7C', $this->DKIM_QP($subject_header)) ; // Copied header fields (dkim-quoted-printable
-    $body     = $this->DKIM_BodyC($body);
-      $DKIMlen  = strlen($body) ; // Length of body
-    $DKIMb64  = base64_encode(pack('H*', sha1($body))) ; // Base64 of packed binary SHA-1 hash of body
-    $ident    = ($this->DKIM_identity == '')? '' : ' i='.$this->DKIM_identity.';';
+      $from = str_replace('|', '=7C', $this->DKIM_QP($from_header));
+      $to = str_replace('|', '=7C', $this->DKIM_QP($to_header));
+      $subject = str_replace('|', '=7C', $this->DKIM_QP($subject_header)) ; // Copied header fields (dkim-quoted-printable
+    $body = $this->DKIM_BodyC($body);
+      $DKIMlen = strlen($body) ; // Length of body
+    $DKIMb64 = base64_encode(pack('H*', sha1($body))) ; // Base64 of packed binary SHA-1 hash of body
+    $ident = ($this->DKIM_identity == '') ? '' : ' i='.$this->DKIM_identity.';';
       $dkimhdrs = 'DKIM-Signature: v=1; a='.$DKIMsignatureType.'; q='.$DKIMquery.'; l='.$DKIMlen.'; s='.$this->DKIM_selector.";\r\n".
                 "\tt=".$DKIMtime.'; c='.$DKIMcanonicalization.";\r\n".
                 "\th=From:To:Subject;\r\n".
@@ -2391,8 +2391,8 @@ class PHPMailer
                 "\t|$subject;\r\n".
                 "\tbh=".$DKIMb64.";\r\n".
                 "\tb=";
-      $toSign   = $this->DKIM_HeaderC($from_header."\r\n".$to_header."\r\n".$subject_header."\r\n".$dkimhdrs);
-      $signed   = $this->DKIM_Sign($toSign);
+      $toSign = $this->DKIM_HeaderC($from_header."\r\n".$to_header."\r\n".$subject_header."\r\n".$dkimhdrs);
+      $signed = $this->DKIM_Sign($toSign);
 
       return "X-PHPMAILER-DKIM: phpmailer.worxware.com\r\n".$dkimhdrs.$signed."\r\n";
   }

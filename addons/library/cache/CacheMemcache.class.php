@@ -24,36 +24,36 @@ class CacheMemcache extends Cache
      * @param array $options 缓存参数
      * @access public
      */
-    public function __construct($options=array())
+    public function __construct($options = array())
     {
         if (!extension_loaded('memcache')) {
             throw_exception(L('_NOT_SUPPORT_').':memcache');
         }
 
-        $hosts    = array(); //服务器列表
-        $servers  = explode(',', C('MEMCACHE_HOST'));//支持多服务器配置
-        foreach ($servers as $k=>$host) {
+        $hosts = array(); //服务器列表
+        $servers = explode(',', C('MEMCACHE_HOST'));//支持多服务器配置
+        foreach ($servers as $k => $host) {
             list($host, $port) = explode(':', $host, 2);
             $hosts[] = array(
                 'host' => $host ? $host : '127.0.0.1',
-                'port' => empty($port)?11211:$port,
+                'port' => empty($port) ? 11211 : $port,
             );
         }
         if (empty($options)) {
             $options = array(
-                'host'        =>  $hosts[0]['host'],
-                'port'        =>  $hosts[0]['port'],
-                'timeout'     =>  C('DATA_CACHE_TIMEOUT') ? C('DATA_CACHE_TIMEOUT') : false,
-                'persistent'  =>  false,
-                'servers'     =>  $hosts,
+                'host' => $hosts[0]['host'],
+                'port' => $hosts[0]['port'],
+                'timeout' => C('DATA_CACHE_TIMEOUT') ? C('DATA_CACHE_TIMEOUT') : false,
+                'persistent' => false,
+                'servers' => $hosts,
             );
         }
-        $this->options      =   $options;
-        $this->options['expire'] =  isset($options['expire'])?  $options['expire']  :   C('DATA_CACHE_TIME');
-        $this->options['prefix'] =  isset($options['prefix'])?  $options['prefix']  :   C('DATA_CACHE_PREFIX');
-        $this->options['length'] =  isset($options['length'])?  $options['length']  :   0;
-        $func               =   $options['persistent'] ? 'pconnect' : 'connect';
-        $this->handler      =   new Memcache;
+        $this->options = $options;
+        $this->options['expire'] = isset($options['expire']) ?  $options['expire']  :   C('DATA_CACHE_TIME');
+        $this->options['prefix'] = isset($options['prefix']) ?  $options['prefix']  :   C('DATA_CACHE_PREFIX');
+        $this->options['length'] = isset($options['length']) ?  $options['length']  :   0;
+        $func = $options['persistent'] ? 'pconnect' : 'connect';
+        $this->handler = new Memcache;
         //Memcache集群支持
         if (isset($hosts[1])) {
             foreach ($hosts as $host) {
@@ -66,7 +66,7 @@ class CacheMemcache extends Cache
                 $this->handler->$func($host['host'], $host['port'], $options['timeout']);
         }
         //设置大数据压缩
-        $this->handler->setCompressThreshold(8*1024);
+        $this->handler->setCompressThreshold(8 * 1024);
     }
 
     /**
@@ -91,13 +91,13 @@ class CacheMemcache extends Cache
     public function getMulti($prefix, $key)
     {
         N('cache_read', 1);
-        foreach ($key as $k=>$v) {
+        foreach ($key as $k => $v) {
             $namelist[] = $this->options['prefix'].$prefix.$v;
         }
 
         $result = $this->handler->get($namelist);
 
-        foreach ($result as $k=>$v) {
+        foreach ($result as $k => $v) {
             $k = str_replace($this->options['prefix'].$prefix, '', $k);
             $data[ $k ] = $v;
         }
@@ -118,11 +118,11 @@ class CacheMemcache extends Cache
     {
         N('cache_write', 1);
         if (is_null($expire)) {
-            $expire  =  $this->options['expire'];
+            $expire = $this->options['expire'];
         }
-        $name   =   $this->options['prefix'].$name;
+        $name = $this->options['prefix'].$name;
         if ($this->handler->set($name, $value, 0, $expire)) {
-            if ($this->options['length']>0) {
+            if ($this->options['length'] > 0) {
                 // 记录缓存队列
                 $this->queue($name);
             }
@@ -141,7 +141,7 @@ class CacheMemcache extends Cache
      */
     public function rm($name, $ttl = false)
     {
-        $name   =   $this->options['prefix'].$name;
+        $name = $this->options['prefix'].$name;
 
         return $ttl === false ?
             $this->handler->delete($name) :

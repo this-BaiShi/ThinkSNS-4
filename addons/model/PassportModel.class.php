@@ -116,10 +116,10 @@ class PassportModel
      */
     public function isLogged()
     {
-        Addons::hook('passport_is_logged', array('login'=>$login, 'password'=>$password));
+        Addons::hook('passport_is_logged', array('login' => $login, 'password' => $password));
 
         // 验证本地系统登录
-        if (intval($_SESSION['mid']) > 0 && $_SESSION['SITE_KEY']==getSiteKey()) {
+        if (intval($_SESSION['mid']) > 0 && $_SESSION['SITE_KEY'] == getSiteKey()) {
             return true;
         } elseif ($uid = $this->getCookieUid()) {
             // 判断用户是否禁用
@@ -151,7 +151,7 @@ class PassportModel
         $login = addslashes($login);
         $password = addslashes($password);
 
-        Addons::hook('passport_get_local_user', array('login'=>$login, 'password'=>$password));
+        Addons::hook('passport_get_local_user', array('login' => $login, 'password' => $password));
 
         if (empty($login)) {
             $this->error = L('PUBLIC_ACCOUNT_EMPTY');            // 帐号或密码不能为空
@@ -184,7 +184,7 @@ class PassportModel
 
             return false;
         }
-        $uid  = $user['uid'];
+        $uid = $user['uid'];
 
         // 判断用户是否禁用
         $isDisable = model('DisableUser')->isDisableUser($uid);
@@ -213,7 +213,7 @@ class PassportModel
 
             $this->error = '密码输入错误，您还可以输入'.(6 - $login_error_time).'次';            // 密码错误
 
-            if ($login_error_time >=6) {
+            if ($login_error_time >= 6) {
                 // 记录锁定账号时间
                 $save['locktime'] = time() + 60 * 60;
                 $save['ip'] = get_client_ip();
@@ -255,7 +255,7 @@ class PassportModel
      */
     public function loginLocal($login, $password = null, $is_remember_me = false)
     {
-        Addons::hook('passport_login_local', array('login'=>$login, 'password'=>$password));
+        Addons::hook('passport_login_local', array('login' => $login, 'password' => $password));
 
         $res = false;
         if (UC_SYNC) {
@@ -267,7 +267,7 @@ class PassportModel
 
         $user = $this->getLocalUser($login, $password);
 
-        return $user['uid']>0 ? $this->_recordLogin($user['uid'], $is_remember_me) : false;
+        return $user['uid'] > 0 ? $this->_recordLogin($user['uid'], $is_remember_me) : false;
     }
 
     /**
@@ -311,7 +311,7 @@ class PassportModel
             return false;
         }
 
-        return $user['uid']>0 ? $this->_recordLogin($user['uid'], $is_remember_me) : false;
+        return $user['uid'] > 0 ? $this->_recordLogin($user['uid'], $is_remember_me) : false;
     }
 
     //兼容旧版错误
@@ -343,7 +343,7 @@ class PassportModel
         model('User')->setField('last_login_time', $_SERVER['REQUEST_TIME'], 'uid='.$uid);
 
         // 记录登陆知识，首次登陆判断
-        empty($this->rel) && $this->rel    = D('')->table(C('DB_PREFIX').'login_record')->where('uid = '.$uid)->getField('login_record_id');
+        empty($this->rel) && $this->rel = D('')->table(C('DB_PREFIX').'login_record')->where('uid = '.$uid)->getField('login_record_id');
 
         $credit_map['uid'] = $uid;
         $credit_map['ctime'] = array('EGT', strtotime(date('Y-m-d', time())));
@@ -355,7 +355,7 @@ class PassportModel
 
         // 注册session
         $_SESSION['mid'] = intval($uid);
-        $_SESSION['SITE_KEY']=getSiteKey();
+        $_SESSION['SITE_KEY'] = getSiteKey();
         $inviterInfo = model('User')->getUserInfo($uid);
 
         $map['ip'] = get_client_ip();
@@ -382,7 +382,7 @@ class PassportModel
         unset($_SESSION['mid'], $_SESSION['SITE_KEY']); // 注销session
         cookie('TSV3_LOGGED_USER', null);    // 注销cookie
 
-        Addons::hook('passport_logout_local', array('login'=>$login, 'password'=>$password));
+        Addons::hook('passport_logout_local', array('login' => $login, 'password' => $password));
 
         //UC同步退出
         if (UC_SYNC) {
@@ -483,7 +483,7 @@ class PassportModel
 
         if ($uc_user_ref['uid'] && $uc_user_ref['uc_uid'] && $uc_user[0] > 0) {
             //登录本地帐号
-            $result = $uc_user_ref['uid']>0 ? $this->_recordLogin($uc_user_ref['uid'], $is_remember_me) : false;
+            $result = $uc_user_ref['uid'] > 0 ? $this->_recordLogin($uc_user_ref['uid'], $is_remember_me) : false;
             if ($result) {
                 $this->success .= uc_user_synlogin($uc_user[0]);
 

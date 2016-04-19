@@ -74,7 +74,7 @@ class OnlineModel
         $data = $this->odb->query($sql);
 
         $p = new Page($count, $limit);
-        $output['count'] =$count;
+        $output['count'] = $count;
         $output['totalPages'] = $p->totalPages;
         $output['totalRows'] = $p->totalRows;
         $output['nowPage'] = $p->nowPage;
@@ -122,9 +122,9 @@ class OnlineModel
                     $upData[$v['day']]['total_pageviews'] += $v['pv'];
                 }
             }
-            foreach ($upData as $k=>$v) {
+            foreach ($upData as $k => $v) {
                 $sql = 'SELECT id FROM '.C('DB_PREFIX')."online_stats WHERE day = '{$k}'";
-                $issetRow  = $this->odb->query($sql);
+                $issetRow = $this->odb->query($sql);
                 if (empty($issetRow)) {
                     $sql = 'INSERT INTO '.C('DB_PREFIX')."online_stats (`day`,`total_users`,`total_guests`,`total_pageviews`) 
 							 VALUES ('{$k}','{$v['total_users']}','{$v['total_guests']}','{$v['total_pageviews']}')";
@@ -159,7 +159,7 @@ class OnlineModel
         $day = date('Y-m-d');
         // 今日统计数据
         $sql = 'SELECT * FROM '.C('DB_PREFIX')."online_stats WHERE day ='{$day}'";
-        $dayData =  $this->odb->query($sql);
+        $dayData = $this->odb->query($sql);
 
         if (!empty($dayData)) {
             // 在线注册用户

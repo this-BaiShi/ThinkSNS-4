@@ -42,7 +42,7 @@ class PassportAction extends Action
         $registerConf = model('Xdata')->get('admin_Config:register');
         $this->assign('emailSuffix', explode(',', $registerConf['email_suffix']));
         $this->assign('register_type', $registerConf['register_type']);
-        $data= model('Xdata')->get('admin_Config:seo_login');
+        $data = model('Xdata')->get('admin_Config:seo_login');
         !empty($data['title']) && $this->setTitle($data['title']);
         !empty($data['keywords']) && $this->setKeywords($data['keywords']);
         !empty($data['des']) && $this->setDescription($data ['des']);
@@ -79,18 +79,18 @@ class PassportAction extends Action
      */
     public function doLogin()
     {
-        $login        = addslashes($_POST['login_email']);
-        $password    = trim($_POST['login_password']);
-        $remember    = intval($_POST['login_remember']);
-        $result    = $this->passport->loginLocal($login, $password, $remember);
+        $login = addslashes($_POST['login_email']);
+        $password = trim($_POST['login_password']);
+        $remember = intval($_POST['login_remember']);
+        $result = $this->passport->loginLocal($login, $password, $remember);
         if (!$result) {
             $status = 0;
-            $info    = $this->passport->getError();
-            $data    = 0;
+            $info = $this->passport->getError();
+            $data = 0;
         } else {
             $status = 1;
-            $info    = $this->passport->getSuccess();
-            $data    = ($GLOBALS['ts']['site']['home_url'])?$GLOBALS['ts']['site']['home_url']:0;
+            $info = $this->passport->getSuccess();
+            $data = ($GLOBALS['ts']['site']['home_url']) ? $GLOBALS['ts']['site']['home_url'] : 0;
             //$data 	= 0;
         }
         $this->ajaxReturn($data, $info, $status);
@@ -166,7 +166,7 @@ class PassportAction extends Action
     public function isRegCodeAvailable()
     {
         $phone = floatval($_POST['phone']);
-        $code  = intval($_POST['regCode']);
+        $code = intval($_POST['regCode']);
 
         /* # 检查验证码是否正确 */
         if (($sms = model('Sms')) and $sms->CheckCaptcha($phone, $code)) {
@@ -226,7 +226,7 @@ class PassportAction extends Action
             $add['code'] = $code;
             $add['is_used'] = 0;
             $result = D('FindPassword')->add($add);
-            $data['url'] = U('public/Passport/resetPassword', array('code'=>$code));
+            $data['url'] = U('public/Passport/resetPassword', array('code' => $code));
             $this->ajaxReturn($data, '发送成功', 1);
         } else {
             $this->ajaxReturn(null, '发送失败', 0);
@@ -246,12 +246,12 @@ class PassportAction extends Action
      */
     public function doFindPasswordByEmail()
     {
-        $_POST['email']    = t($_POST['email']);
+        $_POST['email'] = t($_POST['email']);
         if (!$this->_isEmailString($_POST['email'])) {
             $this->error(L('PUBLIC_EMAIL_TYPE_WRONG'));
         }
 
-        $user =    model('User')->where('`email`="'.$_POST['email'].'"')->find();
+        $user = model('User')->where('`email`="'.$_POST['email'].'"')->find();
         if (!$user) {
             $this->error('找不到该邮箱注册信息');
         }
@@ -272,7 +272,7 @@ class PassportAction extends Action
         if ($user['uid']) {
             $this->appCssList[] = 'login.css';        // 添加样式
             $code = md5($user['uid'].'+'.$user['password'].'+'.rand(1111, 9999));
-            $config['reseturl'] = U('public/Passport/resetPassword', array('code'=>$code));
+            $config['reseturl'] = U('public/Passport/resetPassword', array('code' => $code));
             //设置旧的code过期
             D('FindPassword')->where('uid='.$user['uid'])->setField('is_used', 1);
             //添加新的修改密码code
@@ -293,8 +293,8 @@ class PassportAction extends Action
 
     public function doFindPasswordByEmailAgain()
     {
-        $_POST['email']    = t($_POST['email']);
-        $user =    model('User')->where('`email`="'.$_POST['email'].'"')->find();
+        $_POST['email'] = t($_POST['email']);
+        $user = model('User')->where('`email`="'.$_POST['email'].'"')->find();
         if (!$user) {
             $this->error('找不到该邮箱注册信息');
         }
@@ -342,7 +342,7 @@ class PassportAction extends Action
 
         $map['uid'] = $user_info['uid'];
         $data['login_salt'] = rand(10000, 99999);
-        $data['password']   = md5(md5($password).$data['login_salt']);
+        $data['password'] = md5(md5($password).$data['login_salt']);
         $res = model('User')->where($map)->save($data);
         if ($res) {
             D('find_password')->where('uid='.$user_info['uid'])->setField('is_used', 1);
@@ -407,8 +407,8 @@ class PassportAction extends Action
      */
     private function _markPassword($str)
     {
-        $c = strlen($str)/2;
+        $c = strlen($str) / 2;
 
-        return preg_replace('|(?<=.{'.(ceil($c/2)).'})(.{'.floor($c).'}).*?|', str_pad('', floor($c), '*'), $str, 1);
+        return preg_replace('|(?<=.{'.(ceil($c / 2)).'})(.{'.floor($c).'}).*?|', str_pad('', floor($c), '*'), $str, 1);
     }
 }

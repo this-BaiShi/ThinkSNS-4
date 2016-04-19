@@ -140,7 +140,7 @@ class RegisterModel extends Model
     public function isValidRegCode($code, $phone)
     {
         /* # 安全过滤 */
-        $code  = intval($code);
+        $code = intval($code);
         $phone = floatval($phone);
 
         /* # 验证手机号码是否为空 */
@@ -212,7 +212,7 @@ class RegisterModel extends Model
             $length = get_str_length($name);
             $res = ($length >= 2 && $length <= 10);
             if (!$res) {
-                $this->_error = L('PUBLIC_NICKNAME_LIMIT', array('nums'=>'2-10'));            // 昵称长度必须在2-10个汉字之间
+                $this->_error = L('PUBLIC_NICKNAME_LIMIT', array('nums' => '2-10'));            // 昵称长度必须在2-10个汉字之间
                 return false;
             }
         } else {
@@ -294,7 +294,7 @@ class RegisterModel extends Model
      * @param  int   $type 类型，0表示取消审核，1表示通过审核
      * @return bool  是否审核成功
      */
-    public function audit($uids, $type=1)
+    public function audit($uids, $type = 1)
     {
         // 处理数据
         !is_array($uids) && $uids = explode(',', $uids);
@@ -332,7 +332,7 @@ class RegisterModel extends Model
      * @param  string $node 邮件模板类型
      * @return bool   是否发送成功
      */
-    public function sendActivationEmail($uid, $node ='register_active')
+    public function sendActivationEmail($uid, $node = 'register_active')
     {
         $map['uid'] = $uid;
         $user_info = $this->_user_model->where($map)->find();
@@ -345,7 +345,7 @@ class RegisterModel extends Model
                 $config['activeurl'] = $GLOBALS['ts']['site']['home_url'];
             } else {
                 $code = $this->getActivationCode($user_info);
-                $config['activeurl'] = U('public/Register/activate', array('uid'=>$uid, 'code'=>$code));
+                $config['activeurl'] = U('public/Register/activate', array('uid' => $uid, 'code' => $code));
             }
             $config['name'] = $user_info['uname'];
             model('Notify')->sendNotify($uid, $node, $config);
@@ -370,7 +370,7 @@ class RegisterModel extends Model
 
         $res = ($code == $this->getActivationCode($user_info));
         if ($res && !$user_info['is_active']) {
-            $res = $this->_user_model->where($map)->save(array('is_active'=>1));
+            $res = $this->_user_model->where($map)->save(array('is_active' => 1));
             $this->_user_model->cleanCache($uid);
         }
 
@@ -401,7 +401,7 @@ class RegisterModel extends Model
     public function initUser($uid)
     {
         $map['uid'] = $uid;
-        $user_info  = $this->_user_model->where($map)->find();
+        $user_info = $this->_user_model->where($map)->find();
         $user_info['is_active'] && $res = $this->_user_model->where($map)->save(array('is_init' => 1));
         // 清除用户缓存
         $this->_user_model->cleanCache($uid);

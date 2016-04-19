@@ -12,7 +12,7 @@ class AnnouncementWidget extends Widget
      */
     public function render($data)
     {
-        $var['type']  = 1;
+        $var['type'] = 1;
         $var['limit'] = 3;
         $var = array_merge($var, $data);
         $map['type'] = $var['type'];

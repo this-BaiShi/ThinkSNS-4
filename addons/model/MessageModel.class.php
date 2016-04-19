@@ -6,12 +6,12 @@
  */
 class MessageModel extends Model
 {
-    const ONE_ON_ONE_CHAT  = 1;         // 1对1聊天
+    const ONE_ON_ONE_CHAT = 1;         // 1对1聊天
     const MULTIPLAYER_CHAT = 2;         // 多人聊天
-    const SYSTEM_NOTIFY    = 3;         // 系统私信
+    const SYSTEM_NOTIFY = 3;         // 系统私信
 
     protected $tableName = 'message_content';
-    protected $fields = array(0=>'message_id', 1=>'list_id', 2=>'from_uid', 3=>'content', 4=>'is_del', 5=>'mtime', '_pk'=>'message_id');
+    protected $fields = array(0 => 'message_id', 1 => 'list_id', 2 => 'from_uid', 3 => 'content', 4 => 'is_del', 5 => 'mtime', '_pk' => 'message_id');
 
     private $reversible_type = array();
 
@@ -113,7 +113,7 @@ class MessageModel extends Model
      * @param  string $order 排序条件，默认为a.message_id DESC
      * @return [type] [description]
      */
-    public function getDetailList($map, $limit=20, $order = 'a.message_id DESC')
+    public function getDetailList($map, $limit = 20, $order = 'a.message_id DESC')
     {
         $field = 'a.*, a.from_uid AS fuid, b.type, b.min_max';
         $table = '`'.$this->tablePrefix.'message_content` AS a LEFT JOIN `'.$this->tablePrefix.'message_list` AS b ON a.list_id = b.list_id LEFT JOIN `'.$this->tablePrefix.'message_member` AS c ON a.list_id = c.list_id';
@@ -155,7 +155,7 @@ class MessageModel extends Model
             // 多查询一条验证，是否还有后续信息
             $limit = intval($count) + 1;
         }
-        $res['data']  = D('message_content')->where($where)->order('message_id DESC')->limit($limit)->findAll();
+        $res['data'] = D('message_content')->where($where)->order('message_id DESC')->limit($limit)->findAll();
 
         foreach ($res['data'] as $r_d_k => $r_d_v) {
             $res['data'][$r_d_k]['user_info'] = model('User')->getUserInfo($r_d_v['from_uid']);
@@ -244,7 +244,7 @@ class MessageModel extends Model
         $from_uid = intval($from_uid);
         $data['to'] = is_array($data['to']) ? $data['to'] : explode(',', $data['to']);
         $data['member'] = array_filter(array_merge(array($from_uid), $data['to']));     // 私信成员
-        $data['mtime']  = time();       // 发起时间
+        $data['mtime'] = time();       // 发起时间
 
         if ($data['type'] != self::SYSTEM_NOTIFY && $from_uid > 1) {
             // 判断接受者能否接受私信
@@ -325,7 +325,7 @@ class MessageModel extends Model
             return false;
         } else {
             $list_data['list_id'] = $list_id;
-            $list_data['last_message'] = serialize(array('from_uid'=>$from_uid, 'content'=>t($content)));
+            $list_data['last_message'] = serialize(array('from_uid' => $from_uid, 'content' => t($content)));
             if (1 == $list_info['type']) {
                 // 一对一
                 $list_data['member_num'] = 2;
@@ -388,7 +388,7 @@ class MessageModel extends Model
      * @param int val 要设置的值
      * @return bool 是否设置成功
      */
-    public function setMessageIsRead($list_ids = null, $member_uid, $val=0)
+    public function setMessageIsRead($list_ids = null, $member_uid, $val = 0)
     {
         if (!$member_uid) {
             return false;
@@ -479,7 +479,7 @@ class MessageModel extends Model
     public function deleteSessionById($member_uid, $message_ids)
     {
         $message_ids = intval($message_ids);
-        $member_uid  = intval($member_uid);
+        $member_uid = intval($member_uid);
         if (!$message_ids || !$member_uid) {
             return false;
         }
@@ -556,7 +556,7 @@ class MessageModel extends Model
         static $_is_member = array();
 
         if (!isset($_is_member[$list_id][$uid][$show_detail])) {
-            $map['list_id']    = $list_id;
+            $map['list_id'] = $list_id;
             $map['member_uid'] = $uid;
             if ($show_detail) {
                 $_is_member[$list_id][$uid][$show_detail] = D('message_member')->where($map)->find();
@@ -653,12 +653,12 @@ class MessageModel extends Model
         if (!$data['attach_ids'] && !$data['content']) {
             return false;
         }
-        $message['list_id']  = $data['list_id'];
+        $message['list_id'] = $data['list_id'];
         $message['from_uid'] = $from_uid;
-        $message['content']  = $data['content'];
+        $message['content'] = $data['content'];
         $message['attach_ids'] = serialize($data['attach_ids']);
-        $message['is_del']   = 0;
-        $message['mtime']    = $data['mtime'];
+        $message['is_del'] = 0;
+        $message['mtime'] = $data['mtime'];
 
         return D('message_content')->data($message)->add();
     }
@@ -697,12 +697,12 @@ class MessageModel extends Model
      */
     public function doEditMessage($message_id, $type, $title)
     {
-        $return = array('status'=>'0','data'=>L('PUBLIC_ADMIN_OPRETING_ERROR'));            // 操作失败
+        $return = array('status' => '0','data' => L('PUBLIC_ADMIN_OPRETING_ERROR'));            // 操作失败
         if (empty($message_id)) {
             $return['data'] = L('PUBLIC_WRONG_DATA');           // 错误的参数
         } else {
             $map['message_id'] = is_array($message_id) ? array('IN', $message_id) : intval($message_id);
-            $save['is_del'] = $type =='delMessage' ? 1 : 0;
+            $save['is_del'] = $type == 'delMessage' ? 1 : 0;
             if ($type == 'deleteMessage') {
                 // 彻底删除操作
                 $res = $this->where($map)->delete();
@@ -713,7 +713,7 @@ class MessageModel extends Model
             }
             if ($res) {
                 // TODO:是否记录知识,以及后期缓存处理
-                $return = array('status'=>1,'data'=>L('PUBLIC_ADMIN_OPRETING_SUCCESS'));
+                $return = array('status' => 1,'data' => L('PUBLIC_ADMIN_OPRETING_SUCCESS'));
             }
         }
 
@@ -798,7 +798,7 @@ class MessageModel extends Model
         $this->_parseMessageList($list, $uid); // 引用
         foreach ($list as &$_l) {
             $_l['from_uid'] = $_l['last_message']['from_uid'];
-            $_l['content']  = $_l['last_message']['content'];
+            $_l['content'] = $_l['last_message']['content'];
         }
 
         return $list;
@@ -913,7 +913,7 @@ class MessageModel extends Model
                 continue;
             }
             // 设置邮件发送模板
-            $config['uname'] = '<a href="'.U('public/Profile/index', array('uid'=>$v['uid'])).'" style="color:#0000ff;text-decoration:none;">'.$v['uname'].'</a>';
+            $config['uname'] = '<a href="'.U('public/Profile/index', array('uid' => $v['uid'])).'" style="color:#0000ff;text-decoration:none;">'.$v['uname'].'</a>';
             $config['website'] = '<a style="text-decoration:none;color:#3366cc" href="'.SITE_URL.'">'.$GLOBALS['ts']['site']['site_name'].'</a>';
             $config['unread_atme'] = $unread_atme;
             $config['unread_comment'] = $unread_comment;

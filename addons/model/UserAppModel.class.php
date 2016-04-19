@@ -7,7 +7,7 @@
 class UserAppModel extends Model
 {
     protected $tableName = 'user_app';
-    protected $fields =    array(0=>'user_app_id', 1=>'app_id', 2=>'uid', 3=>'display_order', 4=>'ctime', 5=>'type', 6=>'oauth_token', 7=>'oauth_token_secret', 8=>'inweb');
+    protected $fields = array(0 => 'user_app_id', 1 => 'app_id', 2 => 'uid', 3 => 'display_order', 4 => 'ctime', 5 => 'type', 6 => 'oauth_token', 7 => 'oauth_token_secret', 8 => 'inweb');
 
     /**
      * 获取用户可用的应用列表

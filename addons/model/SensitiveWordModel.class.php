@@ -115,15 +115,15 @@ class SensitiveWordModel extends Model
         }
 
         if (!empty($ban) && strlen(strtr($content, $ban)) < strlen($content)) {
-            return array('status'=>false, 'type'=>1, 'data'=>'内容中包含禁止词汇');
+            return array('status' => false, 'type' => 1, 'data' => '内容中包含禁止词汇');
         }
 
         !empty($replace) && $content = strtr($content, $replace);
 
         if (!empty($audit) && strlen(strtr($content, $audit)) < strlen($content)) {
-            return array('status'=>true, 'type'=>2, 'data'=>$content);
+            return array('status' => true, 'type' => 2, 'data' => $content);
         }
 
-        return array('status'=>true, 'type'=>3, 'data'=>$content);
+        return array('status' => true, 'type' => 3, 'data' => $content);
     }
 }

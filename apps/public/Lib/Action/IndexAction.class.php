@@ -13,8 +13,8 @@ class IndexAction extends Action
     public function index()
     {
         /* # 微吧和频道开关检测 */
-        $weibaIfOpen   = model('App')->getAppByName('weiba');
-        $weibaIfOpen   = $weibaIfOpen['status'];
+        $weibaIfOpen = model('App')->getAppByName('weiba');
+        $weibaIfOpen = $weibaIfOpen['status'];
         $channelIfOpen = model('App')->getAppByName('channel');
         $channelIfOpen = $channelIfOpen['status'];
         $this->assign('weibaIfOpen', $weibaIfOpen);
@@ -58,22 +58,22 @@ class IndexAction extends Action
             $initHtml = '#'.$initHtml.'#';
         }
         $this->assign('initHtml', $initHtml);
-        if ($d ['type']=='weiba') {
+        if ($d ['type'] == 'weiba') {
             $sfollow = D('weiba_follow')->where('follower_uid='.$this->mid)->findAll();
             if ($sfollow) {
                 $idlist = getSubByKey($sfollow, 'weiba_id');
-                foreach ($idlist as $k=>$vo) {
+                foreach ($idlist as $k => $vo) {
                     if (in_array($vo, $fids)) {
                         unset($idlist[$k]);
                     }
                 }
-                $maps['weiba_id'] =array('in', $idlist);
+                $maps['weiba_id'] = array('in', $idlist);
             }
 
             $order = ' top desc, post_time desc';
             $list = D('weiba_post')->where($maps)->order($order)->findpage(10);
 
-            foreach ($list['data'] as $k=>$v) {
+            foreach ($list['data'] as $k => $v) {
                 $list['data'][$k]['weiba'] = $nameArr[$v['weiba_id']];
                 $list['data'][$k]['user'] = model('User')->getUserInfo($v['post_uid']);
                 $list['data'][$k]['replyuser'] = model('User')->getUserInfo($v['last_reply_uid']);
@@ -90,7 +90,7 @@ class IndexAction extends Action
                     }
                 }
                 $is_digg = M('weiba_post_digg')->where('post_id='.$v['post_id'].' and uid='.$this->mid)->find();
-                $list['data'][$k]['digg']= $is_digg ? 'digg':'undigg';
+                $list['data'][$k]['digg'] = $is_digg ? 'digg' : 'undigg';
                 $list['data'][$k]['content'] = t($list['data'][$k]['content']);
 
                 //dump($userinfo);avatar_small,avatar_tiny
@@ -548,7 +548,7 @@ class IndexAction extends Action
     public function messageContent($type)
     {
         if (!$type) {
-            $type = t(empty($_POST['type'])?$_GET['type']:$_POST['type']);
+            $type = t(empty($_POST['type']) ? $_GET['type'] : $_POST['type']);
         }
         $_POST['type'] = $type;
         switch ($type) {
@@ -663,8 +663,8 @@ class IndexAction extends Action
                 $this->assign('stype', $stype);
                 //		$d['tab'] = model('Comment')->getTab($map);
                 $d['tab'] = model('Comment')->getTabForApp($map);
-                foreach ($d['tab'] as $key=>$vo) {
-                    if ($key=='feed') {
+                foreach ($d['tab'] as $key => $vo) {
+                    if ($key == 'feed') {
                         $d['tabHash']['feed'] = L('PUBLIC_WEIBO');
                     } elseif ($key == 'webpage') {
                         $d['tabHash']['webpage'] = '评论箱';
@@ -674,7 +674,7 @@ class IndexAction extends Action
 
                         $langKey = 'PUBLIC_APPNAME_'.strtoupper($key);
                         $lang = L($langKey);
-                        if ($lang==$langKey) {
+                        if ($lang == $langKey) {
                             $d['tabHash'][$key] = ucfirst($key);
                         } else {
                             $d['tabHash'][$key] = $lang;
@@ -691,8 +691,8 @@ class IndexAction extends Action
                     $map['app'] = 'public';
                 }
                 $list = model('Comment')->setAppName(t($_GET['app_name']))->getCommentList($map, 'comment_id DESC', 20, true);
-                foreach ($list['data'] as $k=>$v) {
-                    if ($v['sourceInfo']['app']=='weiba') {
+                foreach ($list['data'] as $k => $v) {
+                    if ($v['sourceInfo']['app'] == 'weiba') {
                         $list['data'][$k]['sourceInfo']['source_body'] = str_replace($v['sourceInfo']['row_id'], $v['comment_id'], $v['sourceInfo']['source_body']);
                     }
                     if ($v['table'] === 'webpage') {
@@ -714,13 +714,13 @@ class IndexAction extends Action
                 $list = $dao->getMessageListByUid($this->mid, array(MessageModel::ONE_ON_ONE_CHAT, MessageModel::MULTIPLAYER_CHAT), 20);
                 // 设置信息已读(在右上角提示去掉),
                 model('Message')->setMessageIsRead(t($POST['id']), $this->mid, 1);
-                if ($list['nowPage']<=1&&is_array($list['data'])&&isset($list['data'][0])) {
-                    $only = !isset($list['data'][1])||$list['data'][1]['new']<=0;
-                    if ($list['data'][0]['new']>0 && $only) {
+                if ($list['nowPage'] <= 1 && is_array($list['data']) && isset($list['data'][0])) {
+                    $only = !isset($list['data'][1]) || $list['data'][1]['new'] <= 0;
+                    if ($list['data'][0]['new'] > 0 && $only) {
                         $this->redirect('public/Index/messageContent', array(
-                            'type'  => 'message_detail',
+                            'type' => 'message_detail',
                             'stype' => $list['data'][0]['type'],
-                            'id'    => $list['data'][0]['list_id'],
+                            'id' => $list['data'][0]['list_id'],
                         ));
                         exit;
                     }
@@ -733,8 +733,8 @@ class IndexAction extends Action
                 $html = $this->fetch('message');
                 break;
             case 'message_detail':
-                $_POST['id'] = intval(empty($_POST['id'])?$_GET['id']:$_POST['id']);
-                $_POST['stype'] = t(empty($_POST['stype'])?$_GET['stype']:$_POST['stype']);
+                $_POST['id'] = intval(empty($_POST['id']) ? $_GET['id'] : $_POST['id']);
+                $_POST['stype'] = t(empty($_POST['stype']) ? $_GET['stype'] : $_POST['stype']);
                 $message = model('Message')->isMember(t($_POST['id']), $this->mid, true);
                 // 验证数据
                 if (empty($message)) {
@@ -767,9 +767,9 @@ class IndexAction extends Action
                 $list = D('notify_message')->where($map)->order('ctime desc')->findpage(20);
                 //重写分页链接
                 $list['html'] = $this->messagePage($list['html']);
-                foreach ($list['data'] as $k=>$v) {
+                foreach ($list['data'] as $k => $v) {
                     $list['data'][$k]['body'] = parse_html($v['body']);
-                    if ($appname !='public') {
+                    if ($appname != 'public') {
                         $list['data'][$k]['app'] = model('App')->getAppByName($v['appname']);
                     }
                     //如果为点赞消息，获取发送人的头像

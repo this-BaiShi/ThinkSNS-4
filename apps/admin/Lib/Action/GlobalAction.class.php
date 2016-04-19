@@ -26,7 +26,7 @@ class GlobalAction extends AdministratorAction
     }
     public function editCreditType()
     {
-        $type   = t($_GET['type']);
+        $type = t($_GET['type']);
         if ($cid = intval($_GET['cid'])) {
             $creditType = M('credit_type')->where("`id`=$cid")->find();//积分类别
             if (!$creditType) {
@@ -38,7 +38,7 @@ class GlobalAction extends AdministratorAction
         $this->assign('type', $type);
 
         $typeArr = array('score', 'experience'); //这两个类型的积分类别名不能被修改
-        if (in_array($creditType['name'], $typeArr) && $type=='edit') {
+        if (in_array($creditType['name'], $typeArr) && $type == 'edit') {
             $this->assign('forbidEdit', true);
         }
 
@@ -48,7 +48,7 @@ class GlobalAction extends AdministratorAction
     {
         // if ( !$this->__isValidRequest('name') ) $this->error('数据不完整');
         $name = h(t($_POST['name']));
-        $alias=h(t($_POST['alias']));
+        $alias = h(t($_POST['alias']));
         if (empty($name)) {
             $this->error('名称不能为空');
         }
@@ -72,10 +72,10 @@ class GlobalAction extends AdministratorAction
 
         $res = M('credit_type')->add($_POST);
         if ($res) {
-            $db_prefix  = C('DB_PREFIX');
+            $db_prefix = C('DB_PREFIX');
             $model = M('');
             $setting = $model->query("ALTER TABLE {$db_prefix}credit_setting ADD {$_POST['name']} INT(11) DEFAULT 0;");
-            $user    = $model->query("ALTER TABLE {$db_prefix}credit_user ADD {$_POST['name']} INT(11) DEFAULT 0;");
+            $user = $model->query("ALTER TABLE {$db_prefix}credit_user ADD {$_POST['name']} INT(11) DEFAULT 0;");
             // 清缓存
             S('_service_credit_type', null);
             // 数据表缓存
@@ -91,7 +91,7 @@ class GlobalAction extends AdministratorAction
     {
         // if ( !$this->__isValidRequest('id,name') ) $this->error('数据不完整');
         $name = h(t($_POST['name']));
-        $alias=h(t($_POST['alias']));
+        $alias = h(t($_POST['alias']));
         if (empty($name)) {
             $this->error('名称不能为空');
         }
@@ -125,10 +125,10 @@ class GlobalAction extends AdministratorAction
         M('AdminLog')->add($_LOG);
 
         if ($res) {
-            $db_prefix  = C('DB_PREFIX');
+            $db_prefix = C('DB_PREFIX');
             $model = M('');
             $setting = $model->query("ALTER TABLE {$db_prefix}credit_setting CHANGE {$oldName['name']} {$_POST['name']} INT(11);");
-            $user    = $model->query("ALTER TABLE {$db_prefix}credit_user CHANGE {$oldName['name']} {$_POST['name']} INT(11);");
+            $user = $model->query("ALTER TABLE {$db_prefix}credit_user CHANGE {$oldName['name']} {$_POST['name']} INT(11);");
             // 清缓存
             S('_service_credit_type', null);
             $this->assign('jumpUrl', U('admin/Global/creditType'));
@@ -171,11 +171,11 @@ class GlobalAction extends AdministratorAction
         //清除type信息和对应字段
         $res = M('credit_type')->where($map)->delete();
         if ($res) {
-            $db_prefix  = C('DB_PREFIX');
+            $db_prefix = C('DB_PREFIX');
             $model = M('');
             foreach ($typeName as $v) {
                 $setting = $model->query("ALTER TABLE {$db_prefix}credit_setting DROP {$v['name']};");
-                $user    = $model->query("ALTER TABLE {$db_prefix}credit_user DROP {$v['name']};");
+                $user = $model->query("ALTER TABLE {$db_prefix}credit_user DROP {$v['name']};");
             }
             // 清缓存
             S('_service_credit_type', null);
@@ -244,7 +244,7 @@ class GlobalAction extends AdministratorAction
     }
     public function editCredit()
     {
-        $cid    = intval($_GET['cid']);
+        $cid = intval($_GET['cid']);
         $credit = M('credit_setting')->where("`id`=$cid")->find();
         if (!$credit) {
             $this->error('无此积分规则');
@@ -295,7 +295,7 @@ class GlobalAction extends AdministratorAction
         unset($_POST['id']);
         $res = M('credit_setting')->where('id='.$id)->save($_POST);
         // dump(D()->getLastSql());exit;
-        if ($res!==false) {
+        if ($res !== false) {
             // 清缓存
             F('_service_credit_rules', null);
             $this->assign('jumpUrl', U('admin/Global/credit'));
@@ -346,7 +346,7 @@ class GlobalAction extends AdministratorAction
         set_time_limit(0);
         //查询用户ID
         $_POST['uId'] && $map['uid'] = array('in',explode(',', t($_POST['uId'])));
-        $_POST['gId']!='all' && $map['user_group_id'] = intval($_POST['gId']);
+        $_POST['gId'] != 'all' && $map['user_group_id'] = intval($_POST['gId']);
         // $_POST['active']!='all' && $map['is_active'] = intval($_POST['active']);
         $user = M('user_group_link')->where($map)->field('DISTINCT uid')->findAll();
         if ($user == false) {
@@ -372,7 +372,7 @@ class GlobalAction extends AdministratorAction
             foreach ($user as $v) {
                 if ($v['uid'] != 0) {
                     $setCredit->setUserCredit($v['uid'], $action);
-                    if ($setCredit->getInfo()===false) {
+                    if ($setCredit->getInfo() === false) {
                         $this->error('保存失败');
                     }
                 }
@@ -404,10 +404,10 @@ class GlobalAction extends AdministratorAction
     public function creditLevel()
     {
         $_REQUEST['tabHash'] = 'level';
-        $this->pageTab[] = array('title'=>L('PUBLIC_SYSTEM_POINT_RULE'),'tabHash'=>'rule','url'=>U('admin/Global/credit'));
-        $this->pageTab[] = array('title'=>L('PUBLIC_SYSTEM_POINT_TYPE'),'tabHash'=>'type','url'=>U('admin/Global/creditType'));
-        $this->pageTab[] = array('title'=>L('PUBLIC_SYSTEM_POINT_SETTING'),'tabHash'=>'user','url'=>U('admin/Global/creditUser'));
-        $this->pageTab[] = array('title'=>L('PUBLIC_SYSTEM_POINT_LEVEL'),'tabHash'=>'level','url'=>U('admin/Global/creditLevel'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_POINT_RULE'),'tabHash' => 'rule','url' => U('admin/Global/credit'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_POINT_TYPE'),'tabHash' => 'type','url' => U('admin/Global/creditType'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_POINT_SETTING'),'tabHash' => 'user','url' => U('admin/Global/creditUser'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_POINT_LEVEL'),'tabHash' => 'level','url' => U('admin/Global/creditLevel'));
         $this->pageTitle[ACTION_NAME] = L('PUBLIC_SYSTEM_POINT_LEVEL');
         $list = model('Credit')->getLevel();
         $this->assign('list', $list);
@@ -426,14 +426,14 @@ class GlobalAction extends AdministratorAction
         $_REQUEST['tabHash'] = 'level';
         $this->pageKeyList = array('level','name','image','start','end');
 
-        $this->pageTab[] = array('title'=>L('PUBLIC_SYSTEM_POINT_RULE'),'tabHash'=>'rule','url'=>U('admin/Global/credit'));
-        $this->pageTab[] = array('title'=>L('PUBLIC_SYSTEM_POINT_TYPE'),'tabHash'=>'type','url'=>U('admin/Global/creditType'));
-        $this->pageTab[] = array('title'=>L('PUBLIC_SYSTEM_POINT_SETTING'),'tabHash'=>'user','url'=>U('admin/Global/creditUser'));
-        $this->pageTab[] = array('title'=>L('PUBLIC_SYSTEM_POINT_LEVEL'),'tabHash'=>'level','url'=>U('admin/Global/creditLevel'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_POINT_RULE'),'tabHash' => 'rule','url' => U('admin/Global/credit'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_POINT_TYPE'),'tabHash' => 'type','url' => U('admin/Global/creditType'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_POINT_SETTING'),'tabHash' => 'user','url' => U('admin/Global/creditUser'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_POINT_LEVEL'),'tabHash' => 'level','url' => U('admin/Global/creditLevel'));
 
         $this->savePostUrl = U('admin/Global/setCreditLevel');
         $list = model('Credit')->getLevel();
-        $detailData = $list[intval($_GET['level'])-1];
+        $detailData = $list[intval($_GET['level']) - 1];
         $this->pageTitle[ACTION_NAME] = L('PUBLIC_SYSTEM_POINT_EDIT');
         $this->displayConfig($detailData);
     }
@@ -451,7 +451,7 @@ class GlobalAction extends AdministratorAction
         $data['id'] = h($_GET['id']);
         $list = model('Xdata')->get('admin_Credit:level');
         $data['list'] = $list;
-        $data['value'] = $list[$data['id']-1];
+        $data['value'] = $list[$data['id'] - 1];
         $this->assign($data);
         $this->display();
     }
@@ -495,9 +495,9 @@ class GlobalAction extends AdministratorAction
         $list = model('Xdata')->get('admin_Credit:level');
 
         $data = $list;
-        $data[$level-1]['start'] = $_POST['start'];
-        $data[$level-1]['end'] = $_POST['end'];
-        $data[$level-1]['name'] = $_POST['name'];
+        $data[$level - 1]['start'] = $_POST['start'];
+        $data[$level - 1]['end'] = $_POST['end'];
+        $data[$level - 1]['name'] = $_POST['name'];
         $res = model('Xdata')->put('admin_Credit:level', $data);
         if ($res) {
             $this->success('编辑成功');
@@ -517,7 +517,7 @@ class GlobalAction extends AdministratorAction
 
         $list = model('Xdata')->get('admin_Credit:level');
         foreach ($ids as $key => $value) {
-            unset($list[$value-1]);
+            unset($list[$value - 1]);
         }
         echo model('Xdata')->put('admin_Credit:level', $list);
     }

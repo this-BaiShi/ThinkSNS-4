@@ -130,10 +130,10 @@ class BaiduCookieStore extends BaiduStore
 
         $name = $this->getKeyForStore($key);
         if ($key == 'session') {
-            $expires = isset($value['expires_in']) ? $value['expires_in'] * 2 : 3600*24;
+            $expires = isset($value['expires_in']) ? $value['expires_in'] * 2 : 3600 * 24;
             $value = http_build_query($value, '', '&');
         } else {
-            $expires = 3600*24;
+            $expires = 3600 * 24;
         }
 
         setcookie($name, $value, time() + $expires, '/');
@@ -149,7 +149,7 @@ class BaiduCookieStore extends BaiduStore
         }
 
         $name = $this->getKeyForStore($key);
-        setcookie($name, 'delete', time() - 3600*24, '/');
+        setcookie($name, 'delete', time() - 3600 * 24, '/');
         unset($_COOKIE[$name]);
 
         return true;

@@ -17,7 +17,7 @@ class DiyWidget extends Widget
 
         !empty($data) && $var = array_merge($var, $data);
 
-        $wigdetList  = model('Widget')->getUserWidget($var['id'], $GLOBALS['ts']['uid']);
+        $wigdetList = model('Widget')->getUserWidget($var['id'], $GLOBALS['ts']['uid']);
 
         $var = array_merge($var, $wigdetList);
 
@@ -30,7 +30,7 @@ class DiyWidget extends Widget
         //全部列表
         $var['list'] = model('Widget')->getWidgetList();
 
-        $wigdetList  = model('Widget')->getUserWidget($var['diyId'], $GLOBALS['ts']['uid']);
+        $wigdetList = model('Widget')->getUserWidget($var['diyId'], $GLOBALS['ts']['uid']);
 
         foreach ($wigdetList['widget_list'] as $v) {
             $var['selected'][] = $v['appname'].':'.$v['name'];
@@ -50,9 +50,9 @@ class DiyWidget extends Widget
     public function doadd()
     {
         if (model('Widget')->saveUserWigdet(intval($_POST['diyId']), $GLOBALS['ts']['uid'], t($_POST['selected']))) {
-            $return = array('status'=>1,'data'=>'','info'=>L('PUBLIC_SAVE_SUCCESS'));
+            $return = array('status' => 1,'data' => '','info' => L('PUBLIC_SAVE_SUCCESS'));
         } else {
-            $return = array('status'=>0,'data'=>'','info'=>L('PUBLIC_SAVE_FAIL'));
+            $return = array('status' => 0,'data' => '','info' => L('PUBLIC_SAVE_FAIL'));
         }
 
         echo json_encode($return);
@@ -68,9 +68,9 @@ class DiyWidget extends Widget
         $return = model('Widget')->updateUserWidget($var['diyId'], $GLOBALS['ts']['uid'], $var['appname'].':'.$var['widget_name'], $data);
 
         if ($return) {
-            $return = array('status'=>1,'data'=>'','info'=>L('PUBLIC_SETING_SUCCESS'));
+            $return = array('status' => 1,'data' => '','info' => L('PUBLIC_SETING_SUCCESS'));
         } else {
-            $return = array('status'=>0,'data'=>'','info'=>L('PUBLIC_SYSTEM_SETTING_FAIL'));
+            $return = array('status' => 0,'data' => '','info' => L('PUBLIC_SYSTEM_SETTING_FAIL'));
         }
 
         echo json_encode($return);
@@ -84,9 +84,9 @@ class DiyWidget extends Widget
         $return = model('Widget')->deleteUserWidget($var['diyId'], $GLOBALS['ts']['uid'], $var['appname'].':'.$var['widget_name']);
 
         if ($return) {
-            $return = array('status'=>1,'data'=>'','info'=>L('PUBLIC_DELETE_SUCCESS'));
+            $return = array('status' => 1,'data' => '','info' => L('PUBLIC_DELETE_SUCCESS'));
         } else {
-            $return = array('status'=>0,'data'=>'','info'=>L('PUBLIC_DELETE_FAIL'));
+            $return = array('status' => 0,'data' => '','info' => L('PUBLIC_DELETE_FAIL'));
         }
 
         echo json_encode($return);
@@ -119,9 +119,9 @@ class DiyWidget extends Widget
     public function doconfig()
     {
         if (model('Widget')->configWidget(intval($_POST['diyId']), t($_POST['selected']))) {
-            $return = array('status'=>1,'data'=>'','info'=>L('PUBLIC_SAVE_SUCCESS'));
+            $return = array('status' => 1,'data' => '','info' => L('PUBLIC_SAVE_SUCCESS'));
         } else {
-            $return = array('status'=>0,'data'=>'','info'=>L('PUBLIC_SAVE_FAIL'));
+            $return = array('status' => 0,'data' => '','info' => L('PUBLIC_SAVE_FAIL'));
         }
 
         echo json_encode($return);

@@ -13,21 +13,21 @@ class UserCountModel extends Model
      */
     public function getUnreadCount($uid)
     {
-        $msg_model  = model('Message');
+        $msg_model = model('Message');
         $data_model = model('UserData');
 
         $user_data = $data_model->setUid($uid)->getUserData();
         // 未读通知数目
-        $return['unread_notify']  = model('Notify')->getUnreadCount($uid);
+        $return['unread_notify'] = model('Notify')->getUnreadCount($uid);
         // 未读点赞
-        $return['unread_digg']    = intval($user_data['unread_digg']);
+        $return['unread_digg'] = intval($user_data['unread_digg']);
         // 未读微吧点赞
-        $return['unread_digg_weibapost']    = intval($user_data['unread_digg_weibapost']);
-        $return['unread_digg_weibareply']    = intval($user_data['unread_digg_weibareply']);
+        $return['unread_digg_weibapost'] = intval($user_data['unread_digg_weibapost']);
+        $return['unread_digg_weibareply'] = intval($user_data['unread_digg_weibareply']);
         // 点赞总数
-        $return['unread_digg_total'] = $return['unread_digg']+$return['unread_digg_weibapost']+$return['unread_digg_weibareply'];
+        $return['unread_digg_total'] = $return['unread_digg'] + $return['unread_digg_weibapost'] + $return['unread_digg_weibareply'];
         // 未读@Me数目
-        $return['unread_atme']    = intval($user_data['unread_atme']);
+        $return['unread_atme'] = intval($user_data['unread_atme']);
         // 未读评论数目
         $return['unread_comment'] = intval($user_data['unread_comment']);
         // 未读短信息数目
@@ -47,7 +47,7 @@ class UserCountModel extends Model
             $return['unread_group_comment'] = $gcomment;
         }
         // 合计的未读数目
-        $return['unread_total']  = array_sum($return)-$return['unread_digg_total'];
+        $return['unread_total'] = array_sum($return) - $return['unread_digg_total'];
 
         return $return;
     }

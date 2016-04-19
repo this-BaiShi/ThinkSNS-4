@@ -231,9 +231,9 @@ class InviteAction extends Action
             return false;
         }
         $email = t($_POST['email']);
-        $detial = !isset($_POST['detial']) ? L('PUBLIC_INVATE_MESSAGE', array('uname'=>$GLOBALS['ts']['user']['uname'])) : h($_POST['detial']);            // Hi，我是 {uname}，我发现了一个很不错的网站，我在这里等你，快来加入吧。
+        $detial = !isset($_POST['detial']) ? L('PUBLIC_INVATE_MESSAGE', array('uname' => $GLOBALS['ts']['user']['uname'])) : h($_POST['detial']);            // Hi，我是 {uname}，我发现了一个很不错的网站，我在这里等你，快来加入吧。
         $map['inviter_uid'] = $this->mid;
-        $map['ctime'] =    time();
+        $map['ctime'] = time();
         // 发送邮件邀请
         $result = model('Invite')->doInvite($email, $detial, $this->mid);
         $this->ajaxReturn(null, model('Invite')->getError(), $result);

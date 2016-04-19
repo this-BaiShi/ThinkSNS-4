@@ -14,8 +14,8 @@ class douban
     }
     public function __construct()
     {
-        $this->_douban_key        = DOUBAN_KEY;
-        $this->_douban_secret    = DOUBAN_SECRET;
+        $this->_douban_key = DOUBAN_KEY;
+        $this->_douban_secret = DOUBAN_SECRET;
     }
     public function getUrl($call_back = null)
     {
@@ -23,7 +23,7 @@ class douban
             return false;
         }
         if (is_null($call_back)) {
-            $call_back = Addons::createAddonShow('Login', 'no_register_display', array('type'=>'douban', 'do'=>'bind'));
+            $call_back = Addons::createAddonShow('Login', 'no_register_display', array('type' => 'douban', 'do' => 'bind'));
         }
         if (empty($this->_authorize_url)) {
             $client = new DoubanOAuth($this->_douban_key, $this->_douban_secret);
@@ -59,12 +59,12 @@ class douban
         $client = new DoubanOAuth($this->_douban_key, $this->_douban_secret, $_SESSION['douban']['access_token']['oauth_token'], $_SESSION['douban']['access_token']['oauth_token_secret']);
         $res = $client->OAuthRequest('http://api.douban.com/people/%40me', array(), 'GET');
         $res = simplexml_load_string($res);
-        $uid_and_icon            = $this->__getUidAndIcon($res->link);
-        $userInfo['id']            = $uid_and_icon['id'];
-        $userInfo['uname']        = (string) $res->title;
-        $userInfo['userface']    = $uid_and_icon['icon'];
-        $userInfo['signature']    = (string) $res->content;
-        $userInfo['location']    = (string) $res->children('http://www.douban.com/xmlns/')->location;
+        $uid_and_icon = $this->__getUidAndIcon($res->link);
+        $userInfo['id'] = $uid_and_icon['id'];
+        $userInfo['uname'] = (string) $res->title;
+        $userInfo['userface'] = $uid_and_icon['icon'];
+        $userInfo['signature'] = (string) $res->content;
+        $userInfo['location'] = (string) $res->children('http://www.douban.com/xmlns/')->location;
 
         return $userInfo;
     }
@@ -81,7 +81,7 @@ class douban
                 } else {
                     $v['@attributes']['href'] = explode('.', $v['@attributes']['href']);
                 }
-                $uid_and_icon['id']   = substr($v['@attributes']['href'][0], 1);
+                $uid_and_icon['id'] = substr($v['@attributes']['href'][0], 1);
                 $uid_and_icon['icon'] = $icon_url;
                 break ;
             }
@@ -100,7 +100,7 @@ class douban
         return true;
     }
     //转发一条分享
-    public function transpond($transpondId, $reId, $content='', $opt=null)
+    public function transpond($transpondId, $reId, $content = '', $opt = null)
     {
         return true;
     }

@@ -35,9 +35,9 @@ class MessageAction extends Action
     {
         //$list = model('Notify')->getMessageList($this->mid);     //2012/12/27
         $list = D('notify_message')->where('uid='.$this->mid)->order('ctime desc')->findpage(20);
-        foreach ($list['data'] as $k=>$v) {
+        foreach ($list['data'] as $k => $v) {
             $list['data'][$k]['body'] = parse_html($v['body']);
-            if ($appname !='public') {
+            if ($appname != 'public') {
                 $list['data'][$k]['app'] = model('App')->getAppByName($v['appname']);
             }
         }
@@ -60,7 +60,7 @@ class MessageAction extends Action
         //设置为已读
         //model('Notify')->setRead($this->mid,$appname);
         $this->assign('appname', $appname);
-        if ($appname !='public') {
+        if ($appname != 'public') {
             $appinfo = model('App')->getAppByName($appname);
             $this->assign('appinfo', $appinfo);
         }
@@ -162,9 +162,9 @@ class MessageAction extends Action
      */
     public function doPost()
     {
-        $return = array('data'=>L('PUBLIC_SEND_SUCCESS'),'status'=>1);
+        $return = array('data' => L('PUBLIC_SEND_SUCCESS'),'status' => 1);
         if (empty($_POST['to']) || !CheckPermission('core_normal', 'send_message')) {
-            $return['data']=L('PUBLIC_SYSTEM_MAIL_ISNOT');
+            $return['data'] = L('PUBLIC_SYSTEM_MAIL_ISNOT');
             $return['status'] = 0;
             echo json_encode($return);
             exit();
@@ -177,7 +177,7 @@ class MessageAction extends Action
         }
         $_POST['to'] = trim(t($_POST['to']), ',');
         $to_num = explode(',', $_POST['to']);
-        if (sizeof($to_num)>10) {
+        if (sizeof($to_num) > 10) {
             $return['data'] = '';
             $return['status'] = 0;
             echo json_encode($return);
@@ -197,7 +197,7 @@ class MessageAction extends Action
             exit();
         } else {
             $return['status'] = 0;
-            $return['data']   = model('Message')->getError();
+            $return['data'] = model('Message')->getError();
             echo json_encode($return);
             exit();
         }
@@ -210,14 +210,14 @@ class MessageAction extends Action
     {
         $UserPrivacy = model('UserPrivacy')->getPrivacy($this->mid, intval($_POST['to']));
         if ($UserPrivacy['message'] != 0) {
-            echo json_encode(array('status'=>0, 'data'=>'根据对方的隐私设置，您无法给TA发送私信'));
+            echo json_encode(array('status' => 0, 'data' => '根据对方的隐私设置，您无法给TA发送私信'));
             exit;
         }
         $_POST['reply_content'] = t($_POST['reply_content']);
-        $_POST['id']  = intval($_POST['id']);
+        $_POST['id'] = intval($_POST['id']);
 
         if (!$_POST['id'] || empty($_POST['reply_content'])) {
-            echo json_encode(array('status'=>0, 'data'=>L('PUBLIC_COMMENT_MAIL_REQUIRED')));
+            echo json_encode(array('status' => 0, 'data' => L('PUBLIC_COMMENT_MAIL_REQUIRED')));
             exit;
         }
 
@@ -230,9 +230,9 @@ class MessageAction extends Action
 
         $res = model('Message')->replyMessage($_POST['id'], $_POST['reply_content'], $this->mid, $_POST['attach_ids']);
         if ($res) {
-            echo json_encode(array('status'=>1, 'data'=>L('PUBLIC_PRIVATE_MESSAGE_SEND_SUCCESS')));
+            echo json_encode(array('status' => 1, 'data' => L('PUBLIC_PRIVATE_MESSAGE_SEND_SUCCESS')));
         } else {
-            echo json_encode(array('status'=>0, 'data'=>L('PUBLIC_PRIVATE_MESSAGE_SEND_FAIL')));
+            echo json_encode(array('status' => 0, 'data' => L('PUBLIC_PRIVATE_MESSAGE_SEND_FAIL')));
         }
         exit();
     }

@@ -34,20 +34,20 @@ class notemodel
         $this->db = $base->db;
         $this->apps = $this->base->cache('apps');
         $this->operations = array(
-            'test'=>array('', 'action=test'),
-            'deleteuser'=>array('', 'action=deleteuser'),
-            'renameuser'=>array('', 'action=renameuser'),
-            'deletefriend'=>array('', 'action=deletefriend'),
-            'gettag'=>array('', 'action=gettag', 'tag', 'updatedata'),
-            'getcreditsettings'=>array('', 'action=getcreditsettings'),
-            'getcredit'=>array('', 'action=getcredit'),
-            'updatecreditsettings'=>array('', 'action=updatecreditsettings'),
-            'updateclient'=>array('', 'action=updateclient'),
-            'updatepw'=>array('', 'action=updatepw'),
-            'updatebadwords'=>array('', 'action=updatebadwords'),
-            'updatehosts'=>array('', 'action=updatehosts'),
-            'updateapps'=>array('', 'action=updateapps'),
-            'updatecredit'=>array('', 'action=updatecredit'),
+            'test' => array('', 'action=test'),
+            'deleteuser' => array('', 'action=deleteuser'),
+            'renameuser' => array('', 'action=renameuser'),
+            'deletefriend' => array('', 'action=deletefriend'),
+            'gettag' => array('', 'action=gettag', 'tag', 'updatedata'),
+            'getcreditsettings' => array('', 'action=getcreditsettings'),
+            'getcredit' => array('', 'action=getcredit'),
+            'updatecreditsettings' => array('', 'action=updatecreditsettings'),
+            'updateclient' => array('', 'action=updateclient'),
+            'updatepw' => array('', 'action=updatepw'),
+            'updatebadwords' => array('', 'action=updatebadwords'),
+            'updatehosts' => array('', 'action=updatehosts'),
+            'updateapps' => array('', 'action=updateapps'),
+            'updatecredit' => array('', 'action=updatecredit'),
         );
     }
 
@@ -63,7 +63,7 @@ class notemodel
     {
     }
 
-    public function add($operation, $getdata='', $postdata='', $appids=array(), $pri = 0)
+    public function add($operation, $getdata = '', $postdata = '', $appids = array(), $pri = 0)
     {
         $extra = $varextra = '';
         $appadd = $varadd = array();

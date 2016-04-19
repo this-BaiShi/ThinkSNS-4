@@ -5,26 +5,26 @@ class TopicModel extends Model
     public $tableName = 'group_topic';
 
     //获取帖子
-    public function getThread($tid, $field='*')
+    public function getThread($tid, $field = '*')
     {
         $thread = $this->where('id='.$tid.' AND is_del=0')->field($field)->find();
 
         if ($thread) {
-            $thread['content'] =  D('Post')->getField('content', 'istopic=1 AND tid='.$tid);
-            $thread['pid'] =  D('Post')->getField('id', 'istopic=1 AND tid='.$tid);
+            $thread['content'] = D('Post')->getField('content', 'istopic=1 AND tid='.$tid);
+            $thread['pid'] = D('Post')->getField('id', 'istopic=1 AND tid='.$tid);
         }
 
         return $thread;
     }
 
     //获取帖子
-    public function getThreadDetail($gid, $tid, $field='*')
+    public function getThreadDetail($gid, $tid, $field = '*')
     {
         $thread = $this->where('id='.$tid.' AND is_del=0')->field($field)->find();
 
         if ($thread) {
-            $thread['content'] =  D('Post')->getField('content', 'istopic=1 AND tid='.$tid);
-            $thread['pid'] =  D('Post')->getField('id', 'istopic=1 AND tid='.$tid);
+            $thread['content'] = D('Post')->getField('content', 'istopic=1 AND tid='.$tid);
+            $thread['pid'] = D('Post')->getField('id', 'istopic=1 AND tid='.$tid);
         }
 
         return $thread;
@@ -34,7 +34,7 @@ class TopicModel extends Model
       /**
       * getTopicList 
      */
-    public function getTopicList($html=1, $map = null, $fields=null, $order = null, $limit = null, $isDel=0)
+    public function getTopicList($html = 1, $map = null, $fields = null, $order = null, $limit = null, $isDel = 0)
     {
         //处理where条件
             if (!$isDel) {
@@ -45,7 +45,7 @@ class TopicModel extends Model
 
         $map = implode(' AND ', $map);
             //连贯查询.获得数据集
-            $result         = $this->where($map)->field($fields)->order($order)->findPage($limit) ;
+            $result = $this->where($map)->field($fields)->order($order)->findPage($limit) ;
         if ($html) {
             return $result;
         }
@@ -69,7 +69,7 @@ class TopicModel extends Model
                  " ON t.id=p.tid WHERE t.is_del=0 AND t.gid=$gid AND p.gid = $gid AND p.istopic = 1 AND (t.title like '%$keywords%' OR p.content like '%$keywords%') LIMIT ".$p->firstRow.','.$p->listRows;
         $tList = $this->query($sql);
 
-        return array('html'=>$p->show(),'count'=>intval($count[0]['count']),'data'=>$tList);
+        return array('html' => $p->show(),'count' => intval($count[0]['count']),'data' => $tList);
     }
 
     //回收站
@@ -77,7 +77,7 @@ class TopicModel extends Model
     {
         $id = is_array($id) ? '('.implode(',', $id).')' : '('.$id.')';  //判读是不是数组回收
          $uids = D('Topic')->field('uid')->where('id IN'.$id)->findAll();
-        $res  = D('Topic')->setField('is_del', 1, 'id IN'.$id); //回收话题
+        $res = D('Topic')->setField('is_del', 1, 'id IN'.$id); //回收话题
          if ($res) {
              D('Post')->setField('is_del', 1, 'tid IN'.$id); //回复
              // 积分
@@ -117,7 +117,7 @@ class TopicModel extends Model
         if (!($cache = S('Cache_Hot_Thread'))) {
             S('Cache_Hot_Thread_t', time()); //缓存未设置 先设置缓存设定时间	
         } else {
-            if (!($cacheSetTime =  S('Cache_Hot_Thread_t')) || $cacheSetTime+60 <= time()) {
+            if (!($cacheSetTime = S('Cache_Hot_Thread_t')) || $cacheSetTime + 60 <= time()) {
                 S('Cache_Hot_Thread_t', time()); //缓存未设置 先设置缓存设定时间	
             } else {
                 return $cache;
@@ -130,7 +130,7 @@ class TopicModel extends Model
                                     on topic.id = post.tid
                                     left join '.C('DB_PREFIX').'group as `group`
                                     on topic.gid=`group`.id')
-                           ->where('`group`.brower_level=-1 AND post.istopic = 1 AND topic.is_del=0 and post.is_del=0 AND topic.replytime>'.(time()-30*24*3600))
+                           ->where('`group`.brower_level=-1 AND post.istopic = 1 AND topic.is_del=0 and post.is_del=0 AND topic.replytime>'.(time() - 30 * 24 * 3600))
                            ->order('topic.viewcount+topic.replycount DESC,topic.id DESC')
                            ->limit(10)->findAll();
         S('Cache_Hot_Thread', $cache);

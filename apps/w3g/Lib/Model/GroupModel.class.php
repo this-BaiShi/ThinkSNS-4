@@ -9,41 +9,41 @@ class GroupModel extends Model
     //表名
     public $tableName = 'group';
     //表结构
-    protected $fields = array(1=>'id',
-    2=>'uid',
-    3=>'name',
-    4=>'intro',
-    5=>'logo',
-    6=>'announce',
-    7=>'cid0',
-    8=>'cid1',
-    9=>'membercount',
-    10=>'threadcount',
-    11=>'type',
-    12=>'need_invite',
-    13=>'need_verify',
-    14=>'actor_level',
-    15=>'brower_level',
-    16=>'openWeibo',
-    17=>'openBlog',
-    18=>'openUploadFile',
-    19=>'whoUploadFile',
-    20=>'whoDownloadFile',
-    21=>'openAlbum',
-    22=>'whoCreateAlbum',
-    23=>'whoUploadPic',
-    24=>'anno',
-    25=>'ipshow',
-    26=>'invitepriv',
-    27=>'createalbumpriv',
-    28=>'uploadpicpriv',
-    29=>'ctime',
-    30=>'mtime',
-    31=>'status',
-    32=>'isrecom',
-    33=>'is_del',
-    34=>'hot',
-    35=>'sort',
+    protected $fields = array(1 => 'id',
+    2 => 'uid',
+    3 => 'name',
+    4 => 'intro',
+    5 => 'logo',
+    6 => 'announce',
+    7 => 'cid0',
+    8 => 'cid1',
+    9 => 'membercount',
+    10 => 'threadcount',
+    11 => 'type',
+    12 => 'need_invite',
+    13 => 'need_verify',
+    14 => 'actor_level',
+    15 => 'brower_level',
+    16 => 'openWeibo',
+    17 => 'openBlog',
+    18 => 'openUploadFile',
+    19 => 'whoUploadFile',
+    20 => 'whoDownloadFile',
+    21 => 'openAlbum',
+    22 => 'whoCreateAlbum',
+    23 => 'whoUploadPic',
+    24 => 'anno',
+    25 => 'ipshow',
+    26 => 'invitepriv',
+    27 => 'createalbumpriv',
+    28 => 'uploadpicpriv',
+    29 => 'ctime',
+    30 => 'mtime',
+    31 => 'status',
+    32 => 'isrecom',
+    33 => 'is_del',
+    34 => 'hot',
+    35 => 'sort',
 
     );
 
@@ -58,7 +58,7 @@ class GroupModel extends Model
     }
 
     //获取我的群组  包括我管理的和加入的群组
-    public function getAllMyGroup($mid, $html=0, $open = array(), $limit=false)
+    public function getAllMyGroup($mid, $html = 0, $open = array(), $limit = false)
     {
         static $_group_list = array();
 
@@ -67,7 +67,7 @@ class GroupModel extends Model
         }
 
         if (!empty($open)) {
-            foreach ($open as $key=>$value) {
+            foreach ($open as $key => $value) {
                 $open[$key] = $key.' = '.intval($value);
             }
             $openSql = ' AND '.implode(' AND ', $open);
@@ -90,7 +90,7 @@ class GroupModel extends Model
     }
 
     //我管理的群组
-    public function mymanagegroup($mid, $html=0)
+    public function mymanagegroup($mid, $html = 0)
     {
         $gidarr = D('Member')->field('gid')->where('(level=1 OR level=2) AND uid='.$mid)->findAll();
 
@@ -108,13 +108,13 @@ class GroupModel extends Model
     }
 
     //我加入的群组
-    public function myjoingroup($mid, $html=0)
+    public function myjoingroup($mid, $html = 0)
     {
         $gidarr = D('Member')->field('gid')->where('level > 1 AND status=1 AND uid='.$mid)->findAll();
 
         if ($gidarr) {
             $in = 'id IN '.render_in($gidarr, 'gid').' AND is_del=0';
-            $groupList= D('Group')->field('id,name,type,membercount,logo,cid0,ctime,status')->where($in)->findPage();
+            $groupList = D('Group')->field('id,name,type,membercount,logo,cid0,ctime,status')->where($in)->findPage();
             if (!$html) {
                 return $groupList['data'];
             }
@@ -145,7 +145,7 @@ class GroupModel extends Model
             $p = new Page($count['count'], 10);
             $friendgroup = D('Member')->field('gid')->where($in)->group('gid')->limit($p->firstRow.','.$p->listRows)->findAll();  //获取数据
 
-            foreach ($friendgroup as $k=>$v) {
+            foreach ($friendgroup as $k => $v) {
                 $group[$v['gid']] = D('Member')->where($in.' AND gid='.$v['gid'])->findAll();  //循环显示朋友
                 $group[$v['gid']]['c'] = D('Member')->where($in.' AND gid='.$v['gid'])->count();
             }
@@ -157,7 +157,7 @@ class GroupModel extends Model
     }
 
     //某人加入某群组
-    public function joinGroup($mid, $gid, $level, $incMemberCount=false, $reason='')
+    public function joinGroup($mid, $gid, $level, $incMemberCount = false, $reason = '')
     {
         if (D('Member')->where("uid=$mid AND gid=$gid")->find()) {
             exit('你已经加入过');
@@ -189,7 +189,7 @@ class GroupModel extends Model
         // 个人兴趣
         $user_tag = D('UserTag', 'home')->getUserTagList($uid);
         foreach ((array) $user_tag as $v) {
-            $_tag_id[]   = $v['tag_id'];
+            $_tag_id[] = $v['tag_id'];
             $_tag_in_name .= " OR g.name LIKE '%{$v['tag_name']}%' ";
             $_tag_in_intro .= " OR g.intro LIKE '%{$v['tag_name']}%' ";
         }
@@ -215,8 +215,8 @@ class GroupModel extends Model
                                   ->findPage($pagesize, $group_count['count']);
         // 标签相关的群组不够四个
         if ($group_list['count'] < 4) {
-            $not_in_gids  =  array_merge($_my_group_id, getSubByKey($group_list['data'], 'id'));
-            $hot_list  = $this->getHotList(true);
+            $not_in_gids = array_merge($_my_group_id, getSubByKey($group_list['data'], 'id'));
+            $hot_list = $this->getHotList(true);
             foreach ((array) $hot_list as $v) {
                 if (!in_array($v['id'], $not_in_gids)) {
                     $v['reason'] = '热门群组';
@@ -252,13 +252,13 @@ class GroupModel extends Model
      * @param  unknown_type $reset 是否重设缓存
      * @return unknown
      */
-    public function getHotList($reset=false)
+    public function getHotList($reset = false)
     {
         // 1分钟锁缓存 
         if (!($cache = S('Cache_Group_Hot_list')) || $reset) {
             S('Cache_Group_Hot_list_t', time()); //缓存未设置 先设置缓存设定时间	
         } else {
-            if (!($cacheSetTime =  S('Cache_Group_Hot_list_t')) || $cacheSetTime+60 <= time()) {
+            if (!($cacheSetTime = S('Cache_Group_Hot_list_t')) || $cacheSetTime + 60 <= time()) {
                 S('Cache_Group_Hot_list_t', time()); //缓存未设置 先设置缓存设定时间	
             } else {
                 return $cache;
@@ -266,8 +266,8 @@ class GroupModel extends Model
         }
         // 缓存锁结束
 
-        $today       = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
-        $yesterday   = $today-24*3600;
+        $today = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+        $yesterday = $today - 24 * 3600;
         $gids['by_new_weibo'] = D('GroupFeed')->field('gid')
                                    ->where("publish_time>{$yesterday} AND publish_time<{$today} AND is_del=0")
                                    ->group('gid')
@@ -275,7 +275,7 @@ class GroupModel extends Model
                                    ->limit(20)
                                    ->findAll();
 
-        $a_week_ago   = $today-7*24*3600;
+        $a_week_ago = $today - 7 * 24 * 3600;
         $gids['by_new_member'] = D('Member', 'group')->field('gid')
                                     ->where("ctime>{$a_week_ago} AND ctime<{$today} AND level>1")
                                     ->group('gid')
@@ -319,7 +319,7 @@ class GroupModel extends Model
         // 计算权值
         foreach ($count as $k => $v) {
             foreach ((array) $v as $_v) {
-                $weight[$_v['gid']] += $_v[$k]*$factor[$k];
+                $weight[$_v['gid']] += $_v[$k] * $factor[$k];
             }
         }
 
@@ -328,10 +328,10 @@ class GroupModel extends Model
         for ($i = 0; $i < $group_num; $i++) {
             $hot_list[$i]['weight'] = $weight[$hot_list[$i]['gid']];
             for ($j = $i; $j > 0; $j--) {
-                if ($hot_list[$j]['weight'] > $hot_list[$j-1]['weight']) {
+                if ($hot_list[$j]['weight'] > $hot_list[$j - 1]['weight']) {
                     $_temp = $hot_list[$j];
-                    $hot_list[$j] = $hot_list[$j-1];
-                    $hot_list[$j-1] = $_temp;
+                    $hot_list[$j] = $hot_list[$j - 1];
+                    $hot_list[$j - 1] = $_temp;
                 } else {
                     break;
                 }
@@ -359,7 +359,7 @@ class GroupModel extends Model
     }
 
     //获取群组动态
-    public function getGroupFeed($gid, $appid, $pageLimit=6)
+    public function getGroupFeed($gid, $appid, $pageLimit = 6)
     {
         $gid = intval($gid);
         //$map = "type!= 'create_group' AND appid={$appid} AND fid={$gid} ";
@@ -376,7 +376,7 @@ class GroupModel extends Model
         $joinGroup = D('Member')->field('gid')->where('uid='.$uid.' AND level != 0 ')->findPage();
 
         if ($joinGroup['data']) {
-            foreach ($joinGroup['data'] as $k=>$v) {
+            foreach ($joinGroup['data'] as $k => $v) {
                 $feedList[$k]['gid'] = $v['gid'];
                 $feedList[$k]['feed'] = $this->getGroupFeed($v['gid'], $appid, 6);
             }
@@ -390,7 +390,7 @@ class GroupModel extends Model
          * getGroupList
          
          */
-        public function getGroupList($html = 1, $map = array(), $fields= null, $order = null, $limit=null, $isDel=0)
+        public function getGroupList($html = 1, $map = array(), $fields = null, $order = null, $limit = null, $isDel = 0)
         {
             //处理where条件
             if (!$isDel) {
@@ -413,7 +413,7 @@ class GroupModel extends Model
           $id = is_array($id) ? '('.implode(',', $id).')' : '('.$id.')';  //判读是不是数组回收
 
           $uids = D('Group', 'group')->field('uid')->where('id IN '.$id)->findAll(); // 创建者ID
-          $res  = D('Group', 'group')->setField('is_del', 1, 'id IN '.$id);  // 回收群组
+          $res = D('Group', 'group')->setField('is_del', 1, 'id IN '.$id);  // 回收群组
           if ($res) {
               // 删除成员
             D('Member', 'group')->where('gid IN '.$id)->delete();       //删除成员
@@ -433,7 +433,7 @@ class GroupModel extends Model
 
               if ($dirList) {
                   $attachIds = array();
-                  foreach ($dirList as $k=>$v) {
+                  foreach ($dirList as $k => $v) {
                       $attachIds[] = $v['attachId'];
                   }
 
@@ -448,7 +448,7 @@ class GroupModel extends Model
               $photoList = D('Photo', 'group')->field('attachId')->where('gid IN'.$id)->findAll();
               if ($photoList) {
                   $attachIds = array();
-                  foreach ($photoList as $k=>$v) {
+                  foreach ($photoList as $k => $v) {
                       $attachIds[] = $v['attachId'];
                   }
                   model('Attach')->deleteAttach($attachIds, true);

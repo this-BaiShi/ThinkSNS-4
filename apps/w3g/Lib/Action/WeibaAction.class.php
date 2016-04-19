@@ -10,7 +10,7 @@ class WeibaAction extends BaseAction
         $indexList = D('weiba_post')->where('is_del=0 AND is_index=1')->order('is_index_time desc')->findAll();
         $this->assign('indexList', $indexList);
         $order = '`top` desc,FIELD(recommend+digest,0,1,2) desc,last_reply_time desc';
-        $map['is_del']   = 0;
+        $map['is_del'] = 0;
         $map['is_index'] = 0;
         $list = D('weiba_post')->where($map)->order($order)->limit(20)->select();
         $this->assign('list', $list);
@@ -172,7 +172,7 @@ class WeibaAction extends BaseAction
 
         $this->setTitle($post_detail ['title'].' - '.$this->site ['site_name']);
         $this->setDescription(getShort(t(bbcode($post_detail ['content'])), 200));
-        $this->assign('type', $_GET['type']=='digg'?'digg':'time');
+        $this->assign('type', $_GET['type'] == 'digg' ? 'digg' : 'time');
         $this->display();
     }
     // 面包屑
@@ -438,7 +438,7 @@ class WeibaAction extends BaseAction
         $weiba_arr = getSubByKey(D('weiba', 'weiba')->where('is_del=0 and status=1')->field('weiba_id')->findAll(), 'weiba_id');  //未删除且通过审核的微吧
         $map['weiba_id'] = array('in',$weiba_arr);
         $map['is_del'] = 0;
-        $type = in_array(t($_GET['type']), array('myPost', 'myReply', 'myWeiba', 'myFavorite', 'myFollowing'))?t($_GET['type']):'index';
+        $type = in_array(t($_GET['type']), array('myPost', 'myReply', 'myWeiba', 'myFavorite', 'myFollowing')) ? t($_GET['type']) : 'index';
         switch ($type) {
             case 'myPost':
                 $map['post_uid'] = $this->mid;
@@ -482,7 +482,7 @@ class WeibaAction extends BaseAction
         // }
         $weiba_ids = getSubByKey($post_list['data'], 'weiba_id');
         $nameArr = $this->_getWeibaName($weiba_ids);
-        foreach ($post_list['data'] as $k=>$v) {
+        foreach ($post_list['data'] as $k => $v) {
             $post_list['data'][$k]['weiba'] = $nameArr[$v['weiba_id']];
             $post_list['data'][$k]['user'] = model('User')->getUserInfo($v['post_uid']);
             $post_list['data'][$k]['replyuser'] = model('User')->getUserInfo($v['last_reply_uid']);
@@ -526,7 +526,7 @@ class WeibaAction extends BaseAction
         //读取微吧详细信息
         $weiba_ids = getSubByKey($post_list['data'], 'weiba_id');
         $nameArr = $this->_getWeibaName($weiba_ids);
-        foreach ($post_list['data'] as $k=>$v) {
+        foreach ($post_list['data'] as $k => $v) {
             $post_list['data'][$k]['weiba'] = $nameArr[$v['weiba_id']];
             $post_list['data'][$k]['user'] = model('User')->getUserInfo($v['post_uid']);
             $post_list['data'][$k]['replyuser'] = model('User')->getUserInfo($v['last_reply_uid']);
@@ -583,7 +583,7 @@ class WeibaAction extends BaseAction
                 $this->assign('reply', $reply);
             }
         }
-        $list_count = D('weiba_reply', 'weiba')->where(array('post_id'=>$post_id))->count();
+        $list_count = D('weiba_reply', 'weiba')->where(array('post_id' => $post_id))->count();
         $this->assign('list_count', $list_count);
         $this->assign('post', $post);
         $this->display();

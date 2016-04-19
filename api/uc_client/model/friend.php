@@ -25,7 +25,7 @@ class friendmodel
         $this->db = $base->db;
     }
 
-    public function add($uid, $friendid, $comment='')
+    public function add($uid, $friendid, $comment = '')
     {
         $direction = $this->db->result_first('SELECT direction FROM '.UC_DBTABLEPRE."friends WHERE uid='$friendid' AND friendid='$uid' LIMIT 1");
         if ($direction == 1) {

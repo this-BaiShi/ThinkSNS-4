@@ -43,7 +43,7 @@ class ChannelApiModel
      * 获取频道分类数据
      * @return array 所有频道分类数据
      */
-    public function getChannels($uid, $count=6, $page=1, $order='sort asc', $sql='')
+    public function getChannels($uid, $count = 6, $page = 1, $order = 'sort asc', $sql = '')
     {
         $start = ($page - 1) * $count;
         $end = $count;
@@ -84,7 +84,7 @@ class ChannelApiModel
     /**
      * 获取频道下的分享
      */
-    public function getChannelFeed($cid, $type, $count=10, $page=1, $order, $sql='')
+    public function getChannelFeed($cid, $type, $count = 10, $page = 1, $order, $sql = '')
     {
         // $cid = intval($cid);
         $count = intval($count);
@@ -102,7 +102,7 @@ class ChannelApiModel
             $where .= " AND f.type='".$type."'";
         }
         if (!$order) {
-            $order ='c.feed_id DESC';
+            $order = 'c.feed_id DESC';
         }
         if ($sql) {
             $where .= $sql;

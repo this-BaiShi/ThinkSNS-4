@@ -26,25 +26,25 @@ class CacheRedis extends Cache
      * @param array $options 缓存参数
      * @access public
      */
-    public function __construct($options=array())
+    public function __construct($options = array())
     {
         if (!extension_loaded('redis')) {
             throw_exception(L('_NOT_SUPPERT_').':redis');
         }
         if (empty($options)) {
             $options = array(
-                'host'          => C('REDIS_HOST') ? C('REDIS_HOST') : '127.0.0.1',
-                'port'          => C('REDIS_PORT') ? C('REDIS_PORT') : 6379,
-                'timeout'       => C('DATA_CACHE_TIMEOUT') ? C('DATA_CACHE_TIMEOUT') : false,
-                'persistent'    => false,
+                'host' => C('REDIS_HOST') ? C('REDIS_HOST') : '127.0.0.1',
+                'port' => C('REDIS_PORT') ? C('REDIS_PORT') : 6379,
+                'timeout' => C('DATA_CACHE_TIMEOUT') ? C('DATA_CACHE_TIMEOUT') : false,
+                'persistent' => false,
             );
         }
-        $this->options =  $options;
-        $this->options['expire'] =  isset($options['expire'])?  $options['expire']  :   C('DATA_CACHE_TIME');
-        $this->options['prefix'] =  isset($options['prefix'])?  $options['prefix']  :   C('DATA_CACHE_PREFIX');
-        $this->options['length'] =  isset($options['length'])?  $options['length']  :   0;
+        $this->options = $options;
+        $this->options['expire'] = isset($options['expire']) ?  $options['expire']  :   C('DATA_CACHE_TIME');
+        $this->options['prefix'] = isset($options['prefix']) ?  $options['prefix']  :   C('DATA_CACHE_PREFIX');
+        $this->options['length'] = isset($options['length']) ?  $options['length']  :   0;
         $func = $options['persistent'] ? 'pconnect' : 'connect';
-        $this->handler  = new Redis;
+        $this->handler = new Redis;
         $options['timeout'] === false ?
             $this->handler->$func($options['host'], $options['port']) :
             $this->handler->$func($options['host'], $options['port'], $options['timeout']);
@@ -75,15 +75,15 @@ class CacheRedis extends Cache
     {
         N('cache_write', 1);
         if (is_null($expire)) {
-            $expire  =  $this->options['expire'];
+            $expire = $this->options['expire'];
         }
-        $name   =   $this->options['prefix'].$name;
+        $name = $this->options['prefix'].$name;
         if (is_int($expire)) {
             $result = $this->handler->setex($name, $expire, $value);
         } else {
             $result = $this->handler->set($name, $value);
         }
-        if ($result && $this->options['length']>0) {
+        if ($result && $this->options['length'] > 0) {
             // 记录缓存队列
             $this->queue($name);
         }

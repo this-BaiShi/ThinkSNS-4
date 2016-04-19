@@ -29,15 +29,15 @@ if (!isset($_REQUEST['app']) && !isset($_REQUEST['mod']) && !isset($_REQUEST['ac
     $ts['_mod'] = 'Passport';
     $ts['_act'] = 'login';
 } else {
-    $ts['_app'] = isset($_REQUEST['app']) && !empty($_REQUEST['app'])?$_REQUEST['app']:tsconfig('DEFAULT_APP');
-    $ts['_mod'] = isset($_REQUEST['mod']) && !empty($_REQUEST['mod'])?$_REQUEST['mod']:tsconfig('DEFAULT_MODULE');
-    $ts['_act'] = isset($_REQUEST['act']) && !empty($_REQUEST['act'])?$_REQUEST['act']:tsconfig('DEFAULT_ACTION');
+    $ts['_app'] = isset($_REQUEST['app']) && !empty($_REQUEST['app']) ? $_REQUEST['app'] : tsconfig('DEFAULT_APP');
+    $ts['_mod'] = isset($_REQUEST['mod']) && !empty($_REQUEST['mod']) ? $_REQUEST['mod'] : tsconfig('DEFAULT_MODULE');
+    $ts['_act'] = isset($_REQUEST['act']) && !empty($_REQUEST['act']) ? $_REQUEST['act'] : tsconfig('DEFAULT_ACTION');
 }
-$ts['_widget_appname'] = isset($_REQUEST['widget_appname']) && !empty($_REQUEST['widget_appname'])  ? $_REQUEST['widget_appname'] :'';
+$ts['_widget_appname'] = isset($_REQUEST['widget_appname']) && !empty($_REQUEST['widget_appname'])  ? $_REQUEST['widget_appname'] : '';
 
 //APP的常量定义
 tsdefine('APP_NAME', $ts['_app']);
-tsdefine('TRUE_APPNAME', !empty($ts['_widget_appname']) ? $ts['_widget_appname']:APP_NAME);
+tsdefine('TRUE_APPNAME', !empty($ts['_widget_appname']) ? $ts['_widget_appname'] : APP_NAME);
 tsdefine('MODULE_NAME', $ts['_mod']);
 tsdefine('ACTION_NAME', $ts['_act']);
 
@@ -61,7 +61,7 @@ if (isset($_POST['PHPSESSID'])) {
 ini_set('session.cookie_httponly', 1);
 
 ini_set('session.gc_maxlifetime',   3600);
-ini_set('session.cookie_lifetime',  7*86400);
+ini_set('session.cookie_lifetime',  7 * 86400);
 //设置session路径到本地
 if (strtolower(ini_get('session.save_handler')) == 'files') {
     $session_dir = DATA_PATH.'/session';
@@ -74,13 +74,13 @@ session_start();
 
 //参数处理 If already slashed, strip.
 if (get_magic_quotes_gpc()) {
-    $_GET    = stripslashes_deep($_GET);
-    $_POST   = stripslashes_deep($_POST);
+    $_GET = stripslashes_deep($_GET);
+    $_POST = stripslashes_deep($_POST);
     $_COOKIE = stripslashes_deep($_COOKIE);
 }
 
 //解析关键参数 todo:参数过滤 preg_match("/^([a-zA-Z_\/0-9]+)$/i", $ts, $url);
-$_REQUEST    =    array_merge($_GET, $_POST);
+$_REQUEST = array_merge($_GET, $_POST);
 
 //参数处理 控制不合规格的参数
 check_gpc($_GET);

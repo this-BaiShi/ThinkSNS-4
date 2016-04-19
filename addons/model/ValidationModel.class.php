@@ -9,7 +9,7 @@
 class ValidationModel extends Model
 {
     protected $tableName = 'validation';
-    protected $fields = array(0=>'validation_id',1=>'type',2=>'from_uid',3=>'to_user',4=>'data',5=>'code',6=>'target_url',7=>'is_active',8=>'ctime','_autoinc'=>true,'_pk'=>'validation_id');
+    protected $fields = array(0 => 'validation_id',1 => 'type',2 => 'from_uid',3 => 'to_user',4 => 'data',5 => 'code',6 => 'target_url',7 => 'is_active',8 => 'ctime','_autoinc' => true,'_pk' => 'validation_id');
 
     /**
      * 添加验证
@@ -32,7 +32,7 @@ class ValidationModel extends Model
 
         if ($vid) {
             $validation_code = $this->__generateCode($vid);
-            $target_url    = $target_url."&validationid=$vid&validationcode=$validation_code";
+            $target_url = $target_url."&validationid=$vid&validationcode=$validation_code";
             $res = model('Validation')->where("`validation_id`=$vid")->setField(array('code', 'target_url'), array($validation_code, $target_url));
             if ($res) {
                 return $target_url;
@@ -79,7 +79,7 @@ class ValidationModel extends Model
         if ($id == 0 && $code == 0 && !empty($_REQUEST['validationid']) && !empty($_REQUEST['validationcode'])) {
             $where = '`validation_id`='.intval($_REQUEST['validationid']).' AND `code`="'.h($_REQUEST['validationcode']).'" AND `is_active`=1';
         } elseif ($id != 0) {
-            $id    = intval($id);
+            $id = intval($id);
             $where = $code == 0 ? "`validation_id`=$id AND `is_active`=1" : "`validation_id`=$id AND `is_active`=1 AND `code`='$code'";
         } elseif ($code != 0) {
             $where = $id == 0 ? '`code`="'.h($code).'" AND `is_active`=1' : "`validation_id`=$id AND `is_active`=1 AND `code`='$code'";
@@ -103,7 +103,7 @@ class ValidationModel extends Model
         }
 
         if ($id == 0 && $code == 0) {
-            $id    = intval($_REQUEST['validationid']);
+            $id = intval($_REQUEST['validationid']);
             $code = h($_REQUEST['validationcode']);
         }
 

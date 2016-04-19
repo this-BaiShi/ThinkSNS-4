@@ -46,17 +46,17 @@ class GdReflectionLib
     public function createReflection($percent, $reflection, $white, $border, $borderColor, &$that)
     {
         // bring stuff from the parent class into this class...
-        $this->parentInstance        = $that;
-        $this->currentDimensions    = $this->parentInstance->getCurrentDimensions();
-        $this->workingImage            = $this->parentInstance->getWorkingImage();
-        $this->newImage                = $this->parentInstance->getOldImage();
-        $this->options                = $this->parentInstance->getOptions();
+        $this->parentInstance = $that;
+        $this->currentDimensions = $this->parentInstance->getCurrentDimensions();
+        $this->workingImage = $this->parentInstance->getWorkingImage();
+        $this->newImage = $this->parentInstance->getOldImage();
+        $this->options = $this->parentInstance->getOptions();
 
-        $width                = $this->currentDimensions['width'];
-        $height                = $this->currentDimensions['height'];
-        $reflectionHeight    = intval($height * ($reflection / 100));
-        $newHeight            = $height + $reflectionHeight;
-        $reflectedPart        = $height * ($percent / 100);
+        $width = $this->currentDimensions['width'];
+        $height = $this->currentDimensions['height'];
+        $reflectionHeight = intval($height * ($reflection / 100));
+        $newHeight = $height + $reflectionHeight;
+        $reflectedPart = $height * ($percent / 100);
 
         $this->workingImage = imagecreatetruecolor($width, $newHeight);
 
@@ -85,19 +85,19 @@ class GdReflectionLib
         imagealphablending($this->workingImage, true);
 
         for ($i = 0; $i < $reflectionHeight; $i++) {
-            $colorToPaint = imagecolorallocatealpha($this->workingImage, 255, 255, 255, ($i/$reflectionHeight*-1+1)*$white);
+            $colorToPaint = imagecolorallocatealpha($this->workingImage, 255, 255, 255, ($i / $reflectionHeight * -1 + 1) * $white);
 
             imagefilledrectangle($this->workingImage, 0, $height + $i, $width, $height + $i, $colorToPaint);
         }
 
         if ($border == true) {
-            $rgb            = $this->hex2rgb($borderColor, false);
-            $colorToPaint    = imagecolorallocate($this->workingImage, $rgb[0], $rgb[1], $rgb[2]);
+            $rgb = $this->hex2rgb($borderColor, false);
+            $colorToPaint = imagecolorallocate($this->workingImage, $rgb[0], $rgb[1], $rgb[2]);
 
             imageline($this->workingImage, 0, 0, $width, 0, $colorToPaint); //top line
             imageline($this->workingImage, 0, $height, $width, $height, $colorToPaint); //bottom line
             imageline($this->workingImage, 0, 0, 0, $height, $colorToPaint); //left line
-            imageline($this->workingImage, $width-1, 0, $width-1, $height, $colorToPaint); //right line
+            imageline($this->workingImage, $width - 1, 0, $width - 1, $height, $colorToPaint); //right line
         }
 
         if ($this->parentInstance->getFormat() == 'PNG') {
@@ -114,8 +114,8 @@ class GdReflectionLib
         }
 
         $this->parentInstance->setOldImage($this->workingImage);
-        $this->currentDimensions['width']    = $width;
-        $this->currentDimensions['height']    = $newHeight;
+        $this->currentDimensions['width'] = $width;
+        $this->currentDimensions['height'] = $newHeight;
         $this->parentInstance->setCurrentDimensions($this->currentDimensions);
 
         return $that;
@@ -154,7 +154,7 @@ class GdReflectionLib
         }
 
         // break into hex 3-tuple
-        $cutpoint = ceil(strlen($hex) / 2)-1;
+        $cutpoint = ceil(strlen($hex) / 2) - 1;
         $rgb = explode(':', wordwrap($hex, $cutpoint, ':', $cutpoint), 3);
 
         // convert each tuple to decimal

@@ -130,7 +130,7 @@ class Google_ServiceResource
       if (isset($method['mediaUpload'])) {
           $media = Google_MediaFileUpload::process($postBody, $parameters);
           if ($media) {
-              $contentType = isset($media['content-type']) ? $media['content-type']: null;
+              $contentType = isset($media['content-type']) ? $media['content-type'] : null;
               $postBody = isset($media['postBody']) ? $media['postBody'] : null;
               $servicePath = $method['mediaUpload']['protocols']['simple']['path'];
               $method['path'] = '';

@@ -118,7 +118,7 @@ class CheckInWidget extends Widget
             }
             if (D('check_info')->add($data)) {
                 model('Credit')->setUserCredit($uid, 'check_in', 1, array(
-                    'user'    => $GLOBALS['ts']['user']['uname'],
+                    'user' => $GLOBALS['ts']['user']['uname'],
                     'content' => '签到',
                 ));
                 // 更新连续签到和累计签到的数据

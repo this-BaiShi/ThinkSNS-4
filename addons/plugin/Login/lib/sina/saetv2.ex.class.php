@@ -247,7 +247,7 @@ class SaeTOAuthV2
         }
         $expected_sig = hash_hmac('sha256', $payload, $this->client_secret, true);
 
-        return ($sig !== $expected_sig)? '-2':$data;
+        return ($sig !== $expected_sig) ? '-2' : $data;
     }
     /**
      * @ignore
@@ -638,7 +638,7 @@ class SaeTClientV2
     public function user_timeline_by_id($uid = null, $page = 1, $count = 50, $since_id = 0, $max_id = 0, $feature = 0, $trim_user = 0, $base_app = 0)
     {
         $params = array();
-        $params['uid']=$uid;
+        $params['uid'] = $uid;
         if ($since_id) {
             $this->id_format($since_id);
             $params['since_id'] = $since_id;
@@ -869,7 +869,7 @@ class SaeTClientV2
      */
     public function show_batch($ids)
     {
-        $params=array();
+        $params = array();
         if (is_array($ids) && !empty($ids)) {
             foreach ($ids as $k => $v) {
                 $this->id_format($ids[$k]);
@@ -968,7 +968,7 @@ class SaeTClientV2
      */
     public function comments_daily($count = 20,  $base_app = 0)
     {
-        $params =  array();
+        $params = array();
         $params['count'] = intval($count);
         $params['base_app'] = intval($base_app);
 
@@ -985,7 +985,7 @@ class SaeTClientV2
      */
     public function comments_weekly($count = 20, $base_app = 0)
     {
-        $params =  array();
+        $params = array();
         $params['count'] = intval($count);
         $params['base_app'] = intval($base_app);
 
@@ -1411,7 +1411,7 @@ class SaeTClientV2
      */
     public function show_user_by_id($uid)
     {
-        $params=array();
+        $params = array();
         if ($uid !== null) {
             $this->id_format($uid);
             $params['uid'] = $uid;
@@ -2991,7 +2991,7 @@ class SaeTClientV2
      * @param  int    $range 联想范围，0：只联想关注人、1：只联想关注人的备注、2：全部，默认为2。选填
      * @return array
      */
-    public function search_at_users($q, $count = 10, $type=0, $range = 2)
+    public function search_at_users($q, $count = 10, $type = 0, $range = 2)
     {
         $params = array();
         $params['q'] = $q;
@@ -3180,7 +3180,7 @@ class SaeTClientV2
             $params['count'] = $count;
         }
         if ($cursor) {
-            $params['cursor'] =  $cursor;
+            $params['cursor'] = $cursor;
         }
         if ($post) {
             $method = 'post';

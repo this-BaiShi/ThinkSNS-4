@@ -189,7 +189,7 @@ class AppModel extends Model
     {
         $list = S('get_app_front_list');
         if ($list == false) {
-            $list = $this->getAppList(array('status'=>1, 'add_front_top'=>1), $limit);
+            $list = $this->getAppList(array('status' => 1, 'add_front_top' => 1), $limit);
             S('get_app_front_list', $list);
         }
 
@@ -675,7 +675,7 @@ class AppModel extends Model
                     $access = array_merge($appaccess['access'], $access);
                 }
             }
-            foreach ($access as $k=>$v) {
+            foreach ($access as $k => $v) {
                 if (!$v) {
                     unset($access[$k]);
                 }

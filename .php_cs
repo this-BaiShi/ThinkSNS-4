@@ -53,7 +53,10 @@ return Symfony\CS\Config\Config::create()
         'unalign_double_arrow',
         'unalign_equals',
         'ternary_spaces',
-        'operators_spaces'
+        'operators_spaces',
+        'trim_array_spaces',
+        'array_element_white_space_after_comma',
+        'array_element_no_space_before_comma',
     ))
     ->finder($finder)
 ;

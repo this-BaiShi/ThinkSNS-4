@@ -24,12 +24,12 @@ class FollowWeibaListWidget extends Widget
         $map['weiba_id'] = array('in', getSubByKey($follow, 'weiba_id'));
         $map['is_del'] = 0;
         $var['weibaList'] = D('weiba')->where($map)->findAll();
-        if ($data['right']=='1') {
+        if ($data['right'] == '1') {
             $var['nweibaList'] = array_chunk($var['weibaList'], 4);
         }
 
         $var['weibaListCount'] = D('weiba')->where($map)->count();
-        foreach ($var['weibaList'] as $k=>$v) {
+        foreach ($var['weibaList'] as $k => $v) {
             $var['weibaList'][$k]['logo'] = getImageUrlByAttachId($v['logo'], 50, 50);
         }
         is_array($data) && $var = array_merge($var, $data);

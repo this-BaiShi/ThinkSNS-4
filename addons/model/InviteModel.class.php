@@ -390,7 +390,7 @@ class InviteModel extends Model
         $sql = 'SELECT inviter_uid, COUNT(receiver_uid) AS nums FROM '.$this->tablePrefix.$this->tableName." {$where} GROUP BY inviter_uid ";
         $count = $this->query("SELECT COUNT(1) AS nums FROM ({$sql}) a ");
         $count = $count[0]['nums'];
-        $sql .=' ORDER BY COUNT(inviter_uid) DESC ';
+        $sql .= ' ORDER BY COUNT(inviter_uid) DESC ';
         $list = $this->findPageBySql($sql, $count, $pageNums);
 
         return $list;

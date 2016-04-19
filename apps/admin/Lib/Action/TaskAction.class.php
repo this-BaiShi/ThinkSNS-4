@@ -28,9 +28,9 @@ class TaskAction extends AdministratorAction
     private function _initListAdminMenu()
     {
         // tab选项
-        $this->pageTab[] = array('title'=>'每日任务','tabHash'=>'index','url'=>U('admin/Task/index'));
-        $this->pageTab[] = array('title'=>'主线任务','tabHash'=>'mainIndex','url'=>U('admin/Task/mainIndex'));
-        $this->pageTab[] = array('title'=>'副本任务','tabHash'=>'customIndex','url'=>U('admin/Task/customIndex'));
+        $this->pageTab[] = array('title' => '每日任务','tabHash' => 'index','url' => U('admin/Task/index'));
+        $this->pageTab[] = array('title' => '主线任务','tabHash' => 'mainIndex','url' => U('admin/Task/mainIndex'));
+        $this->pageTab[] = array('title' => '副本任务','tabHash' => 'customIndex','url' => U('admin/Task/customIndex'));
     }
     /**
      * 任务列表
@@ -55,7 +55,7 @@ class TaskAction extends AdministratorAction
             $src = $reward->medal->src;
             $v['reward'] = '经验+'.$reward->exp.' 积分+'.$reward->score;
             $src && $v['medal'] = '<img width="100px" height="100px" src="'.getImageUrl($src).'" />';
-            $v['DOACTION'] = "<a href='".U('admin/Task/editTask', array('id'=>$v['id']))."' >编辑</a>";
+            $v['DOACTION'] = "<a href='".U('admin/Task/editTask', array('id' => $v['id']))."' >编辑</a>";
         }
         $this->allSelected = false;
         $this->displayList($list);
@@ -88,7 +88,7 @@ class TaskAction extends AdministratorAction
                 $condesc .= '前置任务:'.$tname.'</br>';
             }
             $condition = json_decode($v['condition']);
-            foreach ($condition as $k=>$con) {
+            foreach ($condition as $k => $con) {
                 switch ($k) {
                         case 'endtime':
                             $endtime = explode('|', $condition->endtime);
@@ -117,11 +117,11 @@ class TaskAction extends AdministratorAction
                     }
             }
             $v['condesc'] = $condesc;
-            $v['DOACTION'] = "<a href='".U('admin/Task/editCustomTask', array('id'=>$v['id'], 'tabHash'=>'customIndex'))."' >编辑</a>";
+            $v['DOACTION'] = "<a href='".U('admin/Task/editCustomTask', array('id' => $v['id'], 'tabHash' => 'customIndex'))."' >编辑</a>";
             $v['DOACTION'] .= " <a href='javascript:void(0)' onclick='admin.delcustomtask(".$v['id'].")'>删除</a>";
         }
 
-        $this->pageButton[] = array( 'title' => '添加任务' , 'onclick' => "javascript:location.href='".U('admin/Task/addTask', array('tabHash'=>'customIndex'))."';" );
+        $this->pageButton[] = array( 'title' => '添加任务' , 'onclick' => "javascript:location.href='".U('admin/Task/addTask', array('tabHash' => 'customIndex'))."';" );
         $this->pageButton[] = array( 'title' => '删除' , 'onclick' => 'admin.delcustomtask()' );
         $this->displayList($list);
     }
@@ -160,7 +160,7 @@ class TaskAction extends AdministratorAction
             $src = $reward->medal->src;
             $v['reward'] = '经验+'.$reward->exp.' 积分+'.$reward->score;
             $src && $v['medal'] = '<img width="100px" height="100px" src="'.getImageUrl($src).'" />';
-            $v['DOACTION'] = "<a href='".U('admin/Task/editTask', array('id'=>$v['id'], 'type'=>2, 'tabHash'=>'mainIndex'))."' >编辑</a>";
+            $v['DOACTION'] = "<a href='".U('admin/Task/editTask', array('id' => $v['id'], 'type' => 2, 'tabHash' => 'mainIndex'))."' >编辑</a>";
         }
         $this->allSelected = false;
         $this->displayList($list);
@@ -174,11 +174,11 @@ class TaskAction extends AdministratorAction
                 'userlevel',
                 'usergroup', array('reg_time1', 'reg_time2'), 'topic', 'task_condition', 'num', 'exp', 'score', 'attach_id', 'share_card', 'medal_name', 'medal_desc', );
 
-        $this->opt['userlevel'] = array( 1=>'T1',2=>'T2',3=>'T3'
-                        ,4=>'T4',5=>'T5',6=>'T6'
-                        ,7=>'T7',8=>'T8',9=>'T9',10=>'T10', );
+        $this->opt['userlevel'] = array( 1 => 'T1',2 => 'T2',3 => 'T3'
+                        ,4 => 'T4',5 => 'T5',6 => 'T6'
+                        ,7 => 'T7',8 => 'T8',9 => 'T9',10 => 'T10', );
         $this->opt['usergroup'] = $groups;
-        $this->opt['task_condition'] = array( 0 => '无','1-1'=>'每日任务' , '2-1'=> '新手任务' , '2-2'=> '进阶任务' , '2-3'=> '达人任务' , '2-4'=> '高手任务 ' , '2-5'=> '终极任务 ' );
+        $this->opt['task_condition'] = array( 0 => '无','1-1' => '每日任务' , '2-1' => '新手任务' , '2-2' => '进阶任务' , '2-3' => '达人任务' , '2-4' => '高手任务 ' , '2-5' => '终极任务 ' );
 
         $this->notEmpty = array('task_name');
         $this->savePostUrl = U('admin/Task/doAddTask');
@@ -205,7 +205,7 @@ class TaskAction extends AdministratorAction
         $taskcondition = intval($_POST['task_condition']);
         $exp = abs(intval($_POST['exp']));
         $score = abs(intval($_POST['score']));
-        $medal =  intval($_POST['attach_id']);
+        $medal = intval($_POST['attach_id']);
         $share_card = intval($_POST['share_card']);
 
         $this->validate($_POST);
@@ -250,7 +250,7 @@ class TaskAction extends AdministratorAction
         $task['num'] = $num;
         $task['task_condition'] = $taskcondition;
         $task['medal_id'] = $medal_id;
-        $task['reward'] = json_encode(array( 'exp' => $exp, 'score' => $score, 'medal' => array( 'id' => $medal_id, 'name'=>$data['name'], 'src'=>$src ) ));
+        $task['reward'] = json_encode(array( 'exp' => $exp, 'score' => $score, 'medal' => array( 'id' => $medal_id, 'name' => $data['name'], 'src' => $src ) ));
 
         $condition = array();
         if ($_POST['end_time1'][0] || $_POST['end_time1'][1]) {
@@ -273,7 +273,7 @@ class TaskAction extends AdministratorAction
 
         $res = D('task_custom')->add($task);
         if ($res) {
-            $this->assign('jumpUrl', U('admin/Task/customIndex', array('tabHash'=>'customIndex')));
+            $this->assign('jumpUrl', U('admin/Task/customIndex', array('tabHash' => 'customIndex')));
             $this->success('添加成功');
         } else {
             $this->error('添加失败');
@@ -291,11 +291,11 @@ class TaskAction extends AdministratorAction
                 'userlevel',
                 'usergroup', array('reg_time1', 'reg_time2'), 'topic', 'task_condition', 'num', 'exp', 'medal_id', 'medal_name', 'medal_src', 'score', );
 
-        $this->opt['userlevel'] = array( 1=>'T1',2=>'T2',3=>'T3'
-                ,4=>'T4',5=>'T5',6=>'T6'
-                ,7=>'T7',8=>'T8',9=>'T9',10=>'T10', );
+        $this->opt['userlevel'] = array( 1 => 'T1',2 => 'T2',3 => 'T3'
+                ,4 => 'T4',5 => 'T5',6 => 'T6'
+                ,7 => 'T7',8 => 'T8',9 => 'T9',10 => 'T10', );
         $this->opt['usergroup'] = $groups;
-        $this->opt['task_condition'] = array( 0 => '无','1-1'=>'每日任务' , '2-1'=> '新手任务' , '2-2'=> '进阶任务' , '2-3'=> '达人任务' , '2-4'=> '高手任务 ' , '2-5'=> '终极任务 ' );
+        $this->opt['task_condition'] = array( 0 => '无','1-1' => '每日任务' , '2-1' => '新手任务' , '2-2' => '进阶任务' , '2-3' => '达人任务' , '2-4' => '高手任务 ' , '2-5' => '终极任务 ' );
         $this->notEmpty = array('task_name');
         $this->savePostUrl = U('admin/Task/doAddTask');
 
@@ -311,7 +311,7 @@ class TaskAction extends AdministratorAction
         $task['exp'] = $reward->exp;
         $task['score'] = $reward->score;
         $task['medal_id'] = $reward->medal->id;
-        $task['medal_name'] =$reward->medal->name;
+        $task['medal_name'] = $reward->medal->name;
         $task['medal_src'] = $reward->medal->src;
         $this->savePostUrl = U('admin/Task/doEditCustomTask');
         $this->displayConfig($task);
@@ -354,7 +354,7 @@ class TaskAction extends AdministratorAction
         $task['task_desc'] = $taskdesc;
         $task['num'] = $num;
         $task['task_condition'] = $taskcondition;
-        $task['reward'] = json_encode(array( 'exp' => $exp, 'score' => $score, 'medal' => array( 'id' => $medalid, 'name'=>$medalname, 'src'=>$medalsrc ) ));
+        $task['reward'] = json_encode(array( 'exp' => $exp, 'score' => $score, 'medal' => array( 'id' => $medalid, 'name' => $medalname, 'src' => $medalsrc ) ));
 
         $iscondition = false;
         $condition = array();
@@ -387,7 +387,7 @@ class TaskAction extends AdministratorAction
 
         $res = D('task_custom')->where('id='.intval($_POST['id']))->save($task);
         if ($res) {
-            $this->assign('jumpUrl', U('admin/Task/customIndex', array('tabHash'=>'customIndex')));
+            $this->assign('jumpUrl', U('admin/Task/customIndex', array('tabHash' => 'customIndex')));
             $this->success('编辑成功');
         } else {
             $this->error('编辑失败');
@@ -422,7 +422,7 @@ class TaskAction extends AdministratorAction
         $medals[0] = '无';
         ksort($medals);
         $this->opt['medal'] = $medals;
-        $this->opt['show'] = array('0'=>'网页端','1'=>'手机端','2'=>'3G版');
+        $this->opt['show'] = array('0' => '网页端','1' => '手机端','2' => '3G版');
         $this->notEmpty = array('task_name','step_name');
         $this->savePostUrl = U('admin/Task/doEditTask');
         $this->displayConfig($taskinfo);
@@ -453,10 +453,10 @@ class TaskAction extends AdministratorAction
         if ($medal) {
             $name = model('Medal')->where('id='.$medal)->field('name,src')->find();
             $src = explode('|', $name['src']);
-            $medalinfo = array( 'id' => $medal, 'name'=> $name['name'] , 'src' => $src[1] );
+            $medalinfo = array( 'id' => $medal, 'name' => $name['name'] , 'src' => $src[1] );
         }
         $reward = array( 'exp' => $exp, 'score' => $score, 'medal' => $medalinfo );
-        $condition = array( $condition=>$num );
+        $condition = array( $condition => $num );
 
         $data['task_name'] = $taskname;
         $data['step_name'] = $stepname;
@@ -469,7 +469,7 @@ class TaskAction extends AdministratorAction
         $res = model('Task')->where('id='.intval($_REQUEST['task_id']))->save($data);
         if ($res) {
             $url = $_REQUEST['task_type'] == 1 ? 'index' : 'mainIndex';
-            $this->assign('jumpUrl', U('admin/Task/'.$url, array('tabHash'=>$url)));
+            $this->assign('jumpUrl', U('admin/Task/'.$url, array('tabHash' => $url)));
             $this->success(L('编辑成功'));
         } else {
             $this->error('编辑失败');
@@ -490,7 +490,7 @@ class TaskAction extends AdministratorAction
             if ($src) {
                 $v['medal'] = '<img width="100px" height="100px" src="'.getImageUrl($src).'" />';
             }
-            $v['DOACTION'] = '<a href="'.U('admin/Task/editReward', array('task_level'=>$v['task_level'], 'task_type'=>$v['task_type'])).'">编辑</a>';
+            $v['DOACTION'] = '<a href="'.U('admin/Task/editReward', array('task_level' => $v['task_level'], 'task_type' => $v['task_type'])).'">编辑</a>';
         }
         $this->allSelected = false;
         $this->displayList($list);
@@ -535,7 +535,7 @@ class TaskAction extends AdministratorAction
         if ($medal) {
             $name = model('Medal')->where('id='.$medal)->field('name,src')->find();
             $src = explode('|', $name['src']);
-            $medalinfo = array( 'id' => $medal, 'name'=> $name['name'] , 'src' => $src[1] );
+            $medalinfo = array( 'id' => $medal, 'name' => $name['name'] , 'src' => $src[1] );
         }
         $reward = json_encode(array( 'exp' => $exp, 'score' => $score, 'medal' => $medalinfo ));
         $isexist = D('task_reward')->where('task_type='.$tasktype.' and task_level='.$tasklevel)->find();
@@ -560,7 +560,7 @@ class TaskAction extends AdministratorAction
         $data['task_switch'] = model('Xdata')->get('task_config:task_switch');
         !$data['task_switch'] && $data['task_switch'] = 1;
         $this->pageKeyList = array('task_switch');
-        $this->opt['task_switch'] = array(1=>'开',2=>'关');
+        $this->opt['task_switch'] = array(1 => '开',2 => '关');
         $this->savePostUrl = U('admin/Task/taskConfig');
         $this->displayConfig($data);
     }

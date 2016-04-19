@@ -96,7 +96,7 @@ class CommentDiggModel extends Model
      * @param  unknown_type $limit --分页代表每页条数 不分页表示查询条数
      * @return unknown
      */
-    public function getDiggList($map, $page=true, $limit=20)
+    public function getDiggList($map, $page = true, $limit = 20)
     {
         if ($page) {
             $list = $this->where($map)->order('id desc')->findPage($limit);
@@ -131,7 +131,7 @@ class CommentDiggModel extends Model
 
         return $list;
     }
-    public function getDiggListPage($map, $limit=20)
+    public function getDiggListPage($map, $limit = 20)
     {
         $list = $this->where($map)->order('id desc')->findPage($limit);
         foreach ($list['data'] as &$d) {
@@ -155,7 +155,7 @@ class CommentDiggModel extends Model
     /**
      * 返回赞过的用户列表
      */
-    public function getDiggUser($map, $page=true, $limit=20)
+    public function getDiggUser($map, $page = true, $limit = 20)
     {
         if ($page) {
             $list = $this->where($map)->order('id desc')->findPage($limit);

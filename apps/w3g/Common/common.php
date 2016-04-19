@@ -1,7 +1,7 @@
 <?php
 
 // 格式化内容
-function wapFormatContent($content, $url = false, $from_url = '', $urlTxt=false)
+function wapFormatContent($content, $url = false, $from_url = '', $urlTxt = false)
 {
     $content = htmlspecialchars_decode($content);
     $content = real_strip_tags($content);
@@ -24,7 +24,7 @@ function wapFormatContent($content, $url = false, $from_url = '', $urlTxt=false)
 }
 
 // 格式化评论
-function wapFormatComment($content, $url=false, $from_url = '')
+function wapFormatComment($content, $url = false, $from_url = '')
 {
     $content = real_strip_tags($content);
     if ($url) {
@@ -40,8 +40,8 @@ function wapFormatComment($content, $url=false, $from_url = '')
 
 function wapFormatCommentAt($content)
 {
-    $content=preg_replace('#<a[^>]*>\s*(@.+)\s*</a>#isU', '\\1', $content);
-    $content=preg_replace_callback("/@([\w\x{2e80}-\x{9fff}\-]+)/u", wapFormatUser, $content);
+    $content = preg_replace('#<a[^>]*>\s*(@.+)\s*</a>#isU', '\\1', $content);
+    $content = preg_replace_callback("/@([\w\x{2e80}-\x{9fff}\-]+)/u", wapFormatUser, $content);
 
     return $content;
 }
@@ -49,7 +49,7 @@ function wapFormatCommentAt($content)
 // 话题格式化回调
 function wapFormatTopic($data)
 {
-    return "<a class='c_a' href=".U('w3g/Index/doSearch', array('key'=>t($data[1]))).'>'.$data[0].'</a>';
+    return "<a class='c_a' href=".U('w3g/Index/doSearch', array('key' => t($data[1]))).'>'.$data[0].'</a>';
 }
 
 // 用户连接格式化回调
@@ -57,7 +57,7 @@ function wapFormatUser($name)
 {
     $info = D('User', 'home')->getUserByIdentifier($name[1], 'uname');
     if ($info) {
-        return "<a class='c_a' href=".U('w3g/Index/profile', array('uid'=>$info['uid'])).'>'.$name[0].'</a>';
+        return "<a class='c_a' href=".U('w3g/Index/profile', array('uid' => $info['uid'])).'>'.$name[0].'</a>';
     } else {
         return "$name[0]";
     }
@@ -200,13 +200,13 @@ function bbcodewap($message)
 
     $message = str_replace('[img=700,28]static/image/hrline/4.gif[/img]', '', $message);
 
-    $neter_mo=array(
+    $neter_mo = array(
       "/\[img=([0-9]+),([0-9]+)\](.+?)\[\/img\]/is",
       "/\[img\](.+?)\[\/img\]/is",
       "/\[hide\](.+?)\[\/hide\]/is",
     );
 
-    $neter_str=array(
+    $neter_str = array(
       '<img width="\\1" height="\\2" src="\\3" />',
       '<img src="\\1" />',
       '<div class="hide">\\1</div>',

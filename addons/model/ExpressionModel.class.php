@@ -14,7 +14,7 @@ class ExpressionModel
     public function getAllExpression($flush = false)
     {
         $cache_id = '_model_expression';
-        if (($res = S($cache_id)) === false || $flush===true) {
+        if (($res = S($cache_id)) === false || $flush === true) {
             global $ts;
             $pkg = $ts['site']['expression'];
             $pkg = $pkg ? $pkg : 'default';

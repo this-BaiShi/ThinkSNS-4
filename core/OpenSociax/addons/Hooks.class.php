@@ -109,7 +109,7 @@ abstract class Hooks
         unset($GLOBALS['ts']['ad']);
 
         // 提示标题
-        $this->assign('msgTitle', $status? L('_OPERATION_SUCCESS_') : L('_OPERATION_FAIL_'));
+        $this->assign('msgTitle', $status ? L('_OPERATION_SUCCESS_') : L('_OPERATION_FAIL_'));
         $this->assign('status', $status);   // 状态
         $this->assign('message', $message);// 提示信息
         //保证输出不受静态缓存影响

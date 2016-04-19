@@ -20,7 +20,7 @@ class VideoWidget extends Widget
         $link = t($_POST['url']);
         if (preg_match('/(youku.com|youtube.com|qq.com|ku6.com|sohu.com|sina.com.cn|tudou.com|yinyuetai.com)/i', $link, $hosts)) {
             $return['boolen'] = 1;
-            $return['data']   = $link;
+            $return['data'] = $link;
         } else {
             $return['boolen'] = 0;
             $return['message'] = '仅支持优酷网、土豆网、音悦台视频发布';

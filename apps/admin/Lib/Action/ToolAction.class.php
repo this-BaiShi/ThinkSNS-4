@@ -30,8 +30,8 @@ class ToolAction extends AdministratorAction
         $postList = D('weiba_post')->field('post_id')->findAll();
         foreach ($postList as $v) {
             $replyList = D('weiba_reply')->where('post_id='.$v['post_id'].' AND is_del=0')->order('reply_id ASC')->findAll();
-            foreach ($replyList as $key=>$val) {
-                D('weiba_reply')->where('reply_id='.$val['reply_id'])->setField('storey', $key+1);
+            foreach ($replyList as $key => $val) {
+                D('weiba_reply')->where('reply_id='.$val['reply_id'])->setField('storey', $key + 1);
             }
             D('weiba_post')->where('post_id='.$v['post_id'])->setField('reply_all_count', count($replyList)); //总回复统计数加1
         }

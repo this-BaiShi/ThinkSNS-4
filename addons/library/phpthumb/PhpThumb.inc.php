@@ -93,8 +93,8 @@ class PhpThumb
      */
     private function __construct()
     {
-        $this->_registry        = array();
-        $this->_implementations    = array('gd' => false, 'imagick' => false);
+        $this->_registry = array();
+        $this->_implementations = array('gd' => false, 'imagick' => false);
 
         $this->getImplementations();
     }

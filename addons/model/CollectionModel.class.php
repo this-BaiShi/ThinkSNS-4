@@ -7,7 +7,7 @@
 class CollectionModel extends Model
 {
     protected $tableName = 'collection';
-    protected $fields =    array('collection_id', 'uid', 'source_id', 'source_table_name', 'source_app', 'ctime');
+    protected $fields = array('collection_id', 'uid', 'source_id', 'source_table_name', 'source_app', 'ctime');
 
     private $collectionTables = array('feed', 'weiba_post');
 
@@ -108,14 +108,14 @@ class CollectionModel extends Model
         $list = $this->where($map)->order($order)->findPage($limit);
         foreach ($list['data'] as &$v) {
             $sourceInfo = model('Source')->getSourceInfo($v['source_table_name'], $v['source_id'], false, $v['source_app']);
-            $publish_time = array('publish_time'=>$sourceInfo['ctime']);
+            $publish_time = array('publish_time' => $sourceInfo['ctime']);
             switch ($v['source_table_name']) {
                 case 'feed':
                     $data = model('Feed')->get($v['source_id']);
-                    $sourceData = array('source_data'=>$data);
+                    $sourceData = array('source_data' => $data);
                     break;
                 default:
-                    $sourceData = array('source_data'=>null);
+                    $sourceData = array('source_data' => null);
                     break;
             }
             $v = array_merge($sourceInfo, $v, $publish_time, $sourceData);
@@ -303,7 +303,7 @@ class CollectionModel extends Model
      * @param  int    $limit 结果集数目，默认20
      * @return array  搜索的结果数据
      */
-    public function searchCollections($key, $limit  = 20)
+    public function searchCollections($key, $limit = 20)
     {
         if ($key === '') {
             return array();
@@ -316,14 +316,14 @@ class CollectionModel extends Model
                    ->findPage($limit);
         foreach ($list['data'] as &$v) {
             $sourceInfo = model('Source')->getSourceInfo($v['source_table_name'], $v['source_id'], false, $v['source_app']);
-            $publish_time = array('publish_time'=>$sourceInfo['ctime']);
+            $publish_time = array('publish_time' => $sourceInfo['ctime']);
             switch ($v['source_table_name']) {
                 case 'feed':
                     $data = model('Feed')->get($v['source_id']);
-                    $sourceData = array('source_data'=>$data);
+                    $sourceData = array('source_data' => $data);
                     break;
                 default:
-                    $sourceData = array('source_data'=>null);
+                    $sourceData = array('source_data' => null);
                     break;
             }
             $v = array_merge($sourceInfo, $v, $publish_time, $sourceData);

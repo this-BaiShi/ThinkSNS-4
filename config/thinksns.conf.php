@@ -14,7 +14,7 @@ return array(
 
     /* ThinkSNS v4 */
     'VERSION' => '4.1.998', // # ThinkSNS 版本
-    'UPURL'   => 'http://demo.thinksns.com/upgrade/entry.php', // # 升级地址
+    'UPURL' => 'http://demo.thinksns.com/upgrade/entry.php', // # 升级地址
     'UTILITY' => ADDON_PATH.DIRECTORY_SEPARATOR.'utility'.DIRECTORY_SEPARATOR, // # 工具目录
 
 );

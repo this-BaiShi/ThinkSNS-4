@@ -32,14 +32,14 @@ class MobileAction extends AdministratorAction
 
         // # 添加tab
         array_push($this->pageTab, array(
-            'title'   => '轮播列表',
+            'title' => '轮播列表',
             'tabHash' => 'w3gSlideShow',
-            'url'     => U('admin/Mobile/w3gSlideShow'),
+            'url' => U('admin/Mobile/w3gSlideShow'),
         ));
         array_push($this->pageTab, array(
-            'title'   => '添加轮播',
+            'title' => '添加轮播',
             'tabHash' => 'addW3gSlideShow',
-            'url'     => U('admin/Mobile/addW3gSlideShow'),
+            'url' => U('admin/Mobile/addW3gSlideShow'),
         ));
 
         // # 分页获取数据，20条
@@ -49,7 +49,7 @@ class MobileAction extends AdministratorAction
         foreach ($list['data'] as $key => $value) {
             // # 参数
             $aid = $value['image'];
-            $id  = $value['id'];
+            $id = $value['id'];
 
             // # 添加图片
             $value = '<a href="%s" target="_blank"><img src="%s" width="300px" height="140px"></a>';
@@ -79,14 +79,14 @@ class MobileAction extends AdministratorAction
     {
         // # 添加tab
         array_push($this->pageTab, array(
-            'title'   => '轮播列表',
+            'title' => '轮播列表',
             'tabHash' => 'w3gSlideShow',
-            'url'     => U('admin/Mobile/w3gSlideShow'),
+            'url' => U('admin/Mobile/w3gSlideShow'),
         ));
         array_push($this->pageTab, array(
-            'title'   => (isset($_GET['id']) ? '编辑' : '添加').'轮播',
+            'title' => (isset($_GET['id']) ? '编辑' : '添加').'轮播',
             'tabHash' => 'addW3gSlideShow',
-            'url'     => U('admin/Mobile/addW3gSlideShow'),
+            'url' => U('admin/Mobile/addW3gSlideShow'),
         ));
 
         // # 设置页面参数
@@ -130,7 +130,7 @@ class MobileAction extends AdministratorAction
         // # 组装数据
         $data = array(
             'image' => $image,
-            'url'   => $url,
+            'url' => $url,
         );
 
         // # 判断更新
@@ -170,14 +170,14 @@ class MobileAction extends AdministratorAction
     {
         // # 添加菜单
         array_push($this->pageTab, array(
-            'title'   => '开关设置',
+            'title' => '开关设置',
             'tabHash' => 'setting',
-            'url'     => U('admin/Mobile/setting'),
+            'url' => U('admin/Mobile/setting'),
         ));
         array_push($this->pageTab, array(
-            'title'   => 'Logo设置',
+            'title' => 'Logo设置',
             'tabHash' => 'w3gLogo',
-            'url'     => U('admin/Mobile/w3gLogo'),
+            'url' => U('admin/Mobile/w3gLogo'),
         ));
 
         $this->pageKeyList = array('logo');
@@ -195,9 +195,9 @@ class MobileAction extends AdministratorAction
         $this->pageKeyList = array('about');
 
         array_push($this->pageTab, array(
-            'title'   => '关于我们',
+            'title' => '关于我们',
             'tabHash' => 'w3gAbout',
-            'url'     => U('admin/Mobile/w3gAbout'),
+            'url' => U('admin/Mobile/w3gAbout'),
         ));
 
         $this->displayConfig();
@@ -212,14 +212,14 @@ class MobileAction extends AdministratorAction
     {
         // # 添加菜单
         array_push($this->pageTab, array(
-            'title'   => '开关设置',
+            'title' => '开关设置',
             'tabHash' => 'setting',
-            'url'     => U('admin/Mobile/setting'),
+            'url' => U('admin/Mobile/setting'),
         ));
         array_push($this->pageTab, array(
-            'title'   => 'Logo设置',
+            'title' => 'Logo设置',
             'tabHash' => 'w3gLogo',
-            'url'     => U('admin/Mobile/w3gLogo'),
+            'url' => U('admin/Mobile/w3gLogo'),
         ));
 
         $this->pageKeyList = array('switch');

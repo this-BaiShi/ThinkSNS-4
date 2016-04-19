@@ -28,11 +28,11 @@ class MedalAction extends AdministratorAction
         foreach ($list['data'] as &$v) {
             $v['src'] = '<img src="'.$v['src'].'" width="100px" height="100px"/>';
             $v['small_src'] = '<img src="'.$v['small_src'].'" />';
-            $v['DOACTION'] = '<a href="'.U('admin/Medal/editMedal', array('id'=>$v['id'])).'" >编辑</a>&nbsp;-&nbsp;';
+            $v['DOACTION'] = '<a href="'.U('admin/Medal/editMedal', array('id' => $v['id'])).'" >编辑</a>&nbsp;-&nbsp;';
             $v['DOACTION'] .= " <a href='javascript:void(0)' onclick='admin.deletemedal(".$v['id'].")'>删除</a>";
         }
-        $this->pageButton[] = array('title'=>'添加' , 'onclick' => "javascript:location.href='".U('admin/Medal/addMedal')."';");
-        $this->pageButton[] = array('title'=>'删除' , 'onclick' => 'admin.deletemedal()');
+        $this->pageButton[] = array('title' => '添加' , 'onclick' => "javascript:location.href='".U('admin/Medal/addMedal')."';");
+        $this->pageButton[] = array('title' => '删除' , 'onclick' => 'admin.deletemedal()');
         $this->displayList($list);
     }
     /**
@@ -179,7 +179,7 @@ class MedalAction extends AdministratorAction
         $this->pageKeyList = array( 'id' , 'uname' , 'medalname', 'medalsrc' , 'desc' , 'DOACTION');
         foreach ($list['data'] as &$v) {
             $v['medalsrc'] = '<img src="'.getImageUrl($v['medalsrc']).'" width="100px" height="100px" />';
-            $v['DOACTION'] = '<a href="'.U('admin/Medal/editUserMedal', array('id'=>$v['id'])).'" >编辑</a>';
+            $v['DOACTION'] = '<a href="'.U('admin/Medal/editUserMedal', array('id' => $v['id'])).'" >编辑</a>';
 // 			$v['DOACTION'] .= " <a href='javascript:void(0)' onclick='admin.deleteusermedal(".$v['id'].")'>删除</a>";
         }
         $this->pageButton[] = array( 'title' => '搜索' , 'onclick' => "admin.fold('search_form')" );
@@ -240,7 +240,7 @@ class MedalAction extends AdministratorAction
     {
         $desc = t($_POST['desc']);
         $medalDao = model('Medal');
-        $medal =  intval($_POST['attach_id']);
+        $medal = intval($_POST['attach_id']);
         $medalsmall = intval($_POST['attach_small']);
 
         $users = explode(',', $_POST['user']);

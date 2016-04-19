@@ -66,7 +66,7 @@ class XML
     public function parse(&$data)
     {
         $this->document = array();
-        $this->stack    = array();
+        $this->stack = array();
 
         return xml_parse($this->parser, $data, true) && !$this->failed ? $this->document : '';
     }
@@ -77,13 +77,13 @@ class XML
         $this->failed = false;
         if (!$this->isnormal) {
             if (isset($attributes['id']) && !is_string($this->document[$attributes['id']])) {
-                $this->document  = &$this->document[$attributes['id']];
+                $this->document = &$this->document[$attributes['id']];
             } else {
                 $this->failed = true;
             }
         } else {
             if (!isset($this->document[$tag]) || !is_string($this->document[$tag])) {
-                $this->document  = &$this->document[$tag];
+                $this->document = &$this->document[$tag];
             } else {
                 $this->failed = true;
             }
@@ -108,7 +108,7 @@ class XML
         }
         array_pop($this->stack);
         if ($this->stack) {
-            $this->document = &$this->stack[count($this->stack)-1];
+            $this->document = &$this->stack[count($this->stack) - 1];
         }
     }
 }

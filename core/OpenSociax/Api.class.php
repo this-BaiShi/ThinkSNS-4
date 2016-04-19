@@ -21,7 +21,7 @@ class Api
      * 架构函数
      * @param bool $location 是否本机调用，本机调用不需要认证
      */
-    public function __construct($location=false)
+    public function __construct($location = false)
     {
         //$this->mid = $_SESSION['mid'];
         //外部接口调用
@@ -35,16 +35,16 @@ class Api
         $GLOBALS['ts']['mid'] = $this->mid;
 
         //默认参数处理
-        $this->since_id   = isset($_REQUEST['since_id'])    ? intval($_REQUEST['since_id']) : '';
-        $this->max_id     = isset($_REQUEST['max_id'])      ? intval($_REQUEST['max_id'])   : '';
-        $this->page       = isset($_REQUEST['page'])        ? intval($_REQUEST['page'])     : 1;
-        $this->count      = isset($_REQUEST['count'])       ? intval($_REQUEST['count'])    : 20;
-        $this->user_id    = isset($_REQUEST['user_id'])     ? intval($_REQUEST['user_id'])  : 0;
-        $this->user_name  = isset($_REQUEST['user_name'])   ? h($_REQUEST['user_name'])     : '';
-        $this->uid        = isset($_REQUEST['uid'])         ? intval($_REQUEST['uid'])      : 0;
-        $this->uname      = isset($_REQUEST['uname'])       ? h($_REQUEST['uname'])         : '';
-        $this->id         = isset($_REQUEST['id'])          ? intval($_REQUEST['id'])       : 0;
-        $this->data       = $_REQUEST;
+        $this->since_id = isset($_REQUEST['since_id'])    ? intval($_REQUEST['since_id']) : '';
+        $this->max_id = isset($_REQUEST['max_id'])      ? intval($_REQUEST['max_id'])   : '';
+        $this->page = isset($_REQUEST['page'])        ? intval($_REQUEST['page'])     : 1;
+        $this->count = isset($_REQUEST['count'])       ? intval($_REQUEST['count'])    : 20;
+        $this->user_id = isset($_REQUEST['user_id'])     ? intval($_REQUEST['user_id'])  : 0;
+        $this->user_name = isset($_REQUEST['user_name'])   ? h($_REQUEST['user_name'])     : '';
+        $this->uid = isset($_REQUEST['uid'])         ? intval($_REQUEST['uid'])      : 0;
+        $this->uname = isset($_REQUEST['uname'])       ? h($_REQUEST['uname'])         : '';
+        $this->id = isset($_REQUEST['id'])          ? intval($_REQUEST['id'])       : 0;
+        $this->data = $_REQUEST;
 
         // findPage
         $_REQUEST[C('VAR_PAGE')] = $this->page;
@@ -63,7 +63,7 @@ class Api
      */
     private function verifyUser()
     {
-        $canaccess =  false;
+        $canaccess = false;
 
         //ACL访问控制
         if (file_exists(SITE_PATH.'/config/api.inc.php')) {
@@ -75,11 +75,11 @@ class Api
         }
 
         if (isset($acl['access'][MODULE_NAME.'/'.ACTION_NAME])) {
-            $canaccess =  (boolean) $acl['access'][MODULE_NAME.'/'.ACTION_NAME];
+            $canaccess = (boolean) $acl['access'][MODULE_NAME.'/'.ACTION_NAME];
         } elseif (isset($acl['access'][MODULE_NAME.'/*'])) {
-            $canaccess =  (boolean) $acl['access'][MODULE_NAME.'/*'];
+            $canaccess = (boolean) $acl['access'][MODULE_NAME.'/*'];
         } else {
-            $canaccess =  false;
+            $canaccess = false;
         }
 
         //白名单无需认证
@@ -101,7 +101,7 @@ class Api
                 $message['status'] = 403;
                 //兼容
                 $message['message'] = '接口认证失败';
-                $message['code']    = '00001';
+                $message['code'] = '00001';
 
                 return $this->error($message);
             }
@@ -120,7 +120,7 @@ class Api
                 $message['status'] = 403;
                 //兼容
                 $message['message'] = '签名认证失败';
-                $message['code']    = '00001';
+                $message['code'] = '00001';
 
                 return $this->error($message);
             }
@@ -135,7 +135,7 @@ class Api
                 $verifycode['oauth_token_secret'] = h($_REQUEST['oauth_token_secret']);
                 $verifycode['type'] = 'location';
                 $login = D('Login')->where($verifycode)->getField('uid');
-                if (isset($login) && $login>0) {
+                if (isset($login) && $login > 0) {
                     $this->mid = (int) $login;
                     $_SESSION['mid'] = $this->mid;
                     $canaccess = true;
@@ -156,7 +156,7 @@ class Api
             $message['status'] = 403;
             //兼容
             $message['message'] = '接口认证失败';
-            $message['code']    = '00001';
+            $message['code'] = '00001';
 
             return $this->error($message);
         }
@@ -171,7 +171,7 @@ class Api
         $message['msg'] = '接口认证失败';
         $message['status'] = 403;
         $message['message'] = '接口认证失败';
-        $message['code']    = '00001';
+        $message['code'] = '00001';
 
         return $this->error($message);
     }
@@ -184,35 +184,35 @@ class Api
     public function data($data)
     {
         if (is_object($data)) {
-            $data   =   get_object_vars($data);
+            $data = get_object_vars($data);
         }
-        $this->since_id   = $data['since_id']   ? intval($data['since_id']) : '';
-        $this->max_id     = $data['max_id']     ? intval($data['max_id'])   : '';
-        $this->page       = $data['page']       ? intval($data['page'])     : 1;
-        $this->count      = $data['count']      ? intval($data['count'])    : 20;
-        $this->user_id    = $data['user_id']    ? intval($data['user_id'])   : $this->mid;
-        $this->user_name  = $data['user_name']  ? h($data['user_name'])      : '';
-        $this->uid        = $_REQUEST['uid']        ? intval($_REQUEST['uid'])  : 0;
-        $this->uname      = $_REQUEST['uname']      ? h($_REQUEST['uname'])     : '';
-        $this->id         = $data['id']         ? intval($data['id'])        : 0;
+        $this->since_id = $data['since_id']   ? intval($data['since_id']) : '';
+        $this->max_id = $data['max_id']     ? intval($data['max_id'])   : '';
+        $this->page = $data['page']       ? intval($data['page'])     : 1;
+        $this->count = $data['count']      ? intval($data['count'])    : 20;
+        $this->user_id = $data['user_id']    ? intval($data['user_id'])   : $this->mid;
+        $this->user_name = $data['user_name']  ? h($data['user_name'])      : '';
+        $this->uid = $_REQUEST['uid']        ? intval($_REQUEST['uid'])  : 0;
+        $this->uname = $_REQUEST['uname']      ? h($_REQUEST['uname'])     : '';
+        $this->id = $data['id']         ? intval($data['id'])        : 0;
         $this->data = $data;
 
         return $this;
     }
 
     //返回错误信息
-    public static function error($msg='')
+    public static function error($msg = '')
     {
         $message['msg'] = '操作失败';
         $message['status'] = 0;
         if (is_array($msg)) {
             $message = array_merge($message, $msg);
-        } elseif ($msg!='') {
+        } elseif ($msg != '') {
             $message['msg'] = t($msg);
         }
 
         //格式化输出
-        if (isset($_REQUEST['format']) && $_REQUEST['format']=='test') {
+        if (isset($_REQUEST['format']) && $_REQUEST['format'] == 'test') {
             //测试输出
             dump($message);
             exit;
@@ -222,18 +222,18 @@ class Api
     }
 
     //返回成功信息
-    public static function success($msg='')
+    public static function success($msg = '')
     {
         $message['msg'] = '操作成功';
         $message['status'] = 1;
         if (is_array($msg)) {
             $message = array_merge($message, $msg);
-        } elseif ($msg!='') {
+        } elseif ($msg != '') {
             $message['msg'] = t($msg);
         }
 
         //格式化输出
-        if (isset($_REQUEST['format']) && $_REQUEST['format']=='test') {
+        if (isset($_REQUEST['format']) && $_REQUEST['format'] == 'test') {
             //测试输出
             dump($message);
             exit;
@@ -295,10 +295,10 @@ class Api
         $data = call_user_func(array(&$module, $action));
 
         //格式化输出
-        if ($_REQUEST['format']=='php') {
+        if ($_REQUEST['format'] == 'php') {
             //输出php格式
             echo var_export($data);
-        } elseif ($_REQUEST['format']=='test') {
+        } elseif ($_REQUEST['format'] == 'test') {
             //测试输出
             dump($data);
         } else {

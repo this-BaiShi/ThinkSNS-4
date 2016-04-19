@@ -23,7 +23,7 @@ class ContentWidget extends Widget
         $var['cid'] = intval($data['cid']);
         $var['order'] = intval($_REQUEST['order']);
         // 获取分享数据
-        if ($template == 'list'||true) {
+        if ($template == 'list' || true) {
             $var['list'] = $this->getListData($var['cid']);
             // 分享配置
             $weiboSet = model('Xdata')->get('admin_Config:feed');
@@ -81,7 +81,7 @@ class ContentWidget extends Widget
         // 分页的设置
         if (!empty($list['data'])) {
             $content['firstId'] = $var['firstId'] = $list['data'][0]['feed_channel_link_id'];
-            $content['lastId'] = $list['data'][(count($list['data'])-1)]['feed_channel_link_id'];
+            $content['lastId'] = $list['data'][(count($list['data']) - 1)]['feed_channel_link_id'];
             $var['data'] = $this->_formatContent($list['data']);
             // 分享配置
             $weiboSet = model('Xdata')->get('admin_Config:feed');
@@ -121,9 +121,9 @@ class ContentWidget extends Widget
                     $value['body'] = replaceUrl($feedData['body']);
                     if ($feedData['video_id']) {
                         $value['flashimg'] = SITE_URL.$feedData['image_path'];
-                        $image_info  = getimagesize($value['flashimg']);
+                        $image_info = getimagesize($value['flashimg']);
                         $value['width'] = 236;
-                        $value['height'] = $image_info[1]/($image_info[0]/236);
+                        $value['height'] = $image_info[1] / ($image_info[0] / 236);
                     } else {
                         $value['flashimg'] = $feedData['flashimg'];
                     }
@@ -150,7 +150,7 @@ class ContentWidget extends Widget
                     break;
                 case 'weiba_post':
                     $feedData = unserialize($value['feed_data']);
-                    $post_url = '<a class="ico-details" target="_blank" href="'.U('weiba/Index/postDetail', array('post_id'=>$value['app_row_id'])).'"></a>';
+                    $post_url = '<a class="ico-details" target="_blank" href="'.U('weiba/Index/postDetail', array('post_id' => $value['app_row_id'])).'"></a>';
                     $value['body'] = preg_replace('/\<a href="javascript:void\(0\)" class="ico-details"(.*)\>(.*)\<\/a\>/', $post_url, $value['body']);
                     if ($value['api_source']['pic_url']) {
                         $url = parse_url($value['api_source']['pic_url']);
@@ -163,7 +163,7 @@ class ContentWidget extends Widget
                         } else {
                             $img_info = myGetImageSize($value['api_source']['pic_url']);
                             $width = $img_info['width'];
-                            $value['api_source']['pic_height'] = 236/$width*$img_info['height'];
+                            $value['api_source']['pic_height'] = 236 / $width * $img_info['height'];
                         }
                     }
                     break;

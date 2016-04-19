@@ -44,7 +44,7 @@ class Google_MediaFileUpload
    * @param bool $chunkSize File will be uploaded in chunks of this many bytes.
    * only used if resumable=True
    */
-  public function __construct($mimeType, $data, $resumable=false, $chunkSize=false)
+  public function __construct($mimeType, $data, $resumable = false, $chunkSize = false)
   {
       $this->mimeType = $mimeType;
       $this->data = $data;

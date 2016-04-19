@@ -51,7 +51,7 @@ class ShareWidget extends Widget
 
         extract($var, EXTR_OVERWRITE);
 
-        if ($nums>0) {
+        if ($nums > 0) {
             $showNums = "&nbsp;({$nums})";
         } else {
             $showNums = '';
@@ -62,7 +62,7 @@ class ShareWidget extends Widget
         } elseif ($var['tpl'] == 'share_repost') {
             return "<a event-node=\"share\" class=\"repost\" href=\"javascript:void(0);\" event-args='sid={$sid}&stable={$stable}&curtable={$current_table}&curid={$current_id}&initHTML={$initHTML}&appname={$appname}&cancomment={$cancomment}&feedtype={$feed_type}&is_repost={$is_repost}'>我的主页</a>";
         } else {
-            return '<a event-node="'.($var['enode']?$var['enode']:'share').'"'.($var['class']?' class="'.$var['class'].'"':'').($var['title']?' title="'.$var['title'].'"':'')." href=\"javascript:void(0);\" event-args='sid={$sid}&stable={$stable}&curtable={$current_table}&curid={$current_id}&initHTML={$initHTML}&appname={$appname}&cancomment={$cancomment}&feedtype={$feed_type}&is_repost={$is_repost}'>".($var['text']?$var['text']:L('PUBLIC_SHARE_STREAM').$showNums).'</a>';
+            return '<a event-node="'.($var['enode'] ? $var['enode'] : 'share').'"'.($var['class'] ? ' class="'.$var['class'].'"' : '').($var['title'] ? ' title="'.$var['title'].'"' : '')." href=\"javascript:void(0);\" event-args='sid={$sid}&stable={$stable}&curtable={$current_table}&curid={$current_id}&initHTML={$initHTML}&appname={$appname}&cancomment={$cancomment}&feedtype={$feed_type}&is_repost={$is_repost}'>".($var['text'] ? $var['text'] : L('PUBLIC_SHARE_STREAM').$showNums).'</a>';
         }
     }
 }

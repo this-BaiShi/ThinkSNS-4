@@ -18,7 +18,7 @@ class PlotWidget extends Widget
      */
     public function render($data)
     {
-        $var['tpl']  = isset($data['tpl']) ? $data['tpl'] : 'chart';
+        $var['tpl'] = isset($data['tpl']) ? $data['tpl'] : 'chart';
         // 获取渲染模板
         $type = t($data['type']);
         $var['type'] = $type;
@@ -76,25 +76,25 @@ class PlotWidget extends Widget
         */
         $var['jsHtml'] = '';
         $most = 0;
-        foreach ($data['value'] as $k=>$v) {
+        foreach ($data['value'] as $k => $v) {
             $tmp = '';
-            foreach ($v as $kk=>$vv) {
+            foreach ($v as $kk => $vv) {
                 $vv > $most && $most = $vv;
-                $tmp[]="[$kk,$vv]";
+                $tmp[] = "[$kk,$vv]";
             }
-            $var['jsHtml'] .=" args.obj[$k] =[".implode(',', $tmp).'];';
+            $var['jsHtml'] .= " args.obj[$k] =[".implode(',', $tmp).'];';
         }
-        foreach ($data['ticks'] as $k=>$v) {
-            $var['jsHtml'] .=" args.ticks[$k] = '{$v}';";
+        foreach ($data['ticks'] as $k => $v) {
+            $var['jsHtml'] .= " args.ticks[$k] = '{$v}';";
         }
-        $most = $most%5 > 0 ? $most+(5-$most%5) : $most;
+        $most = $most % 5 > 0 ? $most + (5 - $most % 5) : $most;
 
-        $var['jsHtml'] .=" args.title = '{$data['title']}';";
-        $var['jsHtml'] .=" args['x'][0] = 0;";
-        $var['jsHtml'] .=" args['x'][1] = ".count($data['ticks']).';';
-        $var['jsHtml'] .=" args['y'][0] = 0;";
-        $var['jsHtml'] .=" args['y'][1] = {$most};";
-        $var['jsHtml'] .=" args['y']['numberTicks'] = 5;";
+        $var['jsHtml'] .= " args.title = '{$data['title']}';";
+        $var['jsHtml'] .= " args['x'][0] = 0;";
+        $var['jsHtml'] .= " args['x'][1] = ".count($data['ticks']).';';
+        $var['jsHtml'] .= " args['y'][0] = 0;";
+        $var['jsHtml'] .= " args['y'][1] = {$most};";
+        $var['jsHtml'] .= " args['y']['numberTicks'] = 5;";
 
         return $var;
     }

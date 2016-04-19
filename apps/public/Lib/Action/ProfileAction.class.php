@@ -24,8 +24,8 @@ class ProfileAction extends Action
         $this->assign('uid', $this->uid);
 
         // # 微吧和频道开关检测
-        $weibaIfOpen   = model('App')->getAppByName('weiba');
-        $weibaIfOpen   = $weibaIfOpen['status'];
+        $weibaIfOpen = model('App')->getAppByName('weiba');
+        $weibaIfOpen = $weibaIfOpen['status'];
         $channelIfOpen = model('App')->getAppByName('channel');
         $channelIfOpen = $channelIfOpen['status'];
         $this->assign('weibaIfOpen', $weibaIfOpen);
@@ -689,16 +689,16 @@ class ProfileAction extends Action
     {
         ! is_array($uids) && $uids = explode(',', $uids);
         $user_info = model('User')->getUserInfoByUids($uids);
-        foreach ($user_info as $k=>$v) {
-            if ($v['input_city']!='') {
-                $user_info[$k]['location'] =  '海外   '.$v['input_city'];
+        foreach ($user_info as $k => $v) {
+            if ($v['input_city'] != '') {
+                $user_info[$k]['location'] = '海外   '.$v['input_city'];
             }
         }
         $user_info[$this->uid]['certInfo'] = D('user_verified')->where('verified=1 AND uid='.$this->uid)->find();
         if ($user_info[$this->uid]['certInfo']) {
             $icon = getSubByKey($user_info[$this->uid]['user_group'], 'user_group_icon',
                             array('user_group_id', $user_info[$this->uid]['certInfo']['usergroup_id']));
-            $icon  = array_pop($icon);
+            $icon = array_pop($icon);
             $user_info[$this->uid]['certInfo']['icon'] = basename(substr($icon, 0, strpos($icon, '.')));
         }
         $this->assign('user_info', $user_info);

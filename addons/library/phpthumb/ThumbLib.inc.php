@@ -107,8 +107,8 @@ class PhpThumbFactory
     {
         // map our implementation to their class names
         $implementationMap = array(
-            'imagick'    => 'ImagickThumb',
-            'gd'        => 'GdThumb',
+            'imagick' => 'ImagickThumb',
+            'gd' => 'GdThumb',
         );
 
         // grab an instance of PhpThumb

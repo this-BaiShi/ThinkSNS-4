@@ -39,25 +39,25 @@
            //如果输入时间是YYMMDD格式。直接换算成时间戳 
             if (isset($stime[7]) && isset($etime[7])) {
                 //开始时间
-                $syear  = substr($stime, 0, 4);
+                $syear = substr($stime, 0, 4);
                 $smonth = substr($stime, 4, 2);
-                $sday   = substr($stime, 6, 2);
-                $stime  = mktime(0, 0, 0, $smonth, $sday, $syear);
+                $sday = substr($stime, 6, 2);
+                $stime = mktime(0, 0, 0, $smonth, $sday, $syear);
 
                 //结束时间
-                $eyear  = substr($etime, 0, 4);
+                $eyear = substr($etime, 0, 4);
                 $emonth = substr($etime, 4, 2);
-                $eday   = substr($etime, 6, 2);
-                $etime  = mktime(0, 0, 0, $emonth, $eday, $eyear);
+                $eday = substr($etime, 6, 2);
+                $etime = mktime(0, 0, 0, $emonth, $eday, $eyear);
 
                 return array( 'between',array( $stime,$etime ) );
             }
 
             //如果输入时间是YYYYMM格式
-            $start_temp   = $this->paramData($stime);
-            $end_temp     = $this->paramData($etime);
-            $start        = $start_temp[0];
-            $end          = $end_temp[1];
+            $start_temp = $this->paramData($stime);
+            $end_temp = $this->paramData($etime);
+            $start = $start_temp[0];
+            $end = $end_temp[1];
 
             return array( 'between',array( $start,$end ) );
         }
@@ -99,7 +99,7 @@
                 $start = mktime(0, 0, 0, $month, 1, $year);
 
                 //被查询区段的结束时期时间戳
-                $end   = mktime(24, 0, 0, $month, $day, $year);
+                $end = mktime(24, 0, 0, $month, $day, $year);
 
                 //反之,某一年的归档
             } elseif (isset($year[4])) {

@@ -35,19 +35,19 @@ function get_signature($str, $key)
     if (function_exists('hash_hmac')) {
         $signature = base64_encode(hash_hmac('sha1', $str, $key, true));
     } else {
-        $blocksize    = 64;
-        $hashfunc    = 'sha1';
+        $blocksize = 64;
+        $hashfunc = 'sha1';
         if (strlen($key) > $blocksize) {
             $key = pack('H*', $hashfunc($key));
         }
-        $key    = str_pad($key, $blocksize, chr(0x00));
-        $ipad    = str_repeat(chr(0x36), $blocksize);
-        $opad    = str_repeat(chr(0x5c), $blocksize);
-        $hmac    = pack(
+        $key = str_pad($key, $blocksize, chr(0x00));
+        $ipad = str_repeat(chr(0x36), $blocksize);
+        $opad = str_repeat(chr(0x5c), $blocksize);
+        $hmac = pack(
         'H*', $hashfunc(
-        ($key^$opad).pack(
+        ($key ^ $opad).pack(
         'H*', $hashfunc(
-        ($key^$ipad).$str
+        ($key ^ $ipad).$str
         )
         )
         )
@@ -107,13 +107,13 @@ function do_get($url, $appid, $appkey, $access_token, $access_token_secret, $ope
     $sigstr = 'GET'.'&'.rawurlencode("$url").'&';
     //必要参数, 不要随便更改!!
     $params = $_GET;
-    $params['oauth_version']          = '1.0';
+    $params['oauth_version'] = '1.0';
     $params['oauth_signature_method'] = 'HMAC-SHA1';
-    $params['oauth_timestamp']        = time();
-    $params['oauth_nonce']            = mt_rand();
-    $params['oauth_consumer_key']     = $appid;
-    $params['oauth_token']            = $access_token;
-    $params['openid']                 = $openid;
+    $params['oauth_timestamp'] = time();
+    $params['oauth_nonce'] = mt_rand();
+    $params['oauth_consumer_key'] = $appid;
+    $params['oauth_token'] = $access_token;
+    $params['openid'] = $openid;
     unset($params['oauth_signature']);
     //参数按照字母升序做序列化
     $normalized_str = get_normalized_string($params);
@@ -142,13 +142,13 @@ function do_multi_post($url, $appid, $appkey, $access_token, $access_token_secre
     $sigstr = 'POST'.'&'."$url".'&';
     //必要参数,不要随便更改!!
     $params = $_POST;
-    $params['oauth_version']          = '1.0';
+    $params['oauth_version'] = '1.0';
     $params['oauth_signature_method'] = 'HMAC-SHA1';
-    $params['oauth_timestamp']        = time();
-    $params['oauth_nonce']            = mt_rand();
-    $params['oauth_consumer_key']     = $appid;
-    $params['oauth_token']            = $access_token;
-    $params['openid']                 = $openid;
+    $params['oauth_timestamp'] = time();
+    $params['oauth_nonce'] = mt_rand();
+    $params['oauth_consumer_key'] = $appid;
+    $params['oauth_token'] = $access_token;
+    $params['openid'] = $openid;
     unset($params['oauth_signature']);
     //获取上传图片信息
     foreach ($_FILES as $filename => $filevalue) {
@@ -195,13 +195,13 @@ function do_post($url, $appid, $appkey, $access_token, $access_token_secret, $op
     $sigstr = 'POST'.'&'.rawurlencode($url).'&';
     //必要参数,不要随便更改!!
     $params = $_POST;
-    $params['oauth_version']          = '1.0';
+    $params['oauth_version'] = '1.0';
     $params['oauth_signature_method'] = 'HMAC-SHA1';
-    $params['oauth_timestamp']        = time();
-    $params['oauth_nonce']            = mt_rand();
-    $params['oauth_consumer_key']     = $appid;
-    $params['oauth_token']            = $access_token;
-    $params['openid']                 = $openid;
+    $params['oauth_timestamp'] = time();
+    $params['oauth_nonce'] = mt_rand();
+    $params['oauth_consumer_key'] = $appid;
+    $params['oauth_token'] = $access_token;
+    $params['openid'] = $openid;
     unset($params['oauth_signature']);
     //对参数按照字母升序做序列化
     $sigstr .= rawurlencode(get_normalized_string($params));
@@ -234,16 +234,16 @@ function do_post($url, $appid, $appkey, $access_token, $access_token_secret, $op
 function get_request_token($appid, $appkey)
 {
     //获取request token接口, 不要随便更改!!
-    $url    = 'http://openapi.qzone.qq.com/oauth/qzoneoauth_request_token?';
+    $url = 'http://openapi.qzone.qq.com/oauth/qzoneoauth_request_token?';
     //构造签名串.源串:方法[GET|POST]&uri&参数按照字母升序排列
     $sigstr = 'GET'.'&'.rawurlencode('http://openapi.qzone.qq.com/oauth/qzoneoauth_request_token').'&';
     //必要参数,不要随便更改!!
     $params = array();
-    $params['oauth_version']          = '1.0';
+    $params['oauth_version'] = '1.0';
     $params['oauth_signature_method'] = 'HMAC-SHA1';
-    $params['oauth_timestamp']        = time();
-    $params['oauth_nonce']            = mt_rand();
-    $params['oauth_consumer_key']     = $appid;
+    $params['oauth_timestamp'] = time();
+    $params['oauth_nonce'] = mt_rand();
+    $params['oauth_consumer_key'] = $appid;
     //对参数按照字母升序做序列化
     $normalized_str = get_normalized_string($params);
     $sigstr        .= rawurlencode($normalized_str);
@@ -271,18 +271,18 @@ function get_request_token($appid, $appkey)
 function get_access_token($appid, $appkey, $request_token, $request_token_secret, $vericode)
 {
     //获取access token接口，不要随便更改!!
-    $url    = 'http://openapi.qzone.qq.com/oauth/qzoneoauth_access_token?';
+    $url = 'http://openapi.qzone.qq.com/oauth/qzoneoauth_access_token?';
     //构造签名串.源串:方法[GET|POST]&uri&参数按照字母升序排列
     $sigstr = 'GET'.'&'.rawurlencode('http://openapi.qzone.qq.com/oauth/qzoneoauth_access_token').'&';
     //必要参数，不要随便更改!!
     $params = array();
-    $params['oauth_version']          = '1.0';
+    $params['oauth_version'] = '1.0';
     $params['oauth_signature_method'] = 'HMAC-SHA1';
-    $params['oauth_timestamp']        = time();
-    $params['oauth_nonce']            = mt_rand();
-    $params['oauth_consumer_key']     = $appid;
-    $params['oauth_token']            = $request_token;
-    $params['oauth_vericode']         = $vericode;
+    $params['oauth_timestamp'] = time();
+    $params['oauth_nonce'] = mt_rand();
+    $params['oauth_consumer_key'] = $appid;
+    $params['oauth_token'] = $request_token;
+    $params['oauth_vericode'] = $vericode;
     //对参数按照字母升序做序列化
     $normalized_str = get_normalized_string($params);
     $sigstr        .= rawurlencode($normalized_str);

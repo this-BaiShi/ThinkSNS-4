@@ -20,7 +20,7 @@ class GroupShareModel
     public function shareFeed($data, $from = 'share', $lessUids = null)
     {
         // 返回的数据结果集
-        $return = array('status'=>0,'data'=>L('PUBLIC_SHARE_FAILED'));            // 分享失败
+        $return = array('status' => 0,'data' => L('PUBLIC_SHARE_FAILED'));            // 分享失败
         // 验证数据正确性
         if (empty($data['sid'])) {
             return $return;
@@ -106,7 +106,7 @@ class GroupShareModel
             }
             D('GroupFeed')->cleanCache($data['sid']);
         } else {
-            $return['data']=D('GroupFeed')->getError();
+            $return['data'] = D('GroupFeed')->getError();
         }
 
         return $return;
@@ -128,14 +128,14 @@ class GroupShareModel
      */
     public function shareMessage($data)
     {
-        $return = array('status'=>0,'data'=>L('PUBLIC_SHARE_FAILED'));            // 分享失败
+        $return = array('status' => 0,'data' => L('PUBLIC_SHARE_FAILED'));            // 分享失败
         $app = t($data['app_name']);
         $msg['to'] = trim($data['uids'], ',');
         if (empty($msg['to'])) {
             $return['data'] = L('PUBLIC_SHARE_TOUSE_EMPTY');                    // 分享接受人不能为空
             return $return;
         }
-        if (!$oldInfo =model('Source')->getSourceInfo($data['type'], $data['sid'], false, $app)) {
+        if (!$oldInfo = model('Source')->getSourceInfo($data['type'], $data['sid'], false, $app)) {
             $return['data'] = L('PUBLIC_INFO_SHARE_FORBIDDEN');                    // 此信息不可以被分享
             return $return;
         }
@@ -153,7 +153,7 @@ class GroupShareModel
             // 	model('Notify')->sendNotify($v, 'new_message', $config);
             // }
 
-            $return = array('status'=>1,'data'=>L('PUBLIC_SHARE_SUCCESS'));            // 分享成功
+            $return = array('status' => 1,'data' => L('PUBLIC_SHARE_SUCCESS'));            // 分享成功
         }
 
         return $return;

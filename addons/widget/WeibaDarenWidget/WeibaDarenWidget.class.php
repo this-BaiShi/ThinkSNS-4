@@ -19,10 +19,10 @@ class WeibaDarenWidget extends Widget
     {
         /* # 合并覆盖初始数据 */
         $data = array_merge(array(
-            'max'     => 5,
+            'max' => 5,
             'weibaid' => null,
-            'title'   => '用户推荐',
-            'uid'     => null,
+            'title' => '用户推荐',
+            'uid' => null,
         ), $data);
 
         return $this->renderFile(dirname(__FILE__).'/template.html', $data);

@@ -39,12 +39,12 @@ class Cache
      * @param  array  $options 配置数组
      * @return object
      */
-    public function connect($type='', $options=array())
+    public function connect($type = '', $options = array())
     {
         if (empty($type)) {
             $type = C('DATA_CACHE_TYPE');
         }
-        $type  = strtolower(trim($type));
+        $type = strtolower(trim($type));
         $class = 'Cache'.ucwords($type);
         tsload(ADDON_PATH.'/library/cache/'.$class.'.class.php');
         if (class_exists($class)) {
@@ -72,7 +72,7 @@ class Cache
     }
     public function setOptions($name, $value)
     {
-        $this->options[$name]   =   $value;
+        $this->options[$name] = $value;
     }
 
     public function getOptions($name)
@@ -103,24 +103,24 @@ class Cache
     protected function queue($key)
     {
         static $_handler = array(
-            'file'  =>  array('F','F'),
-            'xcache'=>  array('xcache_get','xcache_set'),
-            'apc'   =>  array('apc_fetch','apc_store'),
+            'file' => array('F','F'),
+            'xcache' => array('xcache_get','xcache_set'),
+            'apc' => array('apc_fetch','apc_store'),
         );
-        $queue  =  isset($this->options['queue'])?$this->options['queue']:'file';
-        $fun    =  isset($_handler[$queue])?$_handler[$queue]:$_handler['file'];
-        $queue_name=isset($this->options['queue_name'])?$this->options['queue_name']:'think_queue';
-        $value  =  $fun[0]($queue_name);
+        $queue = isset($this->options['queue']) ? $this->options['queue'] : 'file';
+        $fun = isset($_handler[$queue]) ? $_handler[$queue] : $_handler['file'];
+        $queue_name = isset($this->options['queue_name']) ? $this->options['queue_name'] : 'think_queue';
+        $value = $fun[0]($queue_name);
         if (!$value) {
-            $value   =  array();
+            $value = array();
         }
         // 进列
-        if (false===array_search($key, $value)) {
+        if (false === array_search($key, $value)) {
             array_push($value, $key);
         }
         if (count($value) > $this->options['length']) {
             // 出列
-            $key =  array_shift($value);
+            $key = array_shift($value);
             // 删除缓存
             $this->rm($key);
             if (APP_DEUBG) {

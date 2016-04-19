@@ -15,7 +15,7 @@
     $config[ 'savePath' ] = $Path;
     $up = new Uploader('upfile', $config);
     $type = $_REQUEST['type'];
-    $editorId=$_GET['editorid'];
+    $editorId = $_GET['editorid'];
 
     $info = $up->getFileInfo();
     /*

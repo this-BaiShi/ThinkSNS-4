@@ -21,13 +21,13 @@ class baidu
             $apiClient = $baidu->getBaiduApiClientService();
             $profile = $apiClient->api('/rest/2.0/passport/users/getInfo');
         }
-        $user['id']         =  $user['uid'];
-        $user['uname']       = $user['uname'];
-        $user['province']    = 0;
-        $user['city']        = 0;
-        $user['location']    = '';
-        $user['userface']    = $profile['portrait'];
-        $user['sex']         = $profile['sex'];
+        $user['id'] = $user['uid'];
+        $user['uname'] = $user['uname'];
+        $user['province'] = 0;
+        $user['city'] = 0;
+        $user['location'] = '';
+        $user['userface'] = $profile['portrait'];
+        $user['sex'] = $profile['sex'];
 
         return $user;
     }
@@ -61,7 +61,7 @@ class baidu
         return true;
     }
     //转发一条分享
-    public function transpond($transpondId, $reId, $content='', $opt=null)
+    public function transpond($transpondId, $reId, $content = '', $opt = null)
     {
         return true;
     }

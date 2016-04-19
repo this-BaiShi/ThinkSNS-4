@@ -7,7 +7,7 @@
 class AtmeModel extends Model
 {
     protected $tableNmae = 'atme';
-    protected $fields = array(0=>'atme_id',1=>'app',2=>'table',3=>'row_id',4=>'uid','_pk'=>'atme_id');
+    protected $fields = array(0 => 'atme_id',1 => 'app',2 => 'table',3 => 'row_id',4 => 'uid','_pk' => 'atme_id');
 
     private $_app = null;                       // 所属应用
     private $_app_table = null;                 // 所属资源表
@@ -136,7 +136,7 @@ class AtmeModel extends Model
                     if (!$v['uid']) {
                         continue;
                     }
-                    $udata[] = array('uid'=>$v['uid'],'uname'=>$v['uname'],'avatar_small'=>$v['avatar_small'],'search_key'=>$v['search_key']);
+                    $udata[] = array('uid' => $v['uid'],'uname' => $v['uname'],'avatar_small' => $v['avatar_small'],'search_key' => $v['search_key']);
                 }
                 //更新userdata表里面的最近@的人的信息
                 $userdata->setField('at_value', serialize($udata), "`key`='user_recentat' AND uid=".$GLOBALS['ts']['mid']);
@@ -147,7 +147,7 @@ class AtmeModel extends Model
                     if (!$v['uid']) {
                         continue;
                     }
-                    $udata[] = array('uid'=>$v['uid'],'uname'=>$v['uname'],'avatar_small'=>$v['avatar_small'],'search_key'=>$v['search_key']);
+                    $udata[] = array('uid' => $v['uid'],'uname' => $v['uname'],'avatar_small' => $v['avatar_small'],'search_key' => $v['search_key']);
                 }
                 $data['uid'] = $GLOBALS['ts']['mid'];
                 $data['key'] = 'user_recentat';
@@ -188,7 +188,7 @@ class AtmeModel extends Model
                     if (!$v['uid']) {
                         continue;
                     }
-                    $udata[] = array('uid'=>$v['uid'],'uname'=>$v['uname'],'avatar_small'=>$v['avatar_small'],'search_key'=>$v['search_key']);
+                    $udata[] = array('uid' => $v['uid'],'uname' => $v['uname'],'avatar_small' => $v['avatar_small'],'search_key' => $v['search_key']);
                 }
                 //更新userdata表里面的最近@的人的信息
                 $userdata->setField('at_value', serialize($udata), "`key`='user_recentat' AND uid=".$GLOBALS['ts']['mid']);
@@ -199,7 +199,7 @@ class AtmeModel extends Model
                     if (!$v['uid']) {
                         continue;
                     }
-                    $udata[] = array('uid'=>$v['uid'],'uname'=>$v['uname'],'avatar_small'=>$v['avatar_small'],'search_key'=>$v['search_key']);
+                    $udata[] = array('uid' => $v['uid'],'uname' => $v['uname'],'avatar_small' => $v['avatar_small'],'search_key' => $v['search_key']);
                 }
                 $data['uid'] = $GLOBALS['ts']['mid'];
                 $data['key'] = 'user_recentat';
@@ -348,7 +348,7 @@ class AtmeModel extends Model
 
     /*** API使用方法 ***/
     // 所有的@信息
-    public function mentions($mid, $since_id = 0, $max_id = 0, $limit = 20, $page = 1, $table=null)
+    public function mentions($mid, $since_id = 0, $max_id = 0, $limit = 20, $page = 1, $table = null)
     {
         $since_id = intval($since_id);
         $max_id = intval($max_id);

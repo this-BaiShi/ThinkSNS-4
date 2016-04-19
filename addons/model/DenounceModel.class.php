@@ -7,7 +7,7 @@
 class DenounceModel extends Model
 {
     protected $tableName = 'denounce';
-    protected $fields = array(0=>'id',1=>'from',2=>'aid',3=>'state',4=>'uid',5=>'fuid',6=>'reason',7=>'content',8=>'ctime',9=>'source_url');
+    protected $fields = array(0 => 'id',1 => 'from',2 => 'aid',3 => 'state',4 => 'uid',5 => 'fuid',6 => 'reason',7 => 'content',8 => 'ctime',9 => 'source_url');
 
     /**
      * 获取相应类型的举报列表
@@ -17,15 +17,15 @@ class DenounceModel extends Model
     public function getFromList($map)
     {
         $list = $this->where($map)->order('id DESC')->findPage();
-        $arr =array(
-                'feed'=>'网站-分享',
-                'Android-weiba'=>'安卓手机-帖子',
-                'iPhone-weiba'=>'苹果手机-帖子',
-                'weiba_post'=>'网站-帖子',
-                'mobile-weiba'=>'3G手机-帖子',
-                'Android'=>'安卓手机-分享',
-                'iPhone'=>'苹果手机-分享',
-                'mobile'=>'3G手机-分享',
+        $arr = array(
+                'feed' => '网站-分享',
+                'Android-weiba' => '安卓手机-帖子',
+                'iPhone-weiba' => '苹果手机-帖子',
+                'weiba_post' => '网站-帖子',
+                'mobile-weiba' => '3G手机-帖子',
+                'Android' => '安卓手机-分享',
+                'iPhone' => '苹果手机-分享',
+                'mobile' => '3G手机-分享',
         );
         foreach ($list['data'] as &$v) {
             $v['source_url'] = str_replace('[SITE_URL]', SITE_URL, $v['source_url']);
@@ -43,9 +43,9 @@ class DenounceModel extends Model
     {
         $weiboIds = $this->_getWeiboIdsByDenounce($ids);
         $weibo_map['feed_id'] = array('IN', $weiboIds);
-        $weibo_set = model('Feed')->where($weibo_map)->save(array('is_del'=>1));
+        $weibo_set = model('Feed')->where($weibo_map)->save(array('is_del' => 1));
         if ($state == 0) {
-            $result = $this->where($this->_paramMaps($ids))->save(array('state'=>'1'));
+            $result = $this->where($this->_paramMaps($ids))->save(array('state' => '1'));
         } elseif ($state == 1) {
             $result = $this->where($this->_paramMaps($ids))->delete();
         }
@@ -62,7 +62,7 @@ class DenounceModel extends Model
     {
         $weiboIds = $this->_getWeiboIdsByDenounce($ids);
         $weibo_map['feed_id'] = array('IN', $weiboIds);
-        $weibo_set = model('Feed')->where($weibo_map)->save(array('is_del'=>0));
+        $weibo_set = model('Feed')->where($weibo_map)->save(array('is_del' => 0));
         // 删除举报信息
         $result = $this->where($this->_paramMaps($ids))->delete();
 
@@ -88,7 +88,7 @@ class DenounceModel extends Model
         $map['ctime'] = time();
         $map['state'] = '1';
         $weibo_map['feed_id'] = $id;
-        model('Feed')->where($weibo_map)->save(array('is_del'=>1));
+        model('Feed')->where($weibo_map)->save(array('is_del' => 1));
 
         return $this->add($map);
     }

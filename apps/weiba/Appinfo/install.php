@@ -6,7 +6,7 @@ if (!defined('SITE_PATH')) {
 
 header('Content-Type: text/html; charset=utf-8');
 
-$sql_file  = APPS_PATH.'/weiba/Appinfo/install.sql';
+$sql_file = APPS_PATH.'/weiba/Appinfo/install.sql';
 //执行sql文件
 $res = D('')->executeSqlFile($sql_file);
 if (!empty($res)) {

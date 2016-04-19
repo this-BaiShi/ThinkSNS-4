@@ -40,7 +40,7 @@ class AreaModel extends Model
      */
     public function getAreaTree($pid)
     {
-        $output    = array();
+        $output = array();
         $list = $this->getAreaList();
         // 获取省级
         foreach ($list as $k1 => $p) {
@@ -75,7 +75,7 @@ class AreaModel extends Model
     {
         $result = array();
         if (!empty($id)) {
-            $name   = 'ts_area_aid_'.$id;
+            $name = 'ts_area_aid_'.$id;
             $result = S($name);
             if (!$result) {
                 $map['area_id'] = $id;

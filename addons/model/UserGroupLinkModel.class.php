@@ -7,7 +7,7 @@
 class UserGroupLinkModel extends Model
 {
     protected $tableName = 'user_group_link';
-    protected $fields =    array(0 =>'id',1=>'uid',2=>'user_group_id');
+    protected $fields = array(0 => 'id',1 => 'uid',2 => 'user_group_id');
 
     /**
      * 转移用户的用户组
@@ -69,7 +69,7 @@ class UserGroupLinkModel extends Model
         $return = array();
         foreach ($uids as $uid) {
             $return[$uid] = model('Cache')->get('user_group_'.$uid);
-            if ($return[$uid]==false) {
+            if ($return[$uid] == false) {
                 $map['uid'] = $uid;
                 $list = $this->where($map)->findAll();
                 $return[$uid] = getSubByKey($list, 'user_group_id');
@@ -108,7 +108,7 @@ class UserGroupLinkModel extends Model
         foreach ($ugresult as $ur) {
             $groupresult[$ur['user_group_id']] = $ur;
         }
-        foreach ($userGids as $k=>$v) {
+        foreach ($userGids as $k => $v) {
             $ugroup = array();
             foreach ($userGids[$k] as $userg) {
                 $ugroup[] = $groupresult[$userg];

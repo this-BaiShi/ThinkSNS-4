@@ -54,7 +54,7 @@ class DiyImage extends TagsAbstract
         }
         $var['imgId'] = 'i'.substr($this->sign, 0, 5).$time;
         $var['imgPanel'] = 'i'.substr($this->sign, 0, 6).$time;
-        $var['imgNav']   = 'i'.substr($this->sign, 0, 7).$time;
+        $var['imgNav'] = 'i'.substr($this->sign, 0, 7).$time;
 
         return $var;
     }

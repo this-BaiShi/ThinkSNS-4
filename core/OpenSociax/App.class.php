@@ -52,19 +52,19 @@ class App
         $GLOBALS['time_run_detail']['obstart'] = microtime(true);
 
         //API控制器
-        if (APP_NAME=='api') {
+        if (APP_NAME == 'api') {
             App::execApi();
 
             $GLOBALS['time_run_detail']['execute_api_end'] = microtime(true);
 
         //Widget控制器
-        } elseif (APP_NAME=='widget') {
+        } elseif (APP_NAME == 'widget') {
             App::execWidget();
 
             $GLOBALS['time_run_detail']['execute_widget_end'] = microtime(true);
 
         //Plugin控制器
-        } elseif (APP_NAME=='plugin') {
+        } elseif (APP_NAME == 'plugin') {
             App::execPlugin();
 
             $GLOBALS['time_run_detail']['execute_plugin_end'] = microtime(true);
@@ -100,7 +100,7 @@ class App
     {
 
         //防止CSRF
-        if (strtoupper($_SERVER['REQUEST_METHOD'])=='POST' && stripos($_SERVER['HTTP_REFERER'], SITE_URL) !== 0 && $_SERVER['HTTP_USER_AGENT'] !== 'Shockwave Flash' && (strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'adobe flash player') === false) && MODULE_NAME!='Weixin') {
+        if (strtoupper($_SERVER['REQUEST_METHOD']) == 'POST' && stripos($_SERVER['HTTP_REFERER'], SITE_URL) !== 0 && $_SERVER['HTTP_USER_AGENT'] !== 'Shockwave Flash' && (strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'adobe flash player') === false) && MODULE_NAME != 'Weixin') {
             die('illegal request.');
         }
 
@@ -129,7 +129,7 @@ class App
         $GLOBALS['time_run_detail']['addons_end'] = microtime(true);
 
         //创建Action控制器实例
-        $className =  MODULE_NAME.'Action';
+        $className = MODULE_NAME.'Action';
         // tsload(APP_ACTION_PATH.'/'.$className.'.class.php');
 
         $action = ACTION_NAME; // action名称
@@ -173,7 +173,7 @@ class App
         $action = ACTION_NAME;
         //执行当前操作
         $data = call_user_func(array(&$module, $action));
-        $format = (in_array($_REQUEST['format'], array('json', 'php', 'test'))) ?$_REQUEST['format']:'json';
+        $format = (in_array($_REQUEST['format'], array('json', 'php', 'test'))) ? $_REQUEST['format'] : 'json';
         $format = strtolower($format);
         /* json */
         if ($format == 'json') {
@@ -212,7 +212,7 @@ class App
     {
 
         //防止CSRF
-        if (strtoupper($_SERVER['REQUEST_METHOD'])=='POST' && stripos($_SERVER['HTTP_REFERER'], SITE_URL)!==0 && $_SERVER['HTTP_USER_AGENT'] !== 'Shockwave Flash' && (strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'adobe flash player') === false) && MODULE_NAME!='Weixin') {
+        if (strtoupper($_SERVER['REQUEST_METHOD']) == 'POST' && stripos($_SERVER['HTTP_REFERER'], SITE_URL) !== 0 && $_SERVER['HTTP_USER_AGENT'] !== 'Shockwave Flash' && (strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'adobe flash player') === false) && MODULE_NAME != 'Weixin') {
             die('illegal request.');
         }
 
@@ -229,7 +229,7 @@ class App
         }
         $className = MODULE_NAME.'Widget';
 
-        $module =   new $className();
+        $module = new $className();
 
         //异常处理
         if (!$module) {
@@ -238,7 +238,7 @@ class App
         }
 
         //获取当前操作名
-        $action =   ACTION_NAME;
+        $action = ACTION_NAME;
 
         //执行当前操作
         if ($rs = call_user_func(array(&$module, $action))) {

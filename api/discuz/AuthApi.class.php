@@ -69,7 +69,7 @@ $post_data['extra'] = '';
 //帖子标签
 $post_data['tags'] = 'test';
 //帖子的hash码，这个非常关键！假如缺少这个hash码，discuz会警告你来路的页面不正确
-$post_data['formhash']=$formhash;
+$post_data['formhash'] = $formhash;
 
 $ch = curl_init($send_url);
 curl_setopt($ch, CURLOPT_REFERER, $send_url);       //伪装REFERER

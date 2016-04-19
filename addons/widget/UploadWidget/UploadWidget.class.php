@@ -22,16 +22,16 @@ class UploadWidget extends Widget
     public function render($data)
     {
         $var = array();
-        $var['callback']    = "''";
-        $var['uploadType']  = 'file';
-        $var['inputname']   = 'attach';
-        $var['attachIds']   = '';
-        $var['inForm']      =  1;
+        $var['callback'] = "''";
+        $var['uploadType'] = 'file';
+        $var['inputname'] = 'attach';
+        $var['attachIds'] = '';
+        $var['inForm'] = 1;
         $var['limit'] = empty($data['limit']) ? 0 : intval($data['limit']);
 
         is_array($data) && $var = array_merge($var, $data);
 
-        $uploadType = in_array($var['uploadType'], array('image', 'file', 'cloudimage', 'cloudfile'))?t($var['uploadType']):'file';
+        $uploadType = in_array($var['uploadType'], array('image', 'file', 'cloudimage', 'cloudfile')) ? t($var['uploadType']) : 'file';
         $uploadTemplate = $uploadType.'upload.html';
 
         if (!empty($var['attachIds'])) {
@@ -40,9 +40,9 @@ class UploadWidget extends Widget
             $attachInfo = model('Attach')->getAttachByIds($var['attachIds']);
             foreach ($attachInfo as $v) {
                 if ($var['uploadType'] == 'image') {
-                    $v['src']   = getImageUrl($v['save_path'].$v['save_name'], 100, 100, true);
+                    $v['src'] = getImageUrl($v['save_path'].$v['save_name'], 100, 100, true);
                 }
-                $v['extension']  = strtolower($v['extension']);
+                $v['extension'] = strtolower($v['extension']);
                 $var['attachInfo'][] = $v;
             }
 
@@ -65,7 +65,7 @@ class UploadWidget extends Widget
     public function save()
     {
         $data['attach_type'] = t($_REQUEST['attach_type']);
-        $data['upload_type'] = $_REQUEST['upload_type']?t($_REQUEST['upload_type']):'file';
+        $data['upload_type'] = $_REQUEST['upload_type'] ? t($_REQUEST['upload_type']) : 'file';
 
         //针对后台页面同时包含文件和图片上传
         // if($data['upload_type']=='file'){
@@ -74,10 +74,10 @@ class UploadWidget extends Widget
         //     unset($_FILES['upload_file']);
         // }
 
-        $thumb  = intval($_REQUEST['thumb']);
-        $width  = intval($_REQUEST['width']);
+        $thumb = intval($_REQUEST['thumb']);
+        $width = intval($_REQUEST['width']);
         $height = intval($_REQUEST['height']);
-        $cut    = intval($_REQUEST['cut']);
+        $cut = intval($_REQUEST['cut']);
 
         //Addons::hook('widget_upload_before_save', &$data);
 
@@ -87,16 +87,16 @@ class UploadWidget extends Widget
 
         if ($info['status']) {
             $data = $info['info'][0];
-            if ($thumb==1) {
+            if ($thumb == 1) {
                 $data['src'] = getImageUrl($data['save_path'].$data['save_name'], $width, $height, $cut);
             } else {
                 $data['src'] = $data['save_path'].$data['save_name'];
             }
 
-            $data['extension']  = strtolower($data['extension']);
-            $return = array('status'=>1,'data'=>$data);
+            $data['extension'] = strtolower($data['extension']);
+            $return = array('status' => 1,'data' => $data);
         } else {
-            $return = array('status'=>0,'data'=>$info['info']);
+            $return = array('status' => 0,'data' => $info['info']);
         }
 
         $isAjaxUrl = isset($_REQUEST['isAjaxUrl']) ? true : false;
@@ -136,11 +136,11 @@ class UploadWidget extends Widget
         $data['upload_type'] = 'image'; //使用又拍云时，必须指定类型为image
         $info = model('Attach')->upload($data);
         if ($info['status']) {
-            $data           = $info['info'][0];
-            $data['src']    = getImageUrl($data['save_path'].$data['save_name']);
+            $data = $info['info'][0];
+            $data['src'] = getImageUrl($data['save_path'].$data['save_name']);
             $return = array('error' => 0, 'url' => $data['src']);
         } else {
-            $return = array('error'=>1,'message'=>$info['info']);
+            $return = array('error' => 1,'message' => $info['info']);
         }
         echo json_encode($return);
         exit();
@@ -156,12 +156,12 @@ class UploadWidget extends Widget
         $data['upload_type'] = 'file'; //使用又拍云时，必须指定类型为file
         $info = model('Attach')->upload($data);
         if ($info['status']) {
-            $data           = $info['info'][0];
-            $data['src']    = getImageUrl($data['save_path'].$data['save_name'], 100, 100, true);
-            $data['extension']  = strtolower($data['extension']);
-            $return = array('status'=>1,'data'=>$data);
+            $data = $info['info'][0];
+            $data['src'] = getImageUrl($data['save_path'].$data['save_name'], 100, 100, true);
+            $data['extension'] = strtolower($data['extension']);
+            $return = array('status' => 1,'data' => $data);
         } else {
-            $return = array('status'=>0,'data'=>$info['info']);
+            $return = array('status' => 0,'data' => $info['info']);
         }
         echo json_encode($return);
         exit();
@@ -178,9 +178,9 @@ class UploadWidget extends Widget
             // die('游客不允许下载附加');
         }
 
-        $aid    =    intval($_GET['attach_id']);
+        $aid = intval($_GET['attach_id']);
 
-        $attach    =    model('Attach')->getAttachById($aid);
+        $attach = model('Attach')->getAttachById($aid);
 
         if (!$attach) {
             die(L('PUBLIC_ATTACH_ISNULL'));

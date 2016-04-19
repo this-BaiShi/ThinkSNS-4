@@ -54,14 +54,14 @@ class OtherPostWidget extends Widget
     {
         $map['is_del'] = 0;
         if (!$data['max']) {
-            $data['max']=10;
+            $data['max'] = 10;
         }
         //$list = model( 'Cache' )->get('weiba_post_recommend');
         if (!$list) {
             $map1['post_id'] = array('neq',$data['post_id']);
             $map1['is_del'] = 0;
             $list = M('weiba_post')->where($map1)->order('rand()')->limit($data['max'])->select();
-            !$list && $list=1;
+            !$list && $list = 1;
             //model( 'Cache' )->set( 'weiba_post_recommend' , $list , 86400 );
         }
 

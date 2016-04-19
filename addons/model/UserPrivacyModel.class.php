@@ -7,7 +7,7 @@
 class UserPrivacyModel extends Model
 {
     protected $tableName = 'user_privacy';
-    protected $fields = array(0=>'uid',1=>'key',2=>'value');
+    protected $fields = array(0 => 'uid',1 => 'key',2 => 'value');
 
     /**
      * 获取指定用户的隐私设置
@@ -45,7 +45,7 @@ class UserPrivacyModel extends Model
         $map = array();
         $map['uid'] = $uid;
         $this->where($map)->delete();
-        foreach ($data as $key=>$value) {
+        foreach ($data as $key => $value) {
             $key = t($key);
             $value = intval($value);
             $sql[] = "($uid,'{$key}',{$value})";
@@ -66,7 +66,7 @@ class UserPrivacyModel extends Model
      */
     public function getPrivacy($mid, $uid)
     {
-        $data  = $this->getUserSet($uid);
+        $data = $this->getUserSet($uid);
         // $mid为0表示系统
         if ($mid != $uid && $mid != 0) {
             if ($this->isInBlackList($mid, $uid)) {

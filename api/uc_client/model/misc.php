@@ -64,7 +64,7 @@ class miscmodel
     {
     }
 
-    public function dfopen2($url, $limit = 0, $post = '', $cookie = '', $bysocket = false, $ip = '', $timeout = 15, $block = true, $encodetype  = 'URLENCODE')
+    public function dfopen2($url, $limit = 0, $post = '', $cookie = '', $bysocket = false, $ip = '', $timeout = 15, $block = true, $encodetype = 'URLENCODE')
     {
         $__times__ = isset($_GET['__times__']) ? intval($_GET['__times__']) + 1 : 1;
         if ($__times__ > 2) {
@@ -75,7 +75,7 @@ class miscmodel
         return $this->dfopen($url, $limit, $post, $cookie, $bysocket, $ip, $timeout, $block, $encodetype);
     }
 
-    public function dfopen($url, $limit = 0, $post = '', $cookie = '', $bysocket = false, $ip = '', $timeout = 15, $block = true, $encodetype  = 'URLENCODE')
+    public function dfopen($url, $limit = 0, $post = '', $cookie = '', $bysocket = false, $ip = '', $timeout = 15, $block = true, $encodetype = 'URLENCODE')
     {
         //error_log("[uc_client]\r\nurl: $url\r\npost: $post\r\n\r\n", 3, 'c:/log/php_fopen.txt');
         $return = '';

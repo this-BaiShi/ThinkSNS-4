@@ -23,15 +23,15 @@ class WeibaReplyWidget extends Widget
     {
         $var = array();
         //默认配置数据
-         $var['cancomment']  = 1;  //是否可以评论
+         $var['cancomment'] = 1;  //是否可以评论
         // $var['canrepost']   = 1;  //是否允许转发
         // $var['cancomment_old'] = 1; //是否可以评论给原作者
         $var['showlist'] = 1;         // 默认显示原评论列表
-        $var['tpl']      = 'detail'; // 显示模板
+        $var['tpl'] = 'detail'; // 显示模板
         $var['app_name'] = 'weiba';
-        $var['table']    = 'weiba_post';
-        $var['limit']    = 10;
-        $var['order']    = 'ASC';
+        $var['table'] = 'weiba_post';
+        $var['limit'] = 10;
+        $var['order'] = 'ASC';
         $var['initNums'] = model('Xdata')->getConfig('weibo_nums', 'feed');
         $map['weiba_id'] = $data['weiba_id'];
         $map['level'] = array('gt',1);
@@ -49,9 +49,9 @@ class WeibaReplyWidget extends Widget
             $var['order_field'] = 'ctime';
             $var['order'] = 'ASC';
         }
-        if ($var['showlist'] ==1) { //默认只取出前10条
+        if ($var['showlist'] == 1) { //默认只取出前10条
             $map = array();
-            $map['post_id']  = intval($var['post_id']);   //必须存在
+            $map['post_id'] = intval($var['post_id']);   //必须存在
             if (!empty($map['post_id'])) {
                 //分页形式数据
                 $var['list'] = D('WeibaReply', 'weiba')->getReplyList($map, $var['order_field'].' '.$var['order'], $var['limit']);
@@ -65,9 +65,9 @@ class WeibaReplyWidget extends Widget
         $ajax = $var['isAjax'];
         unset($var, $data);
         //输出数据
-        $return = array('status'=>1,'data'=>$content);
+        $return = array('status' => 1,'data' => $content);
 
-        return $ajax==1 ? json_encode($return) : $return['data'];
+        return $ajax == 1 ? json_encode($return) : $return['data'];
     }
 
     /**
@@ -86,7 +86,7 @@ class WeibaReplyWidget extends Widget
             $return['data'] = '您是黑名单用户没有发帖权限！';
             exit(json_encode($return));
         }
-        $return = array('status'=>0,'data'=>L('PUBLIC_CONCENT_IS_ERROR'));
+        $return = array('status' => 0,'data' => L('PUBLIC_CONCENT_IS_ERROR'));
         $data['weiba_id'] = intval($_POST['weiba_id']);
         $data['post_id'] = intval($_POST['post_id']);
         $data['post_uid'] = intval($_POST['post_uid']);
@@ -99,7 +99,7 @@ class WeibaReplyWidget extends Widget
 
         $filterContentStatus = filter_words($data['content']);
         if (!$filterContentStatus['status']) {
-            exit(json_encode(array('status'=>0, 'data'=>$filterContentStatus['data'])));
+            exit(json_encode(array('status' => 0, 'data' => $filterContentStatus['data'])));
         }
         $data['content'] = $filterContentStatus['data'];
 
@@ -139,7 +139,7 @@ class WeibaReplyWidget extends Widget
             $datas['content'] = preg_html($data['content']);
             $datas['app_uid'] = intval($_POST['post_uid']);
             $datas['row_id'] = intval($_POST['feed_id']);
-            $datas['to_comment_id'] = $data['to_reply_id']?D('weiba_reply', 'weiba')->where('reply_id='.$data['to_reply_id'])->getField('comment_id'):0;
+            $datas['to_comment_id'] = $data['to_reply_id'] ? D('weiba_reply', 'weiba')->where('reply_id='.$data['to_reply_id'])->getField('comment_id') : 0;
             $datas['to_uid'] = intval($_POST['to_uid']);
             $datas['uid'] = $this->mid;
             $datas['ctime'] = time();
@@ -161,7 +161,7 @@ class WeibaReplyWidget extends Widget
             }
             //转发到我的分享
             if ($_POST['ifShareFeed'] == 1) {
-                $commentInfo  = model('Source')->getSourceInfo($datas['table'], $datas['row_id'], false, $datas['app']);
+                $commentInfo = model('Source')->getSourceInfo($datas['table'], $datas['row_id'], false, $datas['app']);
                 $oldInfo = isset($commentInfo['sourceInfo']) ? $commentInfo['sourceInfo'] : $commentInfo;
                 // 根据评论的对象获取原来的内容
                 $s['sid'] = $data['post_id'];
@@ -171,8 +171,8 @@ class WeibaReplyWidget extends Widget
                     $data ['content'] .= $replyInfo ['content'];
                 }
                 $s ['body'] = $data ['content'];
-                $s['type']      = 'weiba_post';
-                $s['comment']   = $data['comment_old'];
+                $s['type'] = 'weiba_post';
+                $s['comment'] = $data['comment_old'];
                 // 去掉回复用户@
                 $lessUids = array();
                 if (!empty($data['to_uid'])) {
@@ -254,7 +254,7 @@ class WeibaReplyWidget extends Widget
 
         $var['initNums'] = model('Xdata')->getConfig('weibo_nums', 'feed');
         $var['commentInfo'] = model('Comment')->getCommentInfo($var['comment_id'], false);
-        $var['canrepost']  = $var['commentInfo']['table'] == 'feed'  ? 1 : 0;
+        $var['canrepost'] = $var['commentInfo']['table'] == 'feed'  ? 1 : 0;
         $var['cancomment'] = 1;
 
       // 获取原作者信息

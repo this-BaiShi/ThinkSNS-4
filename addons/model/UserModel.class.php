@@ -258,7 +258,7 @@ class UserModel extends Model
         // # 判断是否有用户缓存
         } elseif (!($user = static_cache('user_info_'.$uid)) and !($user = model('Cache')->get('ui_'.$uid))) {
             $this->error = L('PUBLIC_GET_USERINFO_FAIL'); /* # 获取用户信息缓存失败 */
-            $user        = $this->_getUserInfo(array('uid' => $uid));
+            $user = $this->_getUserInfo(array('uid' => $uid));
         }
 
         return $user;
@@ -303,7 +303,7 @@ class UserModel extends Model
         // # 判断是否有用户缓存
         } elseif (!($user = static_cache('user_info_'.$uid)) and !($user = model('Cache')->get('ui_'.$uid))) {
             $this->error = L('PUBLIC_GET_USERINFO_FAIL'); /* # 获取用户信息缓存失败 */
-            $user        = $this->_getUserInfo(array('uid' => $uid), $field);
+            $user = $this->_getUserInfo(array('uid' => $uid), $field);
         }
 
         return $user;
@@ -457,7 +457,7 @@ class UserModel extends Model
             return false;
         } elseif (!($profile = D('UserProfile')->where(call_user_func_array(function ($category) {
             if ($category != '*') {
-                $category  = array(
+                $category = array(
                     'category' => $category,
                 );
             }
@@ -538,12 +538,12 @@ class UserModel extends Model
             unset($user['email']);
         }
 
-        $user['login_salt']   = rand(10000, 99999); // # 用户盐值
-        $user['ctime']        = time();             // # 注册时间
-        $user['reg_ip']       = get_client_ip();    // # 用户客户端注册IP
-        $user['password']     = $this->encryptPassword($user['password'], $user['login_salt']);
+        $user['login_salt'] = rand(10000, 99999); // # 用户盐值
+        $user['ctime'] = time();             // # 注册时间
+        $user['reg_ip'] = get_client_ip();    // # 用户客户端注册IP
+        $user['password'] = $this->encryptPassword($user['password'], $user['login_salt']);
         $user['first_letter'] = getFirstLetter($user['uname']);
-        $user['search_key']   = $user['uname'];
+        $user['search_key'] = $user['uname'];
 
         preg_match('/[\x7f-\xff]/', $user['uname']) and $user['search_key'] .= '  '.model('PinYin')->Pinyin($user['uname']);
 
@@ -934,10 +934,10 @@ class UserModel extends Model
                     $authenticate [$value ['user_group_id']] = $value;
                 }
                 $groupIcon [] = '<img title="'.$value ['user_group_name'].'" src="'.$value ['user_group_icon_url'].'" style="width:auto;height:auto;display:inline;cursor:pointer;" />';
-                $type  = $value['is_authenticate']?1:0;
+                $type = $value['is_authenticate'] ? 1 : 0;
                 if (empty($only[$type])) {
                     $only[$type] = $value;
-                } elseif ($only[$type]['ctime']<$value['ctime']) {
+                } elseif ($only[$type]['ctime'] < $value['ctime']) {
                     $only[$type] = $value;
                 }
             }

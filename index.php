@@ -12,7 +12,7 @@ set_time_limit(0);
 
 define('DEBUG', false);
 
-$mem_run_end  = memory_get_usage();
+$mem_run_end = memory_get_usage();
 $time_run_end = microtime(true);
 
 /* # 检查PHP版本是否符合运行要求 */
@@ -83,9 +83,9 @@ if (C('APP_DEBUG')) {
     echo '<hr>';
     echo sprintf('PHP version: PHP %s', PHP_VERSION);
     echo ' Memories: '.'<br/>';
-    echo 'ToTal: ',number_format(($mem_run_end - $mem_include_start)/1024),'k','<br/>';
-    echo 'Include:',number_format(($mem_run_start - $mem_include_start)/1024),'k','<br/>';
-    echo 'Run:',number_format(($mem_run_end - $mem_run_start)/1024),'k<br/><hr/>';
+    echo 'ToTal: ',number_format(($mem_run_end - $mem_include_start) / 1024),'k','<br/>';
+    echo 'Include:',number_format(($mem_run_start - $mem_include_start) / 1024),'k','<br/>';
+    echo 'Run:',number_format(($mem_run_end - $mem_run_start) / 1024),'k<br/><hr/>';
     echo 'Time:<br/>';
     echo 'ToTal: ',$time_run_end - $time_include_start,'s<br/>';
     echo 'Include:',$time_run_start - $time_include_start,'s','<br/>';

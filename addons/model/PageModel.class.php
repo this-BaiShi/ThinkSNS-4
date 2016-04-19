@@ -25,7 +25,7 @@ class PageModel extends Model
      * @param array  $map
      * @param string $field
      */
-    public function getPageList($limit = 20, $map, $field='id,page_name,domain,canvas,manager,visit_count')
+    public function getPageList($limit = 20, $map, $field = 'id,page_name,domain,canvas,manager,visit_count')
     {
         $list = $this->where($map)->field($field)->findPage($limit);
 

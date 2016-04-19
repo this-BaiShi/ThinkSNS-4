@@ -53,6 +53,6 @@ class google
     {
         $user = $this->obj->userinfo->get();
 
-        return array('id'=>$user['id'],'uname'=>$user['name']);
+        return array('id' => $user['id'],'uname' => $user['name']);
     }
 }

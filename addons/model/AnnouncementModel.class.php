@@ -7,7 +7,7 @@
 class AnnouncementModel extends Model
 {
     protected $tableName = 'announcement';
-    protected $fields = array('id', 'title', 'uid', 'mtime', 'sort', 'content', 'attach', '_pk'=>'id');
+    protected $fields = array('id', 'title', 'uid', 'mtime', 'sort', 'content', 'attach', '_pk' => 'id');
 
     /**
      * 保存公告数据

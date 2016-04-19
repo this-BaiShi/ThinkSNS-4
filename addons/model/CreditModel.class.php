@@ -76,7 +76,7 @@ class CreditModel extends Model
         }
 
         $userCredit = S('getUserCredit_'.$uid);
-        if ($userCredit!=false) {
+        if ($userCredit != false) {
             return $userCredit;
         }
 
@@ -156,16 +156,16 @@ class CreditModel extends Model
         $data = model('Xdata')->get('admin_Credit:level');
         if (! $data) {
             $creditlevel = array();
-            $creditlevel[] = array('level'=>1,'name'=>'level1','image'=>'level1.png','start'=>'0','end'=>'1000');
-            $creditlevel[] = array('level'=>2,'name'=>'level2','image'=>'level2.png','start'=>'1001','end'=>'2000');
-            $creditlevel[] = array('level'=>3,'name'=>'level3','image'=>'level3.png','start'=>'2001','end'=>'3000');
-            $creditlevel[] = array('level'=>4,'name'=>'level4','image'=>'level4.png','start'=>'3001','end'=>'4000');
-            $creditlevel[] = array('level'=>5,'name'=>'level5','image'=>'level5.png','start'=>'4001','end'=>'5000');
-            $creditlevel[] = array('level'=>6,'name'=>'level6','image'=>'level6.png','start'=>'5001','end'=>'6000');
-            $creditlevel[] = array('level'=>7,'name'=>'level7','image'=>'level7.png','start'=>'6001','end'=>'7000');
-            $creditlevel[] = array('level'=>8,'name'=>'level8','image'=>'level8.png','start'=>'7001','end'=>'8000');
-            $creditlevel[] = array('level'=>9,'name'=>'level9','image'=>'level9.png','start'=>'8001','end'=>'9000');
-            $creditlevel[] = array('level'=>10,'name'=>'level10','image'=>'level10.png','start'=>'9001','end'=>'1000000');
+            $creditlevel[] = array('level' => 1,'name' => 'level1','image' => 'level1.png','start' => '0','end' => '1000');
+            $creditlevel[] = array('level' => 2,'name' => 'level2','image' => 'level2.png','start' => '1001','end' => '2000');
+            $creditlevel[] = array('level' => 3,'name' => 'level3','image' => 'level3.png','start' => '2001','end' => '3000');
+            $creditlevel[] = array('level' => 4,'name' => 'level4','image' => 'level4.png','start' => '3001','end' => '4000');
+            $creditlevel[] = array('level' => 5,'name' => 'level5','image' => 'level5.png','start' => '4001','end' => '5000');
+            $creditlevel[] = array('level' => 6,'name' => 'level6','image' => 'level6.png','start' => '5001','end' => '6000');
+            $creditlevel[] = array('level' => 7,'name' => 'level7','image' => 'level7.png','start' => '6001','end' => '7000');
+            $creditlevel[] = array('level' => 8,'name' => 'level8','image' => 'level8.png','start' => '7001','end' => '8000');
+            $creditlevel[] = array('level' => 9,'name' => 'level9','image' => 'level9.png','start' => '8001','end' => '9000');
+            $creditlevel[] = array('level' => 10,'name' => 'level10','image' => 'level10.png','start' => '9001','end' => '1000000');
             model('Xdata')->put('admin_Credit:level', $creditlevel);
         }
 
@@ -281,7 +281,7 @@ class CreditModel extends Model
                 $creditUser [$v ['name']] = $creditUser [$v ['name']] + ($type * $creditSet [$v ['name']]);
                 //记录
                 if ($creditSet[$v['name']] != 0) {
-                    if ($creditSet[$v['name']] * $type >0) {
+                    if ($creditSet[$v['name']] * $type > 0) {
                         $c = '+'.$creditSet [$v ['name']];
                     } else {
                         $c = $creditSet [$v ['name']];
@@ -313,7 +313,7 @@ class CreditModel extends Model
             $v = '{'.$v.'}';
         }
         $record['des'] = str_replace($replace, $des, $creditSet['des']);
-        $record['detail'] = $detail?json_encode($detail):'{}';
+        $record['detail'] = $detail ? json_encode($detail) : '{}';
         D('credit_record')->add($record);
         // 用户进行积分操作后，登录用户的缓存将修改
         $this->cleanCache($uid);
@@ -398,7 +398,7 @@ class CreditModel extends Model
             $map['uid'] = $GLOBALS['ts']['mid'];
         }
         $detail = D('credit_charge')->where($map)->find();
-        if ($detail && $detail['status']!=1) {
+        if ($detail && $detail['status'] != 1) {
             $res = D('credit_charge')->where($map)->setField('status', 1);
             if ($res !== false) {
                 $score = $this->getUserCredit(intval($detail['uid']));
@@ -410,7 +410,7 @@ class CreditModel extends Model
                 $add['change'] = intval($detail['charge_sroce']);
                 $add['ctime'] = time();
                 $add['detail'] = '{"score":"'.$add['change'].'"}';
-                M('credit_user')->where("uid={$add['uid']}")->save(array('score'=>$score+$add['change']));
+                M('credit_user')->where("uid={$add['uid']}")->save(array('score' => $score + $add['change']));
                 D('credit_record')->add($add);
                 $this->cleanCache($add['uid']);
 
@@ -426,10 +426,10 @@ class CreditModel extends Model
      * @param  array $data 转账数据
      * @return bool
      */
-    public function startTransfer(array $data=array())
+    public function startTransfer(array $data = array())
     {
         $data = count($data) ? $data : $_POST;
-        if (!$data['toUid'] || $data['num']<=0 || !$data['fromUid']) {
+        if (!$data['toUid'] || $data['num'] <= 0 || !$data['fromUid']) {
             return false;
         }
         $score = $this->getUserCredit($data['toUid']);
@@ -452,8 +452,8 @@ class CreditModel extends Model
         $add2['change'] = -1 * intval($data['num']);
         $add2['action'] = '积分转出';
         $add2['detail'] = '{"score":"'.$add2['change'].'"}';
-        M('credit_user')->where("uid={$add2['uid']}")->save(array('score'=>$score2-$add['change']));
-        M('credit_user')->where("uid={$add['uid']}")->save(array('score'=>$score+$add['change']));
+        M('credit_user')->where("uid={$add2['uid']}")->save(array('score' => $score2 - $add['change']));
+        M('credit_user')->where("uid={$add['uid']}")->save(array('score' => $score + $add['change']));
         //转账对象积分变动记录
         //当前用户积分变动记录
         D('credit_record')->add($add) && D('credit_record')->add($add2);

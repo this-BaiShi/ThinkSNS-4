@@ -124,7 +124,7 @@ class AdministratorAction extends Action
             redirect(U('admin/Public/login'));
         }
         $this->systemdata_list = APP_NAME.'_'.MODULE_NAME;
-        $this->systemdata_key  = ACTION_NAME;
+        $this->systemdata_key = ACTION_NAME;
         $this->pageKey = APP_NAME.'_'.MODULE_NAME.'_'.ACTION_NAME;
         $this->searchPageKey = 'S_'.APP_NAME.'_'.MODULE_NAME.'_'.ACTION_NAME;
         $this->savePostUrl = U('admin/Index/saveConfigData');
@@ -160,7 +160,7 @@ class AdministratorAction extends Action
         }
 
         //去除其他页面的session数据
-        foreach ($_SESSION['admin_init_post'] as $k=>$v) {
+        foreach ($_SESSION['admin_init_post'] as $k => $v) {
             if ($k != $this->searchPageKey) {
                 unset($_SESSION['admin_init_post'][$k]);
             } else {
@@ -195,7 +195,7 @@ class AdministratorAction extends Action
     /**
      * 显示列表页面
      */
-    public function displayList($listData=array())
+    public function displayList($listData = array())
     {
         //搜索部分设置
         if (!empty($this->searchKey)) {
@@ -294,10 +294,10 @@ class AdministratorAction extends Action
         foreach ($_POST as &$v) {
             $v = $this->setKVArr($v, $keyArr);
         }
-        $data[$key]  = $_POST;
+        $data[$key] = $_POST;
 
         if (model('Xconfig')->pageKey_lput('pageKey', $data)) {
-            LogRecord('admin_config', 'editPagekey', array('name'=>$title, 'k1'=>L('PUBLIC_ADMIN_EDIT_PEIZHI')), true);
+            LogRecord('admin_config', 'editPagekey', array('name' => $title, 'k1' => L('PUBLIC_ADMIN_EDIT_PEIZHI')), true);
             $this->success();
         } else {
             $this->error();
@@ -330,7 +330,7 @@ class AdministratorAction extends Action
     private function setKVArr($arr, $keyList)
     {
         $r = array();
-        foreach ($arr as $k=>$v) {
+        foreach ($arr as $k => $v) {
             $key = is_array($keyList[$k]) ? $keyList[$k][0] : $keyList[$k];
             $r[$key] = $v;
         }
@@ -348,10 +348,10 @@ class AdministratorAction extends Action
         foreach ($_POST as &$v) {
             $v = $this->setKVArr($v, $keyArr);
         }
-        $data[$key]  = $_POST;
+        $data[$key] = $_POST;
 
         if (model('Xconfig')->pageKey_lput('searchPageKey', $data)) {
-            LogRecord('admin_config', 'editSearchPagekey', array('name'=>$title, 'k1'=>L('PUBLIC_ADMIN_EDIT_PEIZHI')), true);
+            LogRecord('admin_config', 'editSearchPagekey', array('name' => $title, 'k1' => L('PUBLIC_ADMIN_EDIT_PEIZHI')), true);
             $this->success();
         } else {
             $this->error();
@@ -370,16 +370,16 @@ class AdministratorAction extends Action
         $title = t($_POST['pageTitle']);
         unset($_POST['systemdata_list'], $_POST['systemdata_key'], $_POST['pageTitle']);
         //rewrite验证.
-        if (isset($_POST['site_rewrite_on']) && $_POST['site_rewrite_on']==1) {
+        if (isset($_POST['site_rewrite_on']) && $_POST['site_rewrite_on'] == 1) {
             $rewrite_test_content = file_get_contents(SITE_URL.'/rewrite');
-            if ($rewrite_test_content!='thinksns') {
+            if ($rewrite_test_content != 'thinksns') {
                 $this->error('服务器设置不支持Rewrite，请检查配置');
             }
         }
         if (isset($_POST['site_analytics_code'])) {
             $_POST['site_analytics_code'] = base64_encode($_POST['site_analytics_code']);
         }
-        if (isset($_POST['site_theme_name']) && $_POST['site_theme_name']!=C('THEME_NAME')) {
+        if (isset($_POST['site_theme_name']) && $_POST['site_theme_name'] != C('THEME_NAME')) {
             $res = $this->_switchTheme(t($_POST['site_theme_name']));
         }
         if ($key == 'admin_Config:attach') {
@@ -388,9 +388,9 @@ class AdministratorAction extends Action
             $_POST['attach_allow_extension'] = implode(',', array_intersect($exts, $objext));
         }
         $result = model('Xdata')->put($key, $_POST);
-        LogRecord('admin_config', 'editDetail', array('name'=>$title, 'k1'=>L('PUBLIC_ADMIN_EDIT_EDTAIL_PEIZHI')), true);       // 保存修改编辑详细数据
+        LogRecord('admin_config', 'editDetail', array('name' => $title, 'k1' => L('PUBLIC_ADMIN_EDIT_EDTAIL_PEIZHI')), true);       // 保存修改编辑详细数据
 
-        if ($res===false) {
+        if ($res === false) {
             $this->error(L('PUBLIC_SWITCH_THEME_FAIL'));            // 写config.inc.php文件失败
         } elseif ($result) {
             $this->success();
@@ -411,7 +411,7 @@ class AdministratorAction extends Action
             $this->error(L('PUBLIC_SYSTEM_USERGROUP_NOEXIST'));
         }
         $ruleList = model('Permission')->getRuleList(intval($_GET['gid']), t($_GET['appname']), t($_GET['appgroup']));
-        $this->assign('moduleHash', array('normal'=>L('PUBLIC_SYSTEM_NORMAL_USER'), 'admin'=>L('PUBLIC_SYSTEM_ADMIN_USER')));
+        $this->assign('moduleHash', array('normal' => L('PUBLIC_SYSTEM_NORMAL_USER'), 'admin' => L('PUBLIC_SYSTEM_ADMIN_USER')));
         $this->assign($ruleList);
         $this->display('admin_permissionset');
     }
@@ -440,7 +440,7 @@ class AdministratorAction extends Action
         $this->success(L('PUBLIC_SYSTEM_MODIFY_SUCCESS'));
     }
 
-    public function display($templateFile='', $charset='utf-8', $contentType='text/html')
+    public function display($templateFile = '', $charset = 'utf-8', $contentType = 'text/html')
     {
         $this->assign('systemdata_list', $this->systemdata_list);
         $this->assign('systemdata_key', $this->systemdata_key);
@@ -460,10 +460,10 @@ class AdministratorAction extends Action
         parent::display($templateFile, $charset, $contentType);
     }
 
-    private function _switchTheme($themeName='')
+    private function _switchTheme($themeName = '')
     {
         if (empty($themeName)) {
-            $themeName= THEME_NAME;
+            $themeName = THEME_NAME;
         }
         $file = SITE_PATH.'/config/config.inc.php';
         if (!is_writable($file)) {
@@ -471,7 +471,7 @@ class AdministratorAction extends Action
         }
         $content = file_get_contents($file);
         $pos = strpos($content, 'THEME_NAME');
-        if ($pos===false) {
+        if ($pos === false) {
             $content = str_replace('return array(', 'return array(
 	\'THEME_NAME\' => \''.$themeName.'\', ', $content);
         } else {

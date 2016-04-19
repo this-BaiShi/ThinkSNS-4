@@ -161,7 +161,7 @@ class PermissionModel
                     foreach ($appGroup[$a] as $group => $groupname) {
                         if ($group == $appgroup) {
                             // 所查的组权限
-                            $groupInfo = array('user_group_name'=>$groupname, 'user_group_id'=>$app.'_'.$group);
+                            $groupInfo = array('user_group_name' => $groupname, 'user_group_id' => $app.'_'.$group);
                         }
                     }
 
@@ -191,7 +191,7 @@ class PermissionModel
             $grouppermission = $this->getGroupPermission($gid);
         }
 
-        return array('groupInfo'=>$groupInfo,'permission'=>$permission,'grouppermission'=>$grouppermission);
+        return array('groupInfo' => $groupInfo,'permission' => $permission,'grouppermission' => $grouppermission);
     }
 
     /**

@@ -58,24 +58,24 @@ class FollowGroupWidget extends Widget
         // 验证是否超出个数
         $count = model('FollowGroup')->where('uid='.$GLOBALS['ts']['mid'])->count();
         if ($count >= 5) {
-            $return = array('status'=>0,'data'=>'最多只能创建5个分组');
+            $return = array('status' => 0,'data' => '最多只能创建5个分组');
             exit(json_encode($return));
         }
 
-        $groupname   = t($_POST['groupname']);
+        $groupname = t($_POST['groupname']);
         $followGroup = model('FollowGroup')->getGroupList($GLOBALS['ts']['mid']);
         foreach ($followGroup as $v) {
             if ($v['title'] === $groupname) {
-                $return = array('status'=>0,'data'=>L('PUBLIC_USER_GROUP_EXIST'));
+                $return = array('status' => 0,'data' => L('PUBLIC_USER_GROUP_EXIST'));
                 exit(json_encode($return));
             }
         }
         // 插入数据
         $res = model('FollowGroup')->setGroup($GLOBALS['ts']['mid'], $groupname);
         if ($res == 0) {
-            $return = array('status'=>0,'data'=>L('PUBLIC_ADD_GROUP_NAME_ERROR'));
+            $return = array('status' => 0,'data' => L('PUBLIC_ADD_GROUP_NAME_ERROR'));
         } else {
-            $return = array('status'=>1,'data'=>$res);
+            $return = array('status' => 1,'data' => $res);
         }
         exit(json_encode($return));
     }
@@ -100,7 +100,7 @@ class FollowGroupWidget extends Widget
         $map['uid'] = $this->mid;
         $nums = model('FollowGroup')->where($map)->count();
         if ($nums >= 10) {
-            $return = array('data'=>L('PUBLIC_CRETAE_GROUP_MAX_TIPES', array('num'=>10)),'status'=>0);
+            $return = array('data' => L('PUBLIC_CRETAE_GROUP_MAX_TIPES', array('num' => 10)),'status' => 0);
             echo json_encode($return);
             exit();
         }

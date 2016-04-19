@@ -27,23 +27,23 @@ class UserApi extends Api
         if (empty($data)) {
             return false;
         }
-        $data['sex'] = $data['sex'] ==1 ? '男':'女';
+        $data['sex'] = $data['sex'] == 1 ? '男' : '女';
 
         $data['profile'] = model('UserProfile')->getUserProfileForApi($this->user_id);
 
         $profileHash = model('UserProfile')->getUserProfileSetting();
-        $data['profile']['email'] = array('name'=>'邮箱','value'=>$data['email']);
+        $data['profile']['email'] = array('name' => '邮箱','value' => $data['email']);
         foreach (UserProfileModel::$sysProfile as $k) {
             if (!isset($data['profile'][$k])) {
-                $data['profile'][$k] = array('name'=>$profileHash[$k]['field_name'],'value'=>'');
+                $data['profile'][$k] = array('name' => $profileHash[$k]['field_name'],'value' => '');
             }
         }
 
         //用户统计信息
-        $defaultCount =  array('following_count'=>0,'follower_count'=>0,'feed_count'=>0,'favorite_count'=>0,'unread_atme'=>0,'weibo_count'=>0);
+        $defaultCount = array('following_count' => 0,'follower_count' => 0,'feed_count' => 0,'favorite_count' => 0,'unread_atme' => 0,'weibo_count' => 0);
 
-        $defaultCount['video_count'] = model('Feed')->where(array('uid'=>$this->user_id, 'type'=>'postvideo', 'is_del'=>0))->count();
-        $count   = model('UserData')->getUserData($this->user_id);
+        $defaultCount['video_count'] = model('Feed')->where(array('uid' => $this->user_id, 'type' => 'postvideo', 'is_del' => 0))->count();
+        $count = model('UserData')->getUserData($this->user_id);
         if (empty($count)) {
             $count = array();
         }
@@ -59,7 +59,7 @@ class UserApi extends Api
         $data['user_tag'] = model('Tag')->setAppName('User')->setAppTable('user')->getAppTags($this->user_id);
         $data['user_tag'] = empty($data['user_tag']) ? '' : implode('、', $data['user_tag']);
         //关注情况
-        $followState  = model('Follow')->getFollowState($this->mid, $this->user_id);
+        $followState = model('Follow')->getFollowState($this->mid, $this->user_id);
         $data['follow_state'] = $followState;
 
         //最后一条分享
@@ -131,7 +131,7 @@ class UserApi extends Api
             $cityIds = t($this->data['city_ids']);
             $cityIds = explode(',', $cityIds);
             if (!$cityIds[0] || !$cityIds[1] || !$cityIds[2]) {
-                return array('status'=>0, 'info'=>'请选择完整地区');
+                return array('status' => 0, 'info' => '请选择完整地区');
             }
             isset($cityIds[0]) && $save['province'] = intval($cityIds[0]);
             isset($cityIds[1]) && $save['city'] = intval($cityIds[1]);
@@ -146,7 +146,7 @@ class UserApi extends Api
             if (!$res) {
                 $error = model('Register')->getLastError();
 
-                return array('status'=>0, 'info'=>$error);
+                return array('status' => 0, 'info' => $error);
             }
             // 如果包含中文将中文翻译成拼音
             if (preg_match('/[\x7f-\xff]+/', $save['uname'])) {
@@ -161,17 +161,17 @@ class UserApi extends Api
             $regmodel = model('Register');
             if (!$regmodel->isValidPassword($this->data['password'], $this->data['password'])) {
                 $msg = $regmodel->getLastError();
-                $return = array('status'=>0, 'info'=>$msg);
+                $return = array('status' => 0, 'info' => $msg);
 
                 return $return;
             }
             if ($this->data['password'] == $this->data['old_password']) {
-                $return = array('status'=>0, 'info'=>L('PUBLIC_PASSWORD_SAME'));    // 新密码与旧密码相同
+                $return = array('status' => 0, 'info' => L('PUBLIC_PASSWORD_SAME'));    // 新密码与旧密码相同
                 return $return;
             }
             $user = model('User')->where('`uid`='.$this->mid)->find();
             if (md5(md5($this->data['old_password']).$user['login_salt']) != $user['password']) {
-                $return = array('status'=>0, 'info'=>L('PUBLIC_ORIGINAL_PASSWORD_ERROR'));  //原始密码错误
+                $return = array('status' => 0, 'info' => L('PUBLIC_ORIGINAL_PASSWORD_ERROR'));  //原始密码错误
                 return $return;
             }
             $login_salt = rand(11111, 99999);
@@ -191,7 +191,7 @@ class UserApi extends Api
 
         if (isset($this->data['user_tags'])) {
             if (empty($this->data['user_tags'])) {
-                return array('status'=>0, 'info'=>L('PUBLIC_TAG_NOEMPTY'));
+                return array('status' => 0, 'info' => L('PUBLIC_TAG_NOEMPTY'));
             }
             $nameList = t($this->data['user_tags']);
             $nameList = explode(',', $nameList);
@@ -203,13 +203,13 @@ class UserApi extends Api
             if (!empty($rowId)) {
                 $registerConfig = model('Xdata')->get('admin_Config:register');
                 if (count($tagIds) > $registerConfig['tag_num']) {
-                    return array('status'=>0, 'info'=>'最多只能设置'.$registerConfig['tag_num'].'个标签');
+                    return array('status' => 0, 'info' => '最多只能设置'.$registerConfig['tag_num'].'个标签');
                 }
                 model('Tag')->setAppName('public')->setAppTable('user')->updateTagData($rowId, $tagIds);
             }
         }
 
-        return array('status'=>1, 'info'=>'用户信息修改成功');
+        return array('status' => 1, 'info' => '用户信息修改成功');
     }
     /**
      * 返回用户积分接口
@@ -332,7 +332,7 @@ class UserApi extends Api
     public function user_following_by_letter()
     {
         $this->user_id = empty($this->user_id) ? $this->mid : $this->user_id;
-        $user_following =  model('Follow')->getFollowingListForApi($this->mid, $this->user_id, $this->since_id, $this->max_id, 500, $this->page);
+        $user_following = model('Follow')->getFollowingListForApi($this->mid, $this->user_id, $this->since_id, $this->max_id, 500, $this->page);
 
         return $this->formatByFirstLetter($user_following);
     }
@@ -372,7 +372,7 @@ class UserApi extends Api
         $userInfos = model('User')->getUserInfoByUids($uids);
         $userDataInfo = model('UserData')->getUserKeyDataByUids('follower_count', $uids);
 
-        if ($type=='all') {
+        if ($type == 'all') {
             // 获取其他用户统计数据
             // 获取关注信息
             $followStatusInfo = model('Follow')->getFollowStateByFids($GLOBALS['ts']['mid'], $uids);
@@ -380,7 +380,7 @@ class UserApi extends Api
             $userGroupInfo = model('UserGroupLink')->getUserGroupData($uids);
         }
         if (empty($data)) {
-            foreach ($uids as $k=>$v) {
+            foreach ($uids as $k => $v) {
                 $data[$k]['uid'] = $v;
             }
         }
@@ -389,7 +389,7 @@ class UserApi extends Api
         foreach ($data as &$value) {
             $value = array_merge($value, $userInfos[$value['uid']]);
             $value['user_data'] = $userDataInfo[$value['uid']];
-            if ($type=='all') {
+            if ($type == 'all') {
                 $value['follow_state'] = $followStatusInfo[$value['uid']];
                 $value['user_group'] = $userGroupInfo[$value['uid']];
             }
@@ -413,7 +413,7 @@ class UserApi extends Api
     }
 
     // 按地区搜索用户
-    public function search_by_area($value='')
+    public function search_by_area($value = '')
     {
         $_REQUEST['p'] = $_REQUEST['page'] = $this->page;
         $limit = 20;
@@ -430,10 +430,10 @@ class UserApi extends Api
         $pid1 = model('Area')->where('area_id='.$areaid)->getField('pid');
         $level = 1;
         if ($pid1 != 0) {
-            $level = $level +1;
+            $level = $level + 1;
             $pid2 = model('Area')->where('area_id='.$pid1)->getField('pid');
             if ($pid2 != 0) {
-                $level = $level +1;
+                $level = $level + 1;
             }
         }
         switch ($level) {
@@ -460,7 +460,7 @@ class UserApi extends Api
     }
 
     // 按认证分类搜索用户
-    public function search_by_verify_category($value='')
+    public function search_by_verify_category($value = '')
     {
         $limit = 20;
         $this->data['limit'] && $limit = intval($this->data['limit']);
@@ -481,7 +481,7 @@ class UserApi extends Api
     }
 
     // 按官方推荐分类搜索用户
-    public function search_by_uesr_category($value='')
+    public function search_by_uesr_category($value = '')
     {
         $limit = 20;
         $this->data['limit'] && $limit = intval($this->data['limit']);
@@ -512,7 +512,7 @@ class UserApi extends Api
             //认证分类 最多只列出二级
             case 'verify_category':
                 $category = model('UserGroup')->where('is_authenticate=1')->findAll();
-                foreach ($category as $k=>$v) {
+                foreach ($category as $k => $v) {
                     $category[$k]['child'] = D('user_verified_category')->where('pid='.$v['user_group_id'])->findAll();
                 }
                 break;
@@ -619,7 +619,7 @@ class UserApi extends Api
             $cityIds = t($this->data['city_ids']);
             $cityIds = explode(',', $cityIds);
             if (!$cityIds[0] || !$cityIds[1] || !$cityIds[2]) {
-                return array('status'=>0, 'info'=>'请选择完整地区');
+                return array('status' => 0, 'info' => '请选择完整地区');
             }
             isset($cityIds[0]) && $save['province'] = intval($cityIds[0]);
             isset($cityIds[1]) && $save['city'] = intval($cityIds[1]);
@@ -634,7 +634,7 @@ class UserApi extends Api
             if (!$res) {
                 $error = model('Register')->getLastError();
 
-                return array('status'=>0, 'info'=>$error);
+                return array('status' => 0, 'info' => $error);
             }
             // 如果包含中文将中文翻译成拼音
             if (preg_match('/[\x7f-\xff]+/', $save['uname'])) {
@@ -655,7 +655,7 @@ class UserApi extends Api
         }
         if (isset($this->data['user_tags'])) {
             if (empty($this->data['user_tags'])) {
-                return array('status'=>0, 'info'=>L('PUBLIC_TAG_NOEMPTY'));
+                return array('status' => 0, 'info' => L('PUBLIC_TAG_NOEMPTY'));
             }
             $nameList = t($this->data['user_tags']);
             $nameList = explode(',', $nameList);
@@ -667,18 +667,18 @@ class UserApi extends Api
             if (!empty($rowId)) {
                 $registerConfig = model('Xdata')->get('admin_Config:register');
                 if (count($tagIds) > $registerConfig['tag_num']) {
-                    return array('status'=>0, 'info'=>'最多只能设置'.$registerConfig['tag_num'].'个标签');
+                    return array('status' => 0, 'info' => '最多只能设置'.$registerConfig['tag_num'].'个标签');
                 }
                 model('Tag')->setAppName('public')->setAppTable('user')->updateTagData($rowId, $tagIds);
             }
         }
 
-        return array('status'=>1, 'info'=>'用户信息修改成功');
+        return array('status' => 1, 'info' => '用户信息修改成功');
     }
 
     public function formatByFirstLetter($list)
     {
-        $peoplelist = array('#'=>array(),'A'=>array(),'B'=>array(),'C'=>array(),'D'=>array(),'E'=>array(),'F'=>array(),'G'=>array(),'H'=>array(),'I'=>array(),'J'=>array(),'K'=>array(),'L'=>array(),'M'=>array(),'N'=>array(),'O'=>array(),'P'=>array(),'Q'=>array(),'R'=>array(),'S'=>array(),'T'=>array(),'U'=>array(),'V'=>array(),'W'=>array(),'X'=>array(),'Y'=>array(),'Z'=>array());
+        $peoplelist = array('#' => array(),'A' => array(),'B' => array(),'C' => array(),'D' => array(),'E' => array(),'F' => array(),'G' => array(),'H' => array(),'I' => array(),'J' => array(),'K' => array(),'L' => array(),'M' => array(),'N' => array(),'O' => array(),'P' => array(),'Q' => array(),'R' => array(),'S' => array(),'T' => array(),'U' => array(),'V' => array(),'W' => array(),'X' => array(),'Y' => array(),'Z' => array());
         foreach ($list as $k => $v) {
             $first_letter = getFirstLetter($v['uname']);
             switch ($first_letter) {
@@ -767,7 +767,7 @@ class UserApi extends Api
             unset($first_letter);
         }
         foreach ($peoplelist as $k => $v) {
-            if (count($v)<1) {
+            if (count($v) < 1) {
                 unset($peoplelist[$k]);
             }
         }
@@ -777,7 +777,7 @@ class UserApi extends Api
 
     public function getAreaList()
     {
-        $pid = $this->data['area_id']?intval($this->data['area_id']):0;
+        $pid = $this->data['area_id'] ? intval($this->data['area_id']) : 0;
 
         return D('area')->where('pid='.$pid)->order('sort ASC')->findAll();
     }

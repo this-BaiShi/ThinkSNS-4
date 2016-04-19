@@ -17,7 +17,7 @@ class AvatarModel
     public function __construct($uid)
     {
         $uid or $uid = intval($_SESSION['mid']);
-        $this->_uid  = $uid;
+        $this->_uid = $uid;
         unset($uid);
         // if (!$uid)
         //     $uid = intval($_SESSION['mid']);

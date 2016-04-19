@@ -99,13 +99,13 @@ abstract class ThumbBase
      */
     public function __construct($fileName, $isDataStream = false)
     {
-        $this->imported                = array();
-        $this->importedFunctions    = array();
-        $this->errorMessage            = null;
-        $this->hasError                = false;
-        $this->fileName                = $fileName;
-        $this->remoteImage            = false;
-        $this->isDataStream            = $isDataStream;
+        $this->imported = array();
+        $this->importedFunctions = array();
+        $this->errorMessage = null;
+        $this->hasError = false;
+        $this->fileName = $fileName;
+        $this->remoteImage = false;
+        $this->isDataStream = $isDataStream;
 
         $this->fileExistsAndReadable();
     }
@@ -133,11 +133,11 @@ abstract class ThumbBase
     protected function imports($object)
     {
         // the new object to import
-        $newImport            = new $object();
+        $newImport = new $object();
         // the name of the new object (class name)
-        $importName            = get_class($newImport);
+        $importName = get_class($newImport);
         // the new functions to import
-        $importFunctions    = get_class_methods($newImport);
+        $importFunctions = get_class_methods($newImport);
 
         // add the object to the registry
         array_push($this->imported, array($importName, $newImport));
@@ -181,8 +181,8 @@ abstract class ThumbBase
      */
     protected function triggerError($errorMessage)
     {
-        $this->hasError    = true;
-        $this->errorMessage    = $errorMessage;
+        $this->hasError = true;
+        $this->errorMessage = $errorMessage;
 
         throw new Exception($errorMessage);
     }

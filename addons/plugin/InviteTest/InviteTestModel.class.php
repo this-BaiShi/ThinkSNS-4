@@ -19,7 +19,7 @@ class InviteTestModel extends Model
         }
         //检查是否重复IP使用
         $hash = md5(C('SECURE_CODE').get_client_ip().$uniqid);
-        if ($data['hash'] != $hash && $data['utime']>time()-900) {
+        if ($data['hash'] != $hash && $data['utime'] > time() - 900) {
             $this->error = '此邀请码其他用户正在使用';
 
             return false;
@@ -49,7 +49,7 @@ class InviteTestModel extends Model
             }
         }
         $data['utime'] = time();
-        $map = array('id'=>$data['id']);
+        $map = array('id' => $data['id']);
         unset($data['id']);
 
         return false !== $this->where($map)->save($data);
@@ -59,9 +59,9 @@ class InviteTestModel extends Model
     {
         $str = '0123456789abcdefghijklmnopqrstuvwxyz';
         $add = 0;
-        for ($i=0; $i<$num; $i++) {
+        for ($i = 0; $i < $num; $i++) {
             $rand = substr(str_shuffle($str), 0, 6);
-            if ($this->add(array('code'=>$rand))) {
+            if ($this->add(array('code' => $rand))) {
                 $add++;
             }
         }
@@ -72,7 +72,7 @@ class InviteTestModel extends Model
     public function saveConfig(array $config)
     {
         $save['bgimg'] = intval($config['bgimg']);
-        $save['rule']  = $config['rule'];
+        $save['rule'] = $config['rule'];
 
         return !!model('AddonData')->lput('InviteTest', $save);
     }

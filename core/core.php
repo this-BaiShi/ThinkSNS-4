@@ -20,13 +20,13 @@ $time_include_start = microtime(true);
 $mem_include_start = memory_get_usage();
 
 //设置全局变量ts
-$ts['_debug']    =    false;        //调试模式
-$ts['_define']    =    array();    //全局常量
-$ts['_config']    =    array();    //全局配置
-$ts['_access']    =    array();    //访问配置
-$ts['_router']    =    array();    //路由配置
+$ts['_debug'] = false;        //调试模式
+$ts['_define'] = array();    //全局常量
+$ts['_config'] = array();    //全局配置
+$ts['_access'] = array();    //访问配置
+$ts['_router'] = array();    //路由配置
 
-tsdefine('IS_CGI', substr(PHP_SAPI, 0, 3)=='cgi' ? 1 : 0);
+tsdefine('IS_CGI', substr(PHP_SAPI, 0, 3) == 'cgi' ? 1 : 0);
 tsdefine('IS_WIN', strstr(PHP_OS, 'WIN') ? 1 : 0);
 tsdefine('IS_HTTPS', 0);
 
@@ -44,7 +44,7 @@ if (isset($_REQUEST['api_version'])) {
 if (!defined('_PHP_FILE_')) {
     if (IS_CGI) {
         // CGI/FASTCGI模式下
-        $_temp  = explode('.php', $_SERVER['PHP_SELF']);
+        $_temp = explode('.php', $_SERVER['PHP_SELF']);
         define('_PHP_FILE_', rtrim(str_replace($_SERVER['HTTP_HOST'], '', $_temp[0].'.php'), '/'));
     } else {
         define('_PHP_FILE_', rtrim($_SERVER['SCRIPT_NAME'], '/'));
@@ -54,16 +54,16 @@ if (!defined('_PHP_FILE_')) {
 // 网站URL根目录
 if (!defined('__ROOT__')) {
     $_root = dirname(_PHP_FILE_);
-    define('__ROOT__',  (($_root=='/' || $_root=='\\')?'':rtrim($_root, '/')));
+    define('__ROOT__',  (($_root == '/' || $_root == '\\') ? '' : rtrim($_root, '/')));
 }
 
 //基本常量定义
-tsdefine('ROOT_FILE',    basename(_PHP_FILE_)=='api.php'?'index.php':basename(_PHP_FILE_));
+tsdefine('ROOT_FILE',    basename(_PHP_FILE_) == 'api.php' ? 'index.php' : basename(_PHP_FILE_));
 tsdefine('CORE_PATH',    dirname(__FILE__));
 tsdefine('THINK_PATH',    CORE_PATH.'/ThinkPHP');
 
 tsdefine('SITE_DOMAIN',    strip_tags($_SERVER['HTTP_HOST']));
-tsdefine('SITE_URL',    (IS_HTTPS?'https:':'http:').'//'.SITE_DOMAIN.__ROOT__);
+tsdefine('SITE_URL',    (IS_HTTPS ? 'https:' : 'http:').'//'.SITE_DOMAIN.__ROOT__);
 
 tsdefine('CONF_PATH',    SITE_PATH.'/config');
 
@@ -150,17 +150,17 @@ function tsautoload($classname)
     }
 
     // 自动加载当前项目的Actioon类和Model类
-    if (substr($classname, -5)=='Model') {
+    if (substr($classname, -5) == 'Model') {
         if (!tsload(ADDON_PATH.'/model/'.$classname.'.class.php')) {
             tsload(APP_LIB_PATH.'/Model/'.$classname.'.class.php');
         }
-    } elseif (substr($classname, -6)=='Action') {
+    } elseif (substr($classname, -6) == 'Action') {
         tsload(APP_LIB_PATH.'/Action/'.$classname.'.class.php');
-    } elseif (substr($classname, -6)=='Widget') {
+    } elseif (substr($classname, -6) == 'Widget') {
         if (!tsload(ADDON_PATH.'/widget/'.$classname.'.class.php')) {
             tsload(APP_LIB_PATH.'/Widget/'.$classname.'.class.php');
         }
-    } elseif (substr($classname, -6)=='Addons') {
+    } elseif (substr($classname, -6) == 'Addons') {
         if (!tsload(ADDON_PATH.'/plugin/'.$classname.'.class.php')) {
             tsload(APP_LIB_PATH.'/Plugin/'.$classname.'.class.php');
         }
@@ -219,7 +219,7 @@ function tsmd5($str)
  * @param  string|array|object $value 配置赋值
  * @return void|null
  */
-function tsconfig($name=null, $value=null)
+function tsconfig($name = null, $value = null)
 {
     global $ts;
     // 无参数时获取所有
@@ -231,7 +231,7 @@ function tsconfig($name=null, $value=null)
         if (!strpos($name, '.')) {
             $name = strtolower($name);
             if (is_null($value)) {
-                return isset($ts['_config'][$name])? $ts['_config'][$name] : null;
+                return isset($ts['_config'][$name]) ? $ts['_config'][$name] : null;
             }
             $ts['_config'][$name] = $value;
 
@@ -239,7 +239,7 @@ function tsconfig($name=null, $value=null)
         }
         // 二维数组设置和获取支持
         $name = explode('.', $name);
-        $name[0]   = strtolower($name[0]);
+        $name[0] = strtolower($name[0]);
         if (is_null($value)) {
             return isset($ts['_config'][$name[0]][$name[1]]) ? $ts['_config'][$name[0]][$name[1]] : null;
         }
@@ -262,10 +262,10 @@ function tsconfig($name=null, $value=null)
  * @param  array        $params 钩子参数数组.
  * @return array|string Stripped array (or string in the callback).
  */
-function tshook($name, $params=array())
+function tshook($name, $params = array())
 {
     global $ts;
-    $hooks    =    $ts['_config']['hooks'][$name];
+    $hooks = $ts['_config']['hooks'][$name];
     if ($hooks) {
         foreach ($hooks as $call) {
             if (is_callable($call)) {
@@ -293,7 +293,7 @@ function stripslashes_deep($value)
         $value = array_map('stripslashes_deep', $value);
     } elseif (is_object($value)) {
         $vars = get_object_vars($value);
-        foreach ($vars as $key=>$data) {
+        foreach ($vars as $key => $data) {
             $value->{$key} = stripslashes_deep($data);
         }
     } else {
@@ -308,18 +308,18 @@ function stripslashes_deep($value)
  * @param  array|string $value The array or string to be striped.
  * @return array|string Stripped array (or string in the callback).
  */
-function check_gpc($value=array())
+function check_gpc($value = array())
 {
     if (!is_array($value)) {
         return;
     }
-    foreach ($value as $key=>$data) {
+    foreach ($value as $key => $data) {
         //对get、post的key值做限制,只允许数字、字母、及部分符号_-[]#@~
         // if(!preg_match('/^[a-zA-Z0-9,_\;\-\/\*\.#!@~\[\]]+$/i',$key)){
         // 	die('wrong_parameter: not safe get/post/cookie key.');
         // }
         //如果key值为app\mod\act,value只允许数字、字母下划线
-        if (($key=='app' || $key=='mod' || $key=='act') && !empty($data)) {
+        if (($key == 'app' || $key == 'mod' || $key == 'act') && !empty($data)) {
             if (!preg_match('/^[a-zA-Z0-9_]+$/i', $data)) {
                 die('wrong_parameter: not safe app/mod/act value.');
             }
@@ -329,7 +329,7 @@ function check_gpc($value=array())
 
 //全站静态缓存,替换之前每个model类中使用的静态缓存
 //类似于s和f函数的使用
-function static_cache($cache_id, $value=null, $clean = false)
+function static_cache($cache_id, $value = null, $clean = false)
 {
     static $cacheHash = array();
     if ($clean) { //清空缓存 其实是清不了的 程序执行结束才会自动清理

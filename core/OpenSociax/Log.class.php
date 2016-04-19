@@ -7,27 +7,27 @@
 class Log
 {
     // 知识级别 从上到下，由低到高
-    const EMERG   = 'EMERG';  // 严重错误: 导致系统崩溃无法使用
-    const ALERT    = 'ALERT';  // 警戒性错误: 必须被立即修改的错误
-    const CRIT      = 'CRIT';  // 临界值错误: 超过临界值的错误，例如一天24小时，而输入的是25小时这样
-    const ERR       = 'ERR';  // 一般错误: 一般性错误
-    const WARN    = 'WARN';  // 警告性错误: 需要发出警告的错误
-    const NOTICE  = 'NOTIC';  // 通知: 程序可以运行但是还不够完美的错误
-    const INFO     = 'INFO';  // 信息: 程序输出信息
-    const DEBUG   = 'DEBUG';  // 调试: 调试信息
-    const SQL       = 'SQL';  // SQL：SQL语句 注意只在调试模式开启时有效
+    const EMERG = 'EMERG';  // 严重错误: 导致系统崩溃无法使用
+    const ALERT = 'ALERT';  // 警戒性错误: 必须被立即修改的错误
+    const CRIT = 'CRIT';  // 临界值错误: 超过临界值的错误，例如一天24小时，而输入的是25小时这样
+    const ERR = 'ERR';  // 一般错误: 一般性错误
+    const WARN = 'WARN';  // 警告性错误: 需要发出警告的错误
+    const NOTICE = 'NOTIC';  // 通知: 程序可以运行但是还不够完美的错误
+    const INFO = 'INFO';  // 信息: 程序输出信息
+    const DEBUG = 'DEBUG';  // 调试: 调试信息
+    const SQL = 'SQL';  // SQL：SQL语句 注意只在调试模式开启时有效
 
     // 知识记录方式
     const SYSTEM = 0;
-    const MAIL      = 1;
-    const TCP       = 2;
-    const FILE       = 3;
+    const MAIL = 1;
+    const TCP = 2;
+    const FILE = 3;
 
     // 知识信息
-    public static $log =   array();
+    public static $log = array();
 
     // 日期格式
-    public static $format =  '[ c ]';
+    public static $format = '[ c ]';
 
     /**
      * 记录知识 并且会过滤未经设置的级别
@@ -37,11 +37,11 @@ class Log
      * @param string $level   知识级别
      * @param bool   $record  是否强制记录
      */
-    public static function record($message, $level=self::ERR, $record=false)
+    public static function record($message, $level = self::ERR, $record = false)
     {
         if ($record || strpos(C('LOG_RECORD_LEVEL'), $level)) {
             $now = date(self::$format);
-            self::$log[] =   "{$now} ".$_SERVER['REQUEST_URI']." \n  {$level}: {$message}\r\n";
+            self::$log[] = "{$now} ".$_SERVER['REQUEST_URI']." \n  {$level}: {$message}\r\n";
         }
     }
 
@@ -53,7 +53,7 @@ class Log
      * @param string $destination 写入目标
      * @param string $extra       额外参数
      */
-    public static function save($type=self::FILE, $destination='', $extra='')
+    public static function save($type = self::FILE, $destination = '', $extra = '')
     {
         @mkdir(LOG_PATH, 0777, true);
         if (empty($destination)) {
@@ -81,7 +81,7 @@ class Log
      * @param string $destination 写入目标
      * @param string $extra       额外参数
      */
-    public static function write($message, $level=self::ERR, $type=self::FILE, $destination='', $extra='')
+    public static function write($message, $level = self::ERR, $type = self::FILE, $destination = '', $extra = '')
     {
         @mkdir(LOG_PATH, 0777, true);
         $now = date(self::$format);

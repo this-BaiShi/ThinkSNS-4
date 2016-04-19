@@ -28,7 +28,7 @@ abstract class Modelite
      * @param string $name 模型名称
      * @access public
      */
-    public function __construct($name='')
+    public function __construct($name = '')
     {
         // 模型初始化
         $this->_initialize();

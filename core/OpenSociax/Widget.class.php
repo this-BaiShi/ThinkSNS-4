@@ -33,10 +33,10 @@ abstract class Widget
     {
 
         //当前登录者uid
-        $GLOBALS['ts']['mid'] = $this->mid =    intval($_SESSION['mid']);
+        $GLOBALS['ts']['mid'] = $this->mid = intval($_SESSION['mid']);
 
         //当前访问对象的uid
-        $GLOBALS['ts']['uid'] = $this->uid =    intval($_REQUEST['uid']==0?$this->mid:$_REQUEST['uid']);
+        $GLOBALS['ts']['uid'] = $this->uid = intval($_REQUEST['uid'] == 0 ? $this->mid : $_REQUEST['uid']);
 
         // 赋值当前访问者用户
         $GLOBALS['ts']['user'] = $this->user = model('User')->getUserInfo($this->mid);
@@ -47,7 +47,7 @@ abstract class Widget
         }
 
         //当前用户的所有已添加的应用
-        $GLOBALS['ts']['_userApp']  = $userApp = model('UserApp')->getUserApp($this->uid);
+        $GLOBALS['ts']['_userApp'] = $userApp = model('UserApp')->getUserApp($this->uid);
         //当前用户的统计数据
         $GLOBALS['ts']['_userData'] = $userData = model('UserData')->getUserData($this->uid);
 

@@ -633,7 +633,7 @@ class AccountAction extends Action
     {
         //检查认证类型
         $data ['usergroup_id'] = intval($_POST ['usergroup_id']);
-        $hasUserGroup = model('UserGroup')->where(array('user_group_id'=>$data ['usergroup_id'], 'is_authenticate'=>1))->count() > 0;
+        $hasUserGroup = model('UserGroup')->where(array('user_group_id' => $data ['usergroup_id'], 'is_authenticate' => 1))->count() > 0;
         if (!$hasUserGroup) {
             exit('认证的分类不存在');
         }
@@ -644,12 +644,12 @@ class AccountAction extends Action
             $data['user_verified_category_id'] = 0;
         }
         //取得认证信息
-        $data ['company']   = trim(t($_POST ['company']));
-        $data ['realname']  = trim(t($_POST ['realname']));
-        $data ['idcard']    = trim(t($_POST ['idcard']));
-        $data ['phone']     = trim(t($_POST ['phone']));
-        $data ['reason']    = trim(t($_POST ['reason']));
-        $data ['info']      = trim(t($_POST['info']));
+        $data ['company'] = trim(t($_POST ['company']));
+        $data ['realname'] = trim(t($_POST ['realname']));
+        $data ['idcard'] = trim(t($_POST ['idcard']));
+        $data ['phone'] = trim(t($_POST ['phone']));
+        $data ['reason'] = trim(t($_POST ['reason']));
+        $data ['info'] = trim(t($_POST['info']));
         $data ['attach_id'] = trim(t($_POST ['attach_ids']));
 
         $Regx1 = '/^[0-9]*$/';
@@ -662,7 +662,7 @@ class AccountAction extends Action
             }
         }
         if (!$data['realname']) {
-            exit(($data['usergroup_id']==5?'负责人':'真实').'姓名不能为空');
+            exit(($data['usergroup_id'] == 5 ? '负责人' : '真实').'姓名不能为空');
         }
         if (!$data['idcard']) {
             exit('身份证号码不能为空');
@@ -670,7 +670,7 @@ class AccountAction extends Action
         if (!$data['phone']) {
             exit('联系方式不能为空');
         }
-        if (preg_match($Regx3, $data ['realname'])==0 || strlen($data ['realname'])>30) {
+        if (preg_match($Regx3, $data ['realname']) == 0 || strlen($data ['realname']) > 30) {
             exit('请输入正确的姓名格式');
         }
         if (preg_match($Regx2, $data ['idcard']) == 0 || preg_match($Regx1, substr($data ['idcard'], 0, 17)) == 0 || strlen($data ['idcard']) !== 18) {
@@ -850,7 +850,7 @@ class AccountAction extends Action
     public function doBindingMobile()
     {
         $phone = floatval($_POST['mobile']);
-        $code  = intval($_POST['mobile_code']);
+        $code = intval($_POST['mobile_code']);
 
         /* # 检查用户是否不可以更改为当前手机号码 */
         if (!model('User')->isChangePhone($phone, $this->mid)) {
@@ -898,7 +898,7 @@ class AccountAction extends Action
     public function doBindingEmail()
     {
         $email = t($_POST['email']);
-        $code  = intval($_POST['email_code']);
+        $code = intval($_POST['email_code']);
 
         /* # 验证是否不可以修改 */
         if (!model('User')->isChangeEmail($email, $this->mid)) {
@@ -946,7 +946,7 @@ class AccountAction extends Action
     public function getCaptcha()
     {
         $type = t($_POST['type']);
-        $sms  = model('Sms');
+        $sms = model('Sms');
 
         /* # 判断是否类型错误 */
         if (!in_array($type, array('mobile', 'email'))) {
@@ -976,8 +976,8 @@ class AccountAction extends Action
             /* # 发送邮件 */
             model('Notify')->sendNotifyChangeEmail($this->mid, 'email_verification', array(
                 'uname' => getUserName($this->mid),
-                'rand'  => $sms->getCode(),
-                'date'  => date('Y-m-d', time()),
+                'rand' => $sms->getCode(),
+                'date' => date('Y-m-d', time()),
             ), $email);
 
             /* # 返回状态 */
@@ -1066,7 +1066,7 @@ class AccountAction extends Action
     public function scorecharge()
     {
         // 删除7天前还没支付的记录
-        D('credit_charge')->where('status=0 AND ctime<'.(time()-(86400*7)));
+        D('credit_charge')->where('status=0 AND ctime<'.(time() - (86400 * 7)));
         $data = model('Xdata')->get('admin_Config:charge');
         $charge_record = D('credit_charge')->where('status>0 and uid='.$this->mid)->order('charge_id desc')->findPage(100);
         $this->assign('chargeConfigs', $data);
@@ -1097,16 +1097,16 @@ class AccountAction extends Action
     {
         $price = intval($_POST['charge_value']);
         if ($price < 1) {
-            exit(json_encode(array('status'=>0, 'info'=>'充值金额不正确')));
+            exit(json_encode(array('status' => 0, 'info' => '充值金额不正确')));
         }
         $type = intval($_POST['charge_type']);
         $types = array('alipay', 'weixin');
         if (!isset($types[$type])) {
-            exit(json_encode(array('status'=>0, 'info'=>'充值方式不支持')));
+            exit(json_encode(array('status' => 0, 'info' => '充值方式不支持')));
         }
         $chargeConfigs = model('Xdata')->get('admin_Config:charge');
         if (!in_array($types[$type], $chargeConfigs['charge_platform'])) {
-            exit(json_encode(array('status'=>0, 'info'=>'充值方式不支持')));
+            exit(json_encode(array('status' => 0, 'info' => '充值方式不支持')));
         }
 
         $data ['serial_number'] = 'CZ'.date('YmdHis').rand(0, 9).rand(0, 9);
@@ -1115,7 +1115,7 @@ class AccountAction extends Action
         $data ['uid'] = $this->mid;
         $data ['ctime'] = time();
         $data ['status'] = 0;
-        $data ['charge_sroce'] = intval($price*abs(intval($chargeConfigs['charge_ratio'])));
+        $data ['charge_sroce'] = intval($price * abs(intval($chargeConfigs['charge_ratio'])));
         $data ['charge_order'] = '';
         $result = D('credit_charge')->add($data);
         $res = array();
@@ -1145,14 +1145,14 @@ class AccountAction extends Action
         $configs['seller_email'] = $chargeConfigs['alipay_email'];
         $configs['key'] = $chargeConfigs['alipay_key'];
         $parameter = array(
-            'notify_url'    => SITE_URL.'/public/pay/alipay_notify.php',
-            'return_url'    => SITE_URL.'/public/pay/alipay_return.php',
-            'out_trade_no'    => $data['serial_number'],
-            'subject'    => '积分充值:'.$data['charge_sroce'].'积分',
-            'total_fee'    => $data['charge_value'],
+            'notify_url' => SITE_URL.'/public/pay/alipay_notify.php',
+            'return_url' => SITE_URL.'/public/pay/alipay_return.php',
+            'out_trade_no' => $data['serial_number'],
+            'subject' => '积分充值:'.$data['charge_sroce'].'积分',
+            'total_fee' => $data['charge_value'],
             //"total_fee"	=> 0.01,
-            'body'    => '',
-            'show_url'  => '',
+            'body' => '',
+            'show_url' => '',
             'app' => 'public',
             'mod' => 'Account',
             'act' => 'scorecharge',
@@ -1166,9 +1166,9 @@ class AccountAction extends Action
         require_once ADDON_PATH.'/library/alipay/alipay.php';
         $chargeConfigs = model('Xdata')->get('admin_Config:charge');
         $configs = array(
-            'partner'=>$chargeConfigs['alipay_pid'],
-            'seller_email'=>$chargeConfigs['alipay_email'],
-            'key'=>$chargeConfigs['alipay_key'],
+            'partner' => $chargeConfigs['alipay_pid'],
+            'seller_email' => $chargeConfigs['alipay_email'],
+            'key' => $chargeConfigs['alipay_key'],
         );
         unset($_GET['app'], $_GET['mod'], $_GET['act']);
         if (verifyAlipayReturn($configs)) {
@@ -1180,8 +1180,8 @@ class AccountAction extends Action
             }
         } else {
             $map = array(
-                'uid'=>$this->mid,
-                'serial_number'=>t($_GET['out_trade_no']),
+                'uid' => $this->mid,
+                'serial_number' => t($_GET['out_trade_no']),
                 'status' => 0, // 这个条件不能删，删了就有充值漏洞
             );
             D('credit_charge')->where($map)->setField('status', 2);
@@ -1195,9 +1195,9 @@ class AccountAction extends Action
         require_once ADDON_PATH.'/library/alipay/alipay.php';
         $chargeConfigs = model('Xdata')->get('admin_Config:charge');
         $configs = array(
-            'partner'=>$chargeConfigs['alipay_pid'],
-            'seller_email'=>$chargeConfigs['alipay_email'],
-            'key'=>$chargeConfigs['alipay_key'],
+            'partner' => $chargeConfigs['alipay_pid'],
+            'seller_email' => $chargeConfigs['alipay_email'],
+            'key' => $chargeConfigs['alipay_key'],
         );
         unset($_GET['app'], $_GET['mod'], $_GET['act']);
         if (verifyAlipayNotify($configs)) {

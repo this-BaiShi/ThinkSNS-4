@@ -17,9 +17,9 @@ class AvatarsWidget extends Widget
         $template = 'default';
         $var = array();
         if ($template === 'default') {
-            $var['password']   = time();
+            $var['password'] = time();
             $var['defaultImg'] = 'noavatar/big.jpg';
-            $var['uploadUrl']  = urlencode(U('public/Account/doSaveUploadAvatar'));
+            $var['uploadUrl'] = urlencode(U('public/Account/doSaveUploadAvatar'));
             // 获取附件配置信息
             $attachConf = model('Xdata')->get('admin_Config:attachimage');
             $var['attach_max_size'] = $attachConf['attach_max_size'];

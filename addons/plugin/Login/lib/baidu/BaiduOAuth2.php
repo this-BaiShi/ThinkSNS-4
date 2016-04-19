@@ -21,9 +21,9 @@ class BaiduOAuth2
      * Endpoints for Baidu OAuth2.0.
      */
     public static $BD_OAUTH2_ENDPOINTS = array(
-        'authorize'    => 'https://openapi.baidu.com/oauth/2.0/authorize',
-        'token'        => 'https://openapi.baidu.com/oauth/2.0/token',
-        'logout'    => 'https://openapi.baidu.com/connect/2.0/logout',
+        'authorize' => 'https://openapi.baidu.com/oauth/2.0/authorize',
+        'token' => 'https://openapi.baidu.com/oauth/2.0/token',
+        'logout' => 'https://openapi.baidu.com/connect/2.0/logout',
     );
 
     protected $clientId;
@@ -95,12 +95,12 @@ class BaiduOAuth2
     public function getAuthorizeUrl($responseType = 'code', $scope = '', $state = '', $display = 'popup')
     {
         $params = array(
-            'client_id'        => $this->clientId,
-            'response_type'    => $responseType,
-            'redirect_uri'    => $this->redirectUri,
-            'scope'            => $scope,
-            'state'            => $state,
-            'display'        => $display,
+            'client_id' => $this->clientId,
+            'response_type' => $responseType,
+            'redirect_uri' => $this->redirectUri,
+            'scope' => $scope,
+            'state' => $state,
+            'display' => $display,
         );
 
         return self::$BD_OAUTH2_ENDPOINTS['authorize'].'?'.http_build_query($params, '', '&');
@@ -115,11 +115,11 @@ class BaiduOAuth2
     public function getAccessTokenByAuthorizationCode($code)
     {
         $params = array(
-            'grant_type'    => 'authorization_code',
-            'code'            => $code,
-            'client_id'        => $this->clientId,
-            'client_secret'    => $this->clientSecret,
-            'redirect_uri'    => $this->redirectUri,
+            'grant_type' => 'authorization_code',
+            'code' => $code,
+            'client_id' => $this->clientId,
+            'client_secret' => $this->clientSecret,
+            'redirect_uri' => $this->redirectUri,
         );
 
         return $this->makeAccessTokenRequest($params);
@@ -134,10 +134,10 @@ class BaiduOAuth2
     public function getAccessTokenByClientCredentials($scope = '')
     {
         $params = array(
-            'grant_type'    => 'client_credentials',
-            'client_id'        => $this->clientId,
-            'client_secret'    => $this->clientSecret,
-            'scope'            => $scope,
+            'grant_type' => 'client_credentials',
+            'client_id' => $this->clientId,
+            'client_secret' => $this->clientSecret,
+            'scope' => $scope,
         );
 
         return $this->makeAccessTokenRequest($params);
@@ -152,9 +152,9 @@ class BaiduOAuth2
     public function getAccessTokenByDeveloperCredentials($accessKey, $secretKey)
     {
         $params = array(
-            'grant_type'    => 'developer_credentials',
-            'client_id'        => $accessKey,
-            'client_secret'    => $secretKey,
+            'grant_type' => 'developer_credentials',
+            'client_id' => $accessKey,
+            'client_secret' => $secretKey,
         );
 
         return $this->makeAccessTokenRequest($params);
@@ -170,11 +170,11 @@ class BaiduOAuth2
     public function getAccessTokenByRefreshToken($refreshToken, $scope = '')
     {
         $params = array(
-            'grant_type'    => 'refresh_token',
-            'refresh_token'    => $refreshToken,
-            'client_id'        => $this->clientId,
-            'client_secret'    => $this->clientSecret,
-            'scope'            => $scope,
+            'grant_type' => 'refresh_token',
+            'refresh_token' => $refreshToken,
+            'client_id' => $this->clientId,
+            'client_secret' => $this->clientSecret,
+            'scope' => $scope,
         );
 
         return $this->makeAccessTokenRequest($params);

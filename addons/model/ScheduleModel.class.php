@@ -24,12 +24,12 @@
 
 class ScheduleModel extends Model
 {
-    private $MONTH_ARRAY    = array('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec');
-    private $WEEK_ARRAY    = array('Mon','Tue','Wed','Thu','Fri','Sat','Sun');
+    private $MONTH_ARRAY = array('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec');
+    private $WEEK_ARRAY = array('Mon','Tue','Wed','Thu','Fri','Sat','Sun');
 
     private $model;
-    private $schedule        = array();
-    private $scheduleList    = array();
+    private $schedule = array();
+    private $scheduleList = array();
 
     //	task_to_run 	要执行任务的url
     //	schedule_type 	计划类型：NOCE/MINUTE/HOURLY/DAILY/WEEKLY/MONTHLY
@@ -248,7 +248,7 @@ class ScheduleModel extends Model
     public function calculateNextRunTime($schedule)
     {
         //已过期
-        if ((strtotime($schedule['end_datetime'])>0) && (strtotime($schedule['end_datetime']) < strtotime(date('Y-m-d H:i:s')))) {
+        if ((strtotime($schedule['end_datetime']) > 0) && (strtotime($schedule['end_datetime']) < strtotime(date('Y-m-d H:i:s')))) {
             return false;
         }
         //还未启动
@@ -262,22 +262,22 @@ class ScheduleModel extends Model
 
         switch (strtoupper($schedule['schedule_type'])) {
             case 'ONCE':
-                $datetime =  $this->_calculateONCE($schedule);
+                $datetime = $this->_calculateONCE($schedule);
                 break;
             case 'MINUTE':
-                $datetime =  $this->_calculateMINUTE($schedule);
+                $datetime = $this->_calculateMINUTE($schedule);
                 break;
             case 'HOURLY':
-                $datetime =  $this->_calculateHOURLY($schedule);
+                $datetime = $this->_calculateHOURLY($schedule);
                 break;
             case 'DAILY':
-                $datetime =  $this->_calculateDAILY($schedule);
+                $datetime = $this->_calculateDAILY($schedule);
                 break;
             case 'WEEKLY':
-                $datetime =  $this->_calculateWEEKLY($schedule);
+                $datetime = $this->_calculateWEEKLY($schedule);
                 break;
             case 'MONTHLY':
-                $datetime =  $this->_calculateMONTHLY($schedule);
+                $datetime = $this->_calculateMONTHLY($schedule);
                 break;
             default:
                 return false;
@@ -715,7 +715,7 @@ class ScheduleModel extends Model
                 return false;
         }
         if ($index != 0) {
-            return (date('m', $date) == date('m', mktime(date('H', $date), date('i', $date), date('s', $date), date('m', $date), date('d', $date) - (7 * ($index-1)), date('Y', $date)))) &&
+            return (date('m', $date) == date('m', mktime(date('H', $date), date('i', $date), date('s', $date), date('m', $date), date('d', $date) - (7 * ($index - 1)), date('Y', $date)))) &&
             (date('m', $date) != date('m', mktime(date('H', $date), date('i', $date), date('s', $date), date('m', $date), date('d', $date) - (7 * ($index)), date('Y', $date))));
         } else {
             return date('m', $date) != date('m', mktime(date('H', $date), date('i', $date), date('s', $date), date('m', $date), date('d', $date) + 7, date('Y', $date)));
@@ -733,7 +733,7 @@ class ScheduleModel extends Model
             $date = is_string($date) ? strtotime($date) : $date;
         }
 
-        return (int) floor(($date - $date_base)/3600/24/7) + 1;
+        return (int) floor(($date - $date_base) / 3600 / 24 / 7) + 1;
     }
 
     //返回自2007年01月01日来的月数
@@ -781,7 +781,7 @@ class ScheduleModel extends Model
         //锁定自动执行 修正一下
         $lockfile = $this->getLogPath().'/schedule.lock';
         //锁定未过期 - 返回
-        if (file_exists($lockfile) && ((filemtime($lockfile))+60 > $_SERVER['REQUEST_TIME'])) {
+        if (file_exists($lockfile) && ((filemtime($lockfile)) + 60 > $_SERVER['REQUEST_TIME'])) {
             return ;
         } else {
             //重新生成锁文件

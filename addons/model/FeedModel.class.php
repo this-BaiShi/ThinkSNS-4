@@ -10,7 +10,7 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 class FeedModel extends Model
 {
     protected $tableName = 'feed';
-    protected $fields = array('feed_id','uid','type','app','app_row_id','app_row_table','publish_time','is_del','from','comment_count','repost_count','comment_all_count','digg_count','is_repost','is_audit','latitude','longitude','address','is_recommend','recommend_time','_pk'=>'feed_id');
+    protected $fields = array('feed_id','uid','type','app','app_row_id','app_row_table','publish_time','is_del','from','comment_count','repost_count','comment_all_count','digg_count','is_repost','is_audit','latitude','longitude','address','is_recommend','recommend_time','_pk' => 'feed_id');
 
     public $templateFile = '';            // 模板文件
 
@@ -110,7 +110,7 @@ class FeedModel extends Model
         if ($type == 'postvideo') {
             if ($_POST['video_id']) {
                 $video_info = D('video')->where('video_id='.$data['video_id'])->find();
-                $data['transfer_id']  = $video_info['transfer_id'];
+                $data['transfer_id'] = $video_info['transfer_id'];
                 $data['video_path'] = $video_info['video_path'];
                 $data['video_mobile_path'] = $video_info['video_mobile_path'];
                 $data['video_part_path'] = $video_info['video_part_path'];
@@ -127,7 +127,7 @@ class FeedModel extends Model
             }
         }
         // 添加分享信息
-        $feed_id =  $this->data($data)->add();
+        $feed_id = $this->data($data)->add();
         if (!$feed_id) {
             return false;
         }
@@ -140,7 +140,7 @@ class FeedModel extends Model
         }
         if (!$data['is_audit']) {
             $touid = D('user_group_link')->where('user_group_id=1')->field('uid')->findAll();
-            foreach ($touid as $k=>$v) {
+            foreach ($touid as $k => $v) {
                 model('Notify')->sendNotify($v['uid'], 'feed_audit');
             }
         }
@@ -150,12 +150,12 @@ class FeedModel extends Model
         // 添加关联数据
         // $feed_data = D('FeedData')->data(array('feed_id'=>$feed_id, 'feed_data'=>serialize($data), 'client_ip'=>get_client_ip(), 'client_port'=>get_client_port(), 'feed_content'=>$data['body']))->add();
         // var_dump($feed_data);exit;
-        $feed_data =  Capsule::table('feed_data')
+        $feed_data = Capsule::table('feed_data')
             ->insert(array(
-                'feed_id'      => $feed_id,
-                'feed_data'    => serialize($data),
-                'client_ip'    => get_client_ip(),
-                'client_port'  => get_client_port(),
+                'feed_id' => $feed_id,
+                'feed_data' => serialize($data),
+                'client_ip' => get_client_ip(),
+                'client_port' => get_client_port(),
                 'feed_content' => $data['body'],
             ))
         ;
@@ -412,13 +412,13 @@ class FeedModel extends Model
 
         $userInfo = model('User')->getUserInfo($data['uid']);
         $data['ctime'] = date('Y-m-d H:i', $data['publish_time']);
-        $data['content'] = $forApi ? parseForApi($fd['body']):$fd['body'];
+        $data['content'] = $forApi ? parseForApi($fd['body']) : $fd['body'];
         $data['uname'] = $userInfo['uname'];
         $data['user_group'] = $userInfo['api_user_group'];
         $data['user_gicon'] = $userInfo['group_icon_only'];
         $data['avatar_big'] = $userInfo['avatar_big'];
         $data['avatar_middle'] = $userInfo['avatar_middle'];
-        $data['avatar_small']  = $userInfo['avatar_small'];
+        $data['avatar_small'] = $userInfo['avatar_small'];
         unset($data['feed_data']);
 
         // 分享转发
@@ -433,11 +433,11 @@ class FeedModel extends Model
             $attach = model('Attach')->getAttachByIds($fd['attach_id']);
             foreach ($attach as $ak => $av) {
                 $_attach = array(
-                            'attach_id'   => $av['attach_id'],
+                            'attach_id' => $av['attach_id'],
                             'attach_name' => $av['name'],
-                            'attach_url'  => getImageUrl($av['save_path'].$av['save_name']),
-                            'extension'   => $av['extension'],
-                            'size'          => $av['size'],
+                            'attach_url' => getImageUrl($av['save_path'].$av['save_name']),
+                            'extension' => $av['extension'],
+                            'size' => $av['size'],
                         );
                 if ($data['type'] == 'postimage') {
                     $_attach['attach_small'] = getImageUrl($av['save_path'].$av['save_name'], 120, 120, true);
@@ -454,7 +454,7 @@ class FeedModel extends Model
         if ($data['type'] == 'postvideo') {
             if ($fd['video_id']) {
                 $video_config = model('Xdata')->get('admin_Content:video_config');
-                $video_server = $video_config['video_server']?$video_config['video_server']:SITE_URL;
+                $video_server = $video_config['video_server'] ? $video_config['video_server'] : SITE_URL;
 
                 $data['video_id'] = $fd['video_id'];
                 if ($forApi) {
@@ -525,11 +525,11 @@ class FeedModel extends Model
      * @param  string $order 排序字段
      * @return array  分享列表数据
      */
-    public function getList($map, $limit = 10, $order = null, $max=null)
+    public function getList($map, $limit = 10, $order = null, $max = null)
     {
-        $order = !empty($order)?$order:'feed_id DESC';
+        $order = !empty($order) ? $order : 'feed_id DESC';
         $feedlist = $this->field('feed_id')->where($map)->order($order);
-        if ($max>0) {
+        if ($max > 0) {
             $feedlist = $this->findPage($limit, $max);
         } else {
             $feedlist = $this->findPage($limit);
@@ -559,7 +559,7 @@ class FeedModel extends Model
         $_where = !empty($where) ? "(a.uid = '{$buid}' OR b.uid = '{$buid}') AND ($where)" : "(a.uid = '{$buid}' OR b.uid = '{$buid}')";
         // 若填写了关注分组
         if (!empty($fgid)) {
-            $table .=" LEFT JOIN {$this->tablePrefix}user_follow_group_link AS c ON a.uid = c.fid AND c.uid ='{$buid}' ";
+            $table .= " LEFT JOIN {$this->tablePrefix}user_follow_group_link AS c ON a.uid = c.fid AND c.uid ='{$buid}' ";
             $_where .= ' AND c.follow_group_id = '.intval($fgid);
         }
         $feedlist = $this->table($table)->where($_where)->field('a.feed_id')->order('a.feed_id DESC');
@@ -576,9 +576,9 @@ class FeedModel extends Model
     }
     public function getUnionFeed($where = '', $limit = 10, $uid = '', $fgid = '', $max = null)
     {
-        $fgid  = intval($fgid);
-        $uid   = intval($uid);
-        $buid  = empty($uid) ? $_SESSION['mid'] : $uid;
+        $fgid = intval($fgid);
+        $uid = intval($uid);
+        $buid = empty($uid) ? $_SESSION['mid'] : $uid;
         $table = "{$this->tablePrefix}feed AS a ";
 
         // 加上自己的信息，若不需要屏蔽下语句
@@ -587,7 +587,7 @@ class FeedModel extends Model
 		or a.uid in (SELECT u.fid from ts_user_union u LEFT JOIN ts_user_follow f ON u.uid=f.fid WHERE f.uid=$buid )) ";
         // 若填写了关注分组
         if (!empty($fgid)) {
-            $table .=" LEFT JOIN {$this->tablePrefix}user_follow_group_link AS c ON a.uid = c.fid AND c.uid ='{$buid}' ";
+            $table .= " LEFT JOIN {$this->tablePrefix}user_follow_group_link AS c ON a.uid = c.fid AND c.uid ='{$buid}' ";
             $_where .= ' AND c.follow_group_id = '.intval($fgid);
         }
 
@@ -707,10 +707,10 @@ class FeedModel extends Model
         $r = array();
         foreach ($feedlist as $v) {
             if (!empty($v['sourceInfo'])) {
-                $r[$v['uid']] = array('feed_id'=>$v['feed_id'],'title'=>getShort(t($v['sourceInfo']['shareHtml']), 30, '...'));
+                $r[$v['uid']] = array('feed_id' => $v['feed_id'],'title' => getShort(t($v['sourceInfo']['shareHtml']), 30, '...'));
             } else {
                 $t = unserialize($v['feed_data']);
-                $r[$v['uid']] = array('feed_id'=>$v['feed_id'],'title'=>getShort(t($t['body']), 30, '...'));
+                $r[$v['uid']] = array('feed_id' => $v['feed_id'],'title' => getShort(t($t['body']), 30, '...'));
             }
         }
 
@@ -857,11 +857,11 @@ class FeedModel extends Model
             $var['attachInfo'] = model('Attach')->getAttachByIds($var['attach_id']);
             foreach ($var['attachInfo'] as $ak => $av) {
                 $_attach = array(
-                            'attach_id'   => $av['attach_id'],
+                            'attach_id' => $av['attach_id'],
                             'attach_name' => $av['name'],
-                            'attach_url'  => getImageUrl($av['save_path'].$av['save_name']),
-                            'extension'   => $av['extension'],
-                            'size'          => $av['size'],
+                            'attach_url' => getImageUrl($av['save_path'].$av['save_name']),
+                            'extension' => $av['extension'],
+                            'size' => $av['size'],
                         );
                 if ($_data['type'] == 'postimage' || $_data['type'] == 'postvideo') {
                     $_attach['attach_small'] = getImageUrl($av['save_path'].$av['save_name'], 120, 120, true);
@@ -873,13 +873,13 @@ class FeedModel extends Model
         }
         if (!empty($var['video_id']) && !$var['flashimg']) {
             $video_config = model('Xdata')->get('admin_Content:video_config');
-            $video_server = $video_config['video_server']?$video_config['video_server']:SITE_URL;
+            $video_server = $video_config['video_server'] ? $video_config['video_server'] : SITE_URL;
 
             $var['flashimg'] = $video_server.$var['image_path'];//'__THEME__/image/video.png';
             $var['flashvar'] = $video_server.$var['video_path'];
             $var['flashvar_part'] = $video_server.$var['video_part_path'];
-            $var['flash_width'] = $var['image_width']?$var['image_width']:430;
-            $var['flash_height'] = $var['image_height']?$var['image_height']:400;
+            $var['flash_width'] = $var['image_width'] ? $var['image_width'] : 430;
+            $var['flash_height'] = $var['image_height'] ? $var['image_height'] : 400;
             if ($var['transfer_id'] && !D('video_transfer')->where('transfer_id='.$var['transfer_id'])->getField('status')) {
                 $var['transfering'] = 1;
             }
@@ -887,7 +887,7 @@ class FeedModel extends Model
         $var['uid'] = $_data['uid'];
         $var['actor'] = "<a href='{$user['space_url']}' class='name' event-node='face_card' uid='{$user['uid']}'>{$user['uname']}</a>";
         $var['actor_uid'] = $user['uid'];
-        $var['actor_uname']    = $user['uname'];
+        $var['actor_uname'] = $user['uname'];
         $var['feedid'] = $_data['feed_id'];
         //微吧类型分享用到
         // $var["actor_groupData"] = model('UserGroupLink')->getUserGroupData($user['uid']);
@@ -907,17 +907,17 @@ class FeedModel extends Model
         //输出模版解析后信息
         $return['content_txt'] = $_data['data']['body'];
         $return['attach_info'] = $var['attachInfo'];
-        $return['userInfo']  = $user;
+        $return['userInfo'] = $user;
         $return['actor_groupData'] = $var['actor_groupData'];
         $return['title'] = $var['actor'];
-        $return['body'] = ($var['type'] != 'weiba_post') ? parse_html($feed_content): $feed_content;
+        $return['body'] = ($var['type'] != 'weiba_post') ? parse_html($feed_content) : $feed_content;
         $return['api_source'] = $var['sourceInfo'];
         $return['actions'] = array(
-            'comment'=>true,
-            'repost'=>true,
-            'like'=>false,
-            'favor'=>true,
-            'delete'=>true,
+            'comment' => true,
+            'repost' => true,
+            'like' => false,
+            'favor' => true,
+            'delete' => true,
         );
         //验证转发的原信息是否存在
         if (!$this->_notDel($_data['app'], $_data['type'], $_data['app_row_id'])) {
@@ -952,7 +952,7 @@ class FeedModel extends Model
      */
     public function getNodeList($ignore = false)
     {
-        if (false===($feedNodeList=S('FeedNodeList'))) {
+        if (false === ($feedNodeList = S('FeedNodeList'))) {
             //应用列表
             $apps = C('DEFAULT_APPS');
             $appList = model('App')->getAppList();
@@ -966,12 +966,12 @@ class FeedModel extends Model
                 $app_config_path = SITE_PATH.'/apps/'.$app.'/Conf/';
                 $dirs->listFile($app_config_path, '*.feed.php');
                 $files = $dirs->toArray();
-                if (is_array($files) && count($files)>0) {
+                if (is_array($files) && count($files) > 0) {
                     foreach ($files as $file) {
                         $feed_file['app'] = $app;
-                        $feed_file['filename']= $file['filename'];
-                        $feed_file['pathname']= $file['pathname'];
-                        $feed_file['mtime']= $file['mtime'];
+                        $feed_file['filename'] = $file['filename'];
+                        $feed_file['pathname'] = $file['pathname'];
+                        $feed_file['mtime'] = $file['mtime'];
                         $feedNodeList[] = $feed_file;
                     }
                 }
@@ -1008,7 +1008,7 @@ class FeedModel extends Model
 					<root>
 					<feedlist>";
             foreach ($data as $v) {
-                $xml.="
+                $xml .= "
 				<feed app='{$v['appname']}' type='{$v['nodetype']}' info='{$v['nodeinfo']}'>
 				".htmlspecialchars_decode($v['xml']).'
 				</feed>';
@@ -1033,12 +1033,12 @@ class FeedModel extends Model
      */
     public function doEditFeed($feed_id, $type, $title, $uid = null)
     {
-        $return = array('status'=>'0');
+        $return = array('status' => '0');
         if (empty($feed_id)) {
             //$return['data'] = '分享ID不能为空！';
         } else {
             $map['feed_id'] = is_array($feed_id) ? array('IN', $feed_id) : intval($feed_id);
-            $save['is_del'] = $type =='delFeed' ? 1 : 0;
+            $save['is_del'] = $type == 'delFeed' ? 1 : 0;
 
             if ($type == 'deleteFeed') {
                 $feedArr = is_array($feed_id) ? $feed_id : explode(',', $feed_id);
@@ -1099,7 +1099,7 @@ class FeedModel extends Model
             model('Comment')->setAppName('Public')->setAppTable('feed')->deleteComment($commentIds);
             if ($res) {
                 // TODO:是否记录知识，以及后期缓存处理
-                $return = array('status'=>1);
+                $return = array('status' => 1);
                 //添加积分
                 model('Credit')->setUserCredit($uid, 'delete_weibo');
             }
@@ -1135,7 +1135,7 @@ class FeedModel extends Model
      */
     public function doAuditFeed($feed_id)
     {
-        $return = array('status'=>'0');
+        $return = array('status' => '0');
         if (empty($feed_id)) {
             $return['data'] = '请选择分享！';
         } else {
@@ -1143,7 +1143,7 @@ class FeedModel extends Model
             $save['is_audit'] = 1;
             $res = $this->where($map)->save($save);
             if ($res) {
-                $return = array('status'=>1);
+                $return = array('status' => 1);
             }
 
             //更新缓存
@@ -1299,7 +1299,7 @@ class FeedModel extends Model
      * @param  int    $page     分页数，默认为1
      * @return array  全站最新的分享
      */
-    public function public_timeline($type, $since_id = 0, $max_id = 0, $limit = 20, $page = 1, $returnId=false)
+    public function public_timeline($type, $since_id = 0, $max_id = 0, $limit = 20, $page = 1, $returnId = false)
     {
         $since_id = intval($since_id);
         $max_id = intval($max_id);
@@ -1336,7 +1336,7 @@ class FeedModel extends Model
      * @param  int    $page     分页数，默认为1
      * @return array  登录用户所关注人的最新分享
      */
-    public function friends_timeline($type, $mid, $since_id = 0, $max_id = 0, $limit = 20, $page = 1, $returnId=false)
+    public function friends_timeline($type, $mid, $since_id = 0, $max_id = 0, $limit = 20, $page = 1, $returnId = false)
     {
         $since_id = intval($since_id);
         $max_id = intval($max_id);
@@ -1372,7 +1372,7 @@ class FeedModel extends Model
     }
 
         //获取我关注的和我的分享总数
-        public function friends_counts($type='original', $mid=0)
+        public function friends_counts($type = 'original', $mid = 0)
         {
             $mid = $mid ? $mid : $GLOBALS['ts']['mid'];
             $where = ' a.is_del = 0 ';
@@ -1460,7 +1460,7 @@ class FeedModel extends Model
         $max_id = intval($max_id);
         $limit = intval($limit);
         $page = intval($page);
-        if ($row_id<=0) {
+        if ($row_id <= 0) {
             return false;
         }
 
@@ -1596,7 +1596,7 @@ class FeedModel extends Model
      * @param  int    $page     分页数，默认为1
      * @return array  全站最新的发言
      */
-    public function video_list($type, $since_id = 0, $max_id = 0, $limit = 20, $page = 1, $sql='', $order='')
+    public function video_list($type, $since_id = 0, $max_id = 0, $limit = 20, $page = 1, $sql = '', $order = '')
     {
         $since_id = intval($since_id);
         $max_id = intval($max_id);
@@ -1613,7 +1613,7 @@ class FeedModel extends Model
         }
         $start = ($page - 1) * $limit;
         $end = $limit;
-        if ($order=='') {
+        if ($order == '') {
             $order = 'digg_count DESC,feed_id DESC';
         }
         $feed_ids = $this->where($where)->field('feed_id')->limit("{$start},{$end}")->order($order)->getAsFieldArray('feed_id');
@@ -1629,7 +1629,7 @@ class FeedModel extends Model
     }
 
     //后台推荐的分享（即全局置顶的）+我关注的人+我自己发布的分享+频道内后台推荐的分享，不要显示转发的分享
-    public function getOriginalWeibo($data, $type='original')
+    public function getOriginalWeibo($data, $type = 'original')
     {
         $mid = $GLOBALS['ts']['mid'];
         $since_id = intval($data['since_id']);
@@ -1638,7 +1638,7 @@ class FeedModel extends Model
         $page = intval($data['page']);
         //获取后台置顶
 // 		$wl_top_ids = $this->getFeedTop(true);
-                if ($_GET['page']<2) {
+                if ($_GET['page'] < 2) {
                     //获取频道推荐
                     $wl_recommend_ids = $this->getChannelRecomment(true);
                 }
@@ -1647,7 +1647,7 @@ class FeedModel extends Model
         $feed_ids = array();
         //dump($wl_recommend_ids);exit;
 
-         if ($_GET['page']<2) {
+         if ($_GET['page'] < 2) {
              //添加推荐分享
             $feed_ids = array_merge($feed_ids, $wl_recommend_ids);
          }
@@ -1713,7 +1713,7 @@ class FeedModel extends Model
     }
 
     //获取后台推荐的分享
-    public function getChannelRecomment($returnId = false, $limit=10)
+    public function getChannelRecomment($returnId = false, $limit = 10)
     {
         $map['status'] = 1;
         $rec_ids = M('channel')->where($map)->order('feed_channel_link_id DESC')->limit(intval($limit))->getAsFieldArray('feed_id');

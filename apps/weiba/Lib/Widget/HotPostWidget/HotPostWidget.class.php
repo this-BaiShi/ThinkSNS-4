@@ -50,12 +50,12 @@ class HotPostWidget extends Widget
         $map['lock'] = 0;
         $map['is_del'] = 0;
         if (!$data['limit']) {
-            $data['limit']=10;
+            $data['limit'] = 10;
         }
         //$list = model( 'Cache' )->get('weiba_post_recommend');
         if (!$list) {
             $list = M('weiba_post')->where($map)->order('rand()')->limit($data['limit'])->select();
-            !$list && $list=1;
+            !$list && $list = 1;
                 //model( 'Cache' )->set( 'weiba_post_recommend' , $list , 86400 );
         }
 

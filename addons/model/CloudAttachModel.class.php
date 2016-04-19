@@ -63,13 +63,13 @@ class CloudAttachModel
         $prefix_urls = trim($this->config['cloud_attach_prefix_urls']);
         $prefix_urls = explode(',', $prefix_urls);
         $prefix_urls = array_filter($prefix_urls);
-        if (count($prefix_urls)>1) {
-            $prefix_key = abs(crc32($filename)%count($prefix_urls));
-            $cloud_attach_prefix_url  = $prefix_urls[$prefix_key];
+        if (count($prefix_urls) > 1) {
+            $prefix_key = abs(crc32($filename) % count($prefix_urls));
+            $cloud_attach_prefix_url = $prefix_urls[$prefix_key];
         } else {
-            $cloud_attach_prefix_url  = $prefix_urls[0];
+            $cloud_attach_prefix_url = $prefix_urls[0];
         }
-        $cloud_attach_prefix_url  = trim($cloud_attach_prefix_url);
+        $cloud_attach_prefix_url = trim($cloud_attach_prefix_url);
 
         return $cloud_attach_prefix_url.'/'.$filename;
     }
@@ -102,9 +102,9 @@ class CloudAttachModel
     public function getPolicydoc()
     {
         $policydoc = array(
-           'bucket'     =>  $this->config['cloud_attach_bucket'],
-           'expiration' =>  time()+600, //1分钟超时
-           'save-key'   =>  '/{year}/{mon}{day}/{random}.{suffix}',
+           'bucket' => $this->config['cloud_attach_bucket'],
+           'expiration' => time() + 600, //1分钟超时
+           'save-key' => '/{year}/{mon}{day}/{random}.{suffix}',
            'allow-file-type' => 'jpg,jpeg,gif,png',
            'content-length-range' => '0,5120000',    //最大5M
         );
@@ -135,29 +135,29 @@ class CloudAttachModel
      * @return string
      * @throws ThinkExecption
      */
-    public function upload($savePath ='')
+    public function upload($savePath = '')
     {
         if (!$this->isOpen()) {
-            $this->error  = '没有开启云图片功能';
+            $this->error = '没有开启云图片功能';
 
             return false;
         }
 
         $fileInfo = array();
-        $isUpload   = false;
+        $isUpload = false;
 
         // 获取上传的文件信息,对$_FILES数组信息处理
-        $files   =   $this->dealFiles($_FILES);
+        $files = $this->dealFiles($_FILES);
         foreach ($files as $key => $file) {
             //过滤无效的上传
             if (!empty($file['name'])) {
-                $file['key']        =  $key;
-                $file['extension']  = $this->getExt($file['name']);
+                $file['key'] = $key;
+                $file['extension'] = $this->getExt($file['name']);
 
                 if ($this->savePath) {
-                    $file['savepath']  = $this->savePath;
+                    $file['savepath'] = $this->savePath;
                 } else {
-                    $file['savepath']  = $this->customPath;
+                    $file['savepath'] = $this->customPath;
                 }
 
                 if ($this->saveName) {
@@ -168,8 +168,8 @@ class CloudAttachModel
 
                 //移动设备上传的无后缀的图片，默认为jpg
                 if ($GLOBALS['fromMobile'] == true && empty($file['extension'])) {
-                    $file['extension']  = 'jpg';
-                    $file['savename']   = trim($file['savename'], '.').'.jpg';
+                    $file['extension'] = 'jpg';
+                    $file['savename'] = trim($file['savename'], '.').'.jpg';
                 } elseif ($this->autoCheck) {
                     if (!$this->check($file)) {
                         return false;
@@ -178,8 +178,8 @@ class CloudAttachModel
 
                 //计算hash
                 if (function_exists($this->hashType)) {
-                    $fun =  $this->hashType;
-                    $file['hash']   =  $fun($file['tmp_name']);
+                    $fun = $this->hashType;
+                    $file['hash'] = $fun($file['tmp_name']);
                 }
 
                 //上传到云服务器
@@ -200,7 +200,7 @@ class CloudAttachModel
                 unset($file['tmp_name'], $file['error'], $file_content);
 
                 $fileInfo[] = $file;
-                $isUpload   = true;
+                $isUpload = true;
             }
         }
 
@@ -209,7 +209,7 @@ class CloudAttachModel
 
             return true;
         } else {
-            $this->error  = '上传出错！文件不符合上传要求。';
+            $this->error = '上传出错！文件不符合上传要求。';
 
             return false;
         }
@@ -227,14 +227,14 @@ class CloudAttachModel
         foreach ($files as $file) {
             if (is_array($file['name'])) {
                 $keys = array_keys($file);
-                $count    =   count($file['name']);
-                for ($i=0; $i<$count; $i++) {
+                $count = count($file['name']);
+                for ($i = 0; $i < $count; $i++) {
                     foreach ($keys as $key) {
                         $fileArray[$i][$key] = $file[$key][$i];
                     }
                 }
             } else {
-                $fileArray   =   $files;
+                $fileArray = $files;
             }
             break;
         }
@@ -253,8 +253,8 @@ class CloudAttachModel
         switch ($errorNo) {
             case 1:
                 $size = ini_get('upload_max_filesize');
-                if (strpos($size, 'M')!==false || strpos($size, 'm')!==false) {
-                    $size = intval($size)*1024;
+                if (strpos($size, 'M') !== false || strpos($size, 'm') !== false) {
+                    $size = intval($size) * 1024;
                     $size = byte_format($size);
                 }
                 //edit by  yangjs
@@ -265,8 +265,8 @@ class CloudAttachModel
                 break;
             case 2:
                 $size = ini_get('upload_max_filesize');
-                if (strpos($size, 'M')!==false || strpos($size, 'm')!==false) {
-                    $size = intval($size)*1024;
+                if (strpos($size, 'M') !== false || strpos($size, 'm') !== false) {
+                    $size = intval($size) * 1024;
                     $size = byte_format($size);
                 }
                 //edit by  yangjs
@@ -302,7 +302,7 @@ class CloudAttachModel
      */
     private function check($file)
     {
-        if ($file['error']!== 0) {
+        if ($file['error'] !== 0) {
             //文件上传失败
             //捕获错误代码
             $this->error($file['error']);
@@ -325,7 +325,7 @@ class CloudAttachModel
         }
         //检查文件类型
         if (!$this->checkExt($file['extension'])) {
-            $this->error ='上传文件类型不允许';
+            $this->error = '上传文件类型不允许';
 
             return false;
         }

@@ -32,7 +32,7 @@
   #Response format.
     public $format = ''; // Only support json & xml for extension
     public $decodeFormat = 'json'; //default is json
-    public $_encode         ='utf-8';
+    public $_encode = 'utf-8';
   #Decode returned json data.
     //public $decode_json = true;
   #Contains the last HTTP headers returned.
@@ -41,7 +41,7 @@
      private $contentType;
      private $postFields;
      private static $paramsOnUrlMethod = array('GET','DELETE');
-     private static $supportExtension  = array('json','xml');
+     private static $supportExtension = array('json','xml');
   #For tmpFile
     private $file = null;
   #Set the useragnet.
@@ -73,17 +73,17 @@
      * @param $contentType String 
      * @return RESTClient
      */
-    public function call($url, $method, $postFields=null, $username=null, $password=null, $contentType=null)
+    public function call($url, $method, $postFields = null, $username = null, $password = null, $contentType = null)
     {
         if (strrpos($url, 'https://') !== 0 && strrpos($url, 'http://') !== 0 && !empty($this->format)) {
             $url = "{$this->api_url}{$url}.{$this->format}";
         }
 
-        $this->http_url        = $url;
-        $this->contentType    = $contentType;
-        $this->postFields    = $postFields;
+        $this->http_url = $url;
+        $this->contentType = $contentType;
+        $this->postFields = $postFields;
 
-        $url                = in_array($method, self::$paramsOnUrlMethod) ? $this->to_url() : $this->get_http_url();
+        $url = in_array($method, self::$paramsOnUrlMethod) ? $this->to_url() : $this->get_http_url();
 
         is_object($this->ch) or $this->__construct();
 
@@ -122,17 +122,17 @@
 
         return $response;
     }
-     public function call_fopen($url, $method, $postFields=null, $username=null, $password=null, $contentType=null)
+     public function call_fopen($url, $method, $postFields = null, $username = null, $password = null, $contentType = null)
      {
          if (strrpos($url, 'https://') !== 0 && strrpos($url, 'http://') !== 0 && !empty($this->format)) {
              $url = "{$this->api_url}{$url}.{$this->format}";
          }
 
-         $this->http_url        = $url;
-         $this->contentType    = $contentType;
-         $this->postFields    = $postFields;
+         $this->http_url = $url;
+         $this->contentType = $contentType;
+         $this->postFields = $postFields;
 
-         $url                = in_array($method, self::$paramsOnUrlMethod) ? $this->to_url() : $this->get_http_url();
+         $url = in_array($method, self::$paramsOnUrlMethod) ? $this->to_url() : $this->get_http_url();
          $params = array('http' => array(
                'method' => 'POST',
                'header' => 'Content-type: application/x-www-form-urlencoded'."\r\n",
@@ -162,7 +162,7 @@
      }
      public static function convertEncoding($source, $in, $out)
      {
-         $in    = strtoupper($in);
+         $in = strtoupper($in);
          $out = strtoupper($out);
          if ($in == 'UTF8') {
              $in = 'UTF-8';
@@ -170,7 +170,7 @@
          if ($out == 'UTF8') {
              $out = 'UTF-8';
          }
-         if ($in==$out) {
+         if ($in == $out) {
              return $source;
          }
 
@@ -240,14 +240,14 @@
       * @param $contentType String
       * @return RESTClient
       */
-     public function _POST($url, $params=null, $username=null, $password=null, $contentType=null)
+     public function _POST($url, $params = null, $username = null, $password = null, $contentType = null)
      {
          $response = $this->call($url, 'POST', $params, $username, $password, $contentType);
          //$this->convertEncoding($response,'utf-8',$this->_encode)
          return $this->json_foreach($this->parseResponse($response));
      }
 
-     public function _POST_FOPEN($url, $params=null, $username=null, $password=null, $contentType=null)
+     public function _POST_FOPEN($url, $params = null, $username = null, $password = null, $contentType = null)
      {
          $response = $this->call_fopen($url, 'POST', $params, $username, $password, $contentType);
 
@@ -263,17 +263,17 @@
      public function json_foreach($jsonArr)
      {
          if (is_object($jsonArr)) {
-             $jsonArr=get_object_vars($jsonArr);
+             $jsonArr = get_object_vars($jsonArr);
          }
-         foreach ($jsonArr as $k=>$v) {
+         foreach ($jsonArr as $k => $v) {
              if (is_array($v)) {
-                 $jsonArr[$k]=$this->json_foreach($v);
+                 $jsonArr[$k] = $this->json_foreach($v);
              } elseif (is_object($v)) {
-                 $v=get_object_vars($v);
-                 $jsonArr[$k]=$this->json_foreach($v);
+                 $v = get_object_vars($v);
+                 $jsonArr[$k] = $this->json_foreach($v);
              } else {
-                 $v=$this->convertEncoding($v, 'utf-8', $this->_encode);
-                 $jsonArr[$k]=$v;
+                 $v = $this->convertEncoding($v, 'utf-8', $this->_encode);
+                 $jsonArr[$k] = $v;
              }
          }
 
@@ -288,7 +288,7 @@
       * @param $contentType String
       * @return RESTClient
       */
-     public function _PUT($url, $params=null, $username=null, $password=null, $contentType=null)
+     public function _PUT($url, $params = null, $username = null, $password = null, $contentType = null)
      {
          $response = $this->call($url, 'PUT', $params, $username, $password, $contentType);
 
@@ -314,7 +314,7 @@
       * @param $password String
       * @return RESTClient
       */
-     public function _GET($url, $params=null, $username=null, $password=null)
+     public function _GET($url, $params = null, $username = null, $password = null)
      {
          $response = $this->call($url, 'GET', $params, $username, $password);
 
@@ -329,7 +329,7 @@
       * @param $password String
       * @return RESTClient
       */
-     public function _DELETE($url, $params=null, $username=null, $password=null)
+     public function _DELETE($url, $params = null, $username = null, $password = null)
      {
          #Modified by Edison tsai on 09:50 2010/11/26 for missing part
          $response = $this->call($url, 'DELETE', $params, $username, $password);
@@ -343,7 +343,7 @@
      * @param $ext	String, including json/xml
      * @return String
      */
-     public function parseResponse($resp, $ext='')
+     public function parseResponse($resp, $ext = '')
      {
          $ext = !in_array($ext, self::$supportExtension) ? $this->decodeFormat : $ext;
 
@@ -363,7 +363,7 @@
      * @param $toArray boolean, true for make it be array
      * @return String
      */
-      public static function xml_decode($data, $toArray=false)
+      public static function xml_decode($data, $toArray = false)
       {
           /* TODO: What to do with 'toArray'? Just write it as you need. */
             $data = simplexml_load_string($data);
@@ -438,7 +438,7 @@
      public function close()
      {
          curl_close($this->ch);
-         if ($this->file !=null) {
+         if ($this->file != null) {
              fclose($this->file);
          }
      }
@@ -457,9 +457,9 @@
       * @param $format String
       * @return bool
       */
-     public function setFormat($format=null)
+     public function setFormat($format = null)
      {
-         if ($format==null) {
+         if ($format == null) {
              return false;
          }
          $this->format = $format;
@@ -472,9 +472,9 @@
       * @param $format String
       * @return bool
       */
-     public function setDecodeFormat($format=null)
+     public function setDecodeFormat($format = null)
      {
-         if ($format==null) {
+         if ($format == null) {
              return false;
          }
          $this->decodeFormat = $format;
@@ -511,7 +511,7 @@
       */
      public function setMethod($method)
      {
-         $this->method=$method;
+         $this->method = $method;
      }
 
      /**
@@ -523,7 +523,7 @@
       */
      public function setParameters($params)
      {
-         $this->postFields=$params;
+         $this->postFields = $params;
      }
 
       /**

@@ -15,30 +15,30 @@ class IndexAction extends BaseAction
         $isPost = $_SERVER['REQUEST_METHOD'] == 'POST';
         if ($isPost) {
             $post ['since_id'] = intval($_POST['new_id']);
-            $post ['max_id']   = intval($_POST['load_id']);
-            $post ['page']     = 1;
-            $post ['count']    = isset($_POST['new_id'])?999:20;
+            $post ['max_id'] = intval($_POST['load_id']);
+            $post ['page'] = 1;
+            $post ['count'] = isset($_POST['new_id']) ? 999 : 20;
         } else {
             $post ['since_id'] = 0;
-            $post ['max_id']   = 0;
-            $post ['page']     = 1;
-            $post ['count']    = 20;
+            $post ['max_id'] = 0;
+            $post ['page'] = 1;
+            $post ['count'] = 20;
         }
 
         $weibolist = model('Feed')->getOriginalWeiboFor3G($post);
         $weibolist = $this->__formatByContent($weibolist);
         $this->assign('weibolist', $weibolist);
 
-        $listCount  = count($weibolist);
+        $listCount = count($weibolist);
         $maxWeiboID = $weibolist['0']['weibo_id'];
-        $minWeiboID = $weibolist[$listCount-1]['weibo_id'];
+        $minWeiboID = $weibolist[$listCount - 1]['weibo_id'];
 
         if ($isPost) {
             $data['status'] = 1;
-            $data['data']   = $this->fetch('_feedlist');
-            $data['maxId']  = $maxWeiboID;
-            $data['minId']  = $minWeiboID;
-            $data['count']  = $listCount;
+            $data['data'] = $this->fetch('_feedlist');
+            $data['maxId'] = $maxWeiboID;
+            $data['minId'] = $minWeiboID;
+            $data['count'] = $listCount;
             echo json_encode($data);
             exit;
         } else {
@@ -57,14 +57,14 @@ class IndexAction extends BaseAction
         $isPost = $_SERVER['REQUEST_METHOD'] == 'POST';
         if ($isPost) {
             $post ['since_id'] = intval($_POST['new_id']);
-            $post ['max_id']   = intval($_POST['load_id']);
-            $post ['page']     = 1;
-            $post ['count']    = isset($_POST['new_id'])?999:20;
+            $post ['max_id'] = intval($_POST['load_id']);
+            $post ['page'] = 1;
+            $post ['count'] = isset($_POST['new_id']) ? 999 : 20;
         } else {
             $post ['since_id'] = 0;
-            $post ['max_id']   = 0;
-            $post ['page']     = 1;
-            $post ['count']    = 20;
+            $post ['max_id'] = 0;
+            $post ['page'] = 1;
+            $post ['count'] = 20;
         }
 
         /* # 取得指定fids */
@@ -82,16 +82,16 @@ class IndexAction extends BaseAction
         //$count = M('feed')->where($map)->count();
         //$this->assign ( 'count', $count );
 
-        $listCount  = count($weibolist);
+        $listCount = count($weibolist);
         $maxWeiboID = $weibolist['0']['weibo_id'];
-        $minWeiboID = $weibolist[$listCount-1]['weibo_id'];
+        $minWeiboID = $weibolist[$listCount - 1]['weibo_id'];
 
         if ($isPost) {
             $data['status'] = 1;
-            $data['data']   = $this->fetch('_feedlist');
-            $data['maxId']  = $maxWeiboID;
-            $data['minId']  = $minWeiboID;
-            $data['count']  = $listCount;
+            $data['data'] = $this->fetch('_feedlist');
+            $data['maxId'] = $maxWeiboID;
+            $data['minId'] = $minWeiboID;
+            $data['count'] = $listCount;
             echo json_encode($data);
             exit;
         } else {
@@ -195,14 +195,14 @@ class IndexAction extends BaseAction
         $isPost = $_SERVER['REQUEST_METHOD'] == 'POST';
         if ($isPost) {
             $post ['since_id'] = intval($_POST['new_id']);
-            $post ['max_id']   = intval($_POST['load_id']);
-            $post ['page']     = 1;
-            $post ['count']    = isset($_POST['new_id'])?999:20;
+            $post ['max_id'] = intval($_POST['load_id']);
+            $post ['page'] = 1;
+            $post ['count'] = isset($_POST['new_id']) ? 999 : 20;
         } else {
             $post ['since_id'] = 0;
-            $post ['max_id']   = 0;
-            $post ['page']     = 1;
-            $post ['count']    = 20;
+            $post ['max_id'] = 0;
+            $post ['page'] = 1;
+            $post ['count'] = 20;
         }
 
         $weibolist = model('Feed')->friends_timeline(
@@ -218,16 +218,16 @@ class IndexAction extends BaseAction
         //$count = M('feed')->where($map)->count();
         //$this->assign ( 'count', $count );
 
-        $listCount  = count($weibolist);
+        $listCount = count($weibolist);
         $maxWeiboID = $weibolist['0']['weibo_id'];
-        $minWeiboID = $weibolist[$listCount-1]['weibo_id'];
+        $minWeiboID = $weibolist[$listCount - 1]['weibo_id'];
 
         if ($isPost) {
             $data['status'] = 1;
-            $data['data']   = $this->fetch('_feedlist');
-            $data['maxId']  = $maxWeiboID;
-            $data['minId']  = $minWeiboID;
-            $data['count']  = $listCount;
+            $data['data'] = $this->fetch('_feedlist');
+            $data['maxId'] = $maxWeiboID;
+            $data['minId'] = $minWeiboID;
+            $data['count'] = $listCount;
             echo json_encode($data);
             exit;
         } else {
@@ -633,15 +633,15 @@ class IndexAction extends BaseAction
     public function msgbox()
     {
         $mcount = D('UserCount')->getUnreadCount($this->mid);
-        $memus  = array('atme', 'comment', 'message', 'notify');
+        $memus = array('atme', 'comment', 'message', 'notify');
         $selected = array(
             'atme' => false,
             'comment' => false,
             'message' => false,
-            'notify'  => false,
+            'notify' => false,
         );
         foreach ($selected as $memu => $value) {
-            if ($mcount['unread_'.$memu]>0) {
+            if ($mcount['unread_'.$memu] > 0) {
                 $selected[$memu] = true;
                 break; //跳出循环
             }

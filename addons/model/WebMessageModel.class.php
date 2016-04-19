@@ -98,7 +98,7 @@ class WebMessageModel
         if ($count <= 1) {
             return false;
         }
-        $title = isset($title)?$this->htmlEncode($title):null;
+        $title = isset($title) ? $this->htmlEncode($title) : null;
         $uids_sort = array_keys($users);
         asort($uids_sort);
         // 组装数据并添加到room表中,得到room_id
@@ -113,7 +113,7 @@ class WebMessageModel
         $roomId = $this->room()->add($room);
         if ($roomId) {
             $room['list_id'] = $roomId;
-            $time  = $room['mtime'];
+            $time = $room['mtime'];
             $table = $this->table('message_member');
             $sql = "INSERT INTO `{$table}` (`list_id`,`member_uid`,`new`,`message_num`,`ctime`,`list_ctime`) VALUES ";
             foreach ($users as $uid => $user) {
@@ -212,7 +212,7 @@ class WebMessageModel
             unset($users[$uid]);
         }
         // 将成员添加到房间
-        $time  = time();
+        $time = time();
         $table = $this->table('message_member');
         $sql_values = '';
         foreach ($users as $user) {
@@ -271,7 +271,7 @@ class WebMessageModel
                         'room_id' => $roomId,
                         'attach' => array(
                             'notify_type' => 'quit_group_room',
-                            'quit_uid'   => $uid,
+                            'quit_uid' => $uid,
                             'quit_uname' => getUserName($uid),
                             'room_member_num' => $member_num['member_num'],
                             'room_master_uid' => $member_num['master_uid'],
@@ -305,14 +305,14 @@ class WebMessageModel
         }
         // 设置房间信息
         $where = '`list_id`='.intval($roomId);
-        $sets = array('title'=>$this->htmlEncode(trim($data['title'])), 'mtime'=>time());
+        $sets = array('title' => $this->htmlEncode(trim($data['title'])), 'mtime' => time());
         if ($this->room()->where($where)->save($sets)) {
             // 发消息
             $this->sendMessage(array(
                 'room_id' => $roomId,
                 'attach' => array(
                     'notify_type' => 'set_room',
-                    'room_info'   => array(
+                    'room_info' => array(
                         'title' => trim($data['title']),
                         'mtime' => $sets['mtime'],
                     ),
@@ -405,7 +405,7 @@ class WebMessageModel
         if ($page) {
             $data = M()->findPageBySql($sql, null, $limit < 0 ? null : $limit);
             if (isset($data['data'])) {
-                $list =& $data['data'];
+                $list = & $data['data'];
             } else {
                 $list = null;
             }
@@ -414,7 +414,7 @@ class WebMessageModel
                 $sql .= " LIMIT {$limit}";
             }
             $data = M()->query($sql);
-            $list =& $data;
+            $list = & $data;
         }
         if ($list) {
             foreach ($list as $key => &$val) {
@@ -425,11 +425,11 @@ class WebMessageModel
                 $lastMessage = @unserialize($val['last_message']);
                 if (is_array($lastMessage)) {
                     $val['last_message'] = array(
-                        'message_id' => isset($lastMessage['message_id'])?$lastMessage['message_id']:null,
-                        'content' => isset($lastMessage['content'])?$lastMessage['content']:'',
-                        'type' => isset($lastMessage['type'])?$lastMessage['type']:'text',
-                        'mtime' => isset($lastMessage['mtime'])?$lastMessage['mtime']:'0',
-                        'from_uid' => isset($lastMessage['from_uid'])?$lastMessage['from_uid']:'0',
+                        'message_id' => isset($lastMessage['message_id']) ? $lastMessage['message_id'] : null,
+                        'content' => isset($lastMessage['content']) ? $lastMessage['content'] : '',
+                        'type' => isset($lastMessage['type']) ? $lastMessage['type'] : 'text',
+                        'mtime' => isset($lastMessage['mtime']) ? $lastMessage['mtime'] : '0',
+                        'from_uid' => isset($lastMessage['from_uid']) ? $lastMessage['from_uid'] : '0',
                     );
                 } else {
                     $val['last_message'] = array();
@@ -480,7 +480,7 @@ class WebMessageModel
             }
         }
         foreach ($data as $key => &$val) {
-            $val['member_list'] = isset($appends[$val['list_id']])?$appends[$val['list_id']]:array();
+            $val['member_list'] = isset($appends[$val['list_id']]) ? $appends[$val['list_id']] : array();
         }
         if ($single) {
             return current($data);
@@ -513,7 +513,7 @@ class WebMessageModel
             return array();
         }
 
-        $direction = $direction=='lt' ? 'lt' : 'gt';
+        $direction = $direction == 'lt' ? 'lt' : 'gt';
         $map = array( 'list_id' => $roomId,);
         $messageId = intval($messageId);
         if ($messageId > 0) {
@@ -597,12 +597,12 @@ class WebMessageModel
         if ($isNotify) {
             $type = 'notify';
         } else {
-            $type = isset($message['message_type'])?$message['message_type']:false;
+            $type = isset($message['message_type']) ? $message['message_type'] : false;
             if (!$type || !in_array($type, array('text', 'voice', 'image', 'position', 'card'))) {
                 return false;
             }
         }
-        $roomId = isset($message['room_id'])?intval($message['room_id']):0;
+        $roomId = isset($message['room_id']) ? intval($message['room_id']) : 0;
         $toUids = $this->member()->field('member_uid')->where('list_id='.$roomId)->select();
         if ($toUids) {
             $toUids = array_column($toUids, 'member_uid');
@@ -615,10 +615,10 @@ class WebMessageModel
         $data['from_uid'] = $this->userId;
         $data['type'] = $type;
         $data['list_id'] = $roomId;
-        $data['mtime']  = time();
+        $data['mtime'] = time();
         $return = $data;
         if ($type == 'notify') { // 通知动态信息，仅内部发送
-            $data['content'] = @trim($message['content'])?:'[动态]';
+            $data['content'] = @trim($message['content']) ?: '[动态]';
             $data['content'] = $this->htmlEncode($data['content']);
             $return['content'] = $data['content'];
             if (@is_array($message['attach'])) {
@@ -645,7 +645,7 @@ class WebMessageModel
             $data['content'] = $return['content'] = '[名片]';
             $return['uid'] = $message['uid'];
             $data['attach_ids'] = serialize(array(
-                'uid'=>$message['uid'],
+                'uid' => $message['uid'],
             ));
         } else { // 发送 带附件的消息
             $attachId = intval($message['attach_id']);
@@ -659,14 +659,14 @@ class WebMessageModel
                 }
                 $data['attach_ids'] = serialize(array(
                     'attach_id' => $attachId,
-                    'length'    => $message['length'],
+                    'length' => $message['length'],
                 ));
                 $return['length'] = $message['length'];
                 $data['content'] = $return['content'] = '[语音]';
             } elseif ($type == 'position') { // 位置消息
-                $latitude = @trim($message['latitude'])?:null;
-                $longitude = @trim($message['longitude'])?:null;
-                $location = @trim($message['location'])?:null;
+                $latitude = @trim($message['latitude']) ?: null;
+                $longitude = @trim($message['longitude']) ?: null;
+                $location = @trim($message['location']) ?: null;
                 if (!is_numeric($latitude) || !is_numeric($longitude) || !$location) {
                     return false;
                 }
@@ -674,7 +674,7 @@ class WebMessageModel
                     'attach_id' => $attachId,
                     'latitude' => $latitude,
                     'longitude' => $longitude,
-                    'location'  => $this->htmlEncode($location),
+                    'location' => $this->htmlEncode($location),
                 ));
                 $return['latitude'] = $latitude;
                 $return['longitude'] = $longitude;
@@ -725,7 +725,7 @@ class WebMessageModel
             if ($isPush) {
                 return $return;
             } else {
-                return array('to_uids'=>$toUids, 'return'=>$return);
+                return array('to_uids' => $toUids, 'return' => $return);
             }
         }
 

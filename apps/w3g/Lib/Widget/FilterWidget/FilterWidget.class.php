@@ -29,14 +29,14 @@ class FilterWidget extends Widget
                 // 获取面包屑
                 $path[] = '标签';
                 if ($var['cid'] == 0) {
-                    $path[] = '<a href="'.U('people/Index/index', array('cid'=>$var['cid'], 'area'=>$var['area'], 'sex'=>$var['sex'], 'verify'=>$var['verify'], 'type'=>$var['type'])).'">全部</a>';
+                    $path[] = '<a href="'.U('people/Index/index', array('cid' => $var['cid'], 'area' => $var['area'], 'sex' => $var['sex'], 'verify' => $var['verify'], 'type' => $var['type'])).'">全部</a>';
                 } else {
                     $category = model('UserCategory')->where('user_category_id='.$var['cid'])->find();
                     if ($category['pid'] != 0) {
                         $pCategory = model('UserCategory')->where('user_category_id='.$category['pid'])->find();
-                        $path[] = '<a href="'.U('people/Index/index', array('cid'=>$pCategory['user_category_id'], 'area'=>$var['area'], 'sex'=>$var['sex'], 'verify'=>$var['verify'], 'type'=>$var['type'])).'">'.$pCategory['title'].'</a>';
+                        $path[] = '<a href="'.U('people/Index/index', array('cid' => $pCategory['user_category_id'], 'area' => $var['area'], 'sex' => $var['sex'], 'verify' => $var['verify'], 'type' => $var['type'])).'">'.$pCategory['title'].'</a>';
                     }
-                    $path[] = '<a href="'.U('people/Index/index', array('cid'=>$var['cid'], 'area'=>$var['area'], 'sex'=>$var['sex'], 'verify'=>$var['verify'], 'type'=>$var['type'])).'">'.$category['title'].'</a>';
+                    $path[] = '<a href="'.U('people/Index/index', array('cid' => $var['cid'], 'area' => $var['area'], 'sex' => $var['sex'], 'verify' => $var['verify'], 'type' => $var['type'])).'">'.$category['title'].'</a>';
                 }
                 $var['path'] = implode('&nbsp;&gt;&nbsp;', $path);
                 break;
@@ -46,24 +46,24 @@ class FilterWidget extends Widget
                 $path = array();
                 $path[] = '地区';
                 if ($var['area'] == 0) {
-                    $path[] = '<a href="'.U('people/Index/index', array('cid'=>$var['cid'], 'area'=>$var['area'], 'sex'=>$var['sex'], 'verify'=>$var['verify'], 'type'=>'area')).'">全部</a>';
+                    $path[] = '<a href="'.U('people/Index/index', array('cid' => $var['cid'], 'area' => $var['area'], 'sex' => $var['sex'], 'verify' => $var['verify'], 'type' => 'area')).'">全部</a>';
                 } else {
                     $pid = model('Area')->where('area_id='.$var['area'])->find();
                     if ($pid['pid'] != 0) {
                         $ppid = model('Area')->where('area_id='.$pid['pid'])->getField('pid');
-                        $ppInfo =  model('Area')->where('area_id='.$ppid)->find();
+                        $ppInfo = model('Area')->where('area_id='.$ppid)->find();
                         if ($ppInfo) {
-                            $path[] = '<a href="'.U('people/Index/index', array('cid'=>$var['cid'], 'area'=>$ppInfo['area_id'], 'sex'=>$var['sex'], 'verify'=>$var['verify'], 'type'=>'area')).'">'.$ppInfo['title'].'</a>';
+                            $path[] = '<a href="'.U('people/Index/index', array('cid' => $var['cid'], 'area' => $ppInfo['area_id'], 'sex' => $var['sex'], 'verify' => $var['verify'], 'type' => 'area')).'">'.$ppInfo['title'].'</a>';
                         }
                     }
                     $name = model('Area')->where('area_id='.$pid['pid'])->getField('title');
                     if ($name) {
-                        $path[] = '<a href="'.U('people/Index/index', array('cid'=>$var['cid'], 'area'=>$pid['pid'], 'sex'=>$var['sex'], 'verify'=>$var['verify'], 'type'=>'area')).'">'.$name.'</a>';
+                        $path[] = '<a href="'.U('people/Index/index', array('cid' => $var['cid'], 'area' => $pid['pid'], 'sex' => $var['sex'], 'verify' => $var['verify'], 'type' => 'area')).'">'.$name.'</a>';
                     }
 
                     if ($pid) {
-                        $pInfo =  model('Area')->where('area_id='.$var['area'])->find();
-                        $path[] = '<a href="'.U('people/Index/index', array('cid'=>$var['cid'], 'area'=>$var['area'], 'sex'=>$var['sex'], 'verify'=>$var['verify'], 'type'=>'area')).'">'.$pInfo['title'].'</a>';
+                        $pInfo = model('Area')->where('area_id='.$var['area'])->find();
+                        $path[] = '<a href="'.U('people/Index/index', array('cid' => $var['cid'], 'area' => $var['area'], 'sex' => $var['sex'], 'verify' => $var['verify'], 'type' => 'area')).'">'.$pInfo['title'].'</a>';
                     }
                 }
                 $var['path'] = implode('&nbsp;&gt;&nbsp;', $path);

@@ -17,7 +17,7 @@ class AreaWidget extends Widget
     {
         empty($data['tpl']) && $data['tpl'] = 'loadArea';
 
-        if ($data['tpl'] =='loadCity') {
+        if ($data['tpl'] == 'loadCity') {
             if (empty($data['curPro'])) {
                 $info = model('Area')->getAreaById($data['curCity']);
                 $data['city_ids'] = $info['pid'].','.$data['curCity'];
@@ -26,7 +26,7 @@ class AreaWidget extends Widget
             }
         }
         if (!empty($data['area'])) {
-            $data['city_ids'] .=','.$data['area'];
+            $data['city_ids'] .= ','.$data['area'];
         }
 
         if ($data['tpl'] == 'selectArea') {

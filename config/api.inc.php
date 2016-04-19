@@ -5,8 +5,8 @@
  */
 return array(
     'access' => array(
-        'Oauth/*'        => true,
+        'Oauth/*' => true,
         'ProductShare/*' => true,
-        'Public/*'       => true,
+        'Public/*' => true,
     ),
 );

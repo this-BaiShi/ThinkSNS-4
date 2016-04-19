@@ -2,6 +2,7 @@
 
 /** *  * @author jason * */require_once 'BaseApi.class.php';class UserApi extends BaseApi
 {
+
     //获取用户信息    public function profile()
     {
         if (empty($this->data['uid'])) {
@@ -17,7 +18,7 @@
         $data['thread_count'] = $content['threads'];
         $data['following_count'] = $content['following'];
         $data['follower_count'] = $content['follower'];
-        $data['feed_count'] = $content['feeds'];        //$data['sex'] = '';  //TODO 待补充        $data['user_group'] = array(0=>array(            'user_group_id'=>$content['groupid'],            'user_group_name'=>$content['group']['grouptitle'],            'user_group_icon'=>$content['group']['icon']        ));        //$data['medals'] = array(); //TODO 待补充        return $data;
+        $data['feed_count'] = $content['feeds'];        //$data['sex'] = '';  //TODO 待补充        $data['user_group'] = array(0 => array(            'user_group_id' => $content['groupid'],            'user_group_name' => $content['group']['grouptitle'],            'user_group_icon' => $content['group']['icon']        ));        //$data['medals'] = array(); //TODO 待补充        return $data;
     }
 
     /**	 * 上传头像 API	 * 传入的头像变量 $_FILES['Filedata']	 */    public function upload_face()
@@ -74,7 +75,7 @@
 
     //获取我收藏的帖子    public function myfavthread()
     {
-        $page = $this->data['page'] ? $this->data['page']: 1;
+        $page = $this->data['page'] ? $this->data['page'] : 1;
         $content = $this->getContentFormDiscuz('myfavthread', '&page='.$page);
 
         return $content;

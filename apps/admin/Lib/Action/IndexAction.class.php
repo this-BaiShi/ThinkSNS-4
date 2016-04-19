@@ -12,11 +12,11 @@ class IndexAction extends AdministratorAction
     public function index()
     {
         $nav = array();
-        foreach ($this->navList as $k=>$v) {
+        foreach ($this->navList as $k => $v) {
             array_push($nav, array(
-                'name'    => L('PUBLIC_APPNAME_'.strtoupper($k)),
+                'name' => L('PUBLIC_APPNAME_'.strtoupper($k)),
                 'appname' => $k,
-                'url'     => $v,
+                'url' => $v,
             ));
         }
         $this->assign('nav', $nav);

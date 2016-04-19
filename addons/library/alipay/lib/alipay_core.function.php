@@ -16,12 +16,12 @@
  */
 function createLinkstring($para)
 {
-    $arg  = '';
+    $arg = '';
     while (list($key, $val) = each($para)) {
-        $arg.=$key.'='.$val.'&';
+        $arg .= $key.'='.$val.'&';
     }
     //去掉最后一个&字符
-    $arg = substr($arg, 0, count($arg)-2);
+    $arg = substr($arg, 0, count($arg) - 2);
 
     //如果存在转义字符，那么去掉转义
     if (get_magic_quotes_gpc()) {
@@ -37,12 +37,12 @@ function createLinkstring($para)
  */
 function createLinkstringUrlencode($para)
 {
-    $arg  = '';
+    $arg = '';
     while (list($key, $val) = each($para)) {
-        $arg.=urlencode($key).'='.urlencode($val).'&';
+        $arg .= urlencode($key).'='.urlencode($val).'&';
     }
     //去掉最后一个&字符
-    $arg = substr($arg, 0, count($arg)-2);
+    $arg = substr($arg, 0, count($arg) - 2);
 
     //如果存在转义字符，那么去掉转义
     if (get_magic_quotes_gpc()) {
@@ -86,7 +86,7 @@ function argSort($para)
  * 注意：服务器需要开通fopen配置
  * @param $word 要写入日志里的文本内容 默认值：空值
  */
-function logResult($word='')
+function logResult($word = '')
 {
     $fp = fopen('log.txt', 'a');
     flock($fp, LOCK_EX) ;
@@ -161,9 +161,9 @@ function charsetEncode($input, $_output_charset, $_input_charset)
 {
     $output = '';
     if (!isset($_output_charset)) {
-        $_output_charset  = $_input_charset;
+        $_output_charset = $_input_charset;
     }
-    if ($_input_charset == $_output_charset || $input ==null) {
+    if ($_input_charset == $_output_charset || $input == null) {
         $output = $input;
     } elseif (function_exists('mb_convert_encoding')) {
         $output = mb_convert_encoding($input, $_output_charset, $_input_charset);
@@ -186,9 +186,9 @@ function charsetDecode($input, $_input_charset, $_output_charset)
 {
     $output = '';
     if (!isset($_input_charset)) {
-        $_input_charset  = $_input_charset ;
+        $_input_charset = $_input_charset ;
     }
-    if ($_input_charset == $_output_charset || $input ==null) {
+    if ($_input_charset == $_output_charset || $input == null) {
         $output = $input;
     } elseif (function_exists('mb_convert_encoding')) {
         $output = mb_convert_encoding($input, $_output_charset, $_input_charset);

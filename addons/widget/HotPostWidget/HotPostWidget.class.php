@@ -15,13 +15,13 @@ class HotPostWidget extends Widget
      */
     public function render($data)
     {
-        if ($data['type']==1) {
+        if ($data['type'] == 1) {
             $map['recommend'] = 1;
             $map['lock'] = 0;
             $list = model('Cache')->get('feed_topic_recommend');
             if (!$list) {
                 $list = model('FeedTopic')->where($map)->order('count desc')->limit($data['limit'])->findAll();
-                !$list && $list=1;
+                !$list && $list = 1;
                 model('Cache')->set('feed_topic_recommend', $list, 86400);
             }
             $var['topic_list'] = $list;

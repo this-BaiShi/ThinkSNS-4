@@ -111,13 +111,13 @@ class BaiduUtils
         //$ch = $fetch->getHandle();
 
         $curl_opts = array(
-            CURLOPT_CONNECTTIMEOUT    => 3,
-            CURLOPT_TIMEOUT            => 5,
-            CURLOPT_USERAGENT        => 'baidu-apiclient-php-2.0',
-            CURLOPT_HTTP_VERSION    => CURL_HTTP_VERSION_1_1,
-            CURLOPT_RETURNTRANSFER    => true,
-            CURLOPT_HEADER            => false,
-            CURLOPT_FOLLOWLOCATION    => false,
+            CURLOPT_CONNECTTIMEOUT => 3,
+            CURLOPT_TIMEOUT => 5,
+            CURLOPT_USERAGENT => 'baidu-apiclient-php-2.0',
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HEADER => false,
+            CURLOPT_FOLLOWLOCATION => false,
         );
 
         if (stripos($url, 'https://') === 0) {
@@ -323,7 +323,7 @@ class BaiduUtils
             $info = mime_content_type($filename);
         }
 
-        return empty($info)? 'application/octet-stream': $info;
+        return empty($info) ? 'application/octet-stream' : $info;
     }
 }
 

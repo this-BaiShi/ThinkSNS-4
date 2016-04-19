@@ -172,11 +172,11 @@ class GroupAction extends BaseAction
         $this->need_login();
 
         // $group_list = D ( 'Group', 'group' )->getAllMyGroup ( $this->uid, 1 );
-        $group_manage =  D('group')->mymanagegroup($this->uid, 1);
+        $group_manage = D('group')->mymanagegroup($this->uid, 1);
         $this->_getGroupInfo($group_manage);
-        $group_join =  D('group')->myjoingroup($this->uid, 1);
+        $group_join = D('group')->myjoingroup($this->uid, 1);
         $this->_getGroupInfo($group_join);
-        $db_prefix  = C('DB_PREFIX');
+        $db_prefix = C('DB_PREFIX');
         $group_list = D('group')->field('g.id,g.name,g.type,g.membercount,g.logo,g.cid0,g.ctime,g.status')
                         ->table("{$db_prefix}group AS g LEFT JOIN {$db_prefix}user_follow AS f ON f.uid={$this->uid} AND g.uid=f.fid")
                         ->where('g.status=1 AND g.is_del=0 AND f.fid<>\'\'')
@@ -762,7 +762,7 @@ class GroupAction extends BaseAction
         //}
         //dump($this->groupinfo);exit;
         $d['feed_type'] = t($_REQUEST['feed_type']) ? t($_REQUEST['feed_type']) : '';
-        $d['feed_key']  = t($_REQUEST['feed_key']) ? t($_REQUEST['feed_key']) : '';
+        $d['feed_key'] = t($_REQUEST['feed_key']) ? t($_REQUEST['feed_key']) : '';
         $this->assign($d);
         $this->assign('group', $this->groupinfo);
         $this->setTitle($this->groupinfo['name'].' - '.$this->groupinfo['intro']);
@@ -898,7 +898,7 @@ class GroupAction extends BaseAction
         }
         // 类型描述术语 TODO:放到统一表里面
         $d['tabHash'] = array(
-                'feed'    => L('PUBLIC_WEIBO'),            // 分享
+                'feed' => L('PUBLIC_WEIBO'),            // 分享
         );
 
         $d['tab'] = model('Comment')->getTab($map);
@@ -908,8 +908,8 @@ class GroupAction extends BaseAction
         $t = t($_GET['t']);
         !empty($t) && $map['table'] = $t;
         $list = D('GroupComment')->setAppName(t($_GET['app_name']))->getCommentList($map, 'comment_id DESC', null, true);
-        foreach ($list['data'] as $k=>$v) {
-            if ($v['sourceInfo']['app']=='weiba') {
+        foreach ($list['data'] as $k => $v) {
+            if ($v['sourceInfo']['app'] == 'weiba') {
                 $list['data'][$k]['sourceInfo']['source_body'] = str_replace($v['sourceInfo']['row_id'], $v['comment_id'], $v['sourceInfo']['source_body']);
             }
         }

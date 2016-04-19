@@ -7,7 +7,7 @@
 class WidgetModel extends Model
 {
     protected $tableName = 'widget';
-    protected $fields = array(0=>'id',1=>'name',2=>'desc',3=>'attrs',4=>'diyattrs',5=>'appname','_autoinc'=>true,'_pk'=>'id');
+    protected $fields = array(0 => 'id',1 => 'name',2 => 'desc',3 => 'attrs',4 => 'diyattrs',5 => 'appname','_autoinc' => true,'_pk' => 'id');
 
     /**
      * 获取自定义Widget列表 - 未分页型
@@ -70,7 +70,7 @@ class WidgetModel extends Model
         foreach ($widget_list['widget_list'] as $k => $v) {
             if (in_array($v['appname'].':'.$v['name'], $targetList)) {
                 // 已经存在
-                $wl[] = array('name'=>$v['name'], 'appname'=>$v['appname']);
+                $wl[] = array('name' => $v['name'], 'appname' => $v['appname']);
                 $wattr[$v['appname'].':'.$v['name']] = $widget_list['widget_diyatts'][$v['appname'].':'.$v['name']];
                 $key = array_search($v['appname'].':'.$v['name'], $targetList);
                 unset($targetList[$key]);
@@ -82,7 +82,7 @@ class WidgetModel extends Model
                 continue;
             }
             $info = $this->getWidget($v);
-            $wl[] = array('name'=>$info['name'], 'appname'=>$info['appname']);
+            $wl[] = array('name' => $info['name'], 'appname' => $info['appname']);
             $wattr[$info['appname'].':'.$info['name']] = unserialize($info['diyattrs']);
         }
 
@@ -125,7 +125,7 @@ class WidgetModel extends Model
         $s = array();
         foreach ($target as $v) {
             $t = explode(':', $v);
-            $s[] = array('name'=>$t[1], 'appname'=>$t[0]);
+            $s[] = array('name' => $t[1], 'appname' => $t[0]);
         }
         $save['widget_list'] = serialize($s);
         $map['uid'] = $uid;
@@ -186,7 +186,7 @@ class WidgetModel extends Model
         $wl = array();
         foreach ($widget_list['widget_list'] as $k => $v) {
             if ($v['appname'].':'.$v['name'] != $target) {
-                $wl[] = array('name'=>$v['name'], 'appname'=>$v['appname']);
+                $wl[] = array('name' => $v['name'], 'appname' => $v['appname']);
             }
         }
 
@@ -243,7 +243,7 @@ class WidgetModel extends Model
             return false;
         }
 
-        if (($info  = model('Cache')->get('User_Widget_'.$diyId.'_'.$uid)) === false) {
+        if (($info = model('Cache')->get('User_Widget_'.$diyId.'_'.$uid)) === false) {
             $map['diy_id'] = $diyId;
             $map['uid'] = $uid;
             if (!$info = $this->table($this->tablePrefix.'widget_user')->where($map)->find()) {
@@ -293,7 +293,7 @@ class WidgetModel extends Model
                 continue;
             }
             $v = explode(':', $v);
-            $t[] = array('name'=>$v[1],'appname'=>$v[0]);
+            $t[] = array('name' => $v[1],'appname' => $v[0]);
         }
         $map['id'] = $id;
         $save['widget_list'] = serialize($t);

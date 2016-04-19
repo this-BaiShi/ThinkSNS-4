@@ -54,7 +54,7 @@ class IndexAction extends Action
         //banner,desc
         $channel_category = D('channelCategory')->where('channel_category_id='.$cid)->getField('ext');
         $channel_category = unserialize($channel_category);
-        $channel_banner =  getImageUrlByAttachId($channel_category['attach'], 1000);
+        $channel_banner = getImageUrlByAttachId($channel_category['attach'], 1000);
         $this->assign('channel_banner', $channel_banner);
         $this->assign('channel_desc', $channel_category['desc']);
 

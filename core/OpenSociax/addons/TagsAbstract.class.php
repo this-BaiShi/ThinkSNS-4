@@ -73,12 +73,12 @@ abstract class TagsAbstract
         $ext ['templatePath'] = $this->getTemplateFile();
         $ext ['attr'] = serialize($attr);
         $ext ['tagInfo'] ['name'] = $tagInfo ['tagInfo'] ['name'];
-        $map ['cacheTime'] = isset($attr['cacheTime'])?intval($attr['cacheTime']):0;
+        $map ['cacheTime'] = isset($attr['cacheTime']) ? intval($attr['cacheTime']) : 0;
         $ext ['tagInfo'] ['path'] = $tagInfo ['tagInfo'] ['path'];
         $map ['ext'] = serialize($ext);
         $map ['cTime'] = time();
         $map ['mTime'] = time();
-        $result =  model('DiyWidget')->add($map);
+        $result = model('DiyWidget')->add($map);
 
         return $this->sign;
     }
@@ -86,25 +86,25 @@ abstract class TagsAbstract
     protected function replaceContent($content)
     {
         // 系统默认的特殊变量替换
-        $replace =  array(
-            '../Public'        =>    APP_PUBLIC_PATH,// 项目公共目录
-            '__PUBLIC__'    =>    WEB_PUBLIC_PATH,// 站点公共目录
-            '__TMPL__'        =>    APP_TMPL_PATH,  // 项目模板目录
-            '__ROOT__'        =>    __ROOT__,       // 当前网站地址
-            '__APP__'        =>    __APP__,        // 当前项目地址
-            '__URL__'        =>    __URL__,        // 当前模块地址
-            '__ACTION__'    =>    __ACTION__,     // 当前操作地址
-            '__SELF__'        =>    __SELF__,       // 当前页面地址
-            '__THEME__'        =>    __THEME__,        // 主题页面地址
-            '__UPLOAD__'    =>    __UPLOAD__,        // 上传文件地址
+        $replace = array(
+            '../Public' => APP_PUBLIC_PATH,// 项目公共目录
+            '__PUBLIC__' => WEB_PUBLIC_PATH,// 站点公共目录
+            '__TMPL__' => APP_TMPL_PATH,  // 项目模板目录
+            '__ROOT__' => __ROOT__,       // 当前网站地址
+            '__APP__' => __APP__,        // 当前项目地址
+            '__URL__' => __URL__,        // 当前模块地址
+            '__ACTION__' => __ACTION__,     // 当前操作地址
+            '__SELF__' => __SELF__,       // 当前页面地址
+            '__THEME__' => __THEME__,        // 主题页面地址
+            '__UPLOAD__' => __UPLOAD__,        // 上传文件地址
         );
         if (C('TOKEN_ON')) {
             if (strpos($content, '{__TOKEN__}')) {
                 // 指定表单令牌隐藏域位置
-                $replace['{__TOKEN__}'] =  $this->buildFormToken();
+                $replace['{__TOKEN__}'] = $this->buildFormToken();
             } elseif (strpos($content, '{__NOTOKEN__}')) {
                 // 标记为不需要令牌验证
-                $replace['{__NOTOKEN__}'] =  '';
+                $replace['{__NOTOKEN__}'] = '';
             } elseif (preg_match('/<\/form(\s*)>/is', $content, $match)) {
                 // 智能生成表单令牌隐藏域
                 $replace[$match[0]] = $this->buildFormToken().$match[0];
@@ -112,7 +112,7 @@ abstract class TagsAbstract
         }
         // 允许用户自定义模板的字符串替换
         if (is_array(C('TMPL_PARSE_STRING'))) {
-            $replace =  array_merge($replace, C('TMPL_PARSE_STRING'));
+            $replace = array_merge($replace, C('TMPL_PARSE_STRING'));
         }
         $content = str_replace(array_keys($replace), array_values($replace), $content);
 

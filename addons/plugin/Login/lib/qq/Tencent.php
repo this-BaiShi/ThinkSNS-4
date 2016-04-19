@@ -231,7 +231,7 @@ class Http
         $ci = curl_init();
         curl_setopt($ci, CURLOPT_USERAGENT, 'PHP-SDK OAuth2.0');
         curl_setopt($ci, CURLOPT_CONNECTTIMEOUT, 3);
-        $timeout = $multi?30:3;
+        $timeout = $multi ? 30 : 3;
         curl_setopt($ci, CURLOPT_TIMEOUT, $timeout);
         curl_setopt($ci, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ci, CURLOPT_SSL_VERIFYPEER, false);

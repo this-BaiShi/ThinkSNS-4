@@ -39,10 +39,10 @@ class AdminAction extends AdministratorAction
         $this->_initWeibaListAdminMenu();
         // 设置列表主键
         $this->_listpk = 'weiba_id';
-        $this->pageButton[] = array('title'=>'搜索微吧','onclick'=>"admin.fold('search_form')");
-        $this->pageButton[] = array('title'=>'解散微吧','onclick'=>'admin.delWeiba()');
+        $this->pageButton[] = array('title' => '搜索微吧','onclick' => "admin.fold('search_form')");
+        $this->pageButton[] = array('title' => '解散微吧','onclick' => 'admin.delWeiba()');
         $this->searchKey = array('weiba_id','weiba_name','weiba_cate','uid','admin_uid','recommend');
-        $this->opt['recommend'] = array('0'=>L('PUBLIC_SYSTEMD_NOACCEPT'),'1'=>'是','2'=>'否');
+        $this->opt['recommend'] = array('0' => L('PUBLIC_SYSTEMD_NOACCEPT'),'1' => '是','2' => '否');
         $weibacate = D('weiba_category')->findAll();
         $cids = array();
         foreach ($weibacate as $c) {
@@ -64,8 +64,8 @@ class AdminAction extends AdministratorAction
         $this->_initWeibaListAdminMenu();
         // 列表key值 DOACTION表示操作
         $this->pageKeyList = array('weiba_name','cid','logo','intro','who_can_post','admin_uid','recommend');
-        $this->opt['who_can_post'] = array('0'=>'所有人','1'=>'吧内成员',2=>'微吧管理员',3=>'微吧圈主');
-        $this->opt['recommend'] = array('1'=>L('PUBLIC_SYSTEMD_TRUE'),'0'=>L('PUBLIC_SYSTEMD_FALSE'));
+        $this->opt['who_can_post'] = array('0' => '所有人','1' => '吧内成员',2 => '微吧管理员',3 => '微吧圈主');
+        $this->opt['recommend'] = array('1' => L('PUBLIC_SYSTEMD_TRUE'),'0' => L('PUBLIC_SYSTEMD_FALSE'));
         $list = D('WeibaCategory')->getAllWeibaCate();
         $this->opt['cid'] = $list;
         // 表单URL设置
@@ -104,7 +104,7 @@ class AdminAction extends AdministratorAction
 
         // # 修复，后台上传微吧logo前台没有logo
         if ($data['logo']) {
-            $data['avatar_big']    = getImageUrlByAttachId($data['logo'], 200, 200);
+            $data['avatar_big'] = getImageUrlByAttachId($data['logo'], 200, 200);
             $data['avatar_middle'] = getImageUrlByAttachId($data['logo'], 100, 100);
         }
 
@@ -138,18 +138,18 @@ class AdminAction extends AdministratorAction
         $this->assign('pageTitle', '编辑微吧');
         // 初始化微吧列表管理菜单
 // 		$this->_initWeibaListAdminMenu();
-        $this->pageTab[] = array('title'=>'微吧列表','tabHash'=>'index','url'=>U('weiba/Admin/index'));
+        $this->pageTab[] = array('title' => '微吧列表','tabHash' => 'index','url' => U('weiba/Admin/index'));
         //$this->pageTab[] = array('title'=>'添加微吧','tabHash'=>'addWeiba','url'=>U('weiba/Admin/addWeiba'));
-        $this->pageTab[] = array('title'=>'微吧分类','tabHash'=>'weibaCate','url'=>U('weiba/Admin/weibaCate'));
-        $this->pageTab[] = array('title'=>'编辑微吧','tabHash'=>'editWeiba','url'=>U('weiba/Admin/editWeiba', array('weiba_id'=>$_GET['weiba_id'])));
-        $this->pageTab[] = array('title'=>'帖子列表','tabHash'=>'postList','url'=>U('weiba/Admin/postList'));
-        $this->pageTab[] = array('title'=>'帖子回收站','tabHash'=>'postRecycle','url'=>U('weiba/Admin/postRecycle'));
+        $this->pageTab[] = array('title' => '微吧分类','tabHash' => 'weibaCate','url' => U('weiba/Admin/weibaCate'));
+        $this->pageTab[] = array('title' => '编辑微吧','tabHash' => 'editWeiba','url' => U('weiba/Admin/editWeiba', array('weiba_id' => $_GET['weiba_id'])));
+        $this->pageTab[] = array('title' => '帖子列表','tabHash' => 'postList','url' => U('weiba/Admin/postList'));
+        $this->pageTab[] = array('title' => '帖子回收站','tabHash' => 'postRecycle','url' => U('weiba/Admin/postRecycle'));
         // 列表key值 DOACTION表示操作
         $this->pageKeyList = array('weiba_id','weiba_name','cid','logo','intro', 'notify','who_can_post','admin_uid','recommend');
         $list = D('WeibaCategory')->getAllWeibaCate();
         $this->opt['cid'] = $list;
-        $this->opt['who_can_post'] = array('0'=>'所有人','1'=>'吧内成员',2=>'微吧管理员',3=>'微吧圈主');
-        $this->opt['recommend'] = array('1'=>L('PUBLIC_SYSTEMD_TRUE'),'0'=>L('PUBLIC_SYSTEMD_FALSE'));
+        $this->opt['who_can_post'] = array('0' => '所有人','1' => '吧内成员',2 => '微吧管理员',3 => '微吧圈主');
+        $this->opt['recommend'] = array('1' => L('PUBLIC_SYSTEMD_TRUE'),'0' => L('PUBLIC_SYSTEMD_FALSE'));
         $weiba_id = intval($_GET['weiba_id']);
         $data = D('weiba', 'weiba')->getWeibaById($weiba_id);
         if (!$data['admin_uid']) {
@@ -190,17 +190,17 @@ class AdminAction extends AdministratorAction
 
         // # 修复，后台上传微吧logo前台没有logo
         if ($data['logo']) {
-            $data['avatar_big']    = getImageUrlByAttachId($data['logo'], 200, 200);
+            $data['avatar_big'] = getImageUrlByAttachId($data['logo'], 200, 200);
             $data['avatar_middle'] = getImageUrlByAttachId($data['logo'], 100, 100);
         }
 
         $res = D('weiba')->where('weiba_id='.$weiba_id)->save($data);
-        if ($res!==false) {
+        if ($res !== false) {
             //现有超级圈主
             $follow['level'] = 3;
             $follow['weiba_id'] = $weiba_id;
             $admin_uid = D('weiba_follow')->where($follow)->getField('follower_uid');
-            if ($admin_uid && $admin_uid!=$data['admin_uid']) {  //如果存在圈主并且设置了新圈主，则原圈主降为普通成员
+            if ($admin_uid && $admin_uid != $data['admin_uid']) {  //如果存在圈主并且设置了新圈主，则原圈主降为普通成员
                 $a['follower_uid'] = $admin_uid;
                 $a['weiba_id'] = $weiba_id;
                 D('weiba_follow')->where($a)->setField('level', 1);
@@ -229,11 +229,11 @@ class AdminAction extends AdministratorAction
         // 初始化微吧列表管理菜单
         $this->_initWeibaListAdminMenu();
         $this->pageKeyList = array( 'id' , 'name' , 'DOACTION' );
-        $this->pageButton[] = array('title'=>'添加分类','onclick'=>"javascript:location.href='".U('weiba/Admin/addWeibaCate', array('tabHash'=>'weibaCate'))."';");
-        $this->pageButton[] = array('title'=>'删除分类','onclick'=>'admin.delWeibaCate()');
+        $this->pageButton[] = array('title' => '添加分类','onclick' => "javascript:location.href='".U('weiba/Admin/addWeibaCate', array('tabHash' => 'weibaCate'))."';");
+        $this->pageButton[] = array('title' => '删除分类','onclick' => 'admin.delWeibaCate()');
         $list = D('weiba_category')->findPage();
         foreach ($list['data'] as &$v) {
-            $v['DOACTION'] = "<a href='".U('weiba/Admin/editWeibaCate', array('id'=>$v['id'], 'tabHash'=>'weibaCate'))."'>编辑</a>&nbsp;-&nbsp;<a href='javascript:;' onclick='admin.delWeibaCate(".$v['id'].")'>删除</a>";
+            $v['DOACTION'] = "<a href='".U('weiba/Admin/editWeibaCate', array('id' => $v['id'], 'tabHash' => 'weibaCate'))."'>编辑</a>&nbsp;-&nbsp;<a href='javascript:;' onclick='admin.delWeibaCate(".$v['id'].")'>删除</a>";
         }
         $this->displayList($list);
     }
@@ -262,7 +262,7 @@ class AdminAction extends AdministratorAction
             }
             $res = D('WeibaCategory')->add($data);
             if ($res) {
-                $this->assign('jumpUrl', U('weiba/Admin/weibaCate', array('tabHash'=>'weibaCate')));
+                $this->assign('jumpUrl', U('weiba/Admin/weibaCate', array('tabHash' => 'weibaCate')));
                 $this->success('添加成功');
             } else {
                 $this->error('添加失败');
@@ -301,7 +301,7 @@ class AdminAction extends AdministratorAction
             }
             $res = D('WeibaCategory')->where('id='.$id)->save($data);
             if ($res) {
-                $this->assign('jumpUrl', U('weiba/Admin/weibaCate', array('tabHash'=>'weibaCate')));
+                $this->assign('jumpUrl', U('weiba/Admin/weibaCate', array('tabHash' => 'weibaCate')));
                 $this->success('编辑成功');
             } else {
                 $this->error('编辑失败');
@@ -347,7 +347,7 @@ class AdminAction extends AdministratorAction
     {
         if (empty($_POST['weiba_id'])) {
             $return['status'] = 0;
-            $return['data']   = '';
+            $return['data'] = '';
             echo json_encode($return);
             exit();
         }
@@ -369,7 +369,7 @@ class AdminAction extends AdministratorAction
             $return['data'] = L('PUBLIC_ADMIN_OPRETING_ERROR');
         } else {
             $return['status'] = 1;
-            $return['data']   = L('PUBLIC_ADMIN_OPRETING_SUCCESS');
+            $return['data'] = L('PUBLIC_ADMIN_OPRETING_SUCCESS');
         }
         echo json_encode($return);
         exit();
@@ -383,7 +383,7 @@ class AdminAction extends AdministratorAction
     {
         if (empty($_POST['weiba_id'])) {
             $return['status'] = 0;
-            $return['data']   = '';
+            $return['data'] = '';
             echo json_encode($return);
             exit();
         }
@@ -396,7 +396,7 @@ class AdminAction extends AdministratorAction
             D('weiba_follow')->where('weiba_id='.$weiba_id)->delete();
             D('weiba_log')->where('weiba_id='.$weiba_id)->delete();
             $return['status'] = 1;
-            $return['data']   = L('PUBLIC_ADMIN_OPRETING_SUCCESS');
+            $return['data'] = L('PUBLIC_ADMIN_OPRETING_SUCCESS');
         } else {
             $return['status'] = 0;
             $return['data'] = L('PUBLIC_ADMIN_OPRETING_ERROR');
@@ -414,19 +414,19 @@ class AdminAction extends AdministratorAction
         $this->_initWeibaListAdminMenu();
         // 设置列表主键
         $this->_listpk = 'post_id';
-        $this->pageButton[] = array('title'=>'搜索帖子','onclick'=>"admin.fold('search_form')");
+        $this->pageButton[] = array('title' => '搜索帖子','onclick' => "admin.fold('search_form')");
         // $this->pageButton[] = array('title'=>'调整回复楼层','onclick'=>"admin.doStorey()");
-        $this->pageButton[] = array('title'=>'删除帖子','onclick'=>'admin.delPost()');
+        $this->pageButton[] = array('title' => '删除帖子','onclick' => 'admin.delPost()');
         $this->searchKey = array('post_id','title','post_uid','recommend','digest','top','weiba_id');
-        $this->opt['recommend'] = array('0'=>L('PUBLIC_SYSTEMD_NOACCEPT'),'1'=>'是','2'=>'否');
-        $this->opt['digest'] = array('0'=>L('PUBLIC_SYSTEMD_NOACCEPT'),'1'=>'是','2'=>'否');
-        $this->opt['top'] = array('0'=>L('PUBLIC_SYSTEMD_NOACCEPT'),'1'=>'吧内置顶','2'=>'全局置顶');
+        $this->opt['recommend'] = array('0' => L('PUBLIC_SYSTEMD_NOACCEPT'),'1' => '是','2' => '否');
+        $this->opt['digest'] = array('0' => L('PUBLIC_SYSTEMD_NOACCEPT'),'1' => '是','2' => '否');
+        $this->opt['top'] = array('0' => L('PUBLIC_SYSTEMD_NOACCEPT'),'1' => '吧内置顶','2' => '全局置顶');
         $weibaList = D('weiba')->getHashList($k = 'weiba_id', $v = 'weiba_name');
         $weibaList[0] = L('PUBLIC_SYSTEMD_NOACCEPT');
         $this->opt['weiba_id'] = $weibaList;
         $this->pageKeyList = array('post_id','title','post_uid','post_time','last_reply_time','read_count/reply_count','weiba_id','DOACTION');
         // 数据的格式化与listKey保持一致
-        $listData = D('Weiba', 'weiba')->getPostList(20, array('is_del'=>0));
+        $listData = D('Weiba', 'weiba')->getPostList(20, array('is_del' => 0));
         $this->displayList($listData);
     }
 
@@ -439,10 +439,10 @@ class AdminAction extends AdministratorAction
         $this->_initWeibaListAdminMenu();
         // 设置列表主键
         $this->_listpk = 'post_id';
-        $this->pageButton[] = array('title'=>'移除帖子','onclick'=>'admin.removePost()');
-        $this->opt['recommend'] = array('0'=>L('PUBLIC_SYSTEMD_NOACCEPT'),'1'=>'是','2'=>'否');
-        $this->opt['digest'] = array('0'=>L('PUBLIC_SYSTEMD_NOACCEPT'),'1'=>'是','2'=>'否');
-        $this->opt['top'] = array('0'=>L('PUBLIC_SYSTEMD_NOACCEPT'),'1'=>'吧内置顶','2'=>'全局置顶');
+        $this->pageButton[] = array('title' => '移除帖子','onclick' => 'admin.removePost()');
+        $this->opt['recommend'] = array('0' => L('PUBLIC_SYSTEMD_NOACCEPT'),'1' => '是','2' => '否');
+        $this->opt['digest'] = array('0' => L('PUBLIC_SYSTEMD_NOACCEPT'),'1' => '是','2' => '否');
+        $this->opt['top'] = array('0' => L('PUBLIC_SYSTEMD_NOACCEPT'),'1' => '吧内置顶','2' => '全局置顶');
         $weibaList = D('weiba')->getHashList($k = 'weiba_id', $v = 'weiba_name');
         $weibaList[0] = L('PUBLIC_SYSTEMD_NOACCEPT');
         $this->opt['weiba_id'] = $weibaList;
@@ -456,8 +456,8 @@ class AdminAction extends AdministratorAction
         $map['is_index'] = 1;
         $list = M('weiba_post')->where($map)->order('last_reply_time desc,post_time desc')->findPage(5);
         $scount = M('weiba_post')->where($map)->count();
-        if ($scount<5) {
-            $this->pageButton[] = array('title'=>'添加帖子','onclick'=>"location.href='".U('weiba/Admin/newImg')."'");
+        if ($scount < 5) {
+            $this->pageButton[] = array('title' => '添加帖子','onclick' => "location.href='".U('weiba/Admin/newImg')."'");
         }
         // 数据组装
         foreach ($list ['data'] as $k => $v) {
@@ -483,7 +483,7 @@ class AdminAction extends AdministratorAction
 
     public function newImg()
     {
-        if ($_GET['post_id']!='') {
+        if ($_GET['post_id'] != '') {
             $imgs = M('weiba_post')->where('post_id='.$_GET['post_id'])->find();
             //dump(M()->getLastSql());
             $this->assign('img', $imgs);
@@ -491,14 +491,14 @@ class AdminAction extends AdministratorAction
         }
         if (IS_POST) {
             $img = M('weiba_post')->where('post_id='.(int) $_POST['post_id'])->find();
-            if ($_POST['img_1']=='') {
+            if ($_POST['img_1'] == '') {
                 $this->error('请上传图片!');
             } else {
                 $data['index_img'] = (int) $_POST['img_1'];
                 $data['is_index'] = 1;
                 $data['is_index_time'] = time();
-                if ($img&&$img['is_del']!=1) {
-                    $res =  M('weiba_post')->where('post_id='.$img['post_id'])->save($data);
+                if ($img && $img['is_del'] != 1) {
+                    $res = M('weiba_post')->where('post_id='.$img['post_id'])->save($data);
                     //dump(M()->getLastSql());
                     //dump($res);exit;
                 } else {
@@ -525,16 +525,16 @@ class AdminAction extends AdministratorAction
         $this->_initWeibaListAdminMenu();
         // 设置列表主键
         $this->_listpk = 'post_id';
-        $this->pageButton[] = array('title'=>'搜索帖子','onclick'=>"admin.fold('search_form')");
-        $this->pageButton[] = array('title'=>'还原','onclick'=>'admin.recoverPost()');
-        $this->pageButton[] = array('title'=>'彻底删除','onclick'=>'admin.deletePost()');
+        $this->pageButton[] = array('title' => '搜索帖子','onclick' => "admin.fold('search_form')");
+        $this->pageButton[] = array('title' => '还原','onclick' => 'admin.recoverPost()');
+        $this->pageButton[] = array('title' => '彻底删除','onclick' => 'admin.deletePost()');
         $this->searchKey = array('post_id','title','post_uid','weiba_id');
         $weibaList = D('weiba')->getHashList($k = 'weiba_id', $v = 'weiba_name');
         $weibaList[0] = L('PUBLIC_SYSTEMD_NOACCEPT');
         $this->opt['weiba_id'] = $weibaList;
         $this->pageKeyList = array('post_id','title','post_uid','post_time','last_reply_time','read_count/reply_count','weiba_id','DOACTION');
         // 数据的格式化与listKey保持一致
-        $listData = D('Weiba', 'weiba')->getPostList(20, array('is_del'=>1));
+        $listData = D('Weiba', 'weiba')->getPostList(20, array('is_del' => 1));
         $this->displayList($listData);
     }
 
@@ -546,7 +546,7 @@ class AdminAction extends AdministratorAction
     {
         if (empty($_POST['post_id'])) {
             $return['status'] = 0;
-            $return['data']   = '';
+            $return['data'] = '';
             echo json_encode($return);
             exit();
         }
@@ -570,7 +570,7 @@ class AdminAction extends AdministratorAction
                 break;
             case '3':         //置顶
                 $field = 'top';
-                if (intval($_POST['curValue'])==intval($_POST['topValue'])) {
+                if (intval($_POST['curValue']) == intval($_POST['topValue'])) {
                     $value = 0;
                 } else {
                     $value = intval($_POST['topValue']);
@@ -579,7 +579,7 @@ class AdminAction extends AdministratorAction
         }
         $post_id = intval($_POST['post_id']);
         $result = D('weiba_post')->where('post_id='.$post_id)->setField($field, $value);
-        if ($field == 'top'&&$value==2) {
+        if ($field == 'top' && $value == 2) {
             D('weiba_post')->where('post_id='.$post_id)->setField('top_time', time());
         }
         if (!$result) {
@@ -588,7 +588,7 @@ class AdminAction extends AdministratorAction
         } else {
             $post_detail = D('weiba_post')->where('post_id='.$post_id)->find();
             $config['post_name'] = $post_detail['title'];
-            $config['post_url'] = '<a href="'.U('weiba/Index/postDetail', array('post_id'=>$post_id)).'" target="_blank">'.$post_detail['title'].'</a>';
+            $config['post_url'] = '<a href="'.U('weiba/Index/postDetail', array('post_id' => $post_id)).'" target="_blank">'.$post_detail['title'].'</a>';
             switch ($_POST['type']) {
                 case '1':         //推荐
                     //添加积分
@@ -620,7 +620,7 @@ class AdminAction extends AdministratorAction
                     break;
             }
             $return['status'] = 1;
-            $return['data']   = L('PUBLIC_ADMIN_OPRETING_SUCCESS');
+            $return['data'] = L('PUBLIC_ADMIN_OPRETING_SUCCESS');
         }
         echo json_encode($return);
         exit();
@@ -633,17 +633,17 @@ class AdminAction extends AdministratorAction
     {
         $this->assign('pageTitle', '编辑帖子');
         // 初始化微吧列表管理菜单
-        $this->pageTab[] = array('title'=>'微吧列表','tabHash'=>'index','url'=>U('weiba/Admin/index'));
+        $this->pageTab[] = array('title' => '微吧列表','tabHash' => 'index','url' => U('weiba/Admin/index'));
         //$this->pageTab[] = array('title'=>'添加微吧','tabHash'=>'addWeiba','url'=>U('weiba/Admin/addWeiba'));
-        $this->pageTab[] = array('title'=>'微吧分类','tabHash'=>'weibaCate','url'=>U('weiba/Admin/weibaCate'));
-        $this->pageTab[] = array('title'=>'帖子列表','tabHash'=>'postList','url'=>U('weiba/Admin/postList'));
-        $this->pageTab[] = array('title'=>'编辑帖子','tabHash'=>'editPost','url'=>U('weiba/Admin/editPost', array('post_id'=>$_GET['post_id'])));
-        $this->pageTab[] = array('title'=>'帖子回收站','tabHash'=>'postRecycle','url'=>U('weiba/Admin/postRecycle'));
+        $this->pageTab[] = array('title' => '微吧分类','tabHash' => 'weibaCate','url' => U('weiba/Admin/weibaCate'));
+        $this->pageTab[] = array('title' => '帖子列表','tabHash' => 'postList','url' => U('weiba/Admin/postList'));
+        $this->pageTab[] = array('title' => '编辑帖子','tabHash' => 'editPost','url' => U('weiba/Admin/editPost', array('post_id' => $_GET['post_id'])));
+        $this->pageTab[] = array('title' => '帖子回收站','tabHash' => 'postRecycle','url' => U('weiba/Admin/postRecycle'));
         // 列表key值 DOACTION表示操作
         $this->pageKeyList = array('post_id','title','content','recommend','digest','top');
-        $this->opt['recommend'] = array('1'=>L('PUBLIC_SYSTEMD_TRUE'),'0'=>L('PUBLIC_SYSTEMD_FALSE'));
-        $this->opt['digest'] = array('1'=>L('PUBLIC_SYSTEMD_TRUE'),'0'=>L('PUBLIC_SYSTEMD_FALSE'));
-        $this->opt['top'] = array('0'=>L('PUBLIC_SYSTEMD_FALSE'),'1'=>'吧内置顶','2'=>'全局置顶');
+        $this->opt['recommend'] = array('1' => L('PUBLIC_SYSTEMD_TRUE'),'0' => L('PUBLIC_SYSTEMD_FALSE'));
+        $this->opt['digest'] = array('1' => L('PUBLIC_SYSTEMD_TRUE'),'0' => L('PUBLIC_SYSTEMD_FALSE'));
+        $this->opt['top'] = array('0' => L('PUBLIC_SYSTEMD_FALSE'),'1' => '吧内置顶','2' => '全局置顶');
         $post_id = intval($_GET['post_id']);
         $data = D('weiba_post')->where('post_id='.$post_id)->find();
         // 表单URL设置
@@ -663,10 +663,10 @@ class AdminAction extends AdministratorAction
         $checkContent = str_replace('<p>', '', $checkContent);
         $checkContent = str_replace('</p>', '', $checkContent);
         $checkContents = preg_replace('/<img(.*?)src=/i', 'img', $checkContent);
-        if (strlen(t($_POST['title']))==0) {
+        if (strlen(t($_POST['title'])) == 0) {
             $this->error('帖子标题不能为空');
         }
-        if (strlen(t($checkContents))==0) {
+        if (strlen(t($checkContents)) == 0) {
             $this->error('帖子内容不能为空');
         }
         $post_id = intval($_POST['post_id']);
@@ -676,7 +676,7 @@ class AdminAction extends AdministratorAction
         $data['digest'] = intval($_POST['digest']);
         $data['top'] = intval($_POST['top']);
         $res = D('weiba_post')->where('post_id='.$post_id)->save($data);
-        if ($res!==false) {
+        if ($res !== false) {
             //同步到分享
             $feed_id = D('weiba_post')->where('post_id='.$post_id)->getField('feed_id');
             $feedInfo = D('feed_data')->where('feed_id='.$feed_id)->find();
@@ -687,7 +687,7 @@ class AdminAction extends AdministratorAction
             $data1['feed_content'] = $datas['content'];
             D('feed_data')->where('feed_id='.$feed_id)->save($data1);
             model('Cache')->rm('fd_'.$feed_id);
-            $this->assign('jumpUrl', U('weiba/Admin/postList', array('tabHash'=>'postList')));
+            $this->assign('jumpUrl', U('weiba/Admin/postList', array('tabHash' => 'postList')));
             $this->success(L('PUBLIC_SYSTEM_MODIFY_SUCCESS'));
         } else {
             $this->error(D('weiba_post')->getLastError());
@@ -701,7 +701,7 @@ class AdminAction extends AdministratorAction
     {
         if (empty($_POST['post_id'])) {
             $return['status'] = 0;
-            $return['data']   = '';
+            $return['data'] = '';
             echo json_encode($return);
             exit();
         }
@@ -714,7 +714,7 @@ class AdminAction extends AdministratorAction
                 D('weiba')->where('weiba_id='.$v['weiba_id'])->setDec('thread_count');
             }
             $return['status'] = 1;
-            $return['data']   = L('PUBLIC_ADMIN_OPRETING_SUCCESS');
+            $return['data'] = L('PUBLIC_ADMIN_OPRETING_SUCCESS');
         } else {
             $return['status'] = 0;
             $return['data'] = L('PUBLIC_ADMIN_OPRETING_ERROR');
@@ -728,7 +728,7 @@ class AdminAction extends AdministratorAction
     {
         if (empty($_POST['post_id'])) {
             $return['status'] = 0;
-            $return['data']   = '';
+            $return['data'] = '';
             echo json_encode($return);
             exit();
         }
@@ -741,7 +741,7 @@ class AdminAction extends AdministratorAction
                 D('weiba')->where('weiba_id='.$v['weiba_id'])->setDec('thread_count');
             }
             $return['status'] = 1;
-            $return['data']   = '移除成功';
+            $return['data'] = '移除成功';
         } else {
             $return['status'] = 0;
             $return['data'] = '移除失败';
@@ -765,8 +765,8 @@ class AdminAction extends AdministratorAction
         $postList = D('weiba_post')->where($data)->findAll();
         foreach ($postList as $v) {
             $replyList = D('weiba_reply')->where('post_id='.$v['post_id'].' AND is_del=0')->order('reply_id ASC')->findAll();
-            foreach ($replyList as $key=>$val) {
-                D('weiba_reply')->where('reply_id='.$val['reply_id'])->setField('storey', $key+1);
+            foreach ($replyList as $key => $val) {
+                D('weiba_reply')->where('reply_id='.$val['reply_id'])->setField('storey', $key + 1);
             }
             D('weiba_post')->where('post_id='.$v['post_id'])->setField('reply_all_count', count($replyList)); //总回复统计数加1
         }
@@ -781,7 +781,7 @@ class AdminAction extends AdministratorAction
     {
         if (empty($_POST['post_id'])) {
             $return['status'] = 0;
-            $return['data']   = '';
+            $return['data'] = '';
             echo json_encode($return);
             exit();
         }
@@ -794,7 +794,7 @@ class AdminAction extends AdministratorAction
                 D('weiba')->where('weiba_id='.$v['weiba_id'])->setInc('thread_count');
             }
             $return['status'] = 1;
-            $return['data']   = L('PUBLIC_ADMIN_OPRETING_SUCCESS');
+            $return['data'] = L('PUBLIC_ADMIN_OPRETING_SUCCESS');
         } else {
             $return['status'] = 0;
             $return['data'] = L('PUBLIC_ADMIN_OPRETING_ERROR');
@@ -810,7 +810,7 @@ class AdminAction extends AdministratorAction
     {
         if (empty($_POST['post_id'])) {
             $return['status'] = 0;
-            $return['data']   = '';
+            $return['data'] = '';
             echo json_encode($return);
             exit();
         }
@@ -820,7 +820,7 @@ class AdminAction extends AdministratorAction
         if ($res) {
             D('weiba_reply')->where($data)->delete();
             $return['status'] = 1;
-            $return['data']   = L('PUBLIC_ADMIN_OPRETING_SUCCESS');
+            $return['data'] = L('PUBLIC_ADMIN_OPRETING_SUCCESS');
         } else {
             $return['status'] = 0;
             $return['data'] = L('PUBLIC_ADMIN_OPRETING_ERROR');
@@ -837,9 +837,9 @@ class AdminAction extends AdministratorAction
         $this->_initWeibaListAdminMenu();
         $this->pageKeyList = array('follower_open','follower','level_open','level','weiba_post_open','weiba_post');
         $this->savePostUrl = U('weiba/Admin/doWeibaAdminAuditConfig');
-        $this->opt['follower_open'] = array('0'=>'否','1'=>'是');
-        $this->opt['level_open'] = array('0'=>'否','1'=>'是');
-        $this->opt['weiba_post_open'] = array('0'=>'否','1'=>'是');
+        $this->opt['follower_open'] = array('0' => '否','1' => '是');
+        $this->opt['level_open'] = array('0' => '否','1' => '是');
+        $this->opt['weiba_post_open'] = array('0' => '否','1' => '是');
         $weibaAdminAuditConfig = model('Xdata')->get('weiba_Admin:weibaAdminAuditConfig');
         // dump($weibaAdminAuditConfig);exit;
         $this->displayConfig($weibaAdminAuditConfig);
@@ -857,7 +857,7 @@ class AdminAction extends AdministratorAction
         $value['weiba_post'] = intval($_POST['weiba_post']);
         $res = model('Xdata')->put($key, $value);
         if ($res) {
-            $this->assign('jumpUrl', U('weiba/Admin/weibaAdminAuditConfig', array('tabHash'=>'weibaAdminAuditConfig')));
+            $this->assign('jumpUrl', U('weiba/Admin/weibaAdminAuditConfig', array('tabHash' => 'weibaAdminAuditConfig')));
             $this->success('保存成功');
         } else {
             $this->error('保存失败');
@@ -873,7 +873,7 @@ class AdminAction extends AdministratorAction
         $this->_initWeibaListAdminMenu();
         // 设置列表主键
         $this->_listpk = 'id';
-        $this->pageButton[] = array('title'=>'搜索','onclick'=>"admin.fold('search_form')");
+        $this->pageButton[] = array('title' => '搜索','onclick' => "admin.fold('search_form')");
         // $this->pageButton[] = array('title'=>'通过','onclick'=>"admin.doAudit('', 1)");
         // $this->pageButton[] = array('title'=>'驳回','onclick'=>"admin.doAudit('', -1)");
         $this->searchKey = array('follower_uid','weiba_name');
@@ -886,7 +886,7 @@ class AdminAction extends AdministratorAction
         $map['status'] = 0;
         // 数据的格式化与listKey保持一致
         $listData = D('weiba_apply')->where($map)->findPage(20);
-        foreach ($listData['data'] as $k=>$v) {
+        foreach ($listData['data'] as $k => $v) {
             $userInfo = model('User')->getUserInfo($v['follower_uid']);
             $listData['data'][$k]['follower_uname'] = $userInfo['uname'];
             $listData['data'][$k]['weiba_name'] = D('weiba')->where('weiba_id='.$v['weiba_id'])->getField('weiba_name');
@@ -911,7 +911,7 @@ class AdminAction extends AdministratorAction
     {
         if (empty($_POST['id'])) {
             $return['status'] = 0;
-            $return['data']   = '';
+            $return['data'] = '';
             echo json_encode($return);
             exit();
         }
@@ -922,7 +922,7 @@ class AdminAction extends AdministratorAction
         $res = D('weiba_apply')->where($map)->save($data);
         if ($res) {
             $return['status'] = 1;
-            $return['data']   = L('PUBLIC_ADMIN_OPRETING_SUCCESS');
+            $return['data'] = L('PUBLIC_ADMIN_OPRETING_SUCCESS');
         } else {
             $return['status'] = 0;
             $return['data'] = L('PUBLIC_ADMIN_OPRETING_ERROR');
@@ -939,11 +939,11 @@ class AdminAction extends AdministratorAction
         $this->_initWeibaListAdminMenu();
         $this->pageKeyList = array('apply_weiba_open','follower_open','follower','level_open','level','weiba_post_open','weiba_post','manager_open');
         $this->savePostUrl = U('weiba/Admin/doWeibaAuditConfig');
-        $this->opt['apply_weiba_open'] = array('0'=>'否','1'=>'是');
-        $this->opt['follower_open'] = array('0'=>'否','1'=>'是');
-        $this->opt['level_open'] = array('0'=>'否','1'=>'是');
-        $this->opt['weiba_post_open'] = array('0'=>'否','1'=>'是');
-        $this->opt['manager_open'] = array('0'=>'否','1'=>'是');
+        $this->opt['apply_weiba_open'] = array('0' => '否','1' => '是');
+        $this->opt['follower_open'] = array('0' => '否','1' => '是');
+        $this->opt['level_open'] = array('0' => '否','1' => '是');
+        $this->opt['weiba_post_open'] = array('0' => '否','1' => '是');
+        $this->opt['manager_open'] = array('0' => '否','1' => '是');
         $weibaAuditConfig = model('Xdata')->get('weiba_Admin:weibaAuditConfig');
         // dump($weibaAuditConfig);exit;
         $this->displayConfig($weibaAuditConfig);
@@ -963,7 +963,7 @@ class AdminAction extends AdministratorAction
         $value['manager_open'] = intval($_POST['manager_open']);
         $res = model('Xdata')->put($key, $value);
         if ($res) {
-            $this->assign('jumpUrl', U('weiba/Admin/weibaAuditConfig', array('tabHash'=>'weibaAuditConfig')));
+            $this->assign('jumpUrl', U('weiba/Admin/weibaAuditConfig', array('tabHash' => 'weibaAuditConfig')));
             $this->success('保存成功');
         } else {
             $this->error('保存失败');
@@ -978,9 +978,9 @@ class AdminAction extends AdministratorAction
         $this->_initWeibaListAdminMenu();
         // 设置列表主键
         $this->_listpk = 'weiba_id';
-        $this->pageButton[] = array('title'=>'搜索','onclick'=>"admin.fold('search_form')");
-        $this->pageButton[] = array('title'=>'通过','onclick'=>"admin.doWeibaAudit('', 1)");
-        $this->pageButton[] = array('title'=>'驳回','onclick'=>"admin.doWeibaAudit('', -1)");
+        $this->pageButton[] = array('title' => '搜索','onclick' => "admin.fold('search_form')");
+        $this->pageButton[] = array('title' => '通过','onclick' => "admin.doWeibaAudit('', 1)");
+        $this->pageButton[] = array('title' => '驳回','onclick' => "admin.doWeibaAudit('', -1)");
         $this->searchKey = array('weiba_name');
         $this->pageKeyList = array('weiba_id','weiba_name','weiba_cate','info','uid','uinfo','live','ctime','DOACTION');
         if (!empty($_POST['weiba_name'])) {
@@ -996,8 +996,8 @@ class AdminAction extends AdministratorAction
         foreach ($weibacate as $c) {
             $cids[$c['id']] = $c['name'];
         }
-        foreach ($listData['data'] as $k=>$v) {
-            $listData['data'][$k]['weiba_name'] = '<a target="_blank" href="'.U('weiba/Index/detail', array('weiba_id'=>$v['weiba_id'])).'">'.$v['weiba_name'].'</a>';
+        foreach ($listData['data'] as $k => $v) {
+            $listData['data'][$k]['weiba_name'] = '<a target="_blank" href="'.U('weiba/Index/detail', array('weiba_id' => $v['weiba_id'])).'">'.$v['weiba_name'].'</a>';
             $listData['data'][$k]['logo'] &&  $listData['data'][$k]['logo'] = '<img src="'.getImageUrlByAttachId($v['logo']).'" width="50" height="50">';
             $create_uid = model('User')->getUserInfoByUids($v['uid']);
             $listData['data'][$k]['uid'] = $create_uid[$v['uid']]['space_link'];
@@ -1013,7 +1013,7 @@ class AdminAction extends AdministratorAction
     {
         if (empty($_POST['weiba_id'])) {
             $return['status'] = 0;
-            $return['data']   = '';
+            $return['data'] = '';
             echo json_encode($return);
             exit();
         }
@@ -1032,7 +1032,7 @@ class AdminAction extends AdministratorAction
 
         if ($res) {
             $return['status'] = 1;
-            $return['data']   = L('PUBLIC_ADMIN_OPRETING_SUCCESS');
+            $return['data'] = L('PUBLIC_ADMIN_OPRETING_SUCCESS');
         } else {
             $return['status'] = 0;
             $return['data'] = L('PUBLIC_ADMIN_OPRETING_ERROR');
@@ -1046,15 +1046,15 @@ class AdminAction extends AdministratorAction
      */
     private function _initWeibaListAdminMenu()
     {
-        $this->pageTab[] = array('title'=>'微吧列表','tabHash'=>'index','url'=>U('weiba/Admin/index'));
-        $this->pageTab[] = array('title'=>'添加微吧','tabHash'=>'addWeiba','url'=>U('weiba/Admin/addWeiba'));
-        $this->pageTab[] = array('title'=>'微吧分类','tabHash'=>'weibaCate','url'=>U('weiba/Admin/weibaCate'));
-        $this->pageTab[] = array('title'=>'帖子列表','tabHash'=>'postList','url'=>U('weiba/Admin/postList'));
-        $this->pageTab[] = array('title'=>'帖子回收站','tabHash'=>'postRecycle','url'=>U('weiba/Admin/postRecycle'));
-        $this->pageTab[] = array('title'=>'申请吧主配置','tabHash'=>'weibaAdminAuditConfig','url'=>U('weiba/Admin/weibaAdminAuditConfig'));
-        $this->pageTab[] = array('title'=>'吧主审核','tabHash'=>'weibaAdminAudit','url'=>U('weiba/Admin/weibaAdminAudit'));
-        $this->pageTab[] = array('title'=>'申请微吧配置','tabHash'=>'weibaAuditConfig','url'=>U('weiba/Admin/weibaAuditConfig'));
-        $this->pageTab[] = array('title'=>'微吧审核','tabHash'=>'weibaAudit','url'=>U('weiba/Admin/weibaAudit'));
-        $this->pageTab[] = array('title'=>'首页帖子','tabHash'=>'indexPost','url'=>U('weiba/Admin/indexPost'));
+        $this->pageTab[] = array('title' => '微吧列表','tabHash' => 'index','url' => U('weiba/Admin/index'));
+        $this->pageTab[] = array('title' => '添加微吧','tabHash' => 'addWeiba','url' => U('weiba/Admin/addWeiba'));
+        $this->pageTab[] = array('title' => '微吧分类','tabHash' => 'weibaCate','url' => U('weiba/Admin/weibaCate'));
+        $this->pageTab[] = array('title' => '帖子列表','tabHash' => 'postList','url' => U('weiba/Admin/postList'));
+        $this->pageTab[] = array('title' => '帖子回收站','tabHash' => 'postRecycle','url' => U('weiba/Admin/postRecycle'));
+        $this->pageTab[] = array('title' => '申请吧主配置','tabHash' => 'weibaAdminAuditConfig','url' => U('weiba/Admin/weibaAdminAuditConfig'));
+        $this->pageTab[] = array('title' => '吧主审核','tabHash' => 'weibaAdminAudit','url' => U('weiba/Admin/weibaAdminAudit'));
+        $this->pageTab[] = array('title' => '申请微吧配置','tabHash' => 'weibaAuditConfig','url' => U('weiba/Admin/weibaAuditConfig'));
+        $this->pageTab[] = array('title' => '微吧审核','tabHash' => 'weibaAudit','url' => U('weiba/Admin/weibaAudit'));
+        $this->pageTab[] = array('title' => '首页帖子','tabHash' => 'indexPost','url' => U('weiba/Admin/indexPost'));
     }
 }

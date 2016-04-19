@@ -48,7 +48,7 @@ class TaskCustomModel extends Model
             } elseif ((strtotime($etime[1]) < $_SERVER['REQUEST_TIME']) && $etime[1]) {
                 $v['status'] = 'over';
             }
-            foreach ($condition as $k=>$c) {
+            foreach ($condition as $k => $c) {
                 $status = model('Cache')->get('customtask_'.$mid.'_'.$v['id'].'_'.$k);
                 if (!$status && $c) {
                     $status = $this->iscomplete($k, $c);

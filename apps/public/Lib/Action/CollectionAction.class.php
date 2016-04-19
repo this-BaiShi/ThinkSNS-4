@@ -16,7 +16,7 @@ class CollectionAction extends Action
         $this->assign($weiboSet);
         // TODO:后续可能由表中获取语言KEY
         $d['tabHash'] = array(
-                            'feed'    => L('PUBLIC_WEIBO'),                // 分享
+                            'feed' => L('PUBLIC_WEIBO'),                // 分享
                         );
 
         $d['tab'] = model('Collection')->getCollTab($map);

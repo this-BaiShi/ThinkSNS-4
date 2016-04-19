@@ -174,7 +174,7 @@ class ToolAction extends Action
     public function getVersionInfo()
     {
         $result = M('system_update')->where('status=1')->field('id,title,version,package')->findAll();
-        foreach ($result as $k=>$v) {
+        foreach ($result as $k => $v) {
             $list[$v['id']] = $v;
             unset($result[$k]);
         }

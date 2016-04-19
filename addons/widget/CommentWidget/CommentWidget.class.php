@@ -178,16 +178,16 @@ class CommentWidget extends Widget
         $data ['app_detail_summary'] = t($_POST['app_detail_summary']);
 
         $source = model('Source')->getSourceInfo($data ['table'], $data ['row_id'], false, $data ['app']);
-        $uid            = $source['uid'];
+        $uid = $source['uid'];
         if ($this->mid != $uid) {
             $userPrivacy = model('UserPrivacy')->getPrivacy($this->mid, $uid);
             if ($userPrivacy['comment_weibo'] == 1) {
-                exit(json_encode(array('status'=>0, 'data'=>L('PUBLIC_CONCENT_TIPES'))));
+                exit(json_encode(array('status' => 0, 'data' => L('PUBLIC_CONCENT_TIPES'))));
             }
         }
         $filterContentStatus = filter_words($data['content']);
         if (!$filterContentStatus['status']) {
-            exit(json_encode(array('status'=>0, 'data'=>$filterContentStatus['data'])));
+            exit(json_encode(array('status' => 0, 'data' => $filterContentStatus['data'])));
         }
         $data['content'] = $filterContentStatus['data'];
 
@@ -207,8 +207,8 @@ class CommentWidget extends Widget
         if (empty($data['app_detail_summary'])) {
             $source = model('Source')->getSourceInfo($data ['table'], $data ['row_id'], false, $data ['app']);
             $data['app_detail_summary'] = $source['source_body'];
-            $data['app_detail_url']     = $source['source_url'];
-            $data['app_uid']            = $source['source_user_info']['uid'];
+            $data['app_detail_url'] = $source['source_url'];
+            $data['app_uid'] = $source['source_user_info']['uid'];
         } else {
             $data['app_detail_summary'] = $data ['app_detail_summary'].'<a class="ico-details" href="'.$data['app_detail_url'].'"></a>';
         }
@@ -297,7 +297,7 @@ class CommentWidget extends Widget
         if ($talkbox) {
             $html = '<dl model-node="comment_list" class="msg-dialog">';
             $html .= '<dt class="right">';
-            $html .= '<a href="'.U('public/Profile/index', array('uid'=>$data['userInfo']['uid'])).'"><img src="'.$data['userInfo']['avatar_tiny'].'"></a>';
+            $html .= '<a href="'.U('public/Profile/index', array('uid' => $data['userInfo']['uid'])).'"><img src="'.$data['userInfo']['avatar_tiny'].'"></a>';
             $html .= '</dt>';
             $html .= '<dd class="dialog-r">';
             $html .= '<i class="arrow-mes-r"></i>';

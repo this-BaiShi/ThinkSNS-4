@@ -34,11 +34,11 @@ class GroupWeiboWidget extends Widget
     public function render($data)
     {
         // 默认值
-        $data['page_title']        = isset($data['page_title'])        ? $data['page_title']        : '分享';
-        $data['button_title']    = isset($data['button_title'])        ? $data['button_title']        : '发布';
-        $data['status_title']    = isset($data['status_title'])        ? t($data['status_title'])    : '';
+        $data['page_title'] = isset($data['page_title'])        ? $data['page_title']        : '分享';
+        $data['button_title'] = isset($data['button_title'])        ? $data['button_title']        : '发布';
+        $data['status_title'] = isset($data['status_title'])        ? t($data['status_title'])    : '';
 
-        $data['url']    = U('group/WeiboOperate/weibo', array('button_title'=>urlencode($data['button_title']), 'tpl_name'=>$data['tpl_name']));
+        $data['url'] = U('group/WeiboOperate/weibo', array('button_title' => urlencode($data['button_title']), 'tpl_name' => $data['tpl_name']));
 
         $content = $this->renderFile('GroupWeibo', $data);
 

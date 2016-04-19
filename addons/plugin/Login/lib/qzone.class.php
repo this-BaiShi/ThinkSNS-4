@@ -2,10 +2,10 @@
 
 class qzone
 {
-    private function getCallback($type='', $callbackurl='')
+    private function getCallback($type = '', $callbackurl = '')
     {
         if (!$callbackurl) {
-            $callbackurl = Addons::createAddonShow('Login', 'no_register_display', array('type'=>$type));
+            $callbackurl = Addons::createAddonShow('Login', 'no_register_display', array('type' => $type));
         }
 
         return urlencode($callbackurl);
@@ -37,13 +37,13 @@ class qzone
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $info = curl_exec($ch);
         $me = json_decode($info);
-        $user['id']         =  $_SESSION['qzone']['openid'];
-        $user['uname']       = $me->nickname;
-        $user['province']    = 0;
-        $user['city']        = 0;
-        $user['location']    = '';
-        $user['userface']    = $me->figureurl_2;
-        $user['sex']         = 0;
+        $user['id'] = $_SESSION['qzone']['openid'];
+        $user['uname'] = $me->nickname;
+        $user['province'] = 0;
+        $user['city'] = 0;
+        $user['location'] = '';
+        $user['userface'] = $me->figureurl_2;
+        $user['sex'] = 0;
         //print_r($user);
         return $user;
     }
@@ -61,7 +61,7 @@ class qzone
             if (strpos($response, 'callback') !== false) {
                 $lpos = strpos($response, '(');
                 $rpos = strrpos($response, ')');
-                $response  = substr($response, $lpos + 1, $rpos - $lpos -1);
+                $response = substr($response, $lpos + 1, $rpos - $lpos - 1);
                 $msg = json_decode($response);
                 if (isset($msg->error)) {
                     return false;
@@ -84,7 +84,7 @@ class qzone
             if (strpos($response, 'callback') !== false) {
                 $lpos = strpos($response, '(');
                 $rpos = strrpos($response, ')');
-                $response  = substr($response, $lpos + 1, $rpos - $lpos -1);
+                $response = substr($response, $lpos + 1, $rpos - $lpos - 1);
             }
             $user = json_decode($response);
             if (isset($user->error)) {
@@ -92,7 +92,7 @@ class qzone
                 echo '<h3>msg  :</h3>'.$user->error_description;
                 exit;
             } else {
-                $_SESSION['qzone']['access_token']['oauth_token']  = $access_token;
+                $_SESSION['qzone']['access_token']['oauth_token'] = $access_token;
                 $_SESSION['qzone']['access_token']['oauth_token_secret'] = $user->openid;
                 $_SESSION['qzone']['isSync'] = 1;
                 $_SESSION['qzone']['openid'] = $user->openid;
@@ -136,7 +136,7 @@ class qzone
         return true;
     }
     //转发一条分享
-    public function transpond($transpondId, $reId, $content='', $opt=null)
+    public function transpond($transpondId, $reId, $content = '', $opt = null)
     {
         return true;
     }

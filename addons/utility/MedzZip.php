@@ -32,7 +32,7 @@ class MedzZip
         $compressedSize = strlen($compressedData);
         $filenameLength = strlen($filename);
 
-        $header    = pack('V', LOCAL_FILE_HEADER);            // local file header signature
+        $header = pack('V', LOCAL_FILE_HEADER);            // local file header signature
         $header   .= "\x14\x00";                               // version needed to extract
         $header   .= "\x00\x00";                            // general purpose bit flag  
         $header   .= "\x08\x00";                               // compression method, deflated used here
@@ -309,10 +309,10 @@ class MedzZip
         $timestamp = (int) $timestamp;
         $time = $timestamp === 0 ? getdate() : getdate($timestamp);
         if ($time['year'] < 1980) {
-            $time['year']    = 1980;
-            $time['mon']     = 1;
-            $time['mday']    = 1;
-            $time['hours']   = 0;
+            $time['year'] = 1980;
+            $time['mon'] = 1;
+            $time['mday'] = 1;
+            $time['hours'] = 0;
             $time['minutes'] = 0;
             $time['seconds'] = 0;
         }
@@ -335,7 +335,7 @@ class MedzZip
         $day = $date & 0x001F;
         $hour = ($time & 0xF800) >> 11;
         $minutes = ($time & 0x07E0) >> 5;
-        $seconds = ($time & 0x001F)*2;
+        $seconds = ($time & 0x001F) * 2;
 
         return mktime($hour, $minutes, $seconds, $month, $day, $year);
     }

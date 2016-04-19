@@ -29,8 +29,8 @@ class TagWidget extends Widget
         is_array($data) && $var = array_merge($var, $data);
         // 清除缓存
         model('Cache')->rm('temp_'.$var['apptable'].$GLOBALS['ts']['mid']);
-        $var['add_url'] = U('widget/Tag/addTag', array('appname'=>$var['appname'], 'apptable'=>$var['apptable'], 'row_id'=>$var['row_id']));
-        $var['delete_url'] = U('widget/Tag/deleteTag', array('appname'=>$var['appname'], 'apptable'=>$var['apptable'], 'row_id'=>$var['row_id']));
+        $var['add_url'] = U('widget/Tag/addTag', array('appname' => $var['appname'], 'apptable' => $var['apptable'], 'row_id' => $var['row_id']));
+        $var['delete_url'] = U('widget/Tag/deleteTag', array('appname' => $var['appname'], 'apptable' => $var['apptable'], 'row_id' => $var['row_id']));
         // 获取标签
         $tags = model('Tag')->setAppName($var['appname'])->setAppTable($var['apptable'])->getAppTags($var['row_id'], $var['isUserTag']);
         $var['tags'] = $tags;
@@ -71,7 +71,7 @@ class TagWidget extends Widget
         $_POST['name'] = t($_POST['name']);
         // 判断是否为空
         if (empty($_POST['name'])) {
-            exit(json_encode(array('status'=>0, 'info'=>L('PUBLIC_TAG_NOEMPTY'))));
+            exit(json_encode(array('status' => 0, 'info' => L('PUBLIC_TAG_NOEMPTY'))));
         }
         // 其他相关参数
         $appName = t($_REQUEST['appname']);
@@ -92,14 +92,14 @@ class TagWidget extends Widget
      */
     public function deleteTag()
     {
-        $appName  = t($_REQUEST['appname']);
+        $appName = t($_REQUEST['appname']);
         $appTable = t($_REQUEST['apptable']);
-        $row_id      = intval($_REQUEST['row_id']);
+        $row_id = intval($_REQUEST['row_id']);
         $result = model('Tag')->setAppName($appName)->setAppTable($appTable)->deleteAppTag($row_id, t($_POST['tag_id']));
 
-        $return['info']    = model('Tag')->getError();
-        $return['status']    = $result;
-        $return['data']        = null;
+        $return['info'] = model('Tag')->getError();
+        $return['status'] = $result;
+        $return['data'] = null;
         echo json_encode($return);
         exit();
     }

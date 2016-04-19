@@ -7,11 +7,11 @@
 class InviteTestAddons extends NormalAddons
 {
     protected $version = '1.0';
-    protected $author  = 'while';
-    protected $site    = 'master@xiew.net';
-    protected $info    = '邀请内测插件（官方版） - 以发放邀请码的方式邀请用户测试';
+    protected $author = 'while';
+    protected $site = 'master@xiew.net';
+    protected $info = '邀请内测插件（官方版） - 以发放邀请码的方式邀请用户测试';
     protected $pluginName = '邀请内测 - 官方版';
-    protected $tsVersion  = '4.0';
+    protected $tsVersion = '4.0';
 
     /**
      * 获的改插件使用了那些钩子聚合类
@@ -30,9 +30,9 @@ class InviteTestAddons extends NormalAddons
     public function adminMenu()
     {
         $menu = array(
-            'invite'=>'邀请码管理',
-            'addinvite'=>'添加邀请码',
-            'config'=>'邀请配置',
+            'invite' => '邀请码管理',
+            'addinvite' => '添加邀请码',
+            'config' => '邀请配置',
         );
 
         return $menu;

@@ -44,10 +44,10 @@ class AppAction extends Action
      */
     public function uninstall()
     {
-        $return = array('status'=>1,'data'=>L('PUBLIC_SYSTEM_MOVE_SUCCESS'));            // 移除成功
+        $return = array('status' => 1,'data' => L('PUBLIC_SYSTEM_MOVE_SUCCESS'));            // 移除成功
         $appId = intval($_POST['app_id']);
         if (empty($appId)) {
-            $return = array('status'=>1,'data'=>L('PUBLIC_SYSTEM_MOVE_FAIL'));            // 移除失败
+            $return = array('status' => 1,'data' => L('PUBLIC_SYSTEM_MOVE_FAIL'));            // 移除失败
             exit(json_encode($return));
         }
         if (!model('UserApp')->uninstall($this->uid, $appId)) {
@@ -63,10 +63,10 @@ class AppAction extends Action
      */
     public function install()
     {
-        $return = array('status'=>1,'data'=>L('PUBLIC_ADD_SUCCESS'));                    // 添加成功
+        $return = array('status' => 1,'data' => L('PUBLIC_ADD_SUCCESS'));                    // 添加成功
         $appId = intval($_POST['app_id']);
         if (empty($appId)) {
-            $return = array('status'=>1,'data'=>L('PUBLIC_ADD_FAIL'));                    // 添加失败
+            $return = array('status' => 1,'data' => L('PUBLIC_ADD_FAIL'));                    // 添加失败
             exit(json_encode($return));
         }
         if (!model('UserApp')->install($this->uid, $appId)) {
@@ -83,8 +83,8 @@ class AppAction extends Action
     public function addapp()
     {
         $dao = model('App');
-        $all_apps  = $dao->getAppByPage('add_front_applist=1', $limit=10);
-        $installed = isset($_SESSION['installed_app_user_'.$this->mid]) ? $_SESSION['installed_app_user_'.$this->mid] :M('user_app')->where('`uid`='.$this->mid)->field('app_id')->findAll();
+        $all_apps = $dao->getAppByPage('add_front_applist=1', $limit = 10);
+        $installed = isset($_SESSION['installed_app_user_'.$this->mid]) ? $_SESSION['installed_app_user_'.$this->mid] : M('user_app')->where('`uid`='.$this->mid)->field('app_id')->findAll();
         $installed = getSubByKey($installed, 'app_id');
         $this->assign($all_apps);
         $this->assign('installed', $installed);

@@ -10,7 +10,7 @@ class DepartmentModel extends Model
     const FIELD_KEY = 'department';            // 部门的字段KEY
 
     protected $tableName = 'department';
-    protected $fields = array(0=>'department_id',1=>'title',2=>'parent_dept_id',3=>'display_order',4=>'ctime');
+    protected $fields = array(0 => 'department_id',1 => 'title',2 => 'parent_dept_id',3 => 'display_order',4 => 'ctime');
 
     protected $treeDo;                    // 分类树模型
 
@@ -19,7 +19,7 @@ class DepartmentModel extends Model
      */
     public function _initialize()
     {
-        $field = array('id'=>'department_id','name'=>'title','pid'=>'parent_dept_id','sort'=>'display_order');
+        $field = array('id' => 'department_id','name' => 'title','pid' => 'parent_dept_id','sort' => 'display_order');
         tsload(ADDON_PATH.'/model/CateTreeModel');
         $this->treeDo = new CateTreeModel('department');
         $this->treeDo->setField($field);
@@ -55,8 +55,8 @@ class DepartmentModel extends Model
      */
     public function getHashDepartment($pid = 0, $sid = '', $nosid = 0)
     {
-        $treeHash    =$this->treeDo->getAllHash();
-        $pid ==0 && $optHash[0] = L('PUBLIC_TOP_DEPARTMENT') ;            // 顶级部门
+        $treeHash = $this->treeDo->getAllHash();
+        $pid == 0 && $optHash[0] = L('PUBLIC_TOP_DEPARTMENT') ;            // 顶级部门
         foreach ($treeHash as $k => $v) {
             if ($nosid == 1 && !empty($sid) && $k == $sid) {
                 continue;
@@ -91,7 +91,7 @@ class DepartmentModel extends Model
         // 添加部门操作
         $add['title'] = t($data['title']);
         $add['parent_dept_id'] = $this->_getParent_dept($data);
-        $add['display_order'] = isset($data['display_order'])  && !empty($data['display_order'])? $data['display_order'] : 255;
+        $add['display_order'] = isset($data['display_order'])  && !empty($data['display_order']) ? $data['display_order'] : 255;
         $add['ctime'] = time();
 
         if ($this->add($add)) {
@@ -113,8 +113,8 @@ class DepartmentModel extends Model
         $pid = $data['parent_dept_id'];
         if (!empty($data['_parent_dept_id'])) {
             $level = count($data['_parent_dept_id']);
-            $_P = $data['_parent_dept_id'][$level-2] ?  $data['_parent_dept_id'][$level - 2] : $pid;
-            $pid = $data['_parent_dept_id'][$level-1] > 0 ? $data['_parent_dept_id'][$level - 1] : $_P;
+            $_P = $data['_parent_dept_id'][$level - 2] ?  $data['_parent_dept_id'][$level - 2] : $pid;
+            $pid = $data['_parent_dept_id'][$level - 1] > 0 ? $data['_parent_dept_id'][$level - 1] : $_P;
         }
 
         return intval($pid);
@@ -161,7 +161,7 @@ class DepartmentModel extends Model
             // 移动子集
             $upmap = array();
             $upmap['parent_dept_id'] = $id;
-            $save['parent_dept_id']  = $pid;
+            $save['parent_dept_id'] = $pid;
             $this->where($upmap)->save($save);
 
             $fieldids = D('user_profile_setting')->where("form_type='selectDepart'")->field('field_id')->findAll();
@@ -199,7 +199,7 @@ class DepartmentModel extends Model
         }
         $map = array();
         $map['department_id'] = $id;
-        $save['parent_dept_id']  = $pid;
+        $save['parent_dept_id'] = $pid;
         $oldTreeName = $this->getTreeName($id);
 
         if ($this->where($map)->save($save)) {
@@ -341,7 +341,7 @@ class DepartmentModel extends Model
     {
         $data = $this->treeDo->getTree($id);
         $names[] = $data['title'];
-        if ($data['parent_dept_id'] !=0) {
+        if ($data['parent_dept_id'] != 0) {
             return $this->_getTreeName($data['parent_dept_id'], $names);
         }
 
@@ -371,7 +371,7 @@ class DepartmentModel extends Model
      * @param  array $ids 附加的节点ID
      * @return array 从顶级到该级的父亲节点数组
      */
-    public function getTreeIdBySql($id, $ids=array())
+    public function getTreeIdBySql($id, $ids = array())
     {
         $ids[] = $id;
         $map['department_id'] = $id;
@@ -407,7 +407,7 @@ class DepartmentModel extends Model
         // 将用户放到第一个部门下
         $data = $this->treeDo->getTree(0);
         $departName = $data['_child'][0]['title'].'|';
-        $departId =$data['_child'][0]['department_id'];
+        $departId = $data['_child'][0]['department_id'];
         $sql = "INSERT INTO {$this->tablePrefix}user_profile SELECT uid,".self::FIELD_ID." AS field_id,'{$departName}' AS field_data,0 AS privacy FROM {$this->tablePrefix}user";
         echo $sql;
         $this->query($sql);

@@ -112,12 +112,12 @@ final class Ts
      **/
     public static function import($name, $ext = '.php')
     {
-        $name  = func_get_args();
-        $ext   = array_pop($name);
-        $name  = implode(self::DS, $name);
+        $name = func_get_args();
+        $ext = array_pop($name);
+        $name = implode(self::DS, $name);
         $name .= $ext;
         unset($ext);
-        $name  = 'file://'.$name;
+        $name = 'file://'.$name;
         /* 是否已经加载过了 */
         if (in_array($name, self::$_files)) {
             return true;

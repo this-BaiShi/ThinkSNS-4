@@ -14,16 +14,16 @@ class DES_MOBILE
 
     public function encrypt($string)
     {
-        $ivArray=array(0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF);
-        $iv=null;
+        $ivArray = array(0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF);
+        $iv = null;
         foreach ($ivArray as $element) {
-            $iv.=CHR($element);
+            $iv .= CHR($element);
         }
 
         $size = mcrypt_get_block_size(MCRYPT_DES, MCRYPT_MODE_CBC);
         $string = $this->pkcs5Pad($string, $size);
 
-        $data =  mcrypt_encrypt(MCRYPT_DES, $this->key, $string, MCRYPT_MODE_CBC, $iv);
+        $data = mcrypt_encrypt(MCRYPT_DES, $this->key, $string, MCRYPT_MODE_CBC, $iv);
 
         $data = base64_encode($data);
 
@@ -32,15 +32,15 @@ class DES_MOBILE
 
     public function decrypt($string)
     {
-        $ivArray=array(0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF);
-        $iv=null;
+        $ivArray = array(0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF);
+        $iv = null;
         foreach ($ivArray as $element) {
-            $iv.=CHR($element);
+            $iv .= CHR($element);
         }
 
         $string = base64_decode($string);
 
-        $result =  mcrypt_decrypt(MCRYPT_DES, $this->key, $string, MCRYPT_MODE_CBC, $iv);
+        $result = mcrypt_decrypt(MCRYPT_DES, $this->key, $string, MCRYPT_MODE_CBC, $iv);
 
         $result = $this->pkcs5Unpad($result);
 

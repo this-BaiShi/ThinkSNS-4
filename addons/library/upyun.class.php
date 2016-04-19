@@ -213,7 +213,7 @@ class UpYun
      * @param $auto_mkdir=false 是否自动创建父级目录
      * return true or false
      */
-    public function writeFile($file, $datas, $auto_mkdir=false)
+    public function writeFile($file, $datas, $auto_mkdir = false)
     {
         $this->auto_mkdir = $auto_mkdir;
         $r = $this->HttpAction('PUT', $file, $datas);
@@ -258,7 +258,7 @@ class UpYun
             return null;
         }
 
-        return array('type'=> $this->tmp_infos['x-upyun-file-type'], 'size'=> @intval($this->tmp_infos['x-upyun-file-size']), 'date'=> @intval($this->tmp_infos['x-upyun-file-date']));
+        return array('type' => $this->tmp_infos['x-upyun-file-type'], 'size' => @intval($this->tmp_infos['x-upyun-file-size']), 'date' => @intval($this->tmp_infos['x-upyun-file-date']));
     }
 
     /**
@@ -279,7 +279,7 @@ class UpYun
             $l = new stdclass;
             @list($l->name, $l->type, $l->size, $l->time) = explode("\t", $r);
             if (!empty($l->time)) {
-                $l->type = ($l->type == 'N' ? 'file':'folder');
+                $l->type = ($l->type == 'N' ? 'file' : 'folder');
                 $l->size = intval($l->size);
                 $l->time = intval($l->time);
                 $returns[] = $l;
@@ -307,7 +307,7 @@ class UpYun
      * @param $auto_mkdir=false 是否自动创建父级目录
      * return true or false
      */
-    public function mkDir($path, $auto_mkdir=false)
+    public function mkDir($path, $auto_mkdir = false)
     {
         $this->auto_mkdir = $auto_mkdir;
         $r = $this->HttpAction('PUT', $path, 'folder:true');

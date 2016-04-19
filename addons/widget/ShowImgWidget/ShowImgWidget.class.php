@@ -18,10 +18,10 @@ class ShowImgWidget extends Widget
     {
         $var = array();
 
-        $var['id']     = 'scroll'.self::$rand;
-        $var['width']  = '100%';
+        $var['id'] = 'scroll'.self::$rand;
+        $var['width'] = '100%';
         $var['height'] = '100%';
-        $var['tpl']    = 'default';
+        $var['tpl'] = 'default';
 
         is_array($data) && $var = array_merge($var, $data);
 

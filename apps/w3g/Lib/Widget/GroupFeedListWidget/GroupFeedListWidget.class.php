@@ -8,7 +8,7 @@
 class GroupFeedListWidget extends Widget
 {
     private static $rand = 1;
-    private $limitnums   = 10;
+    private $limitnums = 10;
 
     /**
      * @param string type 获取哪类分享 following:我关注的 space：
@@ -53,7 +53,7 @@ class GroupFeedListWidget extends Widget
             unset($_REQUEST['loadId']);
             $this->limitnums = 40;
         } else {
-            $return = array('status'=>-1,'msg'=>L('PUBLIC_LOADING_ID_ISNULL'));
+            $return = array('status' => -1,'msg' => L('PUBLIC_LOADING_ID_ISNULL'));
             $_REQUEST['loadId'] = intval($_REQUEST['loadId']);
             $this->limitnums = 10;
         }
@@ -66,13 +66,13 @@ class GroupFeedListWidget extends Widget
         // 查看是否有更多数据
         if (empty($content['html'])) {
             // 没有更多的
-            $return = array('status'=>0,'msg'=>L('PUBLIC_WEIBOISNOTNEW'));
+            $return = array('status' => 0,'msg' => L('PUBLIC_WEIBOISNOTNEW'));
         } else {
-            $return = array('status'=>1,'msg'=>L('PUBLIC_SUCCESS_LOAD'));
+            $return = array('status' => 1,'msg' => L('PUBLIC_SUCCESS_LOAD'));
             $return['html'] = $content['html'];
             $return['loadId'] = $content['lastId'];
             $return['firstId'] = (empty($_REQUEST['p']) && empty($_REQUEST['loadId'])) ? $content['firstId'] : 0;
-            $return['pageHtml']    = $content['pageHtml'];
+            $return['pageHtml'] = $content['pageHtml'];
         }
         exit(json_encode($return));
     }
@@ -83,7 +83,7 @@ class GroupFeedListWidget extends Widget
      */
     public function loadNew()
     {
-        $return = array('status'=>-1,'msg'=>'');
+        $return = array('status' => -1,'msg' => '');
         $_REQUEST['maxId'] = intval($_REQUEST['maxId']);
         if (empty($_REQUEST['maxId'])) {
             echo json_encode($return);
@@ -92,9 +92,9 @@ class GroupFeedListWidget extends Widget
         $content = $this->getData($_REQUEST, '_FeedList.html');
         if (empty($content['html'])) {
             //没有最新的
-            $return = array('status'=>0,'msg'=>L('PUBLIC_WEIBOISNOTNEW'));
+            $return = array('status' => 0,'msg' => L('PUBLIC_WEIBOISNOTNEW'));
         } else {
-            $return = array('status'=>1,'msg'=>L('PUBLIC_SUCCESS_LOAD'));
+            $return = array('status' => 1,'msg' => L('PUBLIC_SUCCESS_LOAD'));
             $return['html'] = $content['html'];
             $return['maxId'] = intval($content['firstId']);
             $return['count'] = intval($content['count']);
@@ -126,15 +126,15 @@ class GroupFeedListWidget extends Widget
             //关键字匹配 采用搜索引擎兼容函数搜索 后期可能会扩展为搜索引擎
             $list = D('GroupFeed')->searchFeed($var['feed_key'], 'all', $var['loadId'], $this->limitnums);
         } else {
-            $where ='is_del=0 AND gid='.$var['gid'];
+            $where = 'is_del=0 AND gid='.$var['gid'];
             if ($var['loadId'] > 0) { //非第一次
-                $where .=" AND feed_id < '".intval($var['loadId'])."'";
+                $where .= " AND feed_id < '".intval($var['loadId'])."'";
             }
             if (!empty($var['feed_type'])) {
                 if ($var['feed_type'] == 'post') {
-                    $where .=' AND is_repost = 0';
+                    $where .= ' AND is_repost = 0';
                 } else {
-                    $where .=" AND type = '".t($var['feed_type'])."'";
+                    $where .= " AND type = '".t($var['feed_type'])."'";
                 }
             }
             $list = D('GroupFeed')->getList($where, $this->limitnums);
@@ -143,7 +143,7 @@ class GroupFeedListWidget extends Widget
         isset($list['html']) && $var['html'] = $list['html'];
         if (!empty($list['data'])) {
             $content['firstId'] = $var['firstId'] = $list['data'][0]['feed_id'];
-            $content['lastId'] = $var['lastId'] = $list['data'][(count($list['data'])-1)]['feed_id'];
+            $content['lastId'] = $var['lastId'] = $list['data'][(count($list['data']) - 1)]['feed_id'];
             $var['data'] = $list['data'];
             $uids = array();
             foreach ($var['data'] as &$v) {
@@ -182,7 +182,7 @@ class GroupFeedListWidget extends Widget
      * @param  string $tpl 渲染的模板
      * @return array  获取分享相关模板数据
      */
-    private function getTopicData($var, $tpl='FeedList.html')
+    private function getTopicData($var, $tpl = 'FeedList.html')
     {
         $var['cancomment'] = isset($var['cancomment']) ? $var['cancomment'] : 1;
         //$var['cancomment_old_type'] = array('post','repost','postimage','postfile');
@@ -211,7 +211,7 @@ class GroupFeedListWidget extends Widget
 
         if (!empty($list['data'])) {
             $content['firstId'] = $var['firstId'] = $list['data'][0]['feed_id'];
-            $content['lastId']  = $var['lastId'] = $list['data'][(count($list['data'])-1)]['feed_id'];
+            $content['lastId'] = $var['lastId'] = $list['data'][(count($list['data']) - 1)]['feed_id'];
             $var['data'] = $list['data'];
             $uids = array();
             foreach ($var['data'] as &$v) {

@@ -64,11 +64,11 @@ class PublicAction extends AdministratorAction
      */
     public function selectDepartment()
     {
-        $return = array('status'=>1,'data'=>'');
+        $return = array('status' => 1,'data' => '');
 
         if (empty($_POST['pid'])) {
             $return['status'] = 0;
-            $return['data']   = L('PUBLIC_SYSTEM_CATEGORY_ISNOT');
+            $return['data'] = L('PUBLIC_SYSTEM_CATEGORY_ISNOT');
             echo json_encode($return);
             exit();
         }
@@ -78,15 +78,15 @@ class PublicAction extends AdministratorAction
         $ctree = model('Department')->getDepartment($_POST['pid']);
         if (empty($ctree['_child'])) {
             $return['status'] = 0;
-            $return['data']   = L('PUBLIC_SYSTEM_SONCATEGORY_ISNOT');
+            $return['data'] = L('PUBLIC_SYSTEM_SONCATEGORY_ISNOT');
         } else {
             $return['data'] = "<select name='_parent_dept_id[]' onchange='admin.selectDepart(this.value,$(this))' id='_parent_dept_{$_POST['pid']}'>";
             $return['data'] .= "<option value='-1'>".L('PUBLIC_SYSTEM_SELECT').'</option>';
             $sid = !empty($_POST['sid']) ? $_POST['sid'] : '';
             foreach ($ctree['_child'] as $key => $value) {
-                $return['data'] .="<option value='{$value['department_id']}' ".($value['department_id'] == $sid ? " selected='selected'":'').">{$value['title']}</option>";
+                $return['data'] .= "<option value='{$value['department_id']}' ".($value['department_id'] == $sid ? " selected='selected'" : '').">{$value['title']}</option>";
             }
-            $return['data'] .='</select>';
+            $return['data'] .= '</select>';
         }
         echo json_encode($return);
         exit();
@@ -268,7 +268,7 @@ class PublicAction extends AdministratorAction
         }
         $this->pageKeyList = $pageKeyList;
         // 提交表单URL设置
-        $this->savePostUrl = U('admin/Public/doSetCategoryConf', array('cid'=>$cid, 'stable'=>$stable));
+        $this->savePostUrl = U('admin/Public/doSetCategoryConf', array('cid' => $cid, 'stable' => $stable));
         // 获取配置信息
         $extend = empty($category['ext']) ? $detailData : unserialize($category['ext']);
 

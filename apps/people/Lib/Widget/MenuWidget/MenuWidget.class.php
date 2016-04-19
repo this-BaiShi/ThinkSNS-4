@@ -35,7 +35,7 @@ class MenuWidget extends Widget
                 $cate = D('area')->where('area_id='.$var['area'])->find();
                 if ($cate['pid'] != 0) {
                     $var['parent1'] = D('area')->where('area_id='.$cate['pid'])->find();  //上级
-                    if ($var['parent1']['pid']!=0) {
+                    if ($var['parent1']['pid'] != 0) {
                         $var['parent2'] = D('area')->where('area_id='.$var['parent1']['pid'])->find(); //上上级
                     } else {
                         $var['parent2']['title'] = $var['parent1']['title'];
@@ -60,7 +60,7 @@ class MenuWidget extends Widget
             case 'verify':
                 // $var['menu'] = model('CategoryTree')->setTable('user_verified_category')->getNetworkList();
                 $var['menu'] = model('UserGroup')->where('is_authenticate=1')->findAll();
-                foreach ($var['menu'] as $k=>$v) {
+                foreach ($var['menu'] as $k => $v) {
                     $var['menu'][$k]['child'] = D('user_verified_category')->where('pid='.$v['user_group_id'])->findAll();
                 }
                 $var['pid'] = intval($data['pid']);

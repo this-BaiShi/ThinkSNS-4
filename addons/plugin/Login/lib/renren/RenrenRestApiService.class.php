@@ -22,18 +22,18 @@
  class RenrenRestApiService extends HttpRequestService
  {
      private $_config;
-     private $_postFields    = '';
-     private $_params        =    array();
+     private $_postFields = '';
+     private $_params = array();
      private $_currentMethod;
      private static $_sigKey = 'sig';
-     private $_sig            = '';
-     private $_call_id        = '';
+     private $_sig = '';
+     private $_call_id = '';
 
-     private $_keyMapping    = array(
-                'api_key'    =>    '',
-                'method'    =>    '',
-                'v'            =>    '',
-                'format'    =>    '',
+     private $_keyMapping = array(
+                'api_key' => '',
+                'method' => '',
+                'v' => '',
+                'format' => '',
             );
 
      public function __construct()
@@ -58,7 +58,7 @@
     public function GET()
     {
         $args = func_get_args();
-        $this->_currentMethod    = trim($args[0]); #Method
+        $this->_currentMethod = trim($args[0]); #Method
         $this->paramsMerge($args[1])
              ->getCallId()
              ->setConfigToMapping()
@@ -79,7 +79,7 @@
     public function rr_post_curl()
     {
         $args = func_get_args();
-        $this->_currentMethod    = trim($args[0]); #Method
+        $this->_currentMethod = trim($args[0]); #Method
         $this->paramsMerge($args[1])
              ->getCallId()
              ->setConfigToMapping()
@@ -102,9 +102,9 @@
         ksort($arr);
         reset($arr);
         $str = '';
-        foreach ($arr as $k=>$v) {
-            $v=$this->convertEncoding($v, $this->_encode, 'utf-8');
-            $arr[$k]=$v;//转码，你懂得
+        foreach ($arr as $k => $v) {
+            $v = $this->convertEncoding($v, $this->_encode, 'utf-8');
+            $arr[$k] = $v;//转码，你懂得
                 $str .= $k.'='.$v;
         }
 
@@ -138,10 +138,10 @@
      */
     private function setConfigToMapping()
     {
-        $this->_keyMapping['api_key']    = $this->_config->APIKey;
-        $this->_keyMapping['method']    = $this->_currentMethod;
-        $this->_keyMapping['v']            = $this->_config->APIVersion;
-        $this->_keyMapping['format']    = $this->_config->decodeFormat;
+        $this->_keyMapping['api_key'] = $this->_config->APIKey;
+        $this->_keyMapping['method'] = $this->_currentMethod;
+        $this->_keyMapping['v'] = $this->_config->APIVersion;
+        $this->_keyMapping['format'] = $this->_config->decodeFormat;
 
         return $this;
     }
@@ -167,7 +167,7 @@
      public function rr_post_fopen()
      {
          $args = func_get_args();
-         $this->_currentMethod    = trim($args[0]); #Method
+         $this->_currentMethod = trim($args[0]); #Method
         $this->paramsMerge($args[1])
              ->getCallId()
              ->setConfigToMapping()
@@ -181,14 +181,14 @@
      public function rr_photo_post_fopen()
      {
          $args = func_get_args();
-         $this->_currentMethod    = trim($args[0]); #Method
+         $this->_currentMethod = trim($args[0]); #Method
         $this->paramsMerge($args[1])
              ->getCallId()
              ->setConfigToMapping()
              ->generateSignature();
 
         #Invoke
-        $photo_files=$args[2];
+        $photo_files = $args[2];
 
          unset($args);
 

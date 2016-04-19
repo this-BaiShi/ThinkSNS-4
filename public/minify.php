@@ -11,17 +11,17 @@ if (extension_loaded('zlib')) {
     ob_start('ob_gzhandler');
 }
 
-$allowed_content_types    =    array('js','css');
+$allowed_content_types = array('js','css');
 
-$getfiles    = explode(',', strip_tags($_GET['f']));
+$getfiles = explode(',', strip_tags($_GET['f']));
 
 //解析参数
-$gettype    = (isset($_GET['t']) && $_GET['t']=='css')?'css':'js';
+$gettype = (isset($_GET['t']) && $_GET['t'] == 'css') ? 'css' : 'js';
 
-if ($gettype=='css') {
-    $content_type    =    'text/css';
-} elseif ($gettype=='js') {
-    $content_type    =    'application/x-javascript';
+if ($gettype == 'css') {
+    $content_type = 'text/css';
+} elseif ($gettype == 'js') {
+    $content_type = 'application/x-javascript';
 } else {
     die('not allowed content type');
 }

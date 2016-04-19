@@ -18,7 +18,7 @@ class RankAction extends Action
         }
         $ranList = $this->_getRankList($type, $fids);
         $list = $this->_parseRankList($ranList);
-        $typename = $type == 1 ? '好友':'全站';
+        $typename = $type == 1 ? '好友' : '全站';
         $this->assign('typename', $typename);
         $this->assign('mid', $this->mid);
         $this->assign('type', $type);
@@ -160,7 +160,7 @@ class RankAction extends Action
             $followerrank = $userDataDao->where($followermap)->count();
             $followerrank += 1;
 
-            $experiencemap['experience']  = array( 'gt' , $userCredit['experience'] );
+            $experiencemap['experience'] = array( 'gt' , $userCredit['experience'] );
             $experiencerank = $creditUserDao->where($experiencemap)->count();
             $experiencerank += 1;
 
@@ -189,13 +189,13 @@ class RankAction extends Action
         /*******粉丝*********/
         $follower['userrank'] = $list['followerrank'];
         $followlist = array();
-        foreach ($list['followeruids'] as $k=>$v) {
+        foreach ($list['followeruids'] as $k => $v) {
             if ($k < 10) {
                 $followlist[1][] = $v;
             } else {
                 //舍去法取整
                 $fnum = floor($k / 10);
-                $followlist[$fnum+1][] = $v;
+                $followlist[$fnum + 1][] = $v;
             }
         }
         //进一法取整
@@ -206,13 +206,13 @@ class RankAction extends Action
         /*******经验*********/
         $experience['userrank'] = $list['experiencerank'];
         $experiencelist = array();
-        foreach ($list['experienceuids'] as $ek=>$ev) {
+        foreach ($list['experienceuids'] as $ek => $ev) {
             if ($ek < 10) {
                 $experiencelist[1][] = $ev;
             } else {
                 //舍去法取整
                 $fnum = floor($ek / 10);
-                $experiencelist[$fnum+1][] = $ev;
+                $experiencelist[$fnum + 1][] = $ev;
             }
         }
         //进一法取整
@@ -225,13 +225,13 @@ class RankAction extends Action
         /*******金币*********/
         $score['userrank'] = $list['scorerank'];
         $scorelist = array();
-        foreach ($list['scoreuids'] as $gk=>$gv) {
+        foreach ($list['scoreuids'] as $gk => $gv) {
             if ($gk < 10) {
                 $scorelist[1][] = $gv;
             } else {
                 //舍去法取整
                 $fnum = floor($gk / 10);
-                $scorelist[$fnum+1][] = $gv;
+                $scorelist[$fnum + 1][] = $gv;
             }
         }
         //进一法取整
@@ -246,13 +246,13 @@ class RankAction extends Action
             /******勋章*****/
             $medal['userrank'] = $list['medalrank'];
             $medallist = array();
-            foreach ($list['medaluids'] as $mk=>$mv) {
+            foreach ($list['medaluids'] as $mk => $mv) {
                 if ($mk < 10) {
                     $medallist[1][] = $mv;
                 } else {
                     //舍去法取整
                     $fnum = floor($mk / 10);
-                    $medallist[$fnum+1][] = $mv;
+                    $medallist[$fnum + 1][] = $mv;
                 }
             }
             //进一法取整
@@ -265,13 +265,13 @@ class RankAction extends Action
             /******连续签到*****/
             $checkcon['userrank'] = $list['checkconrank'];
             $checkconlist = array();
-            foreach ($list['checkconuids'] as $cck=>$ccv) {
+            foreach ($list['checkconuids'] as $cck => $ccv) {
                 if ($cck < 10) {
                     $checkconlist[1][] = $ccv;
                 } else {
                     //舍去法取整
                     $fnum = floor($cck / 10);
-                    $checkconlist[$fnum+1][] = $ccv;
+                    $checkconlist[$fnum + 1][] = $ccv;
                 }
             }
             //进一法取整
@@ -284,13 +284,13 @@ class RankAction extends Action
             /******累计签到*****/
             $checktotal['userrank'] = $list['checktotalrank'];
             $checktotallist = array();
-            foreach ($list['checktotaluids'] as $ctk=>$ctv) {
+            foreach ($list['checktotaluids'] as $ctk => $ctv) {
                 if ($ctk < 10) {
                     $checktotallist[1][] = $ctv;
                 } else {
                     //舍去法取整
                     $fnum = floor($ctk / 10);
-                    $checktotallist[$fnum+1][] = $ctv;
+                    $checktotallist[$fnum + 1][] = $ctv;
                 }
             }
             //进一法取整
@@ -309,7 +309,7 @@ class RankAction extends Action
     public function postRank()
     {
         $type = $_POST['type'] ? intval($_POST['type']) : 1;
-        $typename = ($type == 1)?'好友':'全站';
+        $typename = ($type == 1) ? '好友' : '全站';
 
         $ranList = model('Cache')->get('ranklist_'.$this->mid.'_'.$type);
         if (!$ranList) {
@@ -330,7 +330,7 @@ class RankAction extends Action
             $str .= "勋章数第{$ranList['medalrank']}；连续签到第{$ranList['checkconrank']}；累计签到第{$ranList['checktotalrank']}；";
         }
 
-        $str .='快来查看你的排名吧。'.U('public/Rank/index', 'type='.$type);
+        $str .= '快来查看你的排名吧。'.U('public/Rank/index', 'type='.$type);
 
         $data['body'] = $str;
         model('Feed')->put($this->mid, 'public', 'post', $data);
@@ -428,7 +428,7 @@ class RankAction extends Action
         $today = model('FeedTopic')->where($map)->order('count desc')->limit('10')->findAll();
         $map['ctime'] = array( 'gt' , (time() - 604800) );
         $week = model('FeedTopic')->where($map)->order('count desc')->limit('10')->findAll();
-        $map['ctime'] = array( 'gt' , (time() -2592000) );
+        $map['ctime'] = array( 'gt' , (time() - 2592000) );
         $month = model('FeedTopic')->where($map)->order('count desc')->limit('10')->findAll();
         $this->assign('today', $today);
         $this->assign('week', $week);

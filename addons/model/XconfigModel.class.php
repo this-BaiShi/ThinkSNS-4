@@ -9,12 +9,12 @@
 class XconfigModel extends Model
 {
     protected $tableName = 'system_config';
-    protected $fields = array(0=>'id',1=>'uid',2=>'list',3=>'key',4=>'value',5=>'mtime','_autoinc'=>true,'_pk'=>'id');
+    protected $fields = array(0 => 'id',1 => 'uid',2 => 'list',3 => 'key',4 => 'value',5 => 'mtime','_autoinc' => true,'_pk' => 'id');
 
     protected $list_name = 'global';            // 默认列表名
 
     //键值白名单，主要用于获取和设置配置文件某个
-    protected $whiteList = array('site'=>'');
+    protected $whiteList = array('site' => '');
 
     /**
      * 写入参数列表
@@ -33,9 +33,9 @@ class XconfigModel extends Model
             foreach ($listData as $key => $data) {
                 $insert_sql    .= " ('$listName','$key','".serialize($data)."','".date('Y-m-d H:i:s')."') ,";
             }
-            $insert_sql    = rtrim($insert_sql, ',');
+            $insert_sql = rtrim($insert_sql, ',');
             // 插入数据列表
-            $result    = $this->execute($insert_sql);
+            $result = $this->execute($insert_sql);
         }
 
         $cache_id = '_system_config_lget_'.$listName;
@@ -85,7 +85,7 @@ class XconfigModel extends Model
             $data = array();
             $map['`list`'] = $list_name;
 
-            $result    = D('system_config')->order('id ASC')->where($map)->findAll();
+            $result = D('system_config')->order('id ASC')->where($map)->findAll();
             if ($result) {
                 foreach ($result as $v) {
                     $data[$v['key']] = unserialize($v['value']);

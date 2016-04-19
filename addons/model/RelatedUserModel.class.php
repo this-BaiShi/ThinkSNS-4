@@ -96,36 +96,36 @@ class RelatedUserModel extends Model
             // 权重比例
             $weightsSum = array_sum($weightsNum);
             // 好友的共同好友
-            if ($weightsNum['following']>0) {
+            if ($weightsNum['following'] > 0) {
                 $nums = ceil($limit * $weightsNum['following'] / $weightsSum);
                 $relatedUseInfo = $this->_getRelatedUserFromFollowing($nums);
             }
             // 关注的人
-            if ($weightsNum['friend']>0) {
+            if ($weightsNum['friend'] > 0) {
                 $nums = ceil($limit * $weightsNum['friend'] / $weightsSum);
                 $data = $this->_getRelatedUserFromFriend($nums, $limit);
                 !empty($data) && $relatedUseInfo = array_merge($relatedUseInfo, $data);
             }
             // 城市相同
-            if ($weightsNum['city']>0) {
+            if ($weightsNum['city'] > 0) {
                 $nums = ceil($limit * $weightsNum['city'] / $weightsSum);
                 $data = $this->_getRelatedUserFromCity($nums, $limit);
                 !empty($data) && $relatedUseInfo = array_merge($relatedUseInfo, $data);
             }
             // 工作相同
-            if ($weightsNum['tag']>0) {
+            if ($weightsNum['tag'] > 0) {
                 $nums = ceil($limit * $weightsNum['tag'] / $weightsSum);
                 $data = $this->_getRelatedUserFromTag($nums, $limit);
                 !empty($data) && $relatedUseInfo = array_merge($relatedUseInfo, $data);
             }
             // 新注册用户
-            if ($weightsNum['new']>0) {
+            if ($weightsNum['new'] > 0) {
                 $nums = ceil($limit * $weightsNum['new'] / $weightsSum);
                 $data = $this->_getRelatedUserFromNew($nums, $limit);
                 !empty($data) && $relatedUseInfo = array_merge($relatedUseInfo, $data);
             }
             // 随机用户
-            if ($weightsNum['random']>0) {
+            if ($weightsNum['random'] > 0) {
                 $nums = $limit - count($relatedUseInfo);
                 $data = $this->_getRelatedUserFromRandom($nums, $limit);
                 !empty($data) && $relatedUseInfo = array_merge($relatedUseInfo, $data);
@@ -351,7 +351,7 @@ class RelatedUserModel extends Model
         $data = getSubByKey($data, 'uid');
         // 排除不需要的UID
         if (is_array($data)) {
-            foreach ($data as $k=>$v) {
+            foreach ($data as $k => $v) {
                 if (in_array($v, $this->_exclude_uids)) {
                     unset($data[$k]);
                 }
@@ -372,7 +372,7 @@ class RelatedUserModel extends Model
                 unset($data[$key]);
                 continue;
             }
-            $data[$key] = array('userInfo'=>$userInfos[$value]);
+            $data[$key] = array('userInfo' => $userInfos[$value]);
             $data[$key]['followState'] = $userStates[$value];
             $data[$key]['info']['msg'] = '最新注册用户推荐';
             $data[$key]['info']['extendMsg'] = '';
@@ -403,7 +403,7 @@ class RelatedUserModel extends Model
         $data = array_unique($data);
         // 排除不需要的UID
         if (is_array($data)) {
-            foreach ($data as $k=>$v) {
+            foreach ($data as $k => $v) {
                 if (in_array($v, $this->_exclude_uids)) {
                     unset($data[$k]);
                 }
@@ -424,7 +424,7 @@ class RelatedUserModel extends Model
                 unset($data[$key]);
                 continue;
             }
-            $data[$key] = array('userInfo'=>$userInfos[$value]);
+            $data[$key] = array('userInfo' => $userInfos[$value]);
             $data[$key]['followState'] = $userStates[$value];
             // 获取相关用户
             $relatedUids = array();
@@ -489,7 +489,7 @@ class RelatedUserModel extends Model
                 unset($data[$key]);
                 continue;
             }
-            $data[$key] = array('userInfo'=>$userInfos[$value]);
+            $data[$key] = array('userInfo' => $userInfos[$value]);
             $data[$key]['followState'] = $userStates[$value];
             // 获取相关用户
             $relatedUids = array();
@@ -536,16 +536,16 @@ class RelatedUserModel extends Model
             $tagHash[$tag['row_id']] = $tag['tag_id'];
         }
         $data = getSubByKey($tagData, 'row_id');
-        foreach ($data as $k=>$vo) {
+        foreach ($data as $k => $vo) {
             $uinfo = $this->_user_model->getUserInfo($vo);
-            if (!$uinfo || $uinfo['uname']=='') {
+            if (!$uinfo || $uinfo['uname'] == '') {
                 unset($data[$k]);
             }
         }
         $data = array_unique($data);
         // 排除不需要的UID
         if (is_array($data)) {
-            foreach ($data as $k=>$v) {
+            foreach ($data as $k => $v) {
                 if (in_array($v, $this->_exclude_uids)) {
                     unset($data[$k]);
                 }
@@ -568,7 +568,7 @@ class RelatedUserModel extends Model
                 unset($data[$key]);
                 continue;
             }
-            $data[$key] = array('userInfo'=>$userInfos[$value]);
+            $data[$key] = array('userInfo' => $userInfos[$value]);
             $data[$key]['followState'] = $userStates[$value];
             // 获取标签信息
             $tag_id = 0;
@@ -629,7 +629,7 @@ class RelatedUserModel extends Model
                 unset($data[$key]);
                 continue;
             }
-            $data[$key] = array('userInfo'=>$userInfos[$value]);
+            $data[$key] = array('userInfo' => $userInfos[$value]);
             $data[$key]['followState'] = $userStates[$value];
             // 获取地区信息
             $map['area_id'] = array('IN', array($areaInfo['city'], $areaInfo['area']));
@@ -666,7 +666,7 @@ class RelatedUserModel extends Model
         $data = getSubByKey($data, 'uid');
         // 排除不需要的UID
         if (is_array($data)) {
-            foreach ($data as $k=>$v) {
+            foreach ($data as $k => $v) {
                 if (in_array($v, $this->_exclude_uids)) {
                     unset($data[$k]);
                 }
@@ -684,7 +684,7 @@ class RelatedUserModel extends Model
                 unset($data[$key]);
                 continue;
             }
-            $data[$key] = array('userInfo'=>$userInfos[$value]);
+            $data[$key] = array('userInfo' => $userInfos[$value]);
             $data[$key]['followState'] = $userStates[$value];
             $data[$key]['info']['msg'] = '后台推荐用户';
             $data[$key]['uid'] = $value;
@@ -707,7 +707,7 @@ class RelatedUserModel extends Model
         $data = getSubByKey($data, 'uid');
         // 排除不需要的UID
         if (is_array($data)) {
-            foreach ($data as $k=>$v) {
+            foreach ($data as $k => $v) {
                 if (in_array($v, $this->_exclude_uids)) {
                     unset($data[$k]);
                 }
@@ -725,7 +725,7 @@ class RelatedUserModel extends Model
                 unset($data[$key]);
                 continue;
             }
-            $data[$key] = array('userInfo'=>$userInfos[$value]);
+            $data[$key] = array('userInfo' => $userInfos[$value]);
             $data[$key]['followState'] = $userStates[$value];
             $data[$key]['info']['msg'] = '系统推荐';
             $data[$key]['info']['extendMsg'] = '';
@@ -776,7 +776,7 @@ class RelatedUserModel extends Model
                 unset($data[$key]);
                 continue;
             }
-            $data[$key] = array('userInfo'=>$userInfos[$value]);
+            $data[$key] = array('userInfo' => $userInfos[$value]);
             $data[$key]['followState'] = $userStates[$value];
             // 获取地区信息
             $map['area_id'] = array('IN', array($areaInfo['city'], $areaInfo['area']));

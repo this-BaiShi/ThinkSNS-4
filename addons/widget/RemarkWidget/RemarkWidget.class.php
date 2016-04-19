@@ -40,10 +40,10 @@ class RemarkWidget extends Widget
     {
         extract($var, EXTR_OVERWRITE);
 
-        $html =  "<span class='remark'>";
+        $html = "<span class='remark'>";
         if (!empty($remark)) {
             $html .=  "<em>(</em><a href=\"javascript:;\" title='".L('PUBLIC_CLICK_EDIT')."' event-node='setremark' remark='".urlencode($remark)."' class =\"remark_{$uid}\" uid='{$uid}'>{$remark}</a><em>)</em>";
-        } elseif ($showonly!=1) {
+        } elseif ($showonly != 1) {
             $html .=  "<em>(</em><a href=\"javascript:;\" title='".L('PUBLIC_CLICK_SETING')."' event-node='setremark' remark='' class =\"remark_{$uid}\" uid='{$uid}'>".L('PUBLIC_REMARK_SETTING').'</a><em>)</em>';
         }
         $html .=  '</span>';

@@ -1,6 +1,6 @@
 <?php
 //清文件缓存
-$dirs    =    array('./_runtime/');
+$dirs = array('./_runtime/');
 
 //清理缓存
 foreach ($dirs as $value) {

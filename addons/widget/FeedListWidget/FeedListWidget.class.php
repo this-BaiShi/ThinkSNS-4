@@ -30,8 +30,8 @@ class FeedListWidget extends Widget
         /* # 创建默认参数 */
         $var = array(
             'loadmore' => 1,
-            'loadnew'  => 1,
-            'tpl'      => 'FeedList.html',
+            'loadnew' => 1,
+            'tpl' => 'FeedList.html',
         );
 
         /* # 合并自定义参数 */
@@ -40,8 +40,8 @@ class FeedListWidget extends Widget
 
         /* # 设置微博设置 */
         $weiboSet = model('Xdata')->get('admin_Config:feed');
-        $var['initNums']         = $weiboSet['weibo_nums'];
-        $var['weibo_type']       = $weiboSet['weibo_type'];
+        $var['initNums'] = $weiboSet['weibo_nums'];
+        $var['weibo_type'] = $weiboSet['weibo_type'];
         $var['weibo_premission'] = $weiboSet['weibo_premission'];
         unset($weiboSet);
 
@@ -482,7 +482,7 @@ class FeedListWidget extends Widget
 
         /* # 合并后台分享设置 */
         $weiboSet = model('Xdata')->get('admin_Config:feed');
-        $var      = array_merge($var, $weiboSet);
+        $var = array_merge($var, $weiboSet);
         unset($weiboSet);
 
         /* # 获取指定用户的备注列表 */
@@ -520,7 +520,7 @@ class FeedListWidget extends Widget
         /* # 如果有数据 */
         if (!empty($list['data'])) {
             /* # 第一条ID */
-            $first              = array_shift($list['data']);
+            $first = array_shift($list['data']);
             $content['firstId'] = $var['firstId'] = $first['feed_id'];
 
             /* # 将第一条数据还原 */
@@ -528,7 +528,7 @@ class FeedListWidget extends Widget
             unset($first);
 
             /* # 最后一条 */
-            $last              = array_pop($list['data']);
+            $last = array_pop($list['data']);
             $content['lastId'] = $var['lastId'] = $last['feed_id'];
 
             /* # 将最后一条数据还原 */

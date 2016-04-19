@@ -35,7 +35,7 @@ class Dir implements IteratorAggregate
      * @param string $path 目录路径
      +----------------------------------------------------------
      */
-    public function __construct($path, $pattern='*')
+    public function __construct($path, $pattern = '*')
     {
         if (substr($path, -1) != '/') {
             $path .= '/';
@@ -52,36 +52,36 @@ class Dir implements IteratorAggregate
      * @param mixed $pathname 路径
      +----------------------------------------------------------
      */
-    public function listFile($pathname, $pattern='*')
+    public function listFile($pathname, $pattern = '*')
     {
         static $_listDirs = array();
-        $guid    =    md5($pathname.$pattern);
+        $guid = md5($pathname.$pattern);
         if (!isset($_listDirs[$guid])) {
             $dir = array();
-            $list    =    glob($pathname.$pattern);
-            foreach ($list as $i=>$file) {
+            $list = glob($pathname.$pattern);
+            foreach ($list as $i => $file) {
                 //$dir[$i]['filename']    = basename($file);
                     //basename取中文名出问题.改用此方法
                     //编码转换.把中文的调整一下.
-                    $dir[$i]['filename']     = preg_replace('/^.+[\\\\\\/]/', '', $file);
-                $dir[$i]['pathname']     = realpath($file);
-                $dir[$i]['owner']        = fileowner($file);
-                $dir[$i]['perms']        = fileperms($file);
-                $dir[$i]['inode']        = fileinode($file);
-                $dir[$i]['group']        = filegroup($file);
-                $dir[$i]['path']         = dirname($file);
-                $dir[$i]['atime']        = fileatime($file);
-                $dir[$i]['ctime']        = filectime($file);
-                $dir[$i]['size']         = filesize($file);
-                $dir[$i]['type']         = filetype($file);
-                $dir[$i]['ext']          = is_file($file)?strtolower(substr(strrchr(basename($file), '.'), 1)):'';
-                $dir[$i]['mtime']        = filemtime($file);
-                $dir[$i]['isDir']        = is_dir($file);
-                $dir[$i]['isFile']       = is_file($file);
-                $dir[$i]['isLink']       = is_link($file);
+                    $dir[$i]['filename'] = preg_replace('/^.+[\\\\\\/]/', '', $file);
+                $dir[$i]['pathname'] = realpath($file);
+                $dir[$i]['owner'] = fileowner($file);
+                $dir[$i]['perms'] = fileperms($file);
+                $dir[$i]['inode'] = fileinode($file);
+                $dir[$i]['group'] = filegroup($file);
+                $dir[$i]['path'] = dirname($file);
+                $dir[$i]['atime'] = fileatime($file);
+                $dir[$i]['ctime'] = filectime($file);
+                $dir[$i]['size'] = filesize($file);
+                $dir[$i]['type'] = filetype($file);
+                $dir[$i]['ext'] = is_file($file) ? strtolower(substr(strrchr(basename($file), '.'), 1)) : '';
+                $dir[$i]['mtime'] = filemtime($file);
+                $dir[$i]['isDir'] = is_dir($file);
+                $dir[$i]['isFile'] = is_file($file);
+                $dir[$i]['isLink'] = is_link($file);
                     //$dir[$i]['isExecutable']= function_exists('is_executable')?is_executable($file):'';
-                    $dir[$i]['isReadable']    = is_readable($file);
-                $dir[$i]['isWritable']    = is_writable($file);
+                    $dir[$i]['isReadable'] = is_readable($file);
+                $dir[$i]['isWritable'] = is_writable($file);
             }
             $cmp_func = create_function('$a,$b', '
 			$k  =  "isDir";
@@ -454,7 +454,7 @@ class Dir implements IteratorAggregate
      +----------------------------------------------------------
      +----------------------------------------------------------
      */
-    public function delDir($directory, $subdir=true)
+    public function delDir($directory, $subdir = true)
     {
         if (is_dir($directory) == false) {
             exit('The Directory Is Not Exist!');
@@ -462,8 +462,8 @@ class Dir implements IteratorAggregate
         $handle = opendir($directory);
         while (($file = readdir($handle)) !== false) {
             if ($file != '.' && $file != '..') {
-                is_dir("$directory/$file")?
-                Dir::delDir("$directory/$file"):
+                is_dir("$directory/$file") ?
+                Dir::delDir("$directory/$file") :
                 unlink("$directory/$file");
             }
         }
@@ -511,11 +511,11 @@ class Dir implements IteratorAggregate
         if (is_dir($destination) == false) {
             mkdir($destination, 0700);
         }
-        $handle=opendir($source);
+        $handle = opendir($source);
         while (false !== ($file = readdir($handle))) {
             if ($file != '.' && $file != '..') {
-                is_dir("$source/$file")?
-                Dir::copyDir("$source/$file", "$destination/$file"):
+                is_dir("$source/$file") ?
+                Dir::copyDir("$source/$file", "$destination/$file") :
                 copy("$source/$file", "$destination/$file");
             }
         }

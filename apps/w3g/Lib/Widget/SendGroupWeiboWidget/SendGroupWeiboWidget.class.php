@@ -27,7 +27,7 @@ class SendGroupWeiboWidget extends Widget
         $var['channelID'] = $data['channelID'];
 
         $var['initHtml'] = '';
-        $var['post_event'] ='post_group_feed';
+        $var['post_event'] = 'post_group_feed';
         $var['cancomment'] = 0;
         is_array($data) && $var = array_merge($var, $data);
         !$var['send_type'] && $var['send_type'] = 'send_weibo';

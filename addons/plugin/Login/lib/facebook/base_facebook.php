@@ -126,8 +126,8 @@ abstract class BaseFacebook
   public static $CURL_OPTS = array(
     CURLOPT_CONNECTTIMEOUT => 10,
     CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_TIMEOUT        => 60,
-    CURLOPT_USERAGENT      => 'facebook-php-3.2',
+    CURLOPT_TIMEOUT => 60,
+    CURLOPT_USERAGENT => 'facebook-php-3.2',
   );
   /**
    * List of query parameters that get automatically dropped when rebuilding
@@ -142,12 +142,12 @@ abstract class BaseFacebook
    * Maps aliases to Facebook domains.
    */
   public static $DOMAIN_MAP = array(
-    'api'         => 'https://api.facebook.com/',
-    'api_video'   => 'https://api-video.facebook.com/',
-    'api_read'    => 'https://api-read.facebook.com/',
-    'graph'       => 'https://graph.facebook.com/',
+    'api' => 'https://api.facebook.com/',
+    'api_video' => 'https://api-video.facebook.com/',
+    'api_read' => 'https://api-read.facebook.com/',
+    'graph' => 'https://graph.facebook.com/',
     'graph_video' => 'https://graph-video.facebook.com/',
-    'www'         => 'https://www.facebook.com/',
+    'www' => 'https://www.facebook.com/',
   );
   /**
    * The Application ID.
@@ -550,7 +550,7 @@ abstract class BaseFacebook
    * @param array $params Provide custom parameters
    * @return string The URL for the login flow
    */
-  public function getLoginUrl($params=array())
+  public function getLoginUrl($params = array())
   {
       $this->establishCSRFTokenState();
       $currentUrl = $this->getCurrentUrl();
@@ -578,7 +578,7 @@ abstract class BaseFacebook
    * @param array $params Provide custom parameters
    * @return string The URL for the logout flow
    */
-  public function getLogoutUrl($params=array())
+  public function getLogoutUrl($params = array())
   {
       return $this->getUrl(
       'www',
@@ -600,7 +600,7 @@ abstract class BaseFacebook
    * @param array $params Provide custom parameters
    * @return string The URL for the logout flow
    */
-  public function getLoginStatusUrl($params=array())
+  public function getLoginStatusUrl($params = array())
   {
       return $this->getUrl(
       'www',
@@ -883,7 +883,7 @@ abstract class BaseFacebook
    *
    * @return string The response text
    */
-  protected function makeRequest($url, $params, $ch=null)
+  protected function makeRequest($url, $params, $ch = null)
   {
       if (!$ch) {
           $ch = curl_init();
@@ -1083,7 +1083,7 @@ abstract class BaseFacebook
    *
    * @return string The URL for the given parameters
    */
-  protected function getUrl($name, $path='', $params=array())
+  protected function getUrl($name, $path = '', $params = array())
   {
       $url = self::$DOMAIN_MAP[$name];
       if ($path) {

@@ -10,31 +10,31 @@
  </tr>
  */
 //TODO 可以移动到functions中
-function showCatetree($data, $field, $func, $p=array())
+function showCatetree($data, $field, $func, $p = array())
 {
     $pid = empty($p) ? '0' : $p[$field['id']];
     $pname = empty($p) ? '-' : $p[$field['name']];
     //$display = empty($p) ? "":"style='display:none'";
     $display = '';
-    $html ='<table width="100%" id="table'.$pid.'" '.$display.'>';
-    foreach ($data as $key=>$val) {    //每行操作
-        $html .="<tr overstyle='on'>";
-        foreach ($val as $k=>$v) {
+    $html = '<table width="100%" id="table'.$pid.'" '.$display.'>';
+    foreach ($data as $key => $val) {    //每行操作
+        $html .= "<tr overstyle='on'>";
+        foreach ($val as $k => $v) {
             if (!in_array($k, $field)) {
                 continue;
             }
             if ($k == $field['pid']) {
-                $html .="<td catetd ='yes' rel='{$val[$field['id']]}' width='20%'>".$pname.'</td>';
+                $html .= "<td catetd ='yes' rel='{$val[$field['id']]}' width='20%'>".$pname.'</td>';
             } else {
-                $html .="<td catetd ='yes' rel='{$val[$field['id']]}' width='20%'>".$v.'</td>';
+                $html .= "<td catetd ='yes' rel='{$val[$field['id']]}' width='20%'>".$v.'</td>';
             }
         }
-        $html .="<td><span rel='edit' cateid='".$val[$field['id']]."' func='{$func}'>".L('PUBLIC_MODIFY')."</span>
+        $html .= "<td><span rel='edit' cateid='".$val[$field['id']]."' func='{$func}'>".L('PUBLIC_MODIFY')."</span>
 			<span rel='move' cateid='".$val[$field['id']]."' func='{$func}'>".L('PUBLIC_MOVES')."</span>	
 			<span rel='del' cateid='".$val[$field['id']]."' func='{$func}'>".L('PUBLIC_STREAM_DELETE').'</span></td></tr>';
         //递归	
         if (!empty($val['_child'])) {
-            $html .="<tr><td colspan='10'>".showCatetree($val['_child'], $field, $func, $val).'</td></tr>';
+            $html .= "<tr><td colspan='10'>".showCatetree($val['_child'], $field, $func, $val).'</td></tr>';
         }
     }
 
@@ -51,13 +51,13 @@ function showCatetree($data, $field, $func, $p=array())
  * @param unknown_type $func
  * @param unknown_type $p
  */
-function showTree($data, $field, $func, $p='')
+function showTree($data, $field, $func, $p = '')
 {
-    $html ='';
-    $p    = empty($p) ? '' : $p.' - ';
+    $html = '';
+    $p = empty($p) ? '' : $p.' - ';
     // $big  = empty($p) ? "style='font-weight:bold'" : ''; 
-    foreach ($data as $key=>$val) {
-        $html .="<tr><td>{$val[$field['id']]}</td>
+    foreach ($data as $key => $val) {
+        $html .= "<tr><td>{$val[$field['id']]}</td>
 				 <td>{$p}{$val[$field['name']]}</td>"
                  //<td>{$val[$field['sort']]}</td>
 ."<td><span rel='edit' cateid='".$val[$field['id']]."' func='{$func}'>".L('PUBLIC_MODIFY')."</span>-
@@ -79,11 +79,11 @@ function admin_formatsize($fileSize)
     }
     $sizename = array(' Bytes', ' KB', ' MB', ' GB', ' TB', ' PB', ' EB', ' ZB', ' YB');
 
-    return round($size/pow(1024, ($i = floor(log($size, 1024)))), 2).$sizename[$i];
+    return round($size / pow(1024, ($i = floor(log($size, 1024)))), 2).$sizename[$i];
 }
 
 //递归取给定的目录的文件MD5列表
-function _makeMd5FileToArray($dir, $res=array())
+function _makeMd5FileToArray($dir, $res = array())
 {
     if (is_dir($dir)) {
         if ($dh = opendir($dir)) {
@@ -129,13 +129,13 @@ function makeMd5File($dir, $type, $name)
 }
 
 // 获取图片地址 - 兼容云
-function getImageUrlApp($file, $width='0', $height='auto', $cut=false, $replace=false)
+function getImageUrlApp($file, $width = '0', $height = 'auto', $cut = false, $replace = false)
 {
     $cloud = model('CloudImage');
     if ($cloud->isOpen()) {
         $imageUrl = $cloud->getImageUrl($file, $width, $height, $cut);
     } else {
-        if ($width>0) {
+        if ($width > 0) {
             $thumbInfo = getThumbImage($file, $width, $height, $cut, $replace);
             $imageUrl = C('TS_UPDATE_SITE').'/data/upload/'.ltrim($thumbInfo['src'], '/');
         } else {

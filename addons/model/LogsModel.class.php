@@ -118,20 +118,20 @@ class LogsModel extends Model
     {
         $logsXml = SITE_PATH.'/apps/'.$app.'/Conf/logs.xml';
         if (!file_exists($logsXml)) {
-            $this->error = L('PUBLIC_SETTING_FILE', array('file'=>$logsXml));            // 配置文件：{file}不存在
+            $this->error = L('PUBLIC_SETTING_FILE', array('file' => $logsXml));            // 配置文件：{file}不存在
             return false;
         }
         $xml = simplexml_load_file($logsXml);
         if ($xml->group) {
-            foreach ($xml->group as $k=>$v) {
+            foreach ($xml->group as $k => $v) {
                 unset($rule);
                 foreach ($v->action as $kk => $vv) {
                     $rule[(string) $vv['type']] = (string) $vv['info'];
                 }
 
                 $data['_group'][(string) $v['name']] = array(
-                    'info'=>(string) $v['info'],
-                    '_rule'=>$rule,
+                    'info' => (string) $v['info'],
+                    '_rule' => $rule,
                 );
             }
         } else {
@@ -236,7 +236,7 @@ class LogsModel extends Model
         $var = unserialize($_data['data']);
         $logFile = SITE_PATH.'/apps/'.$app.'/Conf/logs.xml';
         if (!file_exists($logFile)) {
-            $this->error = L('PUBLIC_SETTING_FILE', array('file'=>$logFile));            // 配置文件：{file}不存在
+            $this->error = L('PUBLIC_SETTING_FILE', array('file' => $logFile));            // 配置文件：{file}不存在
             return false;
         }
 
@@ -250,7 +250,7 @@ class LogsModel extends Model
             $result = $s->xpath("//root/action[@type='".$_data['action']."']");
         }
         // 异常情况
-        $return = array('info'=>L('PUBLIC_PERMISSION_POINT_NOEXIST'),'data'=>L('PUBLIC_PERMISSION_POINT_NOEXIST'));            // 权限节点不存在，权限节点不存在
+        $return = array('info' => L('PUBLIC_PERMISSION_POINT_NOEXIST'),'data' => L('PUBLIC_PERMISSION_POINT_NOEXIST'));            // 权限节点不存在，权限节点不存在
 
            if ($result) {
                $return['info'] = (string) $result[0]['info'];

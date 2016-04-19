@@ -27,7 +27,7 @@ class SendWeiboWidget extends Widget
         $var['channelID'] = $data['channelID'];
 
         $var['initHtml'] = '';
-        $var['post_event'] ='post_feed';
+        $var['post_event'] = 'post_feed';
         $var['cancomment'] = 0;
         is_array($data) && $var = array_merge($var, $data);
         !$var['send_type'] && $var['send_type'] = 'send_weibo';
@@ -54,8 +54,8 @@ class SendWeiboWidget extends Widget
 
         // 渲染模版
         $tpl = $data['tpl'] ? $data['tpl'] : 'SendWeibo';
-        $var['channel'] = $data['channel'] ? $data['channel']:'';
-        $var['isrefresh'] = $data['isrefresh'] ? $data['isrefresh']:'';
+        $var['channel'] = $data['channel'] ? $data['channel'] : '';
+        $var['isrefresh'] = $data['isrefresh'] ? $data['isrefresh'] : '';
         $content = $this->renderFile(dirname(__FILE__).'/'.$tpl.'.html', $var);
 
         self::$rand++;

@@ -2,13 +2,13 @@
 
 class renren
 {
-    private function getCallback($site='', $type='bind', $callbackurl='')
+    private function getCallback($site = '', $type = 'bind', $callbackurl = '')
     {
         if (!$callbackurl) {
-            if ($type=='bind') {
-                $callbackurl = Addons::createAddonShow('Login', 'no_register_display', array('type'=>$site, 'do'=>'bind'));
+            if ($type == 'bind') {
+                $callbackurl = Addons::createAddonShow('Login', 'no_register_display', array('type' => $site, 'do' => 'bind'));
             } else {
-                $callbackurl = Addons::createAddonShow('Login', 'no_register_display', array('type'=>$site));
+                $callbackurl = Addons::createAddonShow('Login', 'no_register_display', array('type' => $site));
             }
         }
 
@@ -29,13 +29,13 @@ class renren
     public function userInfo()
     {
         if ($_SESSION['renren']['uid']) {
-            $user['id']         = $_SESSION['renren']['uid'];
-            $user['uname']      = $_SESSION['renren']['uname'];
-            $user['province']   = 0;
-            $user['city']       = 0;
-            $user['location']   = '';
-            $user['userface']   = $_SESSION['renren']['userface'];
-            $user['sex']        = ($_SESSION['renren']['sex']=='1')?1:0;
+            $user['id'] = $_SESSION['renren']['uid'];
+            $user['uname'] = $_SESSION['renren']['uname'];
+            $user['province'] = 0;
+            $user['city'] = 0;
+            $user['location'] = '';
+            $user['userface'] = $_SESSION['renren']['userface'];
+            $user['sex'] = ($_SESSION['renren']['sex'] == '1') ? 1 : 0;
 
             return $user;
         } else {
@@ -44,7 +44,7 @@ class renren
         }
     }
     //验证用户
-    public function checkUser($type='bind')
+    public function checkUser($type = 'bind')
     {
         if ($_REQUEST['code'] && $_REQUEST['state'] == $_SESSION['state']) {
             $token_url = 'https://graph.renren.com/oauth/token?grant_type=authorization_code'
@@ -65,7 +65,7 @@ class renren
                 $_SESSION['renren']['isSync'] = 1;
                 $_SESSION['renren']['uid'] = $res['user']['id'];
                 $_SESSION['renren']['uname'] = $res['user']['name'];
-                $_SESSION['renren']['userface'] = $res['user']['avatar'][2]['url']?$res['user']['avatar'][2]['url']:'';
+                $_SESSION['renren']['userface'] = $res['user']['avatar'][2]['url'] ? $res['user']['avatar'][2]['url'] : '';
                 $_SESSION['open_platform_type'] = 'renren';
 
                 return $res;
@@ -91,23 +91,23 @@ class renren
         $res = json_decode($result);
         $access_token = $res->access_token;
         $refresh_token = $res->refresh_token;
-        $config                = new stdClass;
-        $config->APIURL        = 'http://api.renren.com/restserver.do';
-        $config->APIKey        = RENREN_KEY;
-        $config->SecretKey    = RENREN_SECRET;
-        $config->APIVersion    = '1.0';
+        $config = new stdClass;
+        $config->APIURL = 'http://api.renren.com/restserver.do';
+        $config->APIKey = RENREN_KEY;
+        $config->SecretKey = RENREN_SECRET;
+        $config->APIVersion = '1.0';
         $config->decodeFormat = 'json';
-        $GLOBALS['config'] =& $config;
+        $GLOBALS['config'] = & $config;
         $rrObj = new RenrenRestApiService;
 
-        $params = array('name'=>getShort($opt['feed_content'], 30),
-                        'description'=>$opt['feed_content'],
-                        'url'=>$opt['feed_url'],
-                        'image'=>$opt['pic_url'],
-                        'action_name'=>$GLOBALS['ts']['site']['site_name'],
-                        'action_link'=>$opt['feed_url'],
-                        'message'=> '分享',
-                        'access_token'=>$access_token, );
+        $params = array('name' => getShort($opt['feed_content'], 30),
+                        'description' => $opt['feed_content'],
+                        'url' => $opt['feed_url'],
+                        'image' => $opt['pic_url'],
+                        'action_name' => $GLOBALS['ts']['site']['site_name'],
+                        'action_link' => $opt['feed_url'],
+                        'message' => '分享',
+                        'access_token' => $access_token, );
         $res = $rrObj->rr_post_curl('feed.publishFeed', $params);
 
         return true;
@@ -120,7 +120,7 @@ class renren
         return true;
     }
     //转发一条分享
-    public function transpond($transpondId, $reId, $content='', $opt=null)
+    public function transpond($transpondId, $reId, $content = '', $opt = null)
     {
         return true;
     }

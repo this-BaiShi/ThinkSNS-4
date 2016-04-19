@@ -21,8 +21,8 @@ class CateTreeModel
     private static $tree = array();                // 树
     private static $hash = array();                // 树的HASH表
     public $cacheKey = '';                            // 缓存Key
-    private $cacheKeyPrefix  = 'CateTree_';        // 缓存前缀
-    private $_table    = '';                            // 默认表
+    private $cacheKeyPrefix = 'CateTree_';        // 缓存前缀
+    private $_table = '';                            // 默认表
     private $defaultField = array(
                                 'id' => 'id',        // 主键字段名
                                 'pid' => 'pid',    // 上级节点ID字段名
@@ -153,11 +153,11 @@ class CateTreeModel
      * @param  array $data    表示其他需要保存的字段，由实现此model的类完成
      * @return bool  是否移动成功
      */
-    public function moveTree($id, $newPid, $newSort='255', $data = array())
+    public function moveTree($id, $newPid, $newSort = '255', $data = array())
     {
         // 参数验证
-        if (!$id || (!$newPid && $newPid!=0)) {
-            $this->error  = L('PUBLIC_DATA_MOVE_ERROR');            // 分类树移动的参数出错
+        if (!$id || (!$newPid && $newPid != 0)) {
+            $this->error = L('PUBLIC_DATA_MOVE_ERROR');            // 分类树移动的参数出错
             return false;
         }
         // 更新数据库信息

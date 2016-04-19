@@ -15,7 +15,7 @@ class doubanOAuthConsumer
   public $key;
     public $secret;
 
-    public function __construct($key, $secret, $callback_url=null)
+    public function __construct($key, $secret, $callback_url = null)
     {/*{{{*/
     $this->key = $key;
         $this->secret = $secret;
@@ -205,7 +205,7 @@ class doubanOAuthRequest
   public $base_string;
     public static $version = '1.0';
 
-    public function __construct($http_method, $http_url, $parameters=null)
+    public function __construct($http_method, $http_url, $parameters = null)
     {/*{{{*/
     @$parameters or $parameters = array();
         $this->parameters = $parameters;
@@ -216,7 +216,7 @@ class doubanOAuthRequest
   /**
    * attempt to build up a request from what was passed to the server
    */
-  public static function from_request($http_method=null, $http_url=null, $parameters=null)
+  public static function from_request($http_method = null, $http_url = null, $parameters = null)
   {/*{{{*/
     $scheme = (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'on') ? 'http' : 'https';
       @$http_url or $http_url = $scheme.'://'.$_SERVER['HTTP_HOST'].':'.$_SERVER['SERVER_PORT'].$_SERVER['REQUEST_URI'];
@@ -254,7 +254,7 @@ class doubanOAuthRequest
   /**
    * pretty much a helper function to set up the request
    */
-  public static function from_consumer_and_token($consumer, $token, $http_method, $http_url, $parameters=null)
+  public static function from_consumer_and_token($consumer, $token, $http_method, $http_url, $parameters = null)
   {/*{{{*/
     @$parameters or $parameters = array();
       $defaults = array('oauth_version' => doubanOAuthRequest::$version,
@@ -317,7 +317,7 @@ class doubanOAuthRequest
 
     // Generate key=value pairs
     $pairs = array();
-      foreach ($params as $key=>$value) {
+      foreach ($params as $key => $value) {
           if (is_array($value)) {
               // If the value is an array, it's because there are multiple
         // with the same key, sort them, then add all the pairs
@@ -425,7 +425,7 @@ class doubanOAuthRequest
    */
   public function to_header()
   {/*{{{*/
-    $out ='Authorization: OAuth realm=""';
+    $out = 'Authorization: OAuth realm=""';
       $total = array();
       foreach ($this->parameters as $k => $v) {
           if (substr($k, 0, 5) != 'oauth') {
@@ -662,7 +662,7 @@ class doubanOAuthServer
   /**
    * try to find the token for the provided request's token key
    */
-  private function get_token(&$request, $consumer, $token_type='access')
+  private function get_token(&$request, $consumer, $token_type = 'access')
   {/*{{{*/
     $token_field = @$request->get_parameter('oauth_token');
       $token = $this->data_store->lookup_token(
@@ -816,7 +816,7 @@ class SimpleOAuthDataStore extends doubanOAuthDataStore
     }
   }/*}}}*/
 
-  public function new_token($consumer, $type='request')
+  public function new_token($consumer, $type = 'request')
   {/*{{{*/
     $key = md5(time());
       $secret = time() + time();

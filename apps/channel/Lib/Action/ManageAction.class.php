@@ -59,7 +59,7 @@ class ManageAction extends Action
                 $map['channel_category_id'] = array('in',$channelIds);
                 $config['channel_name'] = implode(',', getSubByKey(D('channel_category')->where($map)->field('title')->findAll(), 'title'));
                 $uid = D('feed')->where('feed_id='.$feedId)->getField('uid');
-                $config['feed_url'] = '<a target="_blank" href="'.U('channel/Index/index', array('cid'=>$channelIds[0])).'">点此查看</a>';
+                $config['feed_url'] = '<a target="_blank" href="'.U('channel/Index/index', array('cid' => $channelIds[0])).'">点此查看</a>';
                 model('Notify')->sendNotify($uid, 'channel_add_feed', $config);
                 //添加积分
                 model('Credit')->setUserCredit($this->mid, 'recommend_to_channel');

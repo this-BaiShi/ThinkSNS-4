@@ -23,33 +23,33 @@ class GroupCommentWidget extends Widget
     {
         $var = array();
         // 默认配置数据
-        $var['cancomment']  = 1;  //是否可以评论
-        $var['canrepost']   = 1;  //是否允许转发
+        $var['cancomment'] = 1;  //是否可以评论
+        $var['canrepost'] = 1;  //是否允许转发
         $var['cancomment_old'] = 1; //是否可以评论给原作者
         $var['showlist'] = 1;         // 默认显示原评论列表
-        $var['tpl']     = 'Comment'; // 显示模板
+        $var['tpl'] = 'Comment'; // 显示模板
         $var['app_name'] = 'group';
-        $var['table']    = 'group_feed';
-        $var['limit']     = 10;
-        $var['order']     = 'DESC';
+        $var['table'] = 'group_feed';
+        $var['limit'] = 10;
+        $var['order'] = 'DESC';
         $var['initNums'] = model('Xdata')->getConfig('weibo_nums', 'feed');
         $_REQUEST['p'] = intval($_GET['p']) ? intval($_GET['p']) : intval($_POST['p']);
         empty($data) && $data = $_POST;
         is_array($data) && $var = array_merge($var, $data);
         if ($var['table'] == 'group_feed' && $this->mid != $var['app_uid']) {
-            $userPrivacy =  model('UserPrivacy')->getPrivacy($this->mid, $var['app_uid']);
+            $userPrivacy = model('UserPrivacy')->getPrivacy($this->mid, $var['app_uid']);
 
             if ($userPrivacy['comment_weibo'] == 1) {
-                $return = array('status'=>0,'data'=>L('PUBLIC_CONCENT_TIPES'));
+                $return = array('status' => 0,'data' => L('PUBLIC_CONCENT_TIPES'));
 
                 return $var['isAjax'] == 1 ?  json_encode($return) : $return['data'];
             }
         }
-        if ($var['showlist'] ==1) { //默认只取出前10条
+        if ($var['showlist'] == 1) { //默认只取出前10条
             $map = array();
-            $map['app']    = t($var['app_name']);
-            $map['table']    = t($var['table']);
-            $map['row_id']    = intval($var['row_id']);    //必须存在
+            $map['app'] = t($var['app_name']);
+            $map['table'] = t($var['table']);
+            $map['row_id'] = intval($var['row_id']);    //必须存在
             if (!empty($map['row_id'])) {
                 //分页形式数据
                 $var['list'] = D('GroupComment')->getCommentList($map, 'comment_id '.$var['order'], $var['limit']);
@@ -64,7 +64,7 @@ class GroupCommentWidget extends Widget
             $modelArr = explode('_', $rowData['app_row_table']);
             $model = '';
             foreach ($modelArr as $v) {
-                $model .=ucfirst($v);
+                $model .= ucfirst($v);
             }
             if (file_exists(SITE_PATH.'/apps/'.$var['app_name'].'/Lib/Model/'.$model.'Model.class.php')) {
                 $sourceInfo = D($model, $var['app_name'])->getSourceInfo($rowData['app_row_id']);
@@ -79,21 +79,21 @@ class GroupCommentWidget extends Widget
         $ajax = $var['isAjax'];
         unset($var, $data);
         //输出数据
-        $return = array('status'=>1,'data'=>$content);
+        $return = array('status' => 1,'data' => $content);
 
-        return $ajax==1 ? json_encode($return) : $return['data'];
+        return $ajax == 1 ? json_encode($return) : $return['data'];
     }
 
     public function getCommentList()
     {
         $map = array();
-        $map['app']    = t($_POST['app_name']);
-        $map['table']    = t($_POST['table']);
-        $map['row_id']    = intval($_POST['row_id']);    //必须存在
+        $map['app'] = t($_POST['app_name']);
+        $map['table'] = t($_POST['table']);
+        $map['row_id'] = intval($_POST['row_id']);    //必须存在
         if (!empty($map['row_id'])) {
             //分页形式数据
-            $var['limit']     = 10;
-            $var['order']     = 'DESC';
+            $var['limit'] = 10;
+            $var['order'] = 'DESC';
             $var['cancomment'] = $_POST['cancomment'];
             $var['showlist'] = $_POST['showlist'];
             $var['app_name'] = t($_POST['app_name']);
@@ -112,7 +112,7 @@ class GroupCommentWidget extends Widget
     public function addcomment()
     {
         // 返回结果集默认值
-        $return = array('status'=>0,'data'=>L('PUBLIC_CONCENT_IS_ERROR'));
+        $return = array('status' => 0,'data' => L('PUBLIC_CONCENT_IS_ERROR'));
         // 获取接收数据
         $data = $_POST;
         // 安全过滤
@@ -144,7 +144,7 @@ class GroupCommentWidget extends Widget
                     $datas['weiba_id'] = $postDetail['weiba_id'];
                     $datas['post_id'] = $postDetail['post_id'];
                     $datas['post_uid'] = $postDetail['post_uid'];
-                    $datas['to_reply_id'] = $data['to_comment_id']?D('weiba_reply')->where('comment_id='.$data['to_comment_id'])->getField('reply_id'):0;
+                    $datas['to_reply_id'] = $data['to_comment_id'] ? D('weiba_reply')->where('comment_id='.$data['to_comment_id'])->getField('reply_id') : 0;
                     $datas['to_uid'] = $data['to_uid'];
                     $datas['uid'] = $this->mid;
                     $datas['ctime'] = time();
@@ -162,16 +162,16 @@ class GroupCommentWidget extends Widget
             }
 
             $return['status'] = 1 ;
-            $return['data']    = $this->parseComment($data);
+            $return['data'] = $this->parseComment($data);
             $oldInfo = model('Source')->getSourceInfo($data['table'], !empty($data['app_row_id']) ? $data['app_row_id'] : $data['row_id'], false, $data['app']);
             // 转发到我的分享
             if ($_POST['ifShareFeed'] == 1) {
-                $commentInfo  = model('Source')->getSourceInfo($data['table'], $data['row_id'], false, $data['app']);
+                $commentInfo = model('Source')->getSourceInfo($data['table'], $data['row_id'], false, $data['app']);
                 $oldInfo = isset($commentInfo['sourceInfo']) ? $commentInfo['sourceInfo'] : $commentInfo;
                 // 根据评论的对象获取原来的内容
                 $s['sid'] = $oldInfo['source_id'];
                 $s['app_name'] = $oldInfo['app'];
-                if ($commentInfo['feedType'] == 'post' || $commentInfo['feedType'] == 'postimage' || $commentInfo['feedType'] == 'postfile' || $commentInfo['feedType'] == 'postvideo' ||$commentInfo['feedType'] == 'weiba_post') {   //加入微吧类型，2012/11/15
+                if ($commentInfo['feedType'] == 'post' || $commentInfo['feedType'] == 'postimage' || $commentInfo['feedType'] == 'postfile' || $commentInfo['feedType'] == 'postvideo' || $commentInfo['feedType'] == 'weiba_post') {   //加入微吧类型，2012/11/15
                     if (empty($data['to_comment_id'])) {
                         $s['body'] = $data['content'];
                     } else {
@@ -189,8 +189,8 @@ class GroupCommentWidget extends Widget
                         $s['body'] = $data['content'].$replyScream.$replyInfo['content'].$scream;
                     }
                 }
-                $s['type']        = $oldInfo['source_table'];
-                $s['comment']   = $data['comment_old'];
+                $s['type'] = $oldInfo['source_table'];
+                $s['comment'] = $data['comment_old'];
                 $s['comment_touid'] = $data['app_uid'];
                 $s['gid'] = $data['gid'];
                 // 去掉回复用户@
@@ -206,15 +206,15 @@ class GroupCommentWidget extends Widget
             } else {
                 //是否评论给原来作者
                 if ($data['comment_old'] != 0) {
-                    $commentInfo  = model('Source')->getSourceInfo($data['app_row_table'], $data['app_row_id'], false, $data['app']);
-                    $oldInfo      = isset($commentInfo['sourceInfo']) ? $commentInfo['sourceInfo'] : $commentInfo;
+                    $commentInfo = model('Source')->getSourceInfo($data['app_row_table'], $data['app_row_id'], false, $data['app']);
+                    $oldInfo = isset($commentInfo['sourceInfo']) ? $commentInfo['sourceInfo'] : $commentInfo;
                     //发表评论
-                    $c['app']     = $data['app'];
+                    $c['app'] = $data['app'];
                     //$c['table']   = $oldInfo['source_table'];
-                    $c['table']   = 'group_feed'; //2013/3/27
+                    $c['table'] = 'group_feed'; //2013/3/27
                     $c['app_uid'] = !empty($oldInfo['source_user_info']['uid']) ? $oldInfo['source_user_info']['uid'] : $oldInfo['uid'];
                     $c['content'] = $data['content'];
-                    $c['row_id']  = !empty($oldInfo['sourceInfo']) ? $oldInfo['sourceInfo']['source_id'] : $oldInfo['source_id'];
+                    $c['row_id'] = !empty($oldInfo['sourceInfo']) ? $oldInfo['sourceInfo']['source_id'] : $oldInfo['source_id'];
                     if ($data['app']) {
                         $c['row_id'] = $oldInfo['feed_id'];
                     }
@@ -249,7 +249,7 @@ class GroupCommentWidget extends Widget
             return false;
         }
         // 非作者时
-        if ($comment['uid']!=$this->mid) {
+        if ($comment['uid'] != $this->mid) {
             // 没有管理权限不可以删除
             if (!CheckPermission('core_admin', 'comment_del')) {
                 return false;

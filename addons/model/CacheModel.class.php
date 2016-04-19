@@ -25,7 +25,7 @@ class CacheModel
     {
         if (!C('DATA_CACHE_TYPE_ONLY')) {
             $type = model('Xdata')->get('cacheconfig:cachetype');
-            if ($type=='Memcache') {
+            if ($type == 'Memcache') {
                 $servers = model('Xdata')->get('cacheconfig:cachesetting');
                 C('MEMCACHE_HOST', $servers);
             }
@@ -137,7 +137,7 @@ class CacheModel
      */
     public function rm($_key)
     {
-        $key  = C('DATA_CACHE_PREFIX').$_key;
+        $key = C('DATA_CACHE_PREFIX').$_key;
         static_cache($key, false);
 
         return $this->handler->rm($key);

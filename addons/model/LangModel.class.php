@@ -7,7 +7,7 @@
 class LangModel extends Model
 {
     protected $tableName = 'lang';
-    protected $fields = array(0=>'lang_id',1=>'key',2=>'appname',3=>'filetype',4=>'zh-cn',5=>'en',6=>'zh-tw','_autoinc'=>true,'_pk'=>'id');
+    protected $fields = array(0 => 'lang_id',1 => 'key',2 => 'appname',3 => 'filetype',4 => 'zh-cn',5 => 'en',6 => 'zh-tw','_autoinc' => true,'_pk' => 'id');
 
     protected $langType = array();            // 默认的语言类型设置
 
@@ -192,8 +192,8 @@ class LangModel extends Model
         //取apps目录下的应用包名
         if (false != ($handle = opendir(APPS_PATH))) {
             while (false !== ($file = readdir($handle))) {
-                if ($file != '.' && $file != '..'&&!strpos($file, '.')) {
-                    $dirArray[]=$file;
+                if ($file != '.' && $file != '..' && !strpos($file, '.')) {
+                    $dirArray[] = $file;
                 }
             }
             //关闭句柄

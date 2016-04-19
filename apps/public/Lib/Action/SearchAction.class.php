@@ -5,10 +5,10 @@
  */
 class SearchAction extends Action
 {
-    private $curApp  = '';
+    private $curApp = '';
     private $curType = '';
-    private $key     = '';
-    private $tabkey  = '';
+    private $key = '';
+    private $tabkey = '';
     private $tabvalue = '';
     private $searchModel = '';
 
@@ -17,11 +17,11 @@ class SearchAction extends Action
      */
     public function _initialize()
     {
-        $_GET        = array_merge($_GET, $_POST);
-        $this->curApp    = $_GET['a'] ? strtolower(t($_GET['a'])):'public';
-        $this->curType    = intval($_GET['t']);
-        $this->key    = str_replace('%', '', t($_GET['k']));
-        $this->tabkey    = t($_GET['tk']);
+        $_GET = array_merge($_GET, $_POST);
+        $this->curApp = $_GET['a'] ? strtolower(t($_GET['a'])) : 'public';
+        $this->curType = intval($_GET['t']);
+        $this->key = str_replace('%', '', t($_GET['k']));
+        $this->tabkey = t($_GET['tk']);
         $this->tabvalue = t($_GET['tv']);
         $this->searchModel = ucfirst($this->curApp).'Search';
         $this->assign('curApp', $this->curApp);
@@ -82,9 +82,9 @@ class SearchAction extends Action
                 foreach ($list['data'] as $key => $value) {
                     $list['data'][$key] = $followUserInfo[$value['uid']];
                     $list['data'][$key] = array_merge($list['data'][$key], $userData[$value['uid']]);
-                    $list['data'][$key] = array_merge($list['data'][$key], array('feedInfo'=>$lastFeedData[$value['uid']]));
-                    $list['data'][$key] = array_merge($list['data'][$key], array('followState'=>$followState[$value['uid']]));
-                    $list['data'][$key] = array_merge($list['data'][$key], array('remark'=>$remarkInfo[$value['uid']]));
+                    $list['data'][$key] = array_merge($list['data'][$key], array('feedInfo' => $lastFeedData[$value['uid']]));
+                    $list['data'][$key] = array_merge($list['data'][$key], array('followState' => $followState[$value['uid']]));
+                    $list['data'][$key] = array_merge($list['data'][$key], array('remark' => $remarkInfo[$value['uid']]));
                 }
                 $this->assign('searchResult', $list);                 //搜索分享
             }
@@ -127,8 +127,8 @@ class SearchAction extends Action
                 $map['status'] = 1;
                 $map['is_del'] = 0;
                 $list = M('weiba')->where($map)->findPage(20);
-                foreach ($list['data'] as $k=>$v) {
-                    if ($v['new_day']!= date('Y-m-d', time())) {
+                foreach ($list['data'] as $k => $v) {
+                    if ($v['new_day'] != date('Y-m-d', time())) {
                         $list['data'][$k]['new_count'] = 0;
                         $this->setNewcount($v['weiba_id'], 0);
                     }
@@ -185,7 +185,7 @@ class SearchAction extends Action
                 $list = M('weiba_post')->where($map)->findPage(20);
                 $weiba_ids = getSubByKey($list['data'], 'weiba_id');
                 $nameArr = $this->_getWeibaName($weiba_ids);
-                foreach ($list['data'] as $k=>$v) {
+                foreach ($list['data'] as $k => $v) {
                     $list['data'][$k]['weiba'] = $nameArr[$v['weiba_id']];
                     $list['data'][$k]['user'] = model('User')->getUserInfo($v['post_uid']);
                     $list['data'][$k]['replyuser'] = model('User')->getUserInfo($v['last_reply_uid']);
@@ -202,7 +202,7 @@ class SearchAction extends Action
                         }
                     }
                     $is_digg = M('weiba_post_digg')->where('post_id='.$v['post_id'].' and uid='.$this->mid)->find();
-                    $list['data'][$k]['digg']= $is_digg ? 'digg':'undigg';
+                    $list['data'][$k]['digg'] = $is_digg ? 'digg' : 'undigg';
                     $list['data'][$k]['content'] = t($list['data'][$k]['content']);
 
                     //去掉微吧已经删除的
@@ -241,7 +241,7 @@ class SearchAction extends Action
                 $userGids = model('UserGroupLink')->getUserGroup($uids);
                 $followstatus = model('Follow')->getFollowStateByFids($this->mid, $uids);
                 $unionstatus = model('Union')->getUnionStateByFids($this->mid, $uids);
-                foreach ($userlist['data'] as $k=>$v) {
+                foreach ($userlist['data'] as $k => $v) {
                     $userlist['data'][$k]['usercount'] = $usercounts[$v['uid']];
                     $userlist['data'][$k]['userTag'] = model('Tag')->setAppName('User')->setAppTable('user')->getAppTags($v['uid']);
                     // 获取用户用户组信息
@@ -274,12 +274,12 @@ class SearchAction extends Action
         $this->assign('user_tag', $user_tag);
     }
 
-    public function setNewcount($weiba_id, $num=1)
+    public function setNewcount($weiba_id, $num = 1)
     {
         $map['weiba_id'] = $weiba_id;
         $time = time();
         $weiba = M('weiba')->where($map)->find();
-        if ($weiba['new_day']!= date('Y-m-d', $time)) {
+        if ($weiba['new_day'] != date('Y-m-d', $time)) {
             M('weiba')->where($map)->setField('new_day', date('Y-m-d', $time));
             M('weiba')->where($map)->setField('new_count', 0);
         }
@@ -287,7 +287,7 @@ class SearchAction extends Action
             M('weiba')->where($map)->setField('new_count', 0);
         }
         if ($num > 0) {
-            M('weiba')->where($map)->setField('new_count', (int) $num+(int) $weiba['new_count']);
+            M('weiba')->where($map)->setField('new_count', (int) $num + (int) $weiba['new_count']);
         }
 
         return true;
@@ -357,7 +357,7 @@ class SearchAction extends Action
                         '%'.$this->key.'%',
                 );
             $list = model('user')->where($map)->findPage(20);
-            foreach ($list['data'] as $k=>$vo) {
+            foreach ($list['data'] as $k => $vo) {
                 $list['data'][$k] = model('User')->getUserInfo($vo['uid']);
             }
             $this->assign('searchResult', $list);                 //搜索分享
@@ -407,8 +407,8 @@ class SearchAction extends Action
             $map['status'] = 1;
             $map['is_del'] = 0;
             $list = M('weiba')->where($map)->findPage(20);
-            foreach ($list['data'] as $k=>$v) {
-                if ($v['new_day']!= date('Y-m-d', time())) {
+            foreach ($list['data'] as $k => $v) {
+                if ($v['new_day'] != date('Y-m-d', time())) {
                     $list['data'][$k]['new_count'] = 0;
                     $this->setNewcount($v['weiba_id'], 0);
                 }
@@ -471,7 +471,7 @@ class SearchAction extends Action
             $list = M('weiba_post')->where($map)->findPage(20);
             $weiba_ids = getSubByKey($list['data'], 'weiba_id');
             $nameArr = $this->_getWeibaName($weiba_ids);
-            foreach ($list['data'] as $k=>$v) {
+            foreach ($list['data'] as $k => $v) {
                 $list['data'][$k]['weiba'] = $nameArr[$v['weiba_id']];
                 $list['data'][$k]['user'] = model('User')->getUserInfo($v['post_uid']);
                 $list['data'][$k]['replyuser'] = model('User')->getUserInfo($v['last_reply_uid']);
@@ -488,7 +488,7 @@ class SearchAction extends Action
                     }
                 }
                 $is_digg = M('weiba_post_digg')->where('post_id='.$v['post_id'].' and uid='.$this->mid)->find();
-                $list['data'][$k]['digg']= $is_digg ? 'digg':'undigg';
+                $list['data'][$k]['digg'] = $is_digg ? 'digg' : 'undigg';
                 $list['data'][$k]['content'] = t($list['data'][$k]['content']);
 
                     //去掉微吧已经删除的
@@ -510,7 +510,7 @@ class SearchAction extends Action
     public function getTag()
     {
         $data['name'] = t($_REQUEST['name']);
-        $data['tag_id']   = model('Tag')->getTagId($data['name']);
+        $data['tag_id'] = model('Tag')->getTagId($data['name']);
         exit(json_encode($data));
     }
 }

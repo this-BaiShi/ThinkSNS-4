@@ -15,14 +15,14 @@ class GroupUserCountModel extends Model
      * @param string    $type   统计的项目
      * @param int       $IncNum 变化值  默认1
      */
-    public function addCount($uid, $type, $gid=0, $IncNum=1)
+    public function addCount($uid, $type, $gid = 0, $IncNum = 1)
     {
         global $ts;
-        if ($uid==$ts['user']['uid']) {
+        if ($uid == $ts['user']['uid']) {
             return false;
         }
         if (is_array($uid)) {
-            foreach ($uid as $k=>$v) {
+            foreach ($uid as $k => $v) {
                 $this->addCount($v, $type, $gid, $IncNum);
             }
         } else {
@@ -48,7 +48,7 @@ class GroupUserCountModel extends Model
      * @param int|array $uid  用户ID
      * @param string    $type 统计的项目
      */
-    public function setZero($uid=0, $type)
+    public function setZero($uid = 0, $type)
     {
         $map['uid'] = $uid;
 
@@ -61,7 +61,7 @@ class GroupUserCountModel extends Model
      * @param int|array $uid  用户ID
      * @param string    $type 统计的项目
      */
-    public function setGroupZero($uid=0, $gid=0, $type)
+    public function setGroupZero($uid = 0, $gid = 0, $type)
     {
         $map['uid'] = $uid;
         $map['gid'] = $gid;
@@ -76,7 +76,7 @@ class GroupUserCountModel extends Model
      * @param  string    $type 统计的项目，为空将返回所有统计项目结果
      * @return mixed
      */
-    public function getUnreadCount($uid=0, $type = '')
+    public function getUnreadCount($uid = 0, $type = '')
     {
         $map['uid'] = $uid;
         $res = $this->where($map)->findAll();
@@ -97,7 +97,7 @@ class GroupUserCountModel extends Model
      * @param  string    $type 统计的项目，为空将返回所有统计项目结果
      * @return mixed
      */
-    public function getGroupUnreadCount($uid=0, $gid=0, $type = '')
+    public function getGroupUnreadCount($uid = 0, $gid = 0, $type = '')
     {
         $map['uid'] = $uid;
         $map['gid'] = $gid;

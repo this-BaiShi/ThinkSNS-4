@@ -10,7 +10,7 @@
 !defined('IN_UC') && exit('Access Denied');
 
 if (!function_exists('getgpc')) {
-    function getgpc($k, $var='G')
+    function getgpc($k, $var = 'G')
     {
         switch ($var) {
             case 'G': $var = &$_GET; break;
@@ -112,7 +112,7 @@ class base
     public function page_get_start($page, $ppp, $totalnum)
     {
         $totalpage = ceil($totalnum / $ppp);
-        $page =  max(1, min($totalpage, intval($page)));
+        $page = max(1, min($totalpage, intval($page)));
 
         return ($page - 1) * $ppp;
     }

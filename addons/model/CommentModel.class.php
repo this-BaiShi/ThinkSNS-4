@@ -94,7 +94,7 @@ class CommentModel extends Model
         !isset($map['is_del']) && ($map['is_del'] = 0);
         $data = $this->where($map)->order($order)->findPage($limit);
        // dump($data);exit;
-        foreach ($data['data'] as $k=>&$v) {
+        foreach ($data['data'] as $k => &$v) {
             if (!empty($v['to_comment_id']) && $isReply) {
                 $replyInfo = $this->getCommentInfo($v['to_comment_id'], false);
                 $v['replyInfo'] = '//@{uid='.$replyInfo['user_info']['uid'].'|'.$replyInfo['user_info']['uname'].'}：'.$replyInfo['content'];
@@ -115,9 +115,9 @@ class CommentModel extends Model
             //$v['data'] = unserialize($v['data']);
             $order = strtolower($order);
             if (strpos($order, 'desc')) {
-                $v['storey'] = $data['count']-$k-($data['nowPage']-1)*$limit;
+                $v['storey'] = $data['count'] - $k - ($data['nowPage'] - 1) * $limit;
             } else {
-                $v['storey'] = $k+1+($data['nowPage']-1)*$limit;
+                $v['storey'] = $k + 1 + ($data['nowPage'] - 1) * $limit;
             }
             $v['client_type'] = getFromClient($v['client_type'], $v['app']);
         }
@@ -248,7 +248,7 @@ class CommentModel extends Model
                 }
             }
             // 加积分操作
-            if ($add['table'] =='feed') {
+            if ($add['table'] == 'feed') {
                 model('Credit')->setUserCredit($GLOBALS['ts']['mid'], 'comment_weibo');
                 model('Credit')->setUserCredit($data['app_uid'], 'commented_weibo');
                 model('Feed')->cleanCache($add['row_id']);
@@ -396,12 +396,12 @@ class CommentModel extends Model
      */
     public function doEditComment($id, $type, $title)
     {
-        $return = array('status'=>'0', 'data'=>L('PUBLIC_ADMIN_OPRETING_SUCCESS'));           // 操作成功
+        $return = array('status' => '0', 'data' => L('PUBLIC_ADMIN_OPRETING_SUCCESS'));           // 操作成功
         if (empty($id)) {
             $return['data'] = L('PUBLIC_WRONG_DATA');            // 错误的参数
         } else {
             $map['comment_id'] = is_array($id) ? array('IN',$id) : intval($id);
-            $save['is_del'] = $type =='delComment' ? 1 : 0;
+            $save['is_del'] = $type == 'delComment' ? 1 : 0;
             if ($type == 'deleteComment') {
                 $res = $this->where($map)->delete();
             } else {
@@ -413,7 +413,7 @@ class CommentModel extends Model
             }
             if ($res != false) {
                 empty($title) && $title = L('PUBLIC_CONCENT_IS_OK');
-                $return = array('status'=>1, 'data'=>$title);          // 评论成功
+                $return = array('status' => 1, 'data' => $title);          // 评论成功
             }
         }
 
@@ -456,7 +456,7 @@ class CommentModel extends Model
      */
     public function doAuditComment($comment_id)
     {
-        $return = array('status'=>'0');
+        $return = array('status' => '0');
         if (empty($comment_id)) {
             $return['data'] = '请选择评论！';
         } else {
@@ -464,7 +464,7 @@ class CommentModel extends Model
             $save['is_audit'] = 1;
             $res = $this->where($map)->save($save);
             if ($res) {
-                $return = array('status'=>1);
+                $return = array('status' => 1);
             }
         }
 
@@ -507,7 +507,7 @@ class CommentModel extends Model
      * @param  bool   $source   是否获取资源信息，默认为false
      * @return array  评论列表数据
      */
-    public function getCommentListForApi($where='', $since_id = 0, $max_id = 0, $limit = 20, $page = 1, $source = false)
+    public function getCommentListForApi($where = '', $since_id = 0, $max_id = 0, $limit = 20, $page = 1, $source = false)
     {
         $since_id = intval($since_id);
         $max_id = intval($max_id);

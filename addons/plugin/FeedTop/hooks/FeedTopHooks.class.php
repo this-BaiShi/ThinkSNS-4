@@ -11,7 +11,7 @@ class FeedTopHooks extends Hooks
     {
         $list = $this->model('FeedTop')->getFeedTopList(1);
         $close_feeds = $_SESSION['feed_top_'.$this->mid];
-        foreach ($list as $k =>$v) {
+        foreach ($list as $k => $v) {
             if (!in_array($v['feed_id'], $close_feeds)) {
                 $list[$k]['feed_info'] = model('Feed')->get($v['feed_id']);
             } else {
@@ -96,7 +96,7 @@ class FeedTopHooks extends Hooks
     {
         // 列表数据
         $list = $this->model('FeedTop')->getFeedTopList(2);
-        foreach ($list['data'] as $k =>$v) {
+        foreach ($list['data'] as $k => $v) {
             $list['data'][$k]['feed_info'] = model('Feed')->get($v['feed_id']);
         }
         //dump($list);exit;
@@ -157,7 +157,7 @@ class FeedTopHooks extends Hooks
     public function doDelFeedTop()
     {
         $result = array();
-        $id= t($_POST['id']);
+        $id = t($_POST['id']);
         if (empty($id)) {
             $result['status'] = 0;
             $result['info'] = '参数不能为空';
@@ -180,7 +180,7 @@ class FeedTopHooks extends Hooks
     public function doFeedTop()
     {
         $result = array();
-        $id= t($_POST['id']);
+        $id = t($_POST['id']);
         if (empty($id)) {
             $result['status'] = 0;
             $result['info'] = '参数不能为空';
@@ -199,7 +199,7 @@ class FeedTopHooks extends Hooks
     public function doDel()
     {
         $result = array();
-        $id= t($_POST['id']);
+        $id = t($_POST['id']);
         if (empty($id)) {
             $result['status'] = 0;
             $result['info'] = '参数不能为空';
@@ -248,7 +248,7 @@ class FeedTopHooks extends Hooks
         $uid = intval($_POST['uid']);
         $feedId = intval($_POST['feed_id']);
         if (empty($uid) || empty($feedId)) {
-            exit(json_encode(array('status'=>0, 'info'=>'设置失败')));
+            exit(json_encode(array('status' => 0, 'info' => '设置失败')));
         }
         $result = $this->model('FeedTop')->setFeedTop($uid, $feedId);
         $res = array();
@@ -267,7 +267,7 @@ class FeedTopHooks extends Hooks
         $uid = intval($_POST['uid']);
         $feedId = intval($_POST['feed_id']);
         if (empty($uid) || empty($feedId)) {
-            exit(json_encode(array('status'=>0, 'info'=>'设置失败')));
+            exit(json_encode(array('status' => 0, 'info' => '设置失败')));
         }
         $result = $this->model('FeedTop')->delFeedTop($uid, $feedId);
         $res = array();

@@ -21,7 +21,7 @@ class DirModel extends Model
    * getGroupList 
     *
    */
-  public function getFileList($html=1, $map = null, $fields=null, $order = null, $limit = null, $isDel=0)
+  public function getFileList($html = 1, $map = null, $fields = null, $order = null, $limit = null, $isDel = 0)
   {
       //处理where条件
       if (!$isDel) {
@@ -56,7 +56,7 @@ class DirModel extends Model
 
       $result = D('Dir')->where('id IN'.$id)->delete();
       if ($result) {
-          foreach ($files as $k=>$v) {
+          foreach ($files as $k => $v) {
               $attachIds[] = $v['attachId'];
             // 积分
 //         X('Credit')->setUserCredit($v['uid'], 'group_delete_file');

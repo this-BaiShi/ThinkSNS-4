@@ -11,7 +11,7 @@ class AttachModel extends Model
 {
     protected $tableName = 'attach';
 
-    protected $fields    = array('attach_id', 'app_name', 'table', 'row_id', 'attach_type', 'uid', 'ctime', 'name', 'type', 'size', 'extension', 'hash', 'private', 'is_del', 'save_path', 'save_name', 'save_domain', 'from', 'width', 'height');
+    protected $fields = array('attach_id', 'app_name', 'table', 'row_id', 'attach_type', 'uid', 'ctime', 'name', 'type', 'size', 'extension', 'hash', 'private', 'is_del', 'save_path', 'save_name', 'save_domain', 'from', 'width', 'height');
 
     /**
      * 通过附件ID获取附件数据 - 不分页型
@@ -43,7 +43,7 @@ class AttachModel extends Model
             /* # sql注入，ID过滤 */
             array_map('intval', $ids);
 
-            $map['attach_id'] =    array('IN', $ids);
+            $map['attach_id'] = array('IN', $ids);
             $data = $this->where($map)->field($field)->order('attach_id asc')->findAll();
             S($name, $data);
         }
@@ -112,7 +112,7 @@ class AttachModel extends Model
      */
     public function doEditAttach($id, $type, $title)
     {
-        $return = array('status'=>'0','data'=>L('PUBLIC_ADMIN_OPRETING_ERROR'));        // 操作失败
+        $return = array('status' => '0','data' => L('PUBLIC_ADMIN_OPRETING_ERROR'));        // 操作失败
         if (empty($id)) {
             $return['data'] = L('PUBLIC_ATTACHMENT_ID_NOEXIST');            // 附件ID不能为空
         } else {
@@ -128,7 +128,7 @@ class AttachModel extends Model
             }
             if ($res) {
                 //TODO:是否记录知识，以及后期缓存处理
-                $return = array('status'=>1,'data'=>L('PUBLIC_ADMIN_OPRETING_SUCCESS'));        // 操作成功
+                $return = array('status' => 1,'data' => L('PUBLIC_ADMIN_OPRETING_SUCCESS'));        // 操作成功
             }
         }
 
@@ -142,7 +142,7 @@ class AttachModel extends Model
     public function getAllExtensions()
     {
         $name = 'ts_area_ext';
-        $res  = S($name);
+        $res = S($name);
         if (!$res) {
             $res = $this->field('`extension`')->group('`extension`')->findAll();
             $res = getSubByKey($res, 'extension');
@@ -180,18 +180,18 @@ class AttachModel extends Model
 
         // 载入默认规则
         $default_options = array();
-        $default_options['custom_path']    = date($system_default['attach_path_rule']);                    // 应用定义的上传目录规则：'Y/md/H/'
+        $default_options['custom_path'] = date($system_default['attach_path_rule']);                    // 应用定义的上传目录规则：'Y/md/H/'
         $default_options['max_size'] = floatval($system_default['attach_max_size']) * 1024 * 1024;        // 单位: 兆
         $default_options['allow_exts'] = $system_default['attach_allow_extension'];                    // 'jpg,gif,png,jpeg,bmp,zip,rar,doc,xls,ppt,docx,xlsx,pptx,pdf'
-        $default_options['save_path'] =    UPLOAD_PATH.'/'.$default_options['custom_path'];
-        $default_options['save_name'] =    ''; //指定保存的附件名.默认系统自动生成
+        $default_options['save_path'] = UPLOAD_PATH.'/'.$default_options['custom_path'];
+        $default_options['save_name'] = ''; //指定保存的附件名.默认系统自动生成
         $default_options['save_to_db'] = true;
         //echo json_encode($default_options);exit;
 
         // 定制化设这，覆盖默认设置
         $options = is_array($input_options) ? array_merge($default_options, $input_options) : $default_options;
         //云图片
-        if ($data['upload_type']=='image') {
+        if ($data['upload_type'] == 'image') {
             $cloud = model('CloudImage');
             if ($cloud->isOpen()) {
                 return $this->cloudImageUpload($options);
@@ -224,7 +224,7 @@ class AttachModel extends Model
         if (!$upload->upload()) {
             // 上传失败，返回错误
             $return['status'] = false;
-            $return['info']    = $upload->getErrorMsg();
+            $return['info'] = $upload->getErrorMsg();
 
             return $return;
         } else {
@@ -233,7 +233,7 @@ class AttachModel extends Model
             $data = $this->saveInfo($upload_info, $options);
             // 输出信息
             $return['status'] = true;
-            $return['info']   = $data;
+            $return['info'] = $data;
             // 上传成功，返回信息
             return $return;
         }
@@ -251,7 +251,7 @@ class AttachModel extends Model
         if (!$upload->upload()) {
             // 上传失败，返回错误
             $return['status'] = false;
-            $return['info']    = $upload->getErrorMsg();
+            $return['info'] = $upload->getErrorMsg();
 
             return $return;
         } else {
@@ -260,7 +260,7 @@ class AttachModel extends Model
             $data = $this->saveInfo($upload_info, $options);
             // 输出信息
             $return['status'] = true;
-            $return['info']   = $data;
+            $return['info'] = $data;
             // 上传成功，返回信息
             return $return;
         }
@@ -269,7 +269,7 @@ class AttachModel extends Model
     private function localUpload($options)
     {
         // 初始化上传参数
-        $upload    = new UploadFile($options['max_size'], $options['allow_exts'], $options['allow_types']);
+        $upload = new UploadFile($options['max_size'], $options['allow_exts'], $options['allow_types']);
         // 设置上传路径
         $upload->savePath = $options['save_path'];
         // 启用子目录
@@ -290,7 +290,7 @@ class AttachModel extends Model
         if (!$upload->upload()) {
             // 上传失败，返回错误
             $return['status'] = false;
-            $return['info']    = $upload->getErrorMsg();
+            $return['info'] = $upload->getErrorMsg();
 
             return $return;
         } else {
@@ -299,7 +299,7 @@ class AttachModel extends Model
             $data = $this->saveInfo($upload_info, $options);
             // 输出信息
             $return['status'] = true;
-            $return['info']   = $data;
+            $return['info'] = $data;
             // 上传成功，返回信息
             return $return;
         }
@@ -312,7 +312,7 @@ class AttachModel extends Model
             'row_id' => t($data['row_id']),
             'app_name' => t($data['app_name']),
             'attach_type' => t($options['attach_type']),
-            'uid' =>  (int) $data['uid'] ? $data['uid'] : $GLOBALS['ts']['mid'],
+            'uid' => (int) $data['uid'] ? $data['uid'] : $GLOBALS['ts']['mid'],
             'ctime' => time(),
             'private' => $data['private'] > 0 ? 1 : 0,
             'is_del' => 0,

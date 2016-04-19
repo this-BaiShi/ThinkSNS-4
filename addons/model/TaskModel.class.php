@@ -17,7 +17,7 @@ class TaskModel extends Model
         //返回用户当前执行的任务名称及任务等级 和类型
         return $data;
     }
-    public function getTaskList($tasktype, $uid, $show='')
+    public function getTaskList($tasktype, $uid, $show = '')
     {
         $tasklevel = 1;
         //判断主线任务执行阶段

@@ -9,12 +9,12 @@
 class XdataModel extends Model
 {
     protected $tableName = 'system_data';
-    protected $fields = array(0=>'id',1=>'uid',2=>'list',3=>'key',4=>'value',5=>'mtime','_autoinc'=>true,'_pk'=>'id');
+    protected $fields = array(0 => 'id',1 => 'uid',2 => 'list',3 => 'key',4 => 'value',5 => 'mtime','_autoinc' => true,'_pk' => 'id');
 
     protected $list_name = 'global';            // 默认列表名
 
     //键值白名单，主要用于获取和设置配置文件某个
-    protected $whiteList = array('site'=>'');
+    protected $whiteList = array('site' => '');
 
     /**
      * 写入参数列表
@@ -33,9 +33,9 @@ class XdataModel extends Model
             foreach ($listData as $key => $data) {
                 $insert_sql    .= " ('$listName','$key','".addslashes(serialize($data))."','".date('Y-m-d H:i:s')."') ,";
             }
-            $insert_sql    = rtrim($insert_sql, ',');
+            $insert_sql = rtrim($insert_sql, ',');
             // 插入数据列表
-            $result    = $this->execute($insert_sql);
+            $result = $this->execute($insert_sql);
         }
 
         $cache_id = '_xdata_lget_'.$listName;
@@ -62,10 +62,10 @@ class XdataModel extends Model
 
         $cache_id = '_xdata_lget_'.$list_name;
 
-        if (($data = F($cache_id)) === false || $data =='') {
+        if (($data = F($cache_id)) === false || $data == '') {
             $data = array();
             $map['`list`'] = $list_name;
-            $result    = $this->order('id ASC')->where($map)->findAll();
+            $result = $this->order('id ASC')->where($map)->findAll();
 
             if ($result) {
                 foreach ($result as $v) {
@@ -94,9 +94,9 @@ class XdataModel extends Model
         $data = addslashes(serialize($value));
 
         if ($replace) {
-            $insert_sql    = 'REPLACE INTO __TABLE__ ';
+            $insert_sql = 'REPLACE INTO __TABLE__ ';
         } else {
-            $insert_sql    = 'INSERT INTO __TABLE__ ';
+            $insert_sql = 'INSERT INTO __TABLE__ ';
         }
 
         $insert_sql    .= "(`list`,`key`,`value`,`mtime`) VALUES ('$keys[0]','$keys[1]','$data','".date('Y-m-d H:i:s')."')";
@@ -194,7 +194,7 @@ class XdataModel extends Model
      */
     protected function _parse_keys($input = '')
     {
-        $output    =    '';
+        $output = '';
         if (is_array($input) || is_object($input)) {
             foreach ($input as $v) {
                 $output[] = $this->_strip_key($v);

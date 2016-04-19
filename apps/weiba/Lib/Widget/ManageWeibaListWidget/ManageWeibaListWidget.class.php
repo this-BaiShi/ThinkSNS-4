@@ -18,12 +18,12 @@ class ManageWeibaListWidget extends Widget
     {
         $var = array();
 
-        $manage = D('weiba_follow')->where(array('follower_uid'=>$data['manage_uid'], 'level'=>array('in', array(2, 3))))->findAll();
+        $manage = D('weiba_follow')->where(array('follower_uid' => $data['manage_uid'], 'level' => array('in', array(2, 3))))->findAll();
         $map['weiba_id'] = array('in', getSubByKey($manage, 'weiba_id'));
         $map['is_del'] = 0;
         $var['manageWeibaList'] = D('weiba')->where($map)->findAll();
         $var['manageWeibaListCount'] = D('weiba')->where($map)->count();
-        foreach ($var['manageWeibaList'] as $k=>$v) {
+        foreach ($var['manageWeibaList'] as $k => $v) {
             $var['manageWeibaList'][$k]['logo'] = getImageUrlByAttachId($v['logo'], 50, 50);
         }
         is_array($data) && $var = array_merge($var, $data);

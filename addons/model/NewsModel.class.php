@@ -14,14 +14,14 @@ class NewsModel extends Model
      *
      * @var string
      */
-    protected $tableName    =    'news';
+    protected $tableName = 'news';
 
     /**
      * 字段列表
      *
      * @var unknown_type
      */
-    protected $fields        =    array(
+    protected $fields = array(
         0 => 'news_id',
         1 => 'type_id',
         2 => 'news_title',
@@ -43,7 +43,7 @@ class NewsModel extends Model
      * 
      * @var array
      */
-    protected $_validate    =   array(
+    protected $_validate = array(
         array('news_title', 'require', '信息标题不能为空'),
         array('news_content', 'require', '内容不能为空'),
     );
@@ -74,7 +74,7 @@ class NewsModel extends Model
             return $states ;
         }
 
-        return isset($states[$state])?$states[$state]:'' ;
+        return isset($states[$state]) ? $states[$state] : '' ;
     }
 
     /**
@@ -86,9 +86,9 @@ class NewsModel extends Model
     public function setNews($uid)
     {
         $ret = array( 'ret' => false, 'msg' => '更新信息失败' );
-        $news   =   D('News');
+        $news = D('News');
         if ($news->create()) {
-            $news->uid = ($uid)?$uid:0 ;
+            $news->uid = ($uid) ? $uid : 0 ;
             if ($news->news_id) {
                 $result = $news->save();
             } else {
@@ -121,7 +121,7 @@ class NewsModel extends Model
         //查找
         $child = model('CategoryTree')->setTable('news_category')->getNetworkList($pid);
         $ids = array_keys($child) ;
-        $_result[$pid] = ($ids)?$ids:array();
+        $_result[$pid] = ($ids) ? $ids : array();
 
         return $ids ;
     }
@@ -130,13 +130,13 @@ class NewsModel extends Model
      * 前台列表获取
      *
      */
-    public function getList($limit = 20, $type= 0, $keywords = '', $order = '', $findPage = true)
+    public function getList($limit = 20, $type = 0, $keywords = '', $order = '', $findPage = true)
     {
         $map = array();
         $map['state'] = array('GT',0);
 
         if ($keywords) {
-            $map['news_title']=array('like','%'.$keywords.'%');
+            $map['news_title'] = array('like','%'.$keywords.'%');
         }
         if ($order == '') {
             $order = 'is_top desc,news_id desc' ;
@@ -170,7 +170,7 @@ class NewsModel extends Model
             $data[$k]['title_intro'] = msubstr($v['news_title'], 0, 30);
             $data[$k]['content_intro'] = msubstr(strip_tags($v['news_content']), 0, 100);
             //获取评论数量 
-            $data[$k]['comment_count'] = model('Comment')->where(array('app'=>'news', 'table' => 'news', 'is_del' => 0, 'row_id' => $v['news_id']))->count();
+            $data[$k]['comment_count'] = model('Comment')->where(array('app' => 'news', 'table' => 'news', 'is_del' => 0, 'row_id' => $v['news_id']))->count();
         }
         if ($findPage) {
             $list['data'] = $data ;
@@ -229,8 +229,8 @@ class NewsModel extends Model
             if ($find['uid']) {
                 $info['source_user_info'] = model('User')->getUserInfo($find['uid']);
             }
-            $info['source_url'] = U('news/Index/detail', array('id'=>$id ));
-            $info['source_body'] = $find['news_title'].'<a class="ico-details" href="'.U('news/Index/show', array('id'=>$id)).'"></a>';
+            $info['source_url'] = U('news/Index/detail', array('id' => $id ));
+            $info['source_body'] = $find['news_title'].'<a class="ico-details" href="'.U('news/Index/show', array('id' => $id)).'"></a>';
 
             return $info;
         }
@@ -245,6 +245,6 @@ class NewsModel extends Model
      */
     public function deleteAssociatedData($cid)
     {
-        return $this->where(array('type_id' =>$cid))->delete();
+        return $this->where(array('type_id' => $cid))->delete();
     }
 }

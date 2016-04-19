@@ -132,9 +132,9 @@ function random($length, $isNum = false)
     return $random;
 }
 
-function dump($var, $echo=true, $label=null, $strict=true)
+function dump($var, $echo = true, $label = null, $strict = true)
 {
-    $label = ($label===null) ? '' : rtrim($label).' ';
+    $label = ($label === null) ? '' : rtrim($label).' ';
     if (!$strict) {
         if (ini_get('html_errors')) {
             $output = print_r($var, true);

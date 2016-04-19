@@ -109,11 +109,11 @@ class SmsModel extends Model
         parent::__construct($name);
         $conf = model('Xdata')->get('admin_Config:sms');
 
-        $this->url   = $conf['sms_server'];
+        $this->url = $conf['sms_server'];
         $this->param = $conf['sms_param'];
         $this->resultCode = strtolower($conf['success_code']);
-        $this->type       = $conf['send_type'];
-        $this->provider   = $conf['service'];
+        $this->type = $conf['send_type'];
+        $this->provider = $conf['service'];
 
         $conf['template'] and $this->template = $conf['template'];
 
@@ -291,7 +291,7 @@ class SmsModel extends Model
     public function smsbao($data)
     {
         $code = array(
-            0  => '发送成功',
+            0 => '发送成功',
             30 => '密码错误',
             40 => '账号不存在',
             41 => '余额不足',
@@ -318,8 +318,8 @@ class SmsModel extends Model
     public function getService()
     {
         return array(
-            'auto'   => '自动判断',
-            'ihuyi'  => '互亿无线',
+            'auto' => '自动判断',
+            'ihuyi' => '互亿无线',
             'smsbao' => '短信宝',
         );
     }
@@ -420,9 +420,9 @@ class SmsModel extends Model
 
         if ($debug || ($result = $this->send())) {
             $this->add(array(
-                'phone'   => $this->phone,
-                'code'    => $this->code,
-                'time'    => time(),
+                'phone' => $this->phone,
+                'code' => $this->code,
+                'time' => time(),
             ));
         }
 
@@ -491,9 +491,9 @@ class SmsModel extends Model
 
         if ($result = $this->send()) {
             $this->add(array(
-                'phone'   => $this->phone,
+                'phone' => $this->phone,
                 'message' => $this->template,
-                'time'    => time(),
+                'time' => time(),
             ));
         }
 
@@ -523,8 +523,8 @@ class SmsModel extends Model
         $site = model('Xdata')->get('admin_Config:site');
         $email = model('Mail');
         $title = $$GLOBALS['ts']['site']['site_name'].'验证码';
-        $body  = '您的验证码是：'.$this->code;
-        $body  = '<style>a.email_btn,a.email_btn:link,a.email_btn:visited{background:#0F8CA8;padding:5px 10px;color:#fff;width:80px;text-align:center;}</style><div style="width:540px;border:#0F8CA8 solid 2px;margin:0 auto"><div style="color:#bbb;background:#0f8ca8;padding:5px;overflow:hidden;zoom:1"><div style="float:right;height:15px;line-height:15px;padding:10px 0;display:none">2012年07月15日</div>
+        $body = '您的验证码是：'.$this->code;
+        $body = '<style>a.email_btn,a.email_btn:link,a.email_btn:visited{background:#0F8CA8;padding:5px 10px;color:#fff;width:80px;text-align:center;}</style><div style="width:540px;border:#0F8CA8 solid 2px;margin:0 auto"><div style="color:#bbb;background:#0f8ca8;padding:5px;overflow:hidden;zoom:1"><div style="float:right;height:15px;line-height:15px;padding:10px 0;display:none">2012年07月15日</div>
 					<div style="float:left;overflow:hidden;position:relative"><a><img style="border:0 none" src="'.$GLOBALS['ts']['site']['site_logo'].'"></a></div></div>
 					<div style="background:#fff;padding:20px;min-height:300px;position:relative">		<div style="font-size:14px;">			
 						            	<p style="padding:0 0 20px;margin:0;font-size:12px">'.$body.'</p>
@@ -538,8 +538,8 @@ class SmsModel extends Model
 
             $this->add(array(
                 'phone' => $this->phone,
-                'code'  => $this->code,
-                'time'  => time(),
+                'code' => $this->code,
+                'time' => time(),
             ));
 
             return true;

@@ -30,10 +30,10 @@ class Ftp
     public function start($data)
     {
         if (empty($data['port'])) {
-            $data['port'] ='21';
+            $data['port'] = '21';
         }
         if (empty($data['pasv'])) {
-            $data['pasv'] =false;
+            $data['pasv'] = false;
         }
         if (empty($data['ssl'])) {
             $data['ssl'] = false;

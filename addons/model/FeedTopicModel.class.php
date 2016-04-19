@@ -34,7 +34,7 @@ class FeedTopicModel extends Model
         $map['topic_name'] = trim(preg_replace('/#/', '', t($key)));
         if ($topic = $this->where($map)->find()) {
             $this->setInc('count', $map);
-            if ($topic['recommend']==1) {
+            if ($topic['recommend'] == 1) {
                 model('Cache')->rm('feed_topic_recommend'); //清除缓存
             }
             if ($feedId) {
@@ -81,14 +81,14 @@ class FeedTopicModel extends Model
         if ($topic_id = D('feed_topic_link')->where($del)->getField('topic_id')) {
             D('feed_topic_link')->where($del)->delete();
             D('feed_topic')->where('topic_id='.$topic_id)->setDec('count');
-            if (D('feed_topic')->where('topic_id='.$topic_id)->getField('recommend')==1) {
+            if (D('feed_topic')->where('topic_id='.$topic_id)->getField('recommend') == 1) {
                 model('Cache')->rm('feed_topic_recommend'); //清除缓存
             }
         }
     }
 
     // 获取话题详细信息
-    public function getTopic($topic_name = null, $add=true)
+    public function getTopic($topic_name = null, $add = true)
     {
         if (!$topic_name) {
             return false;
@@ -131,7 +131,7 @@ class FeedTopicModel extends Model
      * @param  string $name 话题名
      * @return int    话题ID
      */
-    public function getTopicId($topic_name, $add=true)
+    public function getTopicId($topic_name, $add = true)
     {
         $topic_name = preg_replace('/#/', '', $topic_name);
 
@@ -147,8 +147,8 @@ class FeedTopicModel extends Model
         } elseif ($add) {
             return $this->add(array(
                 'topic_name' => $topic_name,
-                'count'      => '0',
-                'ctime'      => time(),
+                'count' => '0',
+                'ctime' => time(),
             ));
         }
 

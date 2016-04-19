@@ -102,7 +102,7 @@ class FeedAction extends Action
         $d ['content'] = $filterContentStatus ['data'];
 
         ///
-        if ($_POST ['channel_id']==''&&$_POST ['channel']=='channel') {
+        if ($_POST ['channel_id'] == '' && $_POST ['channel'] == 'channel') {
             $return = array(
                     'status' => 0,
                     'data' => '请选择频道',
@@ -139,7 +139,7 @@ class FeedAction extends Action
         $d ['attach_id'] = trim(t($_POST ['attach_id']), '|');
         if (! empty($d ['attach_id'])) {
             $d ['attach_id'] = explode('|', $d ['attach_id']);
-            if (count($d ['attach_id'])==1&&$_POST ['channel_id']!=''&&false) {
+            if (count($d ['attach_id']) == 1 && $_POST ['channel_id'] != '' && false) {
                 $d ['attach_id'][1] = $d ['attach_id'][0];
                 $d ['attach_id'][0] = $numbers[0];
                 $_POST ['type'] = 'postimage';
@@ -287,7 +287,7 @@ class FeedAction extends Action
             $return ['data'] = $this->fetch('PostFeed');
         }
 
-        if ($post['comment']=='1') {
+        if ($post['comment'] == '1') {
         }
         exit(json_encode($return));
     }

@@ -24,8 +24,8 @@ class SelectFriendsAction extends Action
                                ->findAll();
         }
         //合并，并过滤重复
-        is_array($followings) || $followings=array();//查询返回空时，不为数组，则需转为空数组
-        is_array($followers) || $followers=array();
+        is_array($followings) || $followings = array();//查询返回空时，不为数组，则需转为空数组
+        is_array($followers) || $followers = array();
         $follow = $this->unique_arr(array_merge($followings, $followers));
         foreach ($follow as $k => $v) {
             $out[$k]['fUid'] = $v['0'];
@@ -40,7 +40,7 @@ class SelectFriendsAction extends Action
     {
         $typeId = intval($_GET['typeId']);
         empty($typeId) && $typeId = 2;
-        $db_prefix  =  C('DB_PREFIX');
+        $db_prefix = C('DB_PREFIX');
         if ($typeId == 2) {
             $follow = M('')->field('follow.fid AS fuid,user.uname AS funame')
                            ->table("{$db_prefix}user_follow AS follow LEFT JOIN {$db_prefix}user AS user ON follow.fid=user.uid")
@@ -83,8 +83,8 @@ class SelectFriendsAction extends Action
             $typeId = array(
                 //互粉的人性能有问题，不显示这个列表的用户了
                             //array('id'=>1,'name'=>L('follow_each_other')),
-                            array('id'=>2,'name'=>'我关注的'),
-                            array('id'=>3,'name'=>'我的粉丝'),
+                            array('id' => 2,'name' => '我关注的'),
+                            array('id' => 3,'name' => '我的粉丝'),
                           );
         echo json_encode($typeId);
     }
@@ -95,10 +95,10 @@ class SelectFriendsAction extends Action
             //echo $this->api->friend_getFriNum($this->mid,$gid);
             $typeId = intval($_GET['typeId']);
         empty($typeId) && $typeId = 2;
-        $db_prefix  =  C('DB_PREFIX');
-        if ($typeId==2) {
+        $db_prefix = C('DB_PREFIX');
+        if ($typeId == 2) {
             $followNum = M('')->field('follow.fid AS fuid,user.uname AS funame')->table("{$db_prefix}user_follow AS follow LEFT JOIN {$db_prefix}user AS user ON follow.fid=user.uid")->where("follow.uid={$this->mid}")->order('follow.follow_id DESC')->count();
-        } elseif ($typeId==3) {
+        } elseif ($typeId == 3) {
             $followNum = M('')->field('follow.uid AS fuid,user.uname AS funame')->table("{$db_prefix}user_follow AS follow LEFT JOIN {$db_prefix}user AS user ON follow.uid=user.uid")->where("follow.fid={$this->mid}")->order('follow.follow_id DESC')->count();
         } else {
             //默认显示互粉

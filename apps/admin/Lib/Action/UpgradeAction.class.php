@@ -50,7 +50,7 @@ class UpgradeAction extends AdministratorAction
             $this->showError('您当前PHP: '.PHP_VERSION.'版本低于ThinkSNS4运行的最低版本PHP:5.3.12');
         }
 
-        $url  = C('UPURL').'?v='.C('VERSION');
+        $url = C('UPURL').'?v='.C('VERSION');
         $data = file_get_contents($url);
 
         $data or $this->showError('您的服务器无法从升级服务器获取升级数据！');
@@ -150,7 +150,7 @@ PS：手动升级覆盖文件后千万不要刷新本页面，直接点击上方
         $this->onsubmit = 'confirm(\'确定要升级吗？\')';
         $this->displayConfig(array(
             'log' => $log,
-            'tips'=> $this->opt['tips'],
+            'tips' => $this->opt['tips'],
         ));
     }
 
@@ -163,7 +163,7 @@ PS：手动升级覆盖文件后千万不要刷新本页面，直接点击上方
     {
         $downUrl = $_GET['upurl'];
         $downUrl = urldecode($downUrl);
-        $path    = DATA_PATH.'/'.'upgrade/'.basename($downUrl);
+        $path = DATA_PATH.'/'.'upgrade/'.basename($downUrl);
 
         // # 备份老配置文件
         $oldConf = file_get_contents(CONF_PATH.'/thinksns.conf.php');
@@ -226,7 +226,7 @@ PS：手动升级覆盖文件后千万不要刷新本页面，直接点击上方
             unset($info);
 
             $path = SITE_PATH.'/'.$path;
-            $dir  = dirname($path);
+            $dir = dirname($path);
 
             is_dir($dir) or mkdir($dir, 0777, true);
             file_put_contents($path, $data);
@@ -244,7 +244,7 @@ PS：手动升级覆盖文件后千万不要刷新本页面，直接点击上方
     public function step3()
     {
         $sqlFilePath = DATA_PATH.'/upgrade/upgrade.sql';
-        $delFile     = dirname($sqlFilePath).'/deleteFiles.php';
+        $delFile = dirname($sqlFilePath).'/deleteFiles.php';
 
         // # 删除废弃文件
         if (file_exists($delFile)) {

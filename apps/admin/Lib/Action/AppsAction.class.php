@@ -9,16 +9,16 @@ tsload(APPS_PATH.'/admin/Lib/Action/AdministratorAction.class.php');
 class AppsAction extends AdministratorAction
 {
     public $pageTitle = array(
-        'index'            => '已安装应用列表',
-        'install'        => '待安装应用列表',
-        'onLineApp'        => '在线应用',
+        'index' => '已安装应用列表',
+        'install' => '待安装应用列表',
+        'onLineApp' => '在线应用',
         'setCreditNode' => '积分节点设置',
-        'setPermNode'    => '权限节点设置',
-        'setFeedNode'    => '分享模板设置',
+        'setPermNode' => '权限节点设置',
+        'setFeedNode' => '分享模板设置',
     );
 
-    private $appStatus = array('0'=>'关闭','1'=>'开启');    //应用状态
-    private $host_type_alias = array(0=>'本地应用',1=>'远程应用');    //托管状态
+    private $appStatus = array('0' => '关闭','1' => '开启');    //应用状态
+    private $host_type_alias = array(0 => '本地应用',1 => '远程应用');    //托管状态
     private $RemoteAppURL = '';
     public function _initialize()
     {
@@ -51,16 +51,16 @@ class AppsAction extends AdministratorAction
             // $v['icon_url'] = empty($v['icon_url']) ? '<img src="'.APPS_URL.'/'.$v['app_name'].'/Appinfo/icon_app.png" >' : "<img src='{$v['icon_url']}'>";
             $v['icon_url'] = '<img src="'.APPS_URL.'/'.$v['app_name'].'/Appinfo/icon_app.png" >';
             !empty($v['author_homepage_url']) && $v['author_name'] = "<a href='{$v['author_homepage_url']}'>{$v['author_name']}</a>";
-            $v['DOACTION'] = "<a href='".U('admin/Apps/preinstall', array('app_name'=>$v['app_name']))."'>".L('PUBLIC_EDIT').'</a>&nbsp;-&nbsp;';
+            $v['DOACTION'] = "<a href='".U('admin/Apps/preinstall', array('app_name' => $v['app_name']))."'>".L('PUBLIC_EDIT').'</a>&nbsp;-&nbsp;';
             $v['DOACTION'] .= $v['status'] == 0
                             ? "<a href='javascript:admin.setAppStatus({$v['app_id']},1)'>".L('PUBLIC_OPEN').'</a>&nbsp;-&nbsp;'
                             : "<a href='javascript:admin.setAppStatus({$v['app_id']},0)'>".L('PUBLIC_CLOSE').'</a>&nbsp;-&nbsp;';
-            $v['DOACTION'] .= "<a href='".U('admin/Apps/uninstall', array('app_id'=>$v['app_id']))."'>".L('PUBLIC_SYSTEM_APP_UNLODING').'</a>&nbsp;-&nbsp;';
+            $v['DOACTION'] .= "<a href='".U('admin/Apps/uninstall', array('app_id' => $v['app_id']))."'>".L('PUBLIC_SYSTEM_APP_UNLODING').'</a>&nbsp;-&nbsp;';
             if (!empty($v['admin_entry'])) {
                 $name = L('PUBLIC_APPNAME_'.strtoupper($v['app_name']));
                 $v['DOACTION'] .= in_array($v['app_name'], array_keys($inNav)) ?
                 ' <a href="javascript:;" onclick="admin.appnav(this,\''.$name.'\',\''.$v['admin_entry'].'\')" add="1">'.L('PUBLIC_REMOVE_NAV').'</a>'
-                :' <a href="javascript:;" onclick="admin.appnav(this,\''.$name.'\',\''.$v['admin_entry'].'\')" add="0">'.L('PUBLIC_ADD_NAV').'</a>';
+                : ' <a href="javascript:;" onclick="admin.appnav(this,\''.$name.'\',\''.$v['admin_entry'].'\')" add="0">'.L('PUBLIC_ADD_NAV').'</a>';
 
                 $v['DOACTION'] .= '&nbsp;-&nbsp;<a href="'.U($v['app_name'].'/'.$v['app_entry']).'" target= _blank>访问应用</a>';
             }
@@ -68,8 +68,8 @@ class AppsAction extends AdministratorAction
             $v['status'] = $this->appStatus[$v['status']];    //语义化
         }
 
-        $this->pageButton[] = array('title'=>L('PUBLIC_OPEN'),'onclick'=>"admin.setAppStatus('', 1)");
-        $this->pageButton[] = array('title'=>L('PUBLIC_CLOSE'),'onclick'=>"admin.setAppStatus('', 0)");
+        $this->pageButton[] = array('title' => L('PUBLIC_OPEN'),'onclick' => "admin.setAppStatus('', 1)");
+        $this->pageButton[] = array('title' => L('PUBLIC_CLOSE'),'onclick' => "admin.setAppStatus('', 0)");
 
         $this->_listpk = 'app_id';
         $this->displayList($listData);
@@ -80,20 +80,20 @@ class AppsAction extends AdministratorAction
     {
         $this->pageKeyList = array('icon_url','app_name','app_alias','description','host_type_alias','company_name','DOACTION');
 
-        $listData['data']= model('App')->getUninstallList();
+        $listData['data'] = model('App')->getUninstallList();
 
         foreach ($listData['data'] as &$v) {
             $v['host_type_alias'] = $this->host_type_alias[$v['host_type']];
             !empty($v['author_homepage_url']) && $v['author_name'] = "<a href='{$v['author_homepage_url']}'>{$v['author_name']}</a>";
             $v['icon_url'] = empty($v['icon_url']) ? '<img src="'.APPS_URL.'/'.$v['app_name'].'/Appinfo/icon_app.png" >' : "<img src='{$v['icon_url']}'>";
-            $v['DOACTION'] =  "<a href='".U('admin/Apps/preinstall', array('app_name'=>$v['app_name'], 'install'=>1))."'>".L('PUBLIC_SYSTEM_APP_INSTALL').'</a>';
+            $v['DOACTION'] = "<a href='".U('admin/Apps/preinstall', array('app_name' => $v['app_name'], 'install' => 1))."'>".L('PUBLIC_SYSTEM_APP_INSTALL').'</a>';
         }
         $this->allSelected = false;
         $this->displayList($listData);
     }
 
     //安装 编辑 应用
-    public function preinstall($app_name='', $install='')
+    public function preinstall($app_name = '', $install = '')
     {
         if (empty($app_name)) {
             $app_name = t($_GET['app_name']);
@@ -115,7 +115,7 @@ class AppsAction extends AdministratorAction
             $this->assign('pageTitle', L('PUBLIC_SYSTEM_APP_INSTALL'));
             !empty($info['admin_entry']) && $this->pageKeyList[] = 'add_tonav';
         } else {
-            $map['app_name']  = $app_name;
+            $map['app_name'] = $app_name;
             $info = model('App')->where($map)->find();
             $this->assign('pageTitle', L('PUBLIC_SYSTEM_APP_EDIT'));
         }
@@ -123,9 +123,9 @@ class AppsAction extends AdministratorAction
         $this->savePostUrl = U('admin/Apps/saveApp');
         $this->opt['status'] = $this->appStatus;
         $this->opt['host_type'] = $this->host_type_alias;
-        $this->opt['add_tonav'] = array(0=>L('PUBLIC_SYSTEMD_FALSE'),1=>L('PUBLIC_SYSTEMD_TRUE'));
-        $this->opt['add_front_top'] = array(0=>L('PUBLIC_SYSTEMD_FALSE'),1=>L('PUBLIC_SYSTEMD_TRUE'));
-        $this->opt['add_front_applist'] = array(0=>L('PUBLIC_SYSTEMD_FALSE'),1=>L('PUBLIC_SYSTEMD_TRUE'));
+        $this->opt['add_tonav'] = array(0 => L('PUBLIC_SYSTEMD_FALSE'),1 => L('PUBLIC_SYSTEMD_TRUE'));
+        $this->opt['add_front_top'] = array(0 => L('PUBLIC_SYSTEMD_FALSE'),1 => L('PUBLIC_SYSTEMD_TRUE'));
+        $this->opt['add_front_applist'] = array(0 => L('PUBLIC_SYSTEMD_FALSE'),1 => L('PUBLIC_SYSTEMD_TRUE'));
         $this->notEmpty = array('app_name','app_alias','app_entry');
         $this->onsubmit = 'admin.checkAppInfo(this)';
         $this->displayConfig($info);
@@ -142,22 +142,22 @@ class AppsAction extends AdministratorAction
         $status = model('App')->saveApp($_POST);
 
         if ($status === true) {
-            $log['app_name']  = $_POST['app_name'];
+            $log['app_name'] = $_POST['app_name'];
             if (!empty($_POST['app_id'])) {
-                $log['app_id']      = $_POST['app_id'];
+                $log['app_id'] = $_POST['app_id'];
             }
             $log['app_alias'] = $_POST['app_alias'];
-            $log['k']          = L('PUBLIC_SYSTEM_APP_FILEDS');
+            $log['k'] = L('PUBLIC_SYSTEM_APP_FILEDS');
             LogRecord('admin_extends', 'appManage', $log, true);
 
             if (!empty($_POST['admin_entry']) && $_POST['add_tonav'] == 1) {
                 $this->navList[$_POST['app_name']] = $_POST['admin_entry'];
                 model('Xdata')->put('admin_nav:top', $this->navList);
             }
-            if ($_POST['app_name']=='tipoff') {
+            if ($_POST['app_name'] == 'tipoff') {
                 model('UserGroup')->cleanCache();
             }
-            $this->assign('jumpUrl', !empty($_POST['app_id']) ? U('admin/Apps/index'): U('admin/Apps/install'));
+            $this->assign('jumpUrl', !empty($_POST['app_id']) ? U('admin/Apps/index') : U('admin/Apps/install'));
             $this->success();
         } else {
             $this->error($status);
@@ -176,7 +176,7 @@ class AppsAction extends AdministratorAction
         if ($status === true) {
             unset($this->navList[$appInfo['app_name']]);
             model('Xdata')->put('admin_nav:top', $this->navList);
-            LogRecord('admin_extends', 'appUninstall', array('app_id'=>$app_id, 'k1'=>L('PUBLIC_SYSTEM_APP_UNLODING')), true);
+            LogRecord('admin_extends', 'appUninstall', array('app_id' => $app_id, 'k1' => L('PUBLIC_SYSTEM_APP_UNLODING')), true);
             $this->success();
         } else {
             $this->error($status);
@@ -188,11 +188,11 @@ class AppsAction extends AdministratorAction
     {
         $this->pageKeyList = array('id','appname','appinfo','module','rule','ruleinfo','DOACTION');
         //列表分页栏 按钮
-        $this->pageButton[] = array('title'=>L('PUBLIC_ADD'),'onclick'=>"location.href = '".U('admin/Apps/editPermNode')."'");
-        $this->pageButton[] = array('title'=>L('PUBLIC_STREAM_DELETE'),'onclick'=>'admin.delPermNode()');
+        $this->pageButton[] = array('title' => L('PUBLIC_ADD'),'onclick' => "location.href = '".U('admin/Apps/editPermNode')."'");
+        $this->pageButton[] = array('title' => L('PUBLIC_STREAM_DELETE'),'onclick' => 'admin.delPermNode()');
         $listData = D('permission_node')->findPage(10);
         foreach ($listData['data'] as &$v) {
-            $v['DOACTION'] =  "<a href='".U('admin/Apps/editPermNode', array('id'=>$v['id']))."'>".L('PUBLIC_EDIT')."</a> | 
+            $v['DOACTION'] = "<a href='".U('admin/Apps/editPermNode', array('id' => $v['id']))."'>".L('PUBLIC_EDIT')."</a> | 
 				<a href='javascript:void(0)' onclick='admin.delPermNode(".$v['id'].")'>".L('PUBLIC_STREAM_DELETE').'</a>';
         }
         $this->displayList($listData);
@@ -210,7 +210,7 @@ class AppsAction extends AdministratorAction
 
         $this->pageKeyList = array('id','appname','appinfo','module','rule','ruleinfo');
 
-        $this->opt['module'] = array('normal'=>L('PUBLIC_SYSTEM_NORMAL_USER'),'admin'=>L('PUBLIC_SYSTEM_ADMIN_USER'));
+        $this->opt['module'] = array('normal' => L('PUBLIC_SYSTEM_NORMAL_USER'),'admin' => L('PUBLIC_SYSTEM_ADMIN_USER'));
 
         $this->savePostUrl = U('admin/Apps/savePermNode');
 
@@ -223,10 +223,10 @@ class AppsAction extends AdministratorAction
     public function savePermNode()
     {
         if (!empty($_POST)) {
-            $data['appname']  = t($_POST['appname']);
-            $data['appinfo']  = t($_POST['appinfo']);
-            $data['module']   = t($_POST['module']);
-            $data['rule']      = t($_POST['rule']);
+            $data['appname'] = t($_POST['appname']);
+            $data['appinfo'] = t($_POST['appinfo']);
+            $data['module'] = t($_POST['module']);
+            $data['rule'] = t($_POST['rule']);
             $data['ruleinfo'] = t($_POST['ruleinfo']);
 
             if (empty($data['appname']) ||  empty($data['module']) || empty($data['rule'])) {
@@ -235,7 +235,7 @@ class AppsAction extends AdministratorAction
             }
             if (!empty($_POST['id'])) {
                 $map['id'] = intval($_POST['id']);
-                $act ='editPermNode';
+                $act = 'editPermNode';
                 $res = D('permission_node')->where($map)->save($data);
             } else {
                 $act = 'addPermNode';
@@ -254,9 +254,9 @@ class AppsAction extends AdministratorAction
 
     public function delPermNode()
     {
-        $return = array('status'=>1,'data'=>L('PUBLIC_DELETE_SUCCESS'));
+        $return = array('status' => 1,'data' => L('PUBLIC_DELETE_SUCCESS'));
         $id = $_POST['id'];
-        $map['id'] = is_array($id) ? array('in',$id):$id;
+        $map['id'] = is_array($id) ? array('in',$id) : $id;
         if ($data = D('permission_node')->where($map)->findAll()) {
             if (D('permission_node')->where($map)->delete()) {
                 $d['log'] = var_export($data, true);
@@ -267,7 +267,7 @@ class AppsAction extends AdministratorAction
             }
         }
         $return['status'] = 0;
-        $return['data']   = L('PUBLIC_DELETE_FAIL');
+        $return['data'] = L('PUBLIC_DELETE_FAIL');
         echo json_encode($return);
         exit();
     }
@@ -276,7 +276,7 @@ class AppsAction extends AdministratorAction
     public function setAppStatus()
     {
         $app_id = $_POST['app_id'];
-        $map['app_id'] = is_array($app_id) ? array('in',$app_id):intval($app_id);
+        $map['app_id'] = is_array($app_id) ? array('in',$app_id) : intval($app_id);
         $data['status'] = intval($_POST['status']);
         if ($data = D('App')->where($map)->save($data)) {
 
@@ -285,12 +285,12 @@ class AppsAction extends AdministratorAction
             model('Cache')->set('Appinfo_'.$appname, null);
             model('App')->cleanCache();
             $return['status'] = 1;
-            $return['data']   = '设置成功！';
+            $return['data'] = '设置成功！';
             echo json_encode($return);
             exit();
         } else {
             $return['status'] = 0;
-            $return['data']   = '设置失败！';
+            $return['data'] = '设置失败！';
             echo json_encode($return);
             exit();
         }
@@ -415,11 +415,11 @@ class AppsAction extends AdministratorAction
         switch ($info['type']) {
             case 3:
                 // 应用
-                U('admin/Apps/preinstall', array('app_name'=>$info['app_name'], 'install'=>1), true);
+                U('admin/Apps/preinstall', array('app_name' => $info['app_name'], 'install' => 1), true);
                 break;
             case 2:
                 // 插件
-                U('admin/Addons/index', array('install'=>1), true);
+                U('admin/Addons/index', array('install' => 1), true);
                 break;
             case 1:
                 U('admin/Apps/onLineApp', true);

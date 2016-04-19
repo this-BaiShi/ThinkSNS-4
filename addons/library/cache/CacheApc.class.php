@@ -24,14 +24,14 @@ class CacheApc extends Cache
      * @param array $options 缓存参数
      * @access public
      */
-    public function __construct($options=array())
+    public function __construct($options = array())
     {
         if (!function_exists('apc_cache_info')) {
             throw_exception(L('_NOT_SUPPERT_').':Apc');
         }
-        $this->options['prefix']    =   isset($options['prefix'])?  $options['prefix']  :   C('DATA_CACHE_PREFIX');
-        $this->options['length']    =   isset($options['length'])?  $options['length']  :   0;
-        $this->options['expire']    =   isset($options['expire'])?  $options['expire']  :   C('DATA_CACHE_TIME');
+        $this->options['prefix'] = isset($options['prefix']) ?  $options['prefix']  :   C('DATA_CACHE_PREFIX');
+        $this->options['length'] = isset($options['length']) ?  $options['length']  :   0;
+        $this->options['expire'] = isset($options['expire']) ?  $options['expire']  :   C('DATA_CACHE_TIME');
     }
 
      /**
@@ -59,11 +59,11 @@ class CacheApc extends Cache
      {
          N('cache_write', 1);
          if (is_null($expire)) {
-             $expire  =  $this->options['expire'];
+             $expire = $this->options['expire'];
          }
-         $name   =   $this->options['prefix'].$name;
+         $name = $this->options['prefix'].$name;
          if ($result = apc_store($name, $value, $expire)) {
-             if ($this->options['length']>0) {
+             if ($this->options['length'] > 0) {
                  // 记录缓存队列
                 $this->queue($name);
              }
