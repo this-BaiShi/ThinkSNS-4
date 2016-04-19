@@ -58,7 +58,6 @@ class DiyUser extends TagsAbstract
                     $kusers[$us['uid']] = $us['uname'];
                 }
 
-
                 foreach ($list as &$u) {
                     $u['uname'] = $kusers[$u['uid']];
                 }

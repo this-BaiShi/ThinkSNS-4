@@ -111,7 +111,7 @@ class BaseAction extends Action
             exit();
         }
         if (! $url) {
-            $url = $_SERVER ["HTTP_REFERER"];
+            $url = $_SERVER ['HTTP_REFERER'];
         }
 
         if (! empty($msg) && $delay == 0) {

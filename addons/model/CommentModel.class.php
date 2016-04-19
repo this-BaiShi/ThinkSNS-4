@@ -434,7 +434,7 @@ class CommentModel extends Model
         $comment = $this->field('comment_id, app,`table`, row_id, app_uid, uid')->where($map)->find();
         $save['is_del'] = 0;
         if ($this->where($map)->save($save)) {
-            D($comment['table'])->setInc('comment_count', "`".$comment['table']."_id`=".$comment['row_id']);
+            D($comment['table'])->setInc('comment_count', '`'.$comment['table'].'_id`='.$comment['row_id']);
             // 删除分享缓存
             switch ($comment['table']) {
                 case 'feed':
@@ -513,7 +513,7 @@ class CommentModel extends Model
         $max_id = intval($max_id);
         $limit = intval($limit);
         $page = intval($page);
-        $where = empty($where) ?  " is_del = 0 " : $where.' AND is_del=0';
+        $where = empty($where) ?  ' is_del = 0 ' : $where.' AND is_del=0';
         if (!empty($since_id) || !empty($max_id)) {
             !empty($since_id) && $where .= " AND comment_id > {$since_id}";
             !empty($max_id) && $where .= " AND comment_id < {$max_id}";

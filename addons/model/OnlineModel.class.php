@@ -32,7 +32,7 @@ class OnlineModel
 
         if ($dbconfig['DB_ENCRYPT'] == 1) {
             if ($db_pwd != '') {
-                require_once(SITE_PATH.'/addons/library/CryptDES.php');
+                require_once SITE_PATH.'/addons/library/CryptDES.php';
                 $crypt = new CryptDES;
                 $db_pwd = (string) $crypt->decrypt($db_pwd);
             }
@@ -62,14 +62,14 @@ class OnlineModel
     {
         $p = $_REQUEST['p'] ? $_REQUEST['p'] : 1;
         $start = ($p - 1) * $limit;
-        $sqlCount = "SELECT COUNT(1) as count FROM ".C('DB_PREFIX')."online_stats WHERE {$where} ";
+        $sqlCount = 'SELECT COUNT(1) as count FROM '.C('DB_PREFIX')."online_stats WHERE {$where} ";
         if ($count = $this->odb->query($sqlCount)) {
             $count = $count[0]['count'];
         } else {
             $count = 0;
         }
 
-        $sql = "SELECT * FROM ".C('DB_PREFIX')."online_stats WHERE {$where} LIMIT $start,$limit";
+        $sql = 'SELECT * FROM '.C('DB_PREFIX')."online_stats WHERE {$where} LIMIT $start,$limit";
 
         $data = $this->odb->query($sql);
 
@@ -96,14 +96,14 @@ class OnlineModel
         if (empty($max_id)) {
             return false;
         } else {
-            $sql = "UPDATE ".C('DB_PREFIX')."online_logs SET statsed = 1 WHERE id < {$max_id}";
+            $sql = 'UPDATE '.C('DB_PREFIX')."online_logs SET statsed = 1 WHERE id < {$max_id}";
             $this->odb->execute($sql);
         }
         // 开始统计
         // TODO:需要计划任务支持移动上一日数据到备份表，现在在每次统计之后备份今天之前的数据到备份表
         // 从logs累计总的用户数，总的游客数到stats表
-        $userDataSql = "SELECT COUNT(1) AS pv, COUNT(DISTINCT uid) AS pu, COUNT(ip) AS guestpu, `day`, isGuest 
-						FROM `".C('DB_PREFIX')."online_logs`
+        $userDataSql = 'SELECT COUNT(1) AS pv, COUNT(DISTINCT uid) AS pu, COUNT(ip) AS guestpu, `day`, isGuest 
+						FROM `'.C('DB_PREFIX')."online_logs`
 						WHERE id <= {$max_id}
 						GROUP BY day, isGuest";
 
@@ -123,13 +123,13 @@ class OnlineModel
                 }
             }
             foreach ($upData as $k=>$v) {
-                $sql = "SELECT id FROM ".C('DB_PREFIX')."online_stats WHERE day = '{$k}'";
+                $sql = 'SELECT id FROM '.C('DB_PREFIX')."online_stats WHERE day = '{$k}'";
                 $issetRow  = $this->odb->query($sql);
                 if (empty($issetRow)) {
-                    $sql = "INSERT INTO ".C('DB_PREFIX')."online_stats (`day`,`total_users`,`total_guests`,`total_pageviews`) 
+                    $sql = 'INSERT INTO '.C('DB_PREFIX')."online_stats (`day`,`total_users`,`total_guests`,`total_pageviews`) 
 							 VALUES ('{$k}','{$v['total_users']}','{$v['total_guests']}','{$v['total_pageviews']}')";
                 } else {
-                    $sql = " UPDATE ".C('DB_PREFIX')."online_stats 
+                    $sql = ' UPDATE '.C('DB_PREFIX')."online_stats 
 							 SET total_users = '{$v['total_users']}',
 							 total_guests = '{$v['total_guests']}',
 							 total_pageviews = {$v['total_pageviews']}
@@ -142,10 +142,10 @@ class OnlineModel
         // 从online表统计在线用户到most_onine_user表
         $this->checkOnline();
         // 将logs表中今天之前的的数据移动到bak表
-        $sql = "INSERT INTO ".C('DB_PREFIX')."online_logs_bak SELECT * FROM `".C('DB_PREFIX')."online_logs` WHERE day <='".date('Y-m-d', strtotime('-1 day'))."'";
+        $sql = 'INSERT INTO '.C('DB_PREFIX').'online_logs_bak SELECT * FROM `'.C('DB_PREFIX')."online_logs` WHERE day <='".date('Y-m-d', strtotime('-1 day'))."'";
         $this->odb->execute($sql);
         // 删除logs表中今天之前的数据删除
-        $sql = " DELETE FROM `".C('DB_PREFIX')."online_logs` WHERE day <='".date('Y-m-d', strtotime('-1 day'))."'";
+        $sql = ' DELETE FROM `'.C('DB_PREFIX')."online_logs` WHERE day <='".date('Y-m-d', strtotime('-1 day'))."'";
         // 统计结束
         $this->odb->execute($sql);
     }
@@ -158,12 +158,12 @@ class OnlineModel
         $startTime = time() - $this->stats_step;
         $day = date('Y-m-d');
         // 今日统计数据
-        $sql = "SELECT * FROM ".C('DB_PREFIX')."online_stats WHERE day ='{$day}'";
+        $sql = 'SELECT * FROM '.C('DB_PREFIX')."online_stats WHERE day ='{$day}'";
         $dayData =  $this->odb->query($sql);
 
         if (!empty($dayData)) {
             // 在线注册用户
-            $sql = "SELECT COUNT(1) AS pu FROM ".C('DB_PREFIX')."online WHERE uid !=0 AND activeTime  >= {$startTime}";
+            $sql = 'SELECT COUNT(1) AS pu FROM '.C('DB_PREFIX')."online WHERE uid !=0 AND activeTime  >= {$startTime}";
             $onlineData = $this->odb->query($sql);
 
             $set = array();
@@ -171,7 +171,7 @@ class OnlineModel
                 $set[] = 'most_online_users = '.$onlineData[0]['pu'];
             }
             // 在线游客
-            $sql = "SELECT COUNT(ip) AS pu FROM ".C('DB_PREFIX')."online WHERE uid = 0 AND activeTime >= {$startTime}";
+            $sql = 'SELECT COUNT(ip) AS pu FROM '.C('DB_PREFIX')."online WHERE uid = 0 AND activeTime >= {$startTime}";
             $onlineGuestData = $this->odb->query($sql);
             if ($onlineGuestData && $onlineGuestData[0]['pu'] > 0 && $onlineGuestData[0]['pu'] > $dayData[0]['most_online_guests']) {
                 $set[] = ' most_online_guests = '.$onlineGuestData[0]['pu'];
@@ -186,7 +186,7 @@ class OnlineModel
             }
 
             if (!empty($set)) {
-                $sql = " UPDATE ".C('DB_PREFIX')."online_stats SET ".implode(',', $set)." WHERE day = '{$day}'";
+                $sql = ' UPDATE '.C('DB_PREFIX').'online_stats SET '.implode(',', $set)." WHERE day = '{$day}'";
                 $this->odb->execute($sql);
             }
         }

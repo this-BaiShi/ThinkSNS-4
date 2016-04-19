@@ -167,7 +167,7 @@ class OldVideoModel extends Model
                     $transfer['uid'] = intval($_SESSION['mid']);
                     $transfer_id = D('video_transfer')->add($transfer);
                 } else {
-                    $command = $ffmpegpath." -y -i ".$sourceSavePath."/".$video_source_name." -vcodec libx264 ".$savePath."/".$video_name;
+                    $command = $ffmpegpath.' -y -i '.$sourceSavePath.'/'.$video_source_name.' -vcodec libx264 '.$savePath.'/'.$video_name;
                     exec($command);
                 }
 
@@ -226,7 +226,7 @@ class OldVideoModel extends Model
 
     public function mobile_video_codec($ffmpegpath, $sourceSavePath, $video_source_name, $savePath, $video_name)
     {
-        $command = $ffmpegpath." -y -i ".$sourceSavePath."/".$video_source_name." -vcodec libx264 -vf transpose=1 -metadata:s:v:0 rotate=0 ".$savePath."/".$video_name;
+        $command = $ffmpegpath.' -y -i '.$sourceSavePath.'/'.$video_source_name.' -vcodec libx264 -vf transpose=1 -metadata:s:v:0 rotate=0 '.$savePath.'/'.$video_name;
         exec($command);
     }
 
@@ -251,7 +251,7 @@ class OldVideoModel extends Model
         return $timeline;
     }
 
-    public function get_video_image($ffmpegpath, $input, $output, $fromdurasec="01")
+    public function get_video_image($ffmpegpath, $input, $output, $fromdurasec='01')
     {
         if (!file_exists($input)) {
             return false;
@@ -268,7 +268,7 @@ class OldVideoModel extends Model
         exec($command);
     }
 
-    public function get_video_part($ffmpegpath, $input, $output, $begin_second="01", $end_second="05")
+    public function get_video_part($ffmpegpath, $input, $output, $begin_second='01', $end_second='05')
     {
         if (!file_exists($input)) {
             return false;
@@ -314,7 +314,7 @@ class OldVideoModel extends Model
                 if (file_exists(SITE_PATH.$v['sourceSavePath'].'/'.$v['video_source_name'])) {
                     $sourceSavePath = SITE_PATH.$v['sourceSavePath'];
                     $savePath = SITE_PATH.$v['savePath'];
-                    $command = $ffmpegpath." -y -i ".$sourceSavePath."/".$v['video_source_name']." -vcodec libx264 ".$savePath."/".$v['video_name'];
+                    $command = $ffmpegpath.' -y -i '.$sourceSavePath.'/'.$v['video_source_name'].' -vcodec libx264 '.$savePath.'/'.$v['video_name'];
                     exec($command);
                     D('video_transfer')->where('transfer_id='.$v['transfer_id'])->setField('status', 1);
                     $feed_id = D('video_transfer')->where('transfer_id='.$v['transfer_id'])->getField('feed_id');
@@ -330,7 +330,7 @@ class OldVideoModel extends Model
     {
         $link = t($link);
         $parseLink = parse_url($link);
-        if (preg_match("/(youku.com|youtube.com|qq.com|ku6.com|sohu.com|sina.com.cn|tudou.com|yinyuetai.com)$/i", $parseLink['host'], $hosts)) {
+        if (preg_match('/(youku.com|youtube.com|qq.com|ku6.com|sohu.com|sina.com.cn|tudou.com|yinyuetai.com)$/i', $parseLink['host'], $hosts)) {
             $flashinfo = $this->_video_getflashinfo($link, strtolower($hosts[1]));
         }
         if ($flashinfo['flash_url']) {
@@ -347,7 +347,7 @@ class OldVideoModel extends Model
     {
         $link = $type_data;
         $parseLink = parse_url($link);
-        if (preg_match("/(youku.com|youtube.com|qq.com|ku6.com|sohu.com|sina.com.cn|tudou.com|yinyuetai.com)$/i", $parseLink['host'], $hosts)) {
+        if (preg_match('/(youku.com|youtube.com|qq.com|ku6.com|sohu.com|sina.com.cn|tudou.com|yinyuetai.com)$/i', $parseLink['host'], $hosts)) {
             $flashinfo = $this->_video_getflashinfo($link, $hosts[1]);
         }
         if ($flashinfo['flash_url']) {
@@ -515,8 +515,8 @@ class OldVideoModel extends Model
                 }
             }
         } else {
-            if (extension_loaded("zlib")) {
-                $content = file_get_contents("compress.zlib://".$link);//获取
+            if (extension_loaded('zlib')) {
+                $content = file_get_contents('compress.zlib://'.$link);//获取
             }
 
             if (!$content) {
@@ -524,55 +524,54 @@ class OldVideoModel extends Model
             }//有些站点无法获取
         }
 
-
         if ('ku6.com' == $host) {
             // 2012/3/7 修复ku6链接和图片抓去
             preg_match("/\/([\w\-\.]+)\.html/", $link, $flashvar);
             //preg_match("/<span class=\"s_pic\">(.*?)<\/span>/i",$content,$img);
-            preg_match("/cover: \"(.+?)\"/i", $content, $img);
+            preg_match('/cover: "(.+?)"/i', $content, $img);
             preg_match("/<title>(.*?)<\/title>/i", $content, $title);
-            $title[1] = iconv("GBK", "UTF-8", $title[1]);
+            $title[1] = iconv('GBK', 'UTF-8', $title[1]);
             $flash_url = 'http://player.ku6.com/refer/'.$flashvar[1].'/v.swf';
         } elseif ('tudou.com' == $host && strpos($link, 'www.tudou.com/albumplay')!==false) {
             preg_match("/albumplay\/([\w\-\.]+)\//", $link, $flashvar);
             preg_match("/<title>(.*?)<\/title>/i", $content, $title);
-            preg_match("/pic: \"(.+?)\"/i", $content, $img);
-            $title[1] = iconv("GBK", "UTF-8", $title[1]);
+            preg_match('/pic: "(.+?)"/i', $content, $img);
+            $title[1] = iconv('GBK', 'UTF-8', $title[1]);
             $flash_url = 'http://www.tudou.com/a/'.$flashvar[1].'/&autoPlay=true/v.swf';
         } elseif ('tudou.com' == $host && strpos($link, 'www.tudou.com/programs')!==false) {
             //dump(auto_charset($content,'GBK','UTF8'));
             preg_match("/programs\/view\/([\w\-\.]+)\//", $link, $flashvar);
             preg_match("/<title>(.*?)<\/title>/i", $content, $title);
             preg_match("/pic: \'(.+?)\'/i", $content, $img);
-            $title[1] = iconv("GBK", "UTF-8", $title[1]);
+            $title[1] = iconv('GBK', 'UTF-8', $title[1]);
             $flash_url = 'http://www.tudou.com/v/'.$flashvar[1].'/&autoPlay=true/v.swf';
         } elseif ('tudou.com' == $host && strpos($link, 'www.tudou.com/listplay')!==false) {
             //dump(auto_charset($content,'GBK','UTF8'));
             preg_match("/listplay\/([\w\-\.]+)\//", $link, $flashvar);
             preg_match("/<title>(.*?)<\/title>/i", $content, $title);
-            preg_match("/pic:\"(.+?)\"/i", $content, $img);
-            $title[1] = iconv("GBK", "UTF-8", $title[1]);
+            preg_match('/pic:"(.+?)"/i', $content, $img);
+            $title[1] = iconv('GBK', 'UTF-8', $title[1]);
             $flash_url = 'http://www.tudou.com/l/'.$flashvar[1].'/&autoPlay=true/v.swf';
         } elseif ('tudou.com' == $host && strpos($link, 'douwan.tudou.com')!==false) {
             //dump(auto_charset($content,'GBK','UTF8'));
             preg_match("/code=([\w\-\.]+)$/", $link, $flashvar);
-            preg_match("/title\":\"(.+?)\"/i", $content, $title);
-            preg_match("/itempic\":\"(.+?)\"/i", $content, $img);
-            $title[1] = iconv("GBK", "UTF-8", $title[1]);
+            preg_match('/title":"(.+?)"/i', $content, $title);
+            preg_match('/itempic":"(.+?)"/i', $content, $img);
+            $title[1] = iconv('GBK', 'UTF-8', $title[1]);
             $flash_url = 'http://www.tudou.com/v/'.$flashvar[1].'/&autoPlay=true/v.swf';
         } elseif ('youtube.com' == $host) {
             preg_match('/http:\/\/www.youtube.com\/watch\?v=([^\/&]+)&?/i', $link, $flashvar);
-            preg_match("/<link itemprop=\"thumbnailUrl\" href=\"(.+?)\">/i", $content, $img);
+            preg_match('/<link itemprop="thumbnailUrl" href="(.+?)">/i', $content, $img);
             preg_match("/<title>(.*?)<\/title>/", $content, $title);
             $flash_url = 'http://www.youtube.com/embed/'.$FLASHVAR[1];
         } elseif ('sohu.com' == $host) {
-            preg_match("/og:videosrc\" content=\"(.+?)\"/i", $content, $flashvar);
-            preg_match("/og:title\" content=\"(.+?)\"/i", $content, $title);
-            preg_match("/og:image\" content=\"(.+?)\"/i", $content, $img);
-            $title[1] = iconv("GBK", "UTF-8", $title[1]);
+            preg_match('/og:videosrc" content="(.+?)"/i', $content, $flashvar);
+            preg_match('/og:title" content="(.+?)"/i', $content, $title);
+            preg_match('/og:image" content="(.+?)"/i', $content, $img);
+            $title[1] = iconv('GBK', 'UTF-8', $title[1]);
             $flash_url = $flashvar[1];
         } elseif ('qq.com' == $host) {
-            preg_match("/vid:\"(.+?)\",/i", $content, $flashvar);
+            preg_match('/vid:"(.+?)",/i', $content, $flashvar);
             preg_match('/itemprop=\"image\" content=\"(.+?)\"/i', $content, $img);
             preg_match("/<title>(.*?)<\/title>/", $content, $title);
             $flash_url = 'http://static.video.qq.com/TPout.swf?vid='.$flashvar[1].'&auto=1';

@@ -29,7 +29,7 @@ class DenouceWidget extends Widget
         if ($var['source']['app'] != 'public' && $var['source']['is_repost'] == 0) {
             $var['source']['source_content'] = $var['source']['api_source']['source_content'];
         }
-        $content = $this->renderFile(dirname(__FILE__)."/index.html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/index.html', $var);
 
         return $content;
     }

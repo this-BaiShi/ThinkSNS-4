@@ -16,9 +16,9 @@
  */
 function createLinkstring($para)
 {
-    $arg  = "";
+    $arg  = '';
     while (list($key, $val) = each($para)) {
-        $arg.=$key."=".$val."&";
+        $arg.=$key.'='.$val.'&';
     }
     //去掉最后一个&字符
     $arg = substr($arg, 0, count($arg)-2);
@@ -37,9 +37,9 @@ function createLinkstring($para)
  */
 function createLinkstringUrlencode($para)
 {
-    $arg  = "";
+    $arg  = '';
     while (list($key, $val) = each($para)) {
-        $arg.=urlencode($key)."=".urlencode($val)."&";
+        $arg.=urlencode($key).'='.urlencode($val).'&';
     }
     //去掉最后一个&字符
     $arg = substr($arg, 0, count($arg)-2);
@@ -60,7 +60,7 @@ function paraFilter($para)
 {
     $para_filter = array();
     while (list($key, $val) = each($para)) {
-        if ($key == "sign" || $key == "sign_type" || $val == "") {
+        if ($key == 'sign' || $key == 'sign_type' || $val == '') {
             continue;
         } else {
             $para_filter[$key] = $para[$key];
@@ -88,9 +88,9 @@ function argSort($para)
  */
 function logResult($word='')
 {
-    $fp = fopen("log.txt", "a");
+    $fp = fopen('log.txt', 'a');
     flock($fp, LOCK_EX) ;
-    fwrite($fp, "执行日期：".strftime("%Y%m%d%H%M%S", time())."\n".$word."\n");
+    fwrite($fp, '执行日期：'.strftime('%Y%m%d%H%M%S', time())."\n".$word."\n");
     flock($fp, LOCK_UN);
     fclose($fp);
 }
@@ -109,7 +109,7 @@ function logResult($word='')
 function getHttpResponsePOST($url, $cacert_url, $para, $input_charset = '')
 {
     if (trim($input_charset) != '') {
-        $url = $url."_input_charset=".$input_charset;
+        $url = $url.'_input_charset='.$input_charset;
     }
     $curl = curl_init($url);
     curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);//SSL证书认证
@@ -159,18 +159,18 @@ function getHttpResponseGET($url, $cacert_url)
  */
 function charsetEncode($input, $_output_charset, $_input_charset)
 {
-    $output = "";
+    $output = '';
     if (!isset($_output_charset)) {
         $_output_charset  = $_input_charset;
     }
     if ($_input_charset == $_output_charset || $input ==null) {
         $output = $input;
-    } elseif (function_exists("mb_convert_encoding")) {
+    } elseif (function_exists('mb_convert_encoding')) {
         $output = mb_convert_encoding($input, $_output_charset, $_input_charset);
-    } elseif (function_exists("iconv")) {
+    } elseif (function_exists('iconv')) {
         $output = iconv($_input_charset, $_output_charset, $input);
     } else {
-        die("sorry, you have no libs support for charset change.");
+        die('sorry, you have no libs support for charset change.');
     }
 
     return $output;
@@ -184,18 +184,18 @@ function charsetEncode($input, $_output_charset, $_input_charset)
  */
 function charsetDecode($input, $_input_charset, $_output_charset)
 {
-    $output = "";
+    $output = '';
     if (!isset($_input_charset)) {
         $_input_charset  = $_input_charset ;
     }
     if ($_input_charset == $_output_charset || $input ==null) {
         $output = $input;
-    } elseif (function_exists("mb_convert_encoding")) {
+    } elseif (function_exists('mb_convert_encoding')) {
         $output = mb_convert_encoding($input, $_output_charset, $_input_charset);
-    } elseif (function_exists("iconv")) {
+    } elseif (function_exists('iconv')) {
         $output = iconv($_input_charset, $_output_charset, $input);
     } else {
-        die("sorry, you have no libs support for charset changes.");
+        die('sorry, you have no libs support for charset changes.');
     }
 
     return $output;

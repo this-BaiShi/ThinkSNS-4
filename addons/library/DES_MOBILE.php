@@ -20,7 +20,6 @@ class DES_MOBILE
             $iv.=CHR($element);
         }
 
-
         $size = mcrypt_get_block_size(MCRYPT_DES, MCRYPT_MODE_CBC);
         $string = $this->pkcs5Pad($string, $size);
 
@@ -47,7 +46,6 @@ class DES_MOBILE
 
         return $result;
     }
-
 
     public function pkcs5Pad($text, $blocksize)
     {

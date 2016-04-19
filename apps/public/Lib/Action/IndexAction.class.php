@@ -493,7 +493,7 @@ class IndexAction extends Action
         $text = t($_REQUEST ['text']);
         $format = ! empty($_REQUEST ['format']) ? t($_REQUEST ['format']) : 'string';
         $limit = ! empty($_REQUEST ['limit']) ? intval($_REQUEST ['limit']) : '3';
-        $tagX = model("Tag");
+        $tagX = model('Tag');
         $tagX->setText($text); // 设置text
         $result = $tagX->getTop($limit, $format); // 获取前10个标签
         exit($result);
@@ -637,7 +637,7 @@ class IndexAction extends Action
                 $this->assign($at_list);
                 //消息类型
                 $this->assign('type', $type);
-                $html = $this->fetch("at");
+                $html = $this->fetch('at');
                 break;
             //我的评论
             case 'comment':
@@ -709,7 +709,7 @@ class IndexAction extends Action
                 $html = $this->fetch('comment');
                 break;
             //我的私信
-            case "message":
+            case 'message':
                 $dao = model('Message');
                 $list = $dao->getMessageListByUid($this->mid, array(MessageModel::ONE_ON_ONE_CHAT, MessageModel::MULTIPLAYER_CHAT), 20);
                 // 设置信息已读(在右上角提示去掉),
@@ -732,7 +732,7 @@ class IndexAction extends Action
                 $userInfo = model('User')->getUserInfo($this->mid);
                 $html = $this->fetch('message');
                 break;
-            case "message_detail":
+            case 'message_detail':
                 $_POST['id'] = intval(empty($_POST['id'])?$_GET['id']:$_POST['id']);
                 $_POST['stype'] = t(empty($_POST['stype'])?$_GET['stype']:$_POST['stype']);
                 $message = model('Message')->isMember(t($_POST['id']), $this->mid, true);
@@ -757,7 +757,7 @@ class IndexAction extends Action
                 $this->setKeywords('与'.$message['to'][0]['user_info']['uname'].'的私信对话');
                 $html = $this->fetch('message_detail');
                 break;
-            case "notify":
+            case 'notify':
                 $map['uid'] = $this->mid;
                 if ($_POST['t'] == 'digg') {
                     $map['node'] = array('eq','digg');
@@ -804,12 +804,11 @@ class IndexAction extends Action
     public function messagePage($html)
     {
         $pattern = "/href=[\"\']?([^\"\']+)?[\"\'].*?/";
-        $replacement = "href=javascript:; onclick=message.page(this);";
+        $replacement = 'href=javascript:; onclick=message.page(this);';
         $html = preg_replace($pattern, $replacement, $html);
 
         return $html;
     }
-
 
     /**
      * 老版消息弹出框
@@ -850,7 +849,7 @@ class IndexAction extends Action
 
                 // $map['uid'] = $this->mid;
                 // $atList = model('Atme')->where($map)->order('atme_id DESC')->findPage($limit);
-                $table = "( SELECT a.`atme_id`, a.`app`, a.`table`, CASE a.`table` WHEN 'comment' THEN b.`row_id` ELSE a.`row_id` END AS `row_id`, a.`uid`, a.`row_id` AS `old_row_id` FROM ".C('DB_PREFIX')."atme AS a LEFT JOIN ".C('DB_PREFIX')."comment AS b ON a.row_id = b.comment_id WHERE a.uid = ".$this->mid." ORDER BY a.`atme_id` DESC) AS NEW ";
+                $table = "( SELECT a.`atme_id`, a.`app`, a.`table`, CASE a.`table` WHEN 'comment' THEN b.`row_id` ELSE a.`row_id` END AS `row_id`, a.`uid`, a.`row_id` AS `old_row_id` FROM ".C('DB_PREFIX').'atme AS a LEFT JOIN '.C('DB_PREFIX').'comment AS b ON a.row_id = b.comment_id WHERE a.uid = '.$this->mid.' ORDER BY a.`atme_id` DESC) AS NEW ';
                 $atList = D()->table($table)->group('`app`, `table`, `row_id`, `uid`')->order('`atme_id` DESC')->findPage($limit);
                 if (! empty($atList)) {
                     $space = $content = '';
@@ -916,7 +915,7 @@ class IndexAction extends Action
                         }
                     }
                 }
-                $table = "(SELECT * FROM `".C('DB_PREFIX')."comment` WHERE ((`to_uid` = '".$this->mid."' OR `app_uid` = '".$this->mid."') AND `is_del` = 0 AND `uid` != '".$this->mid."') AND `table` != 'webpage' ORDER BY `ctime` DESC) AS NEW ";
+                $table = '(SELECT * FROM `'.C('DB_PREFIX')."comment` WHERE ((`to_uid` = '".$this->mid."' OR `app_uid` = '".$this->mid."') AND `is_del` = 0 AND `uid` != '".$this->mid."') AND `table` != 'webpage' ORDER BY `ctime` DESC) AS NEW ";
                 $commentList = D()->table($table)->group('`app` , `table` , `row_id` , `app_uid` , `uid`')->order('`ctime` DESC')->findPage($limit);
                 foreach ($commentList ['data'] as $item) {
                     $space = '<a href="'.U('public/Profile/index', array(
@@ -1252,9 +1251,9 @@ class IndexAction extends Action
         $result = D('user')->where('uid='.$this->uid)->save($map);
         D('user')->cleanCache($this->uid);
         if ($result == 1) {
-            $this->ajaxReturn(null, "操作成功", 1);
+            $this->ajaxReturn(null, '操作成功', 1);
         } else {
-            $this->ajaxReturn(null, "操作失败", 0);
+            $this->ajaxReturn(null, '操作失败', 0);
         }
     }
 }

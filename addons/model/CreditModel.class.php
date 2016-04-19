@@ -310,7 +310,7 @@ class CreditModel extends Model
         $record['ctime'] = time();
         $replace = array_keys($des);
         foreach ($replace as &$v) {
-            $v = "{".$v."}";
+            $v = '{'.$v.'}';
         }
         $record['des'] = str_replace($replace, $des, $creditSet['des']);
         $record['detail'] = $detail?json_encode($detail):'{}';
@@ -367,7 +367,6 @@ class CreditModel extends Model
         return $res;
     }
 
-
     /**
      * 保存积分等级规则
      * @param array $d 修改的积分等级规则
@@ -410,7 +409,7 @@ class CreditModel extends Model
                 $add['des'] = '';
                 $add['change'] = intval($detail['charge_sroce']);
                 $add['ctime'] = time();
-                $add['detail'] = '{"score":"'.$add["change"].'"}';
+                $add['detail'] = '{"score":"'.$add['change'].'"}';
                 M('credit_user')->where("uid={$add['uid']}")->save(array('score'=>$score+$add['change']));
                 D('credit_record')->add($add);
                 $this->cleanCache($add['uid']);
@@ -446,13 +445,13 @@ class CreditModel extends Model
         $add['des'] = t($data['desc']);
         $add['change'] = intval($data['num']);
         $add['ctime'] = time();
-        $add['detail'] = '{"score":"'.$add["change"].'"}';
+        $add['detail'] = '{"score":"'.$add['change'].'"}';
 
         $add2 = $add;
         $add2['uid'] = intval($data['fromUid']);
         $add2['change'] = -1 * intval($data['num']);
         $add2['action'] = '积分转出';
-        $add2['detail'] = '{"score":"'.$add2["change"].'"}';
+        $add2['detail'] = '{"score":"'.$add2['change'].'"}';
         M('credit_user')->where("uid={$add2['uid']}")->save(array('score'=>$score2-$add['change']));
         M('credit_user')->where("uid={$add['uid']}")->save(array('score'=>$score+$add['change']));
         //转账对象积分变动记录

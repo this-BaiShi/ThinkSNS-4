@@ -94,7 +94,7 @@ class ConfigAction extends AdministratorAction
             $this->opt ['site_theme_name'] [$v ['filename']] = $v ['filename'];
         }
 
-        $detailData = model('Xdata')->get($this->systemdata_list.":".$this->systemdata_key);
+        $detailData = model('Xdata')->get($this->systemdata_list.':'.$this->systemdata_key);
         if (isset($detailData ['site_analytics_code']) && ! empty($detailData ['site_analytics_code'])) {
             $detailData ['site_analytics_code'] = base64_decode($detailData ['site_analytics_code']);
         }
@@ -168,7 +168,7 @@ class ConfigAction extends AdministratorAction
         // 用户组信息
         $this->opt['default_user_group'] = model('UserGroup')->getHashUsergroup();
 
-        $detailData = model('Xdata')->get($this->systemdata_list.":".$this->systemdata_key);
+        $detailData = model('Xdata')->get($this->systemdata_list.':'.$this->systemdata_key);
         $this->onsubmit = 'admin.checkRegisterConfig(this)';
 
         $this->onload[] = 'admin.registerConfigDefault('.$detailData['personal_open'].', '.$detailData['interester_open'].')';
@@ -720,7 +720,7 @@ class ConfigAction extends AdministratorAction
                 '1' => L('PUBLIC_SYSTEMD_TRUE'),
         );
         $this->savePostUrl = U('admin/Config/doaudit');
-        $detail = model('Xdata')->get($this->systemdata_list.":".$this->systemdata_key);
+        $detail = model('Xdata')->get($this->systemdata_list.':'.$this->systemdata_key);
         $detail ['keywords'] = model('Xdata')->get('keywordConfig'); // 敏感词的Key
         $this->displayConfig($detail);
     }
@@ -748,7 +748,7 @@ class ConfigAction extends AdministratorAction
 
         $this->pageKeyList = array('word', 'type_name', 'replace', 'sensitive_category', 'uname', 'format_ctime', 'DOACTION');
 
-        $this->pageButton[] = array('title'=>'新增敏感词', 'onclick'=>"admin.setSensitiveBox()");
+        $this->pageButton[] = array('title'=>'新增敏感词', 'onclick'=>'admin.setSensitiveBox()');
         // $this->pageButton[] = array('title'=>'删除', 'onclick'=>"admin.rmSensitive('search_form')");
 
         $listData = model('SensitiveWord')->getSensitiveWordList();
@@ -845,7 +845,6 @@ class ConfigAction extends AdministratorAction
         $this->displayConfig();
     }
 
-
     /**
      * 系统配置 - 顶部导航配置 - 导航列表
      */
@@ -910,7 +909,7 @@ class ConfigAction extends AdministratorAction
                 '1' => L('PUBLIC_SYSTEMD_TRUE'),
         );
         // 数据的格式化与listKey保持一致
-        $listData = model('Navi')->where('position=0')->order("order_sort asc")->findPage(20);
+        $listData = model('Navi')->where('position=0')->order('order_sort asc')->findPage(20);
 
         $firstdata = array();
         $seconddata = array();
@@ -1023,7 +1022,7 @@ class ConfigAction extends AdministratorAction
                 '1' => L('PUBLIC_SYSTEMD_TRUE'),
         );
         // 数据的格式化与listKey保持一致
-        $listData = model('Navi')->where('position=1')->order("order_sort asc")->findPage(20);
+        $listData = model('Navi')->where('position=1')->order('order_sort asc')->findPage(20);
 
         $firstdata = array();
         $seconddata = array();
@@ -1139,7 +1138,7 @@ class ConfigAction extends AdministratorAction
                 '1' => L('PUBLIC_SYSTEMD_TRUE'),
         );
         // 数据的格式化与listKey保持一致
-        $listData = model('Navi')->where('position=2')->order("order_sort asc")->findPage(20);
+        $listData = model('Navi')->where('position=2')->order('order_sort asc')->findPage(20);
 
         $firstdata = array();
         $seconddata = array();
@@ -1244,7 +1243,7 @@ class ConfigAction extends AdministratorAction
         if ($rel) {
             $jumpstr = 'nav';
             if ($map ['position'] == 1) {
-                $jumpstr = "footNav&tabHash=foot";
+                $jumpstr = 'footNav&tabHash=foot';
             } elseif ($map['position'] == 2) {
                 $jumpstr = 'guestNav&tabHash=guest';
             }
@@ -1568,12 +1567,12 @@ class ConfigAction extends AdministratorAction
         // 添加语言配置内容按钮
         $this->pageButton [] = array(
                 'title' => L('PUBLIC_ADD'),
-                'onclick' => "admin.updateLangContent(0)",
+                'onclick' => 'admin.updateLangContent(0)',
         );
         // 删除语言配置内容按钮
         $this->pageButton [] = array(
                 'title' => L('PUBLIC_STREAM_DELETE'),
-                'onclick' => "admin.deleteLangContent(this)",
+                'onclick' => 'admin.deleteLangContent(this)',
         );
         // 搜索key值 - 列表分页栏 按钮 搜索
         $this->searchKey = array(
@@ -1593,7 +1592,7 @@ class ConfigAction extends AdministratorAction
         // 对比语言文件
         $this->pageButton [] = array(
                 'title' => '在线更新',
-                'onclick' => "admin.compareLangFile(0)",
+                'onclick' => 'admin.compareLangFile(0)',
         );
         $listData = $this->_getLangContent();
         $this->displayList($listData);
@@ -1627,7 +1626,7 @@ class ConfigAction extends AdministratorAction
         );
         $this->pageButton [] = array(
                 'title' => '同步',
-                'onclick' => "admin.updateLang(this)",
+                'onclick' => 'admin.updateLang(this)',
         );
         $this->_listpk = 'lang_id';
         foreach ($langFileArr as $key => $val) {
@@ -1846,7 +1845,7 @@ class ConfigAction extends AdministratorAction
         // 添加语言配置内容按钮
         $this->pageButton [] = array(
                 'title' => L('PUBLIC_UPDATE_WIDGET'),
-                'onclick' => "admin.updateWidget()",
+                'onclick' => 'admin.updateWidget()',
         );
 
         $this->allSelected = false;
@@ -2127,7 +2126,7 @@ class ConfigAction extends AdministratorAction
                 '个人主页',
         );
         foreach ($keys as $k => $v) {
-            $data = model('Xdata')->get("admin_Config:"."seo_".$v);
+            $data = model('Xdata')->get('admin_Config:'.'seo_'.$v);
             $list [$k] ['name'] = $names [$k];
             $list [$k] ['title'] = $data ['title'];
             $list [$k] ['keywords'] = $data ['keywords'];
@@ -2172,7 +2171,7 @@ class ConfigAction extends AdministratorAction
                 'keywords',
                 'des',
         );
-        $data = model('Xdata')->get("admin_Config:".$this->systemdata_key);
+        $data = model('Xdata')->get('admin_Config:'.$this->systemdata_key);
         $detail ['systemdata_key'] = $this->systemdata_key;
         $detail ['key'] = $key;
         $detail ['name'] = $name;
@@ -2221,7 +2220,7 @@ class ConfigAction extends AdministratorAction
         );
         $this->pageButton [] = array(
                 'title' => '同步',
-                'onclick' => "admin.updateAdminTab(this)",
+                'onclick' => 'admin.updateAdminTab(this)',
         );
         $this->_listpk = 'tab_id';
         foreach ($tabFileArr as $key => $val) {
@@ -2330,7 +2329,7 @@ define('UC_SYNC', {$ucopen});
         preg_match('/\'UC_SYNC\', ([0|1])/', $config, $match);
         $uc_open = intval($match [1]);
         $config = str_replace(array(
-                "<?php",
+                '<?php',
                 "define('UC_SYNC', 0);",
                 "define('UC_SYNC', 1);",
         ), '', $config);

@@ -14,7 +14,7 @@ error_reporting(0);
 //session 设置
 ini_set('session.cookie_httponly', 1);
 //设置session路径到本地
-if (strtolower(ini_get("session.save_handler")) == "files") {
+if (strtolower(ini_get('session.save_handler')) == 'files') {
     $session_dir = dirname(__FILE__).'/data/session';
     if (!is_dir($session_dir)) {
         mkdir($session_dir, 0777, true);
@@ -32,7 +32,7 @@ $online_time    =    1800;    //统计30分钟的在线用户
 $app            =    t($_GET['app'])?t($_GET['app']):'square';
 $mod            =    t($_GET['mod'])?t($_GET['mod']):'Index';
 $act            =    t($_GET['act'])?t($_GET['act']):'index';
-$action            =    $app."/".$mod."/".$act;
+$action            =    $app.'/'.$mod.'/'.$act;
 $uid            =    isset($_GET['uid'])?intval($_GET['uid']):0;
 $uname            =    t($_GET['uname'])?t($_GET['uname']):'guest';
 $agent            =    getBrower();
@@ -64,7 +64,6 @@ require TS_ROOT.'/src/Build.php';
 //记录在线统计.
 if ($_GET['action']=='trace') {
 
-
     /* ===================================== step 1 record track ========================================== */
 
     /*$sql    =    "INSERT INTO ".$config['DB_PREFIX']."online_logs 
@@ -91,13 +90,11 @@ if ($_GET['action']=='trace') {
         )
     ;
 
-
     /* ===================================== step 2 update hits ========================================== */
 
     //memcached更新.写入全局点击量.每个应用的点击量.每个版块的点击量.
 
     /* ===================================== step 3 update heartbeat ========================================== */
-
 
     if ((cookie('online_update') + $check_time) < $cTime) {
 
@@ -157,16 +154,16 @@ if ($_GET['action']=='trace') {
 // 获取客户端IP地址
 function getClientIp()
 {
-    if (getenv("HTTP_CLIENT_IP") && strcasecmp(getenv("HTTP_CLIENT_IP"), "unknown")) {
-        $ip = getenv("HTTP_CLIENT_IP");
-    } elseif (getenv("HTTP_X_FORWARDED_FOR") && strcasecmp(getenv("HTTP_X_FORWARDED_FOR"), "unknown")) {
-        $ip = getenv("HTTP_X_FORWARDED_FOR");
-    } elseif (getenv("REMOTE_ADDR") && strcasecmp(getenv("REMOTE_ADDR"), "unknown")) {
-        $ip = getenv("REMOTE_ADDR");
-    } elseif (isset($_SERVER ['REMOTE_ADDR']) && $_SERVER ['REMOTE_ADDR'] && strcasecmp($_SERVER ['REMOTE_ADDR'], "unknown")) {
+    if (getenv('HTTP_CLIENT_IP') && strcasecmp(getenv('HTTP_CLIENT_IP'), 'unknown')) {
+        $ip = getenv('HTTP_CLIENT_IP');
+    } elseif (getenv('HTTP_X_FORWARDED_FOR') && strcasecmp(getenv('HTTP_X_FORWARDED_FOR'), 'unknown')) {
+        $ip = getenv('HTTP_X_FORWARDED_FOR');
+    } elseif (getenv('REMOTE_ADDR') && strcasecmp(getenv('REMOTE_ADDR'), 'unknown')) {
+        $ip = getenv('REMOTE_ADDR');
+    } elseif (isset($_SERVER ['REMOTE_ADDR']) && $_SERVER ['REMOTE_ADDR'] && strcasecmp($_SERVER ['REMOTE_ADDR'], 'unknown')) {
         $ip = $_SERVER ['REMOTE_ADDR'];
     } else {
-        $ip = "unknown";
+        $ip = 'unknown';
     }
 
     return addslashes($ip);
@@ -184,7 +181,7 @@ function t($text)
     return addslashes($text);
 }
 
-function real_strip_tags($str, $allowable_tags="")
+function real_strip_tags($str, $allowable_tags='')
 {
     $str = stripslashes(htmlspecialchars_decode($str));
 
@@ -244,7 +241,7 @@ function dump($var)
     var_dump($var);
     $output = ob_get_clean();
     if (!extension_loaded('xdebug')) {
-        $output = preg_replace("/\]\=\>\n(\s+)/m", "] => ", $output);
+        $output = preg_replace("/\]\=\>\n(\s+)/m", '] => ', $output);
         $output = '<pre style="text-align:left">'.$label.htmlspecialchars($output, ENT_QUOTES).'</pre>';
     }
     echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
@@ -293,7 +290,6 @@ function cookie($name, $value='', $option=null)
         return;
     }
     $name = $config['prefix'].$name;
-
 
     if (''===$value) {
         //return isset($_COOKIE[$name]) ? unserialize($_COOKIE[$name]) : null;// 获取指定Cookie

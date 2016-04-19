@@ -12,7 +12,6 @@ class DepartmentAction extends AdministratorAction
                             'index'  => '部门设置',
                             );
 
-
     public function _initialize()
     {
         $this->pageTitle['index'] = L('PUBLIC_DEPARTMENT_SETTING');
@@ -41,7 +40,7 @@ class DepartmentAction extends AdministratorAction
         $this->opt['parent_dept_id'] = model('Department')->getHashDepartment(0);
 
         $this->notEmpty = array('title');
-        $this->onsubmit =  "admin.checkDepartment(this)";
+        $this->onsubmit =  'admin.checkDepartment(this)';
 
         $this->displayCateTree($department);
     }

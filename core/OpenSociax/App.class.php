@@ -51,7 +51,6 @@ class App
 
         $GLOBALS['time_run_detail']['obstart'] = microtime(true);
 
-
         //API控制器
         if (APP_NAME=='api') {
             App::execApi();
@@ -168,7 +167,7 @@ class App
      */
     public static function execApi()
     {
-        include_once(SITE_PATH.'/api/'.API_VERSION.'/'.MODULE_NAME.'Api.class.php');
+        include_once SITE_PATH.'/api/'.API_VERSION.'/'.MODULE_NAME.'Api.class.php';
         $className = MODULE_NAME.'Api';
         $module = new $className();
         $action = ACTION_NAME;

@@ -308,7 +308,7 @@ class UploadFile
         switch ($errorNo) {
             case 1:
 
-                $size = ini_get("upload_max_filesize");
+                $size = ini_get('upload_max_filesize');
                 if (strpos($size, 'M')!==false || strpos($size, 'm')!==false) {
                     $size = intval($size)*1024;
                     $size = byte_format($size);
@@ -320,7 +320,7 @@ class UploadFile
                 $this->error = '上传文件大小不符，文件不能超过 '.$size;
                 break;
             case 2:
-                 $size = ini_get("upload_max_filesize");
+                 $size = ini_get('upload_max_filesize');
                 if (strpos($size, 'M')!==false || strpos($size, 'm')!==false) {
                     $size = intval($size)*1024;
                     $size = byte_format($size);
@@ -374,10 +374,10 @@ class UploadFile
             } else {
                 if (function_exists($rule)) {
                     //使用函数生成一个唯一文件标识号
-                    $saveName = $rule().".".$filename['extension'];
+                    $saveName = $rule().'.'.$filename['extension'];
                 } else {
                     //使用给定的文件名作为标识号
-                    $saveName = $rule.".".$filename['extension'];
+                    $saveName = $rule.'.'.$filename['extension'];
                 }
             }
             if ($this->autoSub) {
@@ -493,7 +493,6 @@ class UploadFile
 
         return true;
     }
-
 
     /**
      +----------------------------------------------------------
@@ -612,7 +611,6 @@ class UploadFile
     {
         $file_path = date('/Y/md/H/');
         $filename  = UPLOAD_URL.$file_path.$image_name; //将URL转化为本地地址
-
 
         $oldimageinfo = getimagesize($filename);
         $w  = intval($oldimageinfo[0]);

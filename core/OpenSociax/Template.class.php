@@ -612,7 +612,6 @@ class Template
         return C('TMPL_L_DELIM').$tagStr.C('TMPL_R_DELIM');
     }
 
-
     /**
      * 加载js或者css文件
      * {load:__PUBLIC__/Js/Think/ThinkAjax.js} 加载js文件
@@ -680,14 +679,14 @@ class Template
                 }
             } elseif (false !== strpos($var, '[')) {
                 //支持 {$var['key']} 方式输出数组
-                $name = "$".$var;
+                $name = '$'.$var;
                 preg_match('/(.+?)\[(.+?)\]/is', $var, $match);
                 $var = $match[1];
             } elseif (false !==strpos($var, ':') && false ===strpos($var, '(') && false ===strpos($var, '::') && false ===strpos($var, '?')) {
                 //支持 {$var:property} 方式输出对象的属性
                 $vars = explode(':', $var);
                 $var  =  str_replace(':', '->', $var);
-                $name = "$".$var;
+                $name = '$'.$var;
                 $var  = $vars[0];
             } else {
                 $name = "$$var";

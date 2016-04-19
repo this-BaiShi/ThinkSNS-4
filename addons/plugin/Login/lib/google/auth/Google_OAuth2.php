@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-require_once "Google_Verifier.php";
-require_once "Google_LoginTicket.php";
-require_once "service/Google_Utils.php";
+require_once 'Google_Verifier.php';
+require_once 'Google_LoginTicket.php';
+require_once 'service/Google_Utils.php';
 /**
  * Authentication class that deals with the OAuth 2 web-server authentication flow
  *
@@ -145,7 +145,7 @@ class Google_OAuth2 extends Google_Auth
           throw new Google_AuthException('Could not json decode the token');
       }
       if (! isset($token['access_token'])) {
-          throw new Google_AuthException("Invalid token format");
+          throw new Google_AuthException('Invalid token format');
       }
       $this->token = $token;
   }
@@ -199,9 +199,9 @@ class Google_OAuth2 extends Google_Auth
             $this->refreshTokenWithAssertion();
         } else {
             if (! array_key_exists('refresh_token', $this->token)) {
-                throw new Google_AuthException("The OAuth 2.0 access token has expired, "
-                ."and a refresh token is not available. Refresh tokens are not "
-                ."returned for responses that were auto-approved.");
+                throw new Google_AuthException('The OAuth 2.0 access token has expired, '
+                .'and a refresh token is not available. Refresh tokens are not '
+                .'returned for responses that were auto-approved.');
             }
             $this->refreshToken($this->token['refresh_token']);
         }
@@ -250,10 +250,10 @@ class Google_OAuth2 extends Google_Auth
         if (200 == $code) {
             $token = json_decode($body, true);
             if ($token == null) {
-                throw new Google_AuthException("Could not json decode the access token");
+                throw new Google_AuthException('Could not json decode the access token');
             }
             if (! isset($token['access_token']) || ! isset($token['expires_in'])) {
-                throw new Google_AuthException("Invalid token format");
+                throw new Google_AuthException('Invalid token format');
             }
             $this->token['access_token'] = $token['access_token'];
             $this->token['expires_in'] = $token['expires_in'];
@@ -345,11 +345,11 @@ class Google_OAuth2 extends Google_Auth
   // Visible for testing.
   public function verifySignedJwtWithCerts($jwt, $certs, $required_audience)
   {
-      $segments = explode(".", $jwt);
+      $segments = explode('.', $jwt);
       if (count($segments) != 3) {
           throw new Google_AuthException("Wrong number of segments in token: $jwt");
       }
-      $signed = $segments[0].".".$segments[1];
+      $signed = $segments[0].'.'.$segments[1];
       $signature = Google_Utils::urlSafeB64Decode($segments[2]);
     // Parse envelope.
     $envelope = json_decode(Google_Utils::urlSafeB64Decode($segments[0]), true);
@@ -376,8 +376,8 @@ class Google_OAuth2 extends Google_Auth
       }
     // Check issued-at timestamp
     $iat = 0;
-      if (array_key_exists("iat", $payload)) {
-          $iat = $payload["iat"];
+      if (array_key_exists('iat', $payload)) {
+          $iat = $payload['iat'];
       }
       if (!$iat) {
           throw new Google_AuthException("No issue time in token: $json_body");
@@ -386,8 +386,8 @@ class Google_OAuth2 extends Google_Auth
     // Check expiration timestamp
     $now = time();
       $exp = 0;
-      if (array_key_exists("exp", $payload)) {
-          $exp = $payload["exp"];
+      if (array_key_exists('exp', $payload)) {
+          $exp = $payload['exp'];
       }
       if (!$exp) {
           throw new Google_AuthException("No expiration time in token: $json_body");
@@ -407,7 +407,7 @@ class Google_OAuth2 extends Google_Auth
       }
     // TODO(beaton): check issuer field?
     // Check audience
-    $aud = $payload["aud"];
+    $aud = $payload['aud'];
       if ($aud != $required_audience) {
           throw new Google_AuthException("Wrong recipient, $aud != $required_audience: $json_body");
       }

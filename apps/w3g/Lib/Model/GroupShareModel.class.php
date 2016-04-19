@@ -70,7 +70,7 @@ class GroupShareModel
                 $c['row_id'] = !empty($oldInfo['sourceInfo']) ? $oldInfo['sourceInfo']['source_id'] : $appId;
                 $c['client_type'] = getVisitorClient();
                 $c['gid'] = $d['gid'];
-                $notCount = $from == "share" ? true : false;
+                $notCount = $from == 'share' ? true : false;
                 $comment_id = D('GroupComment')->addComment($c, false, $notCount, $lessUids);
             }
             //添加话题
@@ -140,7 +140,7 @@ class GroupShareModel
             return $return;
         }
         $data['content'] = trim($data['content']);
-        $content = empty($data['content']) ? "" : "“{$data['content']}”&nbsp;//&nbsp;";
+        $content = empty($data['content']) ? '' : "“{$data['content']}”&nbsp;//&nbsp;";
         $content = parse_html($content);
         $message['to'] = $msg['to'];
         $message['content'] = $content.parse_html($oldInfo['source_content']).'&nbsp;&nbsp;<a href="'.$oldInfo['source_url'].'" target=\'_blank\'>查看</a>';

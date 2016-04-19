@@ -66,7 +66,7 @@ class SearchModel
             return false;
         }
 
-        $query .=" limit ".$this->getLimit($limit);        // limit处理
+        $query .=' limit '.$this->getLimit($limit);        // limit处理
         //return $query;exit;
         $datas    =    D()->query($query);            // 执行SphinxQL查询
 
@@ -74,7 +74,7 @@ class SearchModel
             return false;
         }
         // 获取关键词信息
-        $metas = $this->sdb->query("SHOW META");
+        $metas = $this->sdb->query('SHOW META');
         if (!$metas) {
             return false;
         }

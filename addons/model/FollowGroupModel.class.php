@@ -6,7 +6,7 @@
  */
 class FollowGroupModel extends Model
 {
-    const CACHE_PREFIX = "follow";
+    const CACHE_PREFIX = 'follow';
 
     protected $tableName = 'user_follow_group';
     protected $fields = array(0=>'follow_group_id',1=>'title',2=>'uid',3=>'ctime');
@@ -19,12 +19,12 @@ class FollowGroupModel extends Model
     public function getGroupList($uid)
     {
         // if(!is_numeric($uid)) throw new ThinkException(L("arg_number_only"));
-        if (false == ($follow_group_list = S(self::CACHE_PREFIX."list_".$uid))) {
+        if (false == ($follow_group_list = S(self::CACHE_PREFIX.'list_'.$uid))) {
             $follow_group_list = $this->where("uid={$uid}")->order('ctime ASC')->findAll();
             if (empty($follow_group_list)) {
-                S(self::CACHE_PREFIX."list_".$uid, array());
+                S(self::CACHE_PREFIX.'list_'.$uid, array());
             } else {
-                S(self::CACHE_PREFIX."list_".$uid, $follow_group_list);
+                S(self::CACHE_PREFIX.'list_'.$uid, $follow_group_list);
             }
         }
 
@@ -88,7 +88,7 @@ class FollowGroupModel extends Model
      */
     public function setGroupStatus($uid, $fid, $gid, $action = null)
     {
-        S(self::CACHE_PREFIX."list_".$uid, null);
+        S(self::CACHE_PREFIX.'list_'.$uid, null);
         S(self::CACHE_PREFIX."usergroup_{$uid}_{$gid}", null);
         $map = array('uid'=>intval($uid),'fid'=>intval($fid));
         $follow_id = D('UserFollow')->getField('follow_id', $map);
@@ -113,7 +113,7 @@ class FollowGroupModel extends Model
      */
     public function cleanCache($uid, $gid = '')
     {
-        S(self::CACHE_PREFIX."list_".$uid, null);
+        S(self::CACHE_PREFIX.'list_'.$uid, null);
         if (!empty($gid)) {
             S(self::CACHE_PREFIX."usergroup_{$uid}_{$gid}", null);
         }
@@ -127,7 +127,7 @@ class FollowGroupModel extends Model
      */
     public function setGroup($uid, $title, $gid = null)
     {
-        S(self::CACHE_PREFIX."list_".$uid, null);
+        S(self::CACHE_PREFIX.'list_'.$uid, null);
         S(self::CACHE_PREFIX."usergroup_{$uid}_{$gid}", null);
         $uid = intval($uid);
         $title = t($title);
@@ -167,7 +167,7 @@ class FollowGroupModel extends Model
      */
     public function deleteGroup($uid, $gid)
     {
-        S(self::CACHE_PREFIX."list_".$uid, null);
+        S(self::CACHE_PREFIX.'list_'.$uid, null);
         S(self::CACHE_PREFIX."usergroup_{$uid}_{$gid}", null);
         $uid = intval($uid);
         $gid = intval($gid);

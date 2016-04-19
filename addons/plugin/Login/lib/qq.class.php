@@ -1,6 +1,6 @@
 <?php
 
-include_once('qq/Tencent.php');
+include_once 'qq/Tencent.php';
 class qq
 {
     public $loginUrl;
@@ -38,7 +38,7 @@ class qq
         $user['province']    = $me['data']['province_code'];
         $user['city']        = $me['data']['city_code'];
         $user['location']    = $me['data']['location'];
-        $user['userface']    = $me['data']['head']."/120";
+        $user['userface']    = $me['data']['head'].'/120';
         $user['sex']         = ($me['data']['sex']=='1')?1:0;
 
         return $user;

@@ -31,7 +31,7 @@ class TopicUserWidget extends Widget
         $var['follow_state'] = model('Follow')->getFollowStateByFids($this->mid, $var['topic_user']);
         $var['mid'] = $this->mid;
         $var = array_merge($var, $data);
-        $content = $this->renderFile(dirname(__FILE__)."/topicUser.html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/topicUser.html', $var);
 
         return $content;
     }

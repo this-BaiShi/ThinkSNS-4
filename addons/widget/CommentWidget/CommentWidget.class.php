@@ -108,7 +108,7 @@ class CommentWidget extends Widget
         if (! CheckPermission('core_normal', 'feed_share') || ! in_array('repost', $weiboSet ['weibo_premission'])) {
             $var ['canrepost'] = 0;
         }
-        $content = $this->renderFile(dirname(__FILE__)."/".$var ['tpl'].'.html', $var);
+        $content = $this->renderFile(dirname(__FILE__).'/'.$var ['tpl'].'.html', $var);
         self::$rand ++;
         $ajax = $var ['isAjax'];
         unset($var, $data);
@@ -312,7 +312,7 @@ class CommentWidget extends Widget
 
             return $html;
         } else {
-            return $this->renderFile(dirname(__FILE__)."/_parseComment.html", $data);
+            return $this->renderFile(dirname(__FILE__).'/_parseComment.html', $data);
         }
     }
 
@@ -339,7 +339,7 @@ class CommentWidget extends Widget
             $map ['last_reply_time'] = $datas ['ctime'];
             $map ['reply_count'] = array(
                     'exp',
-                    "reply_count+1",
+                    'reply_count+1',
             );
             D('weiba_post')->where('post_id='.$datas ['post_id'])->save($map);
         }

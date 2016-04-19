@@ -11,7 +11,7 @@ class GroupAction extends BaseAction
     public function _initialize()
     {
         parent::_initialize();
-        $this->member = D("Member");
+        $this->member = D('Member');
         // 基本配置
         $this->config = model('Xdata')->lget('group');
         $this->assign('config', $this->config);
@@ -23,7 +23,7 @@ class GroupAction extends BaseAction
         $this->assign('gid', $this->gid);
 
         if ($this->gid) {
-            $groupinfo = D('group')->where('id='.$this->gid." AND is_del=0")->find();
+            $groupinfo = D('group')->where('id='.$this->gid.' AND is_del=0')->find();
             if (! $groupinfo) {
                 $jumpUrl = U('w3g/Group/index');
                 $this->error('该微吧不存在，或者被删除', 3, $jumpUrl);
@@ -197,16 +197,16 @@ class GroupAction extends BaseAction
             case 'all':
                 $d['feed_type_name'] = '全部';
                 break;
-            case "post":
+            case 'post':
                 $d['feed_type_name'] = '原创';
             break;
-            case "repost":
+            case 'repost':
                 $d['feed_type_name'] = '转发';
             break;
-            case "postimage":
-                $d['feed_type_name'] = "图片";
+            case 'postimage':
+                $d['feed_type_name'] = '图片';
             break;
-            case "postvideo":
+            case 'postvideo':
                 $d['feed_type_name'] = '视频';
             break;
             default:
@@ -565,11 +565,11 @@ class GroupAction extends BaseAction
             $this->assign($attachConf);
 
             $this->assign('reTags', D('GroupTag', 'group')->getHotTags('recommend'));
-            $this->setTitle("创建微吧");
+            $this->setTitle('创建微吧');
             $this->display();
         }
     }
-    protected function _getSearchKey($key_name = 'k', $prefix = "group_search")
+    protected function _getSearchKey($key_name = 'k', $prefix = 'group_search')
     {
         $key = '';
         // 为使搜索条件在分页时也有效，将搜索条件记录到SESSION中
@@ -787,7 +787,7 @@ class GroupAction extends BaseAction
         //if ($search_key) {
 
         //} else {
-            $memberInfo = $this->member->order($order)->where('gid='.$this->gid." AND status=1 AND level>0")->findPage(20);
+            $memberInfo = $this->member->order($order)->where('gid='.$this->gid.' AND status=1 AND level>0')->findPage(20);
         //}
         foreach ($memberInfo['data'] as &$member) {
             $feedid = D('GroupFeed')->where("uid={$member['uid']} AND gid={$member['gid']} AND is_del=0")->order('publish_time DESC')->getField('feed_id');

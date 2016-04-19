@@ -3,7 +3,6 @@
  * ThinkSNS安装文件，修改自pbdigg。
  */
 
-
 error_reporting(0);
 set_time_limit(600);
 
@@ -13,7 +12,7 @@ define('THINKSNS_ROOT', str_replace('\\', '/', substr(dirname(__FILE__), 0, -7))
 //session 设置
 ini_set('session.cookie_httponly', 1);
 //设置session路径到本地
-if (strtolower(ini_get("session.save_handler")) == "files") {
+if (strtolower(ini_get('session.save_handler')) == 'files') {
     $session_dir = THINKSNS_ROOT.'/data/session/';
     if (!is_dir($session_dir)) {
         mkdir($session_dir, 0777, true);
@@ -240,7 +239,7 @@ foreach ($writeable as $value) {
 	<input type="hidden" name="v" value="3">
 	<input style="width:200px;" type="submit" class="submit" value="<?php echo $i_message['install_next'];
     ?>" <?php if ($quit) {
-    echo "disabled=\"disabled\"";
+    echo 'disabled="disabled"';
 }
     ?>>
 	</form>
@@ -286,7 +285,7 @@ foreach ($writeable as $value) {
     ?></h5>
 <p><?php echo $i_message['site_url_intro'];
     ?></p>
-<p><input type="text" name="site_url" value="<?php echo "http://".$_SERVER['HTTP_HOST'].rtrim(str_replace('\\', '/', dirname(dirname($_SERVER['SCRIPT_NAME']))), '/');
+<p><input type="text" name="site_url" value="<?php echo 'http://'.$_SERVER['HTTP_HOST'].rtrim(str_replace('\\', '/', dirname(dirname($_SERVER['SCRIPT_NAME']))), '/');
     ?>" size="40" class='input' /></p>
 
 </div>
@@ -391,7 +390,7 @@ function check(obj)
         $msg .= '<p>'.$i_message['founder_invalid_email'].'</p>';
         $quit = true;
     } else {
-        $forbiddencharacter = array("\\", "&", " ", "'", "\"", "/", "*", ",", "<", ">", "\r", "\t", "\n", "#", "$", "(", ")", "%", "@", "+", "?", ";", "^");
+        $forbiddencharacter = array('\\', '&', ' ', "'", '"', '/', '*', ',', '<', '>', "\r", "\t", "\n", '#', '$', '(', ')', '%', '@', '+', '?', ';', '^');
         foreach ($forbiddencharacter as $value) {
             if (strpos($username, $value) !== false) {
                 $msg .= '<p>'.$i_message['	'].'</p>';
@@ -595,7 +594,7 @@ if ($thinksns_rebuild) {
         $query = trim($query);
         if ($query) {
             if (substr($query, 0, 12) == 'CREATE TABLE') {
-                $name = preg_replace("/CREATE TABLE ([A-Z ]*)`([a-z0-9_]+)` .*/is", "\\2", $query);
+                $name = preg_replace('/CREATE TABLE ([A-Z ]*)`([a-z0-9_]+)` .*/is', '\\2', $query);
                 echo '<p>'.$i_message['create_table'].' '.$name.' ... <span class="blue">OK</span></p>';
                 @mysql_query(createtable($query, $db_charset));
                 $tablenum ++;
@@ -615,7 +614,7 @@ if ($thinksns_rebuild) {
     //设置网站用户起始ID
     if (intval($_SESSION['first_user_id'])>0) {
         $admin_id    =    intval($_SESSION['first_user_id']);
-        $sql0    =    "ALTER TABLE `{$db_config['db_prefix']}user` AUTO_INCREMENT=".$admin_id.";";
+        $sql0    =    "ALTER TABLE `{$db_config['db_prefix']}user` AUTO_INCREMENT=".$admin_id.';';
         if (mysql_query($sql0)) {
             echo '<p>'.$i_message['set_auto_increment_success'].'... <span class="blue">OK..</span></p>';
         } else {

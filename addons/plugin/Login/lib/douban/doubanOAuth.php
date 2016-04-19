@@ -11,7 +11,7 @@
  */
 
 /* Load OAuth lib. You can find it at http://oauth.net */
-require_once('OAuth.php');
+require_once 'OAuth.php';
 
 /**
  * Douban OAuth class
@@ -26,7 +26,7 @@ class doubanOAuth
   private $last_api_call;
 
   /* Set up the API root URL */
-  public static $TO_API_ROOT = "http://www.douban.com/service";
+  public static $TO_API_ROOT = 'http://www.douban.com/service';
 
   /**
    * Set API URLS
@@ -73,7 +73,6 @@ class doubanOAuth
           $this->token = null;
       }
   }/*}}}*/
-
 
   /**
    * Get a request_token from Douban
@@ -158,7 +157,7 @@ class doubanOAuth
   public function oAuthRequest($url, $args = array(), $method = null)
   {/*{{{*/
     if (empty($method)) {
-        $method = empty($args) ? "GET" : "POST";
+        $method = empty($args) ? 'GET' : 'POST';
     }
       $req = doubanOAuthRequest::from_consumer_and_token($this->consumer, $this->token, $method, $url, $args);
       $req->sign_request($this->sha1_method, $this->consumer, $this->token);
@@ -176,7 +175,7 @@ class doubanOAuth
   public function http($url, $post_data = null)
   {/*{{{*/
     $ch = curl_init();
-      if (defined("CURL_CA_BUNDLE_PATH")) {
+      if (defined('CURL_CA_BUNDLE_PATH')) {
           curl_setopt($ch, CURLOPT_CAINFO, CURL_CA_BUNDLE_PATH);
       }
       curl_setopt($ch, CURLOPT_URL, $url);

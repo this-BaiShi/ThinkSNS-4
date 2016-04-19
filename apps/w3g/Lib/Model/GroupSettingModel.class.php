@@ -25,7 +25,6 @@ class GroupSettingModel extends Model
         return true;
     }*/
 
-
     //搜索数据
     public function searchData($type, $uid, $title, $content, $field, $asc, $limit=null, $isDel=0)
     {
@@ -41,8 +40,6 @@ class GroupSettingModel extends Model
             }
         }
 
-
-
         if ($type == 'group') {
             if ($uid) {
                 $condition[] = "uid = $uid ";
@@ -50,7 +47,7 @@ class GroupSettingModel extends Model
             if ($title) {
                 $condition[] = "name like '%".$title."%'";
             }
-            $condition[] = "status=1";
+            $condition[] = 'status=1';
 
             $data = D('Group')->getGroupList(1, $condition, $fields=null, "$field $asc", $limit, $isDel);
 

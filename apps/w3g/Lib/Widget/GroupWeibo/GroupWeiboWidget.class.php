@@ -40,7 +40,7 @@ class GroupWeiboWidget extends Widget
 
         $data['url']    = U('group/WeiboOperate/weibo', array('button_title'=>urlencode($data['button_title']), 'tpl_name'=>$data['tpl_name']));
 
-        $content = $this->renderFile("GroupWeibo", $data);
+        $content = $this->renderFile('GroupWeibo', $data);
 
         return $content;
     }

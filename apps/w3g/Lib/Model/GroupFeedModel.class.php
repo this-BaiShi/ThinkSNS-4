@@ -82,7 +82,7 @@ class GroupFeedModel extends Model
 //         }
         // 分享内容处理
         if (Addons::requireHooks('weibo_publish_content')) {
-            Addons::hook("weibo_publish_content", array(&$data));
+            Addons::hook('weibo_publish_content', array(&$data));
         } else {
             // 拼装数据，如果是评论再转发、回复评论等情况，需要额外叠加对话数据
             $data['body'] = str_replace(SITE_URL, '[SITE_URL]', preg_html($data['body']));
@@ -365,9 +365,9 @@ class GroupFeedModel extends Model
             $var['flashimg'] = '__THEME__/image/video.png';
         }
         $var['uid'] = $_data['uid'];
-        $var["actor"] = "<a href='{$user['space_url']}' class='name' event-node='face_card' uid='{$user['uid']}'>{$user['uname']}</a>";
-        $var["actor_uid"] = $user['uid'];
-        $var["actor_uname"] = $user['uname'];
+        $var['actor'] = "<a href='{$user['space_url']}' class='name' event-node='face_card' uid='{$user['uid']}'>{$user['uname']}</a>";
+        $var['actor_uid'] = $user['uid'];
+        $var['actor_uname'] = $user['uname'];
         $var['feedid'] = $_data['feed_id'];
         //微吧类型分享用到
         // $var["actor_groupData"] = model('UserGroupLink')->getUserGroupData($user['uid']);
@@ -390,8 +390,8 @@ class GroupFeedModel extends Model
         $result = $s->xpath("//feed[@type='".t($_data['type'])."']");
         $actions = (array) $result[0]->feedAttr;
         //输出模版解析后信息
-        $return["userInfo"]  = $user;
-        $return["actor_groupData"] = $var["actor_groupData"];
+        $return['userInfo']  = $user;
+        $return['actor_groupData'] = $var['actor_groupData'];
         $return['title'] = trim((string) $result[0]->title);
         $return['body'] =  trim((string) $result[0]->body);
         // $return['sbody'] = trim((string) $result[0]->sbody);
@@ -413,15 +413,15 @@ class GroupFeedModel extends Model
     {
         $html = htmlspecialchars_decode($html);
         //以下三个过滤是旧版兼容方法-可屏蔽
-        $html = preg_replace("/img{data=([^}]*)}/", " ", $html);
-        $html = preg_replace("/topic{data=([^}]*)}/", '<a href="$1" topic="true">#$1#</a>', $html);
-        $html = preg_replace_callback("/@{uid=([^}]*)}/", "_parse_at_by_uid", $html);
+        $html = preg_replace('/img{data=([^}]*)}/', ' ', $html);
+        $html = preg_replace('/topic{data=([^}]*)}/', '<a href="$1" topic="true">#$1#</a>', $html);
+        $html = preg_replace_callback('/@{uid=([^}]*)}/', '_parse_at_by_uid', $html);
         //链接替换
         $html = str_replace('[SITE_URL]', SITE_URL, $html);
         //表情处理
-        $html = preg_replace_callback("/(\[.+?\])/is", "_parse_expression", $html);
+        $html = preg_replace_callback("/(\[.+?\])/is", '_parse_expression', $html);
         //@提到某人处理
-        $html = preg_replace_callback("/@([\w\x{2e80}-\x{9fff}\-]+)/u", "_parse_at_by_uname", $html);
+        $html = preg_replace_callback("/@([\w\x{2e80}-\x{9fff}\-]+)/u", '_parse_at_by_uname', $html);
 
         return $html;
     }

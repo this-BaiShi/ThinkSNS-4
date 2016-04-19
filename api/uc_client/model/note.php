@@ -88,9 +88,9 @@ class notemodel
 
         $getdata = addslashes($getdata);
         $postdata = addslashes($postdata);
-        $this->db->query("INSERT INTO ".UC_DBTABLEPRE."notelist SET getdata='$getdata', operation='$operation', pri='$pri', postdata='$postdata'$extra");
+        $this->db->query('INSERT INTO '.UC_DBTABLEPRE."notelist SET getdata='$getdata', operation='$operation', pri='$pri', postdata='$postdata'$extra");
         $insert_id = $this->db->insert_id();
-        $insert_id && $this->db->query("REPLACE INTO ".UC_DBTABLEPRE."vars (name, value) VALUES ('noteexists', '1')$varextra");
+        $insert_id && $this->db->query('REPLACE INTO '.UC_DBTABLEPRE."vars (name, value) VALUES ('noteexists', '1')$varextra");
 
         return $insert_id;
     }
@@ -104,7 +104,7 @@ class notemodel
     {
         $note = $this->_get_note();
         if (empty($note)) {
-            $this->db->query("REPLACE INTO ".UC_DBTABLEPRE."vars SET name='noteexists".UC_APPID."', value='0'");
+            $this->db->query('REPLACE INTO '.UC_DBTABLEPRE."vars SET name='noteexists".UC_APPID."', value='0'");
 
             return null;
         }
@@ -152,10 +152,10 @@ class notemodel
                 $func = $this->operations[$note['operation']][3];
                 $_ENV[$this->operations[$note['operation']][2]]->$func($appid, $response);
             }
-            $this->db->query("UPDATE ".UC_DBTABLEPRE."notelist SET app$appid='1', totalnum=totalnum+1, succeednum=succeednum+1, dateline='{$this->base->time}' $closedsqladd WHERE noteid='$note[noteid]'", 'SILENT');
+            $this->db->query('UPDATE '.UC_DBTABLEPRE."notelist SET app$appid='1', totalnum=totalnum+1, succeednum=succeednum+1, dateline='{$this->base->time}' $closedsqladd WHERE noteid='$note[noteid]'", 'SILENT');
             $return = true;
         } else {
-            $this->db->query("UPDATE ".UC_DBTABLEPRE."notelist SET app$appid = app$appid-'1', totalnum=totalnum+1, dateline='{$this->base->time}' $closedsqladd WHERE noteid='$note[noteid]'", 'SILENT');
+            $this->db->query('UPDATE '.UC_DBTABLEPRE."notelist SET app$appid = app$appid-'1', totalnum=totalnum+1, dateline='{$this->base->time}' $closedsqladd WHERE noteid='$note[noteid]'", 'SILENT');
             $return = false;
         }
 
@@ -165,14 +165,14 @@ class notemodel
     public function _get_note()
     {
         $app_field = 'app'.UC_APPID;
-        $data = $this->db->fetch_first("SELECT * FROM ".UC_DBTABLEPRE."notelist WHERE closed='0' AND $app_field<'1' AND $app_field>'-".UC_NOTE_REPEAT."' LIMIT 1");
+        $data = $this->db->fetch_first('SELECT * FROM '.UC_DBTABLEPRE."notelist WHERE closed='0' AND $app_field<'1' AND $app_field>'-".UC_NOTE_REPEAT."' LIMIT 1");
 
         return $data;
     }
 
     public function _gc()
     {
-        rand(0, UC_NOTE_GC) == 0 && $this->db->query("DELETE FROM ".UC_DBTABLEPRE."notelist WHERE closed='1'");
+        rand(0, UC_NOTE_GC) == 0 && $this->db->query('DELETE FROM '.UC_DBTABLEPRE."notelist WHERE closed='1'");
     }
 
     public function _close_note($note, $apps, $returnsucceed, $appid)
@@ -193,7 +193,7 @@ class notemodel
 
     public function _get_note_by_id($noteid)
     {
-        $data = $this->db->fetch_first("SELECT * FROM ".UC_DBTABLEPRE."notelist WHERE noteid='$noteid'");
+        $data = $this->db->fetch_first('SELECT * FROM '.UC_DBTABLEPRE."notelist WHERE noteid='$noteid'");
 
         return $data;
     }
@@ -205,7 +205,7 @@ class notemodel
         $url = $app['url'];
         $apifilename = isset($app['apifilename']) && $app['apifilename'] ? $app['apifilename'] : 'uc.php';
         $action = $this->operations[$operation][1];
-        $code = urlencode($this->base->authcode("$action&".($getdata ? "$getdata&" : '')."time=".$this->base->time, 'ENCODE', $authkey));
+        $code = urlencode($this->base->authcode("$action&".($getdata ? "$getdata&" : '').'time='.$this->base->time, 'ENCODE', $authkey));
 
         return $url."/api/$apifilename?code=$code";
     }

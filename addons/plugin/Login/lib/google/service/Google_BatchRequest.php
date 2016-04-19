@@ -78,10 +78,10 @@ class Google_BatchRequest
                     list($metaHeaders, $part) = explode("\r\n\r\n", $part, 2);
                     $metaHeaders = Google_CurlIO::parseResponseHeaders($metaHeaders);
                     $status = substr($part, 0, strpos($part, "\n"));
-                    $status = explode(" ", $status);
+                    $status = explode(' ', $status);
                     $status = $status[1];
                     list($partHeaders, $partBody) = Google_CurlIO::parseHttpResponse($part, false);
-                    $response = new Google_HttpRequest("");
+                    $response = new Google_HttpRequest('');
                     $response->setResponseHttpCode($status);
                     $response->setResponseHeaders($partHeaders);
                     $response->setResponseBody($partBody);

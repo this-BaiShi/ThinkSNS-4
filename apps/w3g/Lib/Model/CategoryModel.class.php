@@ -62,7 +62,7 @@ class CategoryModel extends Model
             foreach ($c as $p) {
                 @extract($p);
 
-                $ptitle    =    "<span id='category_".$id."' title='".$title."'><a href='javascript:void(0)' onclick=\"edit('".$id."')\">".$title."</a></span>";
+                $ptitle    =    "<span id='category_".$id."' title='".$title."'><a href='javascript:void(0)' onclick=\"edit('".$id."')\">".$title.'</a></span>';
                 $title    =    '['.$id.'] '.$ptitle;
 
                 $list    .=    '

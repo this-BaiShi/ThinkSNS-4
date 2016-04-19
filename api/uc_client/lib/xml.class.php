@@ -29,7 +29,7 @@ function xml_serialize($arr, $htmlon = false, $isnormal = false, $level = 1)
     }
     $s = preg_replace("/([\x01-\x08\x0b-\x0c\x0e-\x1f])+/", ' ', $s);
 
-    return $level == 1 ? $s."</root>" : $s;
+    return $level == 1 ? $s.'</root>' : $s;
 }
 
 class XML

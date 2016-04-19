@@ -64,7 +64,6 @@ class ContentAction extends AdministratorAction
         !empty($_POST['uid']) && $map['uid'] = array('in',explode(',', $_POST['uid']));
         !empty($_POST['type']) && $map['type'] = t($_POST['type']);
 
-
         $listData = model('Feed')->getList($map, 20);
         foreach ($listData['data'] as &$v) {
             $v['uname']    = $v['user_info']['space_link'];
@@ -75,11 +74,11 @@ class ContentAction extends AdministratorAction
             //$v['DOACTION'] = $isRec==0 ? "<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['feed_id']},\"delFeed\",\"".L('PUBLIC_STREAM_DELETE')."\",\"".L('PUBLIC_DYNAMIC')."\")'>".L('PUBLIC_STREAM_DELETE')."</a>"
             //							:"<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['feed_id']},\"feedRecover\",\"".L('PUBLIC_RECOVER')."\",\"".L('PUBLIC_DYNAMIC')."\")'>".L('PUBLIC_RECOVER')."</a>";
             if ($isRec == 0 && $is_audit == 1) {
-                $v['DOACTION'] = "<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['feed_id']},\"delFeed\",\"".L('PUBLIC_STREAM_DELETE')."\",\"".L('PUBLIC_DYNAMIC')."\")'>".L('PUBLIC_STREAM_DELETE')."</a>";
+                $v['DOACTION'] = "<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['feed_id']},\"delFeed\",\"".L('PUBLIC_STREAM_DELETE').'","'.L('PUBLIC_DYNAMIC')."\")'>".L('PUBLIC_STREAM_DELETE').'</a>';
             } elseif ($isRec==0 && $is_audit == 0) {
-                $v['DOACTION'] = "<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['feed_id']},\"auditFeed\",\"".'通过'."\",\"".L('PUBLIC_DYNAMIC')."\")'>".'通过'."</a>&nbsp;|&nbsp;"."<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['feed_id']},\"delFeed\",\"".L('PUBLIC_STREAM_DELETE')."\",\"".L('PUBLIC_DYNAMIC')."\")'>".L('PUBLIC_STREAM_DELETE')."</a>";
+                $v['DOACTION'] = "<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['feed_id']},\"auditFeed\",\"".'通过'.'","'.L('PUBLIC_DYNAMIC')."\")'>".'通过'.'</a>&nbsp;|&nbsp;'."<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['feed_id']},\"delFeed\",\"".L('PUBLIC_STREAM_DELETE').'","'.L('PUBLIC_DYNAMIC')."\")'>".L('PUBLIC_STREAM_DELETE').'</a>';
             } else {
-                $v['DOACTION'] = "<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['feed_id']},\"feedRecover\",\"".L('PUBLIC_RECOVER')."\",\"".L('PUBLIC_DYNAMIC')."\")'>".L('PUBLIC_RECOVER')."</a>";
+                $v['DOACTION'] = "<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['feed_id']},\"feedRecover\",\"".L('PUBLIC_RECOVER').'","'.L('PUBLIC_DYNAMIC')."\")'>".L('PUBLIC_RECOVER').'</a>';
             }
         }
         $this->_listpk = 'feed_id';
@@ -192,18 +191,18 @@ class ContentAction extends AdministratorAction
         foreach ($listData['data'] as &$v) {
             $v['uid']              = $v['user_info']['space_link'];
             $v['app_uid']          = $v['sourceInfo']['source_user_info']['space_link'];
-            $v['source_type']      = "<a href='{$v['sourceInfo']['source_url']}' target='_blank'>".$v['sourceInfo']['source_type']."</a>";
+            $v['source_type']      = "<a href='{$v['sourceInfo']['source_url']}' target='_blank'>".$v['sourceInfo']['source_type'].'</a>';
             $v['content']          = '<div style="width:400px">'.$v['content'].'</div>';
             $v['client_type']     = $this->from[$v['client_type']];
             $v['ctime']    = date('Y-m-d H:i:s', $v['ctime']);
-            $v['DOACTION'] = $isRec==0 ? "<a href='".$v['sourceInfo']['source_url']."' target='_blank'>".L('PUBLIC_VIEW')."</a> <a href='javascript:void(0)' onclick='admin.ContentEdit({$v['comment_id']},\"delComment\",\"".L('PUBLIC_STREAM_DELETE')."\",\"".L('PUBLIC_STREAM_COMMENT')."\")'>".L('PUBLIC_STREAM_DELETE')."</a>"
-                                        :"<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['comment_id']},\"CommentRecover\",\"".L('PUBLIC_RECOVER')."\",\"".L('PUBLIC_STREAM_COMMENT')."\")'>".L('PUBLIC_RECOVER')."</a>";
+            $v['DOACTION'] = $isRec==0 ? "<a href='".$v['sourceInfo']['source_url']."' target='_blank'>".L('PUBLIC_VIEW')."</a> <a href='javascript:void(0)' onclick='admin.ContentEdit({$v['comment_id']},\"delComment\",\"".L('PUBLIC_STREAM_DELETE').'","'.L('PUBLIC_STREAM_COMMENT')."\")'>".L('PUBLIC_STREAM_DELETE').'</a>'
+                                        :"<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['comment_id']},\"CommentRecover\",\"".L('PUBLIC_RECOVER').'","'.L('PUBLIC_STREAM_COMMENT')."\")'>".L('PUBLIC_RECOVER').'</a>';
             if ($isRec == 0 && $is_audit == 1) {
-                $v['DOACTION'] = "<a href='".$v['sourceInfo']['source_url']."' target='_blank'>".L('PUBLIC_VIEW')."</a> <a href='javascript:void(0)' onclick='admin.ContentEdit({$v['comment_id']},\"delComment\",\"".L('PUBLIC_STREAM_DELETE')."\",\"".L('PUBLIC_STREAM_COMMENT')."\")'>".L('PUBLIC_STREAM_DELETE')."</a>";
+                $v['DOACTION'] = "<a href='".$v['sourceInfo']['source_url']."' target='_blank'>".L('PUBLIC_VIEW')."</a> <a href='javascript:void(0)' onclick='admin.ContentEdit({$v['comment_id']},\"delComment\",\"".L('PUBLIC_STREAM_DELETE').'","'.L('PUBLIC_STREAM_COMMENT')."\")'>".L('PUBLIC_STREAM_DELETE').'</a>';
             } elseif ($isRec==0 && $is_audit == 0) {
-                $v['DOACTION'] = "<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['comment_id']},\"auditComment\",\"".'通过'."\",\"".L('PUBLIC_STREAM_COMMENT')."\")'>".'通过'."</a>&nbsp;|&nbsp;"."<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['comment_id']},\"delComment\",\"".L('PUBLIC_STREAM_DELETE')."\",\"".L('PUBLIC_DYNAMIC')."\")'>".L('PUBLIC_STREAM_DELETE')."</a>";
+                $v['DOACTION'] = "<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['comment_id']},\"auditComment\",\"".'通过'.'","'.L('PUBLIC_STREAM_COMMENT')."\")'>".'通过'.'</a>&nbsp;|&nbsp;'."<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['comment_id']},\"delComment\",\"".L('PUBLIC_STREAM_DELETE').'","'.L('PUBLIC_DYNAMIC')."\")'>".L('PUBLIC_STREAM_DELETE').'</a>';
             } else {
-                $v['DOACTION'] = "<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['comment_id']},\"CommentRecover\",\"".L('PUBLIC_RECOVER')."\",\"".L('PUBLIC_STREAM_COMMENT')."\")'>".L('PUBLIC_RECOVER')."</a>";
+                $v['DOACTION'] = "<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['comment_id']},\"CommentRecover\",\"".L('PUBLIC_RECOVER').'","'.L('PUBLIC_STREAM_COMMENT')."\")'>".L('PUBLIC_RECOVER').'</a>';
             }
         }
         $this->_listpk = 'comment_id';
@@ -311,8 +310,8 @@ class ContentAction extends AdministratorAction
 
             $v['content']  = '<div style="width:500px">'.getShort($v['content'], 120, '...').'</div>';// 截取120字
             $v['mtime']    = date('Y-m-d H:i:s', $v['mtime']);
-            $v['DOACTION'] = $isRec==0 ? "<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['message_id']},\"delMessage\",\"".L('PUBLIC_STREAM_DELETE')."\",\"".L('PUBLIC_PRIVATE_MESSAGE')."\");'>".L('PUBLIC_STREAM_DELETE')."</a>"
-                                        :"<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['message_id']},\"MessageRecover\",\"".L('PUBLIC_RECOVER')."\",\"".L('PUBLIC_PRIVATE_MESSAGE')."\")'>".L('PUBLIC_RECOVER')."</a>";
+            $v['DOACTION'] = $isRec==0 ? "<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['message_id']},\"delMessage\",\"".L('PUBLIC_STREAM_DELETE').'","'.L('PUBLIC_PRIVATE_MESSAGE')."\");'>".L('PUBLIC_STREAM_DELETE').'</a>'
+                                        :"<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['message_id']},\"MessageRecover\",\"".L('PUBLIC_RECOVER').'","'.L('PUBLIC_PRIVATE_MESSAGE')."\")'>".L('PUBLIC_RECOVER').'</a>';
         }
         // 设置操作主键
         $this->_listpk = 'message_id';
@@ -341,7 +340,6 @@ class ContentAction extends AdministratorAction
     {
         echo json_encode(model('Message')->doEditMessage($_POST['id'], 'deleteMessage', L('PUBLIC_REMOVE_COMPLETELY')));
     }
-
 
     public function attach($isRec = 0)
     {
@@ -372,8 +370,6 @@ class ContentAction extends AdministratorAction
 
         $listData = model('Attach')->getAttachList($map, '*', 'attach_id desc', 10);
 
-
-
         //$listData = model('Comment')->getCommentList($map,'comment_id desc',20);
         $image = array('png','jpg','gif','jpeg','bmp');
 
@@ -387,8 +383,8 @@ class ContentAction extends AdministratorAction
             $v['size']       = byte_format($v['size']);
             $v['from']     = $this->from[$v['from']];
             $v['ctime']    = date('Y-m-d H:i:s', $v['ctime']);
-            $v['DOACTION'] = $isRec==0 ? "<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['attach_id']},\"delAttach\",\"".L('PUBLIC_STREAM_DELETE')."\",\"".L('PUBLIC_FILE_STREAM')."\");'>".L('PUBLIC_STREAM_DELETE')."</a>"
-                                        :"<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['attach_id']},\"AttachRecover\",\"".L('PUBLIC_RECOVER')."\",\"".L('PUBLIC_FILE_STREAM')."\")'>".L('PUBLIC_RECOVER')."</a>";
+            $v['DOACTION'] = $isRec==0 ? "<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['attach_id']},\"delAttach\",\"".L('PUBLIC_STREAM_DELETE').'","'.L('PUBLIC_FILE_STREAM')."\");'>".L('PUBLIC_STREAM_DELETE').'</a>'
+                                        :"<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['attach_id']},\"AttachRecover\",\"".L('PUBLIC_RECOVER').'","'.L('PUBLIC_FILE_STREAM')."\")'>".L('PUBLIC_RECOVER').'</a>';
         }
         $this->displayList($listData);
     }
@@ -416,7 +412,6 @@ class ContentAction extends AdministratorAction
         echo json_encode(model('Attach')->doEditAttach($_POST['id'], 'deleteAttach', L('PUBLIC_REMOVE_COMPLETELY')));
     }
     //TODO 临时放着 后面要移动到messagemodel中
-
 
     /**
      * 视频管理
@@ -461,8 +456,8 @@ class ContentAction extends AdministratorAction
             $v['size']       = byte_format($v['size']);
             $v['from']     = $this->from[$v['from']];
             $v['ctime']    = date('Y-m-d H:i:s', $v['ctime']);
-            $v['DOACTION'] = $is_del==0 ? "<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['video_id']},\"delVideo\",\"".L('PUBLIC_STREAM_DELETE')."\",\"".L('PUBLIC_FILE_STREAM')."\");'>".L('PUBLIC_STREAM_DELETE')."</a>"
-                                        :"<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['video_id']},\"VideoRecover\",\"".L('PUBLIC_RECOVER')."\",\"".L('PUBLIC_FILE_STREAM')."\")'>".L('PUBLIC_RECOVER')."</a>";
+            $v['DOACTION'] = $is_del==0 ? "<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['video_id']},\"delVideo\",\"".L('PUBLIC_STREAM_DELETE').'","'.L('PUBLIC_FILE_STREAM')."\");'>".L('PUBLIC_STREAM_DELETE').'</a>'
+                                        :"<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['video_id']},\"VideoRecover\",\"".L('PUBLIC_RECOVER').'","'.L('PUBLIC_FILE_STREAM')."\")'>".L('PUBLIC_RECOVER').'</a>';
         }
         $this->displayList($listData);
     }
@@ -584,7 +579,6 @@ class ContentAction extends AdministratorAction
         echo model('Denounce')->reviewDenounce(t($_POST['ids'])) ? '1' : '0';
     }
 
-
     /**
      * 话题管理
      */
@@ -636,19 +630,19 @@ class ContentAction extends AdministratorAction
      */
     public function doAddTopic()
     {
-        t($_POST['topic_name'])=="" && $this->error('话题名称不能为空');
-        t($_POST['note'])=="" && $this->error('话题注释不能为空');
+        t($_POST['topic_name'])=='' && $this->error('话题名称不能为空');
+        t($_POST['note'])=='' && $this->error('话题注释不能为空');
         $map['topic_name'] = t($_POST['topic_name']);
         if (model('FeedTopic')->where($map)->find()) {
             $this->error('此话题已存在');
         }
-        if ($_POST['domain']!="") {
+        if ($_POST['domain']!='') {
             $map1['domain'] = t($_POST['domain']);
             if (model('FeedTopic')->where($map1)->find()) {
                 $this->error('此话题域名已存在');
             }
         }
-        if (h(t($_POST['outlink'])) != "") {
+        if (h(t($_POST['outlink'])) != '') {
             $res = preg_match('/^(?:https?|ftp):\/\/(?:www\.)?(?:[a-zA-Z0-9][a-zA-Z0-9\-]*)/', h($_POST['outlink']));
             if (!$res) {
                 $this->error('外链格式错误');
@@ -738,18 +732,18 @@ class ContentAction extends AdministratorAction
     public function doEditTopic()
     {
         //$_POST['name']=="" && $this->error('话题名称不能为空');
-        $_POST['note']=="" && $this->error('话题注释不能为空');
+        $_POST['note']=='' && $this->error('话题注释不能为空');
         //$map['topic_id'] = array('neq', $_POST['topic_id']);
         //$map['name'] = t($_POST['name']);
         //if(model('FeedTopic')->where($map)->find()) $this->error('此话题已存在');
-        if ($_POST['domain']!="") {
+        if ($_POST['domain']!='') {
             $map1['topic_id'] = array('neq', $_POST['topic_id']);
             $map1['domain'] = t($_POST['domain']);
             if (model('FeedTopic')->where($map1)->find()) {
                 $this->error('此话题域名已存在');
             }
         }
-        if (h(t($_POST['outlink'])) != "") {
+        if (h(t($_POST['outlink'])) != '') {
             $res = preg_match('/^(?:https?|ftp):\/\/(?:www\.)?(?:[a-zA-Z0-9][a-zA-Z0-9\-]*)/', h($_POST['outlink']));
             if (!$res) {
                 $this->error('外链格式错误');
@@ -793,7 +787,7 @@ class ContentAction extends AdministratorAction
         $this->pageTab[] = array('title'=>'添加模板','tabHash'=>'upTemplate','url'=>U('admin/Content/upTemplate'));
 
         $this->pageButton[] = array('title'=>'添加模板','onclick'=>"location.href='".U('admin/Content/upTemplate')."'");
-        $this->pageButton[] = array('title'=>'删除模板','onclick'=>"admin.delTemplate()");
+        $this->pageButton[] = array('title'=>'删除模板','onclick'=>'admin.delTemplate()');
 
         $this->pageKeyList = array('tpl_id','name','alias','title','body','lang','type','type2','is_cache','ctime','DOACTION');
         // 获取模板数据

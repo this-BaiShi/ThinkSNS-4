@@ -33,7 +33,7 @@ class GroupFeedListWidget extends Widget
 //         $var['weibo_premission'] = $weiboSet['weibo_premission'];
         // 我关注的频道
 //         $var['channel'] = M('channel_follow')->where('uid='.$this->mid)->count();
-        $content['html'] = $this->renderFile(dirname(__FILE__)."/".$var['tpl'], $var);
+        $content['html'] = $this->renderFile(dirname(__FILE__).'/'.$var['tpl'], $var);
         self::$rand ++;
         unset($var, $data);
         //输出数据
@@ -132,7 +132,7 @@ class GroupFeedListWidget extends Widget
             }
             if (!empty($var['feed_type'])) {
                 if ($var['feed_type'] == 'post') {
-                    $where .=" AND is_repost = 0";
+                    $where .=' AND is_repost = 0';
                 } else {
                     $where .=" AND type = '".t($var['feed_type'])."'";
                 }
@@ -171,7 +171,7 @@ class GroupFeedListWidget extends Widget
         }
         $content['pageHtml'] = $list['html'];
         // 渲染模版
-        $content['html'] = $this->renderFile(dirname(__FILE__)."/".$tpl, $var);
+        $content['html'] = $this->renderFile(dirname(__FILE__).'/'.$tpl, $var);
 
         return $content;
     }
@@ -238,7 +238,7 @@ class GroupFeedListWidget extends Widget
         $content['pageHtml'] = $list['html'];
 
         //渲染模版
-        $content['html'] = $this->renderFile(dirname(__FILE__)."/".$tpl, $var);
+        $content['html'] = $this->renderFile(dirname(__FILE__).'/'.$tpl, $var);
 
         return $content;
     }

@@ -35,7 +35,7 @@ class UserProfileModel    extends    Model
      */
     public function getUserProfileSetting($map = null, $order = 'field_key, display_order ASC')
     {
-        $key = md5(implode("", $map).$order);
+        $key = md5(implode('', $map).$order);
         if ($setting = static_cache('profile_'.$key)) {
             return $setting;
         }
@@ -221,7 +221,7 @@ class UserProfileModel    extends    Model
         $this->cleanCache($uid);
 
         $delete_map['field_id'] = array('IN', $field_ids);
-        $sql = "INSERT INTO `".$this->tablePrefix."{$this->tableName}` (`uid`, `field_id`, `field_data`) VALUES (".implode('), (', $save_data).")";
+        $sql = 'INSERT INTO `'.$this->tablePrefix."{$this->tableName}` (`uid`, `field_id`, `field_data`) VALUES (".implode('), (', $save_data).')';
         // 删除历史数据
         $this->where($delete_map)->limit(count($field_ids))->delete();
         // 插入新数据

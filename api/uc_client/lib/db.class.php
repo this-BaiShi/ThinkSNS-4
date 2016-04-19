@@ -7,7 +7,6 @@
     $Id: db.class.php 1059 2011-03-01 07:25:09Z monkey $
 */
 
-
 class ucclient_db
 {
     public $querynum = 0;
@@ -47,7 +46,7 @@ class ucclient_db
 
         if ($this->version() > '4.1') {
             if ($dbcharset) {
-                mysql_query("SET character_set_connection=".$dbcharset.", character_set_results=".$dbcharset.", character_set_client=binary", $this->link);
+                mysql_query('SET character_set_connection='.$dbcharset.', character_set_results='.$dbcharset.', character_set_client=binary', $this->link);
             }
 
             if ($this->version() > '5.0.1') {
@@ -148,7 +147,7 @@ class ucclient_db
 
     public function insert_id()
     {
-        return ($id = mysql_insert_id($this->link)) >= 0 ? $id : $this->result($this->query("SELECT last_insert_id()"), 0);
+        return ($id = mysql_insert_id($this->link)) >= 0 ? $id : $this->result($this->query('SELECT last_insert_id()'), 0);
     }
 
     public function fetch_row($query)

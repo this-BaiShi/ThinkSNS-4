@@ -190,8 +190,8 @@ class Tencent
 
         //请求接口
         $r = Http::request($url, $params, $method, $multi);
-        $r = preg_replace('/[^\x20-\xff]*/', "", $r); //清除不可见字符
-        $r = iconv("utf-8", "utf-8//ignore", $r); //UTF-8转码
+        $r = preg_replace('/[^\x20-\xff]*/', '', $r); //清除不可见字符
+        $r = iconv('utf-8', 'utf-8//ignore', $r); //UTF-8转码
         //调试信息
         if (self::$debug) {
             echo '<pre>';
@@ -285,16 +285,16 @@ class Common
     //获取客户端IP
     public static function getClientIp()
     {
-        if (getenv("HTTP_CLIENT_IP") && strcasecmp(getenv("HTTP_CLIENT_IP"), "unknown")) {
-            $ip = getenv("HTTP_CLIENT_IP");
-        } elseif (getenv("HTTP_X_FORWARDED_FOR") && strcasecmp(getenv("HTTP_X_FORWARDED_FOR"), "unknown")) {
-            $ip = getenv("HTTP_X_FORWARDED_FOR");
-        } elseif (getenv("REMOTE_ADDR") && strcasecmp(getenv("REMOTE_ADDR"), "unknown")) {
-            $ip = getenv("REMOTE_ADDR");
-        } elseif (isset($_SERVER ['REMOTE_ADDR']) && $_SERVER ['REMOTE_ADDR'] && strcasecmp($_SERVER ['REMOTE_ADDR'], "unknown")) {
+        if (getenv('HTTP_CLIENT_IP') && strcasecmp(getenv('HTTP_CLIENT_IP'), 'unknown')) {
+            $ip = getenv('HTTP_CLIENT_IP');
+        } elseif (getenv('HTTP_X_FORWARDED_FOR') && strcasecmp(getenv('HTTP_X_FORWARDED_FOR'), 'unknown')) {
+            $ip = getenv('HTTP_X_FORWARDED_FOR');
+        } elseif (getenv('REMOTE_ADDR') && strcasecmp(getenv('REMOTE_ADDR'), 'unknown')) {
+            $ip = getenv('REMOTE_ADDR');
+        } elseif (isset($_SERVER ['REMOTE_ADDR']) && $_SERVER ['REMOTE_ADDR'] && strcasecmp($_SERVER ['REMOTE_ADDR'], 'unknown')) {
             $ip = $_SERVER ['REMOTE_ADDR'];
         } else {
-            $ip = "unknown";
+            $ip = 'unknown';
         }
 
         return $ip;
@@ -318,7 +318,7 @@ class SnsSign
     public static function makeSig($method, $url_path, $params, $secret)
     {
         $mk = self::makeSource($method, $url_path, $params);
-        $my_sign = hash_hmac("sha1", $mk, strtr($secret, '-_', '+/'), true);
+        $my_sign = hash_hmac('sha1', $mk, strtr($secret, '-_', '+/'), true);
         $my_sign = base64_encode($my_sign);
 
         return $my_sign;
@@ -328,7 +328,7 @@ class SnsSign
     {
         ksort($params);
         $strs = strtoupper($method).'&'.rawurlencode($url_path).'&';
-        $str = "";
+        $str = '';
         foreach ($params as $key => $val) {
             $str .= "$key=$val&";
         }

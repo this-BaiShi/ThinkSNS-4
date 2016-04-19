@@ -44,7 +44,7 @@ class Google_CacheParser
     // [rfc2616-14.8] When a shared cache receives a request containing an
     // Authorization field, it MUST NOT return the corresponding response
     // as a reply to any other request...
-    if ($resp->getRequestHeader("authorization")) {
+    if ($resp->getRequestHeader('authorization')) {
         return false;
     }
 
@@ -71,7 +71,7 @@ class Google_CacheParser
       }
     // The resource is uncacheable if the resource is already expired and
     // the resource doesn't have an ETag for revalidation.
-    $etag = $resp->getResponseHeader("etag");
+    $etag = $resp->getResponseHeader('etag');
       if (self::isExpired($resp) && $etag == false) {
           return false;
       }

@@ -2,19 +2,15 @@
 
 /** *  * @author jason * */include SITE_PATH.'/api/uc_client/client.php';class BaseApi extends Api
 {
-
-
     public $discuzURl = 'http://i/dz3';
 
     public $version = 1;
-
 
     public function __construct()
     {
         parent::__construct();
 
     }
-
 
     public function setDiscuzUrl($url)
     {
@@ -28,11 +24,9 @@
 
     }
 
-
     public function getContentFormDiscuz($module, $opt='', $moth='GET')
     {
         $qry_str = 'module='.$module.'&version='.$this->version.$opt;
-
 
         $tuCurl = curl_init();
 
@@ -48,7 +42,6 @@
 
         }
 
-
         foreach ($_COOKIE as $k=>$v) {
             $cookieStr .= $k.'='.URLencode($v).'; ';
 
@@ -62,7 +55,6 @@
 
         curl_setopt($tuCurl, CURLOPT_RETURNTRANSFER, 1);
 
-
         $tuData = curl_exec($tuCurl);
 
         if (curl_errno($tuCurl)) {
@@ -70,13 +62,9 @@
 
         }
 
-
         curl_close($tuCurl);
 
-
         $tuData = json_decode($tuData, true);
-
-
 
         return isset($tuData['Variables']) ? $tuData['Variables'] : $tuData;
 

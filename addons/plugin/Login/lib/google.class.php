@@ -1,7 +1,7 @@
 <?php
 
-require_once('google/Google_Client.php');
-require_once('google/contrib/Google_Oauth2Service.php');
+require_once 'google/Google_Client.php';
+require_once 'google/contrib/Google_Oauth2Service.php';
 class google
 {
     public $error_code;

@@ -521,7 +521,6 @@ class WeibaAction extends BaseAction
         $this->ajaxReturn($res, D('weiba', 'weiba')->getError(), false !== $res);
     }
 
-
     private function _getWeibaInfo(&$post_list)
     {
         //读取微吧详细信息

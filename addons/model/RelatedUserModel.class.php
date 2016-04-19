@@ -149,7 +149,6 @@ class RelatedUserModel extends Model
         return $relatedUseInfo;
     }
 
-
     /**
      * 可能感兴趣的人
      * @example
@@ -179,7 +178,6 @@ class RelatedUserModel extends Model
         // 	$notinids = getSubByKey(  $notin , 'uid');
         // 	$this->_getExcludeUids($notinids);
 
-
         // 	//过滤掉自己
         // 	$this->_getExcludeUids(array($this->_uid));
 
@@ -187,8 +185,6 @@ class RelatedUserModel extends Model
         // 	$already = D('UserFollow')->where('uid='.$GLOBALS['ts']['mid'])->field('fid')->findAll();
         // 	$alreadys = getSubByKey(  $already , 'fid');
         // 	$this->_getExcludeUids($alreadys);
-
-
 
         // 	// 用户关联信息
         // 	$relatedUseInfo = array();
@@ -224,16 +220,15 @@ class RelatedUserModel extends Model
         // }
         // return $relatedUseInfo;
 
-
         //认证用户id
         $result = D('user_verified')->field('uid')->where('verified=1')->limit($show)->select();
         $uids = getSubByKey($result, 'uid');
-        $list = model("User")->getUserInfoByUids($uids);
+        $list = model('User')->getUserInfoByUids($uids);
         foreach ($list as $key => &$value) {
             $map['uid'] = $value['uid'];
             $value['certInfo'] = D('user_verified')->where($map)->find();
             if ($GLOBALS['ts']['mid'] != 0) {
-                $value['follow_state'] = model("Follow")->getFollowState($GLOBALS['ts']['mid'], $value['uid']);
+                $value['follow_state'] = model('Follow')->getFollowState($GLOBALS['ts']['mid'], $value['uid']);
             }
         }
 
@@ -461,7 +456,7 @@ class RelatedUserModel extends Model
             return array();
         }
         // 获取有共同好友的用户推荐  TODO 待过滤不合格的用户
-        $sql = "SELECT `uid`, `fid` FROM `{$this->tablePrefix}user_follow` WHERE `uid` IN (".implode(',', $followFids).") ";
+        $sql = "SELECT `uid`, `fid` FROM `{$this->tablePrefix}user_follow` WHERE `uid` IN (".implode(',', $followFids).') ';
         $followData = D()->query($sql);
         $fids = getSubByKey($followData, 'fid');
         // 排除不需要的UID
@@ -665,7 +660,7 @@ class RelatedUserModel extends Model
         }
         // 获取相同地区的用户
         $limit = $limit * 10;
-        $sql = "SELECT `uid` FROM `{$this->tablePrefix}user` WHERE `uid` IN (".$recommendUids.") ".$this->user_sql_where." LIMIT {$limit}";
+        $sql = "SELECT `uid` FROM `{$this->tablePrefix}user` WHERE `uid` IN (".$recommendUids.') '.$this->user_sql_where." LIMIT {$limit}";
         $data = D()->query($sql);
         //return $data;exit;
         $data = getSubByKey($data, 'uid');
@@ -769,7 +764,6 @@ class RelatedUserModel extends Model
 
         $data = array_unique($data);
         $data && $data = $this->_data_array_rand($data, $num);
-
 
         // 用户基本信息
         $userInfos = $this->_user_model->getUserInfoByUids($data);

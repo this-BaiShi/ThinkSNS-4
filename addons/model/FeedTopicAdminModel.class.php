@@ -36,7 +36,7 @@ class FeedTopicAdminModel extends Model
             $topic_list['data'][$k]['pic'] && $topic_list['data'][$k]['pic'] = '<img src="'.getImageUrl($pic['save_path'].$pic['save_name']).'" width="50">';
             $topic_user = explode(',', $v['topic_user']);
             $topic_user_info = model('User')->getUserInfoByUids($topic_user);
-            $topic_list['data'][$k]['topic_user'] = "";
+            $topic_list['data'][$k]['topic_user'] = '';
             foreach ($topic_user as $key=>$val) {
                 $topic_list['data'][$k]['topic_user'] .= $topic_user_info[$val]['space_link'].'<br />';
             }

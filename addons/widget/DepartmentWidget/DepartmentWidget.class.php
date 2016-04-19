@@ -51,14 +51,12 @@ class DepartmentWidget extends Widget
                 //
                 $var['sid'] = !empty($data['sid']) ? intval($data['sid']) : 0;
 
-
                 //全部部门
                 $pInfo[] = array('sid'=>0,'pid'=>0,'name'=>L('PUBLIC_DEPARTMENT_ALL'));
 
                 $list = $this->_getList($var['sid']);
 
                 $childInfo = array();
-
 
                 foreach ($list['_child'] as $v) {
                     $pInfo[] = array('sid'=>$v['department_id'],'pid'=>$v['parent_dept_id'],'name'=>$v['title']);
@@ -117,7 +115,7 @@ class DepartmentWidget extends Widget
        $var = $_REQUEST;
        $var['parentList'] = model('Department')->getHashDepartment(intval($var['pid']), $var['sid'], $var['nosid'], intval($var['notop']));
 
-       return $this->renderFile(dirname(__FILE__)."/change.html", $var);
+       return $this->renderFile(dirname(__FILE__).'/change.html', $var);
    }
 
    /**
@@ -129,7 +127,6 @@ class DepartmentWidget extends Widget
        $return = array('status'=>1,'data'=>'');
 
        $return['data'] = model('Department')->getHashDepartment(t($_REQUEST['pid']), t($_REQUEST['sid']), t($_REQUEST['nosid']), t($_REQUEST['notop']));
-
 
        if (empty($return['data'])) {
            $return['data'] = array();

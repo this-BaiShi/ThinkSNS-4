@@ -89,7 +89,6 @@ class DisableUserModel extends Model
 
         $result = $this->where($map)->delete();
 
-
         S('is_disable_user_login_'.$uid, null);
         S('is_disable_user_post_'.$uid, null);
 

@@ -115,7 +115,6 @@ class DiyWidgetModel extends Model
         return $this->where($map)->save($save);
     }
 
-
     public function getCache($sign)
     {
         $map['pluginId'] = $sign;

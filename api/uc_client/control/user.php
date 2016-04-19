@@ -39,7 +39,7 @@ class usercontrol extends base
                 $synstr = '';
                 foreach ($this->cache['apps'] as $appid => $app) {
                     if ($app['synlogin'] && $app['appid'] != $this->app['appid']) {
-                        $synstr .= '<script type="text/javascript" src="'.$app['url'].'/api/uc.php?time='.$this->time.'&code='.urlencode($this->authcode('action=synlogin&username='.$this->user['username'].'&uid='.$this->user['uid'].'&password='.$this->user['password']."&time=".$this->time, 'ENCODE', $app['authkey'])).'"></script>';
+                        $synstr .= '<script type="text/javascript" src="'.$app['url'].'/api/uc.php?time='.$this->time.'&code='.urlencode($this->authcode('action=synlogin&username='.$this->user['username'].'&uid='.$this->user['uid'].'&password='.$this->user['password'].'&time='.$this->time, 'ENCODE', $app['authkey'])).'"></script>';
                     }
                 }
 
@@ -180,10 +180,9 @@ class usercontrol extends base
         }
     }
 
-
     public function ongetprotected()
     {
-        $protectedmembers = $this->db->fetch_all("SELECT uid,username FROM ".UC_DBTABLEPRE."protectedmembers GROUP BY username");
+        $protectedmembers = $this->db->fetch_all('SELECT uid,username FROM '.UC_DBTABLEPRE.'protectedmembers GROUP BY username');
 
         return $protectedmembers;
     }
@@ -206,7 +205,7 @@ class usercontrol extends base
         foreach ($usernames as $username) {
             $user = $_ENV['user']->get_user_by_username($username);
             $uid = $user['uid'];
-            $this->db->query("REPLACE INTO ".UC_DBTABLEPRE."protectedmembers SET uid='$uid', username='$username', appid='$appid', dateline='{$this->time}', admin='$admin'", 'SILENT');
+            $this->db->query('REPLACE INTO '.UC_DBTABLEPRE."protectedmembers SET uid='$uid', username='$username', appid='$appid', dateline='{$this->time}', admin='$admin'", 'SILENT');
         }
 
         return $this->db->errno() ? -1 : 1;
@@ -219,7 +218,7 @@ class usercontrol extends base
         $appid = $this->app['appid'];
         $usernames = (array) $username;
         foreach ($usernames as $username) {
-            $this->db->query("DELETE FROM ".UC_DBTABLEPRE."protectedmembers WHERE username='$username' AND appid='$appid'");
+            $this->db->query('DELETE FROM '.UC_DBTABLEPRE."protectedmembers WHERE username='$username' AND appid='$appid'");
         }
 
         return $this->db->errno() ? -1 : 1;
@@ -237,7 +236,7 @@ class usercontrol extends base
             return $status;
         }
         $uid = $_ENV['user']->add_user($newusername, $password, $email, $uid);
-        $this->db->query("DELETE FROM ".UC_DBTABLEPRE."mergemembers WHERE appid='".$this->app['appid']."' AND username='$oldusername'");
+        $this->db->query('DELETE FROM '.UC_DBTABLEPRE."mergemembers WHERE appid='".$this->app['appid']."' AND username='$oldusername'");
 
         return $uid;
     }
@@ -246,7 +245,7 @@ class usercontrol extends base
     {
         $this->init_input();
         $username = $this->input('username');
-        $this->db->query("DELETE FROM ".UC_DBTABLEPRE."mergemembers WHERE appid='".$this->app['appid']."' AND username='$username'");
+        $this->db->query('DELETE FROM '.UC_DBTABLEPRE."mergemembers WHERE appid='".$this->app['appid']."' AND username='$username'");
 
         return null;
     }

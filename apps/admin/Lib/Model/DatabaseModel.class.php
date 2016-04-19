@@ -30,7 +30,7 @@ class DatabaseModel extends Model
         $numrows        = $offset;
         while ($currentsize + strlen($tabledump) + 500  < $filesize && $numrows == $offset) {
             if ($first_field['Extra'] == 'auto_increment') {
-                $sql = 'SELECT * FROM '.$table." WHERE ".$first_field['Field']." > $startfrom LIMIT $offset";
+                $sql = 'SELECT * FROM '.$table.' WHERE '.$first_field['Field']." > $startfrom LIMIT $offset";
             } else {
                 $sql =    'SELECT *FROM '.$table." LIMIT  $startfrom,$offset";
             }

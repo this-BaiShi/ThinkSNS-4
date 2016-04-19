@@ -4,7 +4,7 @@
  * Copyright (c) 2011 Baidu.com, Inc. All Rights Reserved
  *
  **************************************************************************/
-require_once(dirname(__FILE__).'/BaiduUtils.php');
+require_once dirname(__FILE__).'/BaiduUtils.php';
 /**
  * Abstract class of storage engine for user session related data,
  * like state & authorization code for oauth2.0, access token &

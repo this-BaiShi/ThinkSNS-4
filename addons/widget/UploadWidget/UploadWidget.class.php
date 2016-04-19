@@ -50,7 +50,7 @@ class UploadWidget extends Widget
         }
 
         //渲染模版
-        $content = $this->renderFile(dirname(__FILE__)."/".$uploadTemplate, $var);
+        $content = $this->renderFile(dirname(__FILE__).'/'.$uploadTemplate, $var);
 
         unset($var, $data);
 
@@ -118,7 +118,7 @@ class UploadWidget extends Widget
 
             $ajaxInfo['state'] = 'SUCCESS';
             //echo $ajaxInfo['url'];
-            echo "<script>parent.EditorList['".$editorId."'].getWidgetCallback('image')('".$ajaxInfo[ "url" ]."','".$ajaxInfo[ "state" ]."')</script>";
+            echo "<script>parent.EditorList['".$editorId."'].getWidgetCallback('image')('".$ajaxInfo[ 'url' ]."','".$ajaxInfo[ 'state' ]."')</script>";
             // exit(getImageUrl($return['data']['save_path'].$return['data']['save_name']));
         } else {
             echo json_encode($return);
@@ -187,7 +187,7 @@ class UploadWidget extends Widget
         }
 
         $filename = $attach['save_path'].$attach['save_name'];
-        $realname = auto_charset($attach['name'], "UTF-8", 'GBK//IGNORE');
+        $realname = auto_charset($attach['name'], 'UTF-8', 'GBK//IGNORE');
 
         //下载函数
         tsload(ADDON_PATH.'/library/Http.class.php');

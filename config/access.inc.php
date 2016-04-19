@@ -5,7 +5,7 @@
  * 此处只配置不能后台修改的项目
  */
 return array(
-    "access" => array(
+    'access' => array(
         'public/Register/*' => true, // 注册
         'public/Passport/*' => true, // 登录
         'public/Widget/*'    => true, // 插件

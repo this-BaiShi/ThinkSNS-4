@@ -13,7 +13,7 @@
     {
         public function getSmile($type)
         {
-            $smile = ts_cache("smile_mini");
+            $smile = ts_cache('smile_mini');
             if ($smile) {
                 return $smile;
             } else {

@@ -72,7 +72,6 @@ class CacheEaccelerator extends Cache
          return false;
      }
 
-
      /**
       * 删除缓存
       * @access public

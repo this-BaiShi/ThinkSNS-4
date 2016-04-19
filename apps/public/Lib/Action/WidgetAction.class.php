@@ -34,7 +34,7 @@ class WidgetAction extends Action
         $param['res'] = &$result;
         $param['type'] = $_REQUEST['type'];
         Addons::addonsHook(t($_GET['addon']), t($_GET['hook']), $param);
-        isset($result['url']) && $this->assign("jumpUrl", $result['url']);
+        isset($result['url']) && $this->assign('jumpUrl', $result['url']);
         isset($result['title']) && $this->setTitle($result['title']);
         isset($result['jumpUrl']) && $this->assign('jumpUrl', $result['jumpUrl']);
         if (isset($result['status']) && !$result['status']) {
@@ -245,7 +245,7 @@ class WidgetAction extends Action
             $d['body'] = $data['content'];
             $d['source_url'] = '';
             // 滤掉话题两端的空白
-            $d['body'] = preg_replace("/#[\s]*([^#^\s][^#]*[^#^\s])[\s]*#/is", '#'.trim("\${1}").'#', $d['body']);
+            $d['body'] = preg_replace("/#[\s]*([^#^\s][^#]*[^#^\s])[\s]*#/is", '#'.trim('${1}').'#', $d['body']);
             // 发送分享的类型
             $type = 'post';
             // 所属应用名称

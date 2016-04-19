@@ -25,7 +25,7 @@ class DateSelectWidget extends Widget
         is_array($data) && $var = array_merge($var, $data);
 
         //渲染模版
-        $content = $this->renderFile(dirname(__FILE__)."/default.html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/default.html', $var);
 
         return $content;
     }

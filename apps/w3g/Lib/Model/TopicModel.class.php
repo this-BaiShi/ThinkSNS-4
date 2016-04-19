@@ -53,11 +53,10 @@ class TopicModel extends Model
         return $result['data'];
     }
 
-
      //搜索
     public function getSearch($keywords, $gid)
     {
-        import("ORG.Util.Page");
+        import('ORG.Util.Page');
 
         $sqlCount = 'SELECT count(*) as count FROM '.C('DB_PREFIX').'group_topic AS t Left Join '.C('DB_PREFIX').'group_post as p'.
                  " ON t.id=p.tid WHERE t.is_del=0 AND t.gid=$gid AND p.istopic = 1 AND (t.title like '%$keywords%' OR p.content like '%$keywords%')";

@@ -31,7 +31,6 @@ class UserCategoryModel extends Model
         model('Cache')->rm('UserCategoryTree');
     }
 
-
     /**
      * 获取指定父身份的树形结构
      * @param  int   $pid 父身份ID
@@ -241,7 +240,6 @@ class UserCategoryModel extends Model
 
         return $data;
     }
-
 
     /**
      * 获取指定分类下的用户ID

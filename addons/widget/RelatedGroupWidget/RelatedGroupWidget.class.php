@@ -26,7 +26,7 @@ class RelatedGroupWidget extends Widget
         $var ['limit'] = isset($data ['limit']) ? intval($data ['limit']) : 8;
         // 标题信息
         $var ['title'] = isset($data ['title']) ? t($data ['title']) : '推荐团队';
-        $content = $this->renderFile(dirname(__FILE__)."/relatedGroup.html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/relatedGroup.html', $var);
 
         return $content;
     }
@@ -41,7 +41,7 @@ class RelatedGroupWidget extends Widget
         $data ['uid'] = intval($_POST ['uid']);
         $data ['limit'] = intval($_POST ['limit']);
         $var = $this->_getRelatedGroup($data);
-        $content = $this->renderFile(dirname(__FILE__)."/_relatedGroup.html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/_relatedGroup.html', $var);
         exit(json_encode($content));
     }
 

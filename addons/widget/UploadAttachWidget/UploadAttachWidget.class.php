@@ -30,9 +30,9 @@ class UploadAttachWidget extends Widget
         //获取后台配置，设置的大小不能大于后台配置的上传大小，也不能大于系统支持的大小
         if (!isset($data['allow_size']) || empty($data['allow_size'])) {
             $attachopt = model('Xdata')->get('admin_Config:attach');
-            $attachopt['allow_size'] = ($attachopt['attach_max_size'] <= ini_get("upload_max_filesize"))?$attachopt['attach_max_size']:intval(ini_get("upload_max_filesize"));
+            $attachopt['allow_size'] = ($attachopt['attach_max_size'] <= ini_get('upload_max_filesize'))?$attachopt['attach_max_size']:intval(ini_get('upload_max_filesize'));
         }
-        $data['allow_size'] = (isset($data['allow_size']) && $data['allow_size']<=$attachopt['allow_size'])?($data['allow_size'])."MB":$attachopt['allow_size'].'MB';
+        $data['allow_size'] = (isset($data['allow_size']) && $data['allow_size']<=$attachopt['allow_size'])?($data['allow_size']).'MB':$attachopt['allow_size'].'MB';
         //获取后台配置，设置的类型必须是后台配置的类型中的
         if (!isset($data['allow_exts']) || empty($data['allow_exts'])) {
             $data['allow_exts'] = $attachopt['attach_allow_extension'];
@@ -49,10 +49,10 @@ class UploadAttachWidget extends Widget
         $var['rand']  = self::$rand;
         if ($data['tpl'] == 'flash') {
             //渲染模版
-            $content = $this->renderFile(dirname(__FILE__)."/FlashUploadAttach.html", $var);
+            $content = $this->renderFile(dirname(__FILE__).'/FlashUploadAttach.html', $var);
         } else {
             //渲染模版
-            $content = $this->renderFile(dirname(__FILE__)."/UploadAttach.html", $var);
+            $content = $this->renderFile(dirname(__FILE__).'/UploadAttach.html', $var);
         }
         self::$rand ++;
 

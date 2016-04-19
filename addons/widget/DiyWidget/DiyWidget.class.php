@@ -21,7 +21,7 @@ class DiyWidget extends Widget
 
         $var = array_merge($var, $wigdetList);
 
-        return $this->renderFile(dirname(__FILE__)."/default.html", $var);
+        return $this->renderFile(dirname(__FILE__).'/default.html', $var);
     }
 
     public function addWidget()
@@ -36,7 +36,7 @@ class DiyWidget extends Widget
             $var['selected'][] = $v['appname'].':'.$v['name'];
         }
 
-        return $this->renderFile(dirname(__FILE__)."/add.html", $var);
+        return $this->renderFile(dirname(__FILE__).'/add.html', $var);
     }
 
     public function dosort()
@@ -108,14 +108,13 @@ class DiyWidget extends Widget
 
         $slist = model('Widget')->getDiyWidgetById($var['diyId']);
 
-
         $slist = unserialize($slist['widget_list']);
 
         foreach ($slist as $v) {
             $var['selected'][] = $v['appname'].':'.$v['name'];
         }
 
-        return $this->renderFile(dirname(__FILE__)."/config.html", $var);
+        return $this->renderFile(dirname(__FILE__).'/config.html', $var);
     }
     public function doconfig()
     {

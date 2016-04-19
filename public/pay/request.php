@@ -61,7 +61,7 @@ function request($url)
     }
     //组装User-Agent
     if (isset($_SERVER['HTTP_USER_AGENT'])) {
-        $string .= "User-Agent: ".$_SERVER['HTTP_USER_AGENT']."\r\n";
+        $string .= 'User-Agent: '.$_SERVER['HTTP_USER_AGENT']."\r\n";
     }
     $string .= "Connection: Close\r\n"; //关闭
     //组装post数据

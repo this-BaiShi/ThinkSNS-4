@@ -78,7 +78,7 @@ class IndexAction extends Action
         }
         $map = array();
         if ($setting['weiba']=='1') {
-            $setting['weibaid'] = str_replace("，", ',', $setting['weibaid']);
+            $setting['weibaid'] = str_replace('，', ',', $setting['weibaid']);
             $setting['weibaid'] = explode(',', $setting['weibaid']);
             $weibaId = array();
             foreach ($setting['weibaid'] as $k=>$vo) {
@@ -118,7 +118,7 @@ class IndexAction extends Action
             foreach ($weiba_recommend as $k=>$v) {
                 $weiba_recommend[$k]['logo'] = getImageUrlByAttachId($v['logo']);
                 //帖子推荐
-                $sql = "SELECT post_id,title FROM `".C('DB_PREFIX')."weiba_post` WHERE weiba_id=".$v['weiba_id']." AND ( `is_del` = 0 ) ORDER BY recommend desc,recommend_time desc,post_time desc LIMIT 3";
+                $sql = 'SELECT post_id,title FROM `'.C('DB_PREFIX').'weiba_post` WHERE weiba_id='.$v['weiba_id'].' AND ( `is_del` = 0 ) ORDER BY recommend desc,recommend_time desc,post_time desc LIMIT 3';
                 $weiba_post = M('weiba_post')->query($sql);
                 if ($weiba_post) {
                     foreach ($weiba_post as $kk=>$vv) {
@@ -144,7 +144,7 @@ class IndexAction extends Action
             //首页推荐帖子
             $order = 'is_index_time desc';
             $maps['is_index'] = 1;
-            $list = D('weiba_post')->field("weiba_id,post_id,title,content,index_img")->where($maps)->order($order)->select();
+            $list = D('weiba_post')->field('weiba_id,post_id,title,content,index_img')->where($maps)->order($order)->select();
             //如果首页推荐帖子不够6个，获取全局置顶，吧内置顶，最新回复帖子
             if (count($list)<6) {
                 $limit = 6 - count($list);
@@ -155,7 +155,7 @@ class IndexAction extends Action
                 );
                 $maps['is_index'] = 0;
                 $order = 'top desc,last_reply_time desc';
-                $_list = D('weiba_post')->field("post_id,title,content")->where($maps)->order($order)->limit($limit)->select();
+                $_list = D('weiba_post')->field('post_id,title,content')->where($maps)->order($order)->limit($limit)->select();
             }
             $weiba_hot = array_merge($list, $_list);
             if ($weiba_hot[0]['index_img'] != null) {
@@ -166,7 +166,7 @@ class IndexAction extends Action
             foreach ($weiba_hot as $key => &$value) {
                 $value['content'] = t($value['content']);
             }
-            $this->assign("weiba_hot", $weiba_hot);
+            $this->assign('weiba_hot', $weiba_hot);
         } else {
             $this->assign('weiba_recommend', '');
         }
@@ -187,7 +187,7 @@ class IndexAction extends Action
 
             $setting = model('Xdata')->lget('square');
             //用户数据
-            $_user_recommend = model("User")->getUserInfo($_user_recommend_verified['uid']);
+            $_user_recommend = model('User')->getUserInfo($_user_recommend_verified['uid']);
             $_user_recommend['verified_info'] = $_user_recommend_verified;
             //用户组图标
             $icon = getSubByKey($_user_recommend['user_group'], 'user_group_icon',
@@ -205,14 +205,12 @@ class IndexAction extends Action
             //用户最新帖子
             $pmap['post_uid'] = $_user_recommend_verified['uid'];
             $pmap['is_del'] = 0;
-            $_user_recommend_posts = D('weiba_post')->field("post_id,title")->where($pmap)->limit(5)->order('post_time desc')->select();
+            $_user_recommend_posts = D('weiba_post')->field('post_id,title')->where($pmap)->limit(5)->order('post_time desc')->select();
             $this->assign('_user_recommend_posts', $_user_recommend_posts);
         }
 
         $this->display();
     }
-
-
 
     private function getUserAttachData($uid, $limit = 4, $page = 1)
     {

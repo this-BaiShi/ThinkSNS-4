@@ -100,7 +100,7 @@ function refreshDayCOunt()
         return false;
     }
 
-    $yesterday = date("Ymd", strtotime("-1 day"));
+    $yesterday = date('Ymd', strtotime('-1 day'));
 
     $sql = "UPDATE ts_weiba set yesterday_count=today_count,today_count=0,today_date='$today' where today_date='$yesterday'";
     $res = M()->execute($sql);
@@ -277,7 +277,7 @@ function parsemedia($params, $url)
 
 function bbcodeurl($url, $tags)
 {
-    if (!preg_match("/<.+?>/s", $url)) {
+    if (!preg_match('/<.+?>/s', $url)) {
         if (!in_array(strtolower(substr($url, 0, 6)), array('http:/', 'https:', 'ftp://', 'rtsp:/', 'mms://')) && !preg_match('/^static\//', $url) && !preg_match('/^data\//', $url)) {
             $url = 'http://'.$url;
         }
@@ -314,7 +314,6 @@ function parsetrtd($bgcolor, $colspan, $rowspan, $width)
 {
     return ($bgcolor == 'td' ? '</td>' : '<tr'.($bgcolor && !defined('IN_MOBILE') ? ' style="background-color:'.$bgcolor.'"' : '').'>').'<td'.($colspan > 1 ? ' colspan="'.$colspan.'"' : '').($rowspan > 1 ? ' rowspan="'.$rowspan.'"' : '').($width && !defined('IN_MOBILE') ? ' width="'.$width.'"' : '').'>';
 }
-
 
 //解析UBB标签
 function bbcode($message)
@@ -359,29 +358,27 @@ function bbcode($message)
             "/\[float=right\]/i",
 
     ), array(
-            "<font color=\"\\1\">",
-            "<font style=\"color:\\1\">",
-            "<font style=\"background-color:\\1\">",
-            "<font style=\"background-color:\\1\">",
-            "<font size=\"\\1\">",
-            "<font style=\"font-size:\\1\">",
-            "\\2", //"<font face=\"\\1\">",
-            "<div align=\"\\1\">",
-            "<p style=\"line-height:\\1px;text-indent:\\2em;text-align:\\3\">",
-            "<span style=\"float:left;margin-right:5px\">",
-            "<span style=\"float:right;margin-left:5px\">",
+            '<font color="\\1">',
+            '<font style="color:\\1">',
+            '<font style="background-color:\\1">',
+            '<font style="background-color:\\1">',
+            '<font size="\\1">',
+            '<font style="font-size:\\1">',
+            '\\2', //"<font face=\"\\1\">",
+            '<div align="\\1">',
+            '<p style="line-height:\\1px;text-indent:\\2em;text-align:\\3">',
+            '<span style="float:left;margin-right:5px">',
+            '<span style="float:right;margin-left:5px">',
     ), $message));
 
-
-    $message = preg_replace("/\s?\[postbg\]\s*([^\[\<\r\n;'\"\?\(\)]+?)\s*\[\/postbg\]\s?/is", "", $message);
-
+    $message = preg_replace("/\s?\[postbg\]\s*([^\[\<\r\n;'\"\?\(\)]+?)\s*\[\/postbg\]\s?/is", '', $message);
 
     if (strpos($msglower, '[/quote]') !== false) {
-        $message = preg_replace("/\s?\[quote\][\n\r]*(.+?)[\n\r]*\[\/quote\]\s?/is", "<div class=\"quote\"><blockquote>\\1</blockquote></div>", $message);
+        $message = preg_replace("/\s?\[quote\][\n\r]*(.+?)[\n\r]*\[\/quote\]\s?/is", '<div class="quote"><blockquote>\\1</blockquote></div>', $message);
     }
 
     if (strpos($msglower, '[/free]') !== false) {
-        $message = preg_replace("/\s*\[free\][\n\r]*(.+?)[\n\r]*\[\/free\]\s*/is", "\\1", $message);
+        $message = preg_replace("/\s*\[free\][\n\r]*(.+?)[\n\r]*\[\/free\]\s*/is", '\\1', $message);
     }
 
     // if(!defined('IN_MOBILE')) {
@@ -395,8 +392,7 @@ function bbcode($message)
         $message = preg_replace("/\[flash(=(\d+),(\d+))?\]\s*([^\[\<\r\n]+?)\s*\[\/flash\]/ies", $allowmediacode ? "parseflash('\\2', '\\3', '\\4');" : "bbcodeurl('\\4', '<a href=\"{url}\" target=\"_blank\">{url}</a>')", $message);
     }
 
-
-    $message = preg_replace("/\[attach\](.+?)\[\/attach\]/is", "<img src=\"attach.php?aid=\\1\" />", $message);
+    $message = preg_replace("/\[attach\](.+?)\[\/attach\]/is", '<img src="attach.php?aid=\\1" />', $message);
 
     $message = str_replace('[img]static/image/common/back.gif[/img]', '', $message);
 
@@ -408,11 +404,10 @@ function bbcode($message)
       "/\[hide\](.+?)\[\/hide\]/is",
     );
 
-
     $neter_str=array(
-      "<img width=\"\\1\" height=\"\\2\" src=\"\\3\" />",
-      "<img src=\"\\1\" />",
-      "<div class=\"hide\">\\1</div>",
+      '<img width="\\1" height="\\2" src="\\3" />',
+      '<img src="\\1" />',
+      '<div class="hide">\\1</div>',
     );
 
     $message = preg_replace($neter_mo, $neter_str, $message);

@@ -230,7 +230,7 @@ class AdSpaceHooks extends Hooks
      */
     private function _getPlaceData()
     {
-        $data = include(ADDON_PATH.'/plugin/AdSpace/config/config.php');
+        $data = include ADDON_PATH.'/plugin/AdSpace/config/config.php';
 
         return $data;
     }

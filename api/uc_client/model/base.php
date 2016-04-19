@@ -86,7 +86,7 @@ class base
 
         if (empty($_ENV[$model])) {
             require_once UC_ROOT."./model/$model.php";
-            $temp = array("app","user");
+            $temp = array('app','user');
 
             if (in_array($model, $temp)) {
                 eval('$_ENV[$model] = new '.$model.'models($base);');
@@ -141,8 +141,8 @@ class base
     public function get_setting($k = array(), $decode = false)
     {
         $return = array();
-        $sqladd = $k ? "WHERE k IN (".$this->implode($k).")" : '';
-        $settings = $this->db->fetch_all("SELECT * FROM ".UC_DBTABLEPRE."settings $sqladd");
+        $sqladd = $k ? 'WHERE k IN ('.$this->implode($k).')' : '';
+        $settings = $this->db->fetch_all('SELECT * FROM '.UC_DBTABLEPRE."settings $sqladd");
         if (is_array($settings)) {
             foreach ($settings as $arr) {
                 $return[$arr['k']] = $decode ? unserialize($arr['v']) : $arr['v'];
@@ -229,7 +229,7 @@ class base
 
     public function note_exists()
     {
-        $noteexists = $this->db->fetch_first("SELECT value FROM ".UC_DBTABLEPRE."vars WHERE name='noteexists".UC_APPID."'");
+        $noteexists = $this->db->fetch_first('SELECT value FROM '.UC_DBTABLEPRE."vars WHERE name='noteexists".UC_APPID."'");
         if (empty($noteexists)) {
             return false;
         } else {
@@ -266,7 +266,7 @@ class base
 
     public function mail_exists()
     {
-        $mailexists = $this->db->fetch_first("SELECT value FROM ".UC_DBTABLEPRE."vars WHERE name='mailexists'");
+        $mailexists = $this->db->fetch_first('SELECT value FROM '.UC_DBTABLEPRE."vars WHERE name='mailexists'");
         if (empty($mailexists)) {
             return false;
         } else {

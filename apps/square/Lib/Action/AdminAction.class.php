@@ -212,7 +212,7 @@ class AdminAction extends AdministratorAction
         $this->_initWeibaListAdminMenu();
         $this->pageKeyList = array( 'id' , 'name' , 'DOACTION' );
         $this->pageButton[] = array('title'=>'添加分类','onclick'=>"javascript:location.href='".U('weiba/Admin/addWeibaCate', array('tabHash'=>'weibaCate'))."';");
-        $this->pageButton[] = array('title'=>'删除分类','onclick'=>"admin.delWeibaCate()");
+        $this->pageButton[] = array('title'=>'删除分类','onclick'=>'admin.delWeibaCate()');
         $list = D('weiba_category')->findPage();
         foreach ($list['data'] as &$v) {
             $v['DOACTION'] = "<a href='".U('weiba/Admin/editWeibaCate', array('id'=>$v['id'], 'tabHash'=>'weibaCate'))."'>编辑</a> <a href='javascript:;' onclick='admin.delWeibaCate(".$v['id'].")'>删除</a>";
@@ -397,7 +397,7 @@ class AdminAction extends AdministratorAction
         $this->_listpk = 'post_id';
         $this->pageButton[] = array('title'=>'搜索帖子','onclick'=>"admin.fold('search_form')");
         // $this->pageButton[] = array('title'=>'调整回复楼层','onclick'=>"admin.doStorey()");
-        $this->pageButton[] = array('title'=>'删除帖子','onclick'=>"admin.delPost()");
+        $this->pageButton[] = array('title'=>'删除帖子','onclick'=>'admin.delPost()');
         $this->searchKey = array('post_id','title','post_uid','recommend','digest','top','weiba_id');
         $this->opt['recommend'] = array('0'=>L('PUBLIC_SYSTEMD_NOACCEPT'),'1'=>'是','2'=>'否');
         $this->opt['digest'] = array('0'=>L('PUBLIC_SYSTEMD_NOACCEPT'),'1'=>'是','2'=>'否');
@@ -421,8 +421,8 @@ class AdminAction extends AdministratorAction
         // 设置列表主键
         $this->_listpk = 'post_id';
         $this->pageButton[] = array('title'=>'搜索帖子','onclick'=>"admin.fold('search_form')");
-        $this->pageButton[] = array('title'=>'还原','onclick'=>"admin.recoverPost()");
-        $this->pageButton[] = array('title'=>'彻底删除','onclick'=>"admin.deletePost()");
+        $this->pageButton[] = array('title'=>'还原','onclick'=>'admin.recoverPost()');
+        $this->pageButton[] = array('title'=>'彻底删除','onclick'=>'admin.deletePost()');
         $this->searchKey = array('post_id','title','post_uid','weiba_id');
         $weibaList = D('weiba')->getHashList($k = 'weiba_id', $v = 'weiba_name');
         $weibaList[0] = L('PUBLIC_SYSTEMD_NOACCEPT');
@@ -490,7 +490,7 @@ class AdminAction extends AdministratorAction
                     break;
                 case '2':         //精华
                     if ($value == 1) {
-                        $config['typename'] = "精华";
+                        $config['typename'] = '精华';
                         model('Notify')->sendNotify($post_detail['post_uid'], 'weiba_post_set', $config);
                         //添加积分
                         model('Credit')->setUserCredit($post_detail['post_uid'], 'dist_topic');
@@ -499,12 +499,12 @@ class AdminAction extends AdministratorAction
                     break;
                 case '3':         //置顶
                     if ($value == 1) {
-                        $config['typename'] = "吧内置顶";
+                        $config['typename'] = '吧内置顶';
                         model('Notify')->sendNotify($post_detail['post_uid'], 'weiba_post_set', $config);
                         //添加积分
                         model('Credit')->setUserCredit($post_detail['post_uid'], 'top_topic_weiba');
                     } elseif ($value == 2) {
-                        $config['typename'] = "全局置顶";
+                        $config['typename'] = '全局置顶';
                         model('Notify')->sendNotify($post_detail['post_uid'], 'weiba_post_set', $config);
                         //添加积分
                         model('Credit')->setUserCredit($post_detail['post_uid'], 'top_topic_all');

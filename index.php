@@ -43,7 +43,7 @@ define('TS_APP_DEV', true);
 require TS_ROOT.'/src/Build.php';
 
 //载入核心文件
-require(SITE_PATH.'/core/core.php');
+require SITE_PATH.'/core/core.php';
 
 if (isset($_GET['debug'])) {
     C('APP_DEBUG', true);
@@ -82,13 +82,13 @@ if (C('APP_DEBUG')) {
     //print_r(Cache::$log);
     echo '<hr>';
     echo sprintf('PHP version: PHP %s', PHP_VERSION);
-    echo ' Memories: '."<br/>";
-    echo 'ToTal: ',number_format(($mem_run_end - $mem_include_start)/1024),'k',"<br/>";
-    echo 'Include:',number_format(($mem_run_start - $mem_include_start)/1024),'k',"<br/>";
+    echo ' Memories: '.'<br/>';
+    echo 'ToTal: ',number_format(($mem_run_end - $mem_include_start)/1024),'k','<br/>';
+    echo 'Include:',number_format(($mem_run_start - $mem_include_start)/1024),'k','<br/>';
     echo 'Run:',number_format(($mem_run_end - $mem_run_start)/1024),'k<br/><hr/>';
     echo 'Time:<br/>';
-    echo 'ToTal: ',$time_run_end - $time_include_start,"s<br/>";
-    echo 'Include:',$time_run_start - $time_include_start,'s',"<br/>";
+    echo 'ToTal: ',$time_run_end - $time_include_start,'s<br/>';
+    echo 'Include:',$time_run_start - $time_include_start,'s','<br/>';
     echo 'SQL:',$sqltime,'s<br/>';
     echo 'Run:',$time_run_end - $time_run_start,'s<br/>';
     echo 'RunDetail:<br />';

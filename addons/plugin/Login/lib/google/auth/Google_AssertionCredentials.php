@@ -85,6 +85,6 @@ class Google_AssertionCredentials
       $signature = $signer->sign($signingInput);
       $segments[] = Google_Utils::urlSafeB64Encode($signature);
 
-      return implode(".", $segments);
+      return implode('.', $segments);
   }
 }

@@ -44,9 +44,9 @@ class Think
             return ;
         }
         // 自动加载当前项目的Actioon类和Model类
-        if (substr($classname, -5)=="Model") {
+        if (substr($classname, -5)=='Model') {
             tsload(APP_MODEL_PATH.'/'.$classname.'.class.php');
-        } elseif (substr($classname, -6)=="Action") {
+        } elseif (substr($classname, -6)=='Action') {
             tsload(APP_ACTION_PATH.'/'.$classname.'.class.php');
         } else {
             // 根据自动加载路径设置进行尝试搜索

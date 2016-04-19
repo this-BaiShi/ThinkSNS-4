@@ -24,7 +24,7 @@
  */
 class Google_HttpRequest
 {
-    const USER_AGENT_SUFFIX = "google-api-php-client/0.6.0";
+    const USER_AGENT_SUFFIX = 'google-api-php-client/0.6.0';
     private $batchHeaders = array(
     'Content-Type' => 'application/http',
     'Content-Transfer-Encoding' => 'binary',
@@ -51,7 +51,7 @@ class Google_HttpRequest
         if (empty($apiConfig['application_name'])) {
             $this->userAgent = self::USER_AGENT_SUFFIX;
         } else {
-            $this->userAgent = $apiConfig['application_name']." ".self::USER_AGENT_SUFFIX;
+            $this->userAgent = $apiConfig['application_name'].' '.self::USER_AGENT_SUFFIX;
         }
     }
   /**

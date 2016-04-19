@@ -1405,9 +1405,9 @@ class Model extends Think
                 if (substr($query, 0, 12) == 'CREATE TABLE') {
                     //预处理建表语句
                     $db_charset = (strpos($db_charset, '-') === false) ? $db_charset : str_replace('-', '', $db_charset);
-                    $type   = strtoupper(preg_replace("/^\s*CREATE TABLE\s+.+\s+\(.+?\).*(ENGINE|TYPE)\s*=\s*([a-z]+?).*$/isU", "\\2", $query));
-                    $type   = in_array($type, array("MYISAM", "HEAP")) ? $type : "MYISAM";
-                    $_temp_query = preg_replace("/^\s*(CREATE TABLE\s+.+\s+\(.+?\)).*$/isU", "\\1", $query).sprintf(' ENGINE=%s DEFAULT CHARSET=%s', $type, $db_charset);
+                    $type   = strtoupper(preg_replace("/^\s*CREATE TABLE\s+.+\s+\(.+?\).*(ENGINE|TYPE)\s*=\s*([a-z]+?).*$/isU", '\\2', $query));
+                    $type   = in_array($type, array('MYISAM', 'HEAP')) ? $type : 'MYISAM';
+                    $_temp_query = preg_replace("/^\s*(CREATE TABLE\s+.+\s+\(.+?\)).*$/isU", '\\1', $query).sprintf(' ENGINE=%s DEFAULT CHARSET=%s', $type, $db_charset);
 
                     $res = $this->execute($_temp_query);
                 } else {

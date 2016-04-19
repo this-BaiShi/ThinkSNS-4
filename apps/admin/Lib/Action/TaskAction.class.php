@@ -122,7 +122,7 @@ class TaskAction extends AdministratorAction
         }
 
         $this->pageButton[] = array( 'title' => '添加任务' , 'onclick' => "javascript:location.href='".U('admin/Task/addTask', array('tabHash'=>'customIndex'))."';" );
-        $this->pageButton[] = array( 'title' => '删除' , 'onclick' => "admin.delcustomtask()" );
+        $this->pageButton[] = array( 'title' => '删除' , 'onclick' => 'admin.delcustomtask()' );
         $this->displayList($list);
     }
     /**
@@ -268,7 +268,6 @@ class TaskAction extends AdministratorAction
         if ($_POST['topic']) {
             $condition['topic'] = t($_POST['topic']);
         }
-
 
         $task['condition'] = json_encode($condition);
 

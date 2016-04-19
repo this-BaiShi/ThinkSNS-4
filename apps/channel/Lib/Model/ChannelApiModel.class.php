@@ -90,12 +90,12 @@ class ChannelApiModel
         $count = intval($count);
         $page = intval($page);
         // 组装查询条件
-        $where = "c.status = 1";
+        $where = 'c.status = 1';
         if ($cid) {
             if (is_array($cid)) {
-                $where .= " AND c.channel_category_id in (".implode(',', $cid).")";
+                $where .= ' AND c.channel_category_id in ('.implode(',', $cid).')';
             } else {
-                $where .= " AND c.channel_category_id = ".intval($cid) ;
+                $where .= ' AND c.channel_category_id = '.intval($cid) ;
             }
         }
         if ($type) {
@@ -109,7 +109,7 @@ class ChannelApiModel
         }
         $start = ($page - 1) * $count;
         $end = $count;
-        $sql = "SELECT distinct c.feed_id FROM `".C('DB_PREFIX')."channel` c LEFT JOIN `".C('DB_PREFIX')."feed` f ON c.feed_id = f.feed_id WHERE ".$where." ORDER BY ".$order." LIMIT ".$start.", ".$end."";
+        $sql = 'SELECT distinct c.feed_id FROM `'.C('DB_PREFIX').'channel` c LEFT JOIN `'.C('DB_PREFIX').'feed` f ON c.feed_id = f.feed_id WHERE '.$where.' ORDER BY '.$order.' LIMIT '.$start.', '.$end.'';
         $feedIds = getSubByKey(D()->query($sql), 'feed_id');
         $data = model('Feed')->formatFeed($feedIds, true);
 

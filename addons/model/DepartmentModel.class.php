@@ -154,7 +154,7 @@ class DepartmentModel extends Model
         $this->editUserProfile($oldTreeName, $newTreeName);
         // 修改当前部门下用户的部门关联表信息
         $ids = $this->getTreeId($pid);
-        $this->updateUserDepart(implode('|', $newTreeName)."|", $ids);
+        $this->updateUserDepart(implode('|', $newTreeName).'|', $ids);
 
         if ($this->where($map)->delete()) {
             $this->editUserProfile();
@@ -214,7 +214,7 @@ class DepartmentModel extends Model
             $this->editUserProfile($oldTreeName, $newTreeName);
             // 更新部门关联表数据
             $ids = $this->getTreeIdBySql($id);
-            $this->updateUserDepart(implode('|', $newTreeName)."|", $ids);
+            $this->updateUserDepart(implode('|', $newTreeName).'|', $ids);
 
             return true;
         } else {
@@ -301,10 +301,10 @@ class DepartmentModel extends Model
         $up['uid'] = $uid;
         $up['field_id'] = self::FIELD_ID;
         if (D('user_profile')->where($up)->count() > 0) {
-            $sp['field_data'] = implode("|", $departmentTree)."|";
+            $sp['field_data'] = implode('|', $departmentTree).'|';
             D('user_profile')->where($up)->save($sp);
         } else {
-            $up['field_data'] = implode("|", $departmentTree)."|";
+            $up['field_data'] = implode('|', $departmentTree).'|';
             D('user_profile')->add($up);
         }
 
@@ -391,8 +391,8 @@ class DepartmentModel extends Model
      */
     public function editUserProfile($oldTreeName, $newTreeName)
     {
-        $old = implode('|', $oldTreeName)."|";
-        $new = implode('|', $newTreeName)."|";
+        $old = implode('|', $oldTreeName).'|';
+        $new = implode('|', $newTreeName).'|';
         $sql = "UPDATE `{$this->tablePrefix}user_profile` SET field_data = REPLACE(field_data,'{$old}','{$new}') WHERE field_id = ".self::FIELD_ID;
 
         return $this->query($sql);

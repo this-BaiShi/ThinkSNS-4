@@ -45,7 +45,7 @@ class SearchAction extends Action
         $this->setDescription('搜索'.$this->key);
 
         if ($this->curType == 1) {     //搜索用户
-            if ($this->key != "") {
+            if ($this->key != '') {
                 if (t($_GET['Stime']) && t($_GET['Etime'])) {
                     $Stime = strtotime(t($_GET['Stime']));
                     $Etime = strtotime(t($_GET['Etime']));
@@ -90,7 +90,7 @@ class SearchAction extends Action
             }
             $this->display('person');
         } elseif ($this->curType == 2) {     //搜索分享
-            if ($this->key != "") {
+            if ($this->key != '') {
                 if (t($_GET['Stime']) && t($_GET['Etime'])) {
                     $Stime = strtotime(t($_GET['Stime']));
                     $Etime = strtotime(t($_GET['Etime']));
@@ -113,7 +113,7 @@ class SearchAction extends Action
             }
             $this->display('search_feed');
         } elseif ($this->curType == 3) {     //搜索微吧
-            if ($this->key != "") {
+            if ($this->key != '') {
                 if (t($_GET['Stime']) && t($_GET['Etime'])) {
                     $Stime = strtotime(t($_GET['Stime']));
                     $Etime = strtotime(t($_GET['Etime']));
@@ -128,7 +128,7 @@ class SearchAction extends Action
                 $map['is_del'] = 0;
                 $list = M('weiba')->where($map)->findPage(20);
                 foreach ($list['data'] as $k=>$v) {
-                    if ($v['new_day']!= date("Y-m-d", time())) {
+                    if ($v['new_day']!= date('Y-m-d', time())) {
                         $list['data'][$k]['new_count'] = 0;
                         $this->setNewcount($v['weiba_id'], 0);
                     }
@@ -138,7 +138,7 @@ class SearchAction extends Action
             }
             $this->display('weiba');
         } elseif ($this->curType == 4) {     //搜索用户
-            if ($this->key != "") {
+            if ($this->key != '') {
                 if (t($_GET['Stime']) && t($_GET['Etime'])) {
                     $Stime = strtotime(t($_GET['Stime']));
                     $Etime = strtotime(t($_GET['Etime']));
@@ -170,7 +170,7 @@ class SearchAction extends Action
             }
             $this->display('blog');
         } elseif ($this->curType == 5) {     //搜索帖子
-            if ($this->key != "") {
+            if ($this->key != '') {
                 if (t($_GET['Stime']) && t($_GET['Etime'])) {
                     $Stime = strtotime(t($_GET['Stime']));
                     $Etime = strtotime(t($_GET['Etime']));
@@ -216,7 +216,7 @@ class SearchAction extends Action
             }
             $this->display('post');
         } elseif (false) {
-            if ($this->key != "") {
+            if ($this->key != '') {
                 if ($this->curType == 5) {         //按标签搜索
                     $data['name'] = $this->key;
                     $tagid = D('tag')->where($data)->getField('tag_id');
@@ -279,8 +279,8 @@ class SearchAction extends Action
         $map['weiba_id'] = $weiba_id;
         $time = time();
         $weiba = M('weiba')->where($map)->find();
-        if ($weiba['new_day']!= date("Y-m-d", $time)) {
-            M('weiba')->where($map)->setField('new_day', date("Y-m-d", $time));
+        if ($weiba['new_day']!= date('Y-m-d', $time)) {
+            M('weiba')->where($map)->setField('new_day', date('Y-m-d', $time));
             M('weiba')->where($map)->setField('new_count', 0);
         }
         if ($num == 0) {
@@ -344,7 +344,7 @@ class SearchAction extends Action
 
     public function person()
     {
-        if ($this->key != "") {
+        if ($this->key != '') {
             if (t($_GET['Stime']) && t($_GET['Etime'])) {
                 $Stime = strtotime(t($_GET['Stime']));
                 $Etime = strtotime(t($_GET['Etime']));
@@ -367,7 +367,7 @@ class SearchAction extends Action
 
     public function search_feed()
     {
-        if ($this->key != "") {
+        if ($this->key != '') {
             if (t($_GET['Stime']) && t($_GET['Etime'])) {
                 $Stime = strtotime(t($_GET['Stime']));
                 $Etime = strtotime(t($_GET['Etime']));
@@ -391,10 +391,9 @@ class SearchAction extends Action
         $this->display();
     }
 
-
     public function weiba()
     {
-        if ($this->key != "") {
+        if ($this->key != '') {
             if (t($_GET['Stime']) && t($_GET['Etime'])) {
                 $Stime = strtotime(t($_GET['Stime']));
                 $Etime = strtotime(t($_GET['Etime']));
@@ -409,7 +408,7 @@ class SearchAction extends Action
             $map['is_del'] = 0;
             $list = M('weiba')->where($map)->findPage(20);
             foreach ($list['data'] as $k=>$v) {
-                if ($v['new_day']!= date("Y-m-d", time())) {
+                if ($v['new_day']!= date('Y-m-d', time())) {
                     $list['data'][$k]['new_count'] = 0;
                     $this->setNewcount($v['weiba_id'], 0);
                 }
@@ -422,7 +421,7 @@ class SearchAction extends Action
 
     public function blog()
     {
-        if ($this->key != "") {
+        if ($this->key != '') {
             if (t($_GET['Stime']) && t($_GET['Etime'])) {
                 $Stime = strtotime(t($_GET['Stime']));
                 $Etime = strtotime(t($_GET['Etime']));
@@ -457,7 +456,7 @@ class SearchAction extends Action
 
     public function post()
     {
-        if ($this->key != "") {
+        if ($this->key != '') {
             if (t($_GET['Stime']) && t($_GET['Etime'])) {
                 $Stime = strtotime(t($_GET['Stime']));
                 $Etime = strtotime(t($_GET['Etime']));
@@ -503,7 +502,6 @@ class SearchAction extends Action
         }
         $this->display();
     }
-
 
     /**
      * 获取标签

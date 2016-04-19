@@ -17,6 +17,6 @@ class MemberModel extends Model
 
     public function memberCount($gid)
     {
-        return $this->where("gid=".$gid)->count();
+        return $this->where('gid='.$gid)->count();
     }
 }

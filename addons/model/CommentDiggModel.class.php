@@ -44,7 +44,6 @@ class CommentDiggModel extends Model
 // 			$author = model ( 'User' )->getUserInfo ( $mid );
 // 			$config['user'] = '<a href="'.$author ['space_url'].'" >'.$author ['uname'].'</a>';
 
-
 // //			$config ['content'] = t($feed ['source_content']);
 // //			$config ['content'] = str_replace('◆','',$config ['content']);
 // //			$config ['content'] = mStr($config ['content'], 34);

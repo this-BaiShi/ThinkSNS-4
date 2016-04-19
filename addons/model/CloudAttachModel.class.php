@@ -102,11 +102,11 @@ class CloudAttachModel
     public function getPolicydoc()
     {
         $policydoc = array(
-           "bucket"     =>  $this->config['cloud_attach_bucket'],
-           "expiration" =>  time()+600, //1分钟超时
-           "save-key"   =>  "/{year}/{mon}{day}/{random}.{suffix}",
-           "allow-file-type" => "jpg,jpeg,gif,png",
-           "content-length-range" => '0,5120000',    //最大5M
+           'bucket'     =>  $this->config['cloud_attach_bucket'],
+           'expiration' =>  time()+600, //1分钟超时
+           'save-key'   =>  '/{year}/{mon}{day}/{random}.{suffix}',
+           'allow-file-type' => 'jpg,jpeg,gif,png',
+           'content-length-range' => '0,5120000',    //最大5M
         );
 
         return $policydoc;
@@ -163,7 +163,7 @@ class CloudAttachModel
                 if ($this->saveName) {
                     $file['savename'] = $this->saveName;
                 } else {
-                    $file['savename'] = uniqid().".".$file['extension'];
+                    $file['savename'] = uniqid().'.'.$file['extension'];
                 }
 
                 //移动设备上传的无后缀的图片，默认为jpg
@@ -252,7 +252,7 @@ class CloudAttachModel
     {
         switch ($errorNo) {
             case 1:
-                $size = ini_get("upload_max_filesize");
+                $size = ini_get('upload_max_filesize');
                 if (strpos($size, 'M')!==false || strpos($size, 'm')!==false) {
                     $size = intval($size)*1024;
                     $size = byte_format($size);
@@ -264,7 +264,7 @@ class CloudAttachModel
                 $this->error = '上传文件大小不符，文件不能超过 '.$size;
                 break;
             case 2:
-                $size = ini_get("upload_max_filesize");
+                $size = ini_get('upload_max_filesize');
                 if (strpos($size, 'M')!==false || strpos($size, 'm')!==false) {
                     $size = intval($size)*1024;
                     $size = byte_format($size);
@@ -358,7 +358,6 @@ class CloudAttachModel
 
         return true;
     }
-
 
     /**
      * 检查上传的文件后缀是否合法

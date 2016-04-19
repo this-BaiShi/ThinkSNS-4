@@ -220,7 +220,7 @@ abstract class Action
                 redirect(LOGIN_URL);
             } else {
                 if (APP_NAME == 'admin') {
-                    if (MODULE_NAME != "Public" && !model('Passport')->checkAdminLogin()) {
+                    if (MODULE_NAME != 'Public' && !model('Passport')->checkAdminLogin()) {
                         redirect(U('admin/Public/login'));
                         exit();
                     }
@@ -363,7 +363,6 @@ abstract class Action
 
             $GLOBALS['time_run_detail']['action_init_user_disable'] = microtime(true);
         }
-
 
         $this->assign('mid', $this->mid);   //登录者
         $this->assign('uid', $this->uid);   //访问对象
@@ -649,15 +648,15 @@ abstract class Action
         }
         if (strtoupper($type)=='JSON') {
             // 返回JSON数据格式到客户端 包含状态信息
-            header("Content-Type:application/json; charset=utf-8");
+            header('Content-Type:application/json; charset=utf-8');
             exit(json_encode($result));
         } elseif (strtoupper($type)=='XML') {
             // 返回xml格式数据
-            header("Content-Type:text/xml; charset=utf-8");
+            header('Content-Type:text/xml; charset=utf-8');
             exit(xml_encode($result));
         } elseif (strtoupper($type)=='EVAL') {
             // 返回可执行的js脚本
-            header("Content-Type:text/html; charset=utf-8");
+            header('Content-Type:text/html; charset=utf-8');
             exit($data);
         } else {
             // TODO 增加其它格式
@@ -709,18 +708,18 @@ abstract class Action
         $this->assign('status', $status);   // 状态
         empty($message) && ($message = $status==1?'操作成功':'操作失败');
         $this->assign('message', $message);// 提示信息
-        $tpl = "success.html";
+        $tpl = 'success.html';
         isMobile() && $tpl = 'wap_success.html';
         //保证输出不受静态缓存影响
         C('HTML_CACHE_ON', false);
         if ($status) { //发送成功信息
             // 成功操作后默认停留1秒
             if (!$this->get('waitSecond')) {
-                $this->assign('waitSecond', "2");
+                $this->assign('waitSecond', '2');
             }
             // 默认操作成功自动返回操作前页面
             if (!$this->get('jumpUrl')) {
-                $this->assign("jumpUrl", $_SERVER["HTTP_REFERER"]);
+                $this->assign('jumpUrl', $_SERVER['HTTP_REFERER']);
             }
             //sociax:2010-1-21
             //$this->display(C('TMPL_ACTION_SUCCESS'));
@@ -728,11 +727,11 @@ abstract class Action
         } else {
             //发生错误时候默认停留3秒
             if (!$this->get('waitSecond')) {
-                $this->assign('waitSecond', "5");
+                $this->assign('waitSecond', '5');
             }
             // 默认发生错误的话自动返回上页
             if (!$this->get('jumpUrl')) {
-                $this->assign('jumpUrl', "javascript:history.back(-1);");
+                $this->assign('jumpUrl', 'javascript:history.back(-1);');
             }
             //sociax:2010-1-21
             //$this->display(C('TMPL_ACTION_ERROR'));

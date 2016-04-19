@@ -56,7 +56,7 @@ class ToolAction extends AdministratorAction
 
         model('Xdata')->put('admin_config:register', $info);
 
-        $sql = "SELECT follow_id,uid FROM `".C('DB_PREFIX')."user_follow` WHERE fid NOT IN (SELECT uid FROM ".C('DB_PREFIX')."user)";
+        $sql = 'SELECT follow_id,uid FROM `'.C('DB_PREFIX').'user_follow` WHERE fid NOT IN (SELECT uid FROM '.C('DB_PREFIX').'user)';
         $list = M()->query($sql);
         if (empty($list)) {
             $this->success('操作完成！');
@@ -213,7 +213,7 @@ class ToolAction extends AdministratorAction
         } else {
             $this->assign('jumpUrl', U('admin/Tool/backup'));
 
-            $this->success("备份成功");
+            $this->success('备份成功');
         }
     }
     public function doDeleteBackUp()
@@ -322,20 +322,20 @@ class ToolAction extends AdministratorAction
     {
         $filename = basename($_REQUEST ['filename']);
         // 下载函数
-        require_once(ADDON_PATH.'/library/Http.class.php');
+        require_once ADDON_PATH.'/library/Http.class.php';
         $file_path = DATA_PATH.'/database'.'/'.$filename;
 
         if (file_exists($file_path)) {
-            $filename = iconv("utf-8", 'gb2312', $filename);
+            $filename = iconv('utf-8', 'gb2312', $filename);
             Http::download($file_path, $filename);
         } else {
-            $this->error("数据不存在！");
+            $this->error('数据不存在！');
         }
     }
     public function checkdir()
     {
         set_time_limit(0);
-        header("Content-type: text/html; charset=utf-8");
+        header('Content-type: text/html; charset=utf-8');
 
         $this->_checkdir(SITE_PATH);
     }
@@ -344,7 +344,7 @@ class ToolAction extends AdministratorAction
         if ($dh = opendir($basedir)) {
             while (($file = readdir($dh)) !== false) {
                 if ($file != '.' && $file != '..' && $file != '.svn') {
-                    $filename = $basedir."/".$file;
+                    $filename = $basedir.'/'.$file;
                     if (is_dir($filename)) {
                         $this->_checkdir($filename);
                     } else {
@@ -425,7 +425,7 @@ class ToolAction extends AdministratorAction
         // 清理缓存
         foreach ($dirs as $value) {
             $this->_rmdirr($value);
-            echo "<div style='border:2px solid green; background:#f1f1f1; padding:20px;margin:20px;width:800px;font-weight:bold;color:green;text-align:center;'>\"".$value."\" 文件缓存目录已经删除! </div> <br /><br />";
+            echo "<div style='border:2px solid green; background:#f1f1f1; padding:20px;margin:20px;width:800px;font-weight:bold;color:green;text-align:center;'>\"".$value.'" 文件缓存目录已经删除! </div> <br /><br />';
         }
 
         @mkdir('_runtime', 0777, true);

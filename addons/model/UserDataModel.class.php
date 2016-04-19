@@ -167,11 +167,11 @@ class UserDataModel extends Model
             return $data;
         }
     }
-    public function getUserKeyDataByUids($key = "weibo_count", $uids)
+    public function getUserKeyDataByUids($key = 'weibo_count', $uids)
     {
         $map['uid'] = array( 'in' , $uids );
         $map['key'] = $key;
-        $list = $this->where($map)->field("uid,value")->findAll();
+        $list = $this->where($map)->field('uid,value')->findAll();
         $rearray = array();
         foreach ($list as $v) {
             $rearray[$v['uid']][$key] = $v['value'];

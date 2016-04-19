@@ -39,7 +39,6 @@ class UpgradeAction extends AdministratorAction
         exit;
     }
 
-
     /**
      * 检查是否有更新
      *

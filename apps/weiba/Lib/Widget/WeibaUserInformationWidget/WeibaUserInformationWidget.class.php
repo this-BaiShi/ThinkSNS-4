@@ -82,7 +82,7 @@ class WeibaUserInformationWidget extends Widget
         $GLOBALS['ts']['mid'] != $var['uid'] && $var['follow_state'] = model('Follow')->getFollowState($GLOBALS['ts']['mid'], $var['uid']);
 
         // 渲染模版
-        $content = $this->renderFile(dirname(__FILE__)."/".$var['tpl'].".html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/'.$var['tpl'].'.html', $var);
         // 输出数据
         return $content;
     }

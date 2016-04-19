@@ -6,7 +6,7 @@ $finder = \Symfony\CS\Finder\DefaultFinder::create()
     ->exclude('vendor')
     ->exclude('.svn')
     ->exclude('.git')
-    ->exclude($baseDir . 'src/Vendor')
+    ->exclude('src/Vendor')
     ->in($baseDir)
 ;
 
@@ -50,6 +50,10 @@ return Symfony\CS\Config\Config::create()
         'lowercase_keywords',
         'eof_ending',
         'elseif',
+        'unalign_double_arrow',
+        'unalign_equals',
+        'ternary_spaces',
+        'operators_spaces'
     ))
     ->finder($finder)
 ;

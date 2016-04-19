@@ -23,7 +23,7 @@ class douban
             return false;
         }
         if (is_null($call_back)) {
-            $call_back = Addons::createAddonShow('Login', 'no_register_display', array('type'=>'douban', 'do'=>"bind"));
+            $call_back = Addons::createAddonShow('Login', 'no_register_display', array('type'=>'douban', 'do'=>'bind'));
         }
         if (empty($this->_authorize_url)) {
             $client = new DoubanOAuth($this->_douban_key, $this->_douban_secret);

@@ -29,7 +29,7 @@ class BlacklistWidget extends Widget
         foreach ($var['blackList'] as $k=>$v) {
             $var['blackList'][$k]['userInfo'] = model('User')->getUserInfo($k);
         }
-        $content = $this->renderFile(dirname(__FILE__)."/".$var['tpl'].'.html', $var);
+        $content = $this->renderFile(dirname(__FILE__).'/'.$var['tpl'].'.html', $var);
 
         return $content;
     }
@@ -43,7 +43,7 @@ class BlacklistWidget extends Widget
     {
         $var['doaction'] = isset($var['blackList'][$var['fid']]) ? 'remove' : 'add';
 
-        $content = $this->renderFile(dirname(__FILE__)."/".$var['tpl'].'.html', $var);
+        $content = $this->renderFile(dirname(__FILE__).'/'.$var['tpl'].'.html', $var);
 
         return $content;
     }

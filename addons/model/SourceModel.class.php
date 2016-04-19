@@ -111,7 +111,7 @@ class SourceModel
                 $info['source_content'] = ($info['source_user_info'] !== false) ? '发表了一个投票' : '内容已被删除';
                 $info['source_body'] = $vote ['title'].'<a class="ico-details" href="'.U('vote/Index/pollDetail', array('id'=>$row_id)).'"></a>';
                 $info['feed_id'] = $vote['feed_id'];
-                $voteOpts = D("VoteOpt")->where('vote_id='.$row_id)->order("id ASC")->findAll();
+                $voteOpts = D('VoteOpt')->where('vote_id='.$row_id)->order('id ASC')->findAll();
                 $info['vote_opts'] = $voteOpts;
                 $info['title'] = $vote['title'];
                 $info['ctime'] = $vote['cTime'];

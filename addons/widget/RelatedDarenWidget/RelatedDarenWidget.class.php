@@ -26,7 +26,7 @@ class RelatedDarenWidget extends Widget
         $var ['limit'] = isset($data ['limit']) ? intval($data ['limit']) : 8;
         // 标题信息
         $var ['title'] = isset($data ['title']) ? t($data ['title']) : '推荐关注';
-        $content = $this->renderFile(dirname(__FILE__)."/relatedDaren.html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/relatedDaren.html', $var);
 
         return $content;
     }
@@ -41,7 +41,7 @@ class RelatedDarenWidget extends Widget
         $data ['uid'] = intval($_POST ['uid']);
         $data ['limit'] = intval($_POST ['limit']);
         $var = $this->_getRelatedDaren($data);
-        $content = $this->renderFile(dirname(__FILE__)."/_relatedDaren.html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/_relatedDaren.html', $var);
         exit(json_encode($content));
     }
 

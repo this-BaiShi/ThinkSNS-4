@@ -48,7 +48,7 @@ class SendGroupWeiboWidget extends Widget
             !isset($var['actions'][$value]) && $var['actions'][$value] = true;
         }
         // 渲染模版
-        $content = $this->renderFile(dirname(__FILE__)."/SendGroupWeibo.html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/SendGroupWeibo.html', $var);
 
         self::$rand++;
         unset($var, $data);

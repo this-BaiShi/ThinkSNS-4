@@ -18,7 +18,7 @@ class FaceWidget extends Widget
         $var['type'] = t($data['type']);
         $var['faceList'] = D('People', 'people')->getTopUserInfos($var['uids'], $var['type']);
         // 渲染模版
-        $content = $this->renderFile(dirname(__FILE__)."/".$template.".html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/'.$template.'.html', $var);
         // 输出数据
         return $content;
     }

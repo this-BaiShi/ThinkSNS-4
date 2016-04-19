@@ -56,7 +56,6 @@ class MenuWidget extends Widget
                     }
                 }
 
-
                 break;
             case 'verify':
                 //$var['menu'] = model('CategoryTree')->setTable('user_verified_category')->getNetworkList();
@@ -71,7 +70,7 @@ class MenuWidget extends Widget
         }
 
         // 渲染模版
-        $content = $this->renderFile(dirname(__FILE__)."/".$template.".html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/'.$template.'.html', $var);
         // 输出数据
         return $content;
     }

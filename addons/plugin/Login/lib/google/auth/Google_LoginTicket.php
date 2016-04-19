@@ -21,7 +21,7 @@
  */
 class Google_LoginTicket
 {
-    const USER_ATTR = "id";
+    const USER_ATTR = 'id';
   // Information from id token envelope.
   private $envelope;
   // Information from id token payload.
@@ -47,7 +47,7 @@ class Google_LoginTicket
       if (array_key_exists(self::USER_ATTR, $this->payload)) {
           return $this->payload[self::USER_ATTR];
       }
-      throw new Google_AuthException("No user_id in token");
+      throw new Google_AuthException('No user_id in token');
   }
   /**
    * Returns attributes from the login ticket.  This can contain
@@ -56,6 +56,6 @@ class Google_LoginTicket
    */
   public function getAttributes()
   {
-      return array("envelope" => $this->envelope, "payload" => $this->payload);
+      return array('envelope' => $this->envelope, 'payload' => $this->payload);
   }
 }

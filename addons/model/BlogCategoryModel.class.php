@@ -100,7 +100,7 @@ class BlogCategoryModel extends BaseModel
         //先判断合法性
 
         if (empty($map)) {
-            throw new ThinkException("不能是空条件删除");
+            throw new ThinkException('不能是空条件删除');
         }
         //转移被删分类下的知识到默认分类
         if (isset($formCate)) {
@@ -120,7 +120,7 @@ class BlogCategoryModel extends BaseModel
     {
         //先判断合法性
         if (empty($map)) {
-            throw new ThinkException("不能是空条件删除");
+            throw new ThinkException('不能是空条件删除');
         }
         //转移被删分类下的知识到默认分类
 //        $obj=D("Blog");
@@ -150,8 +150,7 @@ class BlogCategoryModel extends BaseModel
         $case = implode(' ', $map2);
         $where = implode(' or ', $map1);
 
-
-        $sql = "UPDATE `".C('DB_PREFIX')."blog_category`
+        $sql = 'UPDATE `'.C('DB_PREFIX')."blog_category`
                     SET `name` = (case {$case} end)
                     WHERE {$where} ";
         $query = $this->execute($sql);
@@ -172,7 +171,6 @@ class BlogCategoryModel extends BaseModel
 
         return $result['name'];
     }
-
 
     /**
      * getUserCategory

@@ -14,7 +14,7 @@ class SameUserWidget extends Widget
     public function render($data)
     {
         // 		$var['user'] = model('RelatedUser')->getRelatedUserByType($data['type'], $data['limit']);
-        $content = $this->renderFile(dirname(__FILE__)."/sameUser.html", $data);
+        $content = $this->renderFile(dirname(__FILE__).'/sameUser.html', $data);
 
         return $content;
     }
@@ -26,7 +26,7 @@ class SameUserWidget extends Widget
         $var['limit'] = $limit;
         $var['user'] = model('RelatedUser')->getRelatedUserByType($type, $limit);
         if ($var['user']) {
-            $content = $this->renderFile(dirname(__FILE__)."/userlist.html", $var);
+            $content = $this->renderFile(dirname(__FILE__).'/userlist.html', $var);
         } else {
             $content = '<p class="mt10">暂时还没有相关推荐</p>';
         }

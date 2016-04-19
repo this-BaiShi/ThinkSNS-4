@@ -392,7 +392,7 @@ class NotifyModel extends Model
             $c = model('UserGroupLink')->where($m)->count();
             if ($c > 0) {
                 // 针对用户组
-                $sql = "INSERT INTO ".$this->tablePrefix."notify_message (`uid`,`node`,`appname`,`title`,`body`,`ctime`,`is_read`)
+                $sql = 'INSERT INTO '.$this->tablePrefix."notify_message (`uid`,`node`,`appname`,`title`,`body`,`ctime`,`is_read`)
     				SELECT uid,'sys_notify','public','','{$content}','{$ctime}','0' 
     				FROM ".$this->tablePrefix."user_group_link WHERE user_group_id = {$user_group} ";
             } else {
@@ -400,9 +400,9 @@ class NotifyModel extends Model
             }
         } else {
             // 全站用户
-            $sql = "INSERT INTO ".$this->tablePrefix."notify_message (`uid`,`node`,`appname`,`title`,`body`,`ctime`,`is_read`)
+            $sql = 'INSERT INTO '.$this->tablePrefix."notify_message (`uid`,`node`,`appname`,`title`,`body`,`ctime`,`is_read`)
     				SELECT uid,'sys_notify','public','','{$content}','{$ctime}','0' 
-    				FROM ".$this->tablePrefix."user WHERE is_del=0 ";
+    				FROM ".$this->tablePrefix.'user WHERE is_del=0 ';
         }
 
         D('')->query($sql);
@@ -420,9 +420,9 @@ class NotifyModel extends Model
     {
         set_time_limit(0);
         // 设置sql语句
-        $message_sql = "INSERT INTO ".C('DB_PREFIX')."notify_message (uid, node, appname, title, body, ctime, is_read) VALUES ";
+        $message_sql = 'INSERT INTO '.C('DB_PREFIX').'notify_message (uid, node, appname, title, body, ctime, is_read) VALUES ';
         $message_sql_array = array();
-        $email_sql = "INSERT INTO ".C('DB_PREFIX')."notify_email (uid, node, appname, email, is_send, title, body, ctime, sendtime) VALUES ";
+        $email_sql = 'INSERT INTO '.C('DB_PREFIX').'notify_email (uid, node, appname, email, is_send, title, body, ctime, sendtime) VALUES ';
         $email_sql_array = array();
         // 设置变量
         $ctime = time();
@@ -499,7 +499,6 @@ class NotifyModel extends Model
 
         return array('list'=>$list,'count'=>$count);
     }
-
 
     /**
      * 系统对用户发送通知

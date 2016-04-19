@@ -18,7 +18,7 @@ class VideoWidget extends Widget
     public function paramUrl()
     {
         $link = t($_POST['url']);
-        if (preg_match("/(youku.com|youtube.com|qq.com|ku6.com|sohu.com|sina.com.cn|tudou.com|yinyuetai.com)/i", $link, $hosts)) {
+        if (preg_match('/(youku.com|youtube.com|qq.com|ku6.com|sohu.com|sina.com.cn|tudou.com|yinyuetai.com)/i', $link, $hosts)) {
             $return['boolen'] = 1;
             $return['data']   = $link;
         } else {
@@ -33,7 +33,7 @@ class VideoWidget extends Widget
             $return['title'] = 0;
             $return['message'] = '仅支持优酷网、土豆网、音悦台视频发布';
         }
-        $return['data'] = $flashinfo['title']." ".$return['data'];
+        $return['data'] = $flashinfo['title'].' '.$return['data'];
         exit(json_encode($return));
     }
 }

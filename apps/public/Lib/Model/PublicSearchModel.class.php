@@ -34,7 +34,7 @@ class PublicSearchModel extends Model
 
         $where = $this->getWhere($key, $type, $tabkey, $tabvalue);
 
-        $query = "SELECT * FROM ".C('DB_PREFIX')."search WHERE ".$initWhere.$where;
+        $query = 'SELECT * FROM '.C('DB_PREFIX').'search WHERE '.$initWhere.$where;
 
         $list  = model('Search')->search($query, $limit);
 
@@ -209,7 +209,7 @@ class PublicSearchModel extends Model
         }
         if ($type == 2) {
             if (!empty($tabkey)) {
-                $where.=" AND ".t($tabkey)." = ".intval($tabvalue);
+                $where.=' AND '.t($tabkey).' = '.intval($tabvalue);
             }
         }
 
@@ -235,14 +235,14 @@ class PublicSearchModel extends Model
     private function initUser()
     {
         //更新删除的内容
-        $sql = "UPDATE `".$this->tablePrefix."search` AS a, `".$this->tablePrefix."user` AS b ".
-               "SET a.int07= 1 ".
-               " WHERE a.int01 = 0 AND a.int02 = 1 AND a.int03 = b.uid AND b.is_del = 1";
+        $sql = 'UPDATE `'.$this->tablePrefix.'search` AS a, `'.$this->tablePrefix.'user` AS b '.
+               'SET a.int07= 1 '.
+               ' WHERE a.int01 = 0 AND a.int02 = 1 AND a.int03 = b.uid AND b.is_del = 1';
         $this->query($sql);
 
-        $sql = "UPDATE `".$this->tablePrefix."search` AS a, `".$this->tablePrefix."user` AS b ".
-               "SET a.int07= 0 ".
-               " WHERE a.int01 = 0 AND a.int02= 1 AND a.int03 = b.uid AND b.is_del = 0";
+        $sql = 'UPDATE `'.$this->tablePrefix.'search` AS a, `'.$this->tablePrefix.'user` AS b '.
+               'SET a.int07= 0 '.
+               ' WHERE a.int01 = 0 AND a.int02= 1 AND a.int03 = b.uid AND b.is_del = 0';
         $this->query($sql);
 
         $map['int01'] = 0;
@@ -250,7 +250,7 @@ class PublicSearchModel extends Model
         $maxId = $this->where($map)->field('MAX(int03) AS maxId')->find();
         $maxId = intval($maxId['maxId']);
 
-        $sql = "INSERT INTO ".$this->tablePrefix."search (app,type,string01,string02,int01,int02,int03,int04,int05,int06,int07,int08,content)
+        $sql = 'INSERT INTO '.$this->tablePrefix."search (app,type,string01,string02,int01,int02,int03,int04,int05,int06,int07,int08,content)
 				SELECT 'public','user',a.uname, a.email,0,1,a.uid,a.ctime, a.is_active, a.is_audit, a.is_del, a.is_init, b.`profile`
 				FROM (
 					SELECT uid, GROUP_CONCAT( field_data ) AS `profile`
@@ -281,14 +281,14 @@ class PublicSearchModel extends Model
     private function initFeed()
     {
         // 更新删除的内容
-        $sql = "UPDATE `".$this->tablePrefix."search` a, `".$this->tablePrefix."feed` b ".
-               "SET a.int07= 1 ".
-               " WHERE a.int01 = 0 AND a.int02= 2 AND a.int03 = b.feed_id AND  b.is_del = 1";
+        $sql = 'UPDATE `'.$this->tablePrefix.'search` a, `'.$this->tablePrefix.'feed` b '.
+               'SET a.int07= 1 '.
+               ' WHERE a.int01 = 0 AND a.int02= 2 AND a.int03 = b.feed_id AND  b.is_del = 1';
         $this->query($sql);
 
-        $sql = "UPDATE  `".$this->tablePrefix."search` a, `".$this->tablePrefix."feed` b ".
-               "SET a.int07= 0 ".
-               " WHERE a.int01 = 0 AND a.int02= 2 AND a.int03 = b.feed_id AND  b.is_del = 0";
+        $sql = 'UPDATE  `'.$this->tablePrefix.'search` a, `'.$this->tablePrefix.'feed` b '.
+               'SET a.int07= 0 '.
+               ' WHERE a.int01 = 0 AND a.int02= 2 AND a.int03 = b.feed_id AND  b.is_del = 0';
         $this->query($sql);
 
         $map['int01'] = 0;

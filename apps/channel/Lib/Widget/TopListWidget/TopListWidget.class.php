@@ -19,7 +19,7 @@ class TopListWidget extends Widget
         $var['cid'] = intval($data['cid']);
         $var['list'] = D('Channel', 'channel')->getTopList($var['cid']);
 
-        $content = $this->renderFile(dirname(__FILE__)."/".$template.".html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/'.$template.'.html', $var);
 
         return $content;
     }

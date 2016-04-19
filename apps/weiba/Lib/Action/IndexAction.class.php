@@ -48,7 +48,7 @@ class IndexAction extends Action
         if ($var) {
             foreach ($var as $k=>$v) {
                 $var[$k]['logo'] = getImageUrlByAttachId($v['logo'], 50, 50);
-                if ($v['new_day']!= date("Y-m-d", time())) {
+                if ($v['new_day']!= date('Y-m-d', time())) {
                     $var[$k]['new_count'] = 0;
                     D('Weiba')->setNewcount($v['weiba_id'], 0);
                 }
@@ -188,7 +188,7 @@ class IndexAction extends Action
                 foreach ($list['data'][$k]['list'] as $i=>$v) {
                     $list['data'][$k]['list'][$i]['logo'] = getImageUrlByAttachId($v['logo'], 100, 100);
                     $list['data'][$k]['list'][$i]['following'] = $followStatus[$v['weiba_id']]['following'];
-                    if ($v['new_day']!= date("Y-m-d", time())) {
+                    if ($v['new_day']!= date('Y-m-d', time())) {
                         $list['data'][$k]['list'][$i]['new_count'] = 0;
                         D('Weiba')->setNewcount($v['weiba_id'], 0);
                     }
@@ -454,7 +454,6 @@ class IndexAction extends Action
         $this->setKeywords($weiba_detail['weiba_name'].$jinghua);
         $this->setDescription($weiba_detail['weiba_name'].','.$weiba_detail['intro']);
 
-
         $this->display();
     }
 
@@ -668,7 +667,6 @@ class IndexAction extends Action
         $data['title'] = formatEmoji(true, $data['title']);
         $data['content'] = formatEmoji(true, $data['content']);
 
-
         $filterTitleStatus = filter_words($data['title']);
         if (!$filterTitleStatus['status']) {
             $this->error($filterTitleStatus['data'], $type);
@@ -699,7 +697,7 @@ class IndexAction extends Action
             //更新发帖数
             D('UserData')->updateKey('weiba_topic_count', 1);
             if ($_GET['post_type']=='index') {
-                $this->success("发布成功");
+                $this->success('发布成功');
             } else {
                 return $this->ajaxReturn($result, '发布成功', 1);
             }
@@ -1125,7 +1123,7 @@ class IndexAction extends Action
 
                         break;
                     case '1':     //设为吧内置顶
-                            $config['typename'] = "吧内置顶";
+                            $config['typename'] = '吧内置顶';
                             model('Notify')->sendNotify($post_detail['post_uid'], 'weiba_post_set', $config);
                             D('log')->writeLog($post_detail['weiba_id'], $this->mid, '将帖子“<a href="'.U('weiba/Index/postDetail', array('post_id'=>$post_id)).'" target="_blank">'.$post_detail['title'].'</a>”设为了吧内置顶', 'posts');
 
@@ -1134,7 +1132,7 @@ class IndexAction extends Action
 
                         break;
                     case '2':     //设为全局置顶
-                            $config['typename'] = "全局置顶";
+                            $config['typename'] = '全局置顶';
                             model('Notify')->sendNotify($post_detail['post_uid'], 'weiba_post_set', $config);
                             D('log')->writeLog($post_detail['weiba_id'], $this->mid, '将帖子“<a href="'.U('weiba/Index/postDetail', array('post_id'=>$post_id)).'" target="_blank">'.$post_detail['title'].'</a>”设为了全局置顶', 'posts');
 
@@ -1150,7 +1148,7 @@ class IndexAction extends Action
                         D('log')->writeLog($post_detail['weiba_id'], $this->mid, '将帖子“<a href="'.U('weiba/Index/postDetail', array('post_id'=>$post_id)).'" target="_blank">'.$post_detail['title'].'</a>”取消了精华', 'posts');
                         break;
                     case '1':     //设为精华
-                            $config['typename'] = "精华";
+                            $config['typename'] = '精华';
                             model('Notify')->sendNotify($post_detail['post_uid'], 'weiba_post_set', $config);
                             D('log')->writeLog($post_detail['weiba_id'], $this->mid, '将帖子“<a href="'.U('weiba/Index/postDetail', array('post_id'=>$post_id)).'" target="_blank">'.$post_detail['title'].'</a>”设为了精华', 'posts');
 
@@ -1166,7 +1164,7 @@ class IndexAction extends Action
                         break;
                     case '1':
                         //设为推荐
-                        $config['typename'] = "推荐";
+                        $config['typename'] = '推荐';
                         model('Notify')->sendNotify($post_detail['post_uid'], 'weiba_post_set', $config);
                         D('log')->writeLog($post_detail['weiba_id'], $this->mid, '将帖子“<a href="'.U('weiba/Index/postDetail', array('post_id'=>$post_id)).'" target="_blank">'.$post_detail['title'].'</a>”设为了推荐', 'posts');
 
@@ -1205,7 +1203,7 @@ class IndexAction extends Action
         $this->assign('post_recommend_list', $post_recommend_list);
 
         $this->assign('nav', 'search');
-        if ($k == "") {
+        if ($k == '') {
             if ($_REQUEST['type'] == '1') {
                 $this->display('search_weiba');
             } else {
@@ -2001,7 +1999,7 @@ class IndexAction extends Action
      */
     public function changeRelate()
     {
-        $sql = "SELECT post_uid,count(post_uid) as num FROM `".C('DB_PREFIX')."weiba_post` WHERE `is_del` = 0 GROUP BY post_uid ORDER BY rand () desc LIMIT 4";
+        $sql = 'SELECT post_uid,count(post_uid) as num FROM `'.C('DB_PREFIX').'weiba_post` WHERE `is_del` = 0 GROUP BY post_uid ORDER BY rand () desc LIMIT 4';
         $daren_uids = D()->query($sql);
         foreach ($daren_uids as $v) {
             $daren_arr[] = model('User')->getUserInfo($v['post_uid']);

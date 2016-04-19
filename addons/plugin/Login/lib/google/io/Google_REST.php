@@ -70,7 +70,7 @@ class Google_REST
     // Only attempt to decode the response, if the response code wasn't (204) 'no content'
     if ($code != '204') {
         $decoded = json_decode($body, true);
-        if ($decoded === null || $decoded === "") {
+        if ($decoded === null || $decoded === '') {
             throw new Google_ServiceException("Invalid json in service response: $body");
         }
     }

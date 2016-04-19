@@ -42,7 +42,7 @@ function ts_add_ucenter_user_ref($uid, $uc_uid, $uc_username='', $uc_email='')
                        'uc_email'  => $uc_email,
                    );
     // M('ucenter_user_link')->add($uc_ref_data);
-    $result = $GLOBALS['tsdb']->query("INSERT INTO ".TS_DBTABLEPRE."ucenter_user_link (uid,uc_uid,uc_username,uc_email) VALUES ('{$uid}','{$uc_uid}','{$uc_username}','{$uc_email}');");
+    $result = $GLOBALS['tsdb']->query('INSERT INTO '.TS_DBTABLEPRE."ucenter_user_link (uid,uc_uid,uc_username,uc_email) VALUES ('{$uid}','{$uc_uid}','{$uc_username}','{$uc_email}');");
     if ($result) {
         return $uc_ref_data;
     } else {
@@ -61,7 +61,7 @@ function ts_update_ucenter_user_ref($uid, $uc_uid, $uc_username='')
     foreach ($map as $k=>$v) {
         $where .= "AND {$k}='{$v}'";
     }
-    $result = $GLOBALS['tsdb']->query("UPDATE ".TS_DBTABLEPRE."ucenter_user_link SET  uc_username='{$uc_username}' WHERE 1=1 ".$where);
+    $result = $GLOBALS['tsdb']->query('UPDATE '.TS_DBTABLEPRE."ucenter_user_link SET  uc_username='{$uc_username}' WHERE 1=1 ".$where);
 
     return $result;
     // M('ucenter_user_link')->where($map)->save($uc_ref_data);
@@ -79,7 +79,7 @@ function ts_get_ucenter_user_ref($uid='', $uc_uid='', $uc_username='')
     foreach ($map as $k=>$v) {
         $where .= "AND {$k}='{$v}'";
     }
-    $result = $GLOBALS['tsdb']->fetch_first("SELECT * FROM ".TS_DBTABLEPRE."ucenter_user_link WHERE 1=1 ".$where);
+    $result = $GLOBALS['tsdb']->fetch_first('SELECT * FROM '.TS_DBTABLEPRE.'ucenter_user_link WHERE 1=1 '.$where);
 
     return $result;
     // return M('ucenter_user_link')->where($map)->find();
@@ -89,7 +89,7 @@ function ts_get_ucenter_user_ref($uid='', $uc_uid='', $uc_username='')
 function ts_get_user($uid)
 {
     $uid = intval($uid);
-    $result = $GLOBALS['tsdb']->fetch_first("SELECT uid,uname,email,login,is_active FROM ".TS_DBTABLEPRE."user WHERE uid='{$uid}'");
+    $result = $GLOBALS['tsdb']->fetch_first('SELECT uid,uname,email,login,is_active FROM '.TS_DBTABLEPRE."user WHERE uid='{$uid}'");
 
     return $result;
 }
@@ -297,7 +297,7 @@ class uc_note
     //UC同步更新头像到TS - 尚未同步
     public function face($get)
     {
-        if ($get['type'] !== "face") {
+        if ($get['type'] !== 'face') {
             $uc_uid = $get['uid'];
             $uc_user_ref = ts_get_ucenter_user_ref('', $uc_uid);
             $user = M('user')->where("uid={$uc_user_ref['uid']}")->find();
@@ -307,9 +307,9 @@ class uc_note
             }
         } else {
             $data = 'http://dev.thinksns.com/ts/2.0/public/themes/classic2';
-            $face = str_replace("THEME_URL", $data, getUserFace($get['uid']));
+            $face = str_replace('THEME_URL', $data, getUserFace($get['uid']));
             $data = 'http://dev.thinksns.com/ts/2.0';
-            $face = str_replace("SITE_URL", $data, $face);
+            $face = str_replace('SITE_URL', $data, $face);
             echo $face;
         }
     }

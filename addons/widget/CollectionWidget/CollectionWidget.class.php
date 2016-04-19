@@ -27,13 +27,13 @@ class CollectionWidget extends Widget
         if ($var['tpl']=='btn') {
             extract($var, EXTR_OVERWRITE);
             if (!$coll) {
-                return "<a href=\"javascript:;\" onclick=\"core.plugInit('collection',this,'{$type}','{$sid}','{$stable}','{$sapp}')\" rel=\"add\">".L('PUBLIC_STREAM_LIKE')."</a>";
+                return "<a href=\"javascript:;\" onclick=\"core.plugInit('collection',this,'{$type}','{$sid}','{$stable}','{$sapp}')\" rel=\"add\">".L('PUBLIC_STREAM_LIKE').'</a>';
             } else {
-                return "<a href=\"javascript:;\" onclick=\"core.plugInit('collection',this,'{$type}','{$sid}','{$stable}','{$sapp}')\" rel=\"remove\">".L('PUBLIC_CANCEL_FAVORITE')."</a>";
+                return "<a href=\"javascript:;\" onclick=\"core.plugInit('collection',this,'{$type}','{$sid}','{$stable}','{$sapp}')\" rel=\"remove\">".L('PUBLIC_CANCEL_FAVORITE').'</a>';
             }
         }
 
-        $content = $this->renderFile(dirname(__FILE__)."/".t($var['tpl']).'.html', $var);
+        $content = $this->renderFile(dirname(__FILE__).'/'.t($var['tpl']).'.html', $var);
 
         return $content;
     }

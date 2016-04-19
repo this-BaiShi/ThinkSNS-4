@@ -111,7 +111,7 @@ class AddonsAction extends AdministratorAction
         $addonInfo = model('Addon')->getAddon(intval($_GET ['pluginid']));
         $result = array(
                 'status' => true,
-                'info' => "",
+                'info' => '',
         );
 
         F('Cache_App', null);

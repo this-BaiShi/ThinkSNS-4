@@ -32,8 +32,7 @@ class PlotWidget extends Widget
         $var = array_merge($var, $plotData);
 
         //渲染模版
-        $content = $this->renderFile(dirname(__FILE__)."/".$var['tpl'].".html", $var);
-
+        $content = $this->renderFile(dirname(__FILE__).'/'.$var['tpl'].'.html', $var);
 
         return $content;
     }
@@ -83,7 +82,7 @@ class PlotWidget extends Widget
                 $vv > $most && $most = $vv;
                 $tmp[]="[$kk,$vv]";
             }
-            $var['jsHtml'] .=" args.obj[$k] =[".implode(',', $tmp)."];";
+            $var['jsHtml'] .=" args.obj[$k] =[".implode(',', $tmp).'];';
         }
         foreach ($data['ticks'] as $k=>$v) {
             $var['jsHtml'] .=" args.ticks[$k] = '{$v}';";
@@ -92,7 +91,7 @@ class PlotWidget extends Widget
 
         $var['jsHtml'] .=" args.title = '{$data['title']}';";
         $var['jsHtml'] .=" args['x'][0] = 0;";
-        $var['jsHtml'] .=" args['x'][1] = ".count($data['ticks']).";";
+        $var['jsHtml'] .=" args['x'][1] = ".count($data['ticks']).';';
         $var['jsHtml'] .=" args['y'][0] = 0;";
         $var['jsHtml'] .=" args['y'][1] = {$most};";
         $var['jsHtml'] .=" args['y']['numberTicks'] = 5;";

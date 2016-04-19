@@ -221,7 +221,7 @@ class FeedListWidget extends Widget
                     }
                     if (! empty($var ['feed_type'])) {
                         if ($var ['feed_type'] == 'post') {
-                            $where .= " AND a.is_repost = 0";
+                            $where .= ' AND a.is_repost = 0';
                         } elseif ($var ['feed_type'] == 'repost') {
                             $where .= " AND a.type LIKE '%repost'";
                         } else {
@@ -244,7 +244,7 @@ class FeedListWidget extends Widget
                     }
                     if (! empty($var ['feed_type'])) {
                         if ($var ['feed_type'] == 'post') {
-                            $where .= " AND a.is_repost = 0";
+                            $where .= ' AND a.is_repost = 0';
                         } elseif ($var ['feed_type'] == 'repost') {
                             $where .= " AND a.type LIKE '%repost'";
                         } else {
@@ -267,7 +267,7 @@ class FeedListWidget extends Widget
                     }
                     if (! empty($var ['feed_type'])) {
                         if ($var ['feed_type'] == 'post') {
-                            $where .= " AND is_repost = 0";
+                            $where .= ' AND is_repost = 0';
                         } elseif ($var ['feed_type'] == 'repost') {
                             $where .= " AND type LIKE '%repost'";
                         } else {
@@ -451,7 +451,7 @@ class FeedListWidget extends Widget
         }
         $content ['pageHtml'] = $list['html'];
         // 渲染模版
-        $content ['html'] = $this->renderFile(dirname(__FILE__)."/".$tpl, $var);
+        $content ['html'] = $this->renderFile(dirname(__FILE__).'/'.$tpl, $var);
 
         return $content;
     }

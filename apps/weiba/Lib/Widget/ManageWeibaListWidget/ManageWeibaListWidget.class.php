@@ -28,7 +28,7 @@ class ManageWeibaListWidget extends Widget
         }
         is_array($data) && $var = array_merge($var, $data);
         // 渲染模版
-        $content = $this->renderFile(dirname(__FILE__)."/manageWeibaList.html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/manageWeibaList.html', $var);
         unset($var, $data);
         // 输出数据
         return $content;

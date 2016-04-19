@@ -39,7 +39,7 @@ class MedalListWidget extends Widget
         $var['medals'] = $medals;
         $var['isme'] = $map['uid'] == $GLOBALS['ts']['mid'] ? true : false;
         $var['uid'] = $map['uid'];
-        $content = $this->renderFile(dirname(__FILE__)."/list.html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/list.html', $var);
 
         return $content;
     }

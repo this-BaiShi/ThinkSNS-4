@@ -52,7 +52,6 @@ if (file_exists(CORE_RUN_PATH.'/htmlcache/'.str_replace('/', '_', ACTION_CODE).'
     exit;
 }
 
-
 //session初始化
 //兼容swfupload重塑session
 if (isset($_POST['PHPSESSID'])) {
@@ -64,7 +63,7 @@ ini_set('session.cookie_httponly', 1);
 ini_set('session.gc_maxlifetime',   3600);
 ini_set('session.cookie_lifetime',  7*86400);
 //设置session路径到本地
-if (strtolower(ini_get("session.save_handler")) == "files") {
+if (strtolower(ini_get('session.save_handler')) == 'files') {
     $session_dir = DATA_PATH.'/session';
     if (!is_dir($session_dir)) {
         mkdir($session_dir, 0777, true);
@@ -147,7 +146,6 @@ if (
     file_put_contents($timer, time());
 }
 define('APP_PUBLIC_URL', sprintf('%s%s/app/%s', SITE_URL, TS_STORAGE, strtolower(APP_NAME)));
-
 
 //设置语言包
 setLang();

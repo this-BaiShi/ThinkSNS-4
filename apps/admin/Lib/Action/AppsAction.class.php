@@ -51,11 +51,11 @@ class AppsAction extends AdministratorAction
             // $v['icon_url'] = empty($v['icon_url']) ? '<img src="'.APPS_URL.'/'.$v['app_name'].'/Appinfo/icon_app.png" >' : "<img src='{$v['icon_url']}'>";
             $v['icon_url'] = '<img src="'.APPS_URL.'/'.$v['app_name'].'/Appinfo/icon_app.png" >';
             !empty($v['author_homepage_url']) && $v['author_name'] = "<a href='{$v['author_homepage_url']}'>{$v['author_name']}</a>";
-            $v['DOACTION'] = "<a href='".U('admin/Apps/preinstall', array('app_name'=>$v['app_name']))."'>".L('PUBLIC_EDIT')."</a>&nbsp;-&nbsp;";
+            $v['DOACTION'] = "<a href='".U('admin/Apps/preinstall', array('app_name'=>$v['app_name']))."'>".L('PUBLIC_EDIT').'</a>&nbsp;-&nbsp;';
             $v['DOACTION'] .= $v['status'] == 0
-                            ? "<a href='javascript:admin.setAppStatus({$v['app_id']},1)'>".L('PUBLIC_OPEN')."</a>&nbsp;-&nbsp;"
-                            : "<a href='javascript:admin.setAppStatus({$v['app_id']},0)'>".L('PUBLIC_CLOSE')."</a>&nbsp;-&nbsp;";
-            $v['DOACTION'] .= "<a href='".U('admin/Apps/uninstall', array('app_id'=>$v['app_id']))."'>".L('PUBLIC_SYSTEM_APP_UNLODING')."</a>&nbsp;-&nbsp;";
+                            ? "<a href='javascript:admin.setAppStatus({$v['app_id']},1)'>".L('PUBLIC_OPEN').'</a>&nbsp;-&nbsp;'
+                            : "<a href='javascript:admin.setAppStatus({$v['app_id']},0)'>".L('PUBLIC_CLOSE').'</a>&nbsp;-&nbsp;';
+            $v['DOACTION'] .= "<a href='".U('admin/Apps/uninstall', array('app_id'=>$v['app_id']))."'>".L('PUBLIC_SYSTEM_APP_UNLODING').'</a>&nbsp;-&nbsp;';
             if (!empty($v['admin_entry'])) {
                 $name = L('PUBLIC_APPNAME_'.strtoupper($v['app_name']));
                 $v['DOACTION'] .= in_array($v['app_name'], array_keys($inNav)) ?
@@ -86,7 +86,7 @@ class AppsAction extends AdministratorAction
             $v['host_type_alias'] = $this->host_type_alias[$v['host_type']];
             !empty($v['author_homepage_url']) && $v['author_name'] = "<a href='{$v['author_homepage_url']}'>{$v['author_name']}</a>";
             $v['icon_url'] = empty($v['icon_url']) ? '<img src="'.APPS_URL.'/'.$v['app_name'].'/Appinfo/icon_app.png" >' : "<img src='{$v['icon_url']}'>";
-            $v['DOACTION'] =  "<a href='".U('admin/Apps/preinstall', array('app_name'=>$v['app_name'], 'install'=>1))."'>".L('PUBLIC_SYSTEM_APP_INSTALL')."</a>";
+            $v['DOACTION'] =  "<a href='".U('admin/Apps/preinstall', array('app_name'=>$v['app_name'], 'install'=>1))."'>".L('PUBLIC_SYSTEM_APP_INSTALL').'</a>';
         }
         $this->allSelected = false;
         $this->displayList($listData);
@@ -131,7 +131,6 @@ class AppsAction extends AdministratorAction
         $this->displayConfig($info);
     }
 
-
     //安装保存应用
     public function saveApp()
     {
@@ -139,7 +138,6 @@ class AppsAction extends AdministratorAction
         if (empty($_POST['app_name']) || empty($_POST['app_alias']) || empty($_POST['app_entry'])) {
             $this->error(L('PUBLIC_SYSTEM_APP_INSTALLERROR'));
         }
-
 
         $status = model('App')->saveApp($_POST);
 
@@ -191,11 +189,11 @@ class AppsAction extends AdministratorAction
         $this->pageKeyList = array('id','appname','appinfo','module','rule','ruleinfo','DOACTION');
         //列表分页栏 按钮
         $this->pageButton[] = array('title'=>L('PUBLIC_ADD'),'onclick'=>"location.href = '".U('admin/Apps/editPermNode')."'");
-        $this->pageButton[] = array('title'=>L('PUBLIC_STREAM_DELETE'),'onclick'=>"admin.delPermNode()");
+        $this->pageButton[] = array('title'=>L('PUBLIC_STREAM_DELETE'),'onclick'=>'admin.delPermNode()');
         $listData = D('permission_node')->findPage(10);
         foreach ($listData['data'] as &$v) {
             $v['DOACTION'] =  "<a href='".U('admin/Apps/editPermNode', array('id'=>$v['id']))."'>".L('PUBLIC_EDIT')."</a> | 
-				<a href='javascript:void(0)' onclick='admin.delPermNode(".$v['id'].")'>".L('PUBLIC_STREAM_DELETE')."</a>";
+				<a href='javascript:void(0)' onclick='admin.delPermNode(".$v['id'].")'>".L('PUBLIC_STREAM_DELETE').'</a>';
         }
         $this->displayList($listData);
     }
@@ -370,7 +368,7 @@ class AppsAction extends AdministratorAction
      */
     public function downloadAndInstall()
     {
-        header("content-Type: text/html; charset=utf-8");
+        header('content-Type: text/html; charset=utf-8');
         // 获取下载地址
         $develop_id = intval($_GET['develop_id']);
         $url = $this->RemoteAppURL.'/index.php?app=public&mod=Tool&act=downloadApp&develop_id='.$develop_id;

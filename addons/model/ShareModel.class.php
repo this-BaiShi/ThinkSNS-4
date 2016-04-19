@@ -189,7 +189,7 @@ class ShareModel
             return $return;
         }
         $data ['content'] = trim($data ['content']);
-        $content = empty($data ['content']) ? "" : "“{$data['content']}”&nbsp;//&nbsp;";
+        $content = empty($data ['content']) ? '' : "“{$data['content']}”&nbsp;//&nbsp;";
         $content = parse_html($content);
         $message ['to'] = $msg ['to'];
         $message ['content'] = $content.parse_html($oldInfo ['source_content']).'&nbsp;&nbsp;<a href="'.$oldInfo ['source_url'].'" target=\'_blank\'>查看</a>';

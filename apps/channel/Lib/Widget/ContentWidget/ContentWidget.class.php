@@ -40,7 +40,7 @@ class ContentWidget extends Widget
             'vote_post', 'vote_repost',
             'photo_post', 'photo_repost', );
 
-        $content = $this->renderFile(dirname(__FILE__)."/".$template.".html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/'.$template.'.html', $var);
 
         return $content;
     }

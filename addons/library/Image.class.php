@@ -45,11 +45,11 @@ class Image
             $imageType = strtolower(substr(image_type_to_extension($imageInfo[2]), 1));
             $imageSize = filesize($img);
             $info = array(
-                "width"=>$imageInfo[0],
-                "height"=>$imageInfo[1],
-                "type"=>$imageType,
-                "size"=>$imageSize,
-                "mime"=>$imageInfo['mime'],
+                'width'=>$imageInfo[0],
+                'height'=>$imageInfo[1],
+                'type'=>$imageType,
+                'size'=>$imageSize,
+                'mime'=>$imageInfo['mime'],
             );
 
             return $info;
@@ -90,7 +90,7 @@ class Image
                     imagealphablending($im, false);//取消默认的混色模式
                 imagesavealpha($im, true);//设定保存完整的 alpha 通道信息
                 }
-                header("Content-type: ".$info['mime']);
+                header('Content-type: '.$info['mime']);
                 $ImageFun($im);
                 imagedestroy($im);
 
@@ -102,7 +102,7 @@ class Image
         $bgc = imagecolorallocate($im, 255, 255, 255);
         $tc  = imagecolorallocate($im, 0, 0, 0);
         imagefilledrectangle($im, 0, 0, 150, 30, $bgc);
-        imagestring($im, 4, 5, 5, "NO PIC", $tc);
+        imagestring($im, 4, 5, 5, 'NO PIC', $tc);
         Image::output($im);
 
         return ;
@@ -171,7 +171,7 @@ class Image
                 $y      =   0;
             }
             // 复制图片
-            if (function_exists("ImageCopyResampled")) {
+            if (function_exists('ImageCopyResampled')) {
                 ImageCopyResampled($thumbImg, $srcImg, 0, 0, $x, $y, $maxWidth, $maxHeight, $width, $height);
             } else {
                 ImageCopyResized($thumbImg, $srcImg, 0, 0, $x, $y, $maxWidth, $maxHeight,  $width, $height);
@@ -262,7 +262,7 @@ class Image
             }
 
             // 复制图片
-            if (function_exists("ImageCopyResampled")) {
+            if (function_exists('ImageCopyResampled')) {
                 imagecopyresampled($thumbImg, $srcImg, 0, 0, 0, 0, $width, $height, $srcWidth, $srcHeight);
             } else {
                 imagecopyresized($thumbImg, $srcImg, 0, 0, 0, 0, $width, $height,  $srcWidth, $srcHeight);
@@ -435,7 +435,7 @@ class Image
             imagesetpixel($im, mt_rand(0, $width), mt_rand(0, $height), $fontcolor);
         }
         if (!is_file($fontface)) {
-            $fontface = dirname(__FILE__)."/".$fontface;
+            $fontface = dirname(__FILE__).'/'.$fontface;
         }
         for ($i=0;$i<$length;$i++) {
             $fontcolor=imagecolorallocate($im, mt_rand(0, 120), mt_rand(0, 120), mt_rand(0, 120)); //这样保证随机出来的颜色较深。
@@ -509,7 +509,7 @@ class Image
         $rand    =    range('a', 'z');
         shuffle($rand);
         $verifyCode    =    array_slice($rand, 0, 10);
-        $letter = implode(" ", $verifyCode);
+        $letter = implode(' ', $verifyCode);
         $_SESSION[$verifyName] = $verifyCode;
         $im = imagecreate($width, $height);
         $r = array(225,255,255,223);
@@ -532,7 +532,7 @@ class Image
             $fontcolor=imagecolorallocate($im,mt_rand(0,255),mt_rand(0,255),mt_rand(0,255));
             imagesetpixel($im,mt_rand(0,$width),mt_rand(0,$height),$fontcolor);
         }*/
-        imagestring($im, 5, 5, 1, "0 1 2 3 4 5 6 7 8 9", $numberColor);
+        imagestring($im, 5, 5, 1, '0 1 2 3 4 5 6 7 8 9', $numberColor);
         imagestring($im, 5, 5, 20, $letter, $stringColor);
         Image::output($im, $type);
     }
@@ -561,7 +561,7 @@ class Image
         $center = '01010';
         /* UPC-A Must be 11 digits, we compute the checksum. */
         if (strlen($code) != 11) {
-            die("UPC-A Must be 11 digits.");
+            die('UPC-A Must be 11 digits.');
         }
         /* Compute the EAN-13 Checksum digit */
         $ncode = '0'.$code;
@@ -622,7 +622,7 @@ class Image
 
     public static function output($im, $type='png', $filename='')
     {
-        header("Content-type: image/".$type);
+        header('Content-type: image/'.$type);
         $ImageFun='image'.$type;
         if (empty($filename)) {
             $ImageFun($im);
@@ -642,28 +642,28 @@ if (!function_exists('ImageCreateFrombmp')) {
             return false;
         }
 
-        $file_header=unpack("sbfType/LbfSize/sbfReserved1/sbfReserved2/LbfOffBits", substr($buf, 0, 14));
-        if ($file_header["bfType"]!=19778) {
+        $file_header=unpack('sbfType/LbfSize/sbfReserved1/sbfReserved2/LbfOffBits', substr($buf, 0, 14));
+        if ($file_header['bfType']!=19778) {
             return false;
         }
-        $info_header=unpack("LbiSize/lbiWidth/lbiHeight/sbiPlanes/sbiBitCountLbiCompression/LbiSizeImage/lbiXPelsPerMeter/lbiYPelsPerMeter/LbiClrUsed/LbiClrImportant", substr($buf, 14, 40));
-        if ($info_header["biBitCountLbiCompression"]==2) {
+        $info_header=unpack('LbiSize/lbiWidth/lbiHeight/sbiPlanes/sbiBitCountLbiCompression/LbiSizeImage/lbiXPelsPerMeter/lbiYPelsPerMeter/LbiClrUsed/LbiClrImportant', substr($buf, 14, 40));
+        if ($info_header['biBitCountLbiCompression']==2) {
             return false;
         }
-        $line_len=round($info_header["biWidth"]*$info_header["biBitCountLbiCompression"]/8);
+        $line_len=round($info_header['biWidth']*$info_header['biBitCountLbiCompression']/8);
         $x=$line_len%4;
         if ($x>0) {
             $line_len+=4-$x;
         }
 
-        $img=imagecreatetruecolor($info_header["biWidth"], $info_header["biHeight"]);
-        switch ($info_header["biBitCountLbiCompression"]) {
+        $img=imagecreatetruecolor($info_header['biWidth'], $info_header['biHeight']);
+        switch ($info_header['biBitCountLbiCompression']) {
         case 4:
-            $colorset=unpack("L*", substr($buf, 54, 64));
-            for ($y=0;$y<$info_header["biHeight"];$y++) {
+            $colorset=unpack('L*', substr($buf, 54, 64));
+            for ($y=0;$y<$info_header['biHeight'];$y++) {
                 $colors=array();
-                $y_pos=$y*$line_len+$file_header["bfOffBits"];
-                for ($x=0;$x<$info_header["biWidth"];$x++) {
+                $y_pos=$y*$line_len+$file_header['bfOffBits'];
+                for ($x=0;$x<$info_header['biWidth'];$x++) {
                     if ($x%2) {
                         $colors[]=$colorset[(ord($buf[$y_pos+($x+1)/2])&0xf)+1];
                     } else {
@@ -671,44 +671,44 @@ if (!function_exists('ImageCreateFrombmp')) {
                     }
                 }
                 imagesetstyle($img, $colors);
-                imageline($img, 0, $info_header["biHeight"]-$y-1, $info_header["biWidth"], $info_header["biHeight"]-$y-1, IMG_COLOR_STYLED);
+                imageline($img, 0, $info_header['biHeight']-$y-1, $info_header['biWidth'], $info_header['biHeight']-$y-1, IMG_COLOR_STYLED);
             }
             break;
         case 8:
-            $colorset=unpack("L*", substr($buf, 54, 1024));
-            for ($y=0;$y<$info_header["biHeight"];$y++) {
+            $colorset=unpack('L*', substr($buf, 54, 1024));
+            for ($y=0;$y<$info_header['biHeight'];$y++) {
                 $colors=array();
-                $y_pos=$y*$line_len+$file_header["bfOffBits"];
-                for ($x=0;$x<$info_header["biWidth"];$x++) {
+                $y_pos=$y*$line_len+$file_header['bfOffBits'];
+                for ($x=0;$x<$info_header['biWidth'];$x++) {
                     $colors[]=$colorset[ord($buf[$y_pos+$x])+1];
                 }
                 imagesetstyle($img, $colors);
-                imageline($img, 0, $info_header["biHeight"]-$y-1, $info_header["biWidth"], $info_header["biHeight"]-$y-1, IMG_COLOR_STYLED);
+                imageline($img, 0, $info_header['biHeight']-$y-1, $info_header['biWidth'], $info_header['biHeight']-$y-1, IMG_COLOR_STYLED);
             }
             break;
         case 16:
-            for ($y=0;$y<$info_header["biHeight"];$y++) {
+            for ($y=0;$y<$info_header['biHeight'];$y++) {
                 $colors=array();
-                $y_pos=$y*$line_len+$file_header["bfOffBits"];
-                for ($x=0;$x<$info_header["biWidth"];$x++) {
+                $y_pos=$y*$line_len+$file_header['bfOffBits'];
+                for ($x=0;$x<$info_header['biWidth'];$x++) {
                     $i=$x*2;
                     $color=ord($buf[$y_pos+$i])|(ord($buf[$y_pos+$i+1])<<8);
                     $colors[]=imagecolorallocate($img, (($color>>10)&0x1f)*0xff/0x1f, (($color>>5)&0x1f)*0xff/0x1f, ($color&0x1f)*0xff/0x1f);
                 }
                 imagesetstyle($img, $colors);
-                imageline($img, 0, $info_header["biHeight"]-$y-1, $info_header["biWidth"], $info_header["biHeight"]-$y-1, IMG_COLOR_STYLED);
+                imageline($img, 0, $info_header['biHeight']-$y-1, $info_header['biWidth'], $info_header['biHeight']-$y-1, IMG_COLOR_STYLED);
             }
             break;
         case 24:
-            for ($y=0;$y<$info_header["biHeight"];$y++) {
+            for ($y=0;$y<$info_header['biHeight'];$y++) {
                 $colors=array();
-                $y_pos=$y*$line_len+$file_header["bfOffBits"];
-                for ($x=0;$x<$info_header["biWidth"];$x++) {
+                $y_pos=$y*$line_len+$file_header['bfOffBits'];
+                for ($x=0;$x<$info_header['biWidth'];$x++) {
                     $i=$x*3;
                     $colors[]=imagecolorallocate($img, ord($buf[$y_pos+$i+2]), ord($buf[$y_pos+$i+1]), ord($buf[$y_pos+$i]));
                 }
                 imagesetstyle($img, $colors);
-                imageline($img, 0, $info_header["biHeight"]-$y-1, $info_header["biWidth"], $info_header["biHeight"]-$y-1, IMG_COLOR_STYLED);
+                imageline($img, 0, $info_header['biHeight']-$y-1, $info_header['biWidth'], $info_header['biHeight']-$y-1, IMG_COLOR_STYLED);
             }
             break;
         default:
@@ -756,7 +756,6 @@ if (!function_exists('ImageCreateFrombmp')) {
             $compression = 0;
 
         // 每行字节数必须为4的倍数，补齐。
-
 
             $extra = '';
             $padding = 4 - ceil($width / (8 / $bit)) % 4;
@@ -832,9 +831,9 @@ if (!function_exists('ImageCreateFrombmp')) {
                         $bin |= ($colors['green'] >> 3) << 5;
                         $bin |= $colors['blue'] >> 3;
 
-                        $bmp_data .= pack("v", $bin);
+                        $bmp_data .= pack('v', $bin);
                     } else {
-                        $bmp_data .= pack("c*", $colors['blue'], $colors['green'], $colors['red']);
+                        $bmp_data .= pack('c*', $colors['blue'], $colors['green'], $colors['red']);
                     }
 
                 // todo: 32bit;
@@ -849,13 +848,13 @@ if (!function_exists('ImageCreateFrombmp')) {
         }
 
                 // 位图文件头
-                $file_header = "BM".pack("V3", 54 + $size_quad + $size_data, 0, 54 + $size_quad);
+                $file_header = 'BM'.pack('V3', 54 + $size_quad + $size_data, 0, 54 + $size_quad);
 
                 // 位图信息头
-                $info_header = pack("V3v2V*", 0x28, $width, $height, 1, $bit, $compression, $size_data, 0, 0, $colors_num, 0);
+                $info_header = pack('V3v2V*', 0x28, $width, $height, 1, $bit, $compression, $size_data, 0, 0, $colors_num, 0);
                 // 写入文件
                 if ($filename != '') {
-                    $fp = fopen($filename, "wb");
+                    $fp = fopen($filename, 'wb');
 
                     fwrite($fp, $file_header);
                     fwrite($fp, $info_header);
@@ -867,7 +866,7 @@ if (!function_exists('ImageCreateFrombmp')) {
                 }
 
                 // 浏览器输出
-                header("Content-Type: image/bmp");
+                header('Content-Type: image/bmp');
         echo $file_header.$info_header;
         echo $rgb_quad;
         echo $bmp_data;

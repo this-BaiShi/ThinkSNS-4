@@ -25,7 +25,7 @@ class Google_CurlIO implements Google_IO
 {
     const CONNECTION_ESTABLISHED = "HTTP/1.0 200 Connection established\r\n\r\n";
     const FORM_URLENCODED = 'application/x-www-form-urlencoded';
-    private static $ENTITY_HTTP_METHODS = array("POST" => null, "PUT" => null);
+    private static $ENTITY_HTTP_METHODS = array('POST' => null, 'PUT' => null);
     private static $HOP_BY_HOP = array(
       'connection', 'keep-alive', 'proxy-authenticate', 'proxy-authorization',
       'te', 'trailers', 'transfer-encoding', 'upgrade', );
@@ -227,7 +227,7 @@ class Google_CurlIO implements Google_IO
   public function processEntityRequest(Google_HttpRequest $request)
   {
       $postBody = $request->getPostBody();
-      $contentType = $request->getRequestHeader("content-type");
+      $contentType = $request->getRequestHeader('content-type');
     // Set the default content-type as application/x-www-form-urlencoded.
     if (false == $contentType) {
         $contentType = self::FORM_URLENCODED;

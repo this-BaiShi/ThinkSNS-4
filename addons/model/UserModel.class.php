@@ -81,7 +81,7 @@ class UserModel extends Model
      *                      查询条件
      * @return array 用户列表信息
      */
-    public function getUserList($limit = 20, array $map = array(), $order = "`uid` DESC")
+    public function getUserList($limit = 20, array $map = array(), $order = '`uid` DESC')
     {
         // 添加用户表的查询，用于关联查询
         // $table = $this->tablePrefix."user AS u";
@@ -858,7 +858,7 @@ class UserModel extends Model
      *                    查询条件
      * @return array 指定用户的相关信息
      */
-    public function getUserDataByCache(array $map, $field = "*")
+    public function getUserDataByCache(array $map, $field = '*')
     {
         $key = 'userData_';
         foreach ($map as $k => $v) {
@@ -866,9 +866,9 @@ class UserModel extends Model
         }
         if ($field != '*') {
             $key .= '_'.str_replace(array(
-                    "`",
-                    ",",
-                    " ",
+                    '`',
+                    ',',
+                    ' ',
             ), '', $field);
         }
 
@@ -905,15 +905,15 @@ class UserModel extends Model
             $uid = $user ['uid'];
             $user = array_merge($user, model('Avatar')->init($user ['uid'])->getUserAvatar());
             $user ['avatar_url'] = U('public/Attach/avatar', array(
-                    'uid' => $user ["uid"],
+                    'uid' => $user ['uid'],
             ));
             $user ['space_url'] = ! empty($user ['domain']) ? U('public/Profile/index', array(
-                    'uid' => $user ["domain"],
+                    'uid' => $user ['domain'],
             )) : U('public/Profile/index', array(
-                    'uid' => $user ["uid"],
+                    'uid' => $user ['uid'],
             ));
-            $user ['space_link'] = "<a href='".$user ['space_url']."' target='_blank' uid='{$user['uid']}' event-node='face_card'>".$user ['uname']."</a>";
-            $user ['space_link_no'] = "<a href='".$user ['space_url']."' title='".$user ['uname']."' target='_blank'>".$user ['uname']."</a>";
+            $user ['space_link'] = "<a href='".$user ['space_url']."' target='_blank' uid='{$user['uid']}' event-node='face_card'>".$user ['uname'].'</a>';
+            $user ['space_link_no'] = "<a href='".$user ['space_url']."' title='".$user ['uname']."' target='_blank'>".$user ['uname'].'</a>';
             // 用户勋章
             $user ['medals'] = model('Medal')->getMedalByUid($user ['uid']);
             // 用户认证图标
@@ -1028,17 +1028,17 @@ class UserModel extends Model
                 $where = " (search_key LIKE '%{$key}%')";
                 // 过滤未激活和未审核的用户
                 // if($atme == 'at') {
-                $where .= " AND is_active=1 AND is_audit=1 AND is_init=1";
+                $where .= ' AND is_active=1 AND is_audit=1 AND is_init=1';
                 // }
                 if (! empty($max_id)) {
-                    $where .= " AND uid < ".intval($max_id);
+                    $where .= ' AND uid < '.intval($max_id);
                 }
                 if (! empty($noself)) {
-                    $where .= " AND uid !=".intval($GLOBALS ['ts'] ['mid']);
+                    $where .= ' AND uid !='.intval($GLOBALS ['ts'] ['mid']);
                 }
                 if ($follow == 1) {
                     // 只选择我关注的人
-                    $where .= " AND uid IN (SELECT fid FROM ".$this->tablePrefix."user_follow WHERE uid = '{$GLOBALS['ts']['mid']}')";
+                    $where .= ' AND uid IN (SELECT fid FROM '.$this->tablePrefix."user_follow WHERE uid = '{$GLOBALS['ts']['mid']}')";
                 }
                 if ($page) {
                     // 分页形式
@@ -1105,31 +1105,31 @@ class UserModel extends Model
         $where = " (search_key LIKE '%".$key."%')";
         // 过滤未激活和未审核的用户
         // if($atme == 'at') {
-        $where .= " AND is_active=1 AND is_audit=1 AND is_init=1";
+        $where .= ' AND is_active=1 AND is_audit=1 AND is_init=1';
         // }
         if ($max_id) {
-            $where .= " AND uid < ".intval($max_id);
+            $where .= ' AND uid < '.intval($max_id);
         }
         if (! empty($noself)) {
-            $where .= " AND uid !=".intval($GLOBALS ['ts'] ['mid']);
+            $where .= ' AND uid !='.intval($GLOBALS ['ts'] ['mid']);
         }
         if ($follow == 1) {
             // 只选择我关注的人
-            $where .= " AND uid IN (SELECT fid FROM ".$this->tablePrefix."user_follow WHERE uid = '{$GLOBALS['ts']['mid']}')";
+            $where .= ' AND uid IN (SELECT fid FROM '.$this->tablePrefix."user_follow WHERE uid = '{$GLOBALS['ts']['mid']}')";
         }
         $list ['data'] = $this->where($where)->field('uid')->limit(($page - 1) * $limit.", $limit")->order('uid desc')->findAll();
         // 获取满足条件的数据统计
         $where = " (search_key LIKE '%".$key."%')";
         // 过滤未激活和未审核的用户
         // if($atme == 'at') {
-        $where .= " AND is_active=1 AND is_audit=1 AND is_init=1";
+        $where .= ' AND is_active=1 AND is_audit=1 AND is_init=1';
         // }
         if (! empty($noself)) {
-            $where .= " AND uid !=".intval($GLOBALS ['ts'] ['mid']);
+            $where .= ' AND uid !='.intval($GLOBALS ['ts'] ['mid']);
         }
         if ($follow == 1) {
             // 只选择我关注的人
-            $where .= " AND uid IN (SELECT fid FROM ".$this->tablePrefix."user_follow WHERE uid = '{$GLOBALS['ts']['mid']}')";
+            $where .= ' AND uid IN (SELECT fid FROM '.$this->tablePrefix."user_follow WHERE uid = '{$GLOBALS['ts']['mid']}')";
         }
         $list ['count'] = $this->where($where)->field('uid')->order('uid desc')->count();
 

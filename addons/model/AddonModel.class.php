@@ -39,9 +39,9 @@ class AddonModel extends Model
 
         $this->_invalidAddons();
         $result ['valid'] ['data'] = $this->valid;
-        $result ['valid'] ['name'] = "已安装插件";
+        $result ['valid'] ['name'] = '已安装插件';
         $result ['invalid'] ['data'] = $this->invalid;
-        $result ['invalid'] ['name'] = "待安装插件";
+        $result ['invalid'] ['name'] = '待安装插件';
 
         return $result;
     }
@@ -367,7 +367,7 @@ class AddonModel extends Model
         $dir = dir($dirName);
         $fileAddons = array();
         while (false !== $entry = $dir->read()) {
-            if ($entry == '.' || $entry == '..' || $entry == ".svn") {
+            if ($entry == '.' || $entry == '..' || $entry == '.svn') {
                 continue;
             }
             $path = $dirName.'/'.$entry;

@@ -9,8 +9,8 @@
  * 以下代码只是为了方便商户测试而提供的样例代码，商户可以根据自己网站的需要，按照技术文档编写,并非一定要使用该代码。
  * 该代码仅供学习和研究支付宝接口使用，只是提供一个参考。
  */
-require_once(dirname(__FILE__)."/alipay_core.function.php");
-require_once(dirname(__FILE__)."/alipay_md5.function.php");
+require_once dirname(__FILE__).'/alipay_core.function.php';
+require_once dirname(__FILE__).'/alipay_md5.function.php';
 
 class AlipaySubmit
 {
@@ -39,13 +39,13 @@ class AlipaySubmit
         //把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串
         $prestr = createLinkstring($para_sort);
 
-        $mysign = "";
+        $mysign = '';
         switch (strtoupper(trim($this->alipay_config['sign_type']))) {
-            case "MD5" :
+            case 'MD5' :
                 $mysign = md5Sign($prestr, $this->alipay_config['key']);
                 break;
             default :
-                $mysign = "";
+                $mysign = '';
         }
 
         return $mysign;
@@ -102,7 +102,7 @@ class AlipaySubmit
         //待请求参数数组
         $para = $this->buildRequestPara($para_temp);
 
-        $sHtml = "<form id='alipaysubmit' name='alipaysubmit' action='".$this->alipay_gateway_new."_input_charset=".trim(strtolower($this->alipay_config['input_charset']))."' method='".$method."'>";
+        $sHtml = "<form id='alipaysubmit' name='alipaysubmit' action='".$this->alipay_gateway_new.'_input_charset='.trim(strtolower($this->alipay_config['input_charset']))."' method='".$method."'>";
         while (list($key, $val) = each($para)) {
             $sHtml.= "<input type='hidden' name='".$key."' value='".$val."'/>";
         }
@@ -145,7 +145,7 @@ class AlipaySubmit
 
         //待请求参数数组
         $para = $this->buildRequestPara($para_temp);
-        $para[$file_para_name] = "@".$file_name;
+        $para[$file_para_name] = '@'.$file_name;
 
         //远程获取数据
         $sResult = getHttpResponsePOST($this->alipay_gateway_new, $this->alipay_config['cacert'], $para, trim(strtolower($this->alipay_config['input_charset'])));
@@ -160,12 +160,12 @@ class AlipaySubmit
      */
     public function query_timestamp()
     {
-        $url = $this->alipay_gateway_new."service=query_timestamp&partner=".trim(strtolower($this->alipay_config['partner']))."&_input_charset=".trim(strtolower($this->alipay_config['input_charset']));
-        $encrypt_key = "";
+        $url = $this->alipay_gateway_new.'service=query_timestamp&partner='.trim(strtolower($this->alipay_config['partner'])).'&_input_charset='.trim(strtolower($this->alipay_config['input_charset']));
+        $encrypt_key = '';
 
         $doc = new DOMDocument();
         $doc->load($url);
-        $itemEncrypt_key = $doc->getElementsByTagName("encrypt_key");
+        $itemEncrypt_key = $doc->getElementsByTagName('encrypt_key');
         $encrypt_key = $itemEncrypt_key->item(0)->nodeValue;
 
         return $encrypt_key;

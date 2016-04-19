@@ -117,7 +117,7 @@ class UpYun
                     curl_setopt($process, CURLOPT_POSTFIELDS, $datas);
                 }
             } else {
-                curl_setopt($process, CURLOPT_POSTFIELDS, "");
+                curl_setopt($process, CURLOPT_POSTFIELDS, '');
             }
         }
         curl_setopt($process, CURLOPT_CUSTOMREQUEST, $method);
@@ -149,7 +149,7 @@ class UpYun
             return null;
         }
         curl_close($process);
-        $r_headers = explode("\n", substr($r, 0, $r_offset)."]");
+        $r_headers = explode("\n", substr($r, 0, $r_offset).']');
         foreach ($r_headers as $hl) {
             $hl = trim($hl);
             if (substr($hl, 0, 7) == 'x-upyun') {

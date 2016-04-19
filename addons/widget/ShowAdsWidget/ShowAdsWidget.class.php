@@ -17,11 +17,10 @@ class ShowAdsWidget extends Widget
     {
         $var = $this->_getRelatedDaren($data);
         //dump($var);exit;
-        $content = $this->renderFile(dirname(__FILE__)."/ShowAds.html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/ShowAds.html', $var);
 
         return $content;
     }
-
 
     /**
      * 获取用户的相关数据

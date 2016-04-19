@@ -8,7 +8,7 @@
 tsload(ADDON_PATH.'/model/XdataModel.class.php');
 class AddonDataModel extends XdataModel
 {
-    const PREFIX = "addons:";            // 前缀
+    const PREFIX = 'addons:';            // 前缀
 
     protected $list_name = 'addons';    // 存储的list名称
 

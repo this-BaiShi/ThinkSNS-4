@@ -17,7 +17,7 @@ class AnnouncementWidget extends Widget
         $var = array_merge($var, $data);
         $map['type'] = $var['type'];
         $var['announcement'] = model('Xarticle')->where($map)->order('sort desc')->limit($var['limit'])->findAll();
-        $content = $this->renderFile(dirname(__FILE__)."/default.html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/default.html', $var);
 
         return $content;
     }

@@ -13,7 +13,7 @@ class InviteFriendWidget extends Widget
     {
 
         //渲染模版
-        $content = $this->renderFile(dirname(__FILE__)."/content.html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/content.html', $var);
 
         unset($var, $data);
 

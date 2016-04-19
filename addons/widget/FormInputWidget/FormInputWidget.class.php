@@ -36,7 +36,6 @@ class FormInputWidget extends Widget
         !$var['value'] && $var['value'] = $var['default_value'];
         ('date' == $var['type']) && is_numeric($var['value']) && ($var['value'] = date('Y-m-d', $var['value']));
 
-
         $content = $this->renderFile(dirname(__FILE__)."/{$var['type']}.html", $var);
 
         unset($var, $data);

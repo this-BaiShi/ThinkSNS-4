@@ -6,9 +6,9 @@
  */
 class ParseTagModel
 {
-    private $left = "<";
-    private $right = ">";
-    private $sgin = "";
+    private $left = '<';
+    private $right = '>';
+    private $sgin = '';
     /**
      * 输入的内容
      * @var string
@@ -38,8 +38,7 @@ class ParseTagModel
     {
         //TODO 扫描目录
 
-
-        $icopath = ADDON_PATH.DIRECTORY_SEPARATOR."diywidget".DIRECTORY_SEPARATOR."Tags";
+        $icopath = ADDON_PATH.DIRECTORY_SEPARATOR.'diywidget'.DIRECTORY_SEPARATOR.'Tags';
         if (! is_dir($icopath)) {
             return $this;
         }
@@ -85,7 +84,7 @@ class ParseTagModel
                 $cacheTime = $cacheOpen;
             }
             if ($cacheOpen && $cacheTime != 0 && C('MEMCACHED_ON')) {
-                $cache = service('Cache', array("type" => "memcache" ));
+                $cache = service('Cache', array('type' => 'memcache' ));
                 if (! $value = $cache->getWidget($widgetKey)) {
                     $attrSet = $tagInfo ['attr'];
                     $tagName = $tagInfo ['tagName'];
@@ -198,7 +197,7 @@ class ParseTagModel
         if (! $this->scope && ! $this->fileObject->getTagStatus()) {
             $preg = "/([\n\r\t\s]*)".$this->left.$tagName."\s+(.*)\/".$this->right."([\n\r\t\s]*)/siU";
         } else {
-            $preg = "/([\n\r\t\s]*)".$this->left.$tagName."\s+(.*)".$this->right."(.*)".$this->left."\/".$tagName.$this->right."([\n\r\t\s]*)/siU";
+            $preg = "/([\n\r\t\s]*)".$this->left.$tagName."\s+(.*)".$this->right.'(.*)'.$this->left."\/".$tagName.$this->right."([\n\r\t\s]*)/siU";
         }
         if ($replace) {
             $content = preg_replace_callback($preg, array($this, 'parseTagContent' ), $content);
@@ -216,7 +215,7 @@ class ParseTagModel
     {
         //去掉所有空数组成员
         foreach ($source as &$value) {
-            $value = preg_replace("/^\s*\n/siU", "", $value);
+            $value = preg_replace("/^\s*\n/siU", '', $value);
             $value = rtrim($value);
         }
         $source = array_merge(array_filter($source));
@@ -226,7 +225,7 @@ class ParseTagModel
         $tagInfo ['tagLib'] = sprintf('<%s %s/>', $tagName, $source [1]);
         //取出tagName
         if ($this->scope) {
-            $source [0] = $this->left.$tagName." ".$source [1]."/".$this->right;
+            $source [0] = $this->left.$tagName.' '.$source [1].'/'.$this->right;
         }
         //第二个是参数成员,需做数组处理
         $temp = simplexml_load_string($source [0]);
@@ -277,11 +276,11 @@ class ParseTagModel
         $file = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(($path)));
         $i = 0;
         foreach ($file as $key => $value) {
-            if (! strpos($value->getPathname(), ".svn") && strpos($value->getFilename(), ".php")) {
+            if (! strpos($value->getPathname(), '.svn') && strpos($value->getFilename(), '.php')) {
                 $path = explode(DIRECTORY_SEPARATOR, $value->getPath());
                 $temp_key = strtolower(array_pop($path));
                 list($temp_value) = explode('.', $value->getFilename());
-                $result [$temp_key.":".strtolower($temp_value)] = $value->getPathname();
+                $result [$temp_key.':'.strtolower($temp_value)] = $value->getPathname();
             }
         }
 

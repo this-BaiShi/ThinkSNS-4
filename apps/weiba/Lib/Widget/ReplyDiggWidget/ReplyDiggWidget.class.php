@@ -27,8 +27,6 @@ class ReplyDiggWidget extends Widget
         exit(json_encode($res));
     }
 
-
-
     public function delDigg()
     {
         $row_id = intval($_POST['row_id']);
@@ -42,7 +40,6 @@ class ReplyDiggWidget extends Widget
         }
         exit(json_encode($res));
     }
-
 
     private function renderData($var)
     {
@@ -71,7 +68,7 @@ class ReplyDiggWidget extends Widget
                 }
             }
         }
-        $html .= "</span>";
+        $html .= '</span>';
 
         return $html;
     }

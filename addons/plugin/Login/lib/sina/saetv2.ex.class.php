@@ -55,7 +55,7 @@ class SaeTOAuthV2
      *
      * @ignore
      */
-    public $host = "https://api.weibo.com/2/";
+    public $host = 'https://api.weibo.com/2/';
     /**
      * Set timeout default.
      *
@@ -167,7 +167,7 @@ class SaeTOAuthV2
         $params['state'] = $state;
         $params['display'] = $display;
 
-        return $this->authorizeURL()."?".http_build_query($params);
+        return $this->authorizeURL().'?'.http_build_query($params);
     }
     /**
      * access_token接口
@@ -263,7 +263,7 @@ class SaeTOAuthV2
      */
     public function getTokenFromJSSDK()
     {
-        $key = "weibojs_".$this->client_id;
+        $key = 'weibojs_'.$this->client_id;
         if (isset($_COOKIE[$key]) && $cookie = $_COOKIE[$key]) {
             parse_str($cookie, $token);
             if (isset($token['access_token']) && isset($token['refresh_token'])) {
@@ -363,7 +363,7 @@ class SaeTOAuthV2
                     $body = http_build_query($parameters);
                 } else {
                     $body = self::build_http_query_multi($parameters);
-                    $headers[] = "Content-Type: multipart/form-data; boundary=".self::$boundary;
+                    $headers[] = 'Content-Type: multipart/form-data; boundary='.self::$boundary;
                 }
 
                 return $this->http($url, $method, $body, $headers);
@@ -385,7 +385,7 @@ class SaeTOAuthV2
         curl_setopt($ci, CURLOPT_CONNECTTIMEOUT, $this->connecttimeout);
         curl_setopt($ci, CURLOPT_TIMEOUT, $this->timeout);
         curl_setopt($ci, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ci, CURLOPT_ENCODING, "");
+        curl_setopt($ci, CURLOPT_ENCODING, '');
         curl_setopt($ci, CURLOPT_SSL_VERIFYPEER, $this->ssl_verifypeer);
         curl_setopt($ci, CURLOPT_SSL_VERIFYHOST, 1);
         curl_setopt($ci, CURLOPT_HEADERFUNCTION, array($this, 'getHeader'));
@@ -405,17 +405,17 @@ class SaeTOAuthV2
                 }
         }
         if (isset($this->access_token) && $this->access_token) {
-            $headers[] = "Authorization: OAuth2 ".$this->access_token;
+            $headers[] = 'Authorization: OAuth2 '.$this->access_token;
         }
         if (!empty($this->remote_ip)) {
             if (defined('SAE_ACCESSKEY')) {
-                $headers[] = "SaeRemoteIP: ".$this->remote_ip;
+                $headers[] = 'SaeRemoteIP: '.$this->remote_ip;
             } else {
-                $headers[] = "API-RemoteIP: ".$this->remote_ip;
+                $headers[] = 'API-RemoteIP: '.$this->remote_ip;
             }
         } else {
             if (!defined('SAE_ACCESSKEY')) {
-                $headers[] = "API-RemoteIP: ".$_SERVER['REMOTE_ADDR'];
+                $headers[] = 'API-RemoteIP: '.$_SERVER['REMOTE_ADDR'];
             }
         }
         curl_setopt($ci, CURLOPT_URL, $url);
@@ -656,7 +656,6 @@ class SaeTClientV2
         return $this->oauth->get('statuses/user_timeline', $params);
     }
 
-
     /**
      * 获取用户发布的分享信息列表
      *
@@ -694,8 +693,6 @@ class SaeTClientV2
 
         return $this->oauth->get('statuses/user_timeline', $params);
     }
-
-
 
     /**
      * 批量获取指定的一批用户的timeline
@@ -1140,7 +1137,7 @@ class SaeTClientV2
      * @param  string $language 语言类别，"cnname"简体，"twname"繁体。默认为"cnname"。可选
      * @return array
      */
-    public function emotions($type = "face", $language = "cnname")
+    public function emotions($type = 'face', $language = 'cnname')
     {
         $params = array();
         $params['type'] = $type;
@@ -1519,7 +1516,6 @@ class SaeTClientV2
 
         return $this->oauth->get('friendships/friends', $params);
     }
-
 
     /**
      * 获取用户的关注列表
@@ -3081,7 +3077,7 @@ class SaeTClientV2
      *                          - stockplayer:炒股高手
      * @return array
      */
-    public function hot_users($category = "default")
+    public function hot_users($category = 'default')
     {
         $params = array();
         $params['category'] = $category;

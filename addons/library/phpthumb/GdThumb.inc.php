@@ -812,7 +812,6 @@ class GdThumb extends ThumbBase
         $this->workingImage = $workingImage;
     }
 
-
     #################################
     # ----- UTILITY FUNCTIONS ----- #
     #################################

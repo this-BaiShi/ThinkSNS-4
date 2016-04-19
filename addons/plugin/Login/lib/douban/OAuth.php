@@ -51,8 +51,8 @@ class doubanOAuthToken
    */
   public function to_string()
   {/*{{{*/
-    return "oauth_token=".doubanOAuthUtil::urlencode_rfc3986($this->key).
-        "&oauth_token_secret=".doubanOAuthUtil::urlencode_rfc3986($this->secret);
+    return 'oauth_token='.doubanOAuthUtil::urlencode_rfc3986($this->key).
+        '&oauth_token_secret='.doubanOAuthUtil::urlencode_rfc3986($this->secret);
   }/*}}}*/
 
   public function __toString()
@@ -77,7 +77,7 @@ class doubanOAuthSignatureMethod_HMAC_SHA1 extends doubanOAuthSignatureMethod
     /*{{{*/
   public function get_name()
   {/*{{{*/
-    return "HMAC-SHA1";
+    return 'HMAC-SHA1';
   }/*}}}*/
 
   public function build_signature($request, $consumer, $token)
@@ -87,7 +87,7 @@ class doubanOAuthSignatureMethod_HMAC_SHA1 extends doubanOAuthSignatureMethod
 
       $key_parts = array(
       $consumer->secret,
-      ($token) ? $token->secret : "",
+      ($token) ? $token->secret : '',
     );
 
       $key_parts = doubanOAuthUtil::urlencode_rfc3986($key_parts);
@@ -102,7 +102,7 @@ class doubanOAuthSignatureMethod_PLAINTEXT extends doubanOAuthSignatureMethod
     /*{{{*/
   public function get_name()
   {/*{{{*/
-    return "PLAINTEXT";
+    return 'PLAINTEXT';
   }/*}}}*/
 
   public function build_signature($request, $consumer, $token)
@@ -117,7 +117,7 @@ class doubanOAuthSignatureMethod_PLAINTEXT extends doubanOAuthSignatureMethod
           array_push($sig, '');
       }
 
-      $raw = implode("&", $sig);
+      $raw = implode('&', $sig);
     // for debug purposes
     $request->base_string = $raw;
 
@@ -130,7 +130,7 @@ class doubanOAuthSignatureMethod_RSA_SHA1 extends doubanOAuthSignatureMethod
     /*{{{*/
   public function get_name()
   {/*{{{*/
-    return "RSA-SHA1";
+    return 'RSA-SHA1';
   }/*}}}*/
 
   protected function fetch_public_cert(&$request)
@@ -141,7 +141,7 @@ class doubanOAuthSignatureMethod_RSA_SHA1 extends doubanOAuthSignatureMethod
     // (3) some sort of specific discovery code based on request
     //
     // either way should return a string representation of the certificate
-    throw Exception("fetch_public_cert not implemented");
+    throw Exception('fetch_public_cert not implemented');
   }/*}}}*/
 
   protected function fetch_private_cert(&$request)
@@ -150,7 +150,7 @@ class doubanOAuthSignatureMethod_RSA_SHA1 extends doubanOAuthSignatureMethod
     // (1) do a lookup in a table of trusted certs keyed off of consumer
     //
     // either way should return a string representation of the certificate
-    throw Exception("fetch_private_cert not implemented");
+    throw Exception('fetch_private_cert not implemented');
   }/*}}}*/
 
   public function build_signature(&$request, $consumer, $token)
@@ -213,13 +213,12 @@ class doubanOAuthRequest
         $this->http_url = $http_url;
     }/*}}}*/
 
-
   /**
    * attempt to build up a request from what was passed to the server
    */
   public static function from_request($http_method=null, $http_url=null, $parameters=null)
   {/*{{{*/
-    $scheme = (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != "on") ? 'http' : 'https';
+    $scheme = (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'on') ? 'http' : 'https';
       @$http_url or $http_url = $scheme.'://'.$_SERVER['HTTP_HOST'].':'.$_SERVER['SERVER_PORT'].$_SERVER['REQUEST_URI'];
       @$http_method or $http_method = $_SERVER['REQUEST_METHOD'];
 
@@ -233,14 +232,14 @@ class doubanOAuthRequest
     } else {
         // collect request parameters from query string (GET) and post-data (POST) if appropriate (note: POST vars have priority)
       $req_parameters = $_GET;
-        if ($http_method == "POST" && @strstr($request_headers["Content-Type"], "application/x-www-form-urlencoded")) {
+        if ($http_method == 'POST' && @strstr($request_headers['Content-Type'], 'application/x-www-form-urlencoded')) {
             $req_parameters = array_merge($req_parameters, $_POST);
         }
 
       // next check for the auth header, we need to do some extra stuff
       // if that is the case, namely suck in the parameters from GET or POST
       // so that we can include them in the signature
-      if (@substr($request_headers['Authorization'], 0, 6) == "OAuth ") {
+      if (@substr($request_headers['Authorization'], 0, 6) == 'OAuth ') {
           $header_parameters = doubanOAuthRequest::split_header($request_headers['Authorization']);
           $parameters = array_merge($req_parameters, $header_parameters);
           $req = new doubanOAuthRequest($http_method, $http_url, $parameters);
@@ -258,10 +257,10 @@ class doubanOAuthRequest
   public static function from_consumer_and_token($consumer, $token, $http_method, $http_url, $parameters=null)
   {/*{{{*/
     @$parameters or $parameters = array();
-      $defaults = array("oauth_version" => doubanOAuthRequest::$version,
-                      "oauth_nonce" => doubanOAuthRequest::generate_nonce(),
-                      "oauth_timestamp" => doubanOAuthRequest::generate_timestamp(),
-                      "oauth_consumer_key" => $consumer->key, );
+      $defaults = array('oauth_version' => doubanOAuthRequest::$version,
+                      'oauth_nonce' => doubanOAuthRequest::generate_nonce(),
+                      'oauth_timestamp' => doubanOAuthRequest::generate_timestamp(),
+                      'oauth_consumer_key' => $consumer->key, );
       $parameters = array_merge($defaults, $parameters);
 
       if ($token) {
@@ -391,7 +390,7 @@ class doubanOAuthRequest
    */
   public function to_url()
   {/*{{{*/
-    $out = $this->get_normalized_http_url()."?";
+    $out = $this->get_normalized_http_url().'?';
       $out .= $this->to_postdata();
 
       return $out;
@@ -410,13 +409,13 @@ class doubanOAuthRequest
       foreach ($this->parameters as $k => $v) {
           if (is_array($v)) {
               foreach ($v as $va) {
-                  $total[] = doubanOAuthUtil::urlencode_rfc3986($k)."[]=".doubanOAuthUtil::urlencode_rfc3986($va);
+                  $total[] = doubanOAuthUtil::urlencode_rfc3986($k).'[]='.doubanOAuthUtil::urlencode_rfc3986($va);
               }
           } else {
-              $total[] = doubanOAuthUtil::urlencode_rfc3986($k)."=".doubanOAuthUtil::urlencode_rfc3986($v);
+              $total[] = doubanOAuthUtil::urlencode_rfc3986($k).'='.doubanOAuthUtil::urlencode_rfc3986($v);
           }
       }
-      $out = implode("&", $total);
+      $out = implode('&', $total);
 
       return $out;
   }/*}}}*/
@@ -429,7 +428,7 @@ class doubanOAuthRequest
     $out ='Authorization: OAuth realm=""';
       $total = array();
       foreach ($this->parameters as $k => $v) {
-          if (substr($k, 0, 5) != "oauth") {
+          if (substr($k, 0, 5) != 'oauth') {
               continue;
           }
           if (is_array($v)) {
@@ -446,12 +445,11 @@ class doubanOAuthRequest
     return $this->to_url();
   }/*}}}*/
 
-
   public function sign_request($signature_method, $consumer, $token)
   {/*{{{*/
-    $this->set_parameter("oauth_signature_method", $signature_method->get_name());
+    $this->set_parameter('oauth_signature_method', $signature_method->get_name());
       $signature = $this->build_signature($signature_method, $consumer, $token);
-      $this->set_parameter("oauth_signature", $signature);
+      $this->set_parameter('oauth_signature', $signature);
   }/*}}}*/
 
   public function build_signature($signature_method, $consumer, $token)
@@ -518,11 +516,11 @@ class doubanOAuthRequest
     // that $_SERVER actually contains what we need
     $out = array();
       foreach ($_SERVER as $key => $value) {
-          if (substr($key, 0, 5) == "HTTP_") {
+          if (substr($key, 0, 5) == 'HTTP_') {
               // this is chaos, basically it is just there to capitalize the first
         // letter of every word that is not an initial HTTP and strip HTTP
         // code from przemek
-        $key = str_replace(" ", "-", ucwords(strtolower(str_replace("_", " ", substr($key, 5)))));
+        $key = str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($key, 5)))));
               $out[$key] = $value;
           }
       }
@@ -584,8 +582,7 @@ class doubanOAuthServer
       $consumer = $this->get_consumer($request);
 
     // requires authorized request token
-    $token = $this->get_token($request, $consumer, "request");
-
+    $token = $this->get_token($request, $consumer, 'request');
 
       $this->check_signature($request, $consumer, $token);
 
@@ -601,7 +598,7 @@ class doubanOAuthServer
   {/*{{{*/
     $this->get_version($request);
       $consumer = $this->get_consumer($request);
-      $token = $this->get_token($request, $consumer, "access");
+      $token = $this->get_token($request, $consumer, 'access');
       $this->check_signature($request, $consumer, $token);
 
       return array($consumer, $token);
@@ -613,7 +610,7 @@ class doubanOAuthServer
    */
   private function get_version(&$request)
   {/*{{{*/
-    $version = $request->get_parameter("oauth_version");
+    $version = $request->get_parameter('oauth_version');
       if (!$version) {
           $version = 1.0;
       }
@@ -630,14 +627,14 @@ class doubanOAuthServer
   private function get_signature_method(&$request)
   {/*{{{*/
     $signature_method =
-        @$request->get_parameter("oauth_signature_method");
+        @$request->get_parameter('oauth_signature_method');
       if (!$signature_method) {
-          $signature_method = "PLAINTEXT";
+          $signature_method = 'PLAINTEXT';
       }
       if (!in_array($signature_method,
                   array_keys($this->signature_methods))) {
           throw new doubanOAuthException(
-        "Signature method '$signature_method' not supported try one of the following: ".implode(", ", array_keys($this->signature_methods))
+        "Signature method '$signature_method' not supported try one of the following: ".implode(', ', array_keys($this->signature_methods))
       );
       }
 
@@ -649,14 +646,14 @@ class doubanOAuthServer
    */
   private function get_consumer(&$request)
   {/*{{{*/
-    $consumer_key = @$request->get_parameter("oauth_consumer_key");
+    $consumer_key = @$request->get_parameter('oauth_consumer_key');
       if (!$consumer_key) {
-          throw new doubanOAuthException("Invalid consumer key");
+          throw new doubanOAuthException('Invalid consumer key');
       }
 
       $consumer = $this->data_store->lookup_consumer($consumer_key);
       if (!$consumer) {
-          throw new doubanOAuthException("Invalid consumer");
+          throw new doubanOAuthException('Invalid consumer');
       }
 
       return $consumer;
@@ -665,7 +662,7 @@ class doubanOAuthServer
   /**
    * try to find the token for the provided request's token key
    */
-  private function get_token(&$request, $consumer, $token_type="access")
+  private function get_token(&$request, $consumer, $token_type='access')
   {/*{{{*/
     $token_field = @$request->get_parameter('oauth_token');
       $token = $this->data_store->lookup_token(
@@ -702,7 +699,7 @@ class doubanOAuthServer
     );
 
       if (!$valid_sig) {
-          throw new doubanOAuthException("Invalid signature");
+          throw new doubanOAuthException('Invalid signature');
       }
   }/*}}}*/
 
@@ -763,7 +760,6 @@ class doubanOAuthDataStore
   }/*}}}*/
 }/*}}}*/
 
-
 /*  A very naive dbm-based oauth storage
  */
 class SimpleOAuthDataStore extends doubanOAuthDataStore
@@ -771,7 +767,7 @@ class SimpleOAuthDataStore extends doubanOAuthDataStore
     /*{{{*/
   private $dbh;
 
-    public function __construct($path = "oauth.gdbm")
+    public function __construct($path = 'oauth.gdbm')
     {/*{{{*/
     $this->dbh = dba_popen($path, 'c', 'gdbm');
     }/*}}}*/
@@ -814,19 +810,19 @@ class SimpleOAuthDataStore extends doubanOAuthDataStore
     if (dba_exists("nonce_$nonce", $this->dbh)) {
         return true;
     } else {
-        dba_insert("nonce_$nonce", "1", $this->dbh);
+        dba_insert("nonce_$nonce", '1', $this->dbh);
 
         return false;
     }
   }/*}}}*/
 
-  public function new_token($consumer, $type="request")
+  public function new_token($consumer, $type='request')
   {/*{{{*/
     $key = md5(time());
       $secret = time() + time();
       $token = new doubanOAuthToken($key, md5(md5($secret)));
       if (!dba_insert("${type}_$key", serialize($token), $this->dbh)) {
-          throw new doubanOAuthException("doooom!");
+          throw new doubanOAuthException('doooom!');
       }
 
       return $token;
@@ -834,14 +830,14 @@ class SimpleOAuthDataStore extends doubanOAuthDataStore
 
   public function new_request_token($consumer)
   {/*{{{*/
-    return $this->new_token($consumer, "request");
+    return $this->new_token($consumer, 'request');
   }/*}}}*/
 
   public function new_access_token($token, $consumer)
   {/*{{{*/
 
     $token = $this->new_token($consumer, 'access');
-      dba_delete("request_".$token->key, $this->dbh);
+      dba_delete('request_'.$token->key, $this->dbh);
 
       return $token;
   }/*}}}*/
@@ -861,7 +857,6 @@ class doubanOAuthUtil
       return '';
   }
   }/*}}}*/
-
 
   // This decode function isn't taking into consideration the above
   // modifications to the encoding process. However, this method doesn't

@@ -42,7 +42,7 @@ class PassportAction extends Action
         $registerConf = model('Xdata')->get('admin_Config:register');
         $this->assign('emailSuffix', explode(',', $registerConf['email_suffix']));
         $this->assign('register_type', $registerConf['register_type']);
-        $data= model('Xdata')->get("admin_Config:seo_login");
+        $data= model('Xdata')->get('admin_Config:seo_login');
         !empty($data['title']) && $this->setTitle($data['title']);
         !empty($data['keywords']) && $this->setKeywords($data['keywords']);
         !empty($data['des']) && $this->setDescription($data ['des']);
@@ -217,9 +217,9 @@ class PassportAction extends Action
         if ($result) {
             $map['phone'] = $mobile;
             $user = model('User')->where($map)->find();
-            $code = md5($user["uid"].'+'.$user["password"].'+'.rand(1111, 9999));
+            $code = md5($user['uid'].'+'.$user['password'].'+'.rand(1111, 9999));
             //设置旧的code过期
-            D('FindPassword')->where('uid='.$user["uid"])->setField('is_used', 1);
+            D('FindPassword')->where('uid='.$user['uid'])->setField('is_used', 1);
             //添加新的修改密码code
             $add['uid'] = $user['uid'];
             $add['email'] = $user['phone'];
@@ -246,12 +246,12 @@ class PassportAction extends Action
      */
     public function doFindPasswordByEmail()
     {
-        $_POST["email"]    = t($_POST["email"]);
+        $_POST['email']    = t($_POST['email']);
         if (!$this->_isEmailString($_POST['email'])) {
             $this->error(L('PUBLIC_EMAIL_TYPE_WRONG'));
         }
 
-        $user =    model("User")->where('`email`="'.$_POST["email"].'"')->find();
+        $user =    model('User')->where('`email`="'.$_POST['email'].'"')->find();
         if (!$user) {
             $this->error('找不到该邮箱注册信息');
         }
@@ -271,10 +271,10 @@ class PassportAction extends Action
     {
         if ($user['uid']) {
             $this->appCssList[] = 'login.css';        // 添加样式
-            $code = md5($user["uid"].'+'.$user["password"].'+'.rand(1111, 9999));
+            $code = md5($user['uid'].'+'.$user['password'].'+'.rand(1111, 9999));
             $config['reseturl'] = U('public/Passport/resetPassword', array('code'=>$code));
             //设置旧的code过期
-            D('FindPassword')->where('uid='.$user["uid"])->setField('is_used', 1);
+            D('FindPassword')->where('uid='.$user['uid'])->setField('is_used', 1);
             //添加新的修改密码code
             $add['uid'] = $user['uid'];
             $add['email'] = $user['email'];
@@ -293,8 +293,8 @@ class PassportAction extends Action
 
     public function doFindPasswordByEmailAgain()
     {
-        $_POST["email"]    = t($_POST["email"]);
-        $user =    model("User")->where('`email`="'.$_POST["email"].'"')->find();
+        $_POST['email']    = t($_POST['email']);
+        $user =    model('User')->where('`email`="'.$_POST['email'].'"')->find();
         if (!$user) {
             $this->error('找不到该邮箱注册信息');
         }

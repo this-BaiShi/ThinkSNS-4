@@ -10,7 +10,7 @@ class FeedTopicModel extends Model
     //添加话题
     public function addTopic($content, $feedId = false, $type)
     {
-        $content = str_replace("＃", "#", $content);
+        $content = str_replace('＃', '#', $content);
         preg_match_all("/#([^#]*[^#^\s][^#]*)#/is", $content, $arr);
         $arr = array_unique($arr[1]);
         $topicIds = array();
@@ -31,7 +31,7 @@ class FeedTopicModel extends Model
     private function addKey($key, $feedId, $type)
     {
         //$map['name'] = trim(t(mStr(preg_replace("/#/",'',trim($key)),150,'utf-8',false)));
-        $map['topic_name'] = trim(preg_replace("/#/", '', t($key)));
+        $map['topic_name'] = trim(preg_replace('/#/', '', t($key)));
         if ($topic = $this->where($map)->find()) {
             $this->setInc('count', $map);
             if ($topic['recommend']==1) {

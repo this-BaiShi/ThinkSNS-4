@@ -125,7 +125,7 @@ class Google_FileCache extends Google_Cache
         $this->createLock($storageFile);
         if (! @file_put_contents($storageFile, $data)) {
             $this->removeLock($storageFile);
-            throw new Google_CacheException("Could not store data in the file");
+            throw new Google_CacheException('Could not store data in the file');
         }
         $this->removeLock($storageFile);
     }
@@ -133,7 +133,7 @@ class Google_FileCache extends Google_Cache
     {
         $file = $this->getCacheFile(md5($key));
         if (! @unlink($file)) {
-            throw new Google_CacheException("Cache file could not be deleted");
+            throw new Google_CacheException('Cache file could not be deleted');
         }
     }
 }

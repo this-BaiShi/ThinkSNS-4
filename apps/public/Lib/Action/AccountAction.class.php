@@ -418,14 +418,14 @@ class AccountAction extends Action
         }
 
         $keywordConfig = model('Xdata')->get('keywordConfig');
-        $keywordConfig = explode(",", $keywordConfig);
+        $keywordConfig = explode(',', $keywordConfig);
         if (!empty($keywordConfig) && in_array($domain, $keywordConfig)) {
             $this->ajaxReturn(null, L('PUBLIC_DOMAIN_DISABLED'), 0); // 该个性域名已被禁用
         }
 
         // 预留域名使用
         $sysDomin = model('Xdata')->getConfig('sys_domain', 'site');
-        $sysDomin = explode(",", $sysDomin);
+        $sysDomin = explode(',', $sysDomin);
         if (!empty($sysDomin) && in_array($domain, $sysDomin)) {
             $this->ajaxReturn(null, L('PUBLIC_DOMAIN_DISABLED'), 0); // 该个性域名已被禁用
         }
@@ -537,7 +537,7 @@ class AccountAction extends Action
         if ($verifyInfo ['attach_id']) {
             $a = explode('|', $verifyInfo ['attach_id']);
             foreach ($a as $key => $val) {
-                if ($val !== "") {
+                if ($val !== '') {
                     $attachInfo = D('attach')->where("attach_id=$a[$key]")->find();
                     $verifyInfo ['attachment'] .= $attachInfo ['name'].'&nbsp;<a href="'.getImageUrl($attachInfo ['save_path'].$attachInfo ['save_name']).'" target="_blank">下载</a><br />';
                 }
@@ -574,7 +574,7 @@ class AccountAction extends Action
                 break;
         }
         // 附件限制
-        $attach = model('Xdata')->get("admin_Config:attachimage");
+        $attach = model('Xdata')->get('admin_Config:attachimage');
         $imageArr = array(
             'gif',
             'jpg',
@@ -1145,17 +1145,17 @@ class AccountAction extends Action
         $configs['seller_email'] = $chargeConfigs['alipay_email'];
         $configs['key'] = $chargeConfigs['alipay_key'];
         $parameter = array(
-            "notify_url"    => SITE_URL.'/public/pay/alipay_notify.php',
-            "return_url"    => SITE_URL.'/public/pay/alipay_return.php',
-            "out_trade_no"    => $data['serial_number'],
-            "subject"    => '积分充值:'.$data['charge_sroce'].'积分',
-            "total_fee"    => $data['charge_value'],
+            'notify_url'    => SITE_URL.'/public/pay/alipay_notify.php',
+            'return_url'    => SITE_URL.'/public/pay/alipay_return.php',
+            'out_trade_no'    => $data['serial_number'],
+            'subject'    => '积分充值:'.$data['charge_sroce'].'积分',
+            'total_fee'    => $data['charge_value'],
             //"total_fee"	=> 0.01,
-            "body"    => '',
-            "show_url"  => '',
-            "app" => 'public',
-            "mod" => 'Account',
-            "act" => 'scorecharge',
+            'body'    => '',
+            'show_url'  => '',
+            'app' => 'public',
+            'mod' => 'Account',
+            'act' => 'scorecharge',
         );
 
         return createAlipayUrl($configs, $parameter);

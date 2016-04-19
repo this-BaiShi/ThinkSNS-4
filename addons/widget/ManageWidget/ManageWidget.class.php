@@ -35,7 +35,7 @@ class ManageWidget extends Widget
         }
 
         //渲染模版
-        $content = $this->renderFile(dirname(__FILE__)."/default.html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/default.html', $var);
 
         self::$rand ++;
 

@@ -218,7 +218,7 @@ class WidgetModel extends Model
     public function getWidget($target)
     {
         if (($info = model('Cache')->get('widget_'.$target)) === false) {
-            $v = explode(":", $target);
+            $v = explode(':', $target);
             $map['appname'] = $v[0];
             $map['name'] = $v[1];
             $info = D('')->table($this->tablePrefix.'widget')->where($map)->find();
@@ -346,7 +346,7 @@ class WidgetModel extends Model
             if (!file_exists($info['pathname'].'/info.php')) {
                 continue;
             }
-            $data = include($info['pathname'].'/info.php');
+            $data = include $info['pathname'].'/info.php';
             if (empty($data['name']) || empty($data['appname'])) {
                 continue;
             }
@@ -356,7 +356,7 @@ class WidgetModel extends Model
             $attrs = serialize($data['attrs']);
             $diyattrs = serialize($data['diyattrs']);
 
-            $sql = " REPLACE INTO ".$this->tablePrefix."widget (`name`,`desc`,`attrs`,`diyattrs`,`appname` )
+            $sql = ' REPLACE INTO '.$this->tablePrefix."widget (`name`,`desc`,`attrs`,`diyattrs`,`appname` )
 					 VALUES ('{$data['name']}','{$data['desc']}','{$attrs}','{$diyattrs}','{$data['appname']}') ";
             $this->query($sql);
         }

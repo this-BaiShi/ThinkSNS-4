@@ -73,7 +73,7 @@ class cachemodel
     //private
     public function _get_badwords()
     {
-        $data = $this->db->fetch_all("SELECT * FROM ".UC_DBTABLEPRE."badwords");
+        $data = $this->db->fetch_all('SELECT * FROM '.UC_DBTABLEPRE.'badwords');
         $return = array();
         if (is_array($data)) {
             foreach ($data as $k => $v) {

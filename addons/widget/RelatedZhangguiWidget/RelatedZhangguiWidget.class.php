@@ -26,7 +26,7 @@ class RelatedZhangguiWidget extends Widget
         $var ['limit'] = isset($data ['limit']) ? intval($data ['limit']) : 8;
         // 标题信息
         $var ['title'] = isset($data ['title']) ? t($data ['title']) : '推荐关注';
-        $content = $this->renderFile(dirname(__FILE__)."/relatedZhanggui.html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/relatedZhanggui.html', $var);
 
         return $content;
     }
@@ -41,7 +41,7 @@ class RelatedZhangguiWidget extends Widget
         $data ['uid'] = intval($_POST ['uid']);
         $data ['limit'] = intval($_POST ['limit']);
         $var = $this->_getRelatedZhanggui($data);
-        $content = $this->renderFile(dirname(__FILE__)."/_relatedZhanggui.html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/_relatedZhanggui.html', $var);
         exit(json_encode($content));
     }
 
@@ -65,7 +65,7 @@ class RelatedZhangguiWidget extends Widget
 
         $var ['user'] = S($key);
         if ($var ['user'] === false || intval($_REQUEST ['rel']) == 1) {
-            $sql = "SELECT uid FROM `ts_user_verified` WHERE usergroup_id=5 AND verified=1 order by rand() limit ".$var ['limit'];
+            $sql = 'SELECT uid FROM `ts_user_verified` WHERE usergroup_id=5 AND verified=1 order by rand() limit '.$var ['limit'];
             $list = M()->query($sql);
 // 			dump($list);
             $uids = getSubByKey($list, 'uid');

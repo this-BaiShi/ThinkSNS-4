@@ -12,8 +12,8 @@
 //TODO 可以移动到functions中
 function showCatetree($data, $field, $func, $p=array())
 {
-    $pid = empty($p) ? "0" : $p[$field['id']];
-    $pname = empty($p) ? "-" : $p[$field['name']];
+    $pid = empty($p) ? '0' : $p[$field['id']];
+    $pname = empty($p) ? '-' : $p[$field['name']];
     //$display = empty($p) ? "":"style='display:none'";
     $display = '';
     $html ='<table width="100%" id="table'.$pid.'" '.$display.'>';
@@ -24,17 +24,17 @@ function showCatetree($data, $field, $func, $p=array())
                 continue;
             }
             if ($k == $field['pid']) {
-                $html .="<td catetd ='yes' rel='{$val[$field['id']]}' width='20%'>".$pname."</td>";
+                $html .="<td catetd ='yes' rel='{$val[$field['id']]}' width='20%'>".$pname.'</td>';
             } else {
-                $html .="<td catetd ='yes' rel='{$val[$field['id']]}' width='20%'>".$v."</td>";
+                $html .="<td catetd ='yes' rel='{$val[$field['id']]}' width='20%'>".$v.'</td>';
             }
         }
         $html .="<td><span rel='edit' cateid='".$val[$field['id']]."' func='{$func}'>".L('PUBLIC_MODIFY')."</span>
 			<span rel='move' cateid='".$val[$field['id']]."' func='{$func}'>".L('PUBLIC_MOVES')."</span>	
-			<span rel='del' cateid='".$val[$field['id']]."' func='{$func}'>".L('PUBLIC_STREAM_DELETE')."</span></td></tr>";
+			<span rel='del' cateid='".$val[$field['id']]."' func='{$func}'>".L('PUBLIC_STREAM_DELETE').'</span></td></tr>';
         //递归	
         if (!empty($val['_child'])) {
-            $html .="<tr><td colspan='10'>".showCatetree($val['_child'], $field, $func, $val)."</td></tr>";
+            $html .="<tr><td colspan='10'>".showCatetree($val['_child'], $field, $func, $val).'</td></tr>';
         }
     }
 
@@ -62,7 +62,7 @@ function showTree($data, $field, $func, $p='')
                  //<td>{$val[$field['sort']]}</td>
 ."<td><span rel='edit' cateid='".$val[$field['id']]."' func='{$func}'>".L('PUBLIC_MODIFY')."</span>-
 			<span rel='move' cateid='".$val[$field['id']]."' func='{$func}'>".L('PUBLIC_MOVES')."</span>-
-			<span rel='del' cateid='".$val[$field['id']]."' func='{$func}'>".L('PUBLIC_STREAM_DELETE')."</span></td></tr>";
+			<span rel='del' cateid='".$val[$field['id']]."' func='{$func}'>".L('PUBLIC_STREAM_DELETE').'</span></td></tr>';
         if (!empty($val['_child'])) {
             $html .= showTree($val['_child'], $field, $func, $p.$val[$field['name']]);
         }
@@ -73,11 +73,11 @@ function showTree($data, $field, $func, $p='')
 
 function admin_formatsize($fileSize)
 {
-    $size = sprintf("%u", $fileSize);
+    $size = sprintf('%u', $fileSize);
     if ($size == 0) {
-        return "0 Bytes";
+        return '0 Bytes';
     }
-    $sizename = array(" Bytes", " KB", " MB", " GB", " TB", " PB", " EB", " ZB", " YB");
+    $sizename = array(' Bytes', ' KB', ' MB', ' GB', ' TB', ' PB', ' EB', ' ZB', ' YB');
 
     return round($size/pow(1024, ($i = floor(log($size, 1024)))), 2).$sizename[$i];
 }

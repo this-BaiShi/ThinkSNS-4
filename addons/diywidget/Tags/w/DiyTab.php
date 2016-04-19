@@ -20,7 +20,7 @@ class DiyTab extends TagsAbstract
     /**
      * 返回模板文件路径
      */
-    public function getTemplateFile($tpl = "")
+    public function getTemplateFile($tpl = '')
     {
         //返回需要渲染的模板
         $file = $this->attr ['style'];
@@ -46,7 +46,7 @@ class DiyTab extends TagsAbstract
         }
         $var['event'] = $this->attr['event'];
 
-        $var['tabId'] = "i".substr($this->sign, 0, 5).$time;
+        $var['tabId'] = 'i'.substr($this->sign, 0, 5).$time;
 
         return $var;
     }

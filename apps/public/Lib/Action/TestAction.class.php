@@ -4,7 +4,7 @@ class TestAction extends Action
 {
     public function _initialize()
     {
-        header("Content-Type:text/html; charset=UTF8");
+        header('Content-Type:text/html; charset=UTF8');
     }
 
     public function show()
@@ -22,7 +22,7 @@ class TestAction extends Action
     {
         set_time_limit(0);
         // user list
-        $sql = "select a.uid, a.user_group_id from ts_user_group_link as a left join ts_user_group_link as b on a.uid = b.uid and a.user_group_id = b.user_group_id where a.id != b.id order by a.id asc;";
+        $sql = 'select a.uid, a.user_group_id from ts_user_group_link as a left join ts_user_group_link as b on a.uid = b.uid and a.user_group_id = b.user_group_id where a.id != b.id order by a.id asc;';
         $list = D()->query($sql);
         $uids = getSubByKey($list, 'uid');
         $uids = array_unique($uids);
@@ -110,19 +110,18 @@ class TestAction extends Action
         $sql = "update ts_feed set app_row_table='weiba_post' where app='weiba' AND type='weiba_post' AND app_row_table='feed'";
         $result = D()->execute($sql);
         if (!$result) {
-            dump("update weiba_post : false");
+            dump('update weiba_post : false');
             echo '<hr />';
         }
-
 
         $sql = "select * from ts_feed where app='weiba' AND type='repost' AND app_row_table='feed' LIMIT 100";
         $result = D()->query($sql);
         if ($result) {
-            dump("update weiba_repost : ");
+            dump('update weiba_repost : ');
             dump($result);
             echo '<hr />';
         } else {
-            dump("update weiba_repost : OK");
+            dump('update weiba_repost : OK');
         }
         // $sql = "update ts_feed as a set a.app_row_table='weiba_post',a.app='weiba',a.type='weiba_repost',a.app_row_id=(select app_row_id from ts_feed as b where b.feed_id=a.app_row_id) where app='weiba' AND type='repost';";
         // $result = D()->execute($sql);
@@ -175,7 +174,7 @@ class TestAction extends Action
 
     public function at($data)
     {
-        $html = "@{uid=14983|yangjiasheng}";
+        $html = '@{uid=14983|yangjiasheng}';
         echo parse_html($html);
     }
 
@@ -186,7 +185,7 @@ class TestAction extends Action
 
     public function cut()
     {
-        getThumbImage("./data/upload/2012/0604/19/4fcc9b2f67d34.jpg", '300', 'auto', false);
+        getThumbImage('./data/upload/2012/0604/19/4fcc9b2f67d34.jpg', '300', 'auto', false);
         echo '<img src="./data/upload/2012/0604/19/4fcc9b2f67d34_300_auto.jpg">';
         echo 11;
     }
@@ -238,13 +237,11 @@ class TestAction extends Action
 //		$filePath[] = ADDON_PATH.'/theme/stv1/admin';
         // 
         // - app -
- $filePath[] = SITE_PATH."/apps/public";
-        $filePath[] = SITE_PATH."/apps/support";
-        $filePath[] = SITE_PATH."/apps/contact";
-        $filePath[] = SITE_PATH."/apps/admin";
-        $filePath[] = SITE_PATH."/apps/task";
-
-
+ $filePath[] = SITE_PATH.'/apps/public';
+        $filePath[] = SITE_PATH.'/apps/support';
+        $filePath[] = SITE_PATH.'/apps/contact';
+        $filePath[] = SITE_PATH.'/apps/admin';
+        $filePath[] = SITE_PATH.'/apps/task';
 
         $filelist    = array();
         require_once ADDON_PATH.'/library/io/Dir.class.php';
@@ -319,7 +316,6 @@ class TestAction extends Action
         $this->display();
     }
 
-
     public function tree()
     {
         $category = array(
@@ -360,9 +356,9 @@ class TestAction extends Action
     public function autotag()
     {
         //需要提取的文本
-        $text = " 这里asxasx C++ ,test我也有很多T恤衣服！！！";
+        $text = ' 这里asxasx C++ ,test我也有很多T恤衣服！！！';
         //获取model
-        $tagX = model("Tag");
+        $tagX = model('Tag');
         //设置text
         $tagX->setText($text);
         //获取前10个标签
@@ -425,7 +421,7 @@ class TestAction extends Action
      */
     public function getzLang()
     {
-        $a = include(LANG_PATH.'/langForLoadUpadte.php');
+        $a = include LANG_PATH.'/langForLoadUpadte.php';
         dump($a);
     }
 
@@ -439,8 +435,8 @@ class TestAction extends Action
 
     public function initLangPHP()
     {
-        $lang = include(CONF_PATH.'/lang/ask_zh-cn2.php');
-        $sql = "insert into sociax_lang (`key`,`appname`,`filetype`,`zh-cn`) VALUES ";
+        $lang = include CONF_PATH.'/lang/ask_zh-cn2.php';
+        $sql = 'insert into sociax_lang (`key`,`appname`,`filetype`,`zh-cn`) VALUES ';
         foreach ($lang as $k=>$v) {
             $k = trim($k);
             $v = trim($v);
@@ -491,7 +487,7 @@ class TestAction extends Action
         // 	D('')->table('sociax_lang')->where($map)->save($save);
         // }
 
-        $lang = include(CONF_PATH.'/lang/ask_en.php');
+        $lang = include CONF_PATH.'/lang/ask_en.php';
         foreach ($lang as $k=>$v) {
             $map = $save = array();
             $map['filetype'] = 0;
@@ -500,7 +496,7 @@ class TestAction extends Action
             D('')->table('sociax_lang')->where($map)->save($save);
         }
 
-        $lang = include(CONF_PATH.'/lang/ask_zh-tw.php');
+        $lang = include CONF_PATH.'/lang/ask_zh-tw.php';
         foreach ($lang as $k=>$v) {
             $map = $save = array();
             $map['filetype'] = 0;
@@ -512,7 +508,7 @@ class TestAction extends Action
 
     public function langEdit()
     {
-        $data = include(CONF_PATH.'/lang/tt.php');
+        $data = include CONF_PATH.'/lang/tt.php';
         foreach ($data as $k=>$v) {
             $key = trim($k);
             $value = trim($v);
@@ -527,7 +523,6 @@ class TestAction extends Action
         $stable = t($_GET['t']);
         !empty($stable) && model('CategoryTree')->setTable($stable)->updateSort();
     }
-
 
     public function tt()
     {
@@ -727,12 +722,12 @@ class TestAction extends Action
     public function translateLang()
     {
         set_time_limit(0);
-        $sql = "SELECT `lang_id` ,`zh-cn` FROM `".C('DB_PREFIX')."lang` WHERE  appname = 'PUBLIC' AND `en` = '==**==' AND `zh-tw` LIKE '%ts3/apps/%' ORDER BY lang_id ASC;";
+        $sql = 'SELECT `lang_id` ,`zh-cn` FROM `'.C('DB_PREFIX')."lang` WHERE  appname = 'PUBLIC' AND `en` = '==**==' AND `zh-tw` LIKE '%ts3/apps/%' ORDER BY lang_id ASC;";
         $data = D()->query($sql);
         foreach ($data as $value) {
             $en = $this->translatorGoogleAPI($value['zh-cn'], 'en');
             $tw = $this->translatorGoogleAPI($value['zh-cn'], 'zh-TW');
-            $insert_sql = "UPDATE `".C('DB_PREFIX')."lang` SET `en` = '".$en."', `zh-tw` = '".$tw."' WHERE `lang_id` = '".$value['lang_id']."' LIMIT 1;";
+            $insert_sql = 'UPDATE `'.C('DB_PREFIX')."lang` SET `en` = '".$en."', `zh-tw` = '".$tw."' WHERE `lang_id` = '".$value['lang_id']."' LIMIT 1;";
             // dump($insert_sql);
             D()->execute($insert_sql);
             // dump($en);
@@ -775,7 +770,6 @@ class TestAction extends Action
                 $sql = 'SELECT count(follow_id) as total FROM '.C('DB_PREFIX').'user_follow where fid ='.$uid;
                 $vo = M()->query($sql);
                 $res['follower_count'] = intval($vo[0]['total']);
-
 
                 $map['uid'] = $uid;
                 $map['key'] = array('in', array('feed_count', 'weibo_count', 'favorite_count', 'following_count', 'follower_count'));
@@ -846,8 +840,6 @@ class TestAction extends Action
             echo '<script>window.location.href="'.U('public/Test/upFacePath', array('p'=>$p)).'";</script>';
         }
     }
-
-
 
     /**
      * 创建多级文件目录
@@ -953,7 +945,7 @@ class TestAction extends Action
      */
     public function getzLang1()
     {
-        $a = include(LANG_PATH.'/langForLoadUpadte.php');
+        $a = include LANG_PATH.'/langForLoadUpadte.php';
         dump($a);
     }
 

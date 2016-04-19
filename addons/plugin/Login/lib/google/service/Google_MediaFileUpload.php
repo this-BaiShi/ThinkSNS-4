@@ -217,6 +217,6 @@ class Google_MediaFileUpload
         if (200 == $code && true == $location) {
             return $location;
         }
-        throw new Google_Exception("Failed to start the resumable upload");
+        throw new Google_Exception('Failed to start the resumable upload');
     }
 }

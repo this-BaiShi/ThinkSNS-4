@@ -23,7 +23,7 @@ class uccode
     public function codedisp($code)
     {
         $this->uccode['pcodecount']++;
-        $code = str_replace('\\"', '"', preg_replace("/^[\n\r]*(.+?)[\n\r]*$/is", "\\1", $code));
+        $code = str_replace('\\"', '"', preg_replace("/^[\n\r]*(.+?)[\n\r]*$/is", '\\1', $code));
         $this->uccode['codehtml'][$this->uccode['pcodecount']] = $this->tpl_codedisp($code);
         $this->uccode['codecount']++;
 
@@ -58,12 +58,12 @@ class uccode
             "/\[align=(left|center|right)\]/i",
             "/\[float=(left|right)\]/i",
         ), array(
-            "<font color=\"\\1\">",
-            "<font size=\"\\1\">",
-            "<font style=\"font-size: \\1\">",
-            "<font face=\"\\1 \">",
-            "<p align=\"\\1\">",
-            "<span style=\"float: \\1;\">",
+            '<font color="\\1">',
+            '<font size="\\1">',
+            '<font style="font-size: \\1">',
+            '<font face="\\1 ">',
+            '<p align="\\1">',
+            '<span style="float: \\1;">',
         ), $message));
         if (strpos($message, '[/quote]') !== false) {
             $message = preg_replace("/\s*\[quote\][\n\r]*(.+?)[\n\r]*\[\/quote\]\s*/is", $this->tpl_quote(), $message);
@@ -117,7 +117,7 @@ class uccode
 
     public function bbcodeurl($url, $tags)
     {
-        if (!preg_match("/<.+?>/s", $url)) {
+        if (!preg_match('/<.+?>/s', $url)) {
             if (!in_array(strtolower(substr($url, 0, 6)), array('http:/', 'https:', 'ftp://', 'rtsp:/', 'mms://'))) {
                 $url = 'http://'.$url;
             }

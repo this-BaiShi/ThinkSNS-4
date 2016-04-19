@@ -112,7 +112,7 @@ class FollowGroupAction extends Action
             }
         }
         $_follow_group_status = substr($_follow_group_status, 0, -1);
-        S("weibo_followlist_".$this->mid, null);
+        S('weibo_followlist_'.$this->mid, null);
         $result['title'] = $_follow_group_status;
         $title = getSubByKey($follow_group_status, 'title');       // 用于存储原始数据
         $result['oldTitle'] = implode(',', $title);
@@ -206,7 +206,7 @@ class FollowGroupAction extends Action
             $fid = intval($_REQUEST['fid']);
             $this->_setFollowGroup($gid, $fid, 'add');
         }
-        S("weibo_followlist_".$this->mid, null);
+        S('weibo_followlist_'.$this->mid, null);
 
         if ($res) {
             $this->success($res);

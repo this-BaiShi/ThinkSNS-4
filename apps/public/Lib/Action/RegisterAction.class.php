@@ -761,9 +761,9 @@ class RegisterAction extends Action
     {
         $required = $this->_config['personal_required'];
         if (in_array('face', $required) && !model('Avatar')->hasAvatar()) {
-            $this->ajaxReturn(null, "想跳过，没门！请上传头像", 0);
+            $this->ajaxReturn(null, '想跳过，没门！请上传头像', 0);
         } else {
-            $this->ajaxReturn(null, "", 1);
+            $this->ajaxReturn(null, '', 1);
         }
         //$this->assign('jumpUrl',U('public/Register/step3'));
         //$this->success('头像设置成功，进入下一步设置！' );
@@ -800,13 +800,13 @@ class RegisterAction extends Action
     {
         $required = $this->_config['personal_required'];
         if (in_array('location', $required) && empty($_POST['city_names'])) {
-            $this->ajaxReturn(null, "想跳过，没门！请选择地区", 0);
+            $this->ajaxReturn(null, '想跳过，没门！请选择地区', 0);
         }
         if (in_array('tag', $required) && empty($_POST['user_tags'])) {
-            $this->ajaxReturn(null, "想跳过，没门！请选择标签", 0);
+            $this->ajaxReturn(null, '想跳过，没门！请选择标签', 0);
         }
         if (in_array('intro', $required) && empty($_POST['intro'])) {
-            $this->ajaxReturn(null, "想跳过，没门！请填写简介", 0);
+            $this->ajaxReturn(null, '想跳过，没门！请填写简介', 0);
         }
 
         $data['sex'] = intval($_POST['sex']);
@@ -834,7 +834,7 @@ class RegisterAction extends Action
         $rowId = intval($this->mid);
         if (!empty($rowId)) {
             if (count($tagIds) > $this->_config['tag_num']) {
-                $this->ajaxReturn(null, "最多只能设置".$this->_config['tag_num']."个标签", 0);
+                $this->ajaxReturn(null, '最多只能设置'.$this->_config['tag_num'].'个标签', 0);
             }
             // tag_id
             $categoryHash = model('CategoryTree')->setTable('user_category')->getCategoryHash();
@@ -846,7 +846,6 @@ class RegisterAction extends Action
             }
             model('Tag')->setAppName('public')->setAppTable('user')->updateTagData($rowId, $tagIdArr);
         }
-
 
        /*
         $tagIds = t($_REQUEST['user_tags']);
@@ -860,7 +859,7 @@ class RegisterAction extends Action
         } */
         //$this->assign('jumpUrl',U('public/Register/step4'));
         //$this->success('您离成功只差一步了！' );
-        $this->ajaxReturn(null, "", 1);
+        $this->ajaxReturn(null, '', 1);
     }
 
     /**
@@ -877,7 +876,7 @@ class RegisterAction extends Action
         $this->assign('mid', $this->mid);
 
         //按推荐用户
-        $sql = "SELECT uid FROM `ts_user_verified` WHERE usergroup_id=5 AND verified=1 order by rand() limit 8";
+        $sql = 'SELECT uid FROM `ts_user_verified` WHERE usergroup_id=5 AND verified=1 order by rand() limit 8';
         $list = M()->query($sql);
         $uids = getSubByKey($list, 'uid');
         $userInfos = model('User')->getUserInfoByUids($uids);
@@ -913,7 +912,7 @@ class RegisterAction extends Action
         $type = intval($_POST['type']);
         if ($type=='5') {
             //按推荐用户
-            $sql = "SELECT uid FROM `ts_user_verified` WHERE usergroup_id=5 AND verified=1 order by rand() limit 8";
+            $sql = 'SELECT uid FROM `ts_user_verified` WHERE usergroup_id=5 AND verified=1 order by rand() limit 8';
             $list = M()->query($sql);
             $uids = getSubByKey($list, 'uid');
             $userInfos = model('User')->getUserInfoByUids($uids);

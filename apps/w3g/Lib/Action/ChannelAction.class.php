@@ -151,14 +151,14 @@ class ChannelAction extends BaseAction
                         if ($v ['type'] == 'postvideo') {
                             // $weibolist[$k]['content'] = $v['source_body'];
                             $weibolist [$k] ['content'] = $v ['feed_content'] ? $v ['feed_content'] : $v ['source_body'];
-                            $weibolist [$k] ['content'] = wapFormatContent($weibolist [$k] ['content'], true, $self_url, "视频");
+                            $weibolist [$k] ['content'] = wapFormatContent($weibolist [$k] ['content'], true, $self_url, '视频');
                         } else {
                             $weibolist [$k] ['content'] = wapFormatContent($weibolist [$k] ['content'], true, $self_url);
                         }
                         // 非视频分享
                         if ($v ['transpond_data'] ['content']) {
                             if (strpos($weibolist [$k] ['type'], 'video')) {
-                                $weibolist [$k] ['transpond_data'] ['content'] = wapFormatContent($v ['transpond_data'] ['content'], true, $self_url, "视频");
+                                $weibolist [$k] ['transpond_data'] ['content'] = wapFormatContent($v ['transpond_data'] ['content'], true, $self_url, '视频');
                             } else {
                                 $weibolist [$k] ['transpond_data'] ['content'] = wapFormatContent($v ['transpond_data'] ['content'], true, $self_url);
                             }
@@ -283,8 +283,6 @@ class ChannelAction extends BaseAction
 //                     }else{
 //                             $weibolist[$k]['favorited'] = 0;
 //                     }
-
-
 
 //             }
 //             return $weibolist;

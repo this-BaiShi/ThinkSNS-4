@@ -58,7 +58,7 @@ class WeibaProtocolModel extends Model
             $map['uid'] =  array('neq',$uid);
             $post_list = D('weiba')->where($map)->findPage(20);
             //帖子推荐
-            $sql = "SELECT a.* FROM `ts_weiba_post` a, `ts_weiba` b WHERE a.weiba_id=b.weiba_id AND ( b.`is_del` = 0 ) AND ( b.`status` = 1 )  AND ( a.`recommend` = 1 ) AND ( a.`is_del` = 0 ) ORDER BY a.recommend_time desc LIMIT 10";
+            $sql = 'SELECT a.* FROM `ts_weiba_post` a, `ts_weiba` b WHERE a.weiba_id=b.weiba_id AND ( b.`is_del` = 0 ) AND ( b.`status` = 1 )  AND ( a.`recommend` = 1 ) AND ( a.`is_del` = 0 ) ORDER BY a.recommend_time desc LIMIT 10';
             $slist = D('weiba_post')->query($sql);
             $weiba_ids = getSubByKey($post_list['data'], 'weiba_id');
             $nameArr = $this->_getWeibaName($weiba_ids);
@@ -81,7 +81,7 @@ class WeibaProtocolModel extends Model
                 $is_digg = M('weiba_post_digg')->where('post_id='.$v['post_id'].' and uid='.$this->mid)->find();
                 $post_list['data'][$k]['digg']= $is_digg ? 'digg':'undigg';
                 $post_list['data'][$k]['content'] = t($post_list['data'][$k]['content']);
-                if ($v['new_day']!= date("Y-m-d", time())) {
+                if ($v['new_day']!= date('Y-m-d', time())) {
                     $post_list['data'][$k]['new_count'] = 0;
                     $this->setNewcount($v['weiba_id'], 0);
                 }
@@ -104,10 +104,10 @@ class WeibaProtocolModel extends Model
             $map['status'] = array('in',array('0','1'));
             $post_list = D('weiba')->where($map)->findPage(20);
             //帖子推荐
-            $sql = "SELECT a.* FROM `ts_weiba_post` a, `ts_weiba` b WHERE a.weiba_id=b.weiba_id AND ( b.`is_del` = 0 ) AND ( b.`status` = 1 )  AND ( a.`recommend` = 1 ) AND ( a.`is_del` = 0 ) ORDER BY a.recommend_time desc LIMIT 10";
+            $sql = 'SELECT a.* FROM `ts_weiba_post` a, `ts_weiba` b WHERE a.weiba_id=b.weiba_id AND ( b.`is_del` = 0 ) AND ( b.`status` = 1 )  AND ( a.`recommend` = 1 ) AND ( a.`is_del` = 0 ) ORDER BY a.recommend_time desc LIMIT 10';
             $slist = D('weiba_post')->query($sql);
             foreach ($post_list['data'] as $k=>$v) {
-                if ($v['new_day']!= date("Y-m-d", time())) {
+                if ($v['new_day']!= date('Y-m-d', time())) {
                     $post_list['data'][$k]['new_count'] = 0;
                     $this->setNewcount($v['weiba_id'], 0);
                 }
@@ -135,7 +135,7 @@ class WeibaProtocolModel extends Model
                 !empty($image) && $post_list['data'][$k]['image'] = array($image);
             }
             //帖子推荐
-            $sql = "SELECT a.* FROM `ts_weiba_post` a, `ts_weiba` b WHERE a.weiba_id=b.weiba_id AND ( b.`is_del` = 0 ) AND ( b.`status` = 1 )  AND ( a.`recommend` = 1 ) AND ( a.`is_del` = 0 ) ORDER BY a.recommend_time desc LIMIT 10";
+            $sql = 'SELECT a.* FROM `ts_weiba_post` a, `ts_weiba` b WHERE a.weiba_id=b.weiba_id AND ( b.`is_del` = 0 ) AND ( b.`status` = 1 )  AND ( a.`recommend` = 1 ) AND ( a.`is_del` = 0 ) ORDER BY a.recommend_time desc LIMIT 10';
             $slist = D('weiba_post')->query($sql);
             //dump(D ()->getLastSql());
             foreach ($slist as $i => $s) {
@@ -156,8 +156,8 @@ class WeibaProtocolModel extends Model
         $map['weiba_id'] = $weiba_id;
         $time = time();
         $weiba = D('weiba')->where($map)->find();
-        if ($weiba['new_day']!= date("Y-m-d", $time)) {
-            M('weiba')->where($map)->setField('new_day', date("Y-m-d", $time));
+        if ($weiba['new_day']!= date('Y-m-d', $time)) {
+            M('weiba')->where($map)->setField('new_day', date('Y-m-d', $time));
             M('weiba')->where($map)->setField('new_count', 0);
         }
         if ($num == 0) {

@@ -262,7 +262,7 @@ class AppModel extends Model
                 $map ['app_name'] = $appname;
                 $info = $this->where($map)->find();
                 // 数据格式化
-                if ($info ['host_type'] == "0") {
+                if ($info ['host_type'] == '0') {
                     // 本地应用
                     $info ['app_entry'] = U($info ['app_name'].'/'.$info ['app_entry']);
                     $info ['icon_url'] = SITE_URL.'/apps/'.$info ['app_name'].'/Appinfo/icon_app.png';
@@ -309,7 +309,7 @@ class AppModel extends Model
                 $map ['app_id'] = $app_id;
                 $info = $this->where($map)->find();
                 // 数据格式化
-                if ($info ['host_type'] == "0") {
+                if ($info ['host_type'] == '0') {
                     // 本地应用
                     $info ['app_entry'] = U($info ['app_name'].'/'.$info ['app_entry']);
                     $info ['icon_url'] = SITE_URL.'/apps/'.$info ['app_name'].'/Appinfo/icon_app.png';

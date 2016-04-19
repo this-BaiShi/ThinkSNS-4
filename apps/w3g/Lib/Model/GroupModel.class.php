@@ -68,11 +68,11 @@ class GroupModel extends Model
 
         if (!empty($open)) {
             foreach ($open as $key=>$value) {
-                $open[$key] = $key." = ".intval($value);
+                $open[$key] = $key.' = '.intval($value);
             }
-            $openSql = " AND ".implode(' AND ', $open);
+            $openSql = ' AND '.implode(' AND ', $open);
         }
-        $groupList = $this->table(C('DB_PREFIX')."group_member as member left join ".C('DB_PREFIX')."group as g on g.id = member.gid")
+        $groupList = $this->table(C('DB_PREFIX').'group_member as member left join '.C('DB_PREFIX').'group as g on g.id = member.gid')
                           ->field('g.id,g.name,g.openWeibo,g.type,g.membercount,g.logo,g.cid0,g.ctime,g.status')
                           ->where('member.uid = '.$mid.' and member.level>0 and g.is_del = 0 '.$openSql)
                           ->order('member.level ASC,member.ctime DESC');
@@ -128,7 +128,7 @@ class GroupModel extends Model
     //好友加入的群
     public function friendjoingroup($mid)
     {
-        import("ORG.Util.Page");
+        import('ORG.Util.Page');
 
         $cond = '';
         $group = array();
@@ -146,8 +146,8 @@ class GroupModel extends Model
             $friendgroup = D('Member')->field('gid')->where($in)->group('gid')->limit($p->firstRow.','.$p->listRows)->findAll();  //获取数据
 
             foreach ($friendgroup as $k=>$v) {
-                $group[$v['gid']] = D('Member')->where($in." AND gid=".$v['gid'])->findAll();  //循环显示朋友
-                $group[$v['gid']]['c'] = D('Member')->where($in." AND gid=".$v['gid'])->count();
+                $group[$v['gid']] = D('Member')->where($in.' AND gid='.$v['gid'])->findAll();  //循环显示朋友
+                $group[$v['gid']]['c'] = D('Member')->where($in.' AND gid='.$v['gid'])->count();
             }
 
             return array($group,$p->show());
@@ -266,7 +266,7 @@ class GroupModel extends Model
         }
         // 缓存锁结束
 
-        $today       = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
+        $today       = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
         $yesterday   = $today-24*3600;
         $gids['by_new_weibo'] = D('GroupFeed')->field('gid')
                                    ->where("publish_time>{$yesterday} AND publish_time<{$today} AND is_del=0")
@@ -352,7 +352,7 @@ class GroupModel extends Model
         if ($gidarr) {
             $in = 'gid IN '.render_in($gidarr, 'gid');
 
-            return D('Topic')->where("is_del=0 AND ".$in)->order('replytime DESC')->findPage();
+            return D('Topic')->where('is_del=0 AND '.$in)->order('replytime DESC')->findPage();
         }
 
         return false;
@@ -373,7 +373,7 @@ class GroupModel extends Model
     public function getMyJoinGroup($uid, $appid)
     {
         $feedList = array();
-        $joinGroup = D('Member')->field('gid')->where('uid='.$uid." AND level != 0 ")->findPage();
+        $joinGroup = D('Member')->field('gid')->where('uid='.$uid.' AND level != 0 ')->findPage();
 
         if ($joinGroup['data']) {
             foreach ($joinGroup['data'] as $k=>$v) {

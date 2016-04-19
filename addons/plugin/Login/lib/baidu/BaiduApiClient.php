@@ -6,8 +6,8 @@
  *
  **************************************************************************/
 
-require_once(dirname(__FILE__).'/BaiduUtils.php');
-require_once(dirname(__FILE__).'/BaiduException.php');
+require_once dirname(__FILE__).'/BaiduUtils.php';
+require_once dirname(__FILE__).'/BaiduException.php';
 
 /**
  * Client for Baidu OpenAPI2.0 service.

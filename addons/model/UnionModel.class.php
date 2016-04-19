@@ -148,7 +148,7 @@ class UnionModel extends Model
             // 未联盟
             if (0 == $f_s_v ['unioning']) {
                 // 联盟的字段数据
-                $data [] = "({$uid}, {$f_s_k},".time().")";
+                $data [] = "({$uid}, {$f_s_k},".time().')';
                 $_fids [] = $f_s_k;
                 $union_states [$f_s_k] ['unioning'] = 1;
                 // 通知和分享
@@ -202,11 +202,11 @@ class UnionModel extends Model
 
         foreach ($unionStates as $key => $value) {
             if (0 == $value ['unioning']) {
-                $data [] = "({$uid}, {$key}, ".time().")";
+                $data [] = "({$uid}, {$key}, ".time().')';
                 $_unioning [] = $key;
             }
             if (0 == $value ['unioner']) {
-                $data [] = "({$key}, {$uid}, ".time().")";
+                $data [] = "({$key}, {$uid}, ".time().')';
                 $_unioner [] = $key;
             }
         }

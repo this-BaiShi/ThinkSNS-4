@@ -18,7 +18,7 @@ class StringTextWidget extends Widget
 
         is_array($data) && $var = array_merge($var, $data);
         //渲染模版
-        $content = $this->renderFile(dirname(__FILE__)."/".$var['tpl'].".html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/'.$var['tpl'].'.html', $var);
 
         unset($var, $data);
 

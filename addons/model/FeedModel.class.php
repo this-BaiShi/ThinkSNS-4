@@ -82,7 +82,7 @@ class FeedModel extends Model
         }
         // 分享内容处理
         if (Addons::requireHooks('weibo_publish_content')) {
-            Addons::hook("weibo_publish_content", array(&$data));
+            Addons::hook('weibo_publish_content', array(&$data));
         } else {
             // 截取内容信息为分享内容字数 - 长分享
             //$feedConf = model('Xdata')->get('admin_Config:feed');
@@ -241,7 +241,7 @@ class FeedModel extends Model
         $max_id = intval($max_id);
         $limit = intval($limit);
         $page = intval($page);
-        $where = " a.is_del = 0 ";
+        $where = ' a.is_del = 0 ';
         // 动态类型
         if (in_array($type, array(
                 'post',
@@ -277,7 +277,7 @@ class FeedModel extends Model
         $max_id = intval($max_id);
         $limit = intval($limit);
         $page = intval($page);
-        $where = " a.is_del = 0 ";
+        $where = ' a.is_del = 0 ';
         // 动态类型
         if (in_array($type, array(
                 'post',
@@ -497,7 +497,7 @@ class FeedModel extends Model
             $data['is_digg'] = $diggarr[$data['feed_id']] ? 1 : 0;
         }
         //获取赞过分享的人
-        $diggs = model('FeedDigg')->where("feed_id=".$id)->order('id desc')->limit(10)->findAll();
+        $diggs = model('FeedDigg')->where('feed_id='.$id)->order('id desc')->limit(10)->findAll();
         foreach ($diggs as &$v) {
             $v['user'] = model('User')->getUserInfo($v['uid']);
         }
@@ -560,7 +560,7 @@ class FeedModel extends Model
         // 若填写了关注分组
         if (!empty($fgid)) {
             $table .=" LEFT JOIN {$this->tablePrefix}user_follow_group_link AS c ON a.uid = c.fid AND c.uid ='{$buid}' ";
-            $_where .= " AND c.follow_group_id = ".intval($fgid);
+            $_where .= ' AND c.follow_group_id = '.intval($fgid);
         }
         $feedlist = $this->table($table)->where($_where)->field('a.feed_id')->order('a.feed_id DESC');
         //2013-10-01 为了提高效率增加一项改进，可以设置查看的分享总数，默认10000条
@@ -581,8 +581,6 @@ class FeedModel extends Model
         $buid  = empty($uid) ? $_SESSION['mid'] : $uid;
         $table = "{$this->tablePrefix}feed AS a ";
 
-
-
         // 加上自己的信息，若不需要屏蔽下语句
 // 		$_where = !empty($where) ? "(a.uid = '{$buid}' OR b.uid = '{$buid}') AND ($where)" : "(a.uid = '{$buid}' OR b.uid = '{$buid}')";
         $_where = $where." AND a.uid !={$buid} and (a.uid in (SELECT fid from ts_user_union WHERE uid=$buid) 
@@ -590,7 +588,7 @@ class FeedModel extends Model
         // 若填写了关注分组
         if (!empty($fgid)) {
             $table .=" LEFT JOIN {$this->tablePrefix}user_follow_group_link AS c ON a.uid = c.fid AND c.uid ='{$buid}' ";
-            $_where .= " AND c.follow_group_id = ".intval($fgid);
+            $_where .= ' AND c.follow_group_id = '.intval($fgid);
         }
 
         $feedlist = $this->table($table)->where($_where)->field('a.feed_id')->order('a.feed_id DESC');
@@ -645,7 +643,7 @@ class FeedModel extends Model
             unset($map['type']);
             $map['is_repost'] = 0;
         }
-        $feedlist = $this->field('feed_id')->where($map)->order("publish_time DESC")->findPage($limit);
+        $feedlist = $this->field('feed_id')->where($map)->order('publish_time DESC')->findPage($limit);
         if (!$feedlist) {
             $this->error = L('PUBLIC_INFO_GET_FAIL');            // 获取信息失败
             return false;
@@ -887,9 +885,9 @@ class FeedModel extends Model
             }
         }
         $var['uid'] = $_data['uid'];
-        $var["actor"] = "<a href='{$user['space_url']}' class='name' event-node='face_card' uid='{$user['uid']}'>{$user['uname']}</a>";
-        $var["actor_uid"] = $user['uid'];
-        $var["actor_uname"]    = $user['uname'];
+        $var['actor'] = "<a href='{$user['space_url']}' class='name' event-node='face_card' uid='{$user['uid']}'>{$user['uname']}</a>";
+        $var['actor_uid'] = $user['uid'];
+        $var['actor_uname']    = $user['uname'];
         $var['feedid'] = $_data['feed_id'];
         //微吧类型分享用到
         // $var["actor_groupData"] = model('UserGroupLink')->getUserGroupData($user['uid']);
@@ -909,8 +907,8 @@ class FeedModel extends Model
         //输出模版解析后信息
         $return['content_txt'] = $_data['data']['body'];
         $return['attach_info'] = $var['attachInfo'];
-        $return["userInfo"]  = $user;
-        $return["actor_groupData"] = $var["actor_groupData"];
+        $return['userInfo']  = $user;
+        $return['actor_groupData'] = $var['actor_groupData'];
         $return['title'] = $var['actor'];
         $return['body'] = ($var['type'] != 'weiba_post') ? parse_html($feed_content): $feed_content;
         $return['api_source'] = $var['sourceInfo'];
@@ -1012,11 +1010,11 @@ class FeedModel extends Model
             foreach ($data as $v) {
                 $xml.="
 				<feed app='{$v['appname']}' type='{$v['nodetype']}' info='{$v['nodeinfo']}'>
-				".htmlspecialchars_decode($v['xml'])."
-				</feed>";
+				".htmlspecialchars_decode($v['xml']).'
+				</feed>';
             }
-            $xml .= "</feedlist>
-					</root>";
+            $xml .= '</feedlist>
+					</root>';
 
             file_put_contents(SITE_PATH.'/config/feeds.xml', $xml);
             chmod(SITE_PATH.'/config/feeds.xml', 0666);
@@ -1172,7 +1170,7 @@ class FeedModel extends Model
             case 'following':
                 $buid = $GLOBALS['ts']['uid'];
                 $table = "{$this->tablePrefix}feed AS a LEFT JOIN {$this->tablePrefix}user_follow AS b ON a.uid=b.fid AND b.uid = {$buid} LEFT JOIN {$this->tablePrefix}feed_data AS c ON a.feed_id = c.feed_id";
-                $where = !empty($loadId) ? " a.is_del = 0 AND a.is_audit = 1 AND a.feed_id <'{$loadId}'" : "a.is_del = 0 AND a.is_audit = 1";
+                $where = !empty($loadId) ? " a.is_del = 0 AND a.is_audit = 1 AND a.feed_id <'{$loadId}'" : 'a.is_del = 0 AND a.is_audit = 1';
                 $where .= " AND (a.uid = '{$buid}' OR b.uid = '{$buid}' )";
                 $where .= " AND c.feed_data LIKE '%".t($key)."%'";
                 $feedlist = $this->table($table)->where($where)->field('a.feed_id')->order('a.publish_time DESC')->findPage($limit);
@@ -1181,7 +1179,7 @@ class FeedModel extends Model
                 $buid = $GLOBALS ['ts'] ['uid'];
                 $table = "{$this->tablePrefix}feed AS a 
 				LEFT JOIN {$this->tablePrefix}feed_data AS c ON a.feed_id = c.feed_id";
-                $where = ! empty($loadId) ? " a.is_del = 0 AND a.is_audit = 1 AND a.feed_id <'{$loadId}'" : "a.is_del = 0 AND a.is_audit = 1";
+                $where = ! empty($loadId) ? " a.is_del = 0 AND a.is_audit = 1 AND a.feed_id <'{$loadId}'" : 'a.is_del = 0 AND a.is_audit = 1';
                 $where .= " AND c.feed_data LIKE '%".t($key)."%'";
                 $where .= " and (a.uid in (SELECT fid from ts_user_union WHERE uid=$buid) 
 		or a.uid in (SELECT u.fid from ts_user_union u LEFT JOIN ts_user_follow f ON u.uid=f.fid WHERE f.uid=$buid )) ";
@@ -1307,7 +1305,7 @@ class FeedModel extends Model
         $max_id = intval($max_id);
         $limit = intval($limit);
         $page = intval($page);
-        $where = " is_del = 0 ";
+        $where = ' is_del = 0 ';
         //动态类型
         if (in_array($type, array('post', 'repost', 'postimage', 'postfile', 'postvideo'))) {
             $where .= " AND type='$type' ";
@@ -1344,7 +1342,7 @@ class FeedModel extends Model
         $max_id = intval($max_id);
         $limit = intval($limit);
         $page = intval($page);
-        $where = " a.is_del = 0 ";
+        $where = ' a.is_del = 0 ';
         //排除类型
         if ($type == 'original') {
             $where .= " AND a.type<>'repost' && a.type <>'weiba_repost'";
@@ -1377,7 +1375,7 @@ class FeedModel extends Model
         public function friends_counts($type='original', $mid=0)
         {
             $mid = $mid ? $mid : $GLOBALS['ts']['mid'];
-            $where = " a.is_del = 0 ";
+            $where = ' a.is_del = 0 ';
             //排除类型
             if ($type == 'original') {
                 $where .= " AND a.type<>'repost' && a.type <>'weiba_post' ";
@@ -1604,7 +1602,7 @@ class FeedModel extends Model
         $max_id = intval($max_id);
         $limit = intval($limit);
         $page = intval($page);
-        $where = " is_del = 0 ".$sql;
+        $where = ' is_del = 0 '.$sql;
         //动态类型
         // if(in_array($type,array('post','repost','postimage','postfile','postvideo'))){
             $where .= " AND type='postvideo' ";

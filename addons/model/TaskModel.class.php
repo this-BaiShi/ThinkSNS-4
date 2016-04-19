@@ -200,16 +200,16 @@ class TaskModel extends Model
             $starttime = strtotime(date('Ymd'));
             switch ($excutetype) {
                 case 'weibopost':
-                    $rescount = model('Feed')->where("uid=".$uid." and is_repost=0 and publish_time>".$starttime)->limit($num)->count();
+                    $rescount = model('Feed')->where('uid='.$uid.' and is_repost=0 and publish_time>'.$starttime)->limit($num)->count();
                     break;
                 case 'weiborepost':
-                    $rescount = model('Feed')->where("uid=".$uid." and type='repost' and publish_time>".$starttime)->limit($num)->count();
+                    $rescount = model('Feed')->where('uid='.$uid." and type='repost' and publish_time>".$starttime)->limit($num)->count();
                     break;
                 case 'weibocomment':
                     $rescount = model('Comment')->where('uid='.$uid." and `table`='feed' and ctime>".$starttime)->limit($num)->count();
                     break;
                 case 'weibodigg':
-                    $rescount = model('FeedDigg')->where('uid='.$uid." and cTime>".$starttime)->limit($num)->count();
+                    $rescount = model('FeedDigg')->where('uid='.$uid.' and cTime>'.$starttime)->limit($num)->count();
                     break;
                 case 'checkin':
                     $rescount = D('check_info')->where('uid='.$uid.' and ctime>'.$starttime)->limit($num)->count();
@@ -219,7 +219,7 @@ class TaskModel extends Model
             switch ($excutetype) {
                     //原创分享
                 case 'weibopost':
-                    $rescount = model('Feed')->where('uid='.$uid." and is_repost=0")->limit($num)->count();
+                    $rescount = model('Feed')->where('uid='.$uid.' and is_repost=0')->limit($num)->count();
                     break;
                     //转发分享
                 case 'weiborepost':

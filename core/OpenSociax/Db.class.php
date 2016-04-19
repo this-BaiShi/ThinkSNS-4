@@ -268,7 +268,7 @@ class Db extends Think
         // 记录操作结束时间
         if ($this->debug) {
             $runtime    =   number_format(microtime(true) - $this->beginTime, 6);
-            Log::record(" RunTime:".$runtime."s SQL = ".$this->queryStr, Log::SQL, true);//强行记录SQL知识
+            Log::record(' RunTime:'.$runtime.'s SQL = '.$this->queryStr, Log::SQL, true);//强行记录SQL知识
         }
     }
 
@@ -390,7 +390,7 @@ class Db extends Think
                 $operate    =   ' AND ';
             }
             foreach ($where as $key=>$val) {
-                $whereStr .= "( ";
+                $whereStr .= '( ';
                 if (0===strpos($key, '_')) {
                     // 解析特殊条件表达式
                     $whereStr   .= $this->parseThinkWhere($key, $val);
@@ -434,9 +434,9 @@ class Db extends Think
                         //对字符串类型字段采用模糊匹配
                         if (C('DB_LIKE_FIELDS') && preg_match('/('.C('DB_LIKE_FIELDS').')/i', $key)) {
                             $val  =  '%'.$val.'%';
-                            $whereStr .= $key." LIKE ".$this->parseValue($val);
+                            $whereStr .= $key.' LIKE '.$this->parseValue($val);
                         } else {
-                            $whereStr .= $key." = ".$this->parseValue($val);
+                            $whereStr .= $key.' = '.$this->parseValue($val);
                         }
                     }
                 }
@@ -769,7 +769,6 @@ class Db extends Think
         return $this->queryStr;
     }
 
-
     /**
      * 连接数据库方法
      * @access public
@@ -792,7 +791,7 @@ class Db extends Think
                 throw_exception(mysql_error());
             }
             $dbVersion = mysql_get_server_info($this->linkID[$linkNum]);
-            if ($dbVersion >= "4.1") {
+            if ($dbVersion >= '4.1') {
                 //使用UTF8存取数据库 需要mysql 4.1.0以上支持
                 mysql_query("SET NAMES '".C('DB_CHARSET')."'", $this->linkID[$linkNum]);
             }
@@ -1168,7 +1167,6 @@ class Db extends Think
         $this->_linkID = 0;
     }
 
-
     /**
      * 数据库错误信息
      * 并显示当前的SQL语句
@@ -1184,7 +1182,6 @@ class Db extends Think
 
         return $this->error;
     }
-
 
     /**
      * SQL指令安全过滤

@@ -54,11 +54,11 @@ function result($result = 1, $output = 1)
 function createtable($sql, $db_charset)
 {
     $db_charset = (strpos($db_charset, '-') === false) ? $db_charset : str_replace('-', '', $db_charset);
-    $type = strtoupper(preg_replace("/^\s*CREATE TABLE\s+.+\s+\(.+?\).*(ENGINE|TYPE)\s*=\s*([a-z]+?).*$/isU", "\\2", $sql));
-    $type = in_array($type, array("MYISAM", "HEAP")) ? $type : "MYISAM";
+    $type = strtoupper(preg_replace("/^\s*CREATE TABLE\s+.+\s+\(.+?\).*(ENGINE|TYPE)\s*=\s*([a-z]+?).*$/isU", '\\2', $sql));
+    $type = in_array($type, array('MYISAM', 'HEAP')) ? $type : 'MYISAM';
 
-    return preg_replace("/^\s*(CREATE TABLE\s+.+\s+\(.+?\)).*$/isU", "\\1", $sql).
-        (mysql_get_server_info() > "4.1" ? " ENGINE=$type DEFAULT CHARSET=$db_charset" : " TYPE=$type");
+    return preg_replace("/^\s*(CREATE TABLE\s+.+\s+\(.+?\)).*$/isU", '\\1', $sql).
+        (mysql_get_server_info() > '4.1' ? " ENGINE=$type DEFAULT CHARSET=$db_charset" : " TYPE=$type");
 }
 function getip()
 {
@@ -140,14 +140,14 @@ function dump($var, $echo=true, $label=null, $strict=true)
             $output = print_r($var, true);
             $output = '<pre style="text-align:left">'.$label.htmlspecialchars($output, ENT_QUOTES).'</pre>';
         } else {
-            $output = $label." : ".print_r($var, true);
+            $output = $label.' : '.print_r($var, true);
         }
     } else {
         ob_start();
         var_dump($var);
         $output = ob_get_clean();
         if (!extension_loaded('xdebug')) {
-            $output = preg_replace("/\]\=\>\n(\s+)/m", "] => ", $output);
+            $output = preg_replace("/\]\=\>\n(\s+)/m", '] => ', $output);
             $output = '<pre style="text-align:left">'.$label.htmlspecialchars($output, ENT_QUOTES).'</pre>';
         }
     }
@@ -160,7 +160,6 @@ function dump($var, $echo=true, $label=null, $strict=true)
         return $output;
     }
 }
-
 
 function iswaf_create_key()
 {

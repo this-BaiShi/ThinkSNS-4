@@ -31,8 +31,8 @@ class TagLibCx extends TagLib
     {
         $tag = $this->parseXmlAttr($attr, 'space');
         $uid = $tag['uid'];
-        $class = ($tag['class'])?$tag['class']:"";
-        $target = ($tag['target'])?$tag['target']:"";
+        $class = ($tag['class'])?$tag['class']:'';
+        $target = ($tag['target'])?$tag['target']:'';
         $uid = $this->autoBuildVar($uid);
 
         return "<php>echo getUserSpace($uid,'$class','$target','$content')</php>";

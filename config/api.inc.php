@@ -4,7 +4,7 @@
  * 此处只配置不能后台修改的项目
  */
 return array(
-    "access" => array(
+    'access' => array(
         'Oauth/*'        => true,
         'ProductShare/*' => true,
         'Public/*'       => true,

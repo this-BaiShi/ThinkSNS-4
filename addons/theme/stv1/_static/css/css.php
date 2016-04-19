@@ -15,22 +15,21 @@ $getfiles    = explode(',', strip_tags($_GET['f']));
 //$offset = 60 * 60 * 24 * 7; //过期7天
  $offset = 1;
 
-
 if ($gettype=='css') {
     $content_type    =    'text/css';
 } elseif ($gettype=='js') {
     $content_type    =    'application/x-javascript';
 }
 
-header("content-type: ".$content_type."; charset: utf-8");        //注意修改到你的编码
+header('content-type: '.$content_type.'; charset: utf-8');        //注意修改到你的编码
 // header ( "cache-control: must-revalidate" );
-header("cache-control: max-age=".$offset);
-header("Last-Modified: ".gmdate("D, d M Y H:i:s", time())."GMT");
-header("Pragma: max-age=".$offset);
-header("Expires:".gmdate("D, d M Y H:i:s", time() + $offset)." GMT");
+header('cache-control: max-age='.$offset);
+header('Last-Modified: '.gmdate('D, d M Y H:i:s', time()).'GMT');
+header('Pragma: max-age='.$offset);
+header('Expires:'.gmdate('D, d M Y H:i:s', time() + $offset).' GMT');
 set_cache_limit($offset);
 
-ob_start("compress");
+ob_start('compress');
 
 function compress($buffer)
 {
@@ -46,7 +45,7 @@ function set_cache_limit($second=1)
     if ($second==0) {
         return;
     }
-    $etag=time()."||".base64_encode($_SERVER['REQUEST_URI']);
+    $etag=time().'||'.base64_encode($_SERVER['REQUEST_URI']);
 
     if (!isset($_SERVER['HTTP_IF_NONE_MATCH'])) {
         header("Etag:$etag", true, 200);
@@ -56,7 +55,7 @@ function set_cache_limit($second=1)
         $id = $_SERVER['HTTP_IF_NONE_MATCH'];
     }
 
-    list($time, $uri) = explode("||", $id);
+    list($time, $uri) = explode('||', $id);
 
     if ($time < (time()-$second)) {
         //过期了，发送新tag

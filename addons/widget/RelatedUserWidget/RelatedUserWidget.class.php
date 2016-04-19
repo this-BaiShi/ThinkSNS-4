@@ -24,7 +24,7 @@ class RelatedUserWidget extends Widget
         $var ['limit'] = isset($data ['limit']) ? intval($data ['limit']) : 8;
         // 标题信息
         $var['title'] = isset($data['title']) ? t($data['title']) : '推荐关注';
-        $content = $this->renderFile(dirname(__FILE__)."/relatedUser.html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/relatedUser.html', $var);
 
         return $content;
     }
@@ -38,7 +38,7 @@ class RelatedUserWidget extends Widget
         $data['uid'] = intval($_POST['uid']);
         $data['limit'] = intval($_POST['limit']);
         $var = $this->_getRelatedUser($data);
-        $content = $this->renderFile(dirname(__FILE__)."/_relatedUser.html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/_relatedUser.html', $var);
         exit(json_encode($content));
     }
 

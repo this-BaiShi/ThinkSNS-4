@@ -88,7 +88,7 @@ class OldWeibaDarenWidget extends Widget
         $var ['weibaid'] = isset($data ['weibaid']) ? intval($data ['weibaid']) : 0;
         // 标题信息
         $var ['title'] = isset($data ['title']) ? t($data ['title']) : '推荐关注';
-        $content = $this->renderFile(dirname(__FILE__)."/weibaDaren.html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/weibaDaren.html', $var);
 
         return $content;
     }
@@ -104,7 +104,7 @@ class OldWeibaDarenWidget extends Widget
         $data ['limit'] = intval($_POST ['limit']);
         $data ['weibaid'] = intval($_POST ['weibaid']);
         $var = $this->_getRelatedDaren($data);
-        $content = $this->renderFile(dirname(__FILE__)."/_weibaDaren.html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/_weibaDaren.html', $var);
         exit(json_encode($content));
     }
 

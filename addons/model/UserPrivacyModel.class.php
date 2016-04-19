@@ -105,7 +105,6 @@ class UserPrivacyModel extends Model
             'comment_email' => 0,                // 接收系统邮件
             'message_email' => 0,                // 接收系统邮件
 
-
         );
     }
 

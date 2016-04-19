@@ -69,7 +69,7 @@ class AdminAction extends AdministratorAction
     public function auditList()
     {
         // 批量操作按钮
-        $this->pageButton[] = array('title'=>'取消推荐','onclick'=>"admin.cancelRecommended()");
+        $this->pageButton[] = array('title'=>'取消推荐','onclick'=>'admin.cancelRecommended()');
         // 获取列表数据
         $map['status'] = 1;
         $listData = $this->_getData($map, 'audit');
@@ -83,8 +83,8 @@ class AdminAction extends AdministratorAction
     public function unauditList()
     {
         // 批量操作按钮
-        $this->pageButton[] = array('title'=>'通过审核','onclick'=>"admin.auditChannelList()");
-        $this->pageButton[] = array('title'=>'驳回','onclick'=>"admin.rejectChannel()");
+        $this->pageButton[] = array('title'=>'通过审核','onclick'=>'admin.auditChannelList()');
+        $this->pageButton[] = array('title'=>'驳回','onclick'=>'admin.rejectChannel()');
         // 获取列表数据
         $map['status'] = 0;
         $listData = $this->_getData($map, 'unaudit');

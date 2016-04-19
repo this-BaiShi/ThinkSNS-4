@@ -1,6 +1,6 @@
 <?php
 //使用V2版本的客户端,支持Oauth2.0
-require_once('facebook/facebook.php');
+require_once 'facebook/facebook.php';
 class facebook
 {
     public $loginUrl;
@@ -39,7 +39,7 @@ class facebook
     //验证用户
     public function checkUser()
     {
-        $redirect_uri = Addons::createAddonShow('Login', 'no_register_display', array('type'=>'facebook', 'do'=>"bind"));
+        $redirect_uri = Addons::createAddonShow('Login', 'no_register_display', array('type'=>'facebook', 'do'=>'bind'));
         $facebook = new FacebookAPI(array('appId' => FACEBOOK_KEY, 'secret' => FACEBOOK_SECRET));
         $token = $facebook->getAccessTokenFromCode($_GET['code'], $redirect_uri);
         //dump($token);

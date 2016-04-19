@@ -27,11 +27,11 @@ if (! function_exists('http_build_query')) {
 }
 // hack around with the include paths a bit so the library 'just works'
 set_include_path(dirname(__FILE__).PATH_SEPARATOR.get_include_path());
-require_once "config.php";
+require_once 'config.php';
 // If a local configuration file is found, merge it's values with the default configuration
 if (file_exists(dirname(__FILE__).'/local_config.php')) {
     $defaultConfig = $apiConfig;
-    require_once(dirname(__FILE__).'/local_config.php');
+    require_once dirname(__FILE__).'/local_config.php';
     $apiConfig = array_merge($defaultConfig, $apiConfig);
 }
 // Include the top level classes, they each include their own dependencies
@@ -46,7 +46,7 @@ require_once 'external/URITemplateParser.php';
 require_once 'auth/Google_Auth.php';
 require_once 'cache/Google_Cache.php';
 require_once 'io/Google_IO.php';
-require_once('service/Google_MediaFileUpload.php');
+require_once 'service/Google_MediaFileUpload.php';
 /**
  * The Google API Client
  * http://code.google.com/p/google-api-php-client/
@@ -339,7 +339,7 @@ class Google_Client
    */
   public function setScopes($scopes)
   {
-      $this->scopes = is_string($scopes) ? explode(" ", $scopes) : $scopes;
+      $this->scopes = is_string($scopes) ? explode(' ', $scopes) : $scopes;
   }
   /**
    * Declare if objects should be returned by the api service classes.

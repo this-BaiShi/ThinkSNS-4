@@ -66,7 +66,7 @@ class InviteModel extends Model
         $_register_config = model('Xdata')->get('admin_Config:register');
         $registerType = $_register_config['register_type'];
         // 数据表中没有信息或者为开放注册，将初始化添加邀请码
-        if (empty($result) && empty($_result) || (empty($result) && $registerType == "open")) {
+        if (empty($result) && empty($_result) || (empty($result) && $registerType == 'open')) {
             $conf = model('Xdata')->get('admin_Config:invite');
             $this->createInviteCode($uid, $type, $conf['send_link_num']);
         }
@@ -246,7 +246,7 @@ class InviteModel extends Model
         $_register_config = model('Xdata')->get('admin_Config:register');
         $registerType = $_register_config['register_type'];
         // 判断是否能进行邀请
-        if (!$isAdmin && $registerType == "invite") {
+        if (!$isAdmin && $registerType == 'invite') {
             $count = $this->getAvailableCodeCount($uid, 'email');
 
             // 扣除积分
@@ -339,7 +339,7 @@ class InviteModel extends Model
     public function applyInviteCode($uid, $type)
     {
         // 获取后台积分配置
-        $creditRule = model('Credit')->getCreditRuleByName("core_code");
+        $creditRule = model('Credit')->getCreditRuleByName('core_code');
         $applyCredit = abs($creditRule['score']);
         // 更新积分
         $userCredit = model('Credit')->getUserCredit($uid);
@@ -387,10 +387,10 @@ class InviteModel extends Model
         } else {
             $where = ' WHERE is_used = 1 AND '.$where;
         }
-        $sql = "SELECT inviter_uid, COUNT(receiver_uid) AS nums FROM ".$this->tablePrefix.$this->tableName." {$where} GROUP BY inviter_uid ";
+        $sql = 'SELECT inviter_uid, COUNT(receiver_uid) AS nums FROM '.$this->tablePrefix.$this->tableName." {$where} GROUP BY inviter_uid ";
         $count = $this->query("SELECT COUNT(1) AS nums FROM ({$sql}) a ");
         $count = $count[0]['nums'];
-        $sql .=" ORDER BY COUNT(inviter_uid) DESC ";
+        $sql .=' ORDER BY COUNT(inviter_uid) DESC ';
         $list = $this->findPageBySql($sql, $count, $pageNums);
 
         return $list;

@@ -28,14 +28,13 @@ class FollowWeibaListWidget extends Widget
             $var['nweibaList'] = array_chunk($var['weibaList'], 4);
         }
 
-
         $var['weibaListCount'] = D('weiba')->where($map)->count();
         foreach ($var['weibaList'] as $k=>$v) {
             $var['weibaList'][$k]['logo'] = getImageUrlByAttachId($v['logo'], 50, 50);
         }
         is_array($data) && $var = array_merge($var, $data);
         // 渲染模版
-        $content = $this->renderFile(dirname(__FILE__)."/followWeibaList.html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/followWeibaList.html', $var);
         unset($var, $data);
         // 输出数据
         return $content;

@@ -15,7 +15,7 @@ class ThirdpartyShareWidget extends Widget
      */
     public function render($data)
     {
-        $content = $this->renderFile(dirname(__FILE__)."/ThirdpartyShare.html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/ThirdpartyShare.html', $var);
 
         return $content;
     }

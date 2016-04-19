@@ -335,7 +335,7 @@ class SettingAction extends BaseAction
         $arr['step'] = $step;
         $arr['status'] = $result['status'];
         $arr['msg'] = $result['msg'];
-        header("Location:".U('w3g/Setting/avatar', $arr));
+        header('Location:'.U('w3g/Setting/avatar', $arr));
         // $this->ajaxReturn($result['data'], $result['info'], $result['status']);
     }
 
@@ -350,7 +350,7 @@ class SettingAction extends BaseAction
                 $arr = array();
                 $arr['status'] = 0;
                 $arr['msg'] = $result['info'];
-                header("Location:".U('w3g/Setting/avatar', $arr));
+                header('Location:'.U('w3g/Setting/avatar', $arr));
             } else {
                 model('User')->cleanCache($this->mid);
                 $user_feeds = model('Feed')->where('uid='.$this->mid)->field('feed_id')->findAll();

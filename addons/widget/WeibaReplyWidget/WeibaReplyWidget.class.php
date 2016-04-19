@@ -60,7 +60,7 @@ class WeibaReplyWidget extends Widget
             $row_ids = getSubByKey($var['list']['data'], 'reply_id');
             $var['diggArr'] = D('WeibaReplyDigg', 'weiba')->checkIsDigg($row_ids, $GLOBALS['ts']['mid']);
         }//渲染模版x
-        $content = $this->renderFile(dirname(__FILE__)."/".$var['tpl'].'.html', $var);
+        $content = $this->renderFile(dirname(__FILE__).'/'.$var['tpl'].'.html', $var);
         self::$rand ++;
         $ajax = $var['isAjax'];
         unset($var, $data);
@@ -125,11 +125,11 @@ class WeibaReplyWidget extends Widget
             $map['last_reply_time'] = $data['ctime'];
             $map ['reply_count'] = array(
                     'exp',
-                    "reply_count+1",
+                    'reply_count+1',
             );
             $map ['reply_all_count'] = array(
                     'exp',
-                    "reply_all_count+1",
+                    'reply_all_count+1',
             );
             D('weiba_post', 'weiba')->where('post_id='.$data['post_id'])->save($map);
             //同步到分享评论
@@ -239,7 +239,7 @@ class WeibaReplyWidget extends Widget
         $data['content'] = preg_html($data['content']);
         $data['content'] = parse_html($data['content']);
 
-        return $this->renderFile(dirname(__FILE__)."/_parseComment.html", $data);
+        return $this->renderFile(dirname(__FILE__).'/_parseComment.html', $data);
     }
 
     /**
@@ -266,6 +266,6 @@ class WeibaReplyWidget extends Widget
       // $var['cancomment_old'] = ($var['commentInfo']['uid'] != $var['commentInfo']['app_uid'] && $var['commentInfo']['app_uid'] != $this->uid) ? 1 : 0;
       $var['initHtml'] = L('PUBLIC_STREAM_REPLY').'@'.$var['commentInfo']['user_info']['uname'].' ：';   // 回复
       //dump($var);exit;
-      return $this->renderFile(dirname(__FILE__)."/reply_reply.html", $var);
+      return $this->renderFile(dirname(__FILE__).'/reply_reply.html', $var);
     }
 }

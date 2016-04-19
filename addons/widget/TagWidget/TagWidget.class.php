@@ -19,7 +19,7 @@ class TagWidget extends Widget
     public function render($data)
     {
         $var = array();
-        $var['width'] = "200px";
+        $var['width'] = '200px';
         $var['appname'] = 'public';
         $var['apptable'] = 'user';
         $var['row_id'] = 0;
@@ -55,7 +55,7 @@ class TagWidget extends Widget
                 unset($var['categoryTree'][$key]);
             }
         }
-        $content = $this->renderFile(dirname(__FILE__)."/".$var['tpl'].".html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/'.$var['tpl'].'.html', $var);
 
         return $content;
     }

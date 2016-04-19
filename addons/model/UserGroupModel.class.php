@@ -228,7 +228,7 @@ class UserGroupModel extends Model
 
         foreach ($user_group_link as $v) {
             if ($user_group[$v['user_group_id']]['icon']) {
-                $html .= "<img class='ts_icon' src=".THEME_URL."/images/".$user_group[$v['user_group_id']]['icon']." title=".$user_group[$v['user_group_id']]['title'].">";
+                $html .= "<img class='ts_icon' src=".THEME_URL.'/images/'.$user_group[$v['user_group_id']]['icon'].' title='.$user_group[$v['user_group_id']]['title'].'>';
             }
         }
 

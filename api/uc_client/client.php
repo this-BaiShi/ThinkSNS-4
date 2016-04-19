@@ -89,7 +89,7 @@ function uc_api_url($module, $action, $arg='', $extra='')
 
 function uc_api_input($data)
 {
-    $s = urlencode(uc_authcode($data.'&agent='.md5($_SERVER['HTTP_USER_AGENT'])."&time=".time(), 'ENCODE', UC_KEY));
+    $s = urlencode(uc_authcode($data.'&agent='.md5($_SERVER['HTTP_USER_AGENT']).'&time='.time(), 'ENCODE', UC_KEY));
 
     return $s;
 }
@@ -471,9 +471,9 @@ function uc_user_getcredit($appid, $uid, $credit)
 function uc_pm_location($uid, $newpm = 0)
 {
     $apiurl = uc_api_url('pm_client', 'ls', "uid=$uid", ($newpm ? '&folder=newbox' : ''));
-    @header("Expires: 0");
-    @header("Cache-Control: private, post-check=0, pre-check=0, max-age=0", false);
-    @header("Pragma: no-cache");
+    @header('Expires: 0');
+    @header('Cache-Control: private, post-check=0, pre-check=0, max-age=0', false);
+    @header('Pragma: no-cache');
     @header("location: $apiurl");
 }
 
@@ -498,10 +498,10 @@ function uc_pm_send($fromuid, $msgto, $subject, $message, $instantly = 1, $reply
         $replypmid = @is_numeric($replypmid) ? $replypmid : 0;
         $replyadd = $replypmid ? "&pmid=$replypmid&do=reply" : '';
         $apiurl = uc_api_url('pm_client', 'send', "uid=$fromuid", "&msgto=$msgto&subject=$subject&message=$message$replyadd");
-        @header("Expires: 0");
-        @header("Cache-Control: private, post-check=0, pre-check=0, max-age=0", false);
-        @header("Pragma: no-cache");
-        @header("location: ".$apiurl);
+        @header('Expires: 0');
+        @header('Cache-Control: private, post-check=0, pre-check=0, max-age=0', false);
+        @header('Pragma: no-cache');
+        @header('location: '.$apiurl);
     }
 }
 

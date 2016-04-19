@@ -6,7 +6,7 @@ class renren
     {
         if (!$callbackurl) {
             if ($type=='bind') {
-                $callbackurl = Addons::createAddonShow('Login', 'no_register_display', array('type'=>$site, 'do'=>"bind"));
+                $callbackurl = Addons::createAddonShow('Login', 'no_register_display', array('type'=>$site, 'do'=>'bind'));
             } else {
                 $callbackurl = Addons::createAddonShow('Login', 'no_register_display', array('type'=>$site));
             }
@@ -81,7 +81,7 @@ class renren
     {
         require_once 'renren/HttpRequestService.class.php';
         require_once 'renren/RenrenRestApiService.class.php';
-        $refresh_uri = 'https://graph.renren.com/oauth/token?grant_type=refresh_token&refresh_token='.$opt["oauth_token_secret"].'&client_id='.RENREN_KEY.'&client_secret='.RENREN_SECRET;
+        $refresh_uri = 'https://graph.renren.com/oauth/token?grant_type=refresh_token&refresh_token='.$opt['oauth_token_secret'].'&client_id='.RENREN_KEY.'&client_secret='.RENREN_SECRET;
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $refresh_uri);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -100,12 +100,12 @@ class renren
         $GLOBALS['config'] =& $config;
         $rrObj = new RenrenRestApiService;
 
-        $params = array('name'=>getShort($opt["feed_content"], 30),
-                        'description'=>$opt["feed_content"],
-                        'url'=>$opt["feed_url"],
-                        'image'=>$opt["pic_url"],
+        $params = array('name'=>getShort($opt['feed_content'], 30),
+                        'description'=>$opt['feed_content'],
+                        'url'=>$opt['feed_url'],
+                        'image'=>$opt['pic_url'],
                         'action_name'=>$GLOBALS['ts']['site']['site_name'],
-                        'action_link'=>$opt["feed_url"],
+                        'action_link'=>$opt['feed_url'],
                         'message'=> '分享',
                         'access_token'=>$access_token, );
         $res = $rrObj->rr_post_curl('feed.publishFeed', $params);

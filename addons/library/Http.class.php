@@ -41,7 +41,7 @@ class Http extends Think
     public static function curl_download($remote, $local)
     {
         $cp = curl_init($remote);
-        $fp = fopen($local, "w");
+        $fp = fopen($local, 'w');
         curl_setopt($cp, CURLOPT_FILE, $fp);
         curl_setopt($cp, CURLOPT_HEADER, 0);
         curl_exec($cp);
@@ -88,19 +88,19 @@ class Http extends Think
         if (!empty($filename)) {
             $type = mime_content_type($filename);
         } else {
-            $type     =     "application/octet-stream";
+            $type     =     'application/octet-stream';
         }
         //发送Http Header信息 开始下载
-        header("Pragma: public");
-        header("Cache-control: max-age=".$expire);
+        header('Pragma: public');
+        header('Cache-control: max-age='.$expire);
         //header('Cache-Control: no-store, no-cache, must-revalidate');
-        header("Expires: ".gmdate("D, d M Y H:i:s", time()+$expire)."GMT");
-        header("Last-Modified: ".gmdate("D, d M Y H:i:s", time())."GMT");
-        header("Content-Length: ".$length);
-        header("Content-type: ".$type);
-        header("Content-Disposition: attachment; filename= ".$showname." ");
+        header('Expires: '.gmdate('D, d M Y H:i:s', time()+$expire).'GMT');
+        header('Last-Modified: '.gmdate('D, d M Y H:i:s', time()).'GMT');
+        header('Content-Length: '.$length);
+        header('Content-type: '.$type);
+        header('Content-Disposition: attachment; filename= '.$showname.' ');
         header('Content-Encoding: none');
-        header("Content-Transfer-Encoding: binary");
+        header('Content-Transfer-Encoding: binary');
         if ($content == '') {
             readfile($filename);
         } else {

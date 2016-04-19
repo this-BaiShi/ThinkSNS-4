@@ -20,8 +20,8 @@ class OtherPostWidget extends Widget
         $var['post_id'] = $data['post_id'];
         $var['max'] = $data['max'];
         $var['topic_list'] = $list;
-        $var['title'] = "热门帖子";
-        $content = $this->renderFile(dirname(__FILE__)."/index.html", $var);
+        $var['title'] = '热门帖子';
+        $content = $this->renderFile(dirname(__FILE__).'/index.html', $var);
 
         return $content;
     }
@@ -39,7 +39,7 @@ class OtherPostWidget extends Widget
         $list = $this->_getRelatedGroup($data);
         $var['topic_list'] = $list;
         $var['title'] = $data['title'];
-        $content = $this->renderFile(dirname(__FILE__)."/_index.html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/_index.html', $var);
         exit(json_encode($content));
     }
 

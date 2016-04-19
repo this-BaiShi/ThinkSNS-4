@@ -80,10 +80,10 @@ if ($mail_setting['mailsend'] == 1 && function_exists('mail')) {
         $email_from = $mail_setting['mailfrom'];
     }
 
-    fputs($fp, "MAIL FROM: <".preg_replace("/.*\<(.+?)\>.*/", "\\1", $email_from).">\r\n");
+    fputs($fp, 'MAIL FROM: <'.preg_replace("/.*\<(.+?)\>.*/", '\\1', $email_from).">\r\n");
     $lastmessage = fgets($fp, 512);
     if (substr($lastmessage, 0, 3) != 250) {
-        fputs($fp, "MAIL FROM: <".preg_replace("/.*\<(.+?)\>.*/", "\\1", $email_from).">\r\n");
+        fputs($fp, 'MAIL FROM: <'.preg_replace("/.*\<(.+?)\>.*/", '\\1', $email_from).">\r\n");
         $lastmessage = fgets($fp, 512);
         if (substr($lastmessage, 0, 3) != 250) {
             return false;
@@ -94,10 +94,10 @@ if ($mail_setting['mailsend'] == 1 && function_exists('mail')) {
     foreach (explode(',', $mail['email_to']) as $touser) {
         $touser = trim($touser);
         if ($touser) {
-            fputs($fp, "RCPT TO: <".preg_replace("/.*\<(.+?)\>.*/", "\\1", $touser).">\r\n");
+            fputs($fp, 'RCPT TO: <'.preg_replace("/.*\<(.+?)\>.*/", '\\1', $touser).">\r\n");
             $lastmessage = fgets($fp, 512);
             if (substr($lastmessage, 0, 3) != 250) {
-                fputs($fp, "RCPT TO: <".preg_replace("/.*\<(.+?)\>.*/", "\\1", $touser).">\r\n");
+                fputs($fp, 'RCPT TO: <'.preg_replace("/.*\<(.+?)\>.*/", '\\1', $touser).">\r\n");
                 $lastmessage = fgets($fp, 512);
 
                 return false;
@@ -113,9 +113,9 @@ if ($mail_setting['mailsend'] == 1 && function_exists('mail')) {
 
     $headers .= 'Message-ID: <'.gmdate('YmdHs').'.'.substr(md5($mail['message'].microtime()), 0, 6).rand(100000, 999999).'@'.$_SERVER['HTTP_HOST'].">{$maildelimiter}";
 
-    fputs($fp, "Date: ".gmdate('r')."\r\n");
-    fputs($fp, "To: ".$mail['email_to']."\r\n");
-    fputs($fp, "Subject: ".$mail['subject']."\r\n");
+    fputs($fp, 'Date: '.gmdate('r')."\r\n");
+    fputs($fp, 'To: '.$mail['email_to']."\r\n");
+    fputs($fp, 'Subject: '.$mail['subject']."\r\n");
     fputs($fp, $headers."\r\n");
     fputs($fp, "\r\n\r\n");
     fputs($fp, "$mail[message]\r\n.\r\n");

@@ -37,7 +37,7 @@ class SearchUserWidget extends Widget
         $var['tpl'] && $tpl = $var['tpl'];
         //dump($tpl);exit;
         //渲染模版
-        $content = $this->renderFile(dirname(__FILE__)."/".$tpl, $var);
+        $content = $this->renderFile(dirname(__FILE__).'/'.$tpl, $var);
 
         self::$rand ++;
 

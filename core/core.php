@@ -30,7 +30,6 @@ tsdefine('IS_CGI', substr(PHP_SAPI, 0, 3)=='cgi' ? 1 : 0);
 tsdefine('IS_WIN', strstr(PHP_OS, 'WIN') ? 1 : 0);
 tsdefine('IS_HTTPS', 0);
 
-
 // # 设置API版本常量
 if (isset($_REQUEST['api_version'])) {
     $apiVersion = $_REQUEST['api_version'];
@@ -45,10 +44,10 @@ if (isset($_REQUEST['api_version'])) {
 if (!defined('_PHP_FILE_')) {
     if (IS_CGI) {
         // CGI/FASTCGI模式下
-        $_temp  = explode('.php', $_SERVER["PHP_SELF"]);
-        define('_PHP_FILE_', rtrim(str_replace($_SERVER["HTTP_HOST"], '', $_temp[0].'.php'), '/'));
+        $_temp  = explode('.php', $_SERVER['PHP_SELF']);
+        define('_PHP_FILE_', rtrim(str_replace($_SERVER['HTTP_HOST'], '', $_temp[0].'.php'), '/'));
     } else {
-        define('_PHP_FILE_', rtrim($_SERVER["SCRIPT_NAME"], '/'));
+        define('_PHP_FILE_', rtrim($_SERVER['SCRIPT_NAME'], '/'));
     }
 }
 
@@ -151,17 +150,17 @@ function tsautoload($classname)
     }
 
     // 自动加载当前项目的Actioon类和Model类
-    if (substr($classname, -5)=="Model") {
+    if (substr($classname, -5)=='Model') {
         if (!tsload(ADDON_PATH.'/model/'.$classname.'.class.php')) {
             tsload(APP_LIB_PATH.'/Model/'.$classname.'.class.php');
         }
-    } elseif (substr($classname, -6)=="Action") {
+    } elseif (substr($classname, -6)=='Action') {
         tsload(APP_LIB_PATH.'/Action/'.$classname.'.class.php');
-    } elseif (substr($classname, -6)=="Widget") {
+    } elseif (substr($classname, -6)=='Widget') {
         if (!tsload(ADDON_PATH.'/widget/'.$classname.'.class.php')) {
             tsload(APP_LIB_PATH.'/Widget/'.$classname.'.class.php');
         }
-    } elseif (substr($classname, -6)=="Addons") {
+    } elseif (substr($classname, -6)=='Addons') {
         if (!tsload(ADDON_PATH.'/plugin/'.$classname.'.class.php')) {
             tsload(APP_LIB_PATH.'/Plugin/'.$classname.'.class.php');
         }

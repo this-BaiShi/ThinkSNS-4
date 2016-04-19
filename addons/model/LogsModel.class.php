@@ -171,7 +171,7 @@ class LogsModel extends Model
         }
 
         if ($dropTables) {
-            return D('')->query("DROP TABLE ".implode(',', $dropTables));
+            return D('')->query('DROP TABLE '.implode(',', $dropTables));
         } else {
             return false;
         }
@@ -219,7 +219,7 @@ class LogsModel extends Model
      */
     public function dellogs($id, $date = '')
     {
-        $logsTableName = $this->tablePrefix.'x_logs'.(empty($date) ? "" : "_".$date);
+        $logsTableName = $this->tablePrefix.'x_logs'.(empty($date) ? '' : '_'.$date);
         $map['id'] = is_array($id) ? array('IN', $id) : $id;
 
         return D('')->table($logsTableName)->where($map)->delete();

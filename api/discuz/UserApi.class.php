@@ -2,8 +2,6 @@
 
 /** *  * @author jason * */require_once 'BaseApi.class.php';class UserApi extends BaseApi
 {
-
-
     //获取用户信息    public function profile()
     {
         if (empty($this->data['uid'])) {
@@ -17,9 +15,9 @@
         $data['avatar_middle'] = $this->discuzURl.'/uc_server/avatar.php?uid='.$content['uid'].'&size=middle';
         $data['avatar_big'] = $this->discuzURl.'/uc_server/avatar.php?uid='.$content['uid'].'&size=big';
         $data['thread_count'] = $content['threads'];
-        $data["following_count"] = $content['following'];
-        $data["follower_count"] = $content['follower'];
-        $data["feed_count"] = $content['feeds'];        //$data['sex'] = '';  //TODO 待补充        $data['user_group'] = array(0=>array(            'user_group_id'=>$content['groupid'],            'user_group_name'=>$content['group']['grouptitle'],            'user_group_icon'=>$content['group']['icon']        ));        //$data['medals'] = array(); //TODO 待补充        return $data;
+        $data['following_count'] = $content['following'];
+        $data['follower_count'] = $content['follower'];
+        $data['feed_count'] = $content['feeds'];        //$data['sex'] = '';  //TODO 待补充        $data['user_group'] = array(0=>array(            'user_group_id'=>$content['groupid'],            'user_group_name'=>$content['group']['grouptitle'],            'user_group_icon'=>$content['group']['icon']        ));        //$data['medals'] = array(); //TODO 待补充        return $data;
     }
 
     /**	 * 上传头像 API	 * 传入的头像变量 $_FILES['Filedata']	 */    public function upload_face()
@@ -33,9 +31,7 @@
 
         }
 
-
         $r = uc_friend_add($this->mid, $this->user_id);
-
 
         return $r;
 
@@ -48,14 +44,11 @@
 
         }
 
-
         $r = uc_friend_delete($this->mid, $this->user_id);
-
 
         return $r;
 
     }
-
 
     public function user_friend()
     {
@@ -71,12 +64,9 @@
 
         $limit = $this->data['limit'] ? $this->data['limit'] : 20;
 
-
         $total = uc_friend_totalnum($this->user_id, $direction);
 
-
         $list = uc_friend_ls($this->user_id, $page, $limit, $total, $direction);
-
 
         return $list;
 

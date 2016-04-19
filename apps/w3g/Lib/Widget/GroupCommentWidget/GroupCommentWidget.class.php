@@ -74,7 +74,7 @@ class GroupCommentWidget extends Widget
         // 获取资源类型
         $sourceInfo = D('GroupFeed')->get($var['row_id']);
         $var['feedtype'] = $sourceInfo['type'];
-        $content = $this->renderFile(dirname(__FILE__)."/".$var['tpl'].'.html', $var);
+        $content = $this->renderFile(dirname(__FILE__).'/'.$var['tpl'].'.html', $var);
         self::$rand ++;
         $ajax = $var['isAjax'];
         unset($var, $data);
@@ -282,6 +282,6 @@ class GroupCommentWidget extends Widget
         $data['storey'] = D('GroupComment')->where('comment_id='.$data['comment_id'])->getField('storey');
         $data['iscommentdel'] = CheckPermission('core_normal', 'comment_del');
 
-        return $this->renderFile(dirname(__FILE__)."/_parseComment.html", $data);
+        return $this->renderFile(dirname(__FILE__).'/_parseComment.html', $data);
     }
 }

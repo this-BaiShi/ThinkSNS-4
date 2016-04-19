@@ -47,7 +47,6 @@
   #Set the useragnet.
     private static $userAgent = 'Timescode_RESTClient v0.0.1-alpha';
 
-
      public function __construct()
      {
          $this->ch = curl_init();
@@ -143,12 +142,12 @@
          $fp = fopen($url, 'rb', false, $ctx);
 
          if (!$fp) {
-             die("can not open server!");
+             die('can not open server!');
          }
 
          $response = @stream_get_contents($fp);
          if ($response === false) {
-             die("can not get message form server!");
+             die('can not get message form server!');
           //throw new Exception("Problem reading data from {$url}, {$php_errormsg}");
          }
 
@@ -165,11 +164,11 @@
      {
          $in    = strtoupper($in);
          $out = strtoupper($out);
-         if ($in == "UTF8") {
-             $in = "UTF-8";
+         if ($in == 'UTF8') {
+             $in = 'UTF-8';
          }
-         if ($out == "UTF8") {
-             $out = "UTF-8";
+         if ($out == 'UTF8') {
+             $out = 'UTF-8';
          }
          if ($in==$out) {
              return $source;
@@ -178,7 +177,7 @@
          if (function_exists('mb_convert_encoding')) {
              return mb_convert_encoding($source, $out, $in);
          } elseif (function_exists('iconv')) {
-             return iconv($in, $out."//IGNORE", $source);
+             return iconv($in, $out.'//IGNORE', $source);
          }
 
          return $source;
@@ -191,13 +190,13 @@
      */
     public function do_post_request($url, $postdata, $files)
     {
-        $data = "";
-        $boundary = "---------------------".substr(md5(rand(0, 32000)), 0, 10);
+        $data = '';
+        $boundary = '---------------------'.substr(md5(rand(0, 32000)), 0, 10);
 
         //Collect Postdata
         foreach ($postdata as $key => $val) {
             $data .= "--$boundary\r\n";
-            $data .= "Content-Disposition: form-data; name=\"".$key."\"\r\n\r\n".$val."\r\n";
+            $data .= 'Content-Disposition: form-data; name="'.$key."\"\r\n\r\n".$val."\r\n";
         }
         $data .= "--$boundary\r\n";
 
@@ -205,7 +204,7 @@
         foreach ($files as $key => $file) {
             $fileContents = file_get_contents($file['tmp_name']);
             $data .= "Content-Disposition: form-data; name=\"{$key}\"; filename=\"{$file['name']}\"\r\n";
-            $data .= "Content-Type: ".$file['type']."\r\n";
+            $data .= 'Content-Type: '.$file['type']."\r\n";
             $data .= "Content-Transfer-Encoding: binary\r\n\r\n";
             $data .= $fileContents."\r\n";
             $data .= "--$boundary--\r\n";
@@ -217,17 +216,16 @@
                'content' => $data,
             ));
 
-
         $ctx = stream_context_create($params);
         $fp = fopen($url, 'rb', false, $ctx);
 
         if (!$fp) {
-            die("can not open server!");
+            die('can not open server!');
         }
 
         $response = @stream_get_contents($fp);
         if ($response === false) {
-            die("can not get message form server!");
+            die('can not get message form server!');
           //throw new Exception("Problem reading data from {$url}, {$php_errormsg}");
         }
 
@@ -274,7 +272,7 @@
                  $v=get_object_vars($v);
                  $jsonArr[$k]=$this->json_foreach($v);
              } else {
-                 $v=$this->convertEncoding($v, "utf-8", $this->_encode);
+                 $v=$this->convertEncoding($v, 'utf-8', $this->_encode);
                  $jsonArr[$k]=$v;
              }
          }

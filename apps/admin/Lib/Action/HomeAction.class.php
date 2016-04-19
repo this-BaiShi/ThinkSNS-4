@@ -51,7 +51,7 @@ class HomeAction extends AdministratorAction
         $serverInfo[L('PUBLIC_SERVER_SOFT')] = $_SERVER['SERVER_SOFTWARE'];
         $serverInfo[L('PUBLIC_UPLOAD_PERMISSION')] = (@ini_get('file_uploads')) ? ini_get('upload_max_filesize') : '<font color="red">no</font>';
         // 数据库信息
-        $mysqlinfo = D('')->query("SELECT VERSION() AS version");
+        $mysqlinfo = D('')->query('SELECT VERSION() AS version');
         $serverInfo[L('PUBLIC_MYSQL')] = $mysqlinfo[0]['version'] ;
 
         $t = D('')->query("SHOW TABLE STATUS LIKE '".C('DB_PREFIX')."%'");
@@ -64,7 +64,7 @@ class HomeAction extends AdministratorAction
         $aumap['ctime'] = array('GT', time() - 24 * 3600 * 30);                            // 1个月内登录过的用户
         $userInfo['activeUser'] = D('login_record')->where($aumap)->count();
 
-        $ymap['day'] = date('Y-m-d', strtotime("-1 day"));
+        $ymap['day'] = date('Y-m-d', strtotime('-1 day'));
         $d = D('online_stats')->where($ymap)->find();
         $userInfo['yesterdayUser'] = $d['most_online'];
 
@@ -74,13 +74,13 @@ class HomeAction extends AdministratorAction
         $onmap['uid'] = 0;
         $userInfo['onlineUser'] += count(D()->table(C('DB_PREFIX').'online')->where($onmap)->findAll());        // 加上游客
 
-        $ymap['day'] = array('GT', date('Y-m-d', strtotime("-7 day")));
+        $ymap['day'] = array('GT', date('Y-m-d', strtotime('-7 day')));
         $d = D('online_stats')->where($ymap)->field('max(most_online) AS most_online')->find();
         $userInfo['weekAvg'] = $d['most_online'];
 
         $this->assign('userInfo', $userInfo);
 
-        $ymap['day'] = array('GT', date('Y-m-d', strtotime("-7 day")));
+        $ymap['day'] = array('GT', date('Y-m-d', strtotime('-7 day')));
         $d = D('online_stats')->where($ymap)->getHashList('day', '*');
 
         $visitCount = array();
@@ -193,9 +193,9 @@ class HomeAction extends AdministratorAction
         $this->pageTab[] = array('title'=>'日志列表','tabHash'=>'list','url'=>U('admin/Home/logs'));
         $this->pageTab[] = array('title'=>'日志归档','tabHash'=>'down','url'=>U('admin/Home/logsArchive'));
         // 列表分页栏按钮
-        $this->pageButton[] = array('title'=>L('PUBLIC_LOGS_REMOVE_SEX'),'onclick'=>"admin.cleanLogs(6)");
-        $this->pageButton[] = array('title'=>L('PUBLIC_LOGS_REMOVE_SET'),'onclick'=>"admin.cleanLogs(12)");
-        $this->pageButton[] = array('title'=>L('PUBLIC_LOGS_REMOVE_LOG'),'onclick'=>"admin.logsArchive()");
+        $this->pageButton[] = array('title'=>L('PUBLIC_LOGS_REMOVE_SEX'),'onclick'=>'admin.cleanLogs(6)');
+        $this->pageButton[] = array('title'=>L('PUBLIC_LOGS_REMOVE_SET'),'onclick'=>'admin.cleanLogs(12)');
+        $this->pageButton[] = array('title'=>L('PUBLIC_LOGS_REMOVE_LOG'),'onclick'=>'admin.logsArchive()');
 
         $data['data'] =  D('')->query("SHOW TABLE STATUS LIKE '".C('DB_PREFIX')."x_logs%'") ;
 
@@ -290,7 +290,7 @@ class HomeAction extends AdministratorAction
         $map = $this->getSearchPost();
         !empty($map['app_name']) && $_map['app_name'] = t($map['app_name']);
         !empty($map['uname']) && $_map['uname'] = t($map['uname']);
-        !empty($map['keyword']) && $_map['keyword'] = array('LIKE', "%".t($map['keyword'])."%");
+        !empty($map['keyword']) && $_map['keyword'] = array('LIKE', '%'.t($map['keyword']).'%');
 
         if (!empty($map['ctime'][0]) && !empty($map['ctime'][1])) {
             $_map['ctime'] = array('BETWEEN', array(strtotime($map['ctime'][0]),strtotime($map['ctime'][1])));
@@ -338,7 +338,7 @@ class HomeAction extends AdministratorAction
         $this->pageKeyList = array('id','method','schedule_type','modifier','dirlist','month','start_datetime','end_datetime','last_run_time','info');
         $this->pageTab[] = array('title'=>L('PUBLIC_SCHEDULED_TASK_LIST'),'tabHash'=>'list','url'=>U('admin/Home/schedule'));
         $this->pageTab[] = array('title'=>L('PUBLIC_SCHEDULED_TASK_CREATE'),'tabHash'=>'new','url'=>U('admin/Home/newschedule'));
-        $this->pageButton[] = array('title'=>L('PUBLIC_SCHEDULED_TASK_DELETE'),'onclick'=>"admin.delschedule()");
+        $this->pageButton[] = array('title'=>L('PUBLIC_SCHEDULED_TASK_DELETE'),'onclick'=>'admin.delschedule()');
 
         $list = model('Schedule')->getScheduleList();
         $listdata['data'] = array();
@@ -515,13 +515,13 @@ class HomeAction extends AdministratorAction
         $this->assign('pageTitle', L('PUBLIC_FEEDBACK_MANAGE'));
         // 数据的格式化 与listKey保持一致
         if ($_GET['type']) {
-            if ($_GET['type'] == "true") {
-                $listData = model('Feedback')->where("type = 1")->order("cTime desc")->findPage(20);
+            if ($_GET['type'] == 'true') {
+                $listData = model('Feedback')->where('type = 1')->order('cTime desc')->findPage(20);
             } else {
-                $listData = model('Feedback')->where("type = 0")->order("cTime desc")->findPage(20);
+                $listData = model('Feedback')->where('type = 0')->order('cTime desc')->findPage(20);
             }
         } else {
-            $listData = model('Feedback')->order("cTime desc")->findPage(20);
+            $listData = model('Feedback')->order('cTime desc')->findPage(20);
         }
 
         foreach ($listData['data'] as &$v) {
@@ -618,7 +618,7 @@ class HomeAction extends AdministratorAction
             if ($add['type_name'] == '') {
                 $this->error(L('PUBLIC_ADMIN_OPRETING_ERROR'));
             } else {
-                $res = D('')->table(C('DB_PREFIX').'feedback_type')->where("type_id = ".$_POST['type_id'])->save($add);
+                $res = D('')->table(C('DB_PREFIX').'feedback_type')->where('type_id = '.$_POST['type_id'])->save($add);
             }
         } else {
             //add $res
@@ -666,7 +666,6 @@ class HomeAction extends AdministratorAction
             $this->error(model()->getError());
         }
     }
-
 
     public function message()
     {
@@ -754,7 +753,7 @@ class HomeAction extends AdministratorAction
         //列表分页栏 按钮
         $this->pageButton[] = array('title'=>L('PUBLIC_SEARCH_INDEX'),'onclick'=>"admin.fold('search_form')");
         $_POST = $this->getSearchPost();
-        $uids =    empty($_POST['inviter_uid']) ? '' : explode(",", $_POST['inviter_uid']);
+        $uids =    empty($_POST['inviter_uid']) ? '' : explode(',', $_POST['inviter_uid']);
         $where = !empty($uids) ? " inviter_uid in ('".implode("','", $uids)."')" :'';
         $listData = model('Invite')->getTopPage($where, 20);
         $s = intval($_REQUEST['p']) * 20 + 1;
@@ -817,7 +816,7 @@ class HomeAction extends AdministratorAction
 
         /*数据的格式化 与listKey保持一致 */
         $map = array();
-        !empty($_POST['name']) && $map['b.name'] = array('like', "%".t($_POST['name'])."%");
+        !empty($_POST['name']) && $map['b.name'] = array('like', '%'.t($_POST['name']).'%');
         !empty($_POST['table']) && $map['_string'] = "`table` = '".t($_POST['table'])."'";
 
         $listData = model('Tag')->getAppTagList($map);

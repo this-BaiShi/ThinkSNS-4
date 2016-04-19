@@ -28,7 +28,7 @@ class TopMenuWidget extends Widget
 
         $var['followStatus'] = D('ChannelFollow', 'channel')->getFollowStatus($GLOBALS['ts']['mid'], $var['cid']);
 
-        $content = $this->renderFile(dirname(__FILE__)."/".$template.".html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/'.$template.'.html', $var);
 
         return $content;
     }

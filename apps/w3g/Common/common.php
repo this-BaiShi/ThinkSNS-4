@@ -49,7 +49,7 @@ function wapFormatCommentAt($content)
 // 话题格式化回调
 function wapFormatTopic($data)
 {
-    return "<a class='c_a' href=".U('w3g/Index/doSearch', array('key'=>t($data[1]))).">".$data[0]."</a>";
+    return "<a class='c_a' href=".U('w3g/Index/doSearch', array('key'=>t($data[1]))).'>'.$data[0].'</a>';
 }
 
 // 用户连接格式化回调
@@ -57,7 +57,7 @@ function wapFormatUser($name)
 {
     $info = D('User', 'home')->getUserByIdentifier($name[1], 'uname');
     if ($info) {
-        return "<a class='c_a' href=".U('w3g/Index/profile', array('uid'=>$info['uid'])).">".$name[0]."</a>";
+        return "<a class='c_a' href=".U('w3g/Index/profile', array('uid'=>$info['uid'])).'>'.$name[0].'</a>';
     } else {
         return "$name[0]";
     }
@@ -69,11 +69,10 @@ function getContentUrl($url)
     return getShortUrl($url[1]).' ';
 }
 
-
 function is_iphone()
 {
     $user_agent = $_SERVER['HTTP_USER_AGENT'];
-    $mobile_agents = array("iphone","ipad","ipod");
+    $mobile_agents = array('iphone','ipad','ipod');
     $is_iphone = false;
     foreach ($mobile_agents as $device) {
         if (stristr($user_agent, $device)) {
@@ -88,7 +87,7 @@ function is_iphone()
 function is_android()
 {
     $user_agent = $_SERVER['HTTP_USER_AGENT'];
-    $mobile_agents = array("android");
+    $mobile_agents = array('android');
     $is_android = false;
     foreach ($mobile_agents as $device) {
         if (stristr($user_agent, $device)) {
@@ -106,13 +105,13 @@ function is_android()
  */
 function _w3g_parse_expression($data)
 {
-    if (preg_match("/#.+#/i", $data[0])) {
+    if (preg_match('/#.+#/i', $data[0])) {
         return $data[0];
     }
     $allexpression = model('Expression')->getAllExpression();
     $info = $allexpression[$data[0]];
     if ($info) {
-        return preg_replace("/\[.+?\]/i", "<img src='".__THEME__."/image/expression/default/".$info['filename']."' />", $data[0]);
+        return preg_replace("/\[.+?\]/i", "<img src='".__THEME__.'/image/expression/default/'.$info['filename']."' />", $data[0]);
     } else {
         return $data[0];
     }
@@ -161,29 +160,27 @@ function bbcodewap($message)
             "/\[float=right\]/i",
 
     ), array(
-            "<font color=\"\\1\">",
-            "<font style=\"color:\\1\">",
-            "<font style=\"background-color:\\1\">",
-            "<font style=\"background-color:\\1\">",
-            "\\1", //"<font size=\"\\1\">",
-            "\\1", //"<font style=\"font-size:\\1\">",
-            "\\2", //"<font face=\"\\1\">",
-            "<div align=\"\\1\">",
-            "<p style=\"line-height:\\1px;text-indent:\\2em;text-align:\\3\">",
-            "<span style=\"float:left;margin-right:5px\">",
-            "<span style=\"float:right;margin-left:5px\">",
+            '<font color="\\1">',
+            '<font style="color:\\1">',
+            '<font style="background-color:\\1">',
+            '<font style="background-color:\\1">',
+            '\\1', //"<font size=\"\\1\">",
+            '\\1', //"<font style=\"font-size:\\1\">",
+            '\\2', //"<font face=\"\\1\">",
+            '<div align="\\1">',
+            '<p style="line-height:\\1px;text-indent:\\2em;text-align:\\3">',
+            '<span style="float:left;margin-right:5px">',
+            '<span style="float:right;margin-left:5px">',
     ), $message));
 
-
-    $message = preg_replace("/\s?\[postbg\]\s*([^\[\<\r\n;'\"\?\(\)]+?)\s*\[\/postbg\]\s?/is", "", $message);
-
+    $message = preg_replace("/\s?\[postbg\]\s*([^\[\<\r\n;'\"\?\(\)]+?)\s*\[\/postbg\]\s?/is", '', $message);
 
     if (strpos($msglower, '[/quote]') !== false) {
-        $message = preg_replace("/\s?\[quote\][\n\r]*(.+?)[\n\r]*\[\/quote\]\s?/is", "<div class=\"quote\"><blockquote>\\1</blockquote></div>", $message);
+        $message = preg_replace("/\s?\[quote\][\n\r]*(.+?)[\n\r]*\[\/quote\]\s?/is", '<div class="quote"><blockquote>\\1</blockquote></div>', $message);
     }
 
     if (strpos($msglower, '[/free]') !== false) {
-        $message = preg_replace("/\s*\[free\][\n\r]*(.+?)[\n\r]*\[\/free\]\s*/is", "\\1", $message);
+        $message = preg_replace("/\s*\[free\][\n\r]*(.+?)[\n\r]*\[\/free\]\s*/is", '\\1', $message);
     }
 
     // if(!defined('IN_MOBILE')) {
@@ -197,8 +194,7 @@ function bbcodewap($message)
         $message = preg_replace("/\[flash(=(\d+),(\d+))?\]\s*([^\[\<\r\n]+?)\s*\[\/flash\]/ies", $allowmediacode ? "parseflash('\\2', '\\3', '\\4');" : "bbcodeurl('\\4', '<a href=\"{url}\" target=\"_blank\">{url}</a>')", $message);
     }
 
-
-    $message = preg_replace("/\[attach\](.+?)\[\/attach\]/is", "<img src=\"attach.php?aid=\\1\" />", $message);
+    $message = preg_replace("/\[attach\](.+?)\[\/attach\]/is", '<img src="attach.php?aid=\\1" />', $message);
 
     $message = str_replace('[img]static/image/common/back.gif[/img]', '', $message);
 
@@ -210,11 +206,10 @@ function bbcodewap($message)
       "/\[hide\](.+?)\[\/hide\]/is",
     );
 
-
     $neter_str=array(
-      "<img width=\"\\1\" height=\"\\2\" src=\"\\3\" />",
-      "<img src=\"\\1\" />",
-      "<div class=\"hide\">\\1</div>",
+      '<img width="\\1" height="\\2" src="\\3" />',
+      '<img src="\\1" />',
+      '<div class="hide">\\1</div>',
     );
 
     $message = preg_replace($neter_mo, $neter_str, $message);

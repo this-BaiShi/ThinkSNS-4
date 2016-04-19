@@ -204,7 +204,7 @@ class GlobalAction extends AdministratorAction
     public function doAddCredit()
     {
         $name = trim($_POST['name']);
-        if ($name == "" && $_POST['name'] != "") {
+        if ($name == '' && $_POST['name'] != '') {
             $this->error('名称不能为空格');
         }
         if (!$this->__isValidRequest('name')) {
@@ -261,7 +261,7 @@ class GlobalAction extends AdministratorAction
     public function doEditCredit()
     {
         $name = trim($_POST['name']);
-        if ($name == "" && $_POST['name'] != "") {
+        if ($name == '' && $_POST['name'] != '') {
             $this->error('名称不能为空格');
         }
         if (!$this->__isValidRequest('id,name')) {
@@ -358,8 +358,6 @@ class GlobalAction extends AdministratorAction
         foreach ($creditType as $v) {
             $action[$v['name']] = intval($_POST[$v['name']]);
         }
-
-
 
         if ($_POST['action'] == 'set') {
             //积分修改为

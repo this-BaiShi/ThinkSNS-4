@@ -17,7 +17,7 @@
  */
 
 //载入上传操作类
-tsload(SITE_PATH."/addons/library/UploadFile.class.php");
+tsload(SITE_PATH.'/addons/library/UploadFile.class.php');
 
 class XattachModel
 {
@@ -186,7 +186,7 @@ class XattachModel
         $options =    array();
         $options['custom_path']    =    date($system_default['attach_path_rule']);
         $options['save_path']    =    UPLOAD_PATH.'/'.$options['custom_path'];
-        $options['save_name']    =    uniqid().".".$file['extension'];
+        $options['save_name']    =    uniqid().'.'.$file['extension'];
         $options['save_to_db']    =    true;
 
         //用户ID
@@ -283,7 +283,7 @@ class XattachModel
     }
 
     //返回附件数据
-    public function getAttach($attachId, $field="*")
+    public function getAttach($attachId, $field='*')
     {
         if (!$attachId || !isset($attachId)) {
             return false;

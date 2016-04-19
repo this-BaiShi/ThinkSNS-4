@@ -32,7 +32,7 @@ class MedalAction extends AdministratorAction
             $v['DOACTION'] .= " <a href='javascript:void(0)' onclick='admin.deletemedal(".$v['id'].")'>删除</a>";
         }
         $this->pageButton[] = array('title'=>'添加' , 'onclick' => "javascript:location.href='".U('admin/Medal/addMedal')."';");
-        $this->pageButton[] = array('title'=>'删除' , 'onclick' => "admin.deletemedal()");
+        $this->pageButton[] = array('title'=>'删除' , 'onclick' => 'admin.deletemedal()');
         $this->displayList($list);
     }
     /**
@@ -68,7 +68,6 @@ class MedalAction extends AdministratorAction
             } else {
                 $this->error('请上传大图');
             }
-
 
             //炫耀卡片
             if ($_POST['share_card']) {

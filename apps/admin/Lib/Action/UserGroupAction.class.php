@@ -24,7 +24,7 @@ class UserGroupAction extends AdministratorAction
          // 页面具有的字段，可以移动到配置文件中！！！
         $this->pageKeyList = array('user_group_id','app_name','user_group_name','user_group_type','user_group_icon','is_authenticate','DOACTION');
 
-        $this->pageButton[] = array('title'=>L('PUBLIC_ADD_USER_GROUP'),'onclick'=>"admin.addUserGroup()");
+        $this->pageButton[] = array('title'=>L('PUBLIC_ADD_USER_GROUP'),'onclick'=>'admin.addUserGroup()');
         // $this->pageButton[] = array('title'=>L('PUBLIC_DELETE_USER_GROUP'),'onclick'=>"admin.delUserGroup(this)");
 
         $list = model('UserGroup')->findPage(10);
@@ -33,10 +33,10 @@ class UserGroupAction extends AdministratorAction
             $value['user_group_type'] = empty($value['user_group_type']) ? L('PUBLIC_ORDINARY'):L('PUBLIC_SPECIAL');
             $value['user_group_icon'] = $value['user_group_icon']!='-1' ? '<img src="'.THEME_PUBLIC_URL.'/image/usergroup/'.$value['user_group_icon'].'">' :'';
             $value['is_authenticate'] = $value['is_authenticate']==1?'是':'否';
-            $value['DOACTION'] = "<a href='".U('admin/UserGroup/addUsergroup', array('user_group_id'=>$value['user_group_id']))."'>".L('PUBLIC_EDIT')."</a>&nbsp;-&nbsp;";
-            $value['DOACTION'] .= "<a href='".U('admin/Config/permissionset', array('gid'=>$value['user_group_id']))."'>".L('PUBLIC_PERMISSION_GROUP_CONFIGURATION')."</a>&nbsp;";
+            $value['DOACTION'] = "<a href='".U('admin/UserGroup/addUsergroup', array('user_group_id'=>$value['user_group_id']))."'>".L('PUBLIC_EDIT').'</a>&nbsp;-&nbsp;';
+            $value['DOACTION'] .= "<a href='".U('admin/Config/permissionset', array('gid'=>$value['user_group_id']))."'>".L('PUBLIC_PERMISSION_GROUP_CONFIGURATION').'</a>&nbsp;';
             if ($value['user_group_id'] > 6) {
-                $value['DOACTION'] .= "<a href='javascript:void(0)' onclick=\"admin.delUserGroup(this,'{$value['user_group_id']}')\">".L('PUBLIC_STREAM_DELETE')."</a> ";
+                $value['DOACTION'] .= "<a href='javascript:void(0)' onclick=\"admin.delUserGroup(this,'{$value['user_group_id']}')\">".L('PUBLIC_STREAM_DELETE').'</a> ';
             }
         }
 
@@ -59,7 +59,6 @@ class UserGroupAction extends AdministratorAction
                 $this->error(L('PUBLIC_SAVE_FAIL'));
             }
         }
-
 
         $this->pageKeyList = array('user_group_id','user_group_name','user_group_icon','user_group_type','is_authenticate');
 

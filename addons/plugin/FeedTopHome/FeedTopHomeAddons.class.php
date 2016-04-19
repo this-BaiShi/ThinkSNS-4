@@ -8,7 +8,7 @@ class FeedTopHomeAddons extends NormalAddons
     protected $info = '空间分享置顶';
     protected $pluginName = '空间分享置顶';
     protected $sqlfile = '暂无';
-    protected $tsVersion = "3.0";
+    protected $tsVersion = '3.0';
 
     public function getHooksInfo()
     {

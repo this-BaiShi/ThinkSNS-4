@@ -127,7 +127,7 @@ class FeedAction extends Action
         }
         $d ['source_url'] = urldecode($_POST ['source_url']); // 应用分享到分享，原资源链接
                                                                  // 滤掉话题两端的空白
-        $d ['body'] = preg_replace("/#[\s]*([^#^\s][^#]*[^#^\s])[\s]*#/is", '#'.trim("\${1}").'#', $d ['body']);
+        $d ['body'] = preg_replace("/#[\s]*([^#^\s][^#]*[^#^\s])[\s]*#/is", '#'.trim('${1}').'#', $d ['body']);
         // $numbers = array(41624,41625,41626,41627,41628,41629);
         // shuffle($numbers);
         // // 附件信息
@@ -136,7 +136,7 @@ class FeedAction extends Action
         // 	$_POST ['type'] = 'postimage';
         // }
 
-        $d ['attach_id'] = trim(t($_POST ['attach_id']), "|");
+        $d ['attach_id'] = trim(t($_POST ['attach_id']), '|');
         if (! empty($d ['attach_id'])) {
             $d ['attach_id'] = explode('|', $d ['attach_id']);
             if (count($d ['attach_id'])==1&&$_POST ['channel_id']!=''&&false) {
@@ -197,11 +197,11 @@ class FeedAction extends Action
         }
         // 绑定话题
         $content = html_entity_decode($d ['body'], ENT_QUOTES, 'UTF-8');
-        $content = str_replace("＃", "#", $content);
+        $content = str_replace('＃', '#', $content);
         preg_match_all("/#([^#]*[^#^\s][^#]*)#/is", $content, $topics);
         $topics = array_unique($topics [1]);
         foreach ($topics as &$topic) {
-            $topic = trim(preg_replace("/#/", '', t($topic)));
+            $topic = trim(preg_replace('/#/', '', t($topic)));
         }
         $bindTopicChannel = D('Channel', 'channel')->getCategoryByTopicBind($topics);
         if (! empty($bindTopicChannel)) {
@@ -722,7 +722,6 @@ class FeedAction extends Action
         exit(json_encode($data));
     }
 
-
     /**
      * 异步获取指定图片内容
      *
@@ -818,7 +817,7 @@ class FeedAction extends Action
                 $var ['fileTypeExts'] .= '*.'.strtolower($value).'; ';
             }
             $video_size = $video_config ['video_size'] ? intval($video_config ['video_size']) : $defaultVideoSize;
-            $var ['fileSizeLimit'] = $video_size."MB";
+            $var ['fileSizeLimit'] = $video_size.'MB';
             $var ['total'] = 1;
             $data ['html'] = fetch('videoBox', $var);
             $data ['video_ext'] = implode(',', $ext);

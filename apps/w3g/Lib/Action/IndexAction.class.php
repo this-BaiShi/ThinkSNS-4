@@ -240,7 +240,6 @@ class IndexAction extends BaseAction
         }
     }
 
-
     // 转发分享
     public function retweet()
     {
@@ -1047,14 +1046,14 @@ class IndexAction extends BaseAction
                         if ($v ['type'] == 'postvideo') {
                             // $weibolist[$k]['content'] = $v['source_body'];
                             $weibolist [$k] ['content'] = $v ['feed_content'] ? $v ['feed_content'] : $v ['source_body'];
-                            $weibolist [$k] ['content'] = wapFormatContent($weibolist [$k] ['content'], true, $self_url, "视频");
+                            $weibolist [$k] ['content'] = wapFormatContent($weibolist [$k] ['content'], true, $self_url, '视频');
                         } else {
-                            $weibolist [$k] ['content'] = wapFormatContent($weibolist [$k] ['content'], true, $self_url, "访问链接");
+                            $weibolist [$k] ['content'] = wapFormatContent($weibolist [$k] ['content'], true, $self_url, '访问链接');
                         }
                         // 非视频分享
                         if ($v ['transpond_data'] ['content']) {
                             if (strpos($weibolist [$k] ['type'], 'video')) {
-                                $weibolist [$k] ['transpond_data'] ['content'] = wapFormatContent($v ['transpond_data'] ['content'], true, $self_url, "视频");
+                                $weibolist [$k] ['transpond_data'] ['content'] = wapFormatContent($v ['transpond_data'] ['content'], true, $self_url, '视频');
                             } else {
                                 $weibolist [$k] ['transpond_data'] ['content'] = wapFormatContent($v ['transpond_data'] ['content'], true, $self_url);
                             }
@@ -1223,14 +1222,14 @@ class IndexAction extends BaseAction
         if ($detail ['type'] == 'postvideo') {
             // $weibolist[$k]['content'] = $v['source_body'];
             $detail ['content'] = $detail ['feed_content'] ? $detail ['feed_content'] : $detail ['source_body'];
-            $detail ['content'] = wapFormatContent($detail ['content'], true, $self_url, "视频");
+            $detail ['content'] = wapFormatContent($detail ['content'], true, $self_url, '视频');
         } else {
             $detail ['content'] = wapFormatContent($detail ['content'], true, $self_url);
         }
         // 非视频分享
         if ($detail ['transpond_data'] ['content']) {
             if (strpos($weibolist [$k] ['type'], 'video')) {
-                $detail ['transpond_data'] ['content'] = wapFormatContent($detail ['transpond_data'] ['content'], true, $self_url, "视频");
+                $detail ['transpond_data'] ['content'] = wapFormatContent($detail ['transpond_data'] ['content'], true, $self_url, '视频');
             } else {
                 $detail ['transpond_data'] ['content'] = wapFormatContent($detail ['transpond_data'] ['content'], true, $self_url);
             }
@@ -1340,12 +1339,12 @@ class IndexAction extends BaseAction
         if ($type == 'user_following' && $_GET ['uid'] == $this->mid) {
             $this->assign('datatitle', '我的关注');
         } elseif ($type == 'user_following' && $_GET ['uid'] != $this->mid) {
-            $this->assign('datatitle', "TA的关注");
+            $this->assign('datatitle', 'TA的关注');
         }
         if ($type == 'user_followers' && $_GET ['uid'] == $this->mid) {
             $this->assign('datatitle', '我的粉丝');
         } elseif ($type == 'user_followers' && $_GET ['uid'] != $this->mid) {
-            $this->assign('datatitle', "TA的粉丝");
+            $this->assign('datatitle', 'TA的粉丝');
         }
 
         $this->assign('count', $count);
@@ -1549,9 +1548,9 @@ class IndexAction extends BaseAction
         }
         $d ['source_url'] = urldecode($_POST ['source_url']); // 应用分享到分享，原资源链接
                                                             // 滤掉话题两端的空白
-        $d ['body'] = preg_replace("/#[\s]*([^#^\s][^#]*[^#^\s])[\s]*#/is", '#'.trim("\${1}").'#', $d ['body']);
+        $d ['body'] = preg_replace("/#[\s]*([^#^\s][^#]*[^#^\s])[\s]*#/is", '#'.trim('${1}').'#', $d ['body']);
         // 附件信息
-        $d ['attach_id'] = trim(t($_POST ['attach_id']), "|");
+        $d ['attach_id'] = trim(t($_POST ['attach_id']), '|');
         if (! empty($d ['attach_id'])) {
             $d ['attach_id'] = explode('|', $d ['attach_id']);
             array_map('intval', $d ['attach_id']);
@@ -1609,11 +1608,11 @@ class IndexAction extends BaseAction
         }
         // 绑定话题
         $content = html_entity_decode($d ['body'], ENT_QUOTES, 'UTF-8');
-        $content = str_replace("＃", "#", $content);
+        $content = str_replace('＃', '#', $content);
         preg_match_all("/#([^#]*[^#^\s][^#]*)#/is", $content, $topics);
         $topics = array_unique($topics [1]);
         foreach ($topics as &$topic) {
-            $topic = trim(preg_replace("/#/", '', t($topic)));
+            $topic = trim(preg_replace('/#/', '', t($topic)));
         }
         $bindTopicChannel = D('Channel', 'channel')->getCategoryByTopicBind($topics);
         if (! empty($bindTopicChannel)) {
@@ -2080,10 +2079,10 @@ class IndexAction extends BaseAction
                 break;
         }
         if ($res) {
-            echo "1";
+            echo '1';
             exit();
         } else {
-            echo "0";
+            echo '0';
             exit();
         }
     }
@@ -2172,7 +2171,7 @@ class IndexAction extends BaseAction
         if (! headers_sent()) {
             // redirect
             if (0 === $time) {
-                header("Location: ".$url);
+                header('Location: '.$url);
             } else {
                 header("refresh:{$time};url={$url}");
                 // 防止手机浏览器下的乱码
@@ -2194,7 +2193,7 @@ class IndexAction extends BaseAction
     public function countnew()
     {
         $map = "weibo_id>{$_POST['nowMaxID']} AND isdel=0";
-        $map .= " AND ( uid IN (SELECT fid FROM ".C('DB_PREFIX')."weibo_follow WHERE uid=$this->uid) OR uid=$this->uid )";
+        $map .= ' AND ( uid IN (SELECT fid FROM '.C('DB_PREFIX')."weibo_follow WHERE uid=$this->uid) OR uid=$this->uid )";
         $countnew = M('Weibo')->where($map)->count();
         echo $countnew ? $countnew : '0';
     }
@@ -2225,7 +2224,7 @@ class IndexAction extends BaseAction
         $this->assign('initHtml', $initHtml);
         $this->assign($data);
         // seo
-        $seo = model('Xdata')->get("admin_Config:seo_feed_topic");
+        $seo = model('Xdata')->get('admin_Config:seo_feed_topic');
         $replace ['topicName'] = $data ['topic'];
         $replace ['topicNote'] = $data ['topics'] ['note'];
         $replace ['topicDes'] = $data ['topics'] ['des'];
@@ -2234,7 +2233,7 @@ class IndexAction extends BaseAction
         }
         $replaces = array_keys($replace);
         foreach ($replaces as &$v) {
-            $v = "{".$v."}";
+            $v = '{'.$v.'}';
         }
         $max_id = intval($_REQUEST ['max_id']);
         // 搜索分享

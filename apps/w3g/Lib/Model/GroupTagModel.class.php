@@ -77,7 +77,6 @@ class GroupTagModel extends Model
         }
     }
 
-
     // 获取指定群组Tag列表
     public function getGroupTagList($gid)
     {

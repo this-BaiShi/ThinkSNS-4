@@ -179,7 +179,6 @@ class AdministratorAction extends Action
         $_SESSION['admin_init_post'][$this->searchPageKey] = $data;
     }
 
-
     /**
      * 显示配置详细页面
      *
@@ -192,7 +191,6 @@ class AdministratorAction extends Action
 
         $this->display(THEME_PATH.'/admin_config.html');
     }
-
 
     /**
      * 显示列表页面
@@ -229,7 +227,7 @@ class AdministratorAction extends Action
     {
 
         //数据保存动作提交的地址
-        $this->onload[] = "admin.bindCatetree()";
+        $this->onload[] = 'admin.bindCatetree()';
         //页面Key配置保存的值
         $pageKeyData = model('Xconfig')->pagekey_get('pageKey:'.$this->pageKey);
 
@@ -269,9 +267,8 @@ class AdministratorAction extends Action
 
         $this->assign('pageKeyData', $pageKeyData);
 
-
         if ($detailData === false) {
-            $detailData = model('Xdata')->get($this->systemdata_list.":".$this->systemdata_key);
+            $detailData = model('Xdata')->get($this->systemdata_list.':'.$this->systemdata_key);
         }
 
         $this->assign('detailData', $detailData);
@@ -312,7 +309,7 @@ class AdministratorAction extends Action
      */
     public function createData()
     {
-        $sql = "select * from ".C('DB_PREFIX')."system_data where list = 'pageKey' or list = 'searchPageKey'";
+        $sql = 'select * from '.C('DB_PREFIX')."system_data where list = 'pageKey' or list = 'searchPageKey'";
         $list = D('')->query($sql);
         foreach ($list as $v) {
             $v['value'] = unserialize($v['value']);
@@ -369,7 +366,7 @@ class AdministratorAction extends Action
         if (empty($_POST['systemdata_list']) || empty($_POST['systemdata_key'])) {
             $this->error(L('PUBLIC_SAVE_FAIL'));            // 保存失败
         }
-        $key = t($_POST['systemdata_list']).":".t($_POST['systemdata_key']);
+        $key = t($_POST['systemdata_list']).':'.t($_POST['systemdata_key']);
         $title = t($_POST['pageTitle']);
         unset($_POST['systemdata_list'], $_POST['systemdata_key'], $_POST['pageTitle']);
         //rewrite验证.

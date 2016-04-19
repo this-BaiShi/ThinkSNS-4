@@ -71,7 +71,7 @@ class CheckInWidget extends Widget
         }
         $data ['week'] = $week;
         $data ['credit'] = M('credit_setting')->where("`name`='check_in'")->find();
-        $content = $this->renderFile(dirname(__FILE__)."/".$data ['tpl'].'.html', $data);
+        $content = $this->renderFile(dirname(__FILE__).'/'.$data ['tpl'].'.html', $data);
 
         return $content;
     }

@@ -31,7 +31,7 @@ class UserCategorysWidget extends Widget
         }
         $var['callback'] = $data['callback'];
         // 渲染模版
-        $content = $this->renderFile(dirname(__FILE__)."/".$template.".html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/'.$template.'.html', $var);
         // 输出数据
         return $content;
     }

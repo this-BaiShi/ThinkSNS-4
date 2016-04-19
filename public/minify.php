@@ -26,11 +26,11 @@ if ($gettype=='css') {
     die('not allowed content type');
 }
 
-header("content-type: ".$content_type."; charset: utf-8");        //注意修改到你的编码
-header("cache-control: must-revalidate");                //
-header("expires: ".gmdate("D, d M Y H:i:s", time() + 60 * 60 * 24 * 7)." GMT");    //过期时间
+header('content-type: '.$content_type.'; charset: utf-8');        //注意修改到你的编码
+header('cache-control: must-revalidate');                //
+header('expires: '.gmdate('D, d M Y H:i:s', time() + 60 * 60 * 24 * 7).' GMT');    //过期时间
 
-ob_start("compress");
+ob_start('compress');
 
 function compress($buffer)
 {

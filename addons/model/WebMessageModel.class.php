@@ -224,7 +224,7 @@ class WebMessageModel
             return false;
         }
         if (false !== M()->execute("INSERT INTO `{$table}` (`list_id`,`member_uid`,`new`".
-            ",`message_num`,`ctime`,`list_ctime`) VALUES ".rtrim($sql_values, ','))) {
+            ',`message_num`,`ctime`,`list_ctime`) VALUES '.rtrim($sql_values, ','))) {
             // 更新成员数量和min_max
             $member_num = $this->refreshRoomMember($roomId);
             // 发消息
@@ -771,7 +771,6 @@ class WebMessageModel
             Gateway::sendToAll($data, $clients);
         }
     }
-
 
     public function clearMessage($roomId, $type = 'unread')
     {

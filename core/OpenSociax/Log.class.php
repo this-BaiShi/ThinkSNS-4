@@ -57,7 +57,7 @@ class Log
     {
         @mkdir(LOG_PATH, 0777, true);
         if (empty($destination)) {
-            $destination = LOG_PATH.date('y_m_d').".log";
+            $destination = LOG_PATH.date('y_m_d').'.log';
         }
         if (self::FILE == $type) { // 文件方式记录知识信息
             //检测知识文件大小，超过配置大小则备份知识文件重新生成
@@ -65,7 +65,7 @@ class Log
                 rename($destination, dirname($destination).'/'.time().'-'.basename($destination));
             }
         }
-        error_log(implode("", self::$log), $type, $destination, $extra);
+        error_log(implode('', self::$log), $type, $destination, $extra);
         // 保存后清空知识缓存
         // self::$log = array();
         //clearstatcache();
@@ -86,7 +86,7 @@ class Log
         @mkdir(LOG_PATH, 0777, true);
         $now = date(self::$format);
         if (empty($destination)) {
-            $destination = LOG_PATH.date('y_m_d').".log";
+            $destination = LOG_PATH.date('y_m_d').'.log';
         }
         if (self::FILE == $type) { // 文件方式记录知识
             //检测知识文件大小，超过配置大小则备份知识文件重新生成

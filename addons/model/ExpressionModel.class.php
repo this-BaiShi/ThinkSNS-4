@@ -29,7 +29,7 @@ class ExpressionModel
                 if(!is_utf8($value['filename'])){
                     $value['filename'] = auto_charset($value['filename'],'GBK','UTF8');
                 }*/
-                list($file) = explode(".", $value['filename']);
+                list($file) = explode('.', $value['filename']);
                 $temp['title'] = $file;
                 $temp['emotion'] = '['.$file.']';
                 $temp['filename'] = $value['filename'];
@@ -49,7 +49,7 @@ class ExpressionModel
      */
     public function parse($data)
     {
-        $data = preg_replace("/img{data=([^}]*)}/", "<img src='$1'  data='$1' >", $data);
+        $data = preg_replace('/img{data=([^}]*)}/', "<img src='$1'  data='$1' >", $data);
 
         return $data;
     }

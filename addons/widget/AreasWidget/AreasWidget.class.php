@@ -54,7 +54,7 @@ class AreasWidget extends Widget
         if ($data['curPro'] && $data['curCity'] && $data['area'] || true) {
             $data['selected'] = $data['curPro'].','.$data['curCity'].','.$data['area'];
         }
-        $content = $this->renderFile(dirname(__FILE__)."/".$data['tpl'].'.html', $data);
+        $content = $this->renderFile(dirname(__FILE__).'/'.$data['tpl'].'.html', $data);
 
         return $content;
     }
@@ -75,6 +75,6 @@ class AreasWidget extends Widget
         // 模板选择		
         $tpl = isset($_GET['tpl']) ? t($_GET['tpl']).'_' : 'loadArea_';
 
-        echo $this->renderFile(dirname(__FILE__)."/".$tpl.'.html', $data);
+        echo $this->renderFile(dirname(__FILE__).'/'.$tpl.'.html', $data);
     }
 }

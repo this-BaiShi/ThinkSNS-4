@@ -13,8 +13,8 @@
  * 调试通知返回时，可查看或改写log日志的写入TXT里的数据，来检查通知返回是否正常
  */
 
-require_once(dirname(__FILE__)."/alipay_core.function.php");
-require_once(dirname(__FILE__)."/alipay_md5.function.php");
+require_once dirname(__FILE__).'/alipay_core.function.php';
+require_once dirname(__FILE__).'/alipay_md5.function.php';
 
 class AlipayNotify
 {
@@ -47,11 +47,11 @@ class AlipayNotify
             return false;
         } else {
             //生成签名结果
-            $isSign = $this->getSignVeryfy($_POST, $_POST["sign"]);
+            $isSign = $this->getSignVeryfy($_POST, $_POST['sign']);
             //获取支付宝远程服务器ATN结果（验证是否是支付宝发来的消息）
             $responseTxt = 'true';
-            if (! empty($_POST["notify_id"])) {
-                $responseTxt = $this->getResponse($_POST["notify_id"]);
+            if (! empty($_POST['notify_id'])) {
+                $responseTxt = $this->getResponse($_POST['notify_id']);
             }
 
             //写日志记录
@@ -68,7 +68,7 @@ class AlipayNotify
             //验证
             //$responsetTxt的结果不是true，与服务器设置问题、合作身份者ID、notify_id一分钟失效有关
             //isSign的结果不是true，与安全校验码、请求时的参数格式（如：带自定义参数等）、编码格式有关
-            if (preg_match("/true$/i", $responseTxt) && $isSign) {
+            if (preg_match('/true$/i', $responseTxt) && $isSign) {
                 return true;
             } else {
                 return false;
@@ -87,11 +87,11 @@ class AlipayNotify
             return false;
         } else {
             //生成签名结果
-            $isSign = $this->getSignVeryfy($_GET, $_GET["sign"]);
+            $isSign = $this->getSignVeryfy($_GET, $_GET['sign']);
             //获取支付宝远程服务器ATN结果（验证是否是支付宝发来的消息）
             $responseTxt = 'true';
-            if (! empty($_GET["notify_id"])) {
-                $responseTxt = $this->getResponse($_GET["notify_id"]);
+            if (! empty($_GET['notify_id'])) {
+                $responseTxt = $this->getResponse($_GET['notify_id']);
             }
 
             //写日志记录
@@ -108,7 +108,7 @@ class AlipayNotify
             //验证
             //$responsetTxt的结果不是true，与服务器设置问题、合作身份者ID、notify_id一分钟失效有关
             //isSign的结果不是true，与安全校验码、请求时的参数格式（如：带自定义参数等）、编码格式有关
-            if (preg_match("/true$/i", $responseTxt) && $isSign) {
+            if (preg_match('/true$/i', $responseTxt) && $isSign) {
                 return true;
             } else {
                 return false;
@@ -135,7 +135,7 @@ class AlipayNotify
 
         $isSgin = false;
         switch (strtoupper(trim($this->alipay_config['sign_type']))) {
-            case "MD5" :
+            case 'MD5' :
                 $isSgin = md5Verify($prestr, $sign, $this->alipay_config['key']);
                 break;
             default :
@@ -164,7 +164,7 @@ class AlipayNotify
         } else {
             $veryfy_url = $this->http_verify_url;
         }
-        $veryfy_url = $veryfy_url."partner=".$partner."&notify_id=".$notify_id;
+        $veryfy_url = $veryfy_url.'partner='.$partner.'&notify_id='.$notify_id;
         $responseTxt = getHttpResponseGET($veryfy_url, $this->alipay_config['cacert']);
 
         return $responseTxt;

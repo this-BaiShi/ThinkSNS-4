@@ -453,7 +453,7 @@ class UserApi extends Api
         $map['is_audit'] = 1;
         $map['is_init'] = 1;
 
-        $data = D('user')->where($map)->field('uid')->order("uid desc")->findPage($limit);
+        $data = D('user')->where($map)->field('uid')->order('uid desc')->findPage($limit);
         $data['data'] = $this->getUserInfos(getSubByKey($data['data'], 'uid'), $data['data'], 'basic');
 
         return $data['data'] ? $data : 0;

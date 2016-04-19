@@ -20,7 +20,7 @@ class W3gPageModel
     {
         $limit = intval($limit);
         $page = intval($page);
-        $where = " a.is_del = 0 ";
+        $where = ' a.is_del = 0 ';
         $table = "{$this->tablePrefix}feed AS a LEFT JOIN {$this->tablePrefix}user_follow AS b ON a.uid=b.fid AND b.uid = {$mid}";
         // 加上自己的信息，若不需要此数据，请屏蔽下面语句
         $where = "(a.uid = '{$mid}' OR b.uid = '{$mid}') AND ($where)";
@@ -73,7 +73,7 @@ class W3gPageModel
         // 获取分享总数
         $id = D()->table(C('DB_PREFIX').'feed AS a LEFT JOIN '.C('DB_PREFIX').'user_follow AS b ON a.uid=b.fid AND b.uid = '.$mid)
             ->field('a.feed_id')
-            ->limit("0,1")
+            ->limit('0,1')
             ->order('a.feed_id DESC')
             ->where($map)
             ->select();

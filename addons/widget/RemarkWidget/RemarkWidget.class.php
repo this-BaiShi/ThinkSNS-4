@@ -44,9 +44,9 @@ class RemarkWidget extends Widget
         if (!empty($remark)) {
             $html .=  "<em>(</em><a href=\"javascript:;\" title='".L('PUBLIC_CLICK_EDIT')."' event-node='setremark' remark='".urlencode($remark)."' class =\"remark_{$uid}\" uid='{$uid}'>{$remark}</a><em>)</em>";
         } elseif ($showonly!=1) {
-            $html .=  "<em>(</em><a href=\"javascript:;\" title='".L('PUBLIC_CLICK_SETING')."' event-node='setremark' remark='' class =\"remark_{$uid}\" uid='{$uid}'>".L('PUBLIC_REMARK_SETTING')."</a><em>)</em>";
+            $html .=  "<em>(</em><a href=\"javascript:;\" title='".L('PUBLIC_CLICK_SETING')."' event-node='setremark' remark='' class =\"remark_{$uid}\" uid='{$uid}'>".L('PUBLIC_REMARK_SETTING').'</a><em>)</em>';
         }
-        $html .=  "</span>";
+        $html .=  '</span>';
 
         return $html;
     }
@@ -58,7 +58,7 @@ class RemarkWidget extends Widget
     public function edit()
     {
         $var = $_REQUEST;
-        $content = $this->renderFile(dirname(__FILE__)."/edit.html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/edit.html', $var);
 
         return $content;
     }

@@ -5,7 +5,7 @@ class AttachAction extends Action
     public function _initialize()
     {
         if (!$this->mid) {
-            echo "-1";    //没有权限，需要登录后上传
+            echo '-1';    //没有权限，需要登录后上传
         }
     }
 
@@ -18,14 +18,14 @@ class AttachAction extends Action
         $savepath    =    str_ireplace('..', '', $savepath);
         $savename    =    str_ireplace('..', '', $savename);
 
-        list($first, $extension) = explode(".", $savename);
+        list($first, $extension) = explode('.', $savename);
         $imagetype = array('jpg', 'png', 'gif', 'bmp', 'jpeg' );
         if (! in_array(strtolower($extension), $imagetype)) {
             return;
         } else {
             if ($_REQUEST['temp']==1) {
                 $source_image    =    UPLOAD_PATH.'/temp/'.$savename;
-                header("Content-type: image/".$extension);
+                header('Content-type: image/'.$extension);
                 readfile($source_image);
                 exit;
             }
@@ -34,13 +34,13 @@ class AttachAction extends Action
             if (file_exists($source_image)) {
                 //加缓存
                 $offset = 60 * 60 * 24 * 7; //图片过期7天
-                header("cache-control: must-revalidate");
-                header("cache-control: max-age=".$offset);
-                header("Last-Modified: ".gmdate("D, d M Y H:i:s", time())."GMT");
-                header("Pragma: max-age=".$offset);
-                header("Expires:".gmdate("D, d M Y H:i:s", time() + $offset)." GMT");
+                header('cache-control: must-revalidate');
+                header('cache-control: max-age='.$offset);
+                header('Last-Modified: '.gmdate('D, d M Y H:i:s', time()).'GMT');
+                header('Pragma: max-age='.$offset);
+                header('Expires:'.gmdate('D, d M Y H:i:s', time() + $offset).' GMT');
                 $this->set_cache_limit($offset);
-                header("Content-type: image/".$extension);
+                header('Content-type: image/'.$extension);
                 readfile($source_image);
                 //持久化
                 $new_image_dir    =    './data/uploads/'.$savepath;
@@ -63,14 +63,14 @@ class AttachAction extends Action
         }
 
         $id = $_SERVER['HTTP_IF_NONE_MATCH'];
-        $etag=time()."||".base64_encode($_SERVER['REQUEST_URI']);
+        $etag=time().'||'.base64_encode($_SERVER['REQUEST_URI']);
         if ($id=='') {
             //无tag，发送新tag
             header("Etag:$etag", true, 200);
 
             return;
         }
-        list($time, $uri)=explode("||", $id);
+        list($time, $uri)=explode('||', $id);
         if ($time < (time()-$second)) {
             //过期了，发送新tag
             header("Etag:$etag", true, 200);
@@ -80,7 +80,6 @@ class AttachAction extends Action
             exit(-1);
         }
     }
-
 
     public function image_file_download($file)
     {
@@ -127,7 +126,7 @@ class AttachAction extends Action
         require_cache('./addons/library/Http.class.php');
         $file_path = UPLOAD_PATH.'/'.$attach['savepath'].$attach['savename'];
         if (file_exists($file_path)) {
-            $filename = iconv("utf-8", 'gb2312', $attach['name']);
+            $filename = iconv('utf-8', 'gb2312', $attach['name']);
             Http::download($file_path, $filename);
         } else {
             $this->error(L('attach_noexist'));
@@ -192,7 +191,7 @@ class AttachAction extends Action
         $options['allow_exts']    =    t(jiemi($_REQUEST['exts']));
         $options['allow_size']    =    t(jiemi($_REQUEST['size']));
         $jiamiData = jiemi(t($_REQUEST['token']));
-        list($options['allow_exts'], $options['need_review'], $fid) = explode("||", $jiamiData);
+        list($options['allow_exts'], $options['need_review'], $fid) = explode('||', $jiamiData);
         $options['limit']       =   intval(jiemi($_REQUEST['limit']));
         $options['now_pageCount'] = intval($_REQUEST['now_pageCount']);
 
@@ -208,7 +207,7 @@ class AttachAction extends Action
     {
 
         // 过滤成本地图片地址
-        $src_arr    =    explode("?", $_POST['bigImage']);
+        $src_arr    =    explode('?', $_POST['bigImage']);
         $src        =    $src_arr[0];
         $src        =    str_ireplace(SITE_URL, '.', 'http://'.$_SERVER['HTTP_HOST'].$src);
 
@@ -218,7 +217,7 @@ class AttachAction extends Action
             //获取后缀名
             $ext = image_type_to_extension($sr_type, false);
         } else {
-            echo "-1";
+            echo '-1';
         }
 
         // 获取相关数据

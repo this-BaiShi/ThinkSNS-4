@@ -677,7 +677,7 @@ class WebMessageAction extends Action
                     $rs['source_content'] = t($feed['source_body']);
                 }
                 if (empty($rs['source_content']) || $feed['is_del']) {
-                    $rs['source_content'] = "原分享内容已被删除~";
+                    $rs['source_content'] = '原分享内容已被删除~';
                     $rs['source_url'] = 'javascript:;';
                 } else {
                     $rs['source_content'] = preg_replace('/\s+/u', ' ', $rs['source_content']);

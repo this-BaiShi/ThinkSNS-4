@@ -393,7 +393,7 @@ class GatewayProtocol
         if (strlen($buffer) < self::HEAD_LEN) {
             return 0;
         }
-        $data = unpack("Npack_len", $buffer);
+        $data = unpack('Npack_len', $buffer);
 
         return $data['pack_len'];
     }
@@ -411,7 +411,7 @@ class GatewayProtocol
         $ext_len = strlen($data['ext_data']);
         $package_len = self::HEAD_LEN + $ext_len + strlen($data['body']);
 
-        return pack("NCNnNnNNC",  $package_len,
+        return pack('NCNnNnNNC',  $package_len,
             $data['cmd'], ip2long($data['local_ip']),
             $data['local_port'], ip2long($data['client_ip']),
             $data['client_port'], $data['client_id'],
@@ -424,7 +424,7 @@ class GatewayProtocol
      */
     public static function decode($buffer)
     {
-        $data = unpack("Npack_len/Ccmd/Nlocal_ip/nlocal_port/Nclient_ip/nclient_port/Nclient_id/Next_len/Cflag", $buffer);
+        $data = unpack('Npack_len/Ccmd/Nlocal_ip/nlocal_port/Nclient_ip/nclient_port/Nclient_id/Next_len/Cflag', $buffer);
         $data['local_ip'] = long2ip($data['local_ip']);
         $data['client_ip'] = long2ip($data['client_ip']);
         if ($data['ext_len'] > 0) {
@@ -548,7 +548,7 @@ class FileStore
         }
         $this->dataFileHandle = fopen(__FILE__, 'r');
         if (!$this->dataFileHandle) {
-            throw new \Exception("can not fopen dataFileHandle");
+            throw new \Exception('can not fopen dataFileHandle');
         }
     }
 

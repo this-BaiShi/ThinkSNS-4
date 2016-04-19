@@ -12,7 +12,7 @@ class FeedTopAddons extends NormalAddons
     protected $info = '分享置顶';
     protected $pluginName = '分享置顶';
     protected $sqlfile = '暂无';
-    protected $tsVersion = "3.0";
+    protected $tsVersion = '3.0';
 
     /**
      * 获的改插件使用了那些钩子聚合类，那些钩子是需要进行排序的

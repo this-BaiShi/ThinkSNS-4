@@ -28,9 +28,7 @@ $alipay_config['seller_email']    = '';
 //安全检验码，以数字和字母组成的32位字符
 $alipay_config['key']            = '';
 
-
 //↑↑↑↑↑↑↑↑↑↑请在这里配置您的基本信息↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
-
 
 //签名方式 不需修改
 $alipay_config['sign_type']    = strtoupper('MD5');

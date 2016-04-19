@@ -54,9 +54,9 @@ class TagModel extends Model
         // 重组结果
         foreach ($app_tags as $a_t_k => $a_t_v) {
             // 如果为用户标签，则用user_category_id
-            if ($this->_app_table == "user") {
+            if ($this->_app_table == 'user') {
                 $cmap['title'] = $names[$a_t_v['tag_id']];
-                $user_category_id = D("user_category")->where($cmap)->getField("user_category_id");
+                $user_category_id = D('user_category')->where($cmap)->getField('user_category_id');
                 $result[$a_t_v['row_id']][$user_category_id] = $names[$a_t_v['tag_id']];
             } else {
                 $result[$a_t_v['row_id']][$a_t_v['tag_id']] = $names[$a_t_v['tag_id']];
@@ -141,7 +141,6 @@ class TagModel extends Model
 
         return $r;
     }
-
 
     /**
      * 添加应用内容的标签
@@ -326,8 +325,8 @@ class TagModel extends Model
         $cache_id = $this->_app.$this->_app_table.'_hot_tag';
         if (($hot_tag_list = S($cache_id)) === false) {
             $limit = is_numeric($limit) ? $limit : 20;
-            $hot_tag_ids = D('app_tag')->field("`tag_id`, COUNT(`tag_id`) AS `count`")
-                           ->group("`tag_id`")->order('`count` DESC')
+            $hot_tag_ids = D('app_tag')->field('`tag_id`, COUNT(`tag_id`) AS `count`')
+                           ->group('`tag_id`')->order('`count` DESC')
                            ->limit($limit)->findAll();
             // 获得标签文字
             $hot_names  = $this->getTagNames(getSubByKey($hot_tag_ids, 'tag_id'));
@@ -358,7 +357,7 @@ class TagModel extends Model
             $this->error = L('PUBLIC_TAG_NOEMPTY');            // 标签不能为空
             return false;
         }
-        !is_array($tags) && $tags = explode(",", $tags);
+        !is_array($tags) && $tags = explode(',', $tags);
         $tags = array_filter($tags);
         foreach ($tags as $k => $v) {
             $tags[$k] = mysql_escape_string(t(preg_replace('/^[\s　]+|[\s　]+$/', '', $tags[$k])));

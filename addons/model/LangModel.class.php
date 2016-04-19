@@ -144,7 +144,7 @@ class LangModel extends Model
             $fileData = "<?php\n";
             $fileData .= "return array(\n";
             foreach ($data as $val) {
-                $val[$value] = str_replace("'", "‘", $val[$value]);            // 处理掉单引号
+                $val[$value] = str_replace("'", '‘', $val[$value]);            // 处理掉单引号
                 $content[] = "'{$val['key']}'=>'{$val[$value]}'";
             }
             $fileData .= implode(",\n", $content);
@@ -169,9 +169,9 @@ class LangModel extends Model
         foreach ($fields as $value) {
             $fileName = LANG_PATH.'/'.$app.'_'.$value.'.js';
             $fp = fopen($fileName, 'w+');
-            $fileData = "";
+            $fileData = '';
             foreach ($data as $val) {
-                $val[$value] = str_replace("'", "‘", $val[$value]);            // 处理掉单引号
+                $val[$value] = str_replace("'", '‘', $val[$value]);            // 处理掉单引号
                 $content[] = "LANG['{$val['key']}']='{$val[$value]}';";
             }
             $fileData .= implode("\n", $content);
@@ -192,7 +192,7 @@ class LangModel extends Model
         //取apps目录下的应用包名
         if (false != ($handle = opendir(APPS_PATH))) {
             while (false !== ($file = readdir($handle))) {
-                if ($file != "." && $file != ".."&&!strpos($file, ".")) {
+                if ($file != '.' && $file != '..'&&!strpos($file, '.')) {
                     $dirArray[]=$file;
                 }
             }

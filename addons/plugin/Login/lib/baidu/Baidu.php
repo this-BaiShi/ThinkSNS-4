@@ -4,10 +4,10 @@
  * Copyright (c) 2011 Baidu.com, Inc. All Rights Reserved
  *
  **************************************************************************/
-require_once('BaiduStore.php');
-require_once('BaiduOAuth2.php');
-require_once('BaiduApiClient.php');
-require_once('BaiduUtils.php');
+require_once 'BaiduStore.php';
+require_once 'BaiduOAuth2.php';
+require_once 'BaiduApiClient.php';
+require_once 'BaiduUtils.php';
 /**
  * 
  * @package Baidu

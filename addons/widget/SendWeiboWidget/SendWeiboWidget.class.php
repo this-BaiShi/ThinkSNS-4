@@ -53,10 +53,10 @@ class SendWeiboWidget extends Widget
         $var['isHome'] = (APP_NAME == 'public' && MODULE_NAME == 'Index' && ACTION_NAME == 'index');
 
         // 渲染模版
-        $tpl = $data['tpl'] ? $data['tpl'] : "SendWeibo";
+        $tpl = $data['tpl'] ? $data['tpl'] : 'SendWeibo';
         $var['channel'] = $data['channel'] ? $data['channel']:'';
         $var['isrefresh'] = $data['isrefresh'] ? $data['isrefresh']:'';
-        $content = $this->renderFile(dirname(__FILE__)."/".$tpl.".html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/'.$tpl.'.html', $var);
 
         self::$rand++;
         unset($var, $data);

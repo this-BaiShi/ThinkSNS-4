@@ -138,7 +138,7 @@ class WeiboStatusesApi extends Api
         model('Atme')->updateRecentAtForApi($data['body'], $feed_id);
         // 添加关联数据
         $attach_id = $this->data['attach_id'];
-        $attach_id = trim(t($attach_id), "|");
+        $attach_id = trim(t($attach_id), '|');
         if (!empty($attach_id)) {
             $attach_id = explode('|', $attach_id);
             array_map('intval', $attach_id);
@@ -175,11 +175,11 @@ class WeiboStatusesApi extends Api
             }
             // 绑定话题
             $content = html_entity_decode($this->data['content'], ENT_QUOTES, 'UTF-8');
-            $content = str_replace("＃", "#", $content);
+            $content = str_replace('＃', '#', $content);
             preg_match_all("/#([^#]*[^#^\s][^#]*)#/is", $content, $topics);
             $topics = array_unique($topics [1]);
             foreach ($topics as &$topic) {
-                $topic = trim(preg_replace("/#/", '', t($topic)));
+                $topic = trim(preg_replace('/#/', '', t($topic)));
             }
             $bindTopicChannel = D('Channel', 'channel')->getCategoryByTopicBind($topics);
             if (! empty($bindTopicChannel)) {
@@ -445,7 +445,7 @@ class WeiboStatusesApi extends Api
         if (D('weiba_reply')->add($datas)) {
             $map['last_reply_uid'] = $this->mid;
             $map['last_reply_time'] = $datas['ctime'];
-            $map['reply_count'] = array('exp', "reply_count+1");
+            $map['reply_count'] = array('exp', 'reply_count+1');
             D('weiba_post')->where('post_id='.$datas['post_id'])->save($map);
         }
     }
@@ -486,7 +486,7 @@ class WeiboStatusesApi extends Api
         $_REQUEST['p'] = $_REQUEST['page'] = $this->page;
         $this->count?$this->count:100;
         $this->data['key'] = t(trim($this->data['key']));
-        $this->data['key'] = str_ireplace(array("%", "'", '"'), '', $this->data['key']);
+        $this->data['key'] = str_ireplace(array('%', "'", '"'), '', $this->data['key']);
         if (empty($this->data['key'])) {
             return 0;
         }
@@ -503,7 +503,7 @@ class WeiboStatusesApi extends Api
         $this->count?$this->count:100;
         $this->data['key'] = t(trim($this->data['key']));
         $this->data['key'] = trim($this->data['key'], '#');
-        $this->data['key'] = str_ireplace(array("%", "'", '"'), '', $this->data['key']);
+        $this->data['key'] = str_ireplace(array('%', "'", '"'), '', $this->data['key']);
         if (empty($this->data['key'])) {
             return 0;
         }
@@ -519,7 +519,7 @@ class WeiboStatusesApi extends Api
         $_REQUEST['p'] = $_REQUEST['page'] = $this->page;
         $this->count = empty($this->count) ? $this->count : 100;
         $this->data['key'] = t(trim($this->data['key']));
-        $this->data['key'] = str_ireplace(array("%", "'", '"'), '', $this->data['key']);
+        $this->data['key'] = str_ireplace(array('%', "'", '"'), '', $this->data['key']);
         if (empty($this->data['key'])) {
             return 0;
         }

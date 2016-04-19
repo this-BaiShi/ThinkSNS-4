@@ -402,7 +402,7 @@ class WeibaModel extends Model
     {
         $limit = intval($limit);
         $page = intval($page);
-        $where = "is_del=0";
+        $where = 'is_del=0';
         if (! empty($since_id) || ! empty($max_id)) {
             ! empty($since_id) && $where .= " AND weiba_id > {$since_id}";
             ! empty($max_id) && $where .= " AND weiba_id < {$max_id}";
@@ -666,8 +666,8 @@ class WeibaModel extends Model
         $map['weiba_id'] = $weiba_id;
         $time = time();
         $weiba = D('weiba')->where($map)->find();
-        if ($weiba['new_day']!= date("Y-m-d", $time)) {
-            D('weiba')->where($map)->setField('new_day', date("Y-m-d", $time));
+        if ($weiba['new_day']!= date('Y-m-d', $time)) {
+            D('weiba')->where($map)->setField('new_day', date('Y-m-d', $time));
             D('weiba')->where($map)->setField('new_count', 0);
         }
         if ($num == 0) {

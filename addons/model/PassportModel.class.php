@@ -180,7 +180,7 @@ class PassportModel
             return false;
         }
         if (empty($password)) {
-            $this->error = "密码不能为空";
+            $this->error = '密码不能为空';
 
             return false;
         }
@@ -195,7 +195,7 @@ class PassportModel
         }
 
         // 记录登陆知识，首次登陆判断
-        $this->rel = D('LoginRecord')->where("uid = ".$uid)->field('locktime')->find();
+        $this->rel = D('LoginRecord')->where('uid = '.$uid)->field('locktime')->find();
 
         // $login_error_time = cookie('login_error_time');
         $userData = model('UserData')->getUserKeyDataByUids('login_error_time', $uid);
@@ -343,7 +343,7 @@ class PassportModel
         model('User')->setField('last_login_time', $_SERVER['REQUEST_TIME'], 'uid='.$uid);
 
         // 记录登陆知识，首次登陆判断
-        empty($this->rel) && $this->rel    = D('')->table(C('DB_PREFIX').'login_record')->where("uid = ".$uid)->getField('login_record_id');
+        empty($this->rel) && $this->rel    = D('')->table(C('DB_PREFIX').'login_record')->where('uid = '.$uid)->getField('login_record_id');
 
         $credit_map['uid'] = $uid;
         $credit_map['ctime'] = array('EGT', strtotime(date('Y-m-d', time())));
@@ -365,7 +365,7 @@ class PassportModel
         $this->success = '登录成功，努力加载中。。';
 
         if ($this->rel) {
-            D('')->table(C('DB_PREFIX').'login_record')->where("uid = ".$uid)->save($map);
+            D('')->table(C('DB_PREFIX').'login_record')->where('uid = '.$uid)->save($map);
         } else {
             $map['uid'] = $uid;
             D('')->table(C('DB_PREFIX').'login_record')->add($map);
@@ -403,7 +403,7 @@ class PassportModel
 
         $cookie = cookie('TSV3_LOGGED_USER');
 
-        $cookie = explode(".", $this->jiemi($cookie));
+        $cookie = explode('.', $this->jiemi($cookie));
 
         $cookie_uid = ($cookie[0] != C('SECURE_CODE')) ? false : $cookie[1];
 
@@ -497,7 +497,6 @@ class PassportModel
 
         //3. 关联表无、获取本地帐号信息.
         $ts_user = $this->getLocalUser($username, $password);
-
 
         // 调试用-写log
         // $log_message = "============================ \n "

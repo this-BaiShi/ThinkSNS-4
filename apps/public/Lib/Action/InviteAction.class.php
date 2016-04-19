@@ -28,8 +28,6 @@ class InviteAction extends Action
         }
         $this->_invite_model = model('Invite');
 
-
-
         $this->_profile_model = model('UserProfile');
         // 从数据库读取
         $profile_category_list = $this->_profile_model->getCategoryList();
@@ -112,7 +110,7 @@ class InviteAction extends Action
         }
         $this->_getInviteEmail();
         //若为邀请注册
-        if ($this->_register_config['register_type'] == "invite") {
+        if ($this->_register_config['register_type'] == 'invite') {
             //邀请好友积分规则
             $creditRule = model('Credit')->getCreditRuleByName('core_code');
             $applyCredit['score'] = abs($creditRule['score']);
@@ -139,7 +137,7 @@ class InviteAction extends Action
         // 注册配置
         $this->assign('registerType', $this->_register_config['register_type']);
 
-        $this->display("invite");
+        $this->display('invite');
     }
 
     /**
@@ -152,7 +150,7 @@ class InviteAction extends Action
         }
         $this->_getInviteLink();
         //若为邀请注册
-        if ($this->_register_config['register_type'] == "invite") {
+        if ($this->_register_config['register_type'] == 'invite') {
             //邀请好友积分规则
             $creditRule = model('Credit')->getCreditRuleByName('core_code');
             $applyCredit['score'] = abs($creditRule['score']);
@@ -177,7 +175,7 @@ class InviteAction extends Action
         $this->assign('emailNum', $this->_invite_config['send_email_num']);
         // 注册配置
         $this->assign('registerType', $this->_register_config['register_type']);
-        $this->display("linvite");
+        $this->display('linvite');
     }
 
     /**

@@ -31,7 +31,7 @@ class mailmodel
 
     public function get_total_num()
     {
-        $data = $this->db->result_first("SELECT COUNT(*) FROM ".UC_DBTABLEPRE."mailqueue");
+        $data = $this->db->result_first('SELECT COUNT(*) FROM '.UC_DBTABLEPRE.'mailqueue');
 
         return $data;
     }
@@ -39,7 +39,7 @@ class mailmodel
     public function get_list($page, $ppp, $totalnum)
     {
         $start = $this->base->page_get_start($page, $ppp, $totalnum);
-        $data = $this->db->fetch_all("SELECT m.*, u.username, u.email FROM ".UC_DBTABLEPRE."mailqueue m LEFT JOIN ".UC_DBTABLEPRE."members u ON m.touid=u.uid ORDER BY dateline DESC LIMIT $start, $ppp");
+        $data = $this->db->fetch_all('SELECT m.*, u.username, u.email FROM '.UC_DBTABLEPRE.'mailqueue m LEFT JOIN '.UC_DBTABLEPRE."members u ON m.touid=u.uid ORDER BY dateline DESC LIMIT $start, $ppp");
         foreach ((array) $data as $k => $v) {
             $data[$k]['subject'] = htmlspecialchars($v['subject']);
             $data[$k]['tomail'] = empty($v['tomail']) ? $v['email'] : $v['tomail'];
@@ -53,7 +53,7 @@ class mailmodel
     public function delete_mail($ids)
     {
         $ids = $this->base->implode($ids);
-        $this->db->query("DELETE FROM ".UC_DBTABLEPRE."mailqueue WHERE mailid IN ($ids)");
+        $this->db->query('DELETE FROM '.UC_DBTABLEPRE."mailqueue WHERE mailid IN ($ids)");
 
         return $this->db->affected_rows();
     }
@@ -61,7 +61,7 @@ class mailmodel
     public function add($mail)
     {
         if ($mail['level']) {
-            $sql = "INSERT INTO ".UC_DBTABLEPRE."mailqueue (touid, tomail, subject, message, frommail, charset, htmlon, level, dateline, failures, appid) VALUES ";
+            $sql = 'INSERT INTO '.UC_DBTABLEPRE.'mailqueue (touid, tomail, subject, message, frommail, charset, htmlon, level, dateline, failures, appid) VALUES ';
             $values_arr = array();
             foreach ($mail['uids'] as $uid) {
                 if (empty($uid)) {
@@ -78,7 +78,7 @@ class mailmodel
             $sql .= implode(',', $values_arr);
             $this->db->query($sql);
             $insert_id = $this->db->insert_id();
-            $insert_id && $this->db->query("REPLACE INTO ".UC_DBTABLEPRE."vars SET name='mailexists', value='1'");
+            $insert_id && $this->db->query('REPLACE INTO '.UC_DBTABLEPRE."vars SET name='mailexists', value='1'");
 
             return $insert_id;
         } else {
@@ -90,7 +90,7 @@ class mailmodel
                 }
                 $uids .= ','.$uid;
             }
-            $users = $this->db->fetch_all("SELECT uid, username, email FROM ".UC_DBTABLEPRE."members WHERE uid IN ($uids)");
+            $users = $this->db->fetch_all('SELECT uid, username, email FROM '.UC_DBTABLEPRE."members WHERE uid IN ($uids)");
             foreach ($users as $v) {
                 $mail['email_to'][] = $v['username'].'<'.$v['email'].'>';
             }
@@ -116,7 +116,7 @@ class mailmodel
     {
         $mail = $this->_get_mail();
         if (empty($mail)) {
-            $this->db->query("REPLACE INTO ".UC_DBTABLEPRE."vars SET name='mailexists', value='0'");
+            $this->db->query('REPLACE INTO '.UC_DBTABLEPRE."vars SET name='mailexists', value='0'");
 
             return null;
         } else {
@@ -155,14 +155,14 @@ class mailmodel
 
     public function _get_mail()
     {
-        $data = $this->db->fetch_first("SELECT m.*, u.username, u.email FROM ".UC_DBTABLEPRE."mailqueue m LEFT JOIN ".UC_DBTABLEPRE."members u ON m.touid=u.uid WHERE failures<'".UC_MAIL_REPEAT."' ORDER BY level DESC, mailid ASC LIMIT 1");
+        $data = $this->db->fetch_first('SELECT m.*, u.username, u.email FROM '.UC_DBTABLEPRE.'mailqueue m LEFT JOIN '.UC_DBTABLEPRE."members u ON m.touid=u.uid WHERE failures<'".UC_MAIL_REPEAT."' ORDER BY level DESC, mailid ASC LIMIT 1");
 
         return $data;
     }
 
     public function _get_mail_by_id($mailid)
     {
-        $data = $this->db->fetch_first("SELECT m.*, u.username, u.email FROM ".UC_DBTABLEPRE."mailqueue m LEFT JOIN ".UC_DBTABLEPRE."members u ON m.touid=u.uid WHERE mailid='$mailid'");
+        $data = $this->db->fetch_first('SELECT m.*, u.username, u.email FROM '.UC_DBTABLEPRE.'mailqueue m LEFT JOIN '.UC_DBTABLEPRE."members u ON m.touid=u.uid WHERE mailid='$mailid'");
 
         return $data;
     }
@@ -171,13 +171,13 @@ class mailmodel
     {
         $mailid = intval($mailid);
 
-        return $this->db->query("DELETE FROM ".UC_DBTABLEPRE."mailqueue WHERE mailid='$mailid'");
+        return $this->db->query('DELETE FROM '.UC_DBTABLEPRE."mailqueue WHERE mailid='$mailid'");
     }
 
     public function _update_failures($mailid)
     {
         $mailid = intval($mailid);
 
-        return $this->db->query("UPDATE ".UC_DBTABLEPRE."mailqueue SET failures=failures+1 WHERE mailid='$mailid'");
+        return $this->db->query('UPDATE '.UC_DBTABLEPRE."mailqueue SET failures=failures+1 WHERE mailid='$mailid'");
     }
 }

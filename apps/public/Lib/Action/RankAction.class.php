@@ -127,7 +127,6 @@ class RankAction extends Action
             model('Cache')->set($ranklistkey, $res, 600);
         }
 
-
         $rankres = model('Cache')->get('user_rank_'.$type.'_'.$this->mid);
         if (!$rankres) {
             $userData = $userDataDao->where('uid='.$this->mid)->findAll();
@@ -157,7 +156,7 @@ class RankAction extends Action
                 $checkconrank = $userDataDao->where($checkmap)->count();
                 $checkconrank += 1;
             }
-            $followermap['_string'] = " `value`+0>".intval($userKeyData['follower_count']);
+            $followermap['_string'] = ' `value`+0>'.intval($userKeyData['follower_count']);
             $followerrank = $userDataDao->where($followermap)->count();
             $followerrank += 1;
 
@@ -168,7 +167,6 @@ class RankAction extends Action
             $scoremap['score'] = array( 'gt' , $userCredit['score'] );
             $scorerank = $creditUserDao->where($scoremap)->count();
             $scorerank += 1;
-
 
             $rankres = array(
                     'followerrank' => $followerrank,

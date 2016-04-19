@@ -89,10 +89,10 @@ class Api
 
         //签名验证方法
         if (isset($_REQUEST['app_signature']) && isset($_REQUEST['app_id'])) {
-            $signature = t($_REQUEST["app_signature"]);
-            $app_uid = (int) $_REQUEST["app_uid"];
-            $app_time = (int) $_REQUEST["app_time"];
-            $app_id = t($_REQUEST["app_id"]);
+            $signature = t($_REQUEST['app_signature']);
+            $app_uid = (int) $_REQUEST['app_uid'];
+            $app_time = (int) $_REQUEST['app_time'];
+            $app_id = t($_REQUEST['app_id']);
             $app_secret = C('APP_SECRET');
 
             //过期时间判断 - 默认10分钟

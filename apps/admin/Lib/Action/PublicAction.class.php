@@ -59,7 +59,6 @@ class PublicAction extends AdministratorAction
         U('admin/Public/login', '', true);
     }
 
-
     /**
      * 通用部门选择数据接口
      */
@@ -82,12 +81,12 @@ class PublicAction extends AdministratorAction
             $return['data']   = L('PUBLIC_SYSTEM_SONCATEGORY_ISNOT');
         } else {
             $return['data'] = "<select name='_parent_dept_id[]' onchange='admin.selectDepart(this.value,$(this))' id='_parent_dept_{$_POST['pid']}'>";
-            $return['data'] .= "<option value='-1'>".L('PUBLIC_SYSTEM_SELECT')."</option>";
+            $return['data'] .= "<option value='-1'>".L('PUBLIC_SYSTEM_SELECT').'</option>';
             $sid = !empty($_POST['sid']) ? $_POST['sid'] : '';
             foreach ($ctree['_child'] as $key => $value) {
                 $return['data'] .="<option value='{$value['department_id']}' ".($value['department_id'] == $sid ? " selected='selected'":'').">{$value['title']}</option>";
             }
-            $return['data'] .="</select>";
+            $return['data'] .='</select>';
         }
         echo json_encode($return);
         exit();

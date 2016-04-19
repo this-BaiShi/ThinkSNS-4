@@ -149,7 +149,7 @@ class FollowModel extends Model
             // 未关注
             if (0 == $f_s_v ['following']) {
                 // 关注的字段数据
-                $data [] = "({$uid}, {$f_s_k},".time().")";
+                $data [] = "({$uid}, {$f_s_k},".time().')';
                 $_fids [] = $f_s_k;
                 $follow_states [$f_s_k] ['following'] = 1;
                 // 通知和分享
@@ -204,11 +204,11 @@ class FollowModel extends Model
 
         foreach ($followStates as $key => $value) {
             if (0 == $value ['following']) {
-                $data [] = "({$uid}, {$key}, ".time().")";
+                $data [] = "({$uid}, {$key}, ".time().')';
                 $_following [] = $key;
             }
             if (0 == $value ['follower']) {
-                $data [] = "({$key}, {$uid}, ".time().")";
+                $data [] = "({$key}, {$uid}, ".time().')';
                 $_follower [] = $key;
             }
         }
@@ -341,7 +341,7 @@ class FollowModel extends Model
                 // ->findPage($limit);
                 $list = $this->where("`uid`={$uid}")->order('`follow_id` DESC')->findPage($limit);
             } elseif ($gid == - 1) {
-                $list = $this->table("`ts_user_follow` a, ts_user_follow b")->where("a.uid={$uid} AND b.fid={$uid} AND a.fid=b.uid")->order('`follow_id` DESC')->field('a.*')->findPage($limit);
+                $list = $this->table('`ts_user_follow` a, ts_user_follow b')->where("a.uid={$uid} AND b.fid={$uid} AND a.fid=b.uid")->order('`follow_id` DESC')->field('a.*')->findPage($limit);
             } elseif ($gid == - 2) {
                 $map ['uid'] = $uid;
                 $fids = M('user_follow_group_link')->where($map)->field('DISTINCT fid')->findAll();

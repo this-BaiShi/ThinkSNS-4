@@ -30,7 +30,7 @@ class TipsWidget extends Widget
         $var['whetherExec'] = model('Tips')->whetherExec($var['sid'], $var['stable'], $var['uid'], $var['type']);
 
         // 渲染页面路径
-        $content = $this->renderFile(dirname(__FILE__)."/tips.html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/tips.html', $var);
 
         return $content;
     }

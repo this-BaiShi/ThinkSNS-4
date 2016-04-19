@@ -87,7 +87,7 @@ class ChannelFollowModel extends Model
             return array();
         }
         $map['f.uid'] = $uid;
-        $list = D()->table("`".C('DB_PREFIX')."channel_follow` AS f LEFT JOIN `".C('DB_PREFIX')."channel_category` AS c ON f.channel_category_id=c.channel_category_id")
+        $list = D()->table('`'.C('DB_PREFIX').'channel_follow` AS f LEFT JOIN `'.C('DB_PREFIX').'channel_category` AS c ON f.channel_category_id=c.channel_category_id')
                    ->field('c.`channel_category_id`, c.`title`, c.`ext`, c.`sort`')
                    ->where($map)
                    ->findAll();
@@ -108,8 +108,8 @@ class ChannelFollowModel extends Model
         $buid = empty($uid) ? $GLOBALS['ts']['mid'] : $uid;
         $fgid = intval($fgid);
         $uid = intval($uid);
-        $where .= " AND b.uid=".$buid;
-        $where .= " AND a.status=1";
+        $where .= ' AND b.uid='.$buid;
+        $where .= ' AND a.status=1';
         $table = "`{$this->tablePrefix}channel` AS a LEFT JOIN `{$this->tablePrefix}channel_follow` AS b ON a.channel_category_id = b.channel_category_id LEFT JOIN `{$this->tablePrefix}feed` AS c ON a.feed_id = c.feed_id";
         !empty($fgid) && $where .= ' AND b.channel_category_id = '.$fgid;
         $feedList = D()->table($table)->field('a.feed_id')->where($where)->order('c.publish_time DESC')->findPage($limit);

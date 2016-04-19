@@ -124,7 +124,6 @@ abstract class TagsAbstract
      */
     abstract public function getTemplateFile($tpl = '');
 
-
     /**
      * 替换
      */

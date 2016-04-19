@@ -24,7 +24,7 @@ class DiyImage extends TagsAbstract
     /**
      * 返回模板文件路径
      */
-    public function getTemplateFile($tpl = "")
+    public function getTemplateFile($tpl = '')
     {
         //返回需要渲染的模板
         $file = $this->attr ['style'];
@@ -52,9 +52,9 @@ class DiyImage extends TagsAbstract
             $value->path = getImageUrl($value->path);
             $value->url = str_replace('[@]', '&', $value->url);
         }
-        $var['imgId'] = "i".substr($this->sign, 0, 5).$time;
-        $var['imgPanel'] = "i".substr($this->sign, 0, 6).$time;
-        $var['imgNav']   = "i".substr($this->sign, 0, 7).$time;
+        $var['imgId'] = 'i'.substr($this->sign, 0, 5).$time;
+        $var['imgPanel'] = 'i'.substr($this->sign, 0, 6).$time;
+        $var['imgNav']   = 'i'.substr($this->sign, 0, 7).$time;
 
         return $var;
     }

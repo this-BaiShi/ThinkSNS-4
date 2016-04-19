@@ -30,7 +30,7 @@ define('TS_STORAGE', '/storage');            // 储存目录，需要可以公�
 require SITE_PATH.'/src/Build.php';
 
 //载入核心文件
-require(SITE_PATH.'/core/core.php');
+require SITE_PATH.'/core/core.php';
 
 Api::run();
 

@@ -125,7 +125,6 @@ class FeedTopHomeHooks extends Hooks
             $this->assign('remarkHash', $remarkHash);
         }
 
-
         $this->display('feedTop');
     }
 

@@ -73,7 +73,7 @@ class PeopleModel extends model
     public function searchUser($searchKey, $lastUid, $curType=1, $limit = 20, $page=1)
     {
         $userlist = array();
-        if ($searchKey != "") {
+        if ($searchKey != '') {
             // if($curType == 3){         //按标签搜索
             // 	$data['name'] = $searchKey;
             // 	$tagid = D('tag')->where($data)->getField('tag_id');
@@ -303,7 +303,6 @@ class PeopleModel extends model
 
         return $list;
     }*/
-
 
     /**
      * 获取筛选用户数据列表

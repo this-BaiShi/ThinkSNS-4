@@ -29,7 +29,7 @@ class XconfigModel extends Model
         $result = false;
         // 格式化数据
         if (is_array($listData)) {
-            $insert_sql    .=    "REPLACE INTO __TABLE__ (`list`,`key`,`value`,`mtime`) VALUES ";
+            $insert_sql    .=    'REPLACE INTO __TABLE__ (`list`,`key`,`value`,`mtime`) VALUES ';
             foreach ($listData as $key => $data) {
                 $insert_sql    .= " ('$listName','$key','".serialize($data)."','".date('Y-m-d H:i:s')."') ,";
             }

@@ -6,7 +6,7 @@
  *
  **************************************************************************/
 
-require_once(dirname(__FILE__).'/BaiduUtils.php');
+require_once dirname(__FILE__).'/BaiduUtils.php';
 
 /**
  * Client for Baidu OAuth2.0 service.
@@ -211,6 +211,5 @@ class BaiduOAuth2
         return false;
     }
 }
-
 
 /* vim: set expandtab ts=4 sw=4 sts=4 tw=100: */

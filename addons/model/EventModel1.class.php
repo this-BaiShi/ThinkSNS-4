@@ -69,13 +69,13 @@ class EventModel extends BaseModel
         $data['type'] = $type->getTypeName($data['type']);
 
         //反解析时间
-        $data['time'] = date('Y-m-d H:i:s', $data['sTime'])." 至 ".date('Y-m-d H:i:s', $data['eTime']);
+        $data['time'] = date('Y-m-d H:i:s', $data['sTime']).' 至 '.date('Y-m-d H:i:s', $data['eTime']);
         $data['dl']   = date('Y-m-d H:i:s', $data['deadline']);
 
         //追加选项内容
         $opts_list    = $opts->getOpts($data['optsId']);
         //追加城市和其它选项
-        $data['city']        = $opts_list['province']." ".$opts_list['city']." ".$opts_list['area'];
+        $data['city']        = $opts_list['province'].' '.$opts_list['city'].' '.$opts_list['area'];
         $data['opts']        = unserialize($opts_list['opts']);
         $data['cost']        = $opts_list['cost'];
         $data['costExplain'] = $opts_list['costExplain'];
@@ -221,7 +221,7 @@ class EventModel extends BaseModel
 
         $result['member']    = $user->getUserList($join, 16);
 
-        $result['lc'] = 5000000 < $result['limitCount'] ? "无限制":$result['limitCount'];
+        $result['lc'] = 5000000 < $result['limitCount'] ? '无限制':$result['limitCount'];
         $result['cover']     = getCover($result['coverId'], 200, 200);
         $result = $this->appendContent($result);
 
@@ -257,7 +257,7 @@ class EventModel extends BaseModel
      */
     public static function factoryModel($name)
     {
-        return D("Event".ucfirst($name), 'event');
+        return D('Event'.ucfirst($name), 'event');
     }
 
     /**
@@ -311,7 +311,7 @@ class EventModel extends BaseModel
         $map['cTime']   = time();
         $map['contact'] = $contacts;
         switch ($data['action']) {
-            case "attention":
+            case 'attention':
                 if (false === $opts['canAtt']) {
                     return -2;
                 }
@@ -323,7 +323,7 @@ class EventModel extends BaseModel
                     return 0;
                 }
                 break;
-            case "joinIn":
+            case 'joinIn':
                 if (false === $role['canJoin']) {
                     return -2;
                 }
@@ -416,7 +416,7 @@ class EventModel extends BaseModel
                         break;
                     case 'joinIn':
                         if ($event_user['status']) {
-                            $delete = "joinCount";
+                            $delete = 'joinCount';
                             $this->setInc('limitCount', $deleteMap);
                             $this->setDec($delete, $deleteMap);
                             model('Credit')->setUserCredit($data['uid'], 'cancel_join_event');
@@ -439,16 +439,16 @@ class EventModel extends BaseModel
         //修正成员状态
         foreach ($data as $key=>$value) {
             if ($value['uid'] == $uid) {
-                $result['data'][$key]['role'] = "发起者";
+                $result['data'][$key]['role'] = '发起者';
             } else {
                 if ('joinIn' == $value['action']) {
-                    $result['data'][$key]['role'] = "成员";
+                    $result['data'][$key]['role'] = '成员';
                 }
                 if ('attention' == $value['action']) {
-                    $result['data'][$key]['role'] = "关注中";
+                    $result['data'][$key]['role'] = '关注中';
                 }
                 if ('joinIn' == $value['action'] && 0 == $value['status']) {
-                    $result['data'][$key]['role'] = "待审核";
+                    $result['data'][$key]['role'] = '待审核';
                 }
             }
         }
@@ -546,18 +546,18 @@ class EventModel extends BaseModel
     public function doIsHot($map, $act)
     {
         if (empty($map)) {
-            throw new ThinkException("不允许空条件操作数据库");
+            throw new ThinkException('不允许空条件操作数据库');
         }
         $optsIds = $this->where($map)->getField('optsId');
         $map_opts['id'] = array('in',$optsIds);
 
         switch ($act) {
-            case "recommend":   //推荐
+            case 'recommend':   //推荐
                 $data['isHot'] = 1;
                 $data['rTime'] = time();
                 $result = self::factoryModel('opts')->where($map_opts)->save($data);
             break;
-            case "cancel":   //取消推荐
+            case 'cancel':   //取消推荐
                 $data['isHot'] = 0;
                 $data['rTime'] = 0;
                 $result = self::factoryModel('opts')->where($map_opts)->save($data);

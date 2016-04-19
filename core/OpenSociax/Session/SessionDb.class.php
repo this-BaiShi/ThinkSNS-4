@@ -50,7 +50,7 @@ class SessionDb
     public function open($savePath, $sessName)
     {
         $this->lifeTime = C('SESSION_EXPIRE')?C('SESSION_EXPIRE'):ini_get('session.gc_maxlifetime');
-        $this->sessionTable  =   C('SESSION_TABLE')?C('SESSION_TABLE'):C("DB_PREFIX")."session";
+        $this->sessionTable  =   C('SESSION_TABLE')?C('SESSION_TABLE'):C('DB_PREFIX').'session';
        //分布式数据库
        $host = explode(',', C('DB_HOST'));
         $port = explode(',', C('DB_PORT'));
@@ -136,14 +136,14 @@ class SessionDb
    public function read($sessID)
    {
        $hander = is_array($this->hander)?$this->hander[1]:$this->hander;
-       $res = mysql_query("SELECT session_data AS data FROM ".$this->sessionTable." WHERE session_id = '$sessID'   AND session_expire >".time(), $hander);
+       $res = mysql_query('SELECT session_data AS data FROM '.$this->sessionTable." WHERE session_id = '$sessID'   AND session_expire >".time(), $hander);
        if ($res) {
            $row = mysql_fetch_assoc($res);
 
            return $row['data'];
        }
 
-       return "";
+       return '';
    }
 
    /**
@@ -156,7 +156,7 @@ class SessionDb
    {
        $hander = is_array($this->hander)?$this->hander[0]:$this->hander;
        $expire = time() + $this->lifeTime;
-       mysql_query("REPLACE INTO  ".$this->sessionTable." (  session_id, session_expire, session_data)  VALUES( '$sessID', '$expire',  '$sessData')", $hander);
+       mysql_query('REPLACE INTO  '.$this->sessionTable." (  session_id, session_expire, session_data)  VALUES( '$sessID', '$expire',  '$sessData')", $hander);
        if (mysql_affected_rows($hander)) {
            return true;
        }
@@ -172,7 +172,7 @@ class SessionDb
    public function destroy($sessID)
    {
        $hander = is_array($this->hander)?$this->hander[0]:$this->hander;
-       mysql_query("DELETE FROM ".$this->sessionTable." WHERE session_id = '$sessID'", $hander);
+       mysql_query('DELETE FROM '.$this->sessionTable." WHERE session_id = '$sessID'", $hander);
        if (mysql_affected_rows($hander)) {
            return true;
        }
@@ -188,7 +188,7 @@ class SessionDb
    public function gc($sessMaxLifeTime)
    {
        $hander = is_array($this->hander)?$this->hander[0]:$this->hander;
-       mysql_query("DELETE FROM ".$this->sessionTable." WHERE session_expire < ".time(), $hander);
+       mysql_query('DELETE FROM '.$this->sessionTable.' WHERE session_expire < '.time(), $hander);
 
        return mysql_affected_rows($hander);
    }
@@ -199,11 +199,11 @@ class SessionDb
      */
     public function execute()
     {
-        session_set_save_handler(array(&$this, "open"),
-                         array(&$this, "close"),
-                         array(&$this, "read"),
-                         array(&$this, "write"),
-                         array(&$this, "destroy"),
-                         array(&$this, "gc"));
+        session_set_save_handler(array(&$this, 'open'),
+                         array(&$this, 'close'),
+                         array(&$this, 'read'),
+                         array(&$this, 'write'),
+                         array(&$this, 'destroy'),
+                         array(&$this, 'gc'));
     }
 }

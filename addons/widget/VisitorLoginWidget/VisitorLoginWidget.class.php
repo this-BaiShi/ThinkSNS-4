@@ -26,7 +26,7 @@ class VisitorLoginWidget extends Widget
 //		$var ['limit'] = isset ( $data ['limit'] ) ? intval ( $data ['limit'] ) : 8;
 //		// 标题信息
 //		$var ['title'] = isset ( $data ['title'] ) ? t ( $data ['title'] ) : '推荐团队';
-        $content = $this->renderFile(dirname(__FILE__)."/VisitorLogin.html", $var);
+        $content = $this->renderFile(dirname(__FILE__).'/VisitorLogin.html', $var);
 
         return $content;
     }

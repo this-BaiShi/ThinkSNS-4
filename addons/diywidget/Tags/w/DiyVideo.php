@@ -24,7 +24,7 @@ class DiyVideo extends TagsAbstract
     /**
      * 返回模板文件路径
      */
-    public function getTemplateFile($tpl = "")
+    public function getTemplateFile($tpl = '')
     {
         //返回需要渲染的模板
         $file = $this->attr ['style'];

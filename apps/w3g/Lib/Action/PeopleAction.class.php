@@ -14,8 +14,8 @@ class PeopleAction extends BaseAction
         }
         $interest = model('RelatedUser')->getRelatedUser(8);
         $this->assign('interest', $interest);
-        $this->setTitle("找伙伴");
-        $this->setKeywords("找伙伴");
+        $this->setTitle('找伙伴');
+        $this->setKeywords('找伙伴');
         $this->setDescription(implode(',', $cate));
 
         $this->display();
@@ -34,7 +34,6 @@ class PeopleAction extends BaseAction
         $this->assign('interest', $interest);
         $this->display();
     }
-
 
     /**
      * 找人结果页控制器
@@ -74,7 +73,6 @@ class PeopleAction extends BaseAction
         $this->assign('userList', $userList);
         $this->display();
     }
-
 
     /**
      * 添加关注操作

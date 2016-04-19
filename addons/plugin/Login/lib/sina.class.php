@@ -1,6 +1,6 @@
 <?php
 //使用V2版本的客户端,支持Oauth2.0
-include_once('sina/saetv2.ex.class.php');
+include_once 'sina/saetv2.ex.class.php';
 class sina
 {
     public $loginUrl;
@@ -19,7 +19,7 @@ class sina
             return false;
         }
         if (is_null($call_back)) {
-            $call_back = Addons::createAddonShow('Login', 'no_register_display', array('type'=>'sina', 'do'=>"bind"));
+            $call_back = Addons::createAddonShow('Login', 'no_register_display', array('type'=>'sina', 'do'=>'bind'));
         }
         $this->loginUrl = $this->_oauth->getAuthorizeURL($call_back);
 
@@ -52,8 +52,8 @@ class sina
             $access_token = $_SESSION['sina']['access_token']['oauth_token'];
             $refresh_token = $_SESSION['sina']['access_token']['oauth_token_secret'];
         } else {
-            $access_token = $opt["oauth_token"];
-            $refresh_token = $opt["oauth_token_secret"];
+            $access_token = $opt['oauth_token'];
+            $refresh_token = $opt['oauth_token_secret'];
         }
 
         return new SaeTClientV2($this->_sina_akey, $this->_sina_skey, $access_token, $refresh_token);
@@ -120,7 +120,7 @@ class sina
     public function saveData($data)
     {
         if (isset($data['id'])) {
-            return array("sinaId"=>$data['id']);
+            return array('sinaId'=>$data['id']);
         }
 
         return array();
