@@ -127,18 +127,28 @@ class Api
         }
 
         //OAUTH_TOKEN认证
-        if (isset($_REQUEST['oauth_token'])) {
-            $verifycode['oauth_token'] = h($_REQUEST['oauth_token']);
-            $verifycode['oauth_token_secret'] = h($_REQUEST['oauth_token_secret']);
-            $verifycode['type'] = 'location';
-            $login = D('Login')->where($verifycode)->find();
-            if (isset($login['uid']) && $login['uid']>0) {
-                $this->mid = (int) $login['uid'];
-                $_SESSION['mid'] = $this->mid;
-                $canaccess = true;
-            } else {
-                $canaccess = false;
+        $token_key = $_REQUEST['oauth_token'].$_REQUEST['oauth_token_secret'];
+        $login = S($token_key);
+        if(!$login){
+            if (isset($_REQUEST['oauth_token'])) {
+                $verifycode['oauth_token'] = h($_REQUEST['oauth_token']);
+                $verifycode['oauth_token_secret'] = h($_REQUEST['oauth_token_secret']);
+                $verifycode['type'] = 'location';
+                $login = D('Login')->where($verifycode)->getField('uid');
+                if (isset($login) && $login>0) {
+                    $this->mid = (int) $login;
+                    $_SESSION['mid'] = $this->mid;
+                    $canaccess = true;
+                    S($token_key,$login,84600);
+                } else {
+                    $canaccess = false;
+                }
             }
+        } else {
+            $this->mid = (int) $login;
+            $_SESSION['mid'] = $this->mid;
+            $canaccess = true;
+            $canaccess = true;
         }
 
         if (!$canaccess) {
