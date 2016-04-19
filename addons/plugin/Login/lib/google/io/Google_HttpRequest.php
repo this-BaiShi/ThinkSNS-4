@@ -29,7 +29,7 @@ class Google_HttpRequest
     'Content-Type' => 'application/http',
     'Content-Transfer-Encoding' => 'binary',
     'MIME-Version' => '1.0',
-    'Content-Length' => ''
+    'Content-Length' => '',
   );
     protected $url;
     protected $requestMethod;
@@ -39,7 +39,7 @@ class Google_HttpRequest
     protected $responseHttpCode;
     protected $responseHeaders;
     protected $responseBody;
-  
+
     public $accessKey;
     public function __construct($url, $method = 'GET', $headers = array(), $postBody = null)
     {
@@ -51,7 +51,7 @@ class Google_HttpRequest
         if (empty($apiConfig['application_name'])) {
             $this->userAgent = self::USER_AGENT_SUFFIX;
         } else {
-            $this->userAgent = $apiConfig['application_name'] . " " . self::USER_AGENT_SUFFIX;
+            $this->userAgent = $apiConfig['application_name']." ".self::USER_AGENT_SUFFIX;
         }
     }
   /**
@@ -65,6 +65,7 @@ class Google_HttpRequest
       if ($pos = strpos($this->url, '?')) {
           return substr($this->url, 0, $pos);
       }
+
       return $this->url;
   }
   /**
@@ -78,8 +79,10 @@ class Google_HttpRequest
           $queryStr = substr($this->url, $pos + 1);
           $params = array();
           parse_str($queryStr, $params);
+
           return $params;
       }
+
       return array();
   }
   /**
@@ -124,7 +127,7 @@ class Google_HttpRequest
   }
   /**
    * @param string $key
-   * @return array|boolean Returns the requested HTTP header or
+   * @return array|bool Returns the requested HTTP header or
    * false if unavailable.
    */
   public function getResponseHeader($key)
@@ -163,7 +166,7 @@ class Google_HttpRequest
   }
   /**
    * @param string $key
-   * @return array|boolean Returns the requested HTTP header or
+   * @return array|bool Returns the requested HTTP header or
    * false if unavailable.
    */
   public function getRequestHeader($key)
@@ -189,10 +192,10 @@ class Google_HttpRequest
       } else {
           // Force the path become relative.
       if (substr($url, 0, 1) !== '/') {
-          $url = '/' . $url;
+          $url = '/'.$url;
       }
           global $apiConfig;
-          $this->url = $apiConfig['basePath'] . $url;
+          $this->url = $apiConfig['basePath'].$url;
       }
   }
   /**
@@ -253,6 +256,7 @@ class Google_HttpRequest
       if (isset($this->requestHeaders['authorization'])) {
           $key .= $this->requestHeaders['authorization'];
       }
+
       return md5($key);
   }
     public function getParsedCacheControl()
@@ -263,6 +267,7 @@ class Google_HttpRequest
             $rawCacheControl = str_replace(', ', '&', $rawCacheControl);
             parse_str($rawCacheControl, $parsed);
         }
+
         return $parsed;
     }
   /**
@@ -273,19 +278,20 @@ class Google_HttpRequest
   {
       $str = '';
       foreach ($this->batchHeaders as $key => $val) {
-          $str .= $key . ': ' . $val . "\n";
+          $str .= $key.': '.$val."\n";
       }
       $str .= "Content-ID: $id\n";
       $str .= "\n";
       $path = parse_url($this->getUrl(), PHP_URL_PATH);
-      $str .= $this->getRequestMethod() . ' ' . $path . " HTTP/1.1\n";
+      $str .= $this->getRequestMethod().' '.$path." HTTP/1.1\n";
       foreach ($this->getRequestHeaders() as $key => $val) {
-          $str .= $key . ': ' . $val . "\n";
+          $str .= $key.': '.$val."\n";
       }
       if ($this->getPostBody()) {
           $str .= "\n";
           $str .= $this->getPostBody();
       }
+
       return $str;
   }
 }

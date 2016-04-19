@@ -44,7 +44,7 @@ class ThinkException extends Exception
      +----------------------------------------------------------
      * @access public
      +----------------------------------------------------------
-     * @param string $message  异常信息
+     * @param string $message 异常信息
      +----------------------------------------------------------
      */
     public function __construct($message, $code=0, $extra=false)

@@ -22,6 +22,7 @@ class sina
             $call_back = Addons::createAddonShow('Login', 'no_register_display', array('type'=>'sina', 'do'=>"bind"));
         }
         $this->loginUrl = $this->_oauth->getAuthorizeURL($call_back);
+
         return $this->loginUrl;
     }
     //获取token信息
@@ -42,6 +43,7 @@ class sina
         $user['location']    = $me['location'];
         $user['userface']    = str_replace($user['id'].'/50/', $user['id'].'/180/', $me['profile_image_url']);
         $user['sex']         = ($me['gender']=='m')?1:0;
+
         return $user;
     }
     private function doClient($opt)
@@ -53,6 +55,7 @@ class sina
             $access_token = $opt["oauth_token"];
             $refresh_token = $opt["oauth_token_secret"];
         }
+
         return new SaeTClientV2($this->_sina_akey, $this->_sina_skey, $access_token, $refresh_token);
     }
     //验证用户
@@ -83,6 +86,7 @@ class sina
             $_SESSION['sina']['expire'] = time()+$token['expires_in'];
             $_SESSION['sina']['uid'] = $token['uid'];
             $_SESSION['open_platform_type'] = 'sina';
+
             return $token;
         } else {
             return false;
@@ -118,6 +122,7 @@ class sina
         if (isset($data['id'])) {
             return array("sinaId"=>$data['id']);
         }
+
         return array();
     }
 }

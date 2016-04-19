@@ -21,7 +21,6 @@
 
  class RenrenRestApiService extends HttpRequestService
  {
-
      private $_config;
      private $_postFields    = '';
      private $_params        =    array();
@@ -29,33 +28,33 @@
      private static $_sigKey = 'sig';
      private $_sig            = '';
      private $_call_id        = '';
-    
+
      private $_keyMapping    = array(
                 'api_key'    =>    '',
                 'method'    =>    '',
                 'v'            =>    '',
                 'format'    =>    '',
             );
-    
+
      public function __construct()
      {
          global $config;
-        
+
          parent::__construct();
-        
+
          $this->_config = $config;
-        
+
          if (empty($this->_config->APIURL) || empty($this->_config->APIKey) || empty($this->_config->SecretKey)) {
              throw new exception('Invalid API URL or API key or Secret key, please check config.inc.php');
          }
      }
 
-     /**
-      * GET wrapper
-      * @param method String
-      * @param parameters Array
-      * @return mixed
-      */
+    /**
+     * GET wrapper
+     * @param method String
+     * @param parameters Array
+     * @return mixed
+     */
     public function GET()
     {
         $args = func_get_args();
@@ -71,12 +70,12 @@
         return $this->_GET($this->_config->APIURL, $this->_params);
     }
 
-     /**
-      * POST wrapper，基于curl函数，需要支持curl函数才行
-      * @param method String
-      * @param parameters Array
-      * @return mixed
-      */
+    /**
+     * POST wrapper，基于curl函数，需要支持curl函数才行
+     * @param method String
+     * @param parameters Array
+     * @return mixed
+     */
     public function rr_post_curl()
     {
         $args = func_get_args();
@@ -91,12 +90,12 @@
 
         return $this->_POST($this->_config->APIURL, $this->_params);
     }
-     /**
-      * Generate signature for sig parameter
-      * @param method String
-      * @param parameters Array
-      * @return RenRenClient
-      */
+    /**
+     * Generate signature for sig parameter
+     * @param method String
+     * @param parameters Array
+     * @return RenRenClient
+     */
     private function generateSignature()
     {
         $arr = array_merge($this->_params, $this->_keyMapping);
@@ -108,7 +107,7 @@
             $arr[$k]=$v;//转码，你懂得
                 $str .= $k.'='.$v;
         }
-            
+
         $this->_params = $arr;
         $str = md5($str.$this->_config->SecretKey);
         $this->_params[self::$_sigKey] = $str;
@@ -119,30 +118,32 @@
         return $this;
     }
 
-    
-     /**
-      * Parameters merge
-      * @param $params Array
-      * @modified by Edison tsai on 15:56 2011/01/13 for fix non-object bug
-      * @return RenRenClient
-      */
+
+    /**
+     * Parameters merge
+     * @param $params Array
+     * @modified by Edison tsai on 15:56 2011/01/13 for fix non-object bug
+     * @return RenRenClient
+     */
     private function paramsMerge($params)
     {
         $this->_params = $params;
+
         return $this;
     }
 
-     /**
-      * Setting mapping value
-      * @modified by Edison tsai on 15:04 2011/01/13 for add call id & session_key
-      * @return RenRenClient
-      */
+    /**
+     * Setting mapping value
+     * @modified by Edison tsai on 15:04 2011/01/13 for add call id & session_key
+     * @return RenRenClient
+     */
     private function setConfigToMapping()
     {
         $this->_keyMapping['api_key']    = $this->_config->APIKey;
         $this->_keyMapping['method']    = $this->_currentMethod;
         $this->_keyMapping['v']            = $this->_config->APIVersion;
         $this->_keyMapping['format']    = $this->_config->decodeFormat;
+
         return $this;
     }
 
@@ -151,18 +152,19 @@
          $this->_config->APIURL = $url;
      }
 
-  /**
-    * Generate call id
-    * @author Edison tsai
-    * @created 14:48 2011/01/13
-    * @return RenRenClient
-    */
+    /**
+     * Generate call id
+     * @author Edison tsai
+     * @created 14:48 2011/01/13
+     * @return RenRenClient
+     */
     public function getCallId()
     {
         $this->_call_id = str_pad(mt_rand(1, 9999999999), 10, 0, STR_PAD_RIGHT);
+
         return $this;
     }
-    
+
      public function rr_post_fopen()
      {
          $args = func_get_args();
@@ -190,6 +192,7 @@
         $photo_files=$args[2];
 
          unset($args);
+
          return $this->_photoUpload($this->_config->APIURL, $this->_params, $photo_files);
      }
  }

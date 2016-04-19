@@ -21,5 +21,4 @@ class User extends Model
     protected $hidden = array('password', 'login_salt');
 
     protected static $instances = array();
-
 } // END class User extends Model

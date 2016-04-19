@@ -99,6 +99,7 @@ if ($mail_setting['mailsend'] == 1 && function_exists('mail')) {
             if (substr($lastmessage, 0, 3) != 250) {
                 fputs($fp, "RCPT TO: <".preg_replace("/.*\<(.+?)\>.*/", "\\1", $touser).">\r\n");
                 $lastmessage = fgets($fp, 512);
+
                 return false;
             }
         }
@@ -124,6 +125,7 @@ if ($mail_setting['mailsend'] == 1 && function_exists('mail')) {
     }
 
     fputs($fp, "QUIT\r\n");
+
     return true;
 } elseif ($mail_setting['mailsend'] == 3) {
     ini_set('SMTP', $mail_setting['mailserver']);

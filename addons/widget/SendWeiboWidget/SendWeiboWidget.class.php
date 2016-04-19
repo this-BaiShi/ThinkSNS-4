@@ -7,9 +7,8 @@
  */
 class SendWeiboWidget extends Widget
 {
-    
     private static $rand = 1;
-    
+
     /**
      * 渲染分享发布框模板
      * @example
@@ -18,7 +17,7 @@ class SendWeiboWidget extends Widget
      * $data['initHtml'] string 发布分享框中的默认内容
      * $data['cancomment'] integer 是否可以评论 
      *$data['channelID']  发布到某个频道的id
-     * @param array $data 发布分享框的配置参数
+     * @param  array  $data 发布分享框的配置参数
      * @return string 渲染后的模板内容
      */
     public function render($data)
@@ -26,7 +25,7 @@ class SendWeiboWidget extends Widget
         $var = array();
         //频道id
         $var['channelID'] = $data['channelID'];
-        
+
         $var['initHtml'] = '';
         $var['post_event'] ='post_feed';
         $var['cancomment'] = 0;
@@ -58,7 +57,7 @@ class SendWeiboWidget extends Widget
         $var['channel'] = $data['channel'] ? $data['channel']:'';
         $var['isrefresh'] = $data['isrefresh'] ? $data['isrefresh']:'';
         $content = $this->renderFile(dirname(__FILE__)."/".$tpl.".html", $var);
-    
+
         self::$rand++;
         unset($var, $data);
         // 输出数据

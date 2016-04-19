@@ -1,4 +1,5 @@
 <?php
+
 error_reporting(0);
 //session 设置
 ini_set('session.cookie_httponly', 1);
@@ -47,8 +48,9 @@ class Image
                 "height"=>$imageInfo[1],
                 "type"=>$imageType,
                 "size"=>$imageSize,
-                "mime"=>$imageInfo['mime']
+                "mime"=>$imageInfo['mime'],
             );
+
             return $info;
         } else {
             return false;
@@ -62,11 +64,11 @@ class Image
      * @static
      * @access public
      +----------------------------------------------------------
-     * @param string $length  位数
-     * @param string $mode  类型
-     * @param string $type 图像格式
+     * @param string $length 位数
+     * @param string $mode   类型
+     * @param string $type   图像格式
      * @param string $width  宽度
-     * @param string $height  高度
+     * @param string $height 高度
      +----------------------------------------------------------
      * @return string
      +----------------------------------------------------------
@@ -160,22 +162,21 @@ class Image
 
 class StringTool
 {
-
     /**
-     +----------------------------------------------------------
-     * 生成UUID 单机使用
-     +----------------------------------------------------------
-     * @access public
-     +----------------------------------------------------------
-     * @return string
-     +----------------------------------------------------------
-     */
+      +----------------------------------------------------------
+      * 生成UUID 单机使用
+      +----------------------------------------------------------
+      * @access public
+      +----------------------------------------------------------
+      * @return string
+      +----------------------------------------------------------
+      */
      public static function uuid()
      {
          $charid = md5(uniqid(mt_rand(), true));
          $hyphen = chr(45);// "-"
         $uuid = chr(123)// "{"
-               .substr($charid, 0, 8).$hyphen
+.substr($charid, 0, 8).$hyphen
                .substr($charid, 8, 4).$hyphen
                .substr($charid, 12, 4).$hyphen
                .substr($charid, 16, 4).$hyphen
@@ -242,6 +243,7 @@ class StringTool
                 }
             }
         }
+
         return true;
     }
 
@@ -252,11 +254,11 @@ class StringTool
      * @static
      * @access public
      +----------------------------------------------------------
-     * @param string $str 需要转换的字符串
-     * @param string $start 开始位置
-     * @param string $length 截取长度
+     * @param string $str     需要转换的字符串
+     * @param string $start   开始位置
+     * @param string $length  截取长度
      * @param string $charset 编码格式
-     * @param string $suffix 截断显示字符
+     * @param string $suffix  截断显示字符
      +----------------------------------------------------------
      * @return string
      +----------------------------------------------------------
@@ -273,10 +275,11 @@ class StringTool
         $re['gbk']      = "/[\x01-\x7f]|[\x81-\xfe][\x40-\xfe]/";
         $re['big5']      = "/[\x01-\x7f]|[\x81-\xfe]([\x40-\x7e]|\xa1-\xfe])/";
         preg_match_all($re[$charset], $str, $match);
-        $slice = join("", array_slice($match[0], $start, $length));
+        $slice = implode("", array_slice($match[0], $start, $length));
         if ($suffix) {
             return $slice."…";
         }
+
         return $slice;
     }
 
@@ -285,9 +288,9 @@ class StringTool
      * 产生随机字串，可用来自动生成密码
      * 默认长度6位 字母和数字混合 支持中文
      +----------------------------------------------------------
-     * @param string $len 长度
-     * @param string $type 字串类型
-     * 0 字母 1 数字 其它 混合
+     * @param string $len      长度
+     * @param string $type     字串类型
+     *                         0 字母 1 数字 其它 混合
      * @param string $addChars 额外字符
      +----------------------------------------------------------
      * @return string
@@ -330,6 +333,7 @@ class StringTool
                 $str.= self::msubstr($chars, floor(mt_rand(0, mb_strlen($chars, 'utf-8')-1)), 1);
             }
         }
+
         return $str;
     }
 
@@ -337,10 +341,10 @@ class StringTool
      +----------------------------------------------------------
      * 生成一定数量的随机数，并且不重复
      +----------------------------------------------------------
-     * @param integer $number 数量
-     * @param string $len 长度
-     * @param string $type 字串类型
-     * 0 字母 1 数字 其它 混合
+     * @param int    $number 数量
+     * @param string $len    长度
+     * @param string $type   字串类型
+     *                       0 字母 1 数字 其它 混合
      +----------------------------------------------------------
      * @return string
      +----------------------------------------------------------
@@ -364,6 +368,7 @@ class StringTool
             $rand[] =   rand_string($length, $mode);
         }
         $rand = array_slice(array_unique($rand), 0, $number);
+
         return $rand;
     }
 
@@ -373,8 +378,8 @@ class StringTool
      *  但可能存在重复
      +----------------------------------------------------------
      * @param string $format 字符格式
-     *     # 表示数字 * 表示字母和数字 $ 表示字母
-     * @param integer $number 生成数量
+     *                       # 表示数字 * 表示字母和数字 $ 表示字母
+     * @param int    $number 生成数量
      +----------------------------------------------------------
      * @return string | array
      +----------------------------------------------------------
@@ -412,8 +417,8 @@ class StringTool
      +----------------------------------------------------------
      * 获取一定范围内的随机数字 位数不足补零
      +----------------------------------------------------------
-     * @param integer $min 最小值
-     * @param integer $max 最大值
+     * @param int $min 最小值
+     * @param int $max 最大值
      +----------------------------------------------------------
      * @return string
      +----------------------------------------------------------

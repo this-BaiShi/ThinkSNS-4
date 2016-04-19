@@ -6,14 +6,13 @@
  */
 class UserApi extends Api
 {
-
     /**
      * 按用户UID或昵称返回用户资料，同时也将返回用户的最新发布的分享
      * 
      */
     public function show()
     {
-        
+
         //$this->user_id = empty($this->user_id) ? $this->mid : $this->user_id;
         //用户基本信息
         if (empty($this->user_id) && empty($this->user_name)) {
@@ -29,7 +28,7 @@ class UserApi extends Api
             return false;
         }
         $data['sex'] = $data['sex'] ==1 ? '男':'女';
-        
+
         $data['profile'] = model('UserProfile')->getUserProfileForApi($this->user_id);
 
         $profileHash = model('UserProfile')->getUserProfileSetting();
@@ -55,15 +54,14 @@ class UserApi extends Api
         $verified = D('user_verified')->where('uid='.$this->user_id.' and verified=1')->find();
         $data['verified'] = $verified ? $verified : '';
         $data['count_info']['photo_count'] = D('feed')->where($pmap)->count();
-        ;
-        
+
         //用户标签
         $data['user_tag'] = model('Tag')->setAppName('User')->setAppTable('user')->getAppTags($this->user_id);
         $data['user_tag'] = empty($data['user_tag']) ? '' : implode('、', $data['user_tag']);
         //关注情况
         $followState  = model('Follow')->getFollowState($this->mid, $this->user_id);
         $data['follow_state'] = $followState;
-        
+
         //最后一条分享
         $lastFeed = model('Feed')->getLastFeed($this->user_id);
         $data['last_feed'] = $lastFeed;
@@ -81,7 +79,7 @@ class UserApi extends Api
 
         return $data;
     }
-        
+
     /**
      * 上传头像 API
      * 传入的头像变量 $_FILES['Filedata']
@@ -147,6 +145,7 @@ class UserApi extends Api
             $res = model('Register')->isValidName($uname);
             if (!$res) {
                 $error = model('Register')->getLastError();
+
                 return array('status'=>0, 'info'=>$error);
             }
             // 如果包含中文将中文翻译成拼音
@@ -163,6 +162,7 @@ class UserApi extends Api
             if (!$regmodel->isValidPassword($this->data['password'], $this->data['password'])) {
                 $msg = $regmodel->getLastError();
                 $return = array('status'=>0, 'info'=>$msg);
+
                 return $return;
             }
             if ($this->data['password'] == $this->data['old_password']) {
@@ -220,6 +220,7 @@ class UserApi extends Api
         //用户积分
         $data['credit'] = model('Credit')->getUserCredit($this->mid);
         $data['list'] = model('Credit')->getLevel();
+
         return $data;
     }
     /**
@@ -232,6 +233,7 @@ class UserApi extends Api
         $data['message'] = $user_privacy['message'] ? $user_privacy['message'] : 0;
         $data['space'] = $user_privacy['space'] ? $user_privacy['space'] : 0;
         $data['follow'] = $user_privacy['follow'] ? $user_privacy['follow'] : 0;
+
         return $data;
     }
     /**
@@ -278,6 +280,7 @@ class UserApi extends Api
             return model('Follow')->getFollowState($this->mid, $this->user_id);
             //return 0;
         }
+
         return $r;
     }
 
@@ -289,11 +292,12 @@ class UserApi extends Api
         if (empty($this->mid) || empty($this->user_id)) {
             return 0;
         }
-        
+
         $r = model('Follow')->unFollow($this->mid, $this->user_id);
         if (!$r) {
             return model('Follow')->getFollowState($this->mid, $this->user_id);
         }
+
         return $r;
     }
 
@@ -308,6 +312,7 @@ class UserApi extends Api
             $udata = model('UserData')->getUserData($this->mid);
             $udata['new_folower_count'] > 0 && model('UserData')->setKeyValue($this->mid, 'new_folower_count', 0);
         }
+
         return model('Follow')->getFollowerListForApi($this->mid, $this->user_id, $this->since_id, $this->max_id, $this->count, $this->page);
     }
 
@@ -317,6 +322,7 @@ class UserApi extends Api
     public function user_following()
     {
         $this->user_id = empty($this->user_id) ? $this->mid : $this->user_id;
+
         return model('Follow')->getFollowingListForApi($this->mid, $this->user_id, $this->since_id, $this->max_id, $this->count, $this->page);
     }
 
@@ -327,6 +333,7 @@ class UserApi extends Api
     {
         $this->user_id = empty($this->user_id) ? $this->mid : $this->user_id;
         $user_following =  model('Follow')->getFollowingListForApi($this->mid, $this->user_id, $this->since_id, $this->max_id, 500, $this->page);
+
         return $this->formatByFirstLetter($user_following);
     }
 
@@ -337,6 +344,7 @@ class UserApi extends Api
     public function user_friends()
     {
         $this->user_id = empty($this->user_id) ? $this->mid : $this->user_id;
+
         return model('Follow')->getFriendsForApi($this->mid, $this->user_id, $this->since_id, $this->max_id, $this->count, $this->page);
     }
 
@@ -349,12 +357,13 @@ class UserApi extends Api
         $map['login'] = array('LIKE',$key);
         $map['_logic'] = 'or';
         $userlist = M('user')->where($map)->findAll();
+
         return $userlist;
     }
 
     /**
      * 获取用户相关信息
-     * @param array $uids 用户ID数组
+     * @param  array $uids 用户ID数组
      * @return array 用户相关数组
      */
     public function getUserInfos($uids, $data, $type = 'basic')
@@ -385,7 +394,7 @@ class UserApi extends Api
                 $value['user_group'] = $userGroupInfo[$value['uid']];
             }
         }
-    
+
         return $data;
     }
     // 按标签搜索用户
@@ -399,6 +408,7 @@ class UserApi extends Api
         }
         $data = model('UserCategory')->getUidsByCid($tagid, null, $limit);
         $data['data'] = $this->getUserInfos(getSubByKey($data['data'], 'uid'), $data['data'], 'basic');
+
         return $data['data'] ? $data : 0;
     }
 
@@ -416,7 +426,7 @@ class UserApi extends Api
         if (!$areaid) {
             return 0;
         }
-        
+
         $pid1 = model('Area')->where('area_id='.$areaid)->getField('pid');
         $level = 1;
         if ($pid1 != 0) {
@@ -437,15 +447,15 @@ class UserApi extends Api
                 $map['area'] = $areaid;
                 break;
         }
-        
+
         $map['is_del'] = 0;
         $map['is_active'] = 1;
         $map['is_audit'] = 1;
         $map['is_init'] = 1;
-        
+
         $data = D('user')->where($map)->field('uid')->order("uid desc")->findPage($limit);
         $data['data'] = $this->getUserInfos(getSubByKey($data['data'], 'uid'), $data['data'], 'basic');
-        
+
         return $data['data'] ? $data : 0;
     }
 
@@ -466,6 +476,7 @@ class UserApi extends Api
         $maps['verified'] = 1;
         $data = D('user_verified')->where($maps)->field('uid, info AS verify_info')->findPage($limit);
         $data['data'] = $this->getUserInfos(getSubByKey($data['data'], 'uid'), $data['data'], 'basic');
+
         return $data['data'] ? $data : 0;
     }
 
@@ -485,6 +496,7 @@ class UserApi extends Api
         $maps['user_official_category_id'] = $cateid;
         $data = D('user_official')->where($maps)->field('uid, info AS verify_info')->findPage($limit);
         $data['data'] = $this->getUserInfos(getSubByKey($data['data'], 'uid'), $data['data'], 'basic');
+
         return $data['data'] ? $data : 0;
     }
 
@@ -515,6 +527,7 @@ class UserApi extends Api
                 $category = model('UserCategory')->getNetworkList();
                 break;
         }
+
         return $category;
     }
     /**
@@ -527,10 +540,11 @@ class UserApi extends Api
         $this->data['limit'] && $limit = intval($this->data['limit']);
         $page = $this->data['page'] ? intval($this->data['page']) : 1;
         $limit = ($page - 1) * $limit.', '.$limit;
-        
+
         $followermap['key'] = 'follower_count';
         $followeruids = model('UserData')->where($followermap)->field('uid')->order('`value`+0 desc,uid')->limit($limit)->findAll();
         $followeruids = $this->getUserInfos(getSubByKey($followeruids, 'uid'), $followeruids, 'basic');
+
         return $followeruids ? $followeruids : 0;
     }
 
@@ -550,9 +564,10 @@ class UserApi extends Api
         $this->data['limit'] && $limit = intval($this->data['limit']);
         $map['last_latitude'] = array( 'between' , ($latitude - 1).','.($latitude + 1) );
         $map['last_longitude'] = array( 'between' , ($longitude - 1).','.($longitude + 1) );
-        
+
         $data = D('mobile_user')->where($map)->field('uid')->findpage($limit);
         $data['data'] = $this->getUserInfos(getSubByKey($data['data'], 'uid'), $data['data'], 'basic');
+
         return $data['data'] ? $data : 0;
     }
 
@@ -576,15 +591,16 @@ class UserApi extends Api
             $data['nickname'] = $user['uname'];
             $data['infomation'] = $user['intro'];
             $data['sex'] = $user['sex'];
-            
+
             $data['checkin_count'] = 1;
             $data['uid'] = $this->mid;
             $res = D('mobile_user')->add($data);
-            
+
             dump($data);
             dump(D('mobile_user')->getLastSql());
             dump($res);
         }
+
         return $res ? 1 : 0;
     }
 
@@ -617,6 +633,7 @@ class UserApi extends Api
             $res = model('Register')->isValidName($uname, $oldName);
             if (!$res) {
                 $error = model('Register')->getLastError();
+
                 return array('status'=>0, 'info'=>$error);
             }
             // 如果包含中文将中文翻译成拼音
@@ -754,12 +771,14 @@ class UserApi extends Api
                 unset($peoplelist[$k]);
             }
         }
+
         return $peoplelist;
     }
 
     public function getAreaList()
     {
         $pid = $this->data['area_id']?intval($this->data['area_id']):0;
+
         return D('area')->where('pid='.$pid)->order('sort ASC')->findAll();
     }
 }

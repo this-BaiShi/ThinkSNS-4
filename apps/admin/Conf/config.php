@@ -1,4 +1,5 @@
 <?php
+
 $menu = array(
     //后台头部TAB配置
     'admin_channel'      =>    array(
@@ -31,7 +32,7 @@ $menu = array(
                 '数据备份'                           => U('admin/Tool/backup'),
                 '异常处理'                           => U('admin/Tool/index'),
                 '在线升级'                           => U('admin/Upgrade/check'),
-            )
+            ),
         ),
 
         'system'    => array(
@@ -77,7 +78,7 @@ $menu = array(
                 '找人推荐'    =>    U('admin/User/officialCategory'),
             ),
         ),
-        
+
         'content'    => array(
             L('PUBLIC_CONTENT_MANAGEMENT')            =>    array(
                 // L('PUBLIC_ANNOUNCEMENT_SETTING')	=>	U('admin/Config/announcement'),
@@ -99,8 +100,8 @@ $menu = array(
                 L('PUBLIC_TASK_REWARD') => U('admin/Task/reward'),
                 '勋章列表'                => U('admin/Medal/index'),
                 '用户勋章'                => U('admin/Medal/userMedal'),
-                '任务配置'                => U('admin/Task/taskConfig')
-            )
+                '任务配置'                => U('admin/Task/taskConfig'),
+            ),
         ),
         'apps'    => array(
             L('PUBLIC_APP_MANAGEMENT')            =>    array(
@@ -137,7 +138,7 @@ $menu = array(
                 '反馈管理'   => U('admin/Application/feedback'),
             ),
         ),
-    )
+    ),
 );
 
 $app_list = model('App')->getConfigList();

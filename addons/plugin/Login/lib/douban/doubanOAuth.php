@@ -83,9 +83,10 @@ class doubanOAuth
   public function getRequestToken()
   {/*{{{*/
     $r = $this->oAuthRequest($this->requestTokenURL());
-    
+
       $token = $this->oAuthParseResponse($r);
       $this->token = new doubanOAuthConsumer($token['oauth_token'], $token['oauth_token_secret']);
+
       return $token;
   }/*}}}*/
 
@@ -104,6 +105,7 @@ class doubanOAuth
           }
           $r[urldecode($pair[0])] = urldecode($pair[1]);
       }
+
       return $r;
   }
 
@@ -117,7 +119,8 @@ class doubanOAuth
     if (is_array($token)) {
         $token = $token['oauth_token'];
     }
-      return $this->authorizeURL() . '?oauth_token=' . $token;
+
+      return $this->authorizeURL().'?oauth_token='.$token;
   }/*}}}*/
   /**
    * Get the authenticate URL
@@ -129,7 +132,8 @@ class doubanOAuth
     if (is_array($token)) {
         $token = $token['oauth_token'];
     }
-      return $this->authenticateURL() . '?oauth_token=' . $token;
+
+      return $this->authenticateURL().'?oauth_token='.$token;
   }/*}}}*/
 
   /**
@@ -144,6 +148,7 @@ class doubanOAuth
     $r = $this->oAuthRequest($this->accessTokenURL());
       $token = $this->oAuthParseResponse($r);
       $this->token = new doubanOAuthConsumer($token['oauth_token'], $token['oauth_token_secret']);
+
       return $token;
   }/*}}}*/
 
@@ -190,6 +195,7 @@ class doubanOAuth
       $this->http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
       $this->last_api_call = $url;
       curl_close($ch);
+
       return $response;
   }/*}}}*/
 }/*}}}*/

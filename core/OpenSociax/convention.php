@@ -15,6 +15,7 @@
 if (!defined('THINK_PATH')) {
     exit();
 }
+
 return array(
 
     /* 插件是否开启 */

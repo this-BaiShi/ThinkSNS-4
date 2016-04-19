@@ -8,27 +8,26 @@
  */
 class SourceModel
 {
-    
     /**
      * 获取指定资源，并格式化输出
      *
-     * @param string $table
-     *        	资源表名
-     * @param integer $row_id
-     *        	资源ID
-     * @param boolean $_forApi
-     *        	是否提供API，默认为false
-     * @param string $appname
-     *        	自定应用名称，默认为public
+     * @param  string $table
+     *                         资源表名
+     * @param  int    $row_id
+     *                         资源ID
+     * @param  bool   $_forApi
+     *                         是否提供API，默认为false
+     * @param  string $appname
+     *                         自定应用名称，默认为public
      * @return [type] [description]
      */
     public function getSourceInfo($table, $row_id, $_forApi = false, $appname = 'public')
     {
         static $forApi = '0';
         $forApi == '0' && $forApi = intval($_forApi);
-        
-        $key = $forApi ? $table . $row_id . '_api' : $table . $row_id;
-        if ($info = static_cache('source_info_' . $key)) {
+
+        $key = $forApi ? $table.$row_id.'_api' : $table.$row_id;
+        if ($info = static_cache('source_info_'.$key)) {
             return $info;
         }
         switch ($table) {
@@ -39,15 +38,15 @@ class SourceModel
                 $info = $this->getInfoFromComment($table, $row_id, $_forApi);
                 break;
             case 'poster' :
-                $poster = D('poster')->where('id=' . $row_id)->field('title,uid,pid')->find();
+                $poster = D('poster')->where('id='.$row_id)->field('title,uid,pid')->find();
                 $info['title'] = $poster['title'];
                 $info ['source_user_info'] = model('User')->getUserInfo($poster ['uid']);
                 $info ['source_url'] = U('poster/Index/posterDetail', array(
-                        'id' => $row_id
+                        'id' => $row_id,
                 ));
-                $info ['source_body'] = $poster ['title'] . '<a class="ico-details" href="' . U('poster/Index/posterDetail', array(
-                        'id' => $row_id
-                )) . '"></a>';
+                $info ['source_body'] = $poster ['title'].'<a class="ico-details" href="'.U('poster/Index/posterDetail', array(
+                        'id' => $row_id,
+                )).'"></a>';
                 $info['category_id'] = $poster['pid'];
                 $info['category_name'] = D('poster_type')->where('id='.$poster['pid'])->getField('name');
                 break;
@@ -147,12 +146,12 @@ class SourceModel
                 // 通过应用下的{$appname}ProtocolModel.Class.php模型里的getSourceInfo方法，来写各应用的来源数据获取方法
                 $appname = strtolower($appname);
                 $name = ucfirst($appname);
-                $dao = D($name . 'Protocol', $appname, false);
+                $dao = D($name.'Protocol', $appname, false);
                 if (method_exists($dao, 'getSourceInfo')) {
                     $info = $dao->getSourceInfo($row_id, $_forApi);
                 }
                 unset($dao);
-                
+
                 // 兼容旧方案
                 if (!$info) {
                     $modelArr = explode('_', $table);
@@ -169,20 +168,21 @@ class SourceModel
         }
         $info ['source_table'] = $table;
         $info ['source_id'] = $row_id;
-        static_cache('source_info_' . $key, $info);
+        static_cache('source_info_'.$key, $info);
+
         return $info;
     }
-    
+
     /**
      * 从Feed中提取资源数据
      *
-     * @param string $table
-     *        	资源表名
-     * @param integer $row_id
-     *        	资源ID
-     * @param boolean $forApi
-     *        	是否提供API，默认为false
-     * @return array 格式化后的资源数据
+     * @param  string $table
+     *                        资源表名
+     * @param  int    $row_id
+     *                        资源ID
+     * @param  bool   $forApi
+     *                        是否提供API，默认为false
+     * @return array  格式化后的资源数据
      */
     private function getInfoFromFeed($table, $row_id, $forApi)
     {
@@ -193,25 +193,26 @@ class SourceModel
         $info ['source_title'] = $forApi ? parseForApi($_info ['user_info'] ['space_link']) : $_info ['user_info'] ['space_link']; // 分享title暂时为空
         $info ['source_url'] = U('public/Profile/feed', array(
                 'feed_id' => $row_id,
-                'uid' => $info ['uid']
+                'uid' => $info ['uid'],
         ));
         $info ['source_content'] = $info ['content'];
         $info ['ctime'] = $info ['publish_time'];
         $info ['is_del'] = $info ['is_del'];
         unset($info ['content']);
+
         return $info;
     }
-    
+
     /**
      * 从评论中提取资源数据
      *
-     * @param string $table
-     *        	资源表名
-     * @param integer $row_id
-     *        	资源ID
-     * @param boolean $forApi
-     *        	是否提供API，默认为false
-     * @return array 格式化后的资源数据
+     * @param  string $table
+     *                        资源表名
+     * @param  int    $row_id
+     *                        资源ID
+     * @param  bool   $forApi
+     *                        是否提供API，默认为false
+     * @return array  格式化后的资源数据
      */
     private function getInfoFromComment($table, $row_id, $forApi)
     {
@@ -231,10 +232,10 @@ class SourceModel
         $info ['sourceInfo'] = $_info ['sourceInfo'];
         // 分享title暂时为空
         $info ['source_title'] = $forApi ? parseForApi($_info ['user_info'] ['space_link']) : $_info ['user_info'] ['space_link'];
-        
+
         return $info;
     }
-    
+
     public function getCommentSource($data, $forApi=false)
     {
         if ($data['table']=='feed'||$data['table']=='comment'||empty($data['app_detail_summary']) || $forApi) {
@@ -250,8 +251,8 @@ class SourceModel
 
     /**
      * 获取编辑器内容中的第一个图片（非表情图片）
-     * @param string $content 编辑器内容
-     * @return array 图片的地址数组
+     * @param  string $content 编辑器内容
+     * @return array  图片的地址数组
      */
     private function getEditorImages($content)
     {
@@ -264,7 +265,7 @@ class SourceModel
                 if (strpos($match, $path)) {
                     list($unkn, $file) = explode($path, $match, 2);
                 }
-                if ($file && is_file(UPLOAD_PATH . $file)) {
+                if ($file && is_file(UPLOAD_PATH.$file)) {
                     $info['pic_url_small'] = getImageUrl($file, 120, 120, true);
                     $info['pic_url_medium'] = getImageUrl($file, 240);
                     $info['pic_url'] = getImageUrl($file);
@@ -276,6 +277,7 @@ class SourceModel
                 break;
             }
         }
+
         return $info;
     }
 }

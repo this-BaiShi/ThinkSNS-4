@@ -1,4 +1,5 @@
 <?php
+
 class renren
 {
     private function getCallback($site='', $type='bind', $callbackurl='')
@@ -10,6 +11,7 @@ class renren
                 $callbackurl = Addons::createAddonShow('Login', 'no_register_display', array('type'=>$site));
             }
         }
+
         return urlencode($callbackurl);
     }
     public function getUrl($callbackurl)
@@ -20,6 +22,7 @@ class renren
                     .'&redirect_uri='.$this->getCallback('renren', 'bind', $callbackurl)
                     .'&state='.$_SESSION['state']
                     .'&scope=publish_feed';
+
         return $loginUrl;
     }
     //用户资料
@@ -33,6 +36,7 @@ class renren
             $user['location']   = '';
             $user['userface']   = $_SESSION['renren']['userface'];
             $user['sex']        = ($_SESSION['renren']['sex']=='1')?1:0;
+
             return $user;
         } else {
             //用接口获取数据
@@ -63,6 +67,7 @@ class renren
                 $_SESSION['renren']['uname'] = $res['user']['name'];
                 $_SESSION['renren']['userface'] = $res['user']['avatar'][2]['url']?$res['user']['avatar'][2]['url']:'';
                 $_SESSION['open_platform_type'] = 'renren';
+
                 return $res;
             } else {
                 return false;
@@ -94,7 +99,7 @@ class renren
         $config->decodeFormat = 'json';
         $GLOBALS['config'] =& $config;
         $rrObj = new RenrenRestApiService;
-        
+
         $params = array('name'=>getShort($opt["feed_content"], 30),
                         'description'=>$opt["feed_content"],
                         'url'=>$opt["feed_url"],
@@ -102,14 +107,16 @@ class renren
                         'action_name'=>$GLOBALS['ts']['site']['site_name'],
                         'action_link'=>$opt["feed_url"],
                         'message'=> '分享',
-                        'access_token'=>$access_token);
+                        'access_token'=>$access_token, );
         $res = $rrObj->rr_post_curl('feed.publishFeed', $params);
+
         return true;
     }
     //上传一个照片，并发布一条分享
     public function upload($text, $opt, $pic)
     {
         $this->update($text, $opt);
+
         return true;
     }
     //转发一条分享

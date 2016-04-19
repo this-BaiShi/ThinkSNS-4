@@ -21,7 +21,7 @@ abstract class Action
     protected $site = array();
     protected $user = array();
     protected $app = array();
-    
+
     protected $mid = 0;
     protected $uid = 0;
 
@@ -34,11 +34,11 @@ abstract class Action
     public function __construct()
     {
         $GLOBALS['time_run_detail']['action_init_start'] = microtime(true);
-        
+
         $this->initSite();
-        
+
         $this->initUser();
-        
+
         $this->initApp();
         Addons::hook('core_filter_init_action');
         //控制器初始化
@@ -52,13 +52,12 @@ abstract class Action
     /**
      * 站点信息初始化
      * @access private
-     * @return void
      */
     private function initSite()
     {
 
         //初始化语言包
-        $cacheFile = DATA_PATH . '/lang/_initSiteLang.lock';
+        $cacheFile = DATA_PATH.'/lang/_initSiteLang.lock';
         if (!file_exists($cacheFile)) {
             model('Lang')->initSiteLang();
         }
@@ -72,9 +71,9 @@ abstract class Action
             //载入站点配置全局变量
             $this->site = model('Xdata')->get('admin_Config:site');
             $GLOBALS['time_run_detail']['action_init_site_siteconfig'] = microtime(true);
-            
+
             $GLOBALS['time_run_detail']['action_init_site_language'] = microtime(true);
-            
+
             //LOGO处理
             $this->site['logo'] = getSiteLogo($this->site['site_logo']);
             $GLOBALS['time_run_detail']['action_init_site_logo'] = microtime(true);
@@ -102,21 +101,21 @@ abstract class Action
             //获取可搜索的内容列表
             $this->site['search_menu_list'] = D('SearchSelect')->findAll();
             $GLOBALS['time_run_detail']['action_init_site_search'] = microtime(true);
-            
+
             //网站所有的应用
             $this->site['site_nav_apps'] = model('App')->getAppList(array('status'=>1, 'add_front_top'=>1), 9);
             $GLOBALS['time_run_detail']['action_init_site_applist'] = microtime(true);
-            
+
             //获取当前Js语言包
             $this->site['langJsList'] = setLangJavsScript();
 
             //分享字数 
             $this->site['initNums'] = model('Xdata')->getConfig('weibo_nums', 'feed');
-            
+
             //赋值给全局变量
             F('global_site_config', $this->site);
         }
-            
+
         //检查站点是否关闭
         if ($this->site['site_closed'] == 0 && APP_NAME !='admin') {
             $this->page404($this->site['site_closed_reason']);
@@ -143,9 +142,9 @@ abstract class Action
         $GLOBALS['time_run_detail']['action_init_site_rewrite'] = microtime(true);
 
         $this->langJsList = $this->site['langJsList'];
-        
+
         $this->site['sys_version'] = C('VERSION');
-        
+
         $GLOBALS['ts']['site'] = $this->site;
 
         //网站全局变量过滤插件
@@ -169,7 +168,6 @@ abstract class Action
      * 应用信息初始化
      *
      * @access private
-     * @return void
      */
     private function initApp()
     {
@@ -179,22 +177,24 @@ abstract class Action
         if (in_array(APP_NAME, C('DEFAULT_APPS'))) {
             return true;
         }
-        
+
         //加载后台已安装应用列表        
         $GLOBALS['ts']['app'] = $this->app = model('App')->getAppByName(APP_NAME);
-        
+
         if (empty($this->app) || !$this->app) {
             $this->error('此应用不存在');
+
             return false;
         }
 
         if (!empty($this->app) && $this->app['status'] == 0) {
             $this->error('此应用已经关闭');
+
             return false;
         }
 
         Addons::hook('core_filter_init_app');
-        
+
         $GLOBALS['time_run_detail']['action_init_app_end'] = microtime(true);
 
         return true;
@@ -203,7 +203,6 @@ abstract class Action
     /**
      * 用户信息初始化
      * @access private
-     * @return void
      */
     private function initUser()
     {
@@ -245,7 +244,7 @@ abstract class Action
         }else{
             cookie('TSV4_ACTIVE_TIME',time()+60*60*24);
         }*/
-        
+
         //当前登录者uid
         $GLOBALS['ts']['mid'] = $this->mid = intval($_SESSION['mid']);
 
@@ -264,7 +263,7 @@ abstract class Action
             } else {
                 $GLOBALS['ts']['_user'] = $GLOBALS['ts']['user'];
             }
-            
+
             $GLOBALS['time_run_detail']['action_init_user_info'] = microtime(true);
 
             // 未初始化
@@ -272,11 +271,11 @@ abstract class Action
             if (0 < $this->mid && 0 == $this->user ['is_init'] && APP_NAME != 'admin' && ! isset($module_arr [MODULE_NAME])) {
                 // 注册完成后就开启此功能
                 if ($this->user ['is_active'] == '0') {
-                    U('public/Register/waitForActivation', 'uid=' . $this->mid, true);
+                    U('public/Register/waitForActivation', 'uid='.$this->mid, true);
                 } else {
                     $init_config = model('Xdata')->get('admin_Config:register');
                     $user_tags = D('app_tag')->where('row_id='.$this->mid)->findAll();
-                    
+
                     //若开启资料完善
                     if ($init_config['personal_open']) {
                         if (in_array('face', $init_config['personal_required']) && !model('Avatar')->hasAvatar()) {
@@ -296,7 +295,7 @@ abstract class Action
                     if ($init_config ['tag_open']) {
                         U ( 'public/Register/step3', '', true );
                     }*/
-                    
+
                     // 添加双向关注用户
                     $registerConfig = model('Xdata')->get('admin_Config:register');
                     $eachFollow = $registerConfig['each_follow'];
@@ -379,14 +378,13 @@ abstract class Action
 
     /**
      * 重设访问对象的用户信息 主要用于重写等地方
-     * @return void
      */
     public function reinitUser($uid='')
     {
         if (empty($uid) || $this->mid == $uid) {
             return true;
         }
-        
+
         $GLOBALS['ts']['uid'] = $_REQUEST['uid']  = $this->uid =    $uid;
         $GLOBALS['ts']['_user'] = model('User')->getUserInfo($this->uid);
         //当前用户的所有已添加的应用
@@ -394,18 +392,18 @@ abstract class Action
         //当前用户的统计数据
         $GLOBALS['ts']['_userData'] = $userData = model('UserData')->getUserData($this->uid);
         $userCredit = model('Credit')->getUserCredit($this->uid);
-        
+
         $this->assign('uid', $this->uid);   //访问对象
         $this->assign('_userData', $userData);
         $this->assign('_userApp', $userApp);
         $this->assign('userCredit', $userCredit);
     }
-    
+
     /**
      * 魔术方法 有不存在的操作的时候
      * @access public
-     * @param string $method 方法名
-     * @param array $parms
+     * @param  string $method 方法名
+     * @param  array  $parms
      * @return mix
      */
     public function __call($method, $parms)
@@ -423,6 +421,7 @@ abstract class Action
                 }
                 if (!empty($action)) {
                     call_user_func($action);
+
                     return ;
                 }
             }
@@ -477,9 +476,8 @@ abstract class Action
     /**
      * 模板变量赋
      * @access protected
-     * @param mixed $name 要显示的模板变量
+     * @param mixed $name  要显示的模板变量
      * @param mixed $value 变量的
-     * @return void
      */
     public function assign($name, $value='')
     {
@@ -497,8 +495,8 @@ abstract class Action
     /**
      * 魔术方法：注册模版变量
      * @access protected
-     * @param string $name 模版变量
-     * @param mix $value 变量值
+     * @param  string $name  模版变量
+     * @param  mix    $value 变量值
      * @return mixed
      */
     public function __set($name, $value)
@@ -509,7 +507,7 @@ abstract class Action
     /**
      * 取得模板显示变量的值
      * @access protected
-     * @param string $name 模板显示变量
+     * @param  string $name 模板显示变量
      * @return mixed
      */
     protected function get($name)
@@ -524,9 +522,8 @@ abstract class Action
     /**
      * Trace变量赋值
      * @access protected
-     * @param mixed $name 要显示的模板变量
+     * @param mixed $name  要显示的模板变量
      * @param mixed $value 变量的值
-     * @return void
      */
     protected function trace($name, $value='')
     {
@@ -541,10 +538,10 @@ abstract class Action
      * 模板显示
      * 调用内置的模板引擎显示方法
      * @access protected
-     * @param string $templateFile 指定要调用的模板文件
-     * 默认为空 由系统自动定位模板文件
-     * @param string $charset 输出编码
-     * @param string $contentType 输出类
+     * @param  string $templateFile 指定要调用的模板文件
+     *                              默认为空 由系统自动定位模板文件
+     * @param  string $charset      输出编码
+     * @param  string $contentType  输出类
      * @return voi
      */
     protected function display($templateFile='', $charset='utf-8', $contentType='text/html')
@@ -556,10 +553,10 @@ abstract class Action
      *  获取输出页面内容
      * 调用内置的模板引擎fetch方法
      * @access protected
-     * @param string $templateFile 指定要调用的模板文件
-     * 默认为空 由系统自动定位模板文件
-     * @param string $charset 输出编码
-     * @param string $contentType 输出类
+     * @param  string $templateFile 指定要调用的模板文件
+     *                              默认为空 由系统自动定位模板文件
+     * @param  string $charset      输出编码
+     * @param  string $contentType  输出类
      * @return strin
      */
     protected function fetch($templateFile='', $charset='utf-8', $contentType='text/html')
@@ -571,13 +568,14 @@ abstract class Action
         Addons::hook('core_display_tpl', array('tpl'=>$templateFile, 'vars'=>$this->tVar, 'charset'=>$charset, 'contentType'=>$contentType, 'display'=>$display));
         $content = fetch($templateFile, $this->tVar, $charset, $contentType);
         $this->buildHtml($content);
+
         return $content;
     }
 
     /**
      *  输出静态化内容
      * @access protected
-     * @param string $content 模板内容
+     * @param  string $content 模板内容
      * @return boolen
      */
     protected function buildHtml($content)
@@ -591,6 +589,7 @@ abstract class Action
             if (!is_dir($htmlpath)) {
                 mkdir($htmlpath, 0777, true);
             }
+
             return file_put_contents($htmlpath.'/'.$htmlfile, $content);
         }
     }
@@ -598,8 +597,8 @@ abstract class Action
     /**
      * 操作错误跳转的快捷方
      * @access protected
-     * @param string $message 错误信息
-     * @param Boolean $ajax 是否为Ajax方
+     * @param  string  $message 错误信息
+     * @param  Boolean $ajax    是否为Ajax方
      * @return voi
      */
     protected function error($message, $ajax=false)
@@ -617,8 +616,8 @@ abstract class Action
     /**
      * 操作成功跳转的快捷方
      * @access protected
-     * @param string $message 提示信息
-     * @param Boolean $ajax 是否为Ajax方
+     * @param  string  $message 提示信息
+     * @param  Boolean $ajax    是否为Ajax方
      * @return voi
      */
     protected function success($message, $ajax=false)
@@ -630,11 +629,10 @@ abstract class Action
     /**
      * Ajax方式返回数据到客户端
      * @access protected
-     * @param mixed $data 要返回的数据
-     * @param String $info 提示信息
-     * @param boolean $status 返回状态
+     * @param mixed  $data   要返回的数据
+     * @param String $info   提示信息
+     * @param bool   $status 返回状态
      * @param String $status ajax返回类型 JSON XML
-     * @return void
      */
     protected function ajaxReturn($data, $info='', $status=1, $type='JSON')
     {
@@ -669,11 +667,10 @@ abstract class Action
     /**
      * Action跳转(URL重定向） 支持指定模块和延时跳转
      * @access protected
-     * @param string $url 跳转的URL表达式
-     * @param array $params 其它URL参数
-     * @param integer $delay 延时跳转的时间 单位为秒
-     * @param string $msg 跳转提示信息
-     * @return void
+     * @param string $url    跳转的URL表达式
+     * @param array  $params 其它URL参数
+     * @param int    $delay  延时跳转的时间 单位为秒
+     * @param string $msg    跳转提示信息
      */
     protected function redirect($url, $params=array(), $delay=0, $msg='')
     {
@@ -688,11 +685,10 @@ abstract class Action
      * 默认跳转操作 支持错误导向和正确跳转
      * 调用模板显示 默认为public目录下面的success页面
      * 提示页面为可配置 支持模板标签
-     * @param string $message 提示信息
-     * @param Boolean $status 状态
-     * @param Boolean $ajax 是否为Ajax方式
+     * @param string  $message 提示信息
+     * @param Boolean $status  状态
+     * @param Boolean $ajax    是否为Ajax方式
      * @access private
-     * @return void
      */
     private function _dispatch_jump($message, $status=1, $ajax=false)
     {
@@ -766,6 +762,7 @@ abstract class Action
             // 判断Ajax方式提交
             return true;
         }
+
         return false;
     }
 };//类定义结束

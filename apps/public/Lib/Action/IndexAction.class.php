@@ -6,11 +6,9 @@
  */
 class IndexAction extends Action
 {
-    
     /**
      * 我的首页 - 分享页面
      *
-     * @return void
      */
     public function index()
     {
@@ -57,7 +55,7 @@ class IndexAction extends Action
         $weiboSet = model('Xdata')->get('admin_Config:feed');
         $initHtml = $weiboSet ['weibo_default_topic']; // 分享框默认话题
         if ($initHtml) {
-            $initHtml = '#' . $initHtml . '#';
+            $initHtml = '#'.$initHtml.'#';
         }
         $this->assign('initHtml', $initHtml);
         if ($d ['type']=='weiba') {
@@ -71,10 +69,10 @@ class IndexAction extends Action
                 }
                 $maps['weiba_id'] =array('in', $idlist);
             }
-            
+
             $order = ' top desc, post_time desc';
             $list = D('weiba_post')->where($maps)->order($order)->findpage(10);
-            
+
             foreach ($list['data'] as $k=>$v) {
                 $list['data'][$k]['weiba'] = $nameArr[$v['weiba_id']];
                 $list['data'][$k]['user'] = model('User')->getUserInfo($v['post_uid']);
@@ -94,15 +92,15 @@ class IndexAction extends Action
                 $is_digg = M('weiba_post_digg')->where('post_id='.$v['post_id'].' and uid='.$this->mid)->find();
                 $list['data'][$k]['digg']= $is_digg ? 'digg':'undigg';
                 $list['data'][$k]['content'] = t($list['data'][$k]['content']);
-            
+
                 //dump($userinfo);avatar_small,avatar_tiny
                 $list['data'][$k]['image'] = $list['data'][$k]['user']['avatar_middle'];
             }
-            
+
             //dump($list);exit;
             $this->assign('post_recommend_list', $list);
         }
-        
+
         $title = empty($weiboSet ['weibo_send_info']) ? '随时记录' : $weiboSet ['weibo_send_info'];
         $this->assign('title', $title);
         // 设置标题与关键字信息
@@ -135,7 +133,7 @@ class IndexAction extends Action
                 $this->setTitle(L('PUBLIC_INDEX_INDEX'));
                 $this->setKeywords(L('PUBLIC_INDEX_INDEX'));
         }
-        
+
 /* 		$category = D ( 'BlogCategory' )->getCategory ();
         $this->assign ( 'blog_category', $category ); */
         $category = model('CategoryTree')->setTable('channel_category')->getCategoryList();
@@ -154,24 +152,24 @@ class IndexAction extends Action
         } else {
             $prompt = '投稿正在审核中';
         }
-        
-        $sfollow = D('weiba_follow')->where('follower_uid=' . $this->mid)->findAll();
+
+        $sfollow = D('weiba_follow')->where('follower_uid='.$this->mid)->findAll();
         unset($map);
         $map ['weiba_id'] = array(
                 'in',
-                getSubByKey($sfollow, 'weiba_id')
+                getSubByKey($sfollow, 'weiba_id'),
         );
         $map ['is_del'] = 0;
         $map ['status'] = 1;
         $wcategory = D('Weiba')->where($map)->field('weiba_id,weiba_name')->findAll();
-	$this->assign('weiba_category', $wcategory);
-	$this->display();
+        $this->assign('weiba_category', $wcategory);
+        $this->display();
     }
     public function loginWithoutInit()
     {
         $this->index();
     }
-    
+
     /**
      * 我的分享页面
      */
@@ -192,7 +190,7 @@ class IndexAction extends Action
         $this->setKeywords('我的分享');
         $this->display();
     }
-    
+
     /**
      * 我的关注页面
      */
@@ -248,13 +246,13 @@ class IndexAction extends Action
             $followGroupList ['data'] [$key] = $followUserInfo [$value ['fid']];
             $followGroupList ['data'] [$key] = array_merge($followGroupList ['data'] [$key], $userData [$value ['fid']]);
             $followGroupList ['data'] [$key] = array_merge($followGroupList ['data'] [$key], array(
-                    'feedInfo' => $lastFeedData [$value ['fid']]
+                    'feedInfo' => $lastFeedData [$value ['fid']],
             ));
             $followGroupList ['data'] [$key] = array_merge($followGroupList ['data'] [$key], array(
-                    'followState' => $followState [$value ['fid']]
+                    'followState' => $followState [$value ['fid']],
             ));
             $followGroupList ['data'] [$key] = array_merge($followGroupList ['data'] [$key], array(
-                    'remark' => $remarkInfo [$value ['fid']]
+                    'remark' => $remarkInfo [$value ['fid']],
             ));
         }
         $this->assign($followGroupList);
@@ -264,22 +262,22 @@ class IndexAction extends Action
         foreach ($userGroupList as $value) {
             $userGroupListFormat [] = array(
                     'gid' => $value ['follow_group_id'],
-                    'title' => $value ['title']
+                    'title' => $value ['title'],
             );
         }
         $groupList = array(
                 array(
                         'gid' => 0,
-                        'title' => '全部'
+                        'title' => '全部',
                 ),
                 array(
                         'gid' => - 1,
-                        'title' => '相互关注'
+                        'title' => '相互关注',
                 ),
                 array(
                         'gid' => - 2,
-                        'title' => '未分组'
-                )
+                        'title' => '未分组',
+                ),
         );
         ! empty($userGroupListFormat) && $groupList = array_merge($groupList, $userGroupListFormat);
         $this->assign('groupList', $groupList);
@@ -298,16 +296,16 @@ class IndexAction extends Action
         $this->assign('groupNums', 3);
         // 是否有返回按钮
         $this->assign('isReturn', 1);
-        
+
         $userInfo = model('User')->getUserInfo($this->mid);
         $lastFeed = model('Feed')->getLastFeed(array(
-                $fids [0]
+                $fids [0],
         ));
         $this->setTitle('我的关注');
-        $this->setKeywords($userInfo ['uname'] . '的关注');
+        $this->setKeywords($userInfo ['uname'].'的关注');
         $this->display();
     }
-    
+
     /**
      * 我的粉丝页面
      */
@@ -346,10 +344,10 @@ class IndexAction extends Action
             $followerList ['data'] [$key] = array_merge($followerList ['data'] [$key], $followerUserInfo [$value ['fid']]);
             $followerList ['data'] [$key] = array_merge($followerList ['data'] [$key], $userData [$value ['fid']]);
             $followerList ['data'] [$key] = array_merge($followerList ['data'] [$key], array(
-                    'feedInfo' => $lastFeedData [$value ['fid']]
+                    'feedInfo' => $lastFeedData [$value ['fid']],
             ));
             $followerList ['data'] [$key] = array_merge($followerList ['data'] [$key], array(
-                    'followState' => $followState [$value ['fid']]
+                    'followState' => $followState [$value ['fid']],
             ));
         }
         $this->assign($followerList);
@@ -358,16 +356,16 @@ class IndexAction extends Action
         // 粉丝人数
         $midData = model('UserData')->getUserData($this->mid);
         $this->assign('followerCount', $midData ['follower_count']);
-        
+
         $userInfo = model('User')->getUserInfo($this->mid);
         $lastFeed = model('Feed')->getLastFeed(array(
-                $fids [0]
+                $fids [0],
         ));
         $this->setTitle('我的粉丝');
-        $this->setKeywords($userInfo ['uname'] . '的粉丝');
+        $this->setKeywords($userInfo ['uname'].'的粉丝');
         $this->display();
     }
-    
+
     /**
      * 意见反馈页面
      */
@@ -377,17 +375,17 @@ class IndexAction extends Action
         $this->assign('type', $feedbacktype);
         $this->display();
     }
-    
+
     /**
      * 获取验证码图片操作
      */
     public function verify()
     {
-        tsload(ADDON_PATH . '/library/Image.class.php');
-        tsload(ADDON_PATH . '/library/String.class.php');
+        tsload(ADDON_PATH.'/library/Image.class.php');
+        tsload(ADDON_PATH.'/library/String.class.php');
         Image::buildImageVerify();
     }
-    
+
     /**
      * 获取指定用户小名片所需要的数据
      *
@@ -398,20 +396,20 @@ class IndexAction extends Action
         if (empty($_REQUEST ['uid'])) {
             exit(L('PUBLIC_WRONG_USER_INFO')); // 错误的用户信息
         }
-        
+
         $this->assign('follow_group_status', model('FollowGroup')->getGroupStatus($GLOBALS ['ts'] ['mid'], $GLOBALS ['ts'] ['uid']));
         $this->assign('remarkHash', model('Follow')->getRemarkHash($GLOBALS ['ts'] ['mid']));
-        
+
         $uid = intval($_REQUEST ['uid']);
         $data ['userInfo'] = model('User')->getUserInfo($uid);
         $data ['userInfo'] ['groupData'] = model('UserGroupLink')->getUserGroupData($uid); // 获取用户组信息
         $data ['user_tag'] = model('Tag')->setAppName('User')->setAppTable('user')->getAppTags($uid);
         $data ['follow_state'] = model('Follow')->getFollowState($this->mid, $uid);
         $data ['union_state'] = model('Union')->getUnionState($this->mid, $uid);
-        
+
         $depart = model('Department')->getAllHash();
         $data ['department'] = isset($depart [$data ['userInfo'] ['department_id']]) ? $depart [$data ['userInfo'] ['department_id']] : '';
-        
+
         $count = model('UserData')->getUserData($uid);
         if (empty($count)) {
             $count = array(
@@ -420,11 +418,11 @@ class IndexAction extends Action
                     'feed_count' => 0,
                     'favorite_count' => 0,
                     'unread_atme' => 0,
-                    'weibo_count' => 0
+                    'weibo_count' => 0,
             );
         }
         $data ['count_info'] = $count;
-        
+
         // 用户字段信息
         $profileSetting = D('UserProfileSetting')->where('type=2')->getHashList('field_id');
         $profile = model('UserProfile')->getUserProfile($uid);
@@ -433,25 +431,25 @@ class IndexAction extends Action
             if (isset($profileSetting [$k])) {
                 $data ['profile'] [$profileSetting [$k] ['field_key']] = array(
                         'name' => $profileSetting [$k] ['field_name'],
-                        'value' => $v ['field_data']
+                        'value' => $v ['field_data'],
                 );
             }
         }
-        
+
         // 判断隐私
         if ($this->uid != $this->mid) {
             $UserPrivacy = model('UserPrivacy')->getPrivacy($this->mid, $this->uid);
             $this->assign('UserPrivacy', $UserPrivacy);
         }
         // 判断用户是否已认证
-        $isverify = D('user_verified')->where('verified=1 AND uid=' . $uid)->find();
+        $isverify = D('user_verified')->where('verified=1 AND uid='.$uid)->find();
         if ($isverify) {
             $this->assign('verifyInfo', $isverify ['info']);
         }
         $this->assign($data);
         $this->display();
     }
-    
+
     /**
      * 公告详细页面
      */
@@ -467,7 +465,7 @@ class IndexAction extends Action
         $this->assign($d);
         $this->display();
     }
-    
+
     /**
      * 公告列表页面
      */
@@ -480,11 +478,11 @@ class IndexAction extends Action
         foreach ($list ['data'] as &$value) {
             $value ['hasAttach'] = ! empty($value ['attach']) ? true : false;
         }
-        
+
         $this->assign($list);
         $this->display();
     }
-    
+
     /**
      * 自动提取标签操作
      *
@@ -500,24 +498,22 @@ class IndexAction extends Action
         $result = $tagX->getTop($limit, $format); // 获取前10个标签
         exit($result);
     }
-    
+
     /**
      * 根据指定应用和表获取指定用户的标签,同个人空间中用户标签
      *
      * @param
      *        	array uids 用户uid数组
-     * @return void
      */
     private function _assignUserTag($uids)
     {
         $user_tag = model('Tag')->setAppName('User')->setAppTable('user')->getAppTags($uids);
         $this->assign('user_tag', $user_tag);
     }
-    
+
     /**
      * 弹窗发布分享
      *
-     * @return void
      */
     public function sendFeedBox()
     {
@@ -531,7 +527,7 @@ class IndexAction extends Action
             $data ['channelID'] = $channelID;
             $data ['type'] = 'submission';
         }
-        
+
         $this->assign($data);
         $this->display();
     }
@@ -559,10 +555,10 @@ class IndexAction extends Action
             //@我的
             case 'at' :
                 // 获取未读@Me的条数
-                $this->assign('unread_atme_count', model('UserData')->where('uid=' . $this->mid . " and `key`='unread_atme'")->getField('value'));
+                $this->assign('unread_atme_count', model('UserData')->where('uid='.$this->mid." and `key`='unread_atme'")->getField('value'));
                 // 拼装查询条件
                 $map ['uid'] = $this->mid;
-                
+
                 $d ['tab'] = model('Atme')->getTab(null);
                 foreach ($d ['tab'] as $key => $vo) {
                     if ($key == 'feed') {
@@ -570,7 +566,7 @@ class IndexAction extends Action
                     } elseif ($key == 'comment') {
                         $d ['tabHash'] ['comment'] = L('PUBLIC_STREAM_COMMENT');
                     } else {
-                        $langKey = 'PUBLIC_APPNAME_' . strtoupper($key);
+                        $langKey = 'PUBLIC_APPNAME_'.strtoupper($key);
                         $lang = L($langKey);
                         if ($lang == $langKey) {
                             $d ['tabHash'] [$key] = ucfirst($key);
@@ -580,22 +576,22 @@ class IndexAction extends Action
                     }
                 }
                 $this->assign($d);
-                
+
                 ! empty($_POST ['t']) && $map ['table'] = t($_POST ['t']);
                 //at类型
                 $this->assign('tt', $_POST['t']);
-                
+
                 // 设置应用名称与表名称
                 $app_name = isset($_GET ['app_name']) ? t($_GET ['app_name']) : 'public';
                 // $app_table = isset($_GET['app_table']) ? t($_GET['app_table']) : '';
                 // 获取@Me分享列表
                 $at_list = model('Atme')->setAppName($app_name)->setAppTable($app_table)->getAtmeList($map, $order = 'atme_id DESC', $limit = 20);
-                
+
                 // 赞功能
                 $feed_ids = getSubByKey($at_list ['data'], 'feed_id');
                 $diggArr = model('FeedDigg')->checkIsDigg($feed_ids, $GLOBALS ['ts'] ['mid']);
                 $this->assign('diggArr', $diggArr);
-                
+
                 // dump($at_list);exit;
                 // 添加Widget参数数据
                 foreach ($at_list ['data'] as &$val) {
@@ -675,8 +671,8 @@ class IndexAction extends Action
                     } else {
                         // 微吧
                         strtolower($key) === 'weiba_post' && $key = 'weiba';
-                        
-                        $langKey = 'PUBLIC_APPNAME_' . strtoupper($key);
+
+                        $langKey = 'PUBLIC_APPNAME_'.strtoupper($key);
                         $lang = L($langKey);
                         if ($lang==$langKey) {
                             $d['tabHash'][$key] = ucfirst($key);
@@ -753,7 +749,7 @@ class IndexAction extends Action
                 // 设置信息已读(私信列表页去掉new标识)
                 model('Message')->setMessageIsRead(t($_POST['id']), $this->mid, 0);
                 $message['since_id'] = model('Message')->getSinceMessageId($message['list_id'], $message['message_num']);
-                
+
                 $this->assign('message', $message);
                 $this->assign('type', intval($_POST['type']));
 
@@ -810,6 +806,7 @@ class IndexAction extends Action
         $pattern = "/href=[\"\']?([^\"\']+)?[\"\'].*?/";
         $replacement = "href=javascript:; onclick=message.page(this);";
         $html = preg_replace($pattern, $replacement, $html);
+
         return $html;
     }
 
@@ -825,7 +822,7 @@ class IndexAction extends Action
             'msg',
             'at',
             'com',
-            'pmsg'
+            'pmsg',
         ))) {
             $this->ajaxReturn(null, '信息获取失败', 0);
         }
@@ -838,22 +835,22 @@ class IndexAction extends Action
                 foreach ($notifyList ['data'] as $item) {
                     $content = str_replace('__THEME__', THEME_PUBLIC_URL, parse_html($item ['body']));
                     if ($item ['node'] == 'user_follow') {
-                        $html .= '<li onclick="location.href=\'' . U('public/Index/follower') . '\'">' . $content . '</li>';
+                        $html .= '<li onclick="location.href=\''.U('public/Index/follower').'\'">'.$content.'</li>';
                     } elseif ($item ['node'] == 'digg') {
                         preg_match_all('%<a[\s\S]*?href="([^"]+)[^>]+>([\s\S]*?)</a>%', $content, $match, PREG_PATTERN_ORDER);
                         $url = $match [1] [count($match [0]) - 1];
-                        $html .= '<li onclick="location.href=\'' . $url . '\'">' . $content . '</li>';
+                        $html .= '<li onclick="location.href=\''.$url.'\'">'.$content.'</li>';
                     } else {
-                        $html .= '<li>' . $content . '</li>';
+                        $html .= '<li>'.$content.'</li>';
                     }
                 }
                 model('Notify')->setRead($this->mid);
                 break;
             case 'at' :
-                
+
                 // $map['uid'] = $this->mid;
                 // $atList = model('Atme')->where($map)->order('atme_id DESC')->findPage($limit);
-                $table = "( SELECT a.`atme_id`, a.`app`, a.`table`, CASE a.`table` WHEN 'comment' THEN b.`row_id` ELSE a.`row_id` END AS `row_id`, a.`uid`, a.`row_id` AS `old_row_id` FROM " . C('DB_PREFIX') . "atme AS a LEFT JOIN " . C('DB_PREFIX') . "comment AS b ON a.row_id = b.comment_id WHERE a.uid = " . $this->mid . " ORDER BY a.`atme_id` DESC) AS NEW ";
+                $table = "( SELECT a.`atme_id`, a.`app`, a.`table`, CASE a.`table` WHEN 'comment' THEN b.`row_id` ELSE a.`row_id` END AS `row_id`, a.`uid`, a.`row_id` AS `old_row_id` FROM ".C('DB_PREFIX')."atme AS a LEFT JOIN ".C('DB_PREFIX')."comment AS b ON a.row_id = b.comment_id WHERE a.uid = ".$this->mid." ORDER BY a.`atme_id` DESC) AS NEW ";
                 $atList = D()->table($table)->group('`app`, `table`, `row_id`, `uid`')->order('`atme_id` DESC')->findPage($limit);
                 if (! empty($atList)) {
                     $space = $content = '';
@@ -862,9 +859,9 @@ class IndexAction extends Action
                         switch (strtolower($item ['table'])) {
                             case 'feed' :
                                 $data = model('Feed')->getFeedInfo($item ['row_id']);
-                                $space = '<a href="' . U('public/Profile/index', array(
-                                        'uid' => $data ['uid']
-                                )) . '">' . getUserName($data ['uid']) . '</a>';
+                                $space = '<a href="'.U('public/Profile/index', array(
+                                        'uid' => $data ['uid'],
+                                )).'">'.getUserName($data ['uid']).'</a>';
                                 if ($data ['is_audit'] == 0) {
                                     $content = '内容正在审核';
                                 } else {
@@ -872,13 +869,13 @@ class IndexAction extends Action
                                     $data ['content'] = $data ['content'] [0];
                                     $content = str_replace('__THEME__', THEME_PUBLIC_URL, parse_html($data ['content']));
                                 }
-                                $html .= '<li source-id="' . $item ['atme_id'] . '">' . $space . '在分享中@我：' . $content . '</li>';
+                                $html .= '<li source-id="'.$item ['atme_id'].'">'.$space.'在分享中@我：'.$content.'</li>';
                                 break;
                             case 'comment' :
                                 $data = model('Comment')->getCommentInfo($item ['row_id']);
-                                $space = '<a href="' . U('public/Profile/index', array(
-                                        'uid' => $data ['uid']
-                                )) . '">' . getUserName($data ['uid']) . '</a>';
+                                $space = '<a href="'.U('public/Profile/index', array(
+                                        'uid' => $data ['uid'],
+                                )).'">'.getUserName($data ['uid']).'</a>';
                                 if ($data ['is_audit'] == 0) {
                                     $content = '内容正在审核';
                                 } else {
@@ -889,7 +886,7 @@ class IndexAction extends Action
                                     }
                                     $content = str_replace('__THEME__', THEME_PUBLIC_URL, parse_html($data ['content']));
                                 }
-                                $html .= '<li source-id="' . $item ['atme_id'] . '">' . $space . '在评论中@我：' . $content . '</li>';
+                                $html .= '<li source-id="'.$item ['atme_id'].'">'.$space.'在评论中@我：'.$content.'</li>';
                                 break;
                         }
                     }
@@ -897,7 +894,7 @@ class IndexAction extends Action
                 model('UserCount')->resetUserCount($this->mid, 'unread_atme', 0);
                 break;
             case 'com' :
-                
+
                 // 收到的
                 // $map['_string'] = " (to_uid = '{$this->mid}' OR app_uid = '{$this->mid}') AND is_del = 0 AND uid !=".$this->mid;
 
@@ -910,7 +907,7 @@ class IndexAction extends Action
                         $tabHash ['webpage'] = '评论箱';
                     } else {
                         strtolower($key) === 'weiba_post' && $key = 'weiba';
-                        $langKey = 'PUBLIC_APPNAME_' . strtoupper($key);
+                        $langKey = 'PUBLIC_APPNAME_'.strtoupper($key);
                         $lang = L($langKey);
                         if ($lang == $langKey) {
                             $tabHash [$key] = ucfirst($key);
@@ -919,12 +916,12 @@ class IndexAction extends Action
                         }
                     }
                 }
-                $table = "(SELECT * FROM `" . C('DB_PREFIX') . "comment` WHERE ((`to_uid` = '" . $this->mid . "' OR `app_uid` = '" . $this->mid . "') AND `is_del` = 0 AND `uid` != '" . $this->mid . "') AND `table` != 'webpage' ORDER BY `ctime` DESC) AS NEW ";
+                $table = "(SELECT * FROM `".C('DB_PREFIX')."comment` WHERE ((`to_uid` = '".$this->mid."' OR `app_uid` = '".$this->mid."') AND `is_del` = 0 AND `uid` != '".$this->mid."') AND `table` != 'webpage' ORDER BY `ctime` DESC) AS NEW ";
                 $commentList = D()->table($table)->group('`app` , `table` , `row_id` , `app_uid` , `uid`')->order('`ctime` DESC')->findPage($limit);
                 foreach ($commentList ['data'] as $item) {
-                    $space = '<a href="' . U('public/Profile/index', array(
-                            'uid' => $item ['uid']
-                    )) . '">' . getUserName($item ['uid']) . '</a>';
+                    $space = '<a href="'.U('public/Profile/index', array(
+                            'uid' => $item ['uid'],
+                    )).'">'.getUserName($item ['uid']).'</a>';
                     $feed = model('Feed')->get($item ['row_id']);
                     if ($feed ['is_audit'] == 0) {
                         $content = '内容正在审核';
@@ -938,14 +935,14 @@ class IndexAction extends Action
                             $content = str_replace('__THEME__', THEME_PUBLIC_URL, parse_html($title));
                         }
                     }
-                    $html .= '<li source-id="' . $item ['comment_id'] . '">' . $space . '评论了' . $tabHash [$item ['table']] . '：' . $content . '</li>';
+                    $html .= '<li source-id="'.$item ['comment_id'].'">'.$space.'评论了'.$tabHash [$item ['table']].'：'.$content.'</li>';
                 }
                 model('UserCount')->resetUserCount($this->mid, 'unread_comment', 0);
                 break;
             case 'pmsg' :
                 $messageList = model('Message')->getMessageListByUid($this->mid, array(
                         MessageModel::ONE_ON_ONE_CHAT,
-                        MessageModel::MULTIPLAYER_CHAT
+                        MessageModel::MULTIPLAYER_CHAT,
                 ), $limit);
                 foreach ($messageList ['data'] as $item) {
                     if ($item ['last_message'] ['from_uid'] == $this->mid) {
@@ -953,17 +950,17 @@ class IndexAction extends Action
                         $to = getSubByKey($to, 'space_link_no');
                         $space = implode('、', $to);
                         $content = str_replace('__THEME__', THEME_PUBLIC_URL, parse_html($item ['last_message'] ['content']));
-                        $html .= '<li source-id="' . $item ['list_id'] . '">我发送给' . $space . '：' . $content . '</li>';
+                        $html .= '<li source-id="'.$item ['list_id'].'">我发送给'.$space.'：'.$content.'</li>';
                     } else {
                         $space = $item ['last_message'] ['user_info'] ['space_link_no'];
                         $content = str_replace('__THEME__', THEME_PUBLIC_URL, parse_html($item ['last_message'] ['content']));
-                        $html .= '<li source-id="' . $item ['list_id'] . '">' . $space . '说：' . $content . '</li>';
+                        $html .= '<li source-id="'.$item ['list_id'].'">'.$space.'说：'.$content.'</li>';
                     }
                 }
                 model('Message')->setAllIsRead($this->mid);
                 break;
         }
-        
+
         if (! empty($html)) {
             $data ['html'] = $html;
             $this->ajaxReturn($data, '获取内容成功', 1);
@@ -978,13 +975,13 @@ class IndexAction extends Action
         if (empty($id) || empty($type)) {
             return;
         }
-        
+
         $share = array();
         $limit = 10;
-        
+
         if (in_array($type, array(
                 'at',
-                'com'
+                'com',
         ))) {
             if ($type === 'at') {
                 $map ['atme_id'] = $id;
@@ -1012,17 +1009,17 @@ class IndexAction extends Action
                 $share ['table'] = $ownComment ['table'];
                 $share ['to_uid'] = $ownComment ['uid'];
             }
-            
+
             $source = model('Feed')->get($share ['row_id']);
             $source ['url'] = U('public/Profile/feed', array(
                     'feed_id' => $source ['feed_id'],
-                    'uid' => $source ['uid']
+                    'uid' => $source ['uid'],
             ));
             if ($source ['is_audit'] == 0 && $source ['uid'] != $this->mid) {
                 $source ['body'] = '内容正在审核';
             }
             $this->assign('source', $source);
-            
+
             $this->assign('row_id', $source ['feed_id']);
             $this->assign('app_uid', $source ['uid']);
             $this->assign('app_row_id', $source ['app_row_id']);
@@ -1036,14 +1033,14 @@ class IndexAction extends Action
                 $canrepost = 0;
             }
             $this->assign('canrepost', $canrepost);
-            
+
             $cancomment = intval(CheckPermission('core_normal', 'feed_comment'));
             $this->assign('cancomment', $cancomment);
-            
+
             $cmap ['app'] = $share ['app'];
             $cmap ['table'] = $share ['table'];
             $cmap ['row_id'] = $share ['row_id'];
-            $cmap ['_string'] = '( (uid = ' . $this->mid . ' AND to_comment_id = 0) OR (uid = ' . $share ['to_uid'] . ' AND to_comment_id = 0) OR (uid = ' . $this->mid . ' AND to_uid = ' . $share ['to_uid'] . ') OR (uid = ' . $share ['to_uid'] . ' AND to_uid = ' . $this->mid . ') OR (uid = ' . $this->mid . ' AND to_uid = ' . $this->mid . ') OR (uid = ' . $share ['to_uid'] . ' AND to_uid = ' . $share ['to_uid'] . ') )';
+            $cmap ['_string'] = '( (uid = '.$this->mid.' AND to_comment_id = 0) OR (uid = '.$share ['to_uid'].' AND to_comment_id = 0) OR (uid = '.$this->mid.' AND to_uid = '.$share ['to_uid'].') OR (uid = '.$share ['to_uid'].' AND to_uid = '.$this->mid.') OR (uid = '.$this->mid.' AND to_uid = '.$this->mid.') OR (uid = '.$share ['to_uid'].' AND to_uid = '.$share ['to_uid'].') )';
             $talkList = model('Comment')->getCommentList($cmap, 'comment_id ASC', $limit);
             foreach ($talkList ['data'] as &$value) {
                 if ($value ['is_audit'] == 0 && $value ['uid'] != $this->mid) {
@@ -1051,14 +1048,14 @@ class IndexAction extends Action
                 }
             }
             $this->assign('talkList', $talkList);
-            
+
             $this->assign('sourceId', $share ['row_id']);
             $sinceId = end($talkList ['data']);
             $sinceId = $sinceId ['comment_id'];
             $this->assign('sinceId', $sinceId);
             $this->assign('toUid', $share ['to_uid']);
             $this->assign('maxId', 0);
-            
+
             $initNums = model('Xdata')->getConfig('weibo_nums', 'feed');
             $this->assign('initNums', $initNums);
         } elseif ($type === 'pmsg') {
@@ -1076,19 +1073,19 @@ class IndexAction extends Action
             // 设置信息已读(私信列表页去掉new标识)
             model('Message')->setMessageIsRead($id, $this->mid, 0);
             $message ['since_id'] = model('Message')->getSinceMessageId($message ['list_id'], $message ['message_num']);
-            
+
             $this->assign('message', $message);
-            
+
             $userinfo = model('User')->getUserInfo($this->mid);
             $this->assign('userinfo', $userinfo);
-            
+
             $talkList = model('Message')->getMessageByListId($id, $this->mid, $message ['since_id'], 0, 10);
             foreach ($talkList ['data'] as &$value) {
                 $value ['content'] == t($value ['content']) && $value ['content'] = replaceUrl($value ['content']);
             }
-            
+
             $this->assign('talkList', $talkList);
-            
+
             $this->assign('sourceId', $id);
             $this->assign('sinceId', $message ['since_id']);
             $maxId = end($talkList ['data']);
@@ -1097,9 +1094,9 @@ class IndexAction extends Action
             $this->assign('toUid', 0);
             $this->assign('max_since_id', $talkList ['data'] [0] ['message_id']);
         }
-        
+
         $this->assign('type', $type);
-        
+
         $this->display('talkBox');
     }
     public function loadMoreShowTalk()
@@ -1109,26 +1106,26 @@ class IndexAction extends Action
         $sinceId = intval($_GET ['since_id']);
         $toUid = intval($_GET ['to_uid']);
         $maxId = intval($_GET ['max_id']);
-        
+
         $status = 0;
         $sinceId = 0;
         $html = '';
         $count = 0;
-        
+
         switch ($type) {
             case 'at' :
             case 'com' :
                 $feed = model('Feed')->getFeedInfo($id);
-                
+
                 $cmap ['app'] = $feed ['app'];
                 $cmap ['table'] = 'feed';
                 $cmap ['row_id'] = $id;
                 // $cmap['comment_id'] = array('ELT', $sinceId);
                 $cmap ['comment_id'] = array(
                         'EGT',
-                        $sinceId
+                        $sinceId,
                 );
-                $cmap ['_string'] = '( (uid = ' . $this->mid . ' AND to_comment_id = 0) OR (uid = ' . $toUid . ' AND to_comment_id = 0) OR (uid = ' . $this->mid . ' AND to_uid = ' . $toUid . ') OR (uid = ' . $toUid . ' AND to_uid = ' . $this->mid . ') )';
+                $cmap ['_string'] = '( (uid = '.$this->mid.' AND to_comment_id = 0) OR (uid = '.$toUid.' AND to_comment_id = 0) OR (uid = '.$this->mid.' AND to_uid = '.$toUid.') OR (uid = '.$toUid.' AND to_uid = '.$this->mid.') )';
                 $list = model('Comment')->getCommentList($cmap, 'comment_id ASC', 10);
                 if (! empty($list ['data'])) {
                     $status = 1;
@@ -1137,10 +1134,10 @@ class IndexAction extends Action
                     foreach ($list ['data'] as $vo) {
                         $html .= '<dl class="msg-dialog" model-node="comment_list">';
                         $class = ($this->mid == $vo ['uid']) ? 'right' : 'left';
-                        $html .= '<dt class="' . $class . '">';
-                        $html .= '<a target="_self" href="' . U('public/Profile/index', array(
-                                'uid' => $vo ['uid']
-                        )) . '"><img src="' . $vo ['user_info'] ['avatar_tiny'] . '" /></a>';
+                        $html .= '<dt class="'.$class.'">';
+                        $html .= '<a target="_self" href="'.U('public/Profile/index', array(
+                                'uid' => $vo ['uid'],
+                        )).'"><img src="'.$vo ['user_info'] ['avatar_tiny'].'" /></a>';
                         $html .= '</dt>';
                         if ($class == 'right') {
                             $html .= '<dd class="dialog-r">';
@@ -1154,7 +1151,7 @@ class IndexAction extends Action
                         } else {
                             $content = str_replace('__THEME__', THEME_PUBLIC_URL, parse_html($vo ['content']));
                         }
-                        $html .= '<p class="info">' . getUserSpace($vo ['user_info'] ['uid'], '', $vo ['user_info'] ['uname']) . '：' . $content . '</p>';
+                        $html .= '<p class="info">'.getUserSpace($vo ['user_info'] ['uid'], '', $vo ['user_info'] ['uname']).'：'.$content.'</p>';
                         $html .= '<p class="date">';
                         $html .= '<span class="right">';
                         if (($this->mid == $vo ['uid'] && CheckPermission('core_normal', 'comment_del')) || CheckPermission('core_admin', 'comment_del')) {
@@ -1162,23 +1159,23 @@ class IndexAction extends Action
                             if ($vo ['uid'] != $this->mid && CheckPermission('core_admin', 'comment_del')) {
                                 $style = 'style="color:red;"';
                             }
-                            $html .= '<a href="javascript:;" event-node="comment_del" event-args="comment_id=' . $vo ['comment_id'] . '" ' . $style . '>' . L('PUBLIC_STREAM_DELETE') . '</a>';
+                            $html .= '<a href="javascript:;" event-node="comment_del" event-args="comment_id='.$vo ['comment_id'].'" '.$style.'>'.L('PUBLIC_STREAM_DELETE').'</a>';
                         }
                         if ((($vo ['uid'] == $mid && CheckPermission('core_normal', 'comment_del')) || CheckPermission('core_admin', 'comment_del')) && CheckPermission('core_normal', 'feed_comment')) {
                             $html .= '<i class="vline">|</i>';
                         }
                         if (CheckPermission('core_normal', 'feed_comment')) {
                             $args = array();
-                            $args [] = 'row_id=' . $vo ['row_id'];
-                            $args [] = 'app_uid=' . $vo ['app_uid'];
-                            $args [] = 'to_comment_id=' . $vo ['comment_id'];
-                            $args [] = 'to_uid=' . $vo ['uid'];
-                            $args [] = 'to_comment_uname=' . $vo ['user_info'] ['uname'];
+                            $args [] = 'row_id='.$vo ['row_id'];
+                            $args [] = 'app_uid='.$vo ['app_uid'];
+                            $args [] = 'to_comment_id='.$vo ['comment_id'];
+                            $args [] = 'to_uid='.$vo ['uid'];
+                            $args [] = 'to_comment_uname='.$vo ['user_info'] ['uname'];
                             $args [] = 'app_name=public';
                             $args [] = 'table=feed';
-                            $html .= '<a href="javascript:;" event-args="' . implode('&', $args) . '" event-node="reply_comment" >回复</a>';
+                            $html .= '<a href="javascript:;" event-args="'.implode('&', $args).'" event-node="reply_comment" >回复</a>';
                         }
-                        $html .= '</span>' . friendlyDate($vo ['ctime']) . '</p>';
+                        $html .= '</span>'.friendlyDate($vo ['ctime']).'</p>';
                         $html .= '</dd>';
                         $html .= '</dl>';
                     }
@@ -1193,10 +1190,10 @@ class IndexAction extends Action
                     foreach ($list ['data'] as $vo) {
                         $html .= '<dl class="msg-dialog" model-node="comment_list">';
                         $class = ($this->mid == $vo ['from_uid']) ? 'right' : 'left';
-                        $html .= '<dt class="' . $class . '">';
-                        $html .= '<a target="_self" href="' . U('public/Profile/index', array(
-                                'uid' => $vo ['from_uid']
-                        )) . '"><img src="' . $vo ['user_info'] ['avatar_tiny'] . '" /></a>';
+                        $html .= '<dt class="'.$class.'">';
+                        $html .= '<a target="_self" href="'.U('public/Profile/index', array(
+                                'uid' => $vo ['from_uid'],
+                        )).'"><img src="'.$vo ['user_info'] ['avatar_tiny'].'" /></a>';
                         $html .= '</dt>';
                         if ($class == 'right') {
                             $html .= '<dd class="dialog-r">';
@@ -1206,13 +1203,13 @@ class IndexAction extends Action
                             $html .= '<i class="arrow-mes-l"></i>';
                         }
                         $content = str_replace('__THEME__', THEME_PUBLIC_URL, parse_html($vo ['content']));
-                        $html .= '<p class="info mb5">' . getUserSpace($vo ['user_info'] ['uid'], '', $vo ['user_info'] ['uname']) . '：' . $content . '</p>';
-                        
+                        $html .= '<p class="info mb5">'.getUserSpace($vo ['user_info'] ['uid'], '', $vo ['user_info'] ['uname']).'：'.$content.'</p>';
+
                         if ($vo ['attach_type'] == 'message_image') {
                             $html .= '<div class="feed_img_lists">';
                             $html .= '<ul class="small">';
                             foreach ($vo ['attach_infos'] as $v) {
-                                $html .= '<li class="left"><a><img src="' . getImageUrl($v ['file'], 100, 100, true) . '" width="100" height="100" /></a></li>';
+                                $html .= '<li class="left"><a><img src="'.getImageUrl($v ['file'], 100, 100, true).'" width="100" height="100" /></a></li>';
                             }
                             $html .= '</ul>';
                             $html .= '</div>';
@@ -1220,17 +1217,17 @@ class IndexAction extends Action
                             $html .= '<div class="input-content attach-file">';
                             $html .= '<ul class="feed_file_list">';
                             foreach ($vo ['attach_infos'] as $v) {
-                                $html .= '<li><a href="' . U('widget/Upload/down', array(
-                                        'attach_id' => $v ['attach_id']
-                                )) . '" class="current right" title="下载"><i class="ico-down"></i></a><i class="ico-' . $v ['extension'] . '-small"></i><a href="' . U('widget/Upload/down', array(
-                                        'attach_id' => $v ['attach_id']
-                                )) . '">' . $v ['attach_name'] . '</a><span class="tips">(' . byte_format($v ['size']) . ')</span></li>';
+                                $html .= '<li><a href="'.U('widget/Upload/down', array(
+                                        'attach_id' => $v ['attach_id'],
+                                )).'" class="current right" title="下载"><i class="ico-down"></i></a><i class="ico-'.$v ['extension'].'-small"></i><a href="'.U('widget/Upload/down', array(
+                                        'attach_id' => $v ['attach_id'],
+                                )).'">'.$v ['attach_name'].'</a><span class="tips">('.byte_format($v ['size']).')</span></li>';
                             }
                             $html .= '</ul>';
                             $html .= '</div>';
                         }
-                        
-                        $html .= '<p class="date">' . friendlyDate($vo ['mtime']) . '</p>';
+
+                        $html .= '<p class="date">'.friendlyDate($vo ['mtime']).'</p>';
                         $html .= '</dd>';
                         $html .= '</dl>';
                     }
@@ -1238,13 +1235,13 @@ class IndexAction extends Action
                 $count = $list ['count'];
                 break;
         }
-        
+
         $result ['status'] = $status;
         $result ['since_id'] = $sinceId;
         $result ['max_id'] = $maxId;
         $result ['count'] = $count;
         $result ['html'] = $html;
-        
+
         exit(json_encode($result));
     }
 

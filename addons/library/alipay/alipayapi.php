@@ -82,7 +82,7 @@ $parameter = array(
         "show_url"    => $show_url,
         "anti_phishing_key"    => $anti_phishing_key,
         "exter_invoke_ip"    => $exter_invoke_ip,
-        "_input_charset"    => trim(strtolower($alipay_config['input_charset']))
+        "_input_charset"    => trim(strtolower($alipay_config['input_charset'])),
 );
 $parameter['app'] = 'public';
 $parameter['mod'] = 'Account';

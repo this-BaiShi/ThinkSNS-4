@@ -20,7 +20,6 @@ if (!function_exists('file_put_contents')) {
 
 class cachemodel
 {
-
     public $db;
     public $base;
     public $map;
@@ -37,7 +36,7 @@ class cachemodel
         $this->map = array(
             'settings' => array('settings'),
             'badwords' => array('badwords'),
-            'apps' => array('apps')
+            'apps' => array('apps'),
         );
     }
 
@@ -45,9 +44,9 @@ class cachemodel
     public function updatedata($cachefile = '')
     {
         if ($cachefile) {
-            foreach ((array)$this->map[$cachefile] as $modules) {
+            foreach ((array) $this->map[$cachefile] as $modules) {
                 $s = "<?php\r\n";
-                foreach ((array)$modules as $m) {
+                foreach ((array) $modules as $m) {
                     $method = "_get_$m";
                     $s .= '$_CACHE[\''.$m.'\'] = '.var_export($this->$method(), true).";\r\n";
                 }
@@ -55,7 +54,7 @@ class cachemodel
                 @file_put_contents(UC_DATADIR."./cache/$cachefile.php", $s);
             }
         } else {
-            foreach ((array)$this->map as $file => $modules) {
+            foreach ((array) $this->map as $file => $modules) {
                 $s = "<?php\r\n";
                 foreach ($modules as $m) {
                     $method = "_get_$m";
@@ -82,6 +81,7 @@ class cachemodel
                 $return['replace'][$k] = $v['replacement'];
             }
         }
+
         return $return;
     }
 
@@ -97,6 +97,7 @@ class cachemodel
                 $apps2[$v['appid']] = $v;
             }
         }
+
         return $apps2;
     }
 

@@ -19,7 +19,6 @@ defined('THINK_PATH') or exit();
  */
 class CacheEaccelerator extends Cache
 {
-
     /**
      * 架构函数
      * @param array $options 缓存参数
@@ -32,26 +31,27 @@ class CacheEaccelerator extends Cache
         $this->options['length'] =  isset($options['length'])?  $options['length']  :   0;
     }
 
-    /**
-     * 读取缓存
-     * @access public
-     * @param string $name 缓存变量名
-     * @return mixed
-     */
+     /**
+      * 读取缓存
+      * @access public
+      * @param string $name 缓存变量名
+      * @return mixed
+      */
      public function get($name)
      {
          N('cache_read', 1);
+
          return eaccelerator_get($this->options['prefix'].$name);
      }
 
-    /**
-     * 写入缓存
-     * @access public
-     * @param string $name 缓存变量名
-     * @param mixed $value  存储数据
-     * @param integer $expire  有效时间（秒）
-     * @return boolen
-     */
+     /**
+      * 写入缓存
+      * @access public
+      * @param string $name 缓存变量名
+      * @param mixed $value  存储数据
+      * @param int $expire  有效时间（秒）
+      * @return boolen
+      */
      public function set($name, $value, $expire = null)
      {
          N('cache_write', 1);
@@ -65,23 +65,25 @@ class CacheEaccelerator extends Cache
                  // 记录缓存队列
                 $this->queue($name);
              }
+
              return true;
          }
+
          return false;
      }
 
 
-    /**
-     * 删除缓存
-     * @access public
-     * @param string $name 缓存变量名
-     * @return boolen
-     */
+     /**
+      * 删除缓存
+      * @access public
+      * @param string $name 缓存变量名
+      * @return boolen
+      */
      public function rm($name)
      {
          return eaccelerator_rm($this->options['prefix'].$name);
      }
-     
+
      /**
       * 清除缓存
       * @access public

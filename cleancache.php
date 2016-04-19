@@ -24,10 +24,11 @@ function rmdirr($dirname)
             if ($entry == '.' || $entry == '..') {
                 continue;
             }
-            rmdirr($dirname . DIRECTORY_SEPARATOR . $entry);
+            rmdirr($dirname.DIRECTORY_SEPARATOR.$entry);
         }
     }
     $dir->close();
+
     return rmdir($dirname);
 }
 function U()

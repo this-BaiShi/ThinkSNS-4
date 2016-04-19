@@ -1,10 +1,10 @@
 <?php
+
 class CacheBae extends Cache
 {
-
     public static $_cache;
     private $_handler;
-   
+
     /**
      +----------------------------------------------------------
      * 架构函数
@@ -84,6 +84,7 @@ class CacheBae extends Cache
                 $content   =   gzuncompress($content);
             }
             $content    =   unserialize($content);
+
             return $content;
         } else {
             return false;
@@ -96,9 +97,9 @@ class CacheBae extends Cache
      +----------------------------------------------------------
      * @access public
      +----------------------------------------------------------
-     * @param string $name 缓存变量名
-     * @param mixed $value  存储数据
-     * @param int $expire  有效时间 0为永久
+     * @param string $name   缓存变量名
+     * @param mixed  $value  存储数据
+     * @param int    $expire 有效时间 0为永久
      +----------------------------------------------------------
      * @return boolen
      +----------------------------------------------------------
@@ -113,7 +114,7 @@ class CacheBae extends Cache
         if (C('DATA_CACHE_COMPRESS') && function_exists('gzcompress')) {
             //数据压缩
         //    $data   =   gzcompress($data,3);
-          $data =  gzencode($data) . "\0";
+          $data =  gzencode($data)."\0";
         }
         if (C('DATA_CACHE_CHECK')) {
             //开启数据校验
@@ -128,6 +129,7 @@ class CacheBae extends Cache
                 // 记录缓存队列
                 $this->queue($name);
             }
+
             return true;
         } else {
             return false;
@@ -167,6 +169,7 @@ class CacheBae extends Cache
             return false;
         }
         self::$_cache[$name] = $r;
+
         return $r;
     }
 }

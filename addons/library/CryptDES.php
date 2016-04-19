@@ -14,7 +14,6 @@
 */
 class CryptDES
 {
-
     public $key    =    'yanglong';
 
     public function CryptDES($key='')
@@ -44,6 +43,7 @@ class CryptDES
         //$data = base64_encode($data);
         //java处理格式.2进制加密串转16进制.每两个字符分割的大写字符串.
         $data    =    $this->outputFilter($data, $type);
+
         return $data;
     }
     public function decrypt($encrypted, $type='default')
@@ -65,12 +65,14 @@ class CryptDES
         //结束
         mcrypt_module_close($td);
         $y=$this->pkcs5_unpad($decrypted);
+
         return $y;
     }
     public function pkcs5_pad($text, $blocksize)
     {
         $pad = $blocksize - (strlen($text) % $blocksize);
-        return $text . str_repeat(chr($pad), $pad);
+
+        return $text.str_repeat(chr($pad), $pad);
     }
     public function pkcs5_unpad($text)
     {
@@ -81,6 +83,7 @@ class CryptDES
         if (strspn($text, chr($pad), strlen($text) - $pad) != $pad) {
             return false;
         }
+
         return substr($text, 0, -1 * $pad);
     }
     public function inputFilter($data, $type='base64_decode')
@@ -94,6 +97,7 @@ class CryptDES
         } else {
             $data    =    base64_decode($data);
         }
+
         return $data;
     }
     public function outputFilter($data, $type='base64_encode')
@@ -105,6 +109,7 @@ class CryptDES
         } else {
             $data    =    base64_encode($data);
         }
+
         return $data;
     }
 }

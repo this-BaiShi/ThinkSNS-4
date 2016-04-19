@@ -6,16 +6,16 @@
  */
 class SameUserWidget extends Widget
 {
-
     /**
      * 渲染具有相同资料项的人页面
-     * @param array $data 配置相关数据
+     * @param  array  $data 配置相关数据
      * @return string 渲染页面的HTML
      */
     public function render($data)
     {
         // 		$var['user'] = model('RelatedUser')->getRelatedUserByType($data['type'], $data['limit']);
         $content = $this->renderFile(dirname(__FILE__)."/sameUser.html", $data);
+
         return $content;
     }
     public function userlist()

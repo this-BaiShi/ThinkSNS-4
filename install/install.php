@@ -38,7 +38,7 @@ $_SESSION['thinksns_install'] = $timestamp;
 header('Content-Type: text/html; charset=utf-8');
 
 /* # 判断是否存在安装锁 */
-if (file_exists(THINKSNS_ROOT . '/data/install.lock')) {
+if (file_exists(THINKSNS_ROOT.'/data/install.lock')) {
     echo $i_message['install_lock'];
     exit;
 
@@ -133,7 +133,7 @@ echo PHP_VERSION;
 <h5><?php echo $i_message['php_memory'];
     ?>&nbsp;&nbsp;<span class="p"><?php
 echo $i_message['support'],'/',@ini_get('memory_limit');
-    if ((int)@ini_get('memory_limit') < (int)'32M') {
+    if ((int) @ini_get('memory_limit') < (int) '32M') {
         result(0, 1);
         $quit = true;
     } else {
@@ -629,7 +629,7 @@ if ($thinksns_rebuild) {
     $siteFounder    =    $_SESSION['default_manager_account'];
 
     $sql1 = 'INSERT INTO `%s` (`uid`, `password`, `login_salt`, `uname`, `email`, `phone`, `sex`, `location`, `is_audit`, `is_active`, `is_init`, `ctime`, `identity`, `api_key`, `domain`, `province`, `city`, `area`, `reg_ip`, `lang`, `timezone`, `is_del`, `first_letter`, `intro`, `last_login_time`, `last_feed_id`, `last_post_time`, `search_key`, `invite_code`, `feed_email_time`, `send_email_time`, `openid`, `input_city`, `is_fixed`) VALUES (%d, "%s", "11111", "管理员", "%s", NULL, 1, "北京 北京市 海淀区", 1, 1, 1, "%s", 1, NULL, "", 1, 2, 10, "127.0.0.1", "zh-cn", "PRC", 0, "G", "", "", 0, 0, "管理员 guanliyuan", NULL, 0, 0, NULL, NULL, 1);';
-    $sql1 = sprintf($sql1, $db_config['db_prefix'] . 'user', $admin_id, $siteFounder['password'], $siteFounder['email'], time());
+    $sql1 = sprintf($sql1, $db_config['db_prefix'].'user', $admin_id, $siteFounder['password'], $siteFounder['email'], time());
     // echo $sql1;
     if (mysql_query($sql1)) {
         echo '<p>'.$i_message['create_founderpower_success'].'... <span class="blue">OK</span></p>';
@@ -647,7 +647,7 @@ if ($thinksns_rebuild) {
 
     if (!$quit) {
         /* # 写入锁文件 */
-        file_put_contents(THINKSNS_ROOT . '/data/install.lock', 'ThinkSNS lock file');
+        file_put_contents(THINKSNS_ROOT.'/data/install.lock', 'ThinkSNS lock file');
     } else {
         echo '请重新安装';
     }

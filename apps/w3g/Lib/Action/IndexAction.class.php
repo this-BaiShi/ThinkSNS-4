@@ -1,4 +1,5 @@
 <?php
+
 class IndexAction extends BaseAction
 {
     private $_config; // 注册配置信息字段
@@ -144,20 +145,20 @@ class IndexAction extends BaseAction
                     case 'postimage' :
                         $this->tVar ['weibolist'] [$key] ['type'] = 'repost-postimage';
                         break;
-                    
+
                     case 'postfile' :
                         $this->tVar ['weibolist'] [$key] ['type'] = 'repost-postfile';
                         foreach ($this->tVar ['weibolist'] [$key] ['transpond_data'] ['attach'] as $k => $v) {
                             if ($v ['size'] > 1024 && $v ['size'] < 1024 * 1024) {
-                                $this->tVar ['weibolist'] [$key] ['transpond_data'] ['attach'] [$k] ['size'] = round($v ['size'] / 1024, 2) . 'K';
+                                $this->tVar ['weibolist'] [$key] ['transpond_data'] ['attach'] [$k] ['size'] = round($v ['size'] / 1024, 2).'K';
                             } elseif ($v ['size'] < 1024) {
                                 $this->tVar ['weibolist'] [$key] ['transpond_data'] ['attach'] [$k] ['size'] .= 'B';
                             } else {
-                                $this->tVar ['weibolist'] [$key] ['transpond_data'] ['attach'] [$k] ['size'] = round($v ['size'] / 1024 / 1024, 2) . 'M';
+                                $this->tVar ['weibolist'] [$key] ['transpond_data'] ['attach'] [$k] ['size'] = round($v ['size'] / 1024 / 1024, 2).'M';
                             }
                         }
                         break;
-                    
+
                     case 'postvideo' :
                         $this->tVar ['weibolist'] [$key] ['type'] = 'repost-postvideo';
                         break;
@@ -167,11 +168,11 @@ class IndexAction extends BaseAction
             } elseif ($this->tVar ['weibolist'] [$key] ['type'] === 'postfile') {
                 foreach ($this->tVar ['weibolist'] [$key] ['attach'] as $k => $v) {
                     if ($v ['size'] > 1024 && $v ['size'] < 1024 * 1024) {
-                        $this->tVar ['weibolist'] [$key] ['attach'] [$k] ['size'] = round($v ['size'] / 1024, 2) . 'K';
+                        $this->tVar ['weibolist'] [$key] ['attach'] [$k] ['size'] = round($v ['size'] / 1024, 2).'K';
                     } elseif ($v ['size'] < 1024) {
                         $this->tVar ['weibolist'] [$key] ['attach'] [$k] ['size'] .= 'B';
                     } else {
-                        $this->tVar ['weibolist'] [$key] ['attach'] [$k] ['size'] = round($v ['size'] / 1024 / 1024, 2) . 'M';
+                        $this->tVar ['weibolist'] [$key] ['attach'] [$k] ['size'] = round($v ['size'] / 1024 / 1024, 2).'M';
                     }
                 }
             } elseif ($this->tVar ['weibolist'] [$key] ['type'] === 'weiba_repost') {
@@ -239,7 +240,7 @@ class IndexAction extends BaseAction
         }
     }
 
-    
+
     // 转发分享
     public function retweet()
     {
@@ -263,20 +264,20 @@ class IndexAction extends BaseAction
                 case 'postimage' :
                     $detail ['type'] = 'repost-postimage';
                     break;
-                
+
                 case 'postfile' :
                     $detail ['type'] = 'repost-postfile';
                     foreach ($detail ['transpond_data'] ['attach'] as $k => $v) {
                         if ($v ['size'] > 1024 && $v ['size'] < 1024 * 1024) {
-                            $detail ['transpond_data'] ['attach'] [$k] ['size'] = round($v ['size'] / 1024, 2) . 'K';
+                            $detail ['transpond_data'] ['attach'] [$k] ['size'] = round($v ['size'] / 1024, 2).'K';
                         } elseif ($v ['size'] < 1024) {
                             $detail ['transpond_data'] ['attach'] [$k] ['size'] .= 'B';
                         } else {
-                            $detail ['transpond_data'] ['attach'] [$k] ['size'] = round($v ['size'] / 1024 / 1024, 2) . 'M';
+                            $detail ['transpond_data'] ['attach'] [$k] ['size'] = round($v ['size'] / 1024 / 1024, 2).'M';
                         }
                     }
                     break;
-                
+
                 case 'postvideo' :
                     $detail ['type'] = 'repost-postvideo';
                     break;
@@ -286,11 +287,11 @@ class IndexAction extends BaseAction
         } elseif ($detail ['type'] === 'postfile') {
             foreach ($detail ['attach'] as $k => $v) {
                 if ($v ['size'] > 1024 && $v ['size'] < 1024 * 1024) {
-                    $detail ['attach'] [$k] ['size'] = round($v ['size'] / 1024, 2) . 'K';
+                    $detail ['attach'] [$k] ['size'] = round($v ['size'] / 1024, 2).'K';
                 } elseif ($v ['size'] < 1024) {
                     $detail ['attach'] [$k] ['size'] .= 'B';
                 } else {
-                    $detail ['attach'] [$k] ['size'] = round($v ['size'] / 1024 / 1024, 2) . 'M';
+                    $detail ['attach'] [$k] ['size'] = round($v ['size'] / 1024 / 1024, 2).'M';
                 }
             }
         } elseif ($detail ['type'] === 'weiba_repost') {
@@ -299,7 +300,7 @@ class IndexAction extends BaseAction
             }
         }
         $detail ['from'] = getFromClient($detail ['from'], $detail ['app']);
-        
+
         // 转发分享标志
         $detail ['repost'] = $detail ['api_source'] ['feed_id'] ? $detail ['api_source'] ['feed_id'] : intval($detail ['app_row_id']);
         // 如果是转发，看是否有评论当前用户的权限
@@ -324,7 +325,7 @@ class IndexAction extends BaseAction
             $detail ['retweet_name'] = $detail ['uname'];
             $detail ['cancomment'] = 1;
         }
-        
+
         $detail ['comment_touid'] = $detail ['repost'] ? $origin_uid : $detail ['uid'];
         // dump($detail);exit;
         $this->assign('feed', $detail);
@@ -343,7 +344,7 @@ class IndexAction extends BaseAction
         $this->setTitle($_title);
         $this->setKeywords($_title);
         $this->setDescription($_title);
-        
+
         if (($_GET ['weibo_id'])) {
             $data ['id'] = intval($_GET ['weibo_id']);
         } elseif (($_GET ['id'])) {
@@ -374,7 +375,7 @@ class IndexAction extends BaseAction
                 $detail ['cancomment'] = 1;
             }
         }
-        $detail ['defaultHtml'] = $_GET ['to_uname'] ? '回复@' . t($_GET ['to_uname']) . '：' : '';
+        $detail ['defaultHtml'] = $_GET ['to_uname'] ? '回复@'.t($_GET ['to_uname']).'：' : '';
         // dump($detail);exit;
         // 当前分享id
         $detail ['row_id'] = $data ['id'];
@@ -387,12 +388,12 @@ class IndexAction extends BaseAction
         $detail ['app_uid'] = $origin_uid;
         $detail ['to_comment_id'] = $_GET ['to_comment_id'] ? intval($_GET ['to_comment_id']) : 0;
         $detail ['to_uid'] = $_GET ['to_uid'] ? intval($_GET ['to_uid']) : 0;
-        
+
         $this->assign('detail', $detail);
         // dump($detail);exit;
         $this->display('reply');
     }
-    
+
     // 下拉刷新
     /*
      * public function resetScrollDownRefresh($uid = 0) {
@@ -430,7 +431,7 @@ class IndexAction extends BaseAction
         $this->assign('count', $count);
         $this->display('resetScrollDownRefreshSquare');
     }
-    
+
     // 分享广场
     public function publicsquare()
     {
@@ -446,7 +447,7 @@ class IndexAction extends BaseAction
         $this->assign('count', $count);
         $this->display('publicsquare');
     }
-    
+
     /**
      * 隐私设置
      */
@@ -454,6 +455,7 @@ class IndexAction extends BaseAction
     {
         if ($this->mid != $uid) {
             $privacy = model('UserPrivacy')->getPrivacy($this->mid, $uid);
+
             return $privacy;
         } else {
             return true;
@@ -471,12 +473,12 @@ class IndexAction extends BaseAction
         $isMessage = 1;
         ($userPrivacy ['space'] == 1) && $isMessage = 0;
         $this->assign('sendmsg', $isMessage);
-        
+
         if ($userPrivacy === true || $userPrivacy ['space'] == 0) {
             $isAllowed = 1;
             $data ['page'] = $this->_page;
             $data ['count'] = 10;
-            
+
             // 用户资料
             $profile = api('User')->data($data)->show();
             $following = $profile ['follow_state'] ['following'];
@@ -494,23 +496,23 @@ class IndexAction extends BaseAction
             $weibolist = api('WeiboStatuses')->data($data)->user_timeline();
             $weibolist = $this->__formatByContent($weibolist);
             $this->assign('weibolist', $weibolist);
-            
+
             foreach ($this->tVar ['weibolist'] as $key => $value) { // optimize data
                 if ((($this->tVar ['weibolist'] [$key] ['type'] === 'repost' && $this->tVar ['weibolist'] [$key] ['api_source'] ['is_del'] === '0') || ($this->tVar ['weibolist'] [$key] ['type'] === 'repost' && $this->tVar ['weibolist'] [$key] ['transpond_data'] ['api_source'] ['is_del'] === '0')) && isset($this->tVar ['weibolist'] [$key] ['transpond_data'] ['feed_content'])) {
                     switch ($this->tVar ['weibolist'] [$key] ['transpond_data'] ['type']) {
                         case 'postimage' :
                             $this->tVar ['weibolist'] [$key] ['type'] = 'repost-postimage';
                             break;
-                        
+
                         case 'postfile' :
                             $this->tVar ['weibolist'] [$key] ['type'] = 'repost-postfile';
                             foreach ($this->tVar ['weibolist'] [$key] ['transpond_data'] ['attach'] as $k => $v) {
                                 if ($v ['size'] > 1024 && $v ['size'] < 1024 * 1024) {
-                                    $this->tVar ['weibolist'] [$key] ['transpond_data'] ['attach'] [$k] ['size'] = round($v ['size'] / 1024, 2) . 'K';
+                                    $this->tVar ['weibolist'] [$key] ['transpond_data'] ['attach'] [$k] ['size'] = round($v ['size'] / 1024, 2).'K';
                                 } elseif ($v ['size'] < 1024) {
                                     $this->tVar ['weibolist'] [$key] ['transpond_data'] ['attach'] [$k] ['size'] .= 'B';
                                 } else {
-                                    $this->tVar ['weibolist'] [$key] ['transpond_data'] ['attach'] [$k] ['size'] = round($v ['size'] / 1024 / 1024, 2) . 'M';
+                                    $this->tVar ['weibolist'] [$key] ['transpond_data'] ['attach'] [$k] ['size'] = round($v ['size'] / 1024 / 1024, 2).'M';
                                 }
                             }
                             break;
@@ -520,11 +522,11 @@ class IndexAction extends BaseAction
                 } elseif ($this->tVar ['weibolist'] [$key] ['type'] === 'postfile') {
                     foreach ($this->tVar ['weibolist'] [$key] ['attach'] as $k => $v) {
                         if ($v ['size'] > 1024 && $v ['size'] < 1024 * 1024) {
-                            $this->tVar ['weibolist'] [$key] ['attach'] [$k] ['size'] = round($v ['size'] / 1024, 2) . 'K';
+                            $this->tVar ['weibolist'] [$key] ['attach'] [$k] ['size'] = round($v ['size'] / 1024, 2).'K';
                         } elseif ($v ['size'] < 1024) {
                             $this->tVar ['weibolist'] [$key] ['attach'] [$k] ['size'] .= 'B';
                         } else {
-                            $this->tVar ['weibolist'] [$key] ['attach'] [$k] ['size'] = round($v ['size'] / 1024 / 1024, 2) . 'M';
+                            $this->tVar ['weibolist'] [$key] ['attach'] [$k] ['size'] = round($v ['size'] / 1024 / 1024, 2).'M';
                         }
                     }
                 } elseif ($this->tVar ['weibolist'] [$key] ['type'] === 'weiba_repost') {
@@ -547,13 +549,13 @@ class IndexAction extends BaseAction
         }
         $this->display();
     }
-    
+
     // @提到我的
     public function atMe()
     {
         $data ['page'] = $this->_page;
         $data ['count'] = 20;
-        
+
         // 用户资料
         $profile = api('User')->data($data)->show();
         $this->assign('profile', $profile);
@@ -585,20 +587,20 @@ class IndexAction extends BaseAction
                     case 'postimage' :
                         $this->$weibolist [$key] ['type'] = 'repost-postimage';
                         break;
-                    
+
                     case 'postfile' :
                         $weibolist [$key] ['type'] = 'repost-postfile';
                         foreach ($weibolist [$key] ['transpond_data'] ['attach'] as $k => $v) {
                             if ($v ['size'] > 1024 && $v ['size'] < 1024 * 1024) {
-                                $weibolist [$key] ['transpond_data'] ['attach'] [$k] ['size'] = round($v ['size'] / 1024, 2) . 'K';
+                                $weibolist [$key] ['transpond_data'] ['attach'] [$k] ['size'] = round($v ['size'] / 1024, 2).'K';
                             } elseif ($v ['size'] < 1024) {
                                 $weibolist [$key] ['transpond_data'] ['attach'] [$k] ['size'] .= 'B';
                             } else {
-                                $weibolist [$key] ['transpond_data'] ['attach'] [$k] ['size'] = round($v ['size'] / 1024 / 1024, 2) . 'M';
+                                $weibolist [$key] ['transpond_data'] ['attach'] [$k] ['size'] = round($v ['size'] / 1024 / 1024, 2).'M';
                             }
                         }
                         break;
-                    
+
                     case 'postvideo' :
                         $weibolist [$key] ['type'] = 'repost-postvideo';
                         break;
@@ -608,11 +610,11 @@ class IndexAction extends BaseAction
             } elseif ($weibolist [$key] ['type'] === 'postfile') {
                 foreach ($weibolist [$key] ['attach'] as $k => $v) {
                     if ($v ['size'] > 1024 && $v ['size'] < 1024 * 1024) {
-                        $weibolist [$key] ['attach'] [$k] ['size'] = round($v ['size'] / 1024, 2) . 'K';
+                        $weibolist [$key] ['attach'] [$k] ['size'] = round($v ['size'] / 1024, 2).'K';
                     } elseif ($v ['size'] < 1024) {
                         $weibolist [$key] ['attach'] [$k] ['size'] .= 'B';
                     } else {
-                        $weibolist [$key] ['attach'] [$k] ['size'] = round($v ['size'] / 1024 / 1024, 2) . 'M';
+                        $weibolist [$key] ['attach'] [$k] ['size'] = round($v ['size'] / 1024 / 1024, 2).'M';
                     }
                 }
             } elseif ($weibolist [$key] ['type'] === 'weiba_repost') {
@@ -627,7 +629,7 @@ class IndexAction extends BaseAction
         $this->assign('headtitle', '@我的');
         $this->display('atme');
     }
-    
+
     // msg box
     public function msgbox()
     {
@@ -650,7 +652,7 @@ class IndexAction extends BaseAction
         $this->assign('des', $des);
         $this->display('msgbox');
     }
-    
+
     // 通知数目
     public function MCount()
     {
@@ -659,7 +661,7 @@ class IndexAction extends BaseAction
         $this->assign('mcount', $mcount);
         echo json_encode($mcount);
     }
-    
+
     // 评论我的
     public function replyMe()
     {
@@ -674,10 +676,10 @@ class IndexAction extends BaseAction
         foreach ($commentlist as &$value) {
             $value ['from'] = getFromClient($value ['client_type'], $value ['app']);
             // 因为评论我的页面中没有is_del，下句是加上
-            $value ['sourceInfo'] ['is_del'] = M('Feed')->where('feed_id=' . $value ['sourceInfo'] ['feed_id'])->getField('is_del');
+            $value ['sourceInfo'] ['is_del'] = M('Feed')->where('feed_id='.$value ['sourceInfo'] ['feed_id'])->getField('is_del');
             // 微吧
             if (in_array($value ['app'], array(
-                    'weiba'
+                    'weiba',
             ))) {
                 $feedInfo = model('Feed')->getFeedInfo($value ['sourceInfo'] ['source_id']);
                 $value ['sourceInfo'] ['uname'] = $feedInfo ['api_source'] ['source_user_info'] ['uname'];
@@ -764,7 +766,7 @@ class IndexAction extends BaseAction
         $this->assign('type', 'receive');
         $this->display('replyMe');
     }
-    
+
     // 我发出的评论
     public function myreply()
     {
@@ -779,10 +781,10 @@ class IndexAction extends BaseAction
         foreach ($commentlist as &$value) {
             $value ['from'] = getFromClient($value ['client_type'], $value ['app']);
             // 因为评论我的页面中没有is_del，下句是加上
-            $value ['sourceInfo'] ['is_del'] = M('Feed')->where('feed_id=' . $value ['sourceInfo'] ['feed_id'])->getField('is_del');
+            $value ['sourceInfo'] ['is_del'] = M('Feed')->where('feed_id='.$value ['sourceInfo'] ['feed_id'])->getField('is_del');
             // 微吧
             if (in_array($value ['app'], array(
-                    'weiba'
+                    'weiba',
             ))) {
                 $feedInfo = model('Feed')->getFeedInfo($value ['sourceInfo'] ['source_id']);
                 $value ['sourceInfo'] ['uname'] = $feedInfo ['api_source'] ['source_user_info'] ['uname'];
@@ -822,7 +824,7 @@ class IndexAction extends BaseAction
         $this->assign('type', 'send');
         $this->display();
     }
-    
+
     // 评论列表
     public function comments()
     {
@@ -831,7 +833,7 @@ class IndexAction extends BaseAction
         if (empty($_GET ['type'])) {
             $type = $_GET ['type'] = 'receive';
         }
-        
+
         if ($type == 'send') {
             $keyword = '发出';
             $map ['uid'] = $this->uid;
@@ -841,9 +843,9 @@ class IndexAction extends BaseAction
             $this->assign('weibo_premission', $weiboSet ['weibo_premission']);
             $keyword = '收到';
             // 获取未读评论的条数
-            $this->assign('unread_comment_count', model('UserData')->where('uid=' . $this->mid . " and `key`='unread_comment'")->getField('value'));
+            $this->assign('unread_comment_count', model('UserData')->where('uid='.$this->mid." and `key`='unread_comment'")->getField('value'));
             // 收到的
-            $map ['_string'] = " (to_uid = '{$this->uid}' OR app_uid = '{$this->uid}') AND uid !=" . $this->uid;
+            $map ['_string'] = " (to_uid = '{$this->uid}' OR app_uid = '{$this->uid}') AND uid !=".$this->uid;
         }
         // 获取tab类型
         // $d['tab'] = model('Comment')->getTab($map);
@@ -890,9 +892,9 @@ class IndexAction extends BaseAction
         $this->assign('_count', $list ['totalPages']);
         $this->assign('commentlist', $list ['data']);
         $this->assign('type', $type);
-        $this->setTitle($keyword . '的评论'); // 我的评论
+        $this->setTitle($keyword.'的评论'); // 我的评论
         $userInfo = model('User')->getUserInfo($this->mid);
-        $this->setKeywords($userInfo ['uname'] . $keyword . '的评论');
+        $this->setKeywords($userInfo ['uname'].$keyword.'的评论');
         $this->display('comment_list');
     }
     // 我的收藏
@@ -904,7 +906,7 @@ class IndexAction extends BaseAction
         $isMessage = 1;
         ($userPrivacy ['space'] == 1) && $isMessage = 0;
         $this->assign('sendmsg', $isMessage);
-        
+
         $data ['page'] = $this->_page;
         $data ['count'] = 10;
         // 用户资料
@@ -952,7 +954,7 @@ class IndexAction extends BaseAction
         }
         $this->display();
     }
-    
+
     // 下面的方法是判断是否被收藏，在WeiboStatuses这个接口里面封装好了判断是否被收藏的信息，所以不用下边这个了
     private function __formatByFavorite($weibolist)
     { // format 格式化的意思
@@ -965,6 +967,7 @@ class IndexAction extends BaseAction
                 $weibolist [$k] ['is_favorite'] = 0;
             }
         }
+
         return $weibolist;
     }
     private function __formatByContent($weibolist)
@@ -1057,8 +1060,8 @@ class IndexAction extends BaseAction
                             }
                             $weibolist [$k] ['transpond_data'] ['weibo_id'] = $weibolist [$k] ['transpond_data'] ['feed_id'];
                         } else {
-                            $row_id = model('Feed')->where('feed_id=' . $v ['feed_id'])->getField('app_row_id');
-                            $uid = model('Feed')->where('feed_id=' . $row_id)->getField('uid');
+                            $row_id = model('Feed')->where('feed_id='.$v ['feed_id'])->getField('app_row_id');
+                            $uid = model('Feed')->where('feed_id='.$row_id)->getField('uid');
                             $weibolist [$k] ['transpond_data'] = model('User')->getUserInfo($this->uid);
                         }
                         $weibolist [$k] ['ctime'] = date('Y-m-d H:i', $v ['publish_time']);
@@ -1071,16 +1074,16 @@ class IndexAction extends BaseAction
                     }
                     break;
                 case 'weiba' :
-                    $weiba_post = D('WeibaPost', 'weiba')->where('post_id=' . $v ['app_row_id'])->find();
+                    $weiba_post = D('WeibaPost', 'weiba')->where('post_id='.$v ['app_row_id'])->find();
                     $weibolist [$k] ['weibo_id'] = $weibolist [$k] ['feed_id'];
                     $weibolist [$k] ['transpond_data'] = $weiba_post;
                     $weibolist [$k] ['transpond_data'] ['weibo_id'] = $weibolist [$k] ['feed_id'];
-                    $weibolist [$k] ['transpond_data'] ['uname'] = model('User')->where('uid=' . $weiba_post ['post_uid'])->getField('uname');
+                    $weibolist [$k] ['transpond_data'] ['uname'] = model('User')->where('uid='.$weiba_post ['post_uid'])->getField('uname');
                     $weibolist [$k] ['transpond_data'] ['uid'] = $weiba_post ['post_uid'];
                     break;
-                
+
                 default :
-                    
+
                     // code...
                     break;
             }
@@ -1101,6 +1104,7 @@ class IndexAction extends BaseAction
                 $weibolist [$k] ['favorited'] = 0;
             }
         }
+
         return array_values($weibolist);
     }
     private function _usergroup($uid)
@@ -1116,8 +1120,9 @@ class IndexAction extends BaseAction
                 unset($userGroupData [$key]);
                 continue;
             }
-            $userGroupData [$key] ['user_group_icon_url'] = THEME_PUBLIC_URL . '/image/usergroup/' . $value ['user_group_icon'];
+            $userGroupData [$key] ['user_group_icon_url'] = THEME_PUBLIC_URL.'/image/usergroup/'.$value ['user_group_icon'];
         }
+
         return $userGroupData;
     }
     private function __formatByComment($comment)
@@ -1126,9 +1131,10 @@ class IndexAction extends BaseAction
         foreach ($comment as $k => $v) {
             $comment [$k] ['content'] = wapFormatComment($v ['content'], true, $self_url);
         }
+
         return $comment;
     }
-    
+
     // 话题
     public function topic()
     {
@@ -1138,19 +1144,19 @@ class IndexAction extends BaseAction
         $this->assign('topic', $topic);
         $this->display();
     }
-    
+
     // 关注列表
     public function following()
     {
         $this->__followlist('user_following');
     }
-    
+
     // 粉丝列表
     public function followers()
     {
         $this->__followlist('user_followers');
     }
-    
+
     // 分享详情
     public function detail()
     {
@@ -1160,9 +1166,9 @@ class IndexAction extends BaseAction
             $data ['id'] = intval($_GET ['id']);
         }
         $detail = api('WeiboStatuses')->data($data)->show();
-        
+
         $detail ['userGroupData'] = $this->_usergroup($detail ['uid']);
-        
+
         $map ['source_id'] = $data ['id'];
         $map ['uid'] = $this->mid;
         $detail ['iscoll'] ['colled'] = model('Collection')->where($map)->count() ? 1 : 0;
@@ -1177,20 +1183,20 @@ class IndexAction extends BaseAction
                 case 'postimage' :
                     $detail ['type'] = 'repost-postimage';
                     break;
-                
+
                 case 'postfile' :
                     $detail ['type'] = 'repost-postfile';
                     foreach ($detail ['transpond_data'] ['attach'] as $k => $v) {
                         if ($v ['size'] > 1024 && $v ['size'] < 1024 * 1024) {
-                            $detail ['transpond_data'] ['attach'] [$k] ['size'] = round($v ['size'] / 1024, 2) . 'K';
+                            $detail ['transpond_data'] ['attach'] [$k] ['size'] = round($v ['size'] / 1024, 2).'K';
                         } elseif ($v ['size'] < 1024) {
                             $detail ['transpond_data'] ['attach'] [$k] ['size'] .= 'B';
                         } else {
-                            $detail ['transpond_data'] ['attach'] [$k] ['size'] = round($v ['size'] / 1024 / 1024, 2) . 'M';
+                            $detail ['transpond_data'] ['attach'] [$k] ['size'] = round($v ['size'] / 1024 / 1024, 2).'M';
                         }
                     }
                     break;
-                
+
                 case 'postvideo' :
                     $detail ['type'] = 'repost-postvideo';
                     break;
@@ -1200,11 +1206,11 @@ class IndexAction extends BaseAction
         } elseif ($detail ['type'] === 'postfile') {
             foreach ($detail ['attach'] as $k => $v) {
                 if ($v ['size'] > 1024 && $v ['size'] < 1024 * 1024) {
-                    $detail ['attach'] [$k] ['size'] = round($v ['size'] / 1024, 2) . 'K';
+                    $detail ['attach'] [$k] ['size'] = round($v ['size'] / 1024, 2).'K';
                 } elseif ($v ['size'] < 1024) {
                     $detail ['attach'] [$k] ['size'] .= 'B';
                 } else {
-                    $detail ['attach'] [$k] ['size'] = round($v ['size'] / 1024 / 1024, 2) . 'M';
+                    $detail ['attach'] [$k] ['size'] = round($v ['size'] / 1024 / 1024, 2).'M';
                 }
             }
         } elseif ($detail ['type'] === 'weiba_repost') {
@@ -1213,7 +1219,7 @@ class IndexAction extends BaseAction
             }
         }
         $detail ['from'] = getFromClient($detail ['from'], $detail ['app']);
-        
+
         if ($detail ['type'] == 'postvideo') {
             // $weibolist[$k]['content'] = $v['source_body'];
             $detail ['content'] = $detail ['feed_content'] ? $detail ['feed_content'] : $detail ['source_body'];
@@ -1229,7 +1235,7 @@ class IndexAction extends BaseAction
                 $detail ['transpond_data'] ['content'] = wapFormatContent($detail ['transpond_data'] ['content'], true, $self_url);
             }
         }
-        
+
         // 转发分享标志
         $detail ['repost'] = $detail ['app_row_id'];
         // 如果是转发，看是否有评论当前用户的权限
@@ -1248,7 +1254,7 @@ class IndexAction extends BaseAction
                 $detail ['cancomment'] = 1;
             }
         }
-        
+
         $this->assign('feed', $detail);
         // dump($detail);exit;
         // dump($detail);
@@ -1256,7 +1262,7 @@ class IndexAction extends BaseAction
         $data ['count'] = 20;
         $comment = api('WeiboStatuses')->data($data)->comments();
         foreach ($comment as $key => $value) {
-            $comment [$key] ['level'] = M('credit_user')->where('uid=' . $value ['uid'])->find();
+            $comment [$key] ['level'] = M('credit_user')->where('uid='.$value ['uid'])->find();
             $comment [$key] ['userGroupData'] = $this->_usergroup($value ['uid']);
         }
         $this->assign('count', $detail ['comment_count']);
@@ -1266,7 +1272,7 @@ class IndexAction extends BaseAction
         // dump($detail['api_source']);
         $this->display();
     }
-    
+
     // 图片
     public function image()
     {
@@ -1275,14 +1281,14 @@ class IndexAction extends BaseAction
             $this->redirect(U('w3g/Index/index'), 3, '参数错误');
         }
         $weibo = api('Statuses')->data(array(
-                'id' => $weibo_id
+                'id' => $weibo_id,
         ))->show();
-        
+
         $image = intval($weibo ['transpond_id']) == 0 ? $weibo ['type_data'] : $weibo ['transpond_data'] ['type_data'];
         if (empty($image)) {
             $this->redirect(U('w3g/Index/index'), 3, '无图片信息');
         }
-        
+
         $this->assign('weibo_id', $weibo_id);
         $this->assign('image', $image);
         $this->display();
@@ -1311,13 +1317,13 @@ class IndexAction extends BaseAction
                 $followlist [$key] ['user'] ['userGroupData'] = $this->_usergroup($value ['uid']);
                 $following = $followlist [$key] ['user'] ['follow_state'] ['following'];
                 $follower = $followlist [$key] ['user'] ['follow_state'] ['follower'];
-                
+
                 if ($following) {
                     $followlist [$key] ['user'] ['follow_state'] ['value'] = '已关注';
                 } else {
                     $followlist [$key] ['user'] ['follow_state'] ['value'] = '加关注';
                 }
-                
+
                 if ($following && $follower) {
                     $followlist [$key] ['user'] ['follow_state'] ['value'] = '已互粉';
                 }
@@ -1341,14 +1347,14 @@ class IndexAction extends BaseAction
         } elseif ($type == 'user_followers' && $_GET ['uid'] != $this->mid) {
             $this->assign('datatitle', "TA的粉丝");
         }
-        
+
         $this->assign('count', $count);
         $this->assign('userlist', $followlist);
         // dump($followlist[2]);
         $this->assign('type', $type);
         $this->display('followlist');
     }
-    
+
     // 关注
     public function doFollow()
     {
@@ -1357,10 +1363,10 @@ class IndexAction extends BaseAction
                 'user_following',
                 'user_followers',
                 'search',
-                'weibo'
+                'weibo',
         )) || ! in_array($_GET ['type'], array(
                 'follow',
-                'unfollow'
+                'unfollow',
         )) || $user_id <= 0) {
             // redirect(U('w3g/Index/index'), 3, '参数错误');
             echo '0';
@@ -1378,31 +1384,31 @@ class IndexAction extends BaseAction
     public function post()
     {
         // 自动携带搜索的关键字
-        $this->assign('keyword', isset($_REQUEST ['key']) ? '#' . $_REQUEST ['key'] . '# ' : '');
-        
+        $this->assign('keyword', isset($_REQUEST ['key']) ? '#'.$_REQUEST ['key'].'# ' : '');
+
         $this->assign('headtitle', '发表分享');
-        
+
         // 检查可同步的平台的key值是否可用
         $config = model('AddonData')->lget('login');
         $this->assign('sync', count($config ['publish']));
-        
+
         $this->display();
     }
     public function doPost()
     {
         $_POST ['content'] = preg_replace('/^\s+|\s+$/i', '', $_POST ['content']);
-        
+
         $pathinfo = pathinfo($_FILES ['pic'] ['name']); // pathinfo() 函数以数组的形式返回文件路径的信息。
         $ext = $pathinfo ['extension']; // extension上传文件的后缀类型
         $allowExts = array(
                 'jpg',
                 'png',
                 'gif',
-                'jpeg'
+                'jpeg',
         );
-        
+
         $uploadCondition = $_FILES ['pic'] && in_array(strtolower($ext), $allowExts, true);
-        
+
         if (! empty($_FILES ['pic'] ['tmp_name']) && ! $uploadCondition) {
             // redirect(U('w3g/Index/index'), 3, '只能上传图片附件');
             $this->ajaxReturn(null, '只能上传图片附件', 0);
@@ -1478,8 +1484,8 @@ class IndexAction extends BaseAction
             } else {
                 // 添加话题
                 model('FeedTopic')->addTopic(html_entity_decode($data ['content'], ENT_QUOTES, 'UTF-8'), $res, 'post');
-                model('Cache')->rm('fd_' . $res);
-                model('Cache')->rm('feed_info_' . $res);
+                model('Cache')->rm('fd_'.$res);
+                model('Cache')->rm('feed_info_'.$res);
                 // 添加积分
                 X('Credit')->setUserCredit($this->mid, 'add_weibo');
                 model('Credit')->setUserCredit($this->mid, 'forum_post');
@@ -1493,7 +1499,7 @@ class IndexAction extends BaseAction
         // }
         $this->ajaxReturn(null, '发布成功', 1);
     }
-    
+
     // 发表成功后用来传递给首页发表成功的页面
     public function doPostTrue()
     {
@@ -1507,7 +1513,7 @@ class IndexAction extends BaseAction
         $this->assign('feed', $feed);
         $this->display('doPostTrue');
     }
-    
+
     /**
      * 发布分享操作，用于AJAX
      * 
@@ -1526,7 +1532,7 @@ class IndexAction extends BaseAction
             // exit(json_encode(array('status'=>0, 'data'=>$filterContentStatus['data'])));
         }
         $d ['content'] = $filterContentStatus ['data'];
-        
+
         // 原始数据内容
         $filterBodyStatus = filter_words($_POST ['body']);
         if (! $filterBodyStatus ['status']) {
@@ -1536,14 +1542,14 @@ class IndexAction extends BaseAction
             // exit(json_encode($return));
         }
         $d ['body'] = $filterBodyStatus ['data'];
-        
+
         // 安全过滤
         foreach ($_POST as $key => $val) {
             $_POST [$key] = t($_POST [$key]);
         }
         $d ['source_url'] = urldecode($_POST ['source_url']); // 应用分享到分享，原资源链接
                                                             // 滤掉话题两端的空白
-        $d ['body'] = preg_replace("/#[\s]*([^#^\s][^#]*[^#^\s])[\s]*#/is", '#' . trim("\${1}") . '#', $d ['body']);
+        $d ['body'] = preg_replace("/#[\s]*([^#^\s][^#]*[^#^\s])[\s]*#/is", '#'.trim("\${1}").'#', $d ['body']);
         // 附件信息
         $d ['attach_id'] = trim(t($_POST ['attach_id']), "|");
         if (! empty($d ['attach_id'])) {
@@ -1583,7 +1589,7 @@ class IndexAction extends BaseAction
         // 更新用户最后发表的分享
         $last ['last_feed_id'] = $data ['feed_id'];
         $last ['last_post_time'] = $_SERVER ['REQUEST_TIME'];
-        model('User')->where('uid=' . $this->uid)->save($last);
+        model('User')->where('uid='.$this->uid)->save($last);
         $isOpenChannel = model('App')->isAppNameOpen('channel');
         if (! $isOpenChannel) {
             echo $return ['data'];
@@ -1626,7 +1632,7 @@ class IndexAction extends BaseAction
         $this->doPostTrue();
         // exit(json_encode($return));
     }
-    
+
     // 因为评论的方式变了，所以没有用到以下方法
     public function comment()
     {
@@ -1644,11 +1650,11 @@ class IndexAction extends BaseAction
         $this->assign('uname', getUserName($uid));
         $this->display();
     }
-    
+
     /**
      * 添加评论接口，目前只支持分享与微吧
      * 
-     * @return integer 返回状态
+     * @return int 返回状态
      */
     public function doComment()
     {
@@ -1669,23 +1675,23 @@ class IndexAction extends BaseAction
         }
         // 仅取前140字
         $content = mb_substr($content, 0, 140, 'UTF8');
-        
+
         $type = t($_POST ['type']);
-        
+
         if (in_array($type, array(
                 'weiba_repost',
-                'weiba_post'
+                'weiba_post',
         ))) {
             $data ['app_name'] = 'weiba';
-            $data ['app_row_id'] = model('Feed')->where('feed_id=' . $feed_id)->getField('app_row_id');
+            $data ['app_row_id'] = model('Feed')->where('feed_id='.$feed_id)->getField('app_row_id');
         } else {
             $data ['app_name'] = 'public';
         }
         $data ['table_name'] = 'feed';
-        
+
         // app_uid 是被评论分享作者的ID
         $data ['app_uid'] = isset($_POST ['appid']) ? intval($_POST ['appid']) : '0';
-        $data ['comment_old'] = isset($_POST ['comment_old']) ? ( string ) $_POST ['comment_old'] : '0';
+        $data ['comment_old'] = isset($_POST ['comment_old']) ? (string) $_POST ['comment_old'] : '0';
         // 评论内容
         $data ['content'] = isset($content) ? $content : '';
         // row_id 是被评论分享的ID
@@ -1693,8 +1699,8 @@ class IndexAction extends BaseAction
         // 评论所需内容组装
         $data ['ifShareFeed'] = isset($_POST ['ifShareFeed']) ? intval($_POST ['ifShareFeed']) : '0';
         $data ['from'] = $this->_type_wap;
-        $data ['at'] = isset($_POST ['at']) ? ( string ) $_POST ['at'] : '';
-        $data ['uid'] = isset($_POST ['uid']) ? ( int ) $_POST ['uid'] : '0';
+        $data ['at'] = isset($_POST ['at']) ? (string) $_POST ['at'] : '';
+        $data ['uid'] = isset($_POST ['uid']) ? (int) $_POST ['uid'] : '0';
         $res = api('WeiboStatuses')->data($data)->comment();
         if ($res) {
             $this->doCommentTrue($data ['row_id'], intval($_POST ['feed_id']), $data ['uid']);
@@ -1706,7 +1712,7 @@ class IndexAction extends BaseAction
             exit();
         }
     }
-    
+
     // 发表成功后用来传递给首页发表成功的页面
     public function doCommentTrue($id, $feedId, $uid)
     {
@@ -1717,13 +1723,13 @@ class IndexAction extends BaseAction
         $comment = api('WeiboStatuses')->data($data)->comments();
         $detail = api('WeiboStatuses')->data($data)->show();
         foreach ($comment as $key => $value) {
-            $comment [$key] ['level'] = M('credit_user')->where('uid=' . $value ['uid'])->find();
+            $comment [$key] ['level'] = M('credit_user')->where('uid='.$value ['uid'])->find();
         }
         // $comment = $this->__formatByComment($comment);
         // dump($comment);
         $this->assign('weibo', $detail);
         $this->assign('comment', $comment);
-        
+
         $r = array();
         $r ['success'] = '1';
         $r ['des'] = 'ok';
@@ -1738,7 +1744,7 @@ class IndexAction extends BaseAction
         exit();
         // $this->display('doCommentTrue');
     }
-    
+
     // 对一条评论 评论后 用来传递给详情页回复成功的页面
     public function doCommentD()
     {
@@ -1767,8 +1773,8 @@ class IndexAction extends BaseAction
         $commentd = api('User')->data($data)->show();
         // 整合被转发的内容
         // $_POST['content'] = "回复@{$commentd['uname']}：".$_POST['content']."//@{$commentd['uname']}：".$preComment['content'];
-        $_POST ['content'] = "回复@{$commentd['uname']}：" . $_POST ['content'];
-        
+        $_POST ['content'] = "回复@{$commentd['uname']}：".$_POST ['content'];
+
         $data ['app'] = 'public';
         $data ['table'] = 'feed';
         // $data['app_row_id'] = isset($this->data['app_row_id']) ? $this->data['app_row_id'] : '0';
@@ -1799,7 +1805,7 @@ class IndexAction extends BaseAction
             exit();
         }
     }
-    
+
     // 转发 forward转发的意思
     public function forward()
     {
@@ -1820,12 +1826,12 @@ class IndexAction extends BaseAction
             echo '参数错误';
             exit();
         }
-        
+
         $this->assign('weibo', $weibo);
         $this->assign('headtitle', '转发分享');
         $this->display();
     }
-    
+
     // 接受转发数据
     public function doForward()
     {
@@ -1845,7 +1851,7 @@ class IndexAction extends BaseAction
             // exit(json_encode($return));
         }
         $post ['body'] = $filterBodyStatus ['data'];
-        
+
         // 判断资源是否删除
         if (empty($post ['curid'])) {
             $map ['feed_id'] = intval($post ['sid']);
@@ -1860,12 +1866,12 @@ class IndexAction extends BaseAction
             exit();
             // exit(json_encode($return));
         }
-        
+
         // 进行分享操作
         $return = model('Share')->shareFeed($post, 'share');
         if ($return ['status'] == 1) {
             $app_name = $post ['app_name'];
-            
+
             // 添加积分
             if ($app_name == 'public') {
                 model('Credit')->setUserCredit($this->uid, 'forward_weibo');
@@ -1876,10 +1882,10 @@ class IndexAction extends BaseAction
             if ($app_name == 'weiba') {
                 model('Credit')->setUserCredit($this->uid, 'forward_topic');
                 // 分享被转发
-                $suid = D('Feed')->where('feed_id=' . $map ['feed_id'])->getField('uid');
+                $suid = D('Feed')->where('feed_id='.$map ['feed_id'])->getField('uid');
                 model('Credit')->setUserCredit($suid, 'forwarded_topic');
             }
-            
+
             $this->assign($return ['data']);
             // 分享配置
             $weiboSet = model('Xdata')->get('admin_Config:feed');
@@ -1970,7 +1976,7 @@ class IndexAction extends BaseAction
         // echo '0';
         // }
     }
-    
+
     // 转发成功后用来传递给首页发表成功的页面
     public function doForwardTrue()
     {
@@ -1991,11 +1997,11 @@ class IndexAction extends BaseAction
                     $detail ['type'] = 'repost-postfile';
                     foreach ($detail ['transpond_data'] ['attach'] as $k => $v) {
                         if ($v ['size'] > 1024 && $v ['size'] < 1024 * 1024) {
-                            $detail ['transpond_data'] ['attach'] [$k] ['size'] = round($v ['size'] / 1024, 2) . 'K';
+                            $detail ['transpond_data'] ['attach'] [$k] ['size'] = round($v ['size'] / 1024, 2).'K';
                         } elseif ($v ['size'] < 1024) {
                             $detail ['transpond_data'] ['attach'] [$k] ['size'] .= 'B';
                         } else {
-                            $detail ['transpond_data'] ['attach'] [$k] ['size'] = round($v ['size'] / 1024 / 1024, 2) . 'M';
+                            $detail ['transpond_data'] ['attach'] [$k] ['size'] = round($v ['size'] / 1024 / 1024, 2).'M';
                         }
                     }
                     break;
@@ -2005,11 +2011,11 @@ class IndexAction extends BaseAction
         } elseif ($detail ['type'] === 'postfile') {
             foreach ($detail ['attach'] as $k => $v) {
                 if ($v ['size'] > 1024 && $v ['size'] < 1024 * 1024) {
-                    $detail ['attach'] [$k] ['size'] = round($v ['size'] / 1024, 2) . 'K';
+                    $detail ['attach'] [$k] ['size'] = round($v ['size'] / 1024, 2).'K';
                 } elseif ($v ['size'] < 1024) {
                     $detail ['attach'] [$k] ['size'] .= 'B';
                 } else {
-                    $detail ['attach'] [$k] ['size'] = round($v ['size'] / 1024 / 1024, 2) . 'M';
+                    $detail ['attach'] [$k] ['size'] = round($v ['size'] / 1024 / 1024, 2).'M';
                 }
             }
         } elseif ($detail ['type'] === 'weiba_repost') {
@@ -2021,7 +2027,7 @@ class IndexAction extends BaseAction
         $this->assign('feed', $detail);
         $this->display('doForwardTrue');
     }
-    
+
     // 删除分享
     public function doDelete()
     {
@@ -2036,7 +2042,7 @@ class IndexAction extends BaseAction
         $data ['id'] = $weibo_id;
         $detail = api('WeiboStatuses')->data($data)->show();
         $data ['source_table_name'] = $detail ['app_row_table'];
-        
+
         // 不存在时
         if (! $detail) {
             echo 0;
@@ -2057,18 +2063,18 @@ class IndexAction extends BaseAction
                 exit();
             }
         }
-        
+
         $res = api('WeiboStatuses')->data($data)->destroy();
         // 微吧帖子删除
         switch ($type) {
             case 'weiba_post' :
-                $postInfo = D('weiba_post')->where('feed_id=' . $weibo_id)->find();
+                $postInfo = D('weiba_post')->where('feed_id='.$weibo_id)->find();
                 $postId = $postInfo ['post_id'];
                 $weibaId = $postInfo ['weiba_id'];
-                if (D('weiba_post')->where('post_id=' . $postId)->setField('is_del', 1)) {
-                    $postDetail = D('weiba_post')->where('post_id=' . $postId)->find();
-                    D('Log', 'weiba')->writeLog($postDetail ['weiba_id'], $this->mid, '删除了帖子“' . $postDetail ['title'] . '”', 'posts');
-                    D('weiba')->where('weiba_id=' . $weibaId)->setDec('thread_count');
+                if (D('weiba_post')->where('post_id='.$postId)->setField('is_del', 1)) {
+                    $postDetail = D('weiba_post')->where('post_id='.$postId)->find();
+                    D('Log', 'weiba')->writeLog($postDetail ['weiba_id'], $this->mid, '删除了帖子“'.$postDetail ['title'].'”', 'posts');
+                    D('weiba')->where('weiba_id='.$weibaId)->setDec('thread_count');
                     model('Credit')->setUserCredit($this->mid, 'delete_topic');
                 }
                 break;
@@ -2081,7 +2087,7 @@ class IndexAction extends BaseAction
             exit();
         }
     }
-    
+
     // 收藏
     public function doFavorite()
     {
@@ -2114,7 +2120,7 @@ class IndexAction extends BaseAction
             exit();
         }
     }
-    
+
     // 取消收藏
     public function doUnFavorite()
     {
@@ -2151,14 +2157,14 @@ class IndexAction extends BaseAction
         $this->assign('from_url', $_GET ['from_url']);
         $this->display();
     }
-    
+
     // URL重定向
     public function redirect($url, $time = 0, $msg = '')
     {
         // 多行URL地址支持
         $url = str_replace(array(
                 "\n",
-                "\r"
+                "\r",
         ), '', $url);
         if (empty($msg)) {
             $msg = "系统将在{$time}秒之后自动跳转到{$url}！";
@@ -2166,7 +2172,7 @@ class IndexAction extends BaseAction
         if (! headers_sent()) {
             // redirect
             if (0 === $time) {
-                header("Location: " . $url);
+                header("Location: ".$url);
             } else {
                 header("refresh:{$time};url={$url}");
                 // 防止手机浏览器下的乱码
@@ -2183,16 +2189,16 @@ class IndexAction extends BaseAction
         $this->display('redirect');
         exit();
     }
-    
+
     // 获取最新分享数
     public function countnew()
     {
         $map = "weibo_id>{$_POST['nowMaxID']} AND isdel=0";
-        $map .= " AND ( uid IN (SELECT fid FROM " . C('DB_PREFIX') . "weibo_follow WHERE uid=$this->uid) OR uid=$this->uid )";
+        $map .= " AND ( uid IN (SELECT fid FROM ".C('DB_PREFIX')."weibo_follow WHERE uid=$this->uid) OR uid=$this->uid )";
         $countnew = M('Weibo')->where($map)->count();
         echo $countnew ? $countnew : '0';
     }
-    
+
     // 搜索话题
     public function doSearch()
     {
@@ -2208,14 +2214,14 @@ class IndexAction extends BaseAction
             $this->error('该话题已被屏蔽');
         }
         if ($data ['topics'] ['pic']) {
-            $pic = D('attach')->where('attach_id=' . $data ['topics'] ['pic'])->find();
+            $pic = D('attach')->where('attach_id='.$data ['topics'] ['pic'])->find();
             // $data['topics']['pic'] = UPLOAD_URL.'/'.$pic['save_path'].$pic['save_name'];
-            $pic_url = $pic ['save_path'] . $pic ['save_name'];
+            $pic_url = $pic ['save_path'].$pic ['save_name'];
             $data ['topics'] ['pic'] = getImageUrl($pic_url);
         }
         $data ['topic'] = $data ['search_key'] ? $data ['search_key'] : html_entity_decode($data ['topics'] ['name'], ENT_QUOTES, 'UTF-8');
         $data ['topic_id'] = $data ['topics'] ['topic_id'] ? $data ['topics'] ['topic_id'] : model('FeedTopic')->getTopicId($data ['search_key']);
-        $initHtml = '#' . $data ['search_key'] . '#';
+        $initHtml = '#'.$data ['search_key'].'#';
         $this->assign('initHtml', $initHtml);
         $this->assign($data);
         // seo
@@ -2223,12 +2229,12 @@ class IndexAction extends BaseAction
         $replace ['topicName'] = $data ['topic'];
         $replace ['topicNote'] = $data ['topics'] ['note'];
         $replace ['topicDes'] = $data ['topics'] ['des'];
-        if ($lastTopic = D('feed_data')->where('feed_id=' . D('feed_topic_link')->where('topic_id=' . $data ['topic_id'])->order('feed_topic_id desc')->limit(1)->getField('feed_id'))->getField('feed_content')) {
+        if ($lastTopic = D('feed_data')->where('feed_id='.D('feed_topic_link')->where('topic_id='.$data ['topic_id'])->order('feed_topic_id desc')->limit(1)->getField('feed_id'))->getField('feed_content')) {
             $replace ['lastTopic'] = $lastTopic;
         }
         $replaces = array_keys($replace);
         foreach ($replaces as &$v) {
-            $v = "{" . $v . "}";
+            $v = "{".$v."}";
         }
         $max_id = intval($_REQUEST ['max_id']);
         // 搜索分享
@@ -2258,32 +2264,32 @@ class IndexAction extends BaseAction
     {
         $data ['attach_type'] = t($_REQUEST ['attach_type']);
         $data ['upload_type'] = $_REQUEST ['upload_type'] ? t($_REQUEST ['upload_type']) : 'file';
-        
+
         $thumb = intval($_REQUEST ['thumb']);
         $width = intval($_REQUEST ['width']);
         $height = intval($_REQUEST ['height']);
         $cut = intval($_REQUEST ['cut']);
-        
+
         $option ['attach_type'] = $data ['attach_type'];
         $info = model('Attach')->upload($data, $option);
-        
+
         if ($info ['status']) {
             $data = $info ['info'] [0];
             if ($thumb == 1) {
-                $data ['src'] = getImageUrl($data ['save_path'] . $data ['save_name'], $width, $height, $cut);
+                $data ['src'] = getImageUrl($data ['save_path'].$data ['save_name'], $width, $height, $cut);
             } else {
-                $data ['src'] = $data ['save_path'] . $data ['save_name'];
+                $data ['src'] = $data ['save_path'].$data ['save_name'];
             }
-            
+
             $data ['extension'] = strtolower($data ['extension']);
             $return = array(
                     'status' => 1,
-                    'data' => $data
+                    'data' => $data,
             );
         } else {
             $return = array(
                     'status' => 0,
-                    'data' => $info ['info']
+                    'data' => $info ['info'],
             );
         }
         if ($_REQUEST['ischannel']) {
@@ -2293,7 +2299,7 @@ class IndexAction extends BaseAction
         $this->assign('attach_id', $return ['data'] ['attach_id']);
         $this->assign('attach_src', $return ['data'] ['src']);
         $this->assign('attach_type', $return ['data'] ['type']);
-        
+
         $this->display('ajax_image_upload');
     }
     public function listbyid($uid = 0)
@@ -2315,7 +2321,7 @@ class IndexAction extends BaseAction
         // 分页模块
         // $count = D('W3gPage', 'w3g')->getWeiboCount($data['type'], $data['user_id']);
         $count = D('W3gPage', 'w3g')->getWeiboLatestId($data ['type'], $data ['user_id']);
-        $this->assign('count', ( int ) $count [0] ['feed_id']);
+        $this->assign('count', (int) $count [0] ['feed_id']);
         $this->assign('eachpage', $data ['count']); // weibo counts in eachpage
         /*
          * $maxWeiboID = $weibolist['0']['weibo_id'];
@@ -2329,20 +2335,20 @@ class IndexAction extends BaseAction
                     case 'postimage' :
                         $this->tVar ['weibolist'] [$key] ['type'] = 'repost-postimage';
                         break;
-                    
+
                     case 'postfile' :
                         $this->tVar ['weibolist'] [$key] ['type'] = 'repost-postfile';
                         foreach ($this->tVar ['weibolist'] [$key] ['transpond_data'] ['attach'] as $k => $v) {
                             if ($v ['size'] > 1024 && $v ['size'] < 1024 * 1024) {
-                                $this->tVar ['weibolist'] [$key] ['transpond_data'] ['attach'] [$k] ['size'] = round($v ['size'] / 1024, 2) . 'K';
+                                $this->tVar ['weibolist'] [$key] ['transpond_data'] ['attach'] [$k] ['size'] = round($v ['size'] / 1024, 2).'K';
                             } elseif ($v ['size'] < 1024) {
                                 $this->tVar ['weibolist'] [$key] ['transpond_data'] ['attach'] [$k] ['size'] .= 'B';
                             } else {
-                                $this->tVar ['weibolist'] [$key] ['transpond_data'] ['attach'] [$k] ['size'] = round($v ['size'] / 1024 / 1024, 2) . 'M';
+                                $this->tVar ['weibolist'] [$key] ['transpond_data'] ['attach'] [$k] ['size'] = round($v ['size'] / 1024 / 1024, 2).'M';
                             }
                         }
                         break;
-                    
+
                     case 'postvideo' :
                         $this->tVar ['weibolist'] [$key] ['type'] = 'repost-postvideo';
                         break;
@@ -2352,11 +2358,11 @@ class IndexAction extends BaseAction
             } elseif ($this->tVar ['weibolist'] [$key] ['type'] === 'postfile') {
                 foreach ($this->tVar ['weibolist'] [$key] ['attach'] as $k => $v) {
                     if ($v ['size'] > 1024 && $v ['size'] < 1024 * 1024) {
-                        $this->tVar ['weibolist'] [$key] ['attach'] [$k] ['size'] = round($v ['size'] / 1024, 2) . 'K';
+                        $this->tVar ['weibolist'] [$key] ['attach'] [$k] ['size'] = round($v ['size'] / 1024, 2).'K';
                     } elseif ($v ['size'] < 1024) {
                         $this->tVar ['weibolist'] [$key] ['attach'] [$k] ['size'] .= 'B';
                     } else {
-                        $this->tVar ['weibolist'] [$key] ['attach'] [$k] ['size'] = round($v ['size'] / 1024 / 1024, 2) . 'M';
+                        $this->tVar ['weibolist'] [$key] ['attach'] [$k] ['size'] = round($v ['size'] / 1024 / 1024, 2).'M';
                     }
                 }
             } elseif ($this->tVar ['weibolist'] [$key] ['type'] === 'weiba_repost') {
@@ -2389,7 +2395,7 @@ class IndexAction extends BaseAction
         $isMessage = 1;
         ($userPrivacy ['space'] == 1) && $isMessage = 0;
         $this->assign('sendmsg', $isMessage);
-        
+
         if ($userPrivacy === true || $userPrivacy ['space'] == 0) {
             $isAllowed = 1;
         }
@@ -2412,11 +2418,10 @@ class IndexAction extends BaseAction
         }
         $this->display();
     }
-    
+
     /**
      * 发送私信弹窗
      * 
-     * @return void
      */
     public function sendmsg()
     {
@@ -2427,7 +2432,7 @@ class IndexAction extends BaseAction
         // 是否能够编辑用户
         $editable = $_REQUEST ['editable'] === 0 ? 0 : 1;
         $this->assign('editable', $editable);
-        
+
         $this->display();
     }
     /**
@@ -2458,7 +2463,7 @@ class IndexAction extends BaseAction
             $fid_str = implode(',', $fids);
             $user_id_list = array();
             if ($name) {
-                $where = 'uid in(' . $fid_str . ') and uname like"%' . $name . '%"';
+                $where = 'uid in('.$fid_str.') and uname like"%'.$name.'%"';
                 $user_list = M('User')->where($where)->findAll();
                 is_array($user_list) and $user_id_list = getSubByKey($user_list, 'uid');
             } else {
@@ -2468,7 +2473,7 @@ class IndexAction extends BaseAction
             $str = '';
             foreach ($user_id_list as $gu) {
                 $u = model('User')->getUserInfoForSearch($gu, 'uid,uname');
-                $str .= '<ul><li class="ts-listen" data-listen="weibo-at-add" data-at="' . $u ['uname'] . '"><a href="javascript:void(0);"><img alt="' . $u ['uname'] . '" src="' . $u ['avatar_small'] . '">' . $u ['uname'] . '</a></li></ul>';
+                $str .= '<ul><li class="ts-listen" data-listen="weibo-at-add" data-at="'.$u ['uname'].'"><a href="javascript:void(0);"><img alt="'.$u ['uname'].'" src="'.$u ['avatar_small'].'">'.$u ['uname'].'</a></li></ul>';
             }
             echo $str;
             exit();
@@ -2477,7 +2482,7 @@ class IndexAction extends BaseAction
             exit();
         }
     }
-    
+
     // 获取推荐话题
     public function rec_topic()
     {
@@ -2495,7 +2500,7 @@ class IndexAction extends BaseAction
         $this->assign('topic_list', $list);
         $this->display();
     }
-    
+
     // 频道列表
     public function channel_list()
     {
@@ -2512,15 +2517,15 @@ class IndexAction extends BaseAction
             // }else{
             // $channels[$k]['image'][0] = SITE_URL.'/apps/channel/_static/image/api_big.png';
             // }
-            $small_image = D('channel')->where('channel_category_id=' . $v ['channel_category_id'] . ' and width>=196 and width<590 and height>=156 and height<245')->order('feed_id desc')->limit(6)->findAll();
+            $small_image = D('channel')->where('channel_category_id='.$v ['channel_category_id'].' and width>=196 and width<590 and height>=156 and height<245')->order('feed_id desc')->limit(6)->findAll();
             for ($i = 0; $i < 6; $i ++) {
-                $feed_data = unserialize(D('feed_data')->where('feed_id=' . $small_image [$i] ['feed_id'])->getField('feed_data'));
+                $feed_data = unserialize(D('feed_data')->where('feed_id='.$small_image [$i] ['feed_id'])->getField('feed_data'));
                 $small_image_info_3 = model('Attach')->getAttachById($feed_data ['attach_id'] [0]);
                 if (! $small_image [$i] || ! is_array($feed_data) || ! is_array($small_image_info_3)) {
                     continue;
                 }
                 // echo $small_image_info_3['save_path'].$small_image_info_3['save_name'];exit;
-                $channels [$k] ['image'] [$i + 1] = getImageUrl($small_image_info_3 ['save_path'] . $small_image_info_3 ['save_name'], 196, 156, true);
+                $channels [$k] ['image'] [$i + 1] = getImageUrl($small_image_info_3 ['save_path'].$small_image_info_3 ['save_name'], 196, 156, true);
                 $channels [$k] ['feed_id'] [$i + 1] = $small_image [$i] ['feed_id'];
             }
             // if($small_image[0]){

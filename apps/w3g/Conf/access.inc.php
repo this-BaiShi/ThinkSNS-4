@@ -16,6 +16,6 @@ return array(
             'w3g/Channel/*'                =>true, //广场页面
             'w3g/People/*'                =>true, //找伙伴
 
-    )
-         
+    ),
+
 );

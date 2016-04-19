@@ -19,7 +19,6 @@ defined('THINK_PATH') or exit();
  */
 class CacheApc extends Cache
 {
-
     /**
      * 架构函数
      * @param array $options 缓存参数
@@ -35,26 +34,27 @@ class CacheApc extends Cache
         $this->options['expire']    =   isset($options['expire'])?  $options['expire']  :   C('DATA_CACHE_TIME');
     }
 
-    /**
-     * 读取缓存
-     * @access public
-     * @param string $name 缓存变量名
-     * @return mixed
-     */
+     /**
+      * 读取缓存
+      * @access public
+      * @param string $name 缓存变量名
+      * @return mixed
+      */
      public function get($name)
      {
          N('cache_read', 1);
+
          return apc_fetch($this->options['prefix'].$name);
      }
 
-    /**
-     * 写入缓存
-     * @access public
-     * @param string $name 缓存变量名
-     * @param mixed $value  存储数据
-     * @param integer $expire  有效时间（秒）
-     * @return boolen
-     */
+     /**
+      * 写入缓存
+      * @access public
+      * @param string $name 缓存变量名
+      * @param mixed $value  存储数据
+      * @param int $expire  有效时间（秒）
+      * @return boolen
+      */
      public function set($name, $value, $expire = null)
      {
          N('cache_write', 1);
@@ -68,15 +68,16 @@ class CacheApc extends Cache
                 $this->queue($name);
              }
          }
+
          return $result;
      }
 
-    /**
-     * 删除缓存
-     * @access public
-     * @param string $name 缓存变量名
-     * @return boolen
-     */
+     /**
+      * 删除缓存
+      * @access public
+      * @param string $name 缓存变量名
+      * @return boolen
+      */
      public function rm($name)
      {
          return apc_delete($this->options['prefix'].$name);

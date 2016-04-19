@@ -36,7 +36,7 @@ class UploadWidget extends Widget
 
         if (!empty($var['attachIds'])) {
             !is_array($var['attachIds']) && $var['attachIds'] = explode(',', $var['attachIds']);
-            
+
             $attachInfo = model('Attach')->getAttachByIds($var['attachIds']);
             foreach ($attachInfo as $v) {
                 if ($var['uploadType'] == 'image') {
@@ -45,15 +45,15 @@ class UploadWidget extends Widget
                 $v['extension']  = strtolower($v['extension']);
                 $var['attachInfo'][] = $v;
             }
-         
+
             $var['attachIds'] = implode('|', $var['attachIds']);
         }
 
         //渲染模版
         $content = $this->renderFile(dirname(__FILE__)."/".$uploadTemplate, $var);
-        
+
         unset($var, $data);
-        
+
         //输出数据
         return $content;
     }
@@ -92,7 +92,7 @@ class UploadWidget extends Widget
             } else {
                 $data['src'] = $data['save_path'].$data['save_name'];
             }
-            
+
             $data['extension']  = strtolower($data['extension']);
             $return = array('status'=>1,'data'=>$data);
         } else {
@@ -118,14 +118,14 @@ class UploadWidget extends Widget
 
             $ajaxInfo['state'] = 'SUCCESS';
             //echo $ajaxInfo['url'];
-            echo "<script>parent.EditorList['".$editorId."'].getWidgetCallback('image')('" . $ajaxInfo[ "url" ] . "','" . $ajaxInfo[ "state" ] . "')</script>";
+            echo "<script>parent.EditorList['".$editorId."'].getWidgetCallback('image')('".$ajaxInfo[ "url" ]."','".$ajaxInfo[ "state" ]."')</script>";
             // exit(getImageUrl($return['data']['save_path'].$return['data']['save_name']));
         } else {
             echo json_encode($return);
             exit();
         }
     }
-    
+
     /** 
      * 编辑器图片上传
      * @return array 上传图片的路径及错误信息
@@ -145,7 +145,7 @@ class UploadWidget extends Widget
         echo json_encode($return);
         exit();
     }
-    
+
     /**
      * 编辑器文件上传
      * @return array 上传文件的信息
@@ -166,7 +166,7 @@ class UploadWidget extends Widget
         echo json_encode($return);
         exit();
     }
-    
+
     /**
      * 附件下载
      */
@@ -179,7 +179,7 @@ class UploadWidget extends Widget
         }
 
         $aid    =    intval($_GET['attach_id']);
-        
+
         $attach    =    model('Attach')->getAttachById($aid);
 
         if (!$attach) {

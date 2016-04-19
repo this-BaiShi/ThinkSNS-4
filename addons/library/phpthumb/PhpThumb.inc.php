@@ -70,7 +70,7 @@ class PhpThumb
      * @var array
      */
     protected $_implementations;
-    
+
     /**
      * Returns an instance of self
      * 
@@ -86,7 +86,7 @@ class PhpThumb
 
         return self::$_instance;
     }
-    
+
     /**
      * Class constructor
      * 
@@ -97,10 +97,10 @@ class PhpThumb
     {
         $this->_registry        = array();
         $this->_implementations    = array('gd' => false, 'imagick' => false);
-        
+
         $this->getImplementations();
     }
-    
+
     /**
      * Finds out what implementations are available
      * 
@@ -116,13 +116,13 @@ class PhpThumb
             if ($loaded) {
                 continue;
             }
-            
+
             if (extension_loaded($extension)) {
                 $this->_implementations[$extension] = true;
             }
         }
     }
-    
+
     /**
      * Returns whether or not $implementation is valid (available)
      * 
@@ -130,32 +130,32 @@ class PhpThumb
      * 
      * You can also pass 'n/a', which always returns true
      * 
-     * @return bool 
-     * @param string $implementation
+     * @return bool
+     * @param  string $implementation
      */
     public function isValidImplementation($implementation)
     {
         if ($implementation == 'n/a') {
             return true;
         }
-        
+
         if ($implementation == 'all') {
             foreach ($this->_implementations as $imp => $value) {
                 if ($value == false) {
                     return false;
                 }
             }
-            
+
             return true;
         }
-        
+
         if (array_key_exists($implementation, $this->_implementations)) {
             return $this->_implementations[$implementation];
         }
-        
+
         return false;
     }
-    
+
     /**
      * Registers a plugin in the registry
      * 
@@ -171,19 +171,20 @@ class PhpThumb
      *  - implementation - what implementation this plugin is valid for
      * 
      * @return bool
-     * @param string $pluginName
-     * @param string $implementation
+     * @param  string $pluginName
+     * @param  string $implementation
      */
     public function registerPlugin($pluginName, $implementation)
     {
         if (!array_key_exists($pluginName, $this->_registry) && $this->isValidImplementation($implementation)) {
             $this->_registry[$pluginName] = array('loaded' => false, 'implementation' => $implementation);
+
             return true;
         }
-        
+
         return false;
     }
-    
+
     /**
      * Loads all the plugins in $pluginPath
      * 
@@ -198,34 +199,34 @@ class PhpThumb
         if (substr($pluginPath, strlen($pluginPath) - 1, 1) == '/') {
             $pluginPath = substr($pluginPath, 0, strlen($pluginPath) - 1);
         }
-        
+
         if ($handle = opendir($pluginPath)) {
             while (false !== ($file = readdir($handle))) {
                 if ($file == '.' || $file == '..' || $file == '.svn') {
                     continue;
                 }
-                
-                include_once($pluginPath . '/' . $file);
+
+                include_once($pluginPath.'/'.$file);
             }
         }
     }
-    
+
     /**
      * Returns the plugin registry for the supplied implementation
      * 
      * @return array
-     * @param string $implementation
+     * @param  string $implementation
      */
     public function getPluginRegistry($implementation)
     {
         $returnArray = array();
-        
+
         foreach ($this->_registry as $plugin => $meta) {
             if ($meta['implementation'] == 'n/a' || $meta['implementation'] == $implementation) {
                 $returnArray[$plugin] = $meta;
             }
         }
-        
+
         return $returnArray;
     }
 }

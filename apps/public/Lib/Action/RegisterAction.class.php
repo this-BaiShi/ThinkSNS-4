@@ -15,7 +15,6 @@ class RegisterAction extends Action
 
     /**
      * 模块初始化，获取注册配置信息、用户模型对象、注册模型对象、邀请注册与站点头部信息设置
-     * @return void
      */
     protected function _initialize()
     {
@@ -45,7 +44,6 @@ class RegisterAction extends Action
     }
     /**
      * 默认注册页面 - 注册表单页面
-     * @return void
      */
     public function index()
     {
@@ -104,7 +102,6 @@ class RegisterAction extends Action
 
     /**
      * 第三方帐号集成 - 绑定本地帐号
-     * @return void
      */
     /*public function doBindStep1(){
 
@@ -138,7 +135,7 @@ class RegisterAction extends Action
     {
         $email = t($_POST['email']);
         $password = trim($_POST['password']);
-        
+
         $user = model('Passport')->getLocalUser($email, $password);
         if (isset($user['uid']) && $user['uid']>0) {
 
@@ -171,10 +168,9 @@ class RegisterAction extends Action
         }
     }
 
-    /**
-     * 第三方帐号集成 - 注册新账号
-     * @return void
-     */
+        /**
+         * 第三方帐号集成 - 注册新账号
+         */
 /*	public function doOtherStep1(){	
 
         $email = t($_POST['email']);
@@ -305,7 +301,7 @@ class RegisterAction extends Action
             $sex = isset($_POST['sex']) ? intval($_POST['sex']) : 1;
 
             $bindemail = model('AddonData')->get('login:bindemail');
-        
+
         //直接绑定
         if (!$bindemail && $_POST['direct']==1) {
             //邮箱是空的，需要完善邮箱
@@ -325,7 +321,7 @@ class RegisterAction extends Action
             if (!$this->_register_model->isValidName($uname)) {
                 $this->error($this->_register_model->getLastError());
             }
-            
+
             if (isset($_POST['email'])) {
                 if (!$this->_register_model->isValidEmail($email)) {
                     $this->error($this->_register_model->getLastError());
@@ -347,7 +343,7 @@ class RegisterAction extends Action
             $map['login'] = $email;
             $map['reg_ip'] = get_client_ip();
             $map['ctime'] = time();
-        
+
         // 添加地区信息
         $map['location'] = t($_POST['city_names']);
             $cityIds = t($_POST['city_ids']);
@@ -366,7 +362,7 @@ class RegisterAction extends Action
             $map['is_active'] = 1;
         }
             $map['first_letter'] = getFirstLetter($uname);
-        
+
         //如果包含中文将中文翻译成拼音
         if (preg_match('/[\x7f-\xff]+/', $map['uname'])) {
             //昵称和呢称拼音保存到搜索字段
@@ -374,7 +370,7 @@ class RegisterAction extends Action
         } else {
             $map['search_key'] = $map['uname'];
         }
-        
+
             $uid = $this->_user_model->add($map);
             if ($uid) {
 
@@ -433,7 +429,6 @@ class RegisterAction extends Action
 
     /**
      * 注册流程 - 执行第一步骤
-     * @return void
      */
     public function doStep1()
     {
@@ -459,7 +454,7 @@ class RegisterAction extends Action
             if (md5(strtoupper($_POST['verify'])) != $_SESSION['verify'] && false) {    //已关闭
                 $this->error('验证码错误');
             }
-                
+
             if (!$this->_register_model->isValidName($uname)) {
                 $this->error($this->_register_model->getLastError());
             }
@@ -617,7 +612,6 @@ class RegisterAction extends Action
 
     /**
      * 等待审核页面
-     * @return void
      */
     public function waitForAudit()
     {
@@ -669,7 +663,6 @@ class RegisterAction extends Action
 
     /**
      * 发送激活邮件
-     * @return void
      */
     public function resendActivationEmail()
     {
@@ -699,14 +692,13 @@ class RegisterAction extends Action
 
     /**
      * 通过链接激活帐号
-     * @return void
      */
     public function activate()
     {
         $user_info = $this->_user_model->getUserInfo($this->uid);
 
         $this->assign('user', $user_info);
-        
+
         if (!$user_info || $user_info['is_active']) {
             $this->redirect('public/Passport/login');
         }
@@ -729,7 +721,6 @@ class RegisterAction extends Action
 
     /**
      * 第二步注册
-     * @return void
      */
     public function step2()
     {
@@ -817,9 +808,9 @@ class RegisterAction extends Action
         if (in_array('intro', $required) && empty($_POST['intro'])) {
             $this->ajaxReturn(null, "想跳过，没门！请填写简介", 0);
         }
-        
+
         $data['sex'] = intval($_POST['sex']);
-        
+
         $data['location'] = t($_POST['city_names']);
         $cityIds = t($_POST['city_ids']);
         $cityIds = explode(',', $cityIds);
@@ -836,7 +827,7 @@ class RegisterAction extends Action
         $data['intro'] = t($_POST['intro']);
         $map['uid'] = $this->mid;
         model('User')->where($map)->save($data);
-        
+
         // 保存用户标签信息 - 前期用user_category_link现在修改为app_tag,此user_tag是选中的user_category_id
         $tagIds = t($_POST['user_tags']);
         !empty($tagIds) && $tagIds = explode(',', $tagIds);
@@ -855,7 +846,7 @@ class RegisterAction extends Action
             }
             model('Tag')->setAppName('public')->setAppTable('user')->updateTagData($rowId, $tagIdArr);
         }
-        
+
 
        /*
         $tagIds = t($_REQUEST['user_tags']);
@@ -913,7 +904,7 @@ class RegisterAction extends Action
         $this->setKeywords('选择感兴趣的人');
         $this->display();
     }
-    
+
     /**
      * 注册流程 - 第四步骤
      */
@@ -981,7 +972,6 @@ class RegisterAction extends Action
 
     /**
      * 获取推荐用户
-     * @return void
      */
     public function getRelatedUser()
     {
@@ -1017,7 +1007,7 @@ class RegisterAction extends Action
         if (!empty($defaultFollow)) {
             model('Follow')->bulkDoFollow($this->mid, $defaultFollow);
         }
-        
+
         //添加关注人员$defaultFollow = $_POST['fids']
         if ($_POST['fids']) {
             model('Follow')->bulkDoFollow($this->mid, $_POST['fids']);
@@ -1027,14 +1017,14 @@ class RegisterAction extends Action
         //$this->success('注册成功！');
         //redirect($GLOBALS['ts']['site']['home_url']);
     }
-    
+
     /**
      * 注册流程 - 执行第四步骤
      */
     public function setStep4()
     {
         set_time_limit(0);
-    
+
         // 添加默认关注用户
         $defaultFollow = $this->_config['default_follow'];
         $defaultFollow = array_diff(explode(',', $defaultFollow), explode(',', $eachFollow));
@@ -1045,11 +1035,11 @@ class RegisterAction extends Action
         if (!empty($eachFollow)) {
             model('Follow')->eachDoFollow($this->mid, $eachFollow);
         }
-    
+
         if (!empty($defaultFollow)) {
             model('Follow')->bulkDoFollow($this->mid, $defaultFollow);
         }
-        
+
         redirect($GLOBALS['ts']['site']['home_url']);
     }
 
@@ -1080,14 +1070,14 @@ class RegisterAction extends Action
         if ($sms->CheckCaptcha($phone, $code)) {
             echo json_encode(array(
                 'status' => true,
-                'info'   => '验证通过'
+                'info'   => '验证通过',
             ));
             exit;
         }
 
         echo json_encode(array(
             'status' => false,
-            'info'   => $sms->getMessage()
+            'info'   => $sms->getMessage(),
         ));
         exit;
 
@@ -1141,7 +1131,7 @@ class RegisterAction extends Action
 
     /**
      * 判断验证码是否正确
-     * @return boolean 若正确返回true，否则返回false
+     * @return bool 若正确返回true，否则返回false
      */
     public function isValidVerify()
     {
@@ -1153,14 +1143,14 @@ class RegisterAction extends Action
         if ($sms->CheckCaptcha($phone, $code)) {
             echo json_encode(array(
                 'status' => 1,
-                'info'   => '验证通过！'
+                'info'   => '验证通过！',
             ));
             exit;
         }
 
         echo json_encode(array(
             'status' => 0,
-            'info'   => $sms->getMessage()
+            'info'   => $sms->getMessage(),
         ));
         unset($sms);
         exit;
@@ -1180,7 +1170,7 @@ class RegisterAction extends Action
         if (md5(strtoupper($_POST['verify'])) != $_SESSION['verify']) {
             echo json_encode(array(
                 'status' => 0,
-                'data'   => '图像验证码错误！'
+                'data'   => '图像验证码错误！',
             ));
             exit;
         }
@@ -1194,26 +1184,26 @@ class RegisterAction extends Action
         if (0 >= preg_match('/^\+?[0\s]*[\d]{0,4}[\-\s]?\d{4,12}$/', $phone)) {
             echo json_encode(array(
                 'status' => 0,
-                'data'   => '不是正确的手机号码！'
+                'data'   => '不是正确的手机号码！',
             ));
 
         /* # 验证该手机号码是否已经注册 */
         } elseif (!model('User')->isChangePhone($phone)) {
             echo json_encode(array(
                 'status' => 0,
-                'data'   => '该手机已经被注册成用户，您无法发送验证码！'
+                'data'   => '该手机已经被注册成用户，您无法发送验证码！',
             ));
 
         /* # 检查是否发送成功 */
         } elseif (($sms = model('Sms')) and !$sms->sendCaptcha($phone, true)) {
             echo json_encode(array(
                 'status' => 0,
-                'data'   => $sms->getMessage()
+                'data'   => $sms->getMessage(),
             ));
         } else {
             echo json_encode(array(
                 'status' => 1,
-                'data'   => '发送成功，请注意查收！'
+                'data'   => '发送成功，请注意查收！',
             ));
         }
         exit;

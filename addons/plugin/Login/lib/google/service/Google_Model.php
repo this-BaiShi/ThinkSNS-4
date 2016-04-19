@@ -35,14 +35,13 @@ class Google_Model
    * Initialize this object's properties from an array.
    *
    * @param array $array Used to seed this object's properties.
-   * @return void
    */
   protected function mapTypes($array)
   {
       foreach ($array as $key => $val) {
           $this->$key = $val;
-          $keyTypeName = "__$key" . 'Type';
-          $keyDataType = "__$key" . 'DataType';
+          $keyTypeName = "__$key".'Type';
+          $keyDataType = "__$key".'DataType';
           if ($this->useObjects() && property_exists($this, $keyTypeName)) {
               if ($this->isAssociativeArray($val)) {
                   if (isset($this->$keyDataType) && 'map' == $this->$keyDataType) {
@@ -79,6 +78,7 @@ class Google_Model
               return true;
           }
       }
+
       return false;
   }
   /**
@@ -91,12 +91,14 @@ class Google_Model
   private function createObjectFromName($name, $item)
   {
       $type = $this->$name;
+
       return new $type($item);
   }
     protected function useObjects()
     {
         global $apiConfig;
-        return (isset($apiConfig['use_objects']) && $apiConfig['use_objects']);
+
+        return isset($apiConfig['use_objects']) && $apiConfig['use_objects'];
     }
   /**
    * Verify if $obj is an array.
@@ -109,7 +111,7 @@ class Google_Model
   {
       if ($obj && !is_array($obj)) {
           throw new Google_Exception("Incorrect parameter type passed to $method(), expected an"
-          . " array containing items of type $type.");
+          ." array containing items of type $type.");
       }
   }
 }

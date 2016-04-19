@@ -26,8 +26,8 @@
      * Returns metadata about the search performed, metadata about the custom search engine used for the
      * search, and the search results. (cse.list)
      *
-     * @param string $q Query
-     * @param array $optParams Optional parameters.
+     * @param string $q         Query
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string sort The sort expression to apply to the results
      * @opt_param string orTerms Provides additional search terms to check for in a document, where each document in the search results must contain at least one of the additional search terms

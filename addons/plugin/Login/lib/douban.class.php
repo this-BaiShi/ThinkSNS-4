@@ -1,4 +1,5 @@
 <?php
+
 require_once 'douban/OAuth.php';
 require_once 'douban/doubanOAuth.php';
 class douban
@@ -27,9 +28,10 @@ class douban
         if (empty($this->_authorize_url)) {
             $client = new DoubanOAuth($this->_douban_key, $this->_douban_secret);
             $request_token = $client->getRequestToken();
-            $this->_authorize_url = $client->getAuthorizeURL($request_token) . '&oauth_callback=' . urlencode($call_back);
+            $this->_authorize_url = $client->getAuthorizeURL($request_token).'&oauth_callback='.urlencode($call_back);
         }
         $_SESSION['douban']['request_token'] = $request_token;
+
         return $this->_authorize_url;
     }
     public function checkUser()
@@ -42,6 +44,7 @@ class douban
         if ($access_token['oauth_token']) {
             $_SESSION['douban']['access_token'] = $access_token;
             $_SESSION['open_platform_type'] = 'douban';
+
             return true;
         } else {
             return false;
@@ -60,9 +63,9 @@ class douban
         $userInfo['id']            = $uid_and_icon['id'];
         $userInfo['uname']        = (string) $res->title;
         $userInfo['userface']    = $uid_and_icon['icon'];
-        $userInfo['signature']    = (string)$res->content;
-        $userInfo['location']    = (string)$res->children('http://www.douban.com/xmlns/')->location;
-        
+        $userInfo['signature']    = (string) $res->content;
+        $userInfo['location']    = (string) $res->children('http://www.douban.com/xmlns/')->location;
+
         return $userInfo;
     }
     private function __getUidAndIcon($res)
@@ -83,6 +86,7 @@ class douban
                 break ;
             }
         }
+
         return $uid_and_icon;
     }
     //发布一条分享

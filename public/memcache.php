@@ -62,6 +62,7 @@ function sendMemcacheCommands($command)
         $port = $strs[1];
         $result[$server] = sendMemcacheCommand($host, $port, $command);
     }
+
     return $result;
 }
 function sendMemcacheCommand($server, $port, $command)
@@ -87,6 +88,7 @@ function sendMemcacheCommand($server, $port, $command)
         }
     }
     fclose($s);
+
     return parseMemcacheResults($buf);
 }
 function parseMemcacheResults($str)
@@ -109,6 +111,7 @@ function parseMemcacheResults($str)
             return $line;
         }
     }
+
     return $res;
 }
 
@@ -124,6 +127,7 @@ function flushServer($server)
 {
     list($host, $port) = explode(':', $server);
     $resp = sendMemcacheCommand($host, $port, 'flush_all');
+
     return $resp;
 }
 function getCacheItems()
@@ -149,6 +153,7 @@ function getCacheItems()
             }
         }
     }
+
     return array('items'=>$serverItems,'counts'=>$totalItems);
 }
 function getMemcacheStats($total=true)
@@ -231,8 +236,10 @@ function getMemcacheStats($total=true)
                 }
             }
         }
+
         return $res;
     }
+
     return $resp;
 }
 
@@ -248,12 +255,12 @@ header("Pragma: no-cache");                                    // HTTP/1.0
 function duration($ts)
 {
     global $time;
-    $years = (int)((($time - $ts)/(7*86400))/52.177457);
-    $rem = (int)(($time-$ts)-($years * 52.177457 * 7 * 86400));
-    $weeks = (int)(($rem)/(7*86400));
-    $days = (int)(($rem)/86400) - $weeks*7;
-    $hours = (int)(($rem)/3600) - $days*24 - $weeks*7*24;
-    $mins = (int)(($rem)/60) - $hours*60 - $days*24*60 - $weeks*7*24*60;
+    $years = (int) ((($time - $ts)/(7*86400))/52.177457);
+    $rem = (int) (($time-$ts)-($years * 52.177457 * 7 * 86400));
+    $weeks = (int) (($rem)/(7*86400));
+    $days = (int) (($rem)/86400) - $weeks*7;
+    $hours = (int) (($rem)/3600) - $days*24 - $weeks*7*24;
+    $mins = (int) (($rem)/60) - $hours*60 - $days*24*60 - $weeks*7*24*60;
     $str = '';
     if ($years==1) {
         $str .= "$years year, ";
@@ -284,6 +291,7 @@ function duration($ts)
     } else {
         $str .= " $mins minutes";
     }
+
     return $str;
 }
 
@@ -302,6 +310,7 @@ function bsize($s)
         }
         $s/=1024;
     }
+
     return sprintf("%5.1f %sBytes", $s, $k);
 }
 
@@ -312,6 +321,7 @@ function menu_entry($ob, $title)
     if ($ob==$_GET['op']) {
         return "<li><a class=\"child_active\" href=\"$PHP_SELF&op=$ob\">$title</a></li>";
     }
+
     return "<li><a class=\"active\" href=\"$PHP_SELF&op=$ob\">$title</a></li>";
 }
 
@@ -731,7 +741,7 @@ switch ($_GET['op']) {
 		<table cellspacing=0><tbody>
 		<tr class=tr-1><td class=td-0>PHP Version</td><td>$phpversion</td></tr>
 EOB;
-        echo "<tr class=tr-0><td class=td-0>Memcached Host". ((count($MEMCACHE_SERVERS)>1) ? 's':'')."</td><td>";
+        echo "<tr class=tr-0><td class=td-0>Memcached Host".((count($MEMCACHE_SERVERS)>1) ? 's':'')."</td><td>";
         $i=0;
         if (!isset($_GET['singleout']) && count($MEMCACHE_SERVERS)>1) {
             foreach ($MEMCACHE_SERVERS as $server) {
@@ -871,7 +881,7 @@ EOB;
         // somebody has to do a fix to this.
         $theKey = htmlentities(base64_decode($_GET['key']));
 
-        $theserver = $MEMCACHE_SERVERS[(int)$_GET['server']];
+        $theserver = $MEMCACHE_SERVERS[(int) $_GET['server']];
         list($h, $p) = explode(':', $theserver);
         $r = sendMemcacheCommand($h, $p, 'get '.$theKey);
         echo <<<EOB
@@ -882,7 +892,7 @@ EOB;
              " <br/>flag:",$r['VALUE'][$theKey]['stat']['flag'],
              " <br/>Size:",bsize($r['VALUE'][$theKey]['stat']['size']),
              "</td><td>",chunk_split($r['VALUE'][$theKey]['value'], 40),"</td>",
-             '<td><a href="',$PHP_SELF,'&op=5&server=',(int)$_GET['server'],'&key=',base64_encode($theKey),"\">Delete</a></td>","</tr>";
+             '<td><a href="',$PHP_SELF,'&op=5&server=',(int) $_GET['server'],'&key=',base64_encode($theKey),"\">Delete</a></td>","</tr>";
         echo <<<EOB
 			</tbody></table>
 			</div><hr/>
@@ -894,14 +904,14 @@ EOB;
             break;
         }
         $theKey = htmlentities(base64_decode($_GET['key']));
-        $theserver = $MEMCACHE_SERVERS[(int)$_GET['server']];
+        $theserver = $MEMCACHE_SERVERS[(int) $_GET['server']];
         list($h, $p) = explode(':', $theserver);
         $r = sendMemcacheCommand($h, $p, 'delete '.$theKey);
         echo 'Deleting '.$theKey.':'.$r;
     break;
 
    case 6: // flush server
-        $theserver = $MEMCACHE_SERVERS[(int)$_GET['server']];
+        $theserver = $MEMCACHE_SERVERS[(int) $_GET['server']];
         $r = flushServer($theserver);
         echo 'Flush  '.$theserver.":".$r;
    break;

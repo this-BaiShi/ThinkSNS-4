@@ -25,7 +25,7 @@
       /**
      * (userinfo.get)
      *
-     * @param array $optParams Optional parameters.
+     * @param  array           $optParams Optional parameters.
      * @return Google_Userinfo
      */
     public function get($optParams = array())
@@ -64,7 +64,7 @@
       /**
      * (me.get)
      *
-     * @param array $optParams Optional parameters.
+     * @param  array           $optParams Optional parameters.
      * @return Google_Userinfo
      */
     public function get($optParams = array())

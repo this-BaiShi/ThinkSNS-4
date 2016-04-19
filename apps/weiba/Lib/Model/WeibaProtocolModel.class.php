@@ -5,7 +5,6 @@
  */
 class WeibaProtocolModel extends Model
 {
-
     // 假删除用户数据
     public function deleteUserAppData($uidArr)
     {
@@ -30,7 +29,7 @@ class WeibaProtocolModel extends Model
         M('weiba_reply')->where("uid in ($uidStr) or post_uid in ($uidStr)")->delete();
         M('weiba_follow')->where("follower_uid in ($uidStr)")->delete();
     }
-    
+
     // 共同处理方法
     public function _deal($uidArr, $type)
     {
@@ -148,6 +147,7 @@ class WeibaProtocolModel extends Model
             $tpl = APPS_PATH.'/weiba/Tpl/default/Index/profileContent.html';
         }
         $post_list['uid'] = $uid;
+
         return fetch($tpl, $post_list);
     }
 
@@ -164,11 +164,12 @@ class WeibaProtocolModel extends Model
             M('weiba')->where($map)->setField('new_count', 0);
         }
         if ($num > 0) {
-            M('weiba')->where($map)->setField('new_count', (int)$num+(int)$weiba['new_count']);
+            M('weiba')->where($map)->setField('new_count', (int) $num+(int) $weiba['new_count']);
         }
+
         return true;
     }
-    
+
     public function getFollowStateByWeibaids($uid, $weiba_ids)
     {
         $_weibaids = is_array($weiba_ids) ? implode(',', $weiba_ids) : $weiba_ids;
@@ -176,17 +177,18 @@ class WeibaProtocolModel extends Model
             return array();
         }
         $follow_data = M('weiba_follow')->where(" ( follower_uid = '{$uid}' AND weiba_id IN({$_weibaids}) ) ")->findAll();
-    
+
         $follow_states = $this->_formatFollowState($uid, $weiba_ids, $follow_data);
+
         return $follow_states [$uid];
     }
-    
+
     private function _formatFollowState($uid, $weiba_ids, $follow_data)
     {
         ! is_array($weiba_ids) && $fids = explode(',', $weiba_ids);
         foreach ($weiba_ids as $weiba_ids) {
             $follow_states [$uid] [$weiba_ids] = array(
-                    'following' => 0
+                    'following' => 0,
             );
         }
         foreach ($follow_data as $r_v) {
@@ -194,10 +196,10 @@ class WeibaProtocolModel extends Model
                 $follow_states [$r_v ['follower_uid']] [$r_v ['weiba_id']] ['following'] = 1;
             }
         }
-    
+
         return $follow_states;
     }
-    
+
     private function _getWeibaName($weiba_ids)
     {
         $weiba_ids = array_unique($weiba_ids);
@@ -209,6 +211,7 @@ class WeibaProtocolModel extends Model
         foreach ($names as $n) {
             $nameArr[$n['weiba_id']] = $n['weiba_name'];
         }
+
         return $nameArr;
     }
 }

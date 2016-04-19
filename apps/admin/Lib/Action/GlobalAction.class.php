@@ -1,7 +1,7 @@
 <?php
+
 class GlobalAction extends AdministratorAction
 {
-
     private function __isValidRequest($field, $array = 'post')
     {
         $field = is_array($field) ? $field : explode(',', $field);
@@ -12,10 +12,11 @@ class GlobalAction extends AdministratorAction
                 return false;
             }
         }
+
         return true;
     }
 
-    /** 系统配置 - 积分配置 **/
+/** 系统配置 - 积分配置 **/
     //积分类别设置
     public function creditType()
     {
@@ -35,7 +36,7 @@ class GlobalAction extends AdministratorAction
         }
 
         $this->assign('type', $type);
-        
+
         $typeArr = array('score', 'experience'); //这两个类型的积分类别名不能被修改
         if (in_array($creditType['name'], $typeArr) && $type=='edit') {
             $this->assign('forbidEdit', true);
@@ -79,7 +80,7 @@ class GlobalAction extends AdministratorAction
             S('_service_credit_type', null);
             // 数据表缓存
             D('credit_user')->flush();
-            
+
             $this->assign('jumpUrl', U('admin/Global/creditType'));
             $this->success('保存成功');
         } else {
@@ -102,12 +103,12 @@ class GlobalAction extends AdministratorAction
         $creditTypeDao = M('credit_type');
         //获取原字段名
         $oldName = $creditTypeDao->find($_POST['id']);
-        
+
         $typeArr = array('score', 'experience'); //这两个类型的积分类别名不能被修改
         if (in_array($oldName, $typeArr)) {
             unset($_POST['name']);
         }
-        
+
         //修改字段名
         $res = $creditTypeDao->save($_POST);
 
@@ -142,6 +143,7 @@ class GlobalAction extends AdministratorAction
         $ids = explode(',', $ids);
         if (empty($ids)) {
             echo 0;
+
             return ;
         }
 
@@ -149,7 +151,7 @@ class GlobalAction extends AdministratorAction
         $creditTypeDao = M('credit_type');
         //获取字段名
         $typeName = $creditTypeDao->where($map)->findAll();
-        
+
         $typeArr = array('score', 'experience'); // 这两个类型的积分类别名不能被修改
         foreach ($typeName as $type) {
             if (in_array($type['name'], $typeArr)) {
@@ -253,7 +255,7 @@ class GlobalAction extends AdministratorAction
 
         $this->assign('credit', $credit);
         $this->assign('type', 'edit');
-               
+
         $this->display();
     }
     public function doEditCredit()
@@ -308,6 +310,7 @@ class GlobalAction extends AdministratorAction
         $ids = explode(',', $ids);
         if (empty($ids)) {
             echo 0;
+
             return ;
         }
 
@@ -510,6 +513,7 @@ class GlobalAction extends AdministratorAction
         $ids = explode(',', $ids);
         if (empty($ids)) {
             echo 0;
+
             return ;
         }
 

@@ -71,6 +71,7 @@ class DiggWidget extends Widget
             }
         }
         $html .= "</span>";
+
         return $html;
     }
 }

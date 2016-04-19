@@ -139,7 +139,7 @@ tsdefine('CANVAS_PATH', SITE_PATH.'/config/canvas/');
 /* 临时兼容代码，新方法开发中 */
 $timer = sprintf('%s%s/app/timer', TS_ROOT, TS_STORAGE);
 if (
-    !file_exists($timer) || 
+    !file_exists($timer) ||
     (time() - file_get_contents($timer)) > 604800 // 七天更新一次
 ) {
     \Ts\Helper\AppInstall::moveAllApplicationResources(); // 移动应用所有的资源
@@ -179,7 +179,7 @@ if (C('DEPLOY_STATIC')) {
 }
 
 // # 加载通用验证类
-tsload(ADDON_PATH . '/utility/MedzValidator.php');
+tsload(ADDON_PATH.'/utility/MedzValidator.php');
 
 //载入插件钩子
 //$ts['_config']['hooks']	=	array('app_init'=>array('check_access','check_access2'));
@@ -193,4 +193,3 @@ tsload(CORE_LIB_PATH.'/App.class.php');
 //tsload(CORE_LIB_PATH.'/Widget.class.php');
 tsload(CORE_LIB_PATH.'/Api.class.php');
 //tsload(CORE_LIB_PATH.'/Page.class.php');
-

@@ -49,7 +49,7 @@ if ($verify_result) {
     } else {
         echo "trade_status=".$_GET['trade_status'];
     }
-        
+
     echo "验证成功<br />";
 
     //——请根据您的业务逻辑来编写程序（以上代码仅作参考）——

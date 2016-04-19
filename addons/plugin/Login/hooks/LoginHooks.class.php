@@ -1,4 +1,5 @@
 <?php
+
 class LoginHooks extends Hooks
 {
     //站点配置
@@ -64,7 +65,7 @@ class LoginHooks extends Hooks
             $return = $sina->getTokenInfo($login['oauth_token']);
             if (isset($return['create_at']) && isset($return['expire_in']) && ($return['create_at'] + $return['expire_in']) < time()) {
                 $url = $sina->getUrl();
-                $text = '<dl class="pop_sync"><dt></dt>您绑定的' . $type . '帐号已过期，请<dd><a class="btn-att-green" href="' . $url . '">重新绑定</a></dd></dl>';
+                $text = '<dl class="pop_sync"><dt></dt>您绑定的'.$type.'帐号已过期，请<dd><a class="btn-att-green" href="'.$url.'">重新绑定</a></dd></dl>';
                 echo "<script>ui.box.show('{$text}', '绑定帐号')</script>";
             }
         }
@@ -222,7 +223,7 @@ class LoginHooks extends Hooks
         //可绑定平台
         $validAlias = self::$validAlias;
         //用户已绑定数据
-        $bind = M('login')->where('uid=' . $this->mid)->findAll();
+        $bind = M('login')->where('uid='.$this->mid)->findAll();
         //检查可同步的平台的key值是否可用
         $config = model('AddonData')->lget('login');
         //dump($config);
@@ -312,7 +313,7 @@ class LoginHooks extends Hooks
             $call_back_url = Addons::createAddonShow('Login', 'no_register_display', array('type'=>$type, 'do'=>"bind"));
             $url = $platform->getUrl($call_back_url);
             // Session::pause();
-            echo '<dl class="pop_sync"><dt></dt>您还未绑定' . $type . '帐号, 请点这里<dd><a class="btn-att-green" href="' . $url . '">开始绑定</a></dd></dl>';
+            echo '<dl class="pop_sync"><dt></dt>您还未绑定'.$type.'帐号, 请点这里<dd><a class="btn-att-green" href="'.$url.'">开始绑定</a></dd></dl>';
             exit();
         }
     }
@@ -347,7 +348,7 @@ class LoginHooks extends Hooks
         //TODO:增加缓存
         $bind = unserialize((S('user_login_'.$this->mid)));
         if (false === $bind) {
-            $bind = M('login')->where('uid=' . $this->mid)->findAll();
+            $bind = M('login')->where('uid='.$this->mid)->findAll();
             S('user_login_'.$this->mid, serialize($bind));
         }
 
@@ -446,6 +447,7 @@ class LoginHooks extends Hooks
                     break;
                 default:
                     $syncData = $platform->update($content.' '.$feed_url, $v);
+
                     return;
                 }
                 //记录发的新分享到数据库
@@ -473,12 +475,12 @@ class LoginHooks extends Hooks
         $result = array();
 
         $opt = M('login')->where("uid=".intval($data['uid'])." and is_sync=1")->findAll();
-        
+
         //检查该分享数据
         $map['weiboId'] = $post['transpond_id'];
 
         $data = M('login_weibo')->field("qqId,sinaId")->where($map)->find();
-        
+
         foreach ($opt as $value) {
             $type  = $value['type'];
             if (!in_array($type, self::$validPublish)) {
@@ -536,16 +538,17 @@ class LoginHooks extends Hooks
                 $result ['status']  = 0;
                 $result ['url']     = SITE_URL;
                 $result ['info']    = "获取用户信息失败";
+
                 return;
             }
 
             //检查是否存在这个用户的登录信息
-            if ($info = D('Login')->where("`type_uid`='" . $userinfo ['id'] . "' AND type='{$type}'")->find()) {
+            if ($info = D('Login')->where("`type_uid`='".$userinfo ['id']."' AND type='{$type}'")->find()) {
                 //获取用户信息
-                $user = D('User')->where("uid=" . $info ['uid'])->find();
+                $user = D('User')->where("uid=".$info ['uid'])->find();
                 // 未在本站找到用户信息, 删除用户站外信息,让用户重新登录
                 if (empty($user)) {
-                    D('Login')->where("type_uid=" . $userinfo ['id'] . " AND type='{$type}'")->delete();
+                    D('Login')->where("type_uid=".$userinfo ['id']." AND type='{$type}'")->delete();
                 //已经绑定过，执行登录操作，设置token
                 } else {
                     if ($info ['oauth_token'] == '') {
@@ -558,6 +561,7 @@ class LoginHooks extends Hooks
                     $result ['status'] = 1;
                     $result ['url'] = $GLOBALS['ts']['site']['home_url'];
                     $result ['info'] = "同步登录成功";
+
                     return;
                 }
             }
@@ -626,6 +630,7 @@ class LoginHooks extends Hooks
             $result ['status'] = 0;
             $result ['url'] = U('public/Widget/displayAddons', array("class" => __CLASS__, 'type' => "{$type}"  ));
             $result ['info'] = "获取用户信息失败";
+
             return;
         }
 
@@ -636,8 +641,8 @@ class LoginHooks extends Hooks
         $syncdata ['oauth_token_secret'] = $_SESSION [$type] ['access_token'] ['oauth_token_secret'];
         $syncdata ['is_sync'] = ($_SESSION [$type] ['isSync'])?$_SESSION [$type] ['isSync']:'1';
         S('user_login_'.$this->mid, null);
-        
-        if ($info = M('login')->where("type_uid={$userinfo['id']} AND type='" . $type . "'")->find()) {
+
+        if ($info = M('login')->where("type_uid={$userinfo['id']} AND type='".$type."'")->find()) {
             // 该新浪用户已在本站存在, 将其与当前用户关联(即原用户ID失效)
             M('login')->where("`login_id`={$info['login_id']}")->save($syncdata);
         } else {
@@ -663,6 +668,7 @@ class LoginHooks extends Hooks
         if (! isset(self::$validLogin [$_POST ['type']])) {
             $result ['status'] = 0;
             $result ['info'] = "参数错误";
+
             return;
         }
 
@@ -676,6 +682,7 @@ class LoginHooks extends Hooks
             $result ['status'] = 0;
             $result ['jumpUrl'] = SITE_URL;
             $result ['info'] = "获取用户信息失败";
+
             return;
         }
         //如果该类型的绑定已经进行过，则是系统异常。正确流程并不会进行两次绑定
@@ -686,6 +693,7 @@ class LoginHooks extends Hooks
             $result ['status'] = 0;
             $result ['jumpUrl'] = SITE_URL;
             $result ['info'] = "该帐号已经绑定了其他新浪分享帐号";
+
             return;
         }
 
@@ -700,7 +708,7 @@ class LoginHooks extends Hooks
         $syncdata ['type_uid'] = $userinfo ['id'];
         $syncdata ['type'] = $type;
 
-        S('user_login_'. $user['uid'], null);
+        S('user_login_'.$user['uid'], null);
 
         if (D('login')->add($syncdata)) {
             $res = model('Passport')->loginLocalWithoutPassword($user['uname'], true);
@@ -708,17 +716,20 @@ class LoginHooks extends Hooks
                 $result ['status'] = 1;
                 $result ['jumpUrl'] = U('square/Index/index');
                 $result ['info'] = "绑定成功";
+
                 return true;
             } else {
                 $result ['status'] = 0;
                 $result ['jumpUrl'] = SITE_URL;
                 $result ['info'] = "绑定失败";
+
                 return false;
             }
         } else {
             $result ['status'] = 0;
             $result ['jumpUrl'] = SITE_URL;
             $result ['info'] = "绑定失败";
+
             return false;
         }
     }
@@ -728,6 +739,7 @@ class LoginHooks extends Hooks
         if (! isset(self::$validLogin [$type])) {
             $result ['status'] = 0;
             $result ['info'] = "参数错误";
+
             return;
         }
 
@@ -735,15 +747,17 @@ class LoginHooks extends Hooks
         if (!model('Register')->isValidEmail($email)) {
             $result ['status'] = 0;
             $result ['info'] = model('Register')->getLastError();
+
             return;
         }
 
         if (!model('Register')->isValidPassword($password, $repassword)) {
             $result ['status'] = 0;
             $result ['info'] = model('Register')->getLastError();
+
             return;
         }
-        
+
         // if (! isLegalUsername ( t ( $_POST ['uname'] ) )) {
         //     $result ['status'] = 0;
         //     $result ['info'] = "昵称格式不正确";
@@ -767,6 +781,7 @@ class LoginHooks extends Hooks
             $result ['status'] = 0;
             $result ['jumpUrl'] = SITE_URL;
             $result ['info'] = "获取用户信息失败";
+
             return;
         }
 
@@ -796,7 +811,7 @@ class LoginHooks extends Hooks
         } else {
             $data['search_key'] = $data['uname'];
         }
-        
+
         if ($id = D('user')->add($data)) {
             // 记录至同步登录表
             $syncdata ['uid'] = $id;
@@ -815,6 +830,7 @@ class LoginHooks extends Hooks
         } else {
             $result ['status'] = 0;
             $result ['info'] = "同步帐号发生错误";
+
             return false;
         }
     }
@@ -1028,7 +1044,7 @@ class LoginHooks extends Hooks
 
     private function _loginSuccessOnClient($local_uid, $type)
     {
-        if ($login = M('login')->where("uid=" . $local_uid . " AND type='location'")->find()) {
+        if ($login = M('login')->where("uid=".$local_uid." AND type='location'")->find()) {
             $data['oauth_token']         = $login['oauth_token'];
             $data['oauth_token_secret']  = $login['oauth_token_secret'];
             $data['uid']                 = $local_uid;
@@ -1147,7 +1163,7 @@ class LoginHooks extends Hooks
                 }
                 !defined(strtoupper($value)) && define(strtoupper($value), $config[$value]);
             }
-            include_once $this->path . "/lib/{$type}.class.php";
+            include_once $this->path."/lib/{$type}.class.php";
         }
     }
 }

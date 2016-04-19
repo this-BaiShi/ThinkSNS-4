@@ -19,7 +19,6 @@
  */
 abstract class Modelite
 {
-
     // 最近错误信息
     protected $error = '';
 
@@ -39,7 +38,7 @@ abstract class Modelite
     protected function _initialize()
     {
     }
-    
+
     // 获取最近的错误信息
     public function getError()
     {

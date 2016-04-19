@@ -26,7 +26,7 @@
      * Insert a new file. (files.insert)
      *
      * @param Google_DriveFile $postBody
-     * @param array $optParams Optional parameters.
+     * @param array            $optParams Optional parameters.
      *
      * @opt_param bool convert Whether to convert this file to the corresponding Google Docs format.
      * @opt_param string targetLanguage Target language to translate the file to. If no sourceLanguage is provided, the API will attempt to detect the language.
@@ -52,8 +52,8 @@
     /**
      * Restores a file from the trash. (files.untrash)
      *
-     * @param string $fileId The ID of the file to untrash.
-     * @param array $optParams Optional parameters.
+     * @param  string           $fileId    The ID of the file to untrash.
+     * @param  array            $optParams Optional parameters.
      * @return Google_DriveFile
      */
     public function untrash($fileId, $optParams = array())
@@ -70,8 +70,8 @@
     /**
      * Moves a file to the trash. (files.trash)
      *
-     * @param string $fileId The ID of the file to trash.
-     * @param array $optParams Optional parameters.
+     * @param  string           $fileId    The ID of the file to trash.
+     * @param  array            $optParams Optional parameters.
      * @return Google_DriveFile
      */
     public function trash($fileId, $optParams = array())
@@ -88,8 +88,8 @@
     /**
      * Gets a file's metadata by ID. (files.get)
      *
-     * @param string $fileId The ID for the file in question.
-     * @param array $optParams Optional parameters.
+     * @param string $fileId    The ID for the file in question.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param bool updateViewedDate Whether to update the view date after successfully retrieving the file.
      * @opt_param string projection This parameter is deprecated and has no function.
@@ -131,9 +131,9 @@
     /**
      * Updates file metadata and/or content (files.update)
      *
-     * @param string $fileId The ID of the file to update.
+     * @param string           $fileId    The ID of the file to update.
      * @param Google_DriveFile $postBody
-     * @param array $optParams Optional parameters.
+     * @param array            $optParams Optional parameters.
      *
      * @opt_param bool convert Whether to convert this file to the corresponding Google Docs format.
      * @opt_param string targetLanguage Target language to translate the file to. If no sourceLanguage is provided, the API will attempt to detect the language.
@@ -162,9 +162,9 @@
     /**
      * Updates file metadata and/or content. This method supports patch semantics. (files.patch)
      *
-     * @param string $fileId The ID of the file to update.
+     * @param string           $fileId    The ID of the file to update.
      * @param Google_DriveFile $postBody
-     * @param array $optParams Optional parameters.
+     * @param array            $optParams Optional parameters.
      *
      * @opt_param bool convert Whether to convert this file to the corresponding Google Docs format.
      * @opt_param string targetLanguage Target language to translate the file to. If no sourceLanguage is provided, the API will attempt to detect the language.
@@ -193,8 +193,8 @@
     /**
      * Set the file's updated time to the current server time. (files.touch)
      *
-     * @param string $fileId The ID of the file to update.
-     * @param array $optParams Optional parameters.
+     * @param  string           $fileId    The ID of the file to update.
+     * @param  array            $optParams Optional parameters.
      * @return Google_DriveFile
      */
     public function touch($fileId, $optParams = array())
@@ -211,9 +211,9 @@
     /**
      * Creates a copy of the specified file. (files.copy)
      *
-     * @param string $fileId The ID of the file to copy.
+     * @param string           $fileId    The ID of the file to copy.
      * @param Google_DriveFile $postBody
-     * @param array $optParams Optional parameters.
+     * @param array            $optParams Optional parameters.
      *
      * @opt_param bool convert Whether to convert this file to the corresponding Google Docs format.
      * @opt_param string targetLanguage Target language to translate the file to. If no sourceLanguage is provided, the API will attempt to detect the language.
@@ -239,14 +239,15 @@
     /**
      * Permanently deletes a file by ID. Skips the trash. (files.delete)
      *
-     * @param string $fileId The ID of the file to delete.
-     * @param array $optParams Optional parameters.
+     * @param string $fileId    The ID of the file to delete.
+     * @param array  $optParams Optional parameters.
      */
     public function delete($fileId, $optParams = array())
     {
         $params = array('fileId' => $fileId);
         $params = array_merge($params, $optParams);
         $data = $this->__call('delete', array($params));
+
         return $data;
     }
   }
@@ -295,7 +296,7 @@
       /**
      * Lists a user's apps. (apps.list)
      *
-     * @param array $optParams Optional parameters.
+     * @param  array          $optParams Optional parameters.
      * @return Google_AppList
      */
     public function listApps($optParams = array())
@@ -312,8 +313,8 @@
     /**
      * Gets a specific app. (apps.get)
      *
-     * @param string $appId The ID of the app.
-     * @param array $optParams Optional parameters.
+     * @param  string     $appId     The ID of the app.
+     * @param  array      $optParams Optional parameters.
      * @return Google_App
      */
     public function get($appId, $optParams = array())
@@ -341,9 +342,9 @@
       /**
      * Adds a parent folder for a file. (parents.insert)
      *
-     * @param string $fileId The ID of the file.
-     * @param Google_ParentReference $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string                 $fileId    The ID of the file.
+     * @param  Google_ParentReference $postBody
+     * @param  array                  $optParams Optional parameters.
      * @return Google_ParentReference
      */
     public function insert($fileId, Google_ParentReference $postBody, $optParams = array())
@@ -360,9 +361,9 @@
     /**
      * Gets a specific parent reference. (parents.get)
      *
-     * @param string $fileId The ID of the file.
-     * @param string $parentId The ID of the parent.
-     * @param array $optParams Optional parameters.
+     * @param  string                 $fileId    The ID of the file.
+     * @param  string                 $parentId  The ID of the parent.
+     * @param  array                  $optParams Optional parameters.
      * @return Google_ParentReference
      */
     public function get($fileId, $parentId, $optParams = array())
@@ -379,8 +380,8 @@
     /**
      * Lists a file's parents. (parents.list)
      *
-     * @param string $fileId The ID of the file.
-     * @param array $optParams Optional parameters.
+     * @param  string            $fileId    The ID of the file.
+     * @param  array             $optParams Optional parameters.
      * @return Google_ParentList
      */
     public function listParents($fileId, $optParams = array())
@@ -397,15 +398,16 @@
     /**
      * Removes a parent from a file. (parents.delete)
      *
-     * @param string $fileId The ID of the file.
-     * @param string $parentId The ID of the parent.
-     * @param array $optParams Optional parameters.
+     * @param string $fileId    The ID of the file.
+     * @param string $parentId  The ID of the parent.
+     * @param array  $optParams Optional parameters.
      */
     public function delete($fileId, $parentId, $optParams = array())
     {
         $params = array('fileId' => $fileId, 'parentId' => $parentId);
         $params = array_merge($params, $optParams);
         $data = $this->__call('delete', array($params));
+
         return $data;
     }
   }
@@ -422,10 +424,10 @@
       /**
      * Updates a revision. This method supports patch semantics. (revisions.patch)
      *
-     * @param string $fileId The ID for the file.
-     * @param string $revisionId The ID for the revision.
-     * @param Google_Revision $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string          $fileId     The ID for the file.
+     * @param  string          $revisionId The ID for the revision.
+     * @param  Google_Revision $postBody
+     * @param  array           $optParams  Optional parameters.
      * @return Google_Revision
      */
     public function patch($fileId, $revisionId, Google_Revision $postBody, $optParams = array())
@@ -442,9 +444,9 @@
     /**
      * Gets a specific revision. (revisions.get)
      *
-     * @param string $fileId The ID of the file.
-     * @param string $revisionId The ID of the revision.
-     * @param array $optParams Optional parameters.
+     * @param  string          $fileId     The ID of the file.
+     * @param  string          $revisionId The ID of the revision.
+     * @param  array           $optParams  Optional parameters.
      * @return Google_Revision
      */
     public function get($fileId, $revisionId, $optParams = array())
@@ -461,8 +463,8 @@
     /**
      * Lists a file's revisions. (revisions.list)
      *
-     * @param string $fileId The ID of the file.
-     * @param array $optParams Optional parameters.
+     * @param  string              $fileId    The ID of the file.
+     * @param  array               $optParams Optional parameters.
      * @return Google_RevisionList
      */
     public function listRevisions($fileId, $optParams = array())
@@ -479,10 +481,10 @@
     /**
      * Updates a revision. (revisions.update)
      *
-     * @param string $fileId The ID for the file.
-     * @param string $revisionId The ID for the revision.
-     * @param Google_Revision $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string          $fileId     The ID for the file.
+     * @param  string          $revisionId The ID for the revision.
+     * @param  Google_Revision $postBody
+     * @param  array           $optParams  Optional parameters.
      * @return Google_Revision
      */
     public function update($fileId, $revisionId, Google_Revision $postBody, $optParams = array())
@@ -499,15 +501,16 @@
     /**
      * Removes a revision. (revisions.delete)
      *
-     * @param string $fileId The ID of the file.
+     * @param string $fileId     The ID of the file.
      * @param string $revisionId The ID of the revision.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams  Optional parameters.
      */
     public function delete($fileId, $revisionId, $optParams = array())
     {
         $params = array('fileId' => $fileId, 'revisionId' => $revisionId);
         $params = array_merge($params, $optParams);
         $data = $this->__call('delete', array($params));
+
         return $data;
     }
   }
@@ -547,8 +550,8 @@
     /**
      * Gets a specific change. (changes.get)
      *
-     * @param string $changeId The ID of the change.
-     * @param array $optParams Optional parameters.
+     * @param  string        $changeId  The ID of the change.
+     * @param  array         $optParams Optional parameters.
      * @return Google_Change
      */
     public function get($changeId, $optParams = array())
@@ -576,9 +579,9 @@
       /**
      * Inserts a file into a folder. (children.insert)
      *
-     * @param string $folderId The ID of the folder.
-     * @param Google_ChildReference $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string                $folderId  The ID of the folder.
+     * @param  Google_ChildReference $postBody
+     * @param  array                 $optParams Optional parameters.
      * @return Google_ChildReference
      */
     public function insert($folderId, Google_ChildReference $postBody, $optParams = array())
@@ -595,9 +598,9 @@
     /**
      * Gets a specific child reference. (children.get)
      *
-     * @param string $folderId The ID of the folder.
-     * @param string $childId The ID of the child.
-     * @param array $optParams Optional parameters.
+     * @param  string                $folderId  The ID of the folder.
+     * @param  string                $childId   The ID of the child.
+     * @param  array                 $optParams Optional parameters.
      * @return Google_ChildReference
      */
     public function get($folderId, $childId, $optParams = array())
@@ -614,8 +617,8 @@
     /**
      * Lists a folder's children. (children.list)
      *
-     * @param string $folderId The ID of the folder.
-     * @param array $optParams Optional parameters.
+     * @param string $folderId  The ID of the folder.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string q Query string for searching children.
      * @opt_param string pageToken Page token for children.
@@ -636,15 +639,16 @@
     /**
      * Removes a child from a folder. (children.delete)
      *
-     * @param string $folderId The ID of the folder.
-     * @param string $childId The ID of the child.
-     * @param array $optParams Optional parameters.
+     * @param string $folderId  The ID of the folder.
+     * @param string $childId   The ID of the child.
+     * @param array  $optParams Optional parameters.
      */
     public function delete($folderId, $childId, $optParams = array())
     {
         $params = array('folderId' => $folderId, 'childId' => $childId);
         $params = array_merge($params, $optParams);
         $data = $this->__call('delete', array($params));
+
         return $data;
     }
   }
@@ -661,9 +665,9 @@
       /**
      * Inserts a permission for a file. (permissions.insert)
      *
-     * @param string $fileId The ID for the file.
+     * @param string            $fileId    The ID for the file.
      * @param Google_Permission $postBody
-     * @param array $optParams Optional parameters.
+     * @param array             $optParams Optional parameters.
      *
      * @opt_param bool sendNotificationEmails Whether to send notification emails.
      * @return Google_Permission
@@ -682,9 +686,9 @@
     /**
      * Gets a permission by ID. (permissions.get)
      *
-     * @param string $fileId The ID for the file.
-     * @param string $permissionId The ID for the permission.
-     * @param array $optParams Optional parameters.
+     * @param  string            $fileId       The ID for the file.
+     * @param  string            $permissionId The ID for the permission.
+     * @param  array             $optParams    Optional parameters.
      * @return Google_Permission
      */
     public function get($fileId, $permissionId, $optParams = array())
@@ -701,8 +705,8 @@
     /**
      * Lists a file's permissions. (permissions.list)
      *
-     * @param string $fileId The ID for the file.
-     * @param array $optParams Optional parameters.
+     * @param  string                $fileId    The ID for the file.
+     * @param  array                 $optParams Optional parameters.
      * @return Google_PermissionList
      */
     public function listPermissions($fileId, $optParams = array())
@@ -719,10 +723,10 @@
     /**
      * Updates a permission. (permissions.update)
      *
-     * @param string $fileId The ID for the file.
-     * @param string $permissionId The ID for the permission.
-     * @param Google_Permission $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string            $fileId       The ID for the file.
+     * @param  string            $permissionId The ID for the permission.
+     * @param  Google_Permission $postBody
+     * @param  array             $optParams    Optional parameters.
      * @return Google_Permission
      */
     public function update($fileId, $permissionId, Google_Permission $postBody, $optParams = array())
@@ -739,10 +743,10 @@
     /**
      * Updates a permission. This method supports patch semantics. (permissions.patch)
      *
-     * @param string $fileId The ID for the file.
-     * @param string $permissionId The ID for the permission.
-     * @param Google_Permission $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string            $fileId       The ID for the file.
+     * @param  string            $permissionId The ID for the permission.
+     * @param  Google_Permission $postBody
+     * @param  array             $optParams    Optional parameters.
      * @return Google_Permission
      */
     public function patch($fileId, $permissionId, Google_Permission $postBody, $optParams = array())
@@ -759,15 +763,16 @@
     /**
      * Deletes a permission from a file. (permissions.delete)
      *
-     * @param string $fileId The ID for the file.
+     * @param string $fileId       The ID for the file.
      * @param string $permissionId The ID for the permission.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams    Optional parameters.
      */
     public function delete($fileId, $permissionId, $optParams = array())
     {
         $params = array('fileId' => $fileId, 'permissionId' => $permissionId);
         $params = array_merge($params, $optParams);
         $data = $this->__call('delete', array($params));
+
         return $data;
     }
   }

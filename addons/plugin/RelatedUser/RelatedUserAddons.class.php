@@ -1,4 +1,5 @@
 <?php
+
 class RelatedUserAddons extends NormalAddons
 {
     protected $version = "3.0";
@@ -8,10 +9,11 @@ class RelatedUserAddons extends NormalAddons
     protected $pluginName = '可能感兴趣的人';
     protected $sqlfile = '暂无';
     protected $tsVersion = "3.0";
-    
+
     public function getHooksInfo()
     {
         $hooks['list'] = array('RelatedUserHooks');
+
         return $hooks;
     }
 

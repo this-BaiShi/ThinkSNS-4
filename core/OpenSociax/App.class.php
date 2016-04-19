@@ -9,14 +9,13 @@ class App
     /**
      * App初始化
      * @access public
-     * @return void
      */
     public static function init()
     {
         // 设定错误和异常处理
         set_error_handler(array('App', 'appError'));
         set_exception_handler(array('App', 'appException'));
-        
+
         // Session初始化
         if (!session_id()) {
             session_start();
@@ -37,7 +36,6 @@ class App
     /**
      * 运行控制器
      * @access public
-     * @return void
      */
     public static function run()
     {
@@ -85,7 +83,7 @@ class App
         }
 
         $GLOBALS['time_run_detail']['obflush'] = microtime(true);
-        
+
         if (C('LOG_RECORD')) {
             Log::save();
         }
@@ -98,7 +96,6 @@ class App
     /**
      * 执行App控制器
      * @access public
-     * @return void
      */
     public static function execApp()
     {
@@ -129,11 +126,11 @@ class App
         ) {
             U('w3g/Public/home', '', true);
         }
-        
+
         $GLOBALS['time_run_detail']['addons_end'] = microtime(true);
 
         //创建Action控制器实例
-        $className =  MODULE_NAME . 'Action';
+        $className =  MODULE_NAME.'Action';
         // tsload(APP_ACTION_PATH.'/'.$className.'.class.php');
 
         $action = ACTION_NAME; // action名称
@@ -168,11 +165,10 @@ class App
     /**
      * 执行Api控制器
      * @access public
-     * @return void
      */
     public static function execApi()
     {
-        include_once(SITE_PATH.'/api/' . API_VERSION . '/'.MODULE_NAME.'Api.class.php');
+        include_once(SITE_PATH.'/api/'.API_VERSION.'/'.MODULE_NAME.'Api.class.php');
         $className = MODULE_NAME.'Api';
         $module = new $className();
         $action = ACTION_NAME;
@@ -187,6 +183,7 @@ class App
                 if (extension_loaded('zlib') and function_exists('ob_gzhandler')) {
                     return ob_gzhandler($buffer, $mode);
                 }
+
                 return $buffer;
             });
             header('Content-type:application/json;charset=utf-8');
@@ -204,13 +201,13 @@ class App
             dump($data);
             exit;
         }
+
         return ;
     }
 
     /**
      * 执行Widget控制器
      * @access public
-     * @return void
      */
     public static function execWidget()
     {
@@ -234,7 +231,7 @@ class App
         $className = MODULE_NAME.'Widget';
 
         $module =   new $className();
-      
+
         //异常处理
         if (!$module) {
             // 模块不存在 抛出异常
@@ -248,13 +245,13 @@ class App
         if ($rs = call_user_func(array(&$module, $action))) {
             echo $rs;
         }
+
         return ;
     }
 
     /**
      * app异常处理
      * @access public
-     * @return void
      */
     public static function appException($e)
     {
@@ -264,11 +261,10 @@ class App
     /**
      * 自定义错误处理
      * @access public
-     * @param int $errno 错误类型
-     * @param string $errstr 错误信息
+     * @param int    $errno   错误类型
+     * @param string $errstr  错误信息
      * @param string $errfile 错误文件
-     * @param int $errline 错误行数
-     * @return void
+     * @param int    $errline 错误行数
      */
     public static function appError($errno, $errstr, $errfile, $errline)
     {

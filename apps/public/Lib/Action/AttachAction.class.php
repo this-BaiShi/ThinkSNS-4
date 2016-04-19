@@ -2,7 +2,6 @@
 //附件管理
 class AttachAction extends Action
 {
-
     public function _initialize()
     {
         if (!$this->mid) {
@@ -25,26 +24,26 @@ class AttachAction extends Action
             return;
         } else {
             if ($_REQUEST['temp']==1) {
-                $source_image    =    UPLOAD_PATH . '/temp/'. $savename;
-                header("Content-type: image/" . $extension);
+                $source_image    =    UPLOAD_PATH.'/temp/'.$savename;
+                header("Content-type: image/".$extension);
                 readfile($source_image);
                 exit;
             }
 
-            $source_image    =    UPLOAD_PATH . '/' . $savepath . $savename;
+            $source_image    =    UPLOAD_PATH.'/'.$savepath.$savename;
             if (file_exists($source_image)) {
                 //加缓存
                 $offset = 60 * 60 * 24 * 7; //图片过期7天
                 header("cache-control: must-revalidate");
                 header("cache-control: max-age=".$offset);
-                header("Last-Modified: " . gmdate("D, d M Y H:i:s", time()) . "GMT");
+                header("Last-Modified: ".gmdate("D, d M Y H:i:s", time())."GMT");
                 header("Pragma: max-age=".$offset);
-                header("Expires:" . gmdate("D, d M Y H:i:s", time() + $offset) . " GMT");
+                header("Expires:".gmdate("D, d M Y H:i:s", time() + $offset)." GMT");
                 $this->set_cache_limit($offset);
-                header("Content-type: image/" . $extension);
+                header("Content-type: image/".$extension);
                 readfile($source_image);
                 //持久化
-                $new_image_dir    =    './data/uploads/'. $savepath;
+                $new_image_dir    =    './data/uploads/'.$savepath;
                 if (!is_dir($new_image_dir)) {
                     @mkdir($new_image_dir, 0777, true);
                 }
@@ -68,6 +67,7 @@ class AttachAction extends Action
         if ($id=='') {
             //无tag，发送新tag
             header("Etag:$etag", true, 200);
+
             return;
         }
         list($time, $uri)=explode("||", $id);
@@ -104,9 +104,9 @@ class AttachAction extends Action
         }
 
         //enable caching on this url for proxy servers
-        $headers = array('Content-Type: ' . $size['mime_type'],
-                         'Last-Modified: ' . gmdate('D, d M Y H:i:s', $modified) . ' GMT',
-                         'Cache-Control: public');
+        $headers = array('Content-Type: '.$size['mime_type'],
+                         'Last-Modified: '.gmdate('D, d M Y H:i:s', $modified).' GMT',
+                         'Cache-Control: public', );
 
             return $headers;
         }
@@ -125,7 +125,7 @@ class AttachAction extends Action
         }
         //下载函数
         require_cache('./addons/library/Http.class.php');
-        $file_path = UPLOAD_PATH . '/' .$attach['savepath'] . $attach['savename'];
+        $file_path = UPLOAD_PATH.'/'.$attach['savepath'].$attach['savename'];
         if (file_exists($file_path)) {
             $filename = iconv("utf-8", 'gb2312', $attach['name']);
             Http::download($file_path, $filename);
@@ -172,7 +172,7 @@ class AttachAction extends Action
 
         //上传成功
         if ($info['status']==true) {
-            echo '{"status": "0", "imgUrl": "' .$image_url. '"}';
+            echo '{"status": "0", "imgUrl": "'.$image_url.'"}';
         } else {
             echo '{"status": "1", "error": "'.$info['info'].'"}';
         }
@@ -195,9 +195,9 @@ class AttachAction extends Action
         list($options['allow_exts'], $options['need_review'], $fid) = explode("||", $jiamiData);
         $options['limit']       =   intval(jiemi($_REQUEST['limit']));
         $options['now_pageCount'] = intval($_REQUEST['now_pageCount']);
-        
+
         $data['upload_type'] = $attach_type;
-        
+
         $info    =    model('Attach')->upload($data, $options);
         //上传成功
         echo json_encode($info);

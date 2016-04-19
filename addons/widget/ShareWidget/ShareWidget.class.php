@@ -7,12 +7,11 @@
  */
 class ShareWidget extends Widget
 {
-    
     /**
-     * @param integer sid 资源ID,如分享小名片就是对应用户的用户ID，分享分享就是分享的ID
+     * @param int sid 资源ID,如分享小名片就是对应用户的用户ID，分享分享就是分享的ID
      * @param string stable 资源所在的表，如小名片就是contact表，分享就是feed表
      * @param string appname 资源所在的应用
-     * @param integer nums 该资源被分享的次数
+     * @param int nums 该资源被分享的次数
      * @param string initHTML 默认的内容 
      */
     public function render($data)
@@ -21,7 +20,7 @@ class ShareWidget extends Widget
         $var['appname'] = 'public';
         $var['cancomment'] = intval(CheckPermission('core_normal', 'feed_comment'));
         $var['feed_type'] = 'repost';
-        
+
         is_array($data) && $var = array_merge($var, $data);
 
         // 获取资源是否被删除

@@ -1,7 +1,7 @@
 <?php
+
 class PublicAction extends Action
 {
-
     private $_config;                    // 注册配置信息字段
     private $_register_model;            // 注册模型字段
     private $_user_model;                // 用户模型字段
@@ -10,7 +10,6 @@ class PublicAction extends Action
 
     /**
      * 模块初始化，获取注册配置信息、用户模型对象、注册模型对象、邀请注册与站点头部信息设置
-     * @return void
      */
     protected function _initialize()
     {
@@ -92,7 +91,7 @@ class PublicAction extends Action
         $this->display();
     }
 
-    
+
     public function doLogin()
     {
         $email = safe($_POST['email']);
@@ -118,10 +117,10 @@ class PublicAction extends Action
             }
             model('Passport')->loginLocal($email, $password, $remember);
             $this->setSessionAndCookie($user['uid'], $user['uname'], $user['email'], intval($_POST['remember']) === 1);
-            
+
             $openid = session('openid');
             if (empty($user ['openid']) && ! empty($openid)) {
-                M('user')->where('uid=' . $user ['uid'])->setField('openid', $openid);
+                M('user')->where('uid='.$user ['uid'])->setField('openid', $openid);
             }
             // $this->recordLogin($user['uid']);
             // model('Passport')->registerLogin($user, intval($_POST['remember']) === 1);
@@ -428,8 +427,8 @@ class PublicAction extends Action
         echo json_encode($re);
         exit;
     }
-        
-        /**
+
+    /**
      * 手机号是否有效
      * @return json
      */
@@ -448,7 +447,7 @@ class PublicAction extends Action
         $this->ajaxReturn(null, '验证通过', 1);
     }
 
-        /**
+    /**
      * 验证码是否有效
      * @return json
      */
@@ -466,7 +465,6 @@ class PublicAction extends Action
     /**
      * 验证验证码是否有效
      *
-     * @return void
      * @author Medz Seven <lovevipdsw@vip.qq.com>
      **/
     public function isRegCodeAvailable()
@@ -478,7 +476,7 @@ class PublicAction extends Action
         $this->ajaxReturn(null, '验证通过', 1);
     }
 
-        /**
+    /**
      * 发送手机验证码
      * @return json
      */
@@ -503,7 +501,6 @@ class PublicAction extends Action
     /**
      * 发送手机验证码
      *
-     * @return void
      * @author Medz Seven <lovevipdsw@vip.qq.com>
      **/
     public function sendPasswordCode()
@@ -526,7 +523,7 @@ class PublicAction extends Action
         $this->ajaxReturn(null, $sms->getMessage(), 0);
     }
 
-        /**
+    /**
      * 通过手机找回密码
      * @return json
      */
@@ -556,7 +553,6 @@ class PublicAction extends Action
     /**
      * 通过手机找回密码
      *
-     * @return void
      * @author Medz Seven <lovevipdsw@vip.qq.com>
      **/
     public function doFindPasswordByMobile()
@@ -571,27 +567,26 @@ class PublicAction extends Action
         unset($sms);
 
         /* # 生成找回密码代码 */
-        $user = model('User')->where('`phone` = ' . $phone)->field('`uid`, `phone`, `password`')->find();
-        $code = md5($user['uid'] . '+' . $user['password'] . '+' . rand(1111, 9999));
+        $user = model('User')->where('`phone` = '.$phone)->field('`uid`, `phone`, `password`')->find();
+        $code = md5($user['uid'].'+'.$user['password'].'+'.rand(1111, 9999));
 
         /* # 设置旧的code过期 */
-        D('find_password')->where('`uid` = ' . $user['uid'])->setField('is_used', 1);
+        D('find_password')->where('`uid` = '.$user['uid'])->setField('is_used', 1);
 
         /* # 添加新的代码 */
         D('find_password')->add(array(
             'uid'   => $user['uid'],
             'email' => $user['phone'],
             'code'  => $code,
-            'is_used' => 0
+            'is_used' => 0,
         ));
         $this->ajaxReturn(array(
-            'url' => U('w3g/Public/resetPassword', array('code' => $code))
+            'url' => U('w3g/Public/resetPassword', array('code' => $code)),
         ), '发送成功', 1);
     }
 
     /**
      * 重置密码页面
-     * @return void
      */
     public function resetPassword()
     {
@@ -600,10 +595,9 @@ class PublicAction extends Action
         $this->assign('code', $code);
         $this->display();
     }
-        
-        /**
+
+    /**
      * 签到
-     * @return void
      */
     public function sign_in()
     {
@@ -612,10 +606,9 @@ class PublicAction extends Action
         }
         $this->display();
     }
-        
+
     /**
      * 执行重置密码操作
-     * @return void
      */
     public function doResetPassword()
     {
@@ -634,7 +627,7 @@ class PublicAction extends Action
 
         $map['uid'] = $user_info['uid'];
         $data['login_salt'] = rand(10000, 99999);
-        $data['password']   = md5(md5($password) . $data['login_salt']);
+        $data['password']   = md5(md5($password).$data['login_salt']);
         $res = model('User')->where($map)->save($data);
         if ($res) {
             D('find_password')->where('uid='.$user_info['uid'])->setField('is_used', 1);
@@ -658,7 +651,6 @@ class PublicAction extends Action
 
     /**
      * 检查重置密码的验证码操作
-     * @return void
      */
     private function _checkResetPasswordCode($code)
     {
@@ -697,6 +689,7 @@ class PublicAction extends Action
             $result = D('FindPassword')->add($add);
             if ($result) {
                 model('Notify')->sendNotify($user['uid'], 'password_reset', $config);
+
                 return true;
             } else {
                 return false;
@@ -734,6 +727,7 @@ class PublicAction extends Action
     private function _markPassword($str)
     {
         $c = strlen($str)/2;
+
         return preg_replace('|(?<=.{'.(ceil($c/2)).'})(.{'.floor($c).'}).*?|', str_pad('', floor($c), '*'), $str, 1);
     }
 }

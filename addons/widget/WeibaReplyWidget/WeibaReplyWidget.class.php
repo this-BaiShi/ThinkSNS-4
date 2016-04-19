@@ -7,18 +7,17 @@
   */
 class WeibaReplyWidget extends Widget
 {
-    
     private static $rand = 1;
 
     /**
      * @param string tpl 显示模版 默认为comment，一般使用detail表示详细资源页面的评论
-     * @param integer weiba_id 微吧ID
-     * @param integer post_id 帖子ID
-     * @param integer post_uid 帖子发布者
-     * @param integer feed_id 对应的分享ID
-     * @param integer limit 每页显示条数
+     * @param int weiba_id 微吧ID
+     * @param int post_id 帖子ID
+     * @param int post_uid 帖子发布者
+     * @param int feed_id 对应的分享ID
+     * @param int limit 每页显示条数
      * @param string order 回复排列顺序，默认ASC
-     * @param boolean addtoend 新回复是否添加到尾部 0：否，1：是
+     * @param bool addtoend 新回复是否添加到尾部 0：否，1：是
      */
     public function render($data)
     {
@@ -70,7 +69,7 @@ class WeibaReplyWidget extends Widget
 
         return $ajax==1 ? json_encode($return) : $return['data'];
     }
-    
+
     /**
      * 添加帖子回复的操作
      * @return array 评论添加状态和提示信息
@@ -117,7 +116,7 @@ class WeibaReplyWidget extends Widget
 
             // 更新微吧今日新帖
             D('Weiba')->setNewcount($data['weiba_id']);
-            
+
             //添加积分
             model('Credit')->setUserCredit(intval($_POST['post_uid']), 'comment_topic');
             model('Credit')->setUserCredit($data['to_uid'], 'commented_topic');
@@ -126,11 +125,11 @@ class WeibaReplyWidget extends Widget
             $map['last_reply_time'] = $data['ctime'];
             $map ['reply_count'] = array(
                     'exp',
-                    "reply_count+1"
+                    "reply_count+1",
             );
             $map ['reply_all_count'] = array(
                     'exp',
-                    "reply_all_count+1"
+                    "reply_all_count+1",
             );
             D('weiba_post', 'weiba')->where('post_id='.$data['post_id'])->save($map);
             //同步到分享评论
@@ -223,11 +222,13 @@ class WeibaReplyWidget extends Widget
             $comment_id = D('weiba_reply', 'weiba')->where('reply_id='.$reply_id)->getField('comment_id');
             model('Comment')->deleteComment($comment_id, '', $app_name);
             model('Credit')->setUserCredit($this->mid, 'delete_topic_comment');
+
             return 1;
         }
+
         return false;
     }
-    
+
     /**
      * 渲染评论页面 在addcomment方法中调用
      */
@@ -237,6 +238,7 @@ class WeibaReplyWidget extends Widget
         $data['userInfo']['groupData'] = model('UserGroupLink')->getUserGroupData($GLOBALS['ts']['uid']);   //获取用户组信息
         $data['content'] = preg_html($data['content']);
         $data['content'] = parse_html($data['content']);
+
         return $this->renderFile(dirname(__FILE__)."/_parseComment.html", $data);
     }
 

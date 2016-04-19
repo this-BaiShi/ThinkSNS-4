@@ -5,7 +5,6 @@
  */
 class FeedTopicModel extends Model
 {
-
     public $tableName = 'feed_topic';
 
     //添加话题
@@ -48,6 +47,7 @@ class FeedTopicModel extends Model
             if ($feedId) {
                 $this->addFeedJoinTopic($topicId, $feedId, $type);
             }
+
             return $topicId;
         }
     }
@@ -94,7 +94,7 @@ class FeedTopicModel extends Model
             return false;
         } elseif (!($id = $this->getTopicId($topic_name, $add))) {
             return false;
-        } elseif (($topic = $this->where('`topic_id` = ' . $id)->find())) {
+        } elseif (($topic = $this->where('`topic_id` = '.$id)->find())) {
             $topic['topic_name'] or $topic['topic_name'] = $topic_name;
         }
 
@@ -123,12 +123,13 @@ class FeedTopicModel extends Model
     {
         $sql = "select b.feed_id as fid from {$this->tablePrefix}feed_topic a inner join {$this->tablePrefix}feed_topic_link b on a.topic_id=b.topic_id where a.topic_name ='".$topic."'";
         $feeds = $this->query($sql);
+
         return getSubByKey($feeds, 'fid');
     }
     /**
      * 获取给定话题名的话题ID
-     * @param string $name 话题名
-     * @return int 话题ID
+     * @param  string $name 话题名
+     * @return int    话题ID
      */
     public function getTopicId($topic_name, $add=true)
     {
@@ -139,7 +140,7 @@ class FeedTopicModel extends Model
             return 0;
 
         // # 获取数据库话题的ID
-        } elseif (($id = $this->where('`topic_name` LIKE "' . $topic_name . '"')->field('`topic_id`')->getField('topic_id'))) {
+        } elseif (($id = $this->where('`topic_name` LIKE "'.$topic_name.'"')->field('`topic_id`')->getField('topic_id'))) {
             return $id;
 
         // # 添加话题
@@ -147,7 +148,7 @@ class FeedTopicModel extends Model
             return $this->add(array(
                 'topic_name' => $topic_name,
                 'count'      => '0',
-                'ctime'      => time()
+                'ctime'      => time(),
             ));
         }
 

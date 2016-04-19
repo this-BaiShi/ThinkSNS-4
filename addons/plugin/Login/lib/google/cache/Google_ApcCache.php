@@ -32,21 +32,22 @@ class googleApcCache extends Google_Cache
     }
     private function isLocked($key)
     {
-        if ((@apc_fetch($key . '.lock')) === false) {
+        if ((@apc_fetch($key.'.lock')) === false) {
             return false;
         }
+
         return true;
     }
     private function createLock($key)
     {
         // the interesting thing is that this could fail if the lock was created in the meantime..
     // but we'll ignore that out of convenience
-    @apc_add($key . '.lock', '', 5);
+    @apc_add($key.'.lock', '', 5);
     }
     private function removeLock($key)
     {
         // suppress all warnings, if some other process removed it that's ok too
-    @apc_delete($key . '.lock');
+    @apc_delete($key.'.lock');
     }
     private function waitForLock($key)
     {
@@ -63,7 +64,7 @@ class googleApcCache extends Google_Cache
       $this->removeLock($key);
         }
     }
-   /**
+  /**
    * @inheritDoc
    */
   public function get($key, $expiration = false)
@@ -73,8 +74,10 @@ class googleApcCache extends Google_Cache
       }
       if (!$expiration || (time() - $ret['time'] > $expiration)) {
           $this->delete($key);
+
           return false;
       }
+
       return unserialize($ret['data']);
   }
   /**

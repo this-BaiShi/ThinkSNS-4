@@ -2,7 +2,6 @@
 
 class SensitiveWordModel extends Model
 {
-
     const MUST_REPLACE = 3;
 
     const ONE_OPTION = '禁止关键词';
@@ -34,7 +33,7 @@ class SensitiveWordModel extends Model
             $result = $this->where($map)->save($data);
         }
 
-        return (boolean)$result;
+        return (boolean) $result;
     }
 
     public function rmSensitiveWord($id)
@@ -45,7 +44,7 @@ class SensitiveWordModel extends Model
         $map['sensitive_word_id'] = $id;
         $result = $this->where($map)->delete();
 
-        return (boolean)$result;
+        return (boolean) $result;
     }
 
     public function getSensitiveWordList($map = array(), $limit = 20)

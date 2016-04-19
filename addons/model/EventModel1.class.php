@@ -1,4 +1,5 @@
 <?php
+
 include_once SITE_PATH.'/apps/event/Lib/Model/BaseModel.class.php';
 /**
  * EventModel
@@ -52,6 +53,7 @@ class EventModel extends BaseModel
                 }
             }
         }
+
         return $result;
     }
     /**
@@ -59,7 +61,6 @@ class EventModel extends BaseModel
      * 追加和反解析数据
      * @param mixed $data
      * @access public
-     * @return void
      */
     public function appendContent($data)
     {
@@ -89,6 +90,7 @@ class EventModel extends BaseModel
             $data['canJoin']   = false;
             $data['canAtt']    = false;
             $data['hasMember'] = $result['status'];
+
             return $data;
         } elseif ($userDao->hasUser($this->mid, $data['id'], 'attention')) {
             $data['canAtt'] = false;
@@ -101,7 +103,6 @@ class EventModel extends BaseModel
      * 检查权限
      * @param mixed $uid
      * @access public
-     * @return void
      */
     public function checkMember($eventAdmin, $opts, $mid)
     {
@@ -117,6 +118,7 @@ class EventModel extends BaseModel
             $result['follow']  = false;
             $result['canJoin'] = false;
             $result['canAtt']  = false;
+
             return $result;
         }
 
@@ -127,6 +129,7 @@ class EventModel extends BaseModel
                 $result['follow']  = false;
             }
         }
+
         return $result;
     }
 
@@ -136,7 +139,6 @@ class EventModel extends BaseModel
      * @param mixed $map
      * @param mixed $feed
      * @access public
-     * @return void
      */
     public function doAddEvent($eventMap, $optsMap, $cover)
     {
@@ -190,7 +192,6 @@ class EventModel extends BaseModel
      * @param mixed $uid
      * @param mixed $mid
      * @access public
-     * @return void
      */
     public function getEventContent($eventId, $uid)
     {
@@ -223,6 +224,7 @@ class EventModel extends BaseModel
         $result['lc'] = 5000000 < $result['limitCount'] ? "无限制":$result['limitCount'];
         $result['cover']     = getCover($result['coverId'], 200, 200);
         $result = $this->appendContent($result);
+
         return $result;
     }
 
@@ -252,7 +254,6 @@ class EventModel extends BaseModel
      * @param mixed $name
      * @static
      * @access private
-     * @return void
      */
     public static function factoryModel($name)
     {
@@ -265,7 +266,6 @@ class EventModel extends BaseModel
      * @param mixed $data
      * @param mixed $allow
      * @access public
-     * @return void
      */
     public function doAddUser($data, $allow)
     {
@@ -317,6 +317,7 @@ class EventModel extends BaseModel
                 }
                 if ($userDao->add($map)) {
                     $this->setInc('attentionCount', 'id='.$map['eventId']);
+
                     return 1;
                 } else {
                     return 0;
@@ -348,6 +349,7 @@ class EventModel extends BaseModel
                         $this->setDec('limitCount', 'id='.$map['eventId']);
                         model('Credit')->setUserCredit($map['uid'], 'join_event');
                     }
+
                     return 1;
                 } else {
                     return 0;
@@ -363,7 +365,6 @@ class EventModel extends BaseModel
      * 同意申请
      * @param mixed $data
      * @access public
-     * @return void
      */
     public function doArgeeUser($data)
     {
@@ -378,8 +379,10 @@ class EventModel extends BaseModel
                 $userDao->delete($id);
                 $this->setDec('attentionCount', 'id='.$data['eventId']);
             }
+
             return 1;
         }
+
         return 0;
     }
 
@@ -388,7 +391,6 @@ class EventModel extends BaseModel
      * 取消关注或参加
      * @param mixed $data
      * @access public
-     * @return void
      */
     public function doDelUser($data)
     {
@@ -421,6 +423,7 @@ class EventModel extends BaseModel
                         }
                         break;
                 }
+
                 return 1;
             }
         } else {
@@ -449,6 +452,7 @@ class EventModel extends BaseModel
                 }
             }
         }
+
         return $result;
     }
 
@@ -473,7 +477,6 @@ class EventModel extends BaseModel
      * @param mixed $order
      * @param mixed $limit
      * @access public
-     * @return void
      */
     public function getList($map, $order, $limit)
     {
@@ -482,6 +485,7 @@ class EventModel extends BaseModel
         foreach ($result['data'] as &$value) {
             $value = $this->appendContent($value);
         }
+
         return $result;
     }
 
@@ -490,7 +494,6 @@ class EventModel extends BaseModel
      * 删除活动
      * @param mixed $eventId
      * @access public
-     * @return void
      */
     public function doDeleteEvent($eventId)
     {
@@ -516,6 +519,7 @@ class EventModel extends BaseModel
             //删除成员
             $user_map['eventId'] = $eventId['id'];
             self::factoryModel('user')->where($user_map)->delete();
+
             return true;
         }
 
@@ -526,7 +530,6 @@ class EventModel extends BaseModel
      * 获取配置
      * @param mixed $index
      * @access public
-     * @return void
      */
     /*public function getConfig( $index ){
         $config = $this->config->$index;
@@ -539,7 +542,6 @@ class EventModel extends BaseModel
      * @param mixed $map
      * @param mixed $act
      * @access public
-     * @return void
      */
     public function doIsHot($map, $act)
     {
@@ -561,6 +563,7 @@ class EventModel extends BaseModel
                 $result = self::factoryModel('opts')->where($map_opts)->save($data);
             break;
         }
+
         return $result;
     }
 
@@ -570,7 +573,6 @@ class EventModel extends BaseModel
      * @param mixed $map
      * @param mixed $act
      * @access public
-     * @return void
      */
     public function getHotList()
     {
@@ -586,6 +588,7 @@ class EventModel extends BaseModel
             $v['address'] = getShort($v['address'], 6);
             $v['coverId'] = getCover($v['coverId'], 100, 100);
         }
+
         return $event_ids;
     }
 
@@ -594,7 +597,6 @@ class EventModel extends BaseModel
      * 判断是否是有这个成员
      * @param mixed $uid
      * @access public
-     * @return void
      */
     public function hasMember($uid, $eventId)
     {

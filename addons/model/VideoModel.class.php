@@ -12,7 +12,6 @@ class VideoModel extends OldVideoModel
 // 原有的文件
 class OldVideoModel extends Model
 {
-
     public function upload($from=0, $timeline=0)
     {
         // $imageinfo = pathinfo($_FILES['pic']['name']);
@@ -21,7 +20,7 @@ class OldVideoModel extends Model
 
         $videoinfo = pathinfo($_FILES['video']['name']);
         $video_ext = $videoinfo['extension'];
-        
+
         $allowExts = $video_config['video_ext']?explode(',', $video_config['video_ext']):array('mp4','flv');
         // $uploadCondition = $_FILES['pic'] && $_FILES['video'] && in_array(strtolower($image_ext),$allowExts,true) && in_array(strtolower($video_ext),$allowExts,true);
         $uploadCondition = $_FILES['video'] && in_array(strtolower($video_ext), $allowExts, true);
@@ -117,6 +116,7 @@ class OldVideoModel extends Model
             $result['status']    = 0;
             $result['msg']   = '上传视频信息错误';
         }
+
         return $result;
     }
 
@@ -127,10 +127,10 @@ class OldVideoModel extends Model
         $video_config = model('Xdata')->get('admin_Content:video_config');
         $videoinfo = pathinfo($_FILES['Filedata']['name']);
         $video_ext = $videoinfo['extension'];
-        
+
         $allowExts = $video_config['video_ext']?explode(',', $video_config['video_ext']):array('mp4');
         $uploadCondition = $_FILES['Filedata'] && in_array(strtolower($video_ext), $allowExts, true);
-        
+
         //如果视频上传正确.
         if ($uploadCondition) {
             $savePath =  SITE_PATH.$this->_getSavePath(); //网页视频文件夹
@@ -170,7 +170,7 @@ class OldVideoModel extends Model
                     $command = $ffmpegpath." -y -i ".$sourceSavePath."/".$video_source_name." -vcodec libx264 ".$savePath."/".$video_name;
                     exec($command);
                 }
-                
+
                 //获取时长
                 $result['timeline'] = $this->get_video_timeline($ffmpegpath, $sourceSavePath.'/'.$video_source_name);
                 //截图
@@ -179,7 +179,7 @@ class OldVideoModel extends Model
                 $this->get_video_part($ffmpegpath, $sourceSavePath.'/'.$video_name, $partSavePath.'/'.$video_name);
 
                 // # 临时解决方案 #medz
-                $result['video_path'] = $this->_getSavePath() . '/source/' . $video_name;
+                $result['video_path'] = $this->_getSavePath().'/source/'.$video_name;
                 // $result['video_path']   = $this->_getSavePath().'/'.$video_name;
                 $result['video_mobile_path'] = $this->_getSavePath().'/'.$video_name;
                 $result['video_part_path'] = $this->_getSavePath().'/part/'.$video_name;
@@ -190,7 +190,7 @@ class OldVideoModel extends Model
                 $result['extension']    = $video_ext;
                 $result['image_path']   = $this->_getSavePath().'/'.$image_name;
                 $result['transfer_id'] = $transfer_id;
-                
+
                 if ($image_info  = getimagesize($savePath.'/'.$image_name)) {
                     $result['image_width']  = $image_info[0];
                     $result['image_height'] = $image_info[1];
@@ -211,6 +211,7 @@ class OldVideoModel extends Model
             $result['status']    = 0;
             $result['message']   = '上传失败';
         }
+
         return $result;
     }
 
@@ -219,6 +220,7 @@ class OldVideoModel extends Model
         $hour = floor($num/3600);
         $minute = floor(($num-3600*$hour)/60);
         $second = floor((($num-3600*$hour)-60*$minute)%60);
+
         return $hour.'时'.$minute.'分'.$second.'秒';
     }
 
@@ -245,6 +247,7 @@ class OldVideoModel extends Model
         $timeline = exec($command);
         $time_arr = explode(':', $timeline);
         $timeline = $time_arr[0]*3600 + $time_arr[1]*60 + intval($time_arr[2]);
+
         return $timeline;
     }
 
@@ -290,6 +293,7 @@ class OldVideoModel extends Model
         if (!file_exists($fullPath)) {
             mkdir($fullPath, 0777, true);
         }
+
         return $savePath;
     }
 
@@ -332,6 +336,7 @@ class OldVideoModel extends Model
         if ($flashinfo['flash_url']) {
             //$flashinfo['host']      = $hosts[1];
             $flashinfo['video_url'] = $link;
+
             return $flashinfo;
         } else {
             return false;
@@ -352,6 +357,7 @@ class OldVideoModel extends Model
             $typedata['source']    = $type_data;
             $typedata['title']     = $flashinfo['title'];
         }
+
         return $typedata;
     }
 
@@ -373,7 +379,7 @@ class OldVideoModel extends Model
         /* # link */
         /* http://v.youku.com/v_show/id_XMTM1NzI5NjM1Ng==.html?firsttime=270&from=y1.9-4 */
         $sid = preg_replace('/https?\:\/\/v\.youku\.com\/v\_show\/id\_(.*?)\.html\??(.*)?/is', '\\1', $sid);
-        
+
         $conf              = array();
         $conf['video_url'] = urlencode($link);
         $conf['client_id'] = $config['youku_client_id'];
@@ -382,16 +388,17 @@ class OldVideoModel extends Model
 
         $_temp  = array();
         foreach ($conf as $key => $value) {
-            array_push($_temp, $key . '=' . $value);
+            array_push($_temp, $key.'='.$value);
         }
 
-        $url          = $showBasicUrl . '?' . implode('&', $_temp);
+        $url          = $showBasicUrl.'?'.implode('&', $_temp);
         $data         = file_get_contents($url);
         $data         = json_decode($data, true);
 
         $return['title']     = $data['title'];
         $return['image_url'] = $data['thumbnail'];
         $return['flash_url'] = $data['player'];
+
         return $return;
     }
 
@@ -413,16 +420,17 @@ class OldVideoModel extends Model
 
         $config  = array();
         foreach ($conf as $key => $value) {
-            array_push($config, $key . '=' . $value);
+            array_push($config, $key.'='.$value);
         }
 
-        $url .= '?' . implode('&', $config);
+        $url .= '?'.implode('&', $config);
         $data = file_get_contents($url);
         $data = json_decode($data, true);
 
         $return['title']     = $data['itemInfo']['title'];
         $return['image_url'] = $data['itemInfo']['bigPicUrl'];
         $return['flash_url'] = $data['itemInfo']['outerPlayerUrl'];
+
         return $return;
     }
 
@@ -446,6 +454,7 @@ class OldVideoModel extends Model
         $return['title']     = $data['title'];
         $return['image_url'] = $data['image'];
         $return['flash_url'] = $data['videosrc'];
+
         return $return;
     }
 
@@ -473,7 +482,7 @@ class OldVideoModel extends Model
             case 'yinyuetai.com':
                 $return = $this->getYinyuetaiOutsideVideoInfo($link);
                 break;
-            
+
             default:
                 $return = null;
                 break;
@@ -488,7 +497,7 @@ class OldVideoModel extends Model
     public function _video_getflashinfo($link, $host)
     {
         return $this->getOutsideVideoInfo($link, $host);
-        
+
         $return = array();
         if ($host == 'youku.com') {
             preg_match('/id_([\w\-=]+)/i', $link, $matchs);
@@ -514,7 +523,7 @@ class OldVideoModel extends Model
                 $content = file_get_contents($link);
             }//有些站点无法获取
         }
-        
+
 
         if ('ku6.com' == $host) {
             // 2012/3/7 修复ku6链接和图片抓去
@@ -584,15 +593,16 @@ class OldVideoModel extends Model
         $return['title'] = is_array($title)?t($title[1]):$title;
         $return['flash_url'] = t($flash_url);
         $return['image_url'] = is_array($img)?t($img[1]):$img;
+
         return $return;
     }
 
     /**
      * 删除视频信息，提供假删除功能
-     * @param integer $id 视频ID
-     * @param string $type 操作类型，若为delVideo则进行假删除操作，deleteVideo则进行彻底删除操作
-     * @param string $title ???
-     * @return array 返回操作结果信息
+     * @param  int    $id    视频ID
+     * @param  string $type  操作类型，若为delVideo则进行假删除操作，deleteVideo则进行彻底删除操作
+     * @param  string $title ???
+     * @return array  返回操作结果信息
      */
     public function doEditVideo($id, $type, $title)
     {

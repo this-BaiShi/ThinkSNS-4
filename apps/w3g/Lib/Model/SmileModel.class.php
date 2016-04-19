@@ -11,7 +11,6 @@
      */
     class SmileModel extends Model
     {
-         
         public function getSmile($type)
         {
             $smile = ts_cache("smile_mini");
@@ -19,8 +18,9 @@
                 return $smile;
             } else {
                 $data = $this->where("type='mini'")->findAll();
+
                 return $data;
-               
+
                //return $this->setCache( $data,$type );
             }
         }

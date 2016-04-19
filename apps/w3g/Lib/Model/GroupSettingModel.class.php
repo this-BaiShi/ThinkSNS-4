@@ -24,8 +24,8 @@ class GroupSettingModel extends Model
         }
         return true;
     }*/
-    
-    
+
+
     //搜索数据
     public function searchData($type, $uid, $title, $content, $field, $asc, $limit=null, $isDel=0)
     {
@@ -33,16 +33,16 @@ class GroupSettingModel extends Model
 
         if ($username) {
             $arr_uid = M('user')->where("name like '%$name%'")->field('id')->findAll();
-            
+
             if (!empty($arr_uid) && $type != 'album' && $type !='photo') {
                 $condition[] = 'uid IN '.render_in($arr_uid, 'id');
             } else {
                 $condition[] = 'userId IN '.render_in($arr_uid, 'id');
             }
         }
-        
-        
-        
+
+
+
         if ($type == 'group') {
             if ($uid) {
                 $condition[] = "uid = $uid ";
@@ -51,9 +51,9 @@ class GroupSettingModel extends Model
                 $condition[] = "name like '%".$title."%'";
             }
             $condition[] = "status=1";
-            
-            $data = D('Group')-> getGroupList(1, $condition, $fields=null, "$field $asc", $limit, $isDel);
-            
+
+            $data = D('Group')->getGroupList(1, $condition, $fields=null, "$field $asc", $limit, $isDel);
+
             return    $data;
         } elseif ($type == 'weibo') {
             if ($uid) {
@@ -62,9 +62,9 @@ class GroupSettingModel extends Model
             if ($title) {
                 $condition[] = "name like '%{$title}%'";
             }
-            
-            $data = D('Group')-> getGroupList(1, $condition, $fields=null, "$field $asc", $limit, $isDel);
-            
+
+            $data = D('Group')->getGroupList(1, $condition, $fields=null, "$field $asc", $limit, $isDel);
+
             return    $data;
         } elseif ($type == 'topic') {
             if ($uid) {
@@ -73,9 +73,9 @@ class GroupSettingModel extends Model
             if ($title) {
                 $condition[] = "title like '%".$title."%'";
             }
-            
-            $data = D('Topic')-> getTopicList(1, $condition, $fields=null, "$field $asc", $limit, $isDel);
-            
+
+            $data = D('Topic')->getTopicList(1, $condition, $fields=null, "$field $asc", $limit, $isDel);
+
             return    $data;
         } elseif ($type == 'album') {
             if ($title) {
@@ -85,6 +85,7 @@ class GroupSettingModel extends Model
                 $condition[] = "userId=$uid";
             }
             $data = D('Album')->getAlbumList($html=1, $condition, $fields=null, "$field $asc", $limit, $isDel);
+
             return $data;
         } elseif ($type == 'file') {
             if ($uid) {
@@ -93,9 +94,9 @@ class GroupSettingModel extends Model
             if ($title) {
                 $condition[] = "name like '%".$title."%'";
             }
-            
+
             $data = D('Dir')->getFileList(1, $condition, $fields=null, "$field $asc", $limit, $isDel);
-            
+
             return    $data;
         } elseif ($type == 'post') {
             if ($uid) {
@@ -105,7 +106,7 @@ class GroupSettingModel extends Model
                 $condition[] = "note %'".$content."'%";
             }
             $data = D('Post')->getPostList(1, $condition, $fields=null, "$field $asc", $limit, $isDel);
-            
+
             return    $data;
         } elseif ($type == 'photo') {
             if ($uid) {
@@ -115,6 +116,7 @@ class GroupSettingModel extends Model
                 $condition[] = "name like '%".$title."%'";
             }
             $data = D('photo')->getPhotoList($html=1, $condition, $fields=null, "$field $asc", $limit, $isDel);
+
             return $data;
         }
     }

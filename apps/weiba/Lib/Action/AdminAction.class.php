@@ -8,9 +8,8 @@
 tsload(APPS_PATH.'/admin/Lib/Action/AdministratorAction.class.php');
 class AdminAction extends AdministratorAction
 {
-
     public $pageTitle = array();
-    
+
     /**
      * 初始化，初始化页面表头信息，用于双语
      */
@@ -33,7 +32,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 微吧列表
-     * @return void
      */
     public function index()
     {
@@ -59,7 +57,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 添加微吧
-     * @return void
      */
     public function addWeiba()
     {
@@ -80,7 +77,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 执行添加微吧
-     * @return  void
      */
     public function doAddWeiba()
     {
@@ -136,7 +132,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 编辑微吧
-     * @return void
      */
     public function editWeiba()
     {
@@ -170,7 +165,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 执行编辑微吧
-     * @return void
      */
     public function doEditWeiba()
     {
@@ -413,7 +407,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 后台帖子列表
-     * @return void 
      */
     public function postList()
     {
@@ -437,10 +430,9 @@ class AdminAction extends AdministratorAction
         $this->displayList($listData);
     }
 
-    
+
     /**
      * 首页帖子列表
-     * @return void
      */
     public function indexPost()
     {
@@ -459,7 +451,7 @@ class AdminAction extends AdministratorAction
         // 查询数据
         $map ['weiba_id'] = array(
                 'in',
-                getSubByKey(M('weiba')->where('is_del=0')->findAll(), 'weiba_id')
+                getSubByKey(M('weiba')->where('is_del=0')->findAll(), 'weiba_id'),
         );
         $map['is_del'] = 0;
         $map['is_index'] = 1;
@@ -470,26 +462,26 @@ class AdminAction extends AdministratorAction
         }
         // 数据组装
         foreach ($list ['data'] as $k => $v) {
-            $list ['data'] [$k] ['title'] = '<a target="_blank" href="' . U('weiba/Index/postDetail', array(
-                    'post_id' => $v ['post_id']
-            )) . '">' . $v ['title'] . '</a>';
+            $list ['data'] [$k] ['title'] = '<a target="_blank" href="'.U('weiba/Index/postDetail', array(
+                    'post_id' => $v ['post_id'],
+            )).'">'.$v ['title'].'</a>';
             $author = model('User')->getUserInfoByUids($v ['post_uid']);
             $list ['data'] [$k] ['post_uid'] = $author [$v ['post_uid']] ['space_link'];
             $list ['data'] [$k] ['index_img'] = '<img src="'.getImageUrlByAttachId($v ['index_img']).'"  style="height:50px; width:50px;" />';
             $list ['data'] [$k] ['is_index_time'] = friendlyDate($v ['is_index_time']);
-            $list ['data'] [$k] ['weiba_id'] = M('weiba')->where('weiba_id=' . $v ['weiba_id'])->getField('weiba_name');
+            $list ['data'] [$k] ['weiba_id'] = M('weiba')->where('weiba_id='.$v ['weiba_id'])->getField('weiba_name');
             if ($v ['is_del'] == 0) {
                 $list ['data'] [$k] ['DOACTION'] = "<a href=".U('weiba/Admin/newImg', 'post_id='.$v['post_id']).">修改</a>&nbsp;-&nbsp;";
-                
-                $list ['data'] [$k] ['DOACTION'] .= '<a href="javascript:void(0)" onclick="admin.removePost(' . $v ['post_id'] . ')">移除帖子</a>';
+
+                $list ['data'] [$k] ['DOACTION'] .= '<a href="javascript:void(0)" onclick="admin.removePost('.$v ['post_id'].')">移除帖子</a>';
             } else {
-                $list ['data'] [$k] ['DOACTION'] = '<a href="javascript:void(0)" onclick="admin.recoverPost(' . $v ['post_id'] . ')">还原</a>&nbsp;-&nbsp;<a href="javascript:void(0)" onclick="admin.deletePost(' . $v ['post_id'] . ')">彻底删除</a>';
+                $list ['data'] [$k] ['DOACTION'] = '<a href="javascript:void(0)" onclick="admin.recoverPost('.$v ['post_id'].')">还原</a>&nbsp;-&nbsp;<a href="javascript:void(0)" onclick="admin.deletePost('.$v ['post_id'].')">彻底删除</a>';
             }
             $listData = $list;
         }
         $this->displayList($listData);
     }
-    
+
     public function newImg()
     {
         if ($_GET['post_id']!='') {
@@ -499,11 +491,11 @@ class AdminAction extends AdministratorAction
             //dump($imgs);exit;
         }
         if (IS_POST) {
-            $img = M('weiba_post')->where('post_id='.(int)$_POST['post_id'])->find();
+            $img = M('weiba_post')->where('post_id='.(int) $_POST['post_id'])->find();
             if ($_POST['img_1']=='') {
                 $this->error('请上传图片!');
             } else {
-                $data['index_img'] = (int)$_POST['img_1'];
+                $data['index_img'] = (int) $_POST['img_1'];
                 $data['is_index'] = 1;
                 $data['is_index_time'] = time();
                 if ($img&&$img['is_del']!=1) {
@@ -524,7 +516,7 @@ class AdminAction extends AdministratorAction
             $this->display();
         }
     }
-    
+
     /**
      * 帖子回收站
      */
@@ -637,7 +629,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 后台编辑帖子
-     * @return void
      */
     public function editPost()
     {
@@ -665,7 +656,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 执行编辑帖子
-     * @return void
      */
     public function doEditPost()
     {
@@ -707,7 +697,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 后台删除帖子至回收站
-     * @return void
      */
     public function delPost()
     {
@@ -761,10 +750,9 @@ class AdminAction extends AdministratorAction
         echo json_encode($return);
         exit();
     }
-    
+
     /**
      * 调整评论楼层
-     * @return void
      */
     public function doStorey()
     {
@@ -789,7 +777,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 后台还原帖子
-     * @return void
      */
     public function recoverPost()
     {
@@ -819,7 +806,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 后台删除帖子至回收站
-     * @return void
      */
     public function deletePost()
     {
@@ -846,7 +832,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 圈主审核配置
-     * @return void
      */
     public function weibaAdminAuditConfig()
     {
@@ -882,7 +867,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 圈主审核
-     * @return void
      */
     public function weibaAdminAudit()
     {
@@ -950,7 +934,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 微吧审核配置
-     * @return void
      */
     public function weibaAuditConfig()
     {
@@ -989,7 +972,6 @@ class AdminAction extends AdministratorAction
     }
     /**
      * 微吧审核
-     * @return void
      */
     public function weibaAudit()
     {
@@ -1062,7 +1044,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 微吧后台管理菜单
-     * @return void
      */
     private function _initWeibaListAdminMenu()
     {

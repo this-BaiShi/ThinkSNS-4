@@ -6,11 +6,10 @@
  */
 class DiyWidget extends Widget
 {
-    
     /**
      * [render description]
-     * @param  integer id [description]
-     * @return integer widget_user_id [description]
+     * @param  int id [description]
+     * @return int widget_user_id [description]
      */
     public function render($data)
     {
@@ -19,7 +18,7 @@ class DiyWidget extends Widget
         !empty($data) && $var = array_merge($var, $data);
 
         $wigdetList  = model('Widget')->getUserWidget($var['id'], $GLOBALS['ts']['uid']);
-        
+
         $var = array_merge($var, $wigdetList);
 
         return $this->renderFile(dirname(__FILE__)."/default.html", $var);
@@ -63,7 +62,7 @@ class DiyWidget extends Widget
     public function set()
     {
         $var = $_REQUEST;
-        
+
         $data = $_POST;
 
         $return = model('Widget')->updateUserWidget($var['diyId'], $GLOBALS['ts']['uid'], $var['appname'].':'.$var['widget_name'], $data);

@@ -10,5 +10,5 @@ return array(
         'weiba/Index/postDetail' => true,
         'weiba/Index/postList' => true,
         'weiba/Index/weibaList' => true,
-    )
+    ),
 );

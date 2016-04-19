@@ -1,7 +1,7 @@
 <?php
+
 class SettingAction extends BaseAction
 {
-
     // 个人设置首页
     public function index()
     {
@@ -61,7 +61,7 @@ class SettingAction extends BaseAction
             $province = model('Area')->getAreaById($pid);
             $city = model('Area')->getAreaById($cid);
             $area = model('Area')->getAreaById($aid);
-            $current_name = $province['title'] . '  ' . $city['title'] . '  ' . $area['title'];
+            $current_name = $province['title'].'  '.$city['title'].'  '.$area['title'];
             D('user')->where($map)->setField('location', $current_name);
             //清空用户数据缓存
             model('User')->cleanCache($this->mid);
@@ -214,6 +214,7 @@ class SettingAction extends BaseAction
         } else {
             $info = L('PUBLIC_ORIGINAL_PASSWORD_ERROR');            // 原始密码错误
         }
+
         return $this->ajaxReturn(null, $info, $res);
     }
 
@@ -279,7 +280,7 @@ class SettingAction extends BaseAction
             $this->ajaxReturn(null, $msg, 0);
         }
     }
-    
+
     //绑定邮箱
     public function doBindingEmail()
     {

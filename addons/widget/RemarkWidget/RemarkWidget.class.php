@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 /** 
  * 备注 Widget
  * @example W('Remark',array('uid'=>1000,'remark'=>'TS3.0','showonly'=>0))
@@ -8,9 +9,9 @@ class RemarkWidget extends Widget
 {
     private static $rand = 1;
     /**
-     * @param integer uid 目标用户的UID
+     * @param int uid 目标用户的UID
      * @param string remark 用户已经被设置的备注名称
-     * @param integer showonly 是否只显示已有的备注
+     * @param int showonly 是否只显示已有的备注
      */
     public function render($data)
     {
@@ -29,11 +30,11 @@ class RemarkWidget extends Widget
         self::$rand ++;
 
         unset($var, $data);
-        
+
         //输出数据
         return $content;
     }
-    
+
     //不用模板直接返回数据
     private function renderData($var)
     {
@@ -46,6 +47,7 @@ class RemarkWidget extends Widget
             $html .=  "<em>(</em><a href=\"javascript:;\" title='".L('PUBLIC_CLICK_SETING')."' event-node='setremark' remark='' class =\"remark_{$uid}\" uid='{$uid}'>".L('PUBLIC_REMARK_SETTING')."</a><em>)</em>";
         }
         $html .=  "</span>";
+
         return $html;
     }
 
@@ -57,6 +59,7 @@ class RemarkWidget extends Widget
     {
         $var = $_REQUEST;
         $content = $this->renderFile(dirname(__FILE__)."/edit.html", $var);
+
         return $content;
     }
 }

@@ -51,8 +51,8 @@ class doubanOAuthToken
    */
   public function to_string()
   {/*{{{*/
-    return "oauth_token=" . doubanOAuthUtil::urlencode_rfc3986($this->key) .
-        "&oauth_token_secret=" . doubanOAuthUtil::urlencode_rfc3986($this->secret);
+    return "oauth_token=".doubanOAuthUtil::urlencode_rfc3986($this->key).
+        "&oauth_token_secret=".doubanOAuthUtil::urlencode_rfc3986($this->secret);
   }/*}}}*/
 
   public function __toString()
@@ -67,6 +67,7 @@ class doubanOAuthSignatureMethod
   public function check_signature(&$request, $consumer, $token, $signature)
   {
       $built = $this->build_signature($request, $consumer, $token);
+
       return $built == $signature;
   }
 }/*}}}*/
@@ -86,7 +87,7 @@ class doubanOAuthSignatureMethod_HMAC_SHA1 extends doubanOAuthSignatureMethod
 
       $key_parts = array(
       $consumer->secret,
-      ($token) ? $token->secret : ""
+      ($token) ? $token->secret : "",
     );
 
       $key_parts = doubanOAuthUtil::urlencode_rfc3986($key_parts);
@@ -107,7 +108,7 @@ class doubanOAuthSignatureMethod_PLAINTEXT extends doubanOAuthSignatureMethod
   public function build_signature($request, $consumer, $token)
   {/*{{{*/
     $sig = array(
-      doubanOAuthUtil::urlencode_rfc3986($consumer->secret)
+      doubanOAuthUtil::urlencode_rfc3986($consumer->secret),
     );
 
       if ($token) {
@@ -219,7 +220,7 @@ class doubanOAuthRequest
   public static function from_request($http_method=null, $http_url=null, $parameters=null)
   {/*{{{*/
     $scheme = (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != "on") ? 'http' : 'https';
-      @$http_url or $http_url = $scheme . '://' . $_SERVER['HTTP_HOST'] . ':' . $_SERVER['SERVER_PORT'] . $_SERVER['REQUEST_URI'];
+      @$http_url or $http_url = $scheme.'://'.$_SERVER['HTTP_HOST'].':'.$_SERVER['SERVER_PORT'].$_SERVER['REQUEST_URI'];
       @$http_method or $http_method = $_SERVER['REQUEST_METHOD'];
 
       $request_headers = doubanOAuthRequest::get_headers();
@@ -260,12 +261,13 @@ class doubanOAuthRequest
       $defaults = array("oauth_version" => doubanOAuthRequest::$version,
                       "oauth_nonce" => doubanOAuthRequest::generate_nonce(),
                       "oauth_timestamp" => doubanOAuthRequest::generate_timestamp(),
-                      "oauth_consumer_key" => $consumer->key);
+                      "oauth_consumer_key" => $consumer->key, );
       $parameters = array_merge($defaults, $parameters);
 
       if ($token) {
           $parameters['oauth_token'] = $token->key;
       }
+
       return new doubanOAuthRequest($http_method, $http_url, $parameters);
   }/*}}}*/
 
@@ -322,10 +324,10 @@ class doubanOAuthRequest
         // with the same key, sort them, then add all the pairs
         natsort($value);
               foreach ($value as $v2) {
-                  $pairs[] = $key . '=' . $v2;
+                  $pairs[] = $key.'='.$v2;
               }
           } else {
-              $pairs[] = $key . '=' . $value;
+              $pairs[] = $key.'='.$value;
           }
       }
 
@@ -345,7 +347,7 @@ class doubanOAuthRequest
     $parts = array(
       $this->get_normalized_http_method(),
       $this->get_normalized_http_url(),
-      $this->get_signable_parameters()
+      $this->get_signable_parameters(),
     );
 
       $parts = doubanOAuthUtil::urlencode_rfc3986($parts);
@@ -380,6 +382,7 @@ class doubanOAuthRequest
         || ($scheme == 'http' && $port != '80')) {
           $host = "$host:$port";
       }
+
       return "$scheme://$host$path";
   }/*}}}*/
 
@@ -388,8 +391,9 @@ class doubanOAuthRequest
    */
   public function to_url()
   {/*{{{*/
-    $out = $this->get_normalized_http_url() . "?";
+    $out = $this->get_normalized_http_url()."?";
       $out .= $this->to_postdata();
+
       return $out;
   }/*}}}*/
 
@@ -406,13 +410,14 @@ class doubanOAuthRequest
       foreach ($this->parameters as $k => $v) {
           if (is_array($v)) {
               foreach ($v as $va) {
-                  $total[] = doubanOAuthUtil::urlencode_rfc3986($k) . "[]=" . doubanOAuthUtil::urlencode_rfc3986($va);
+                  $total[] = doubanOAuthUtil::urlencode_rfc3986($k)."[]=".doubanOAuthUtil::urlencode_rfc3986($va);
               }
           } else {
-              $total[] = doubanOAuthUtil::urlencode_rfc3986($k) . "=" . doubanOAuthUtil::urlencode_rfc3986($v);
+              $total[] = doubanOAuthUtil::urlencode_rfc3986($k)."=".doubanOAuthUtil::urlencode_rfc3986($v);
           }
       }
       $out = implode("&", $total);
+
       return $out;
   }/*}}}*/
 
@@ -430,8 +435,9 @@ class doubanOAuthRequest
           if (is_array($v)) {
               throw new doubanOAuthException('Arrays not supported in headers');
           }
-          $out .= ',' . doubanOAuthUtil::urlencode_rfc3986($k) . '="' . doubanOAuthUtil::urlencode_rfc3986($v) . '"';
+          $out .= ','.doubanOAuthUtil::urlencode_rfc3986($k).'="'.doubanOAuthUtil::urlencode_rfc3986($v).'"';
       }
+
       return $out;
   }/*}}}*/
 
@@ -451,6 +457,7 @@ class doubanOAuthRequest
   public function build_signature($signature_method, $consumer, $token)
   {/*{{{*/
     $signature = $signature_method->build_signature($this, $consumer, $token);
+
       return $signature;
   }/*}}}*/
 
@@ -470,7 +477,7 @@ class doubanOAuthRequest
     $mt = microtime();
       $rand = mt_rand();
 
-      return md5($mt . $rand); // md5s look nicer than numbers
+      return md5($mt.$rand); // md5s look nicer than numbers
   }/*}}}*/
 
   /**
@@ -519,6 +526,7 @@ class doubanOAuthRequest
               $out[$key] = $value;
           }
       }
+
       return $out;
   }/*}}}*/
 }/*}}}*/
@@ -595,6 +603,7 @@ class doubanOAuthServer
       $consumer = $this->get_consumer($request);
       $token = $this->get_token($request, $consumer, "access");
       $this->check_signature($request, $consumer, $token);
+
       return array($consumer, $token);
   }/*}}}*/
 
@@ -611,6 +620,7 @@ class doubanOAuthServer
       if ($version && $version != $this->version) {
           throw new doubanOAuthException("OAuth version '$version' not supported");
       }
+
       return $version;
   }/*}}}*/
 
@@ -627,9 +637,10 @@ class doubanOAuthServer
       if (!in_array($signature_method,
                   array_keys($this->signature_methods))) {
           throw new doubanOAuthException(
-        "Signature method '$signature_method' not supported try one of the following: " . implode(", ", array_keys($this->signature_methods))
+        "Signature method '$signature_method' not supported try one of the following: ".implode(", ", array_keys($this->signature_methods))
       );
       }
+
       return $this->signature_methods[$signature_method];
   }/*}}}*/
 
@@ -663,6 +674,7 @@ class doubanOAuthServer
       if (!$token) {
           throw new doubanOAuthException("Invalid $token_type token: $token_field");
       }
+
       return $token;
   }/*}}}*/
 
@@ -779,6 +791,7 @@ class SimpleOAuthDataStore extends doubanOAuthDataStore
       if (!($obj instanceof doubanOAuthConsumer)) {
           return null;
       }
+
       return $obj;
   }/*}}}*/
 
@@ -792,6 +805,7 @@ class SimpleOAuthDataStore extends doubanOAuthDataStore
       if (!($obj instanceof doubanOAuthToken)) {
           return null;
       }
+
       return $obj;
   }/*}}}*/
 
@@ -801,6 +815,7 @@ class SimpleOAuthDataStore extends doubanOAuthDataStore
         return true;
     } else {
         dba_insert("nonce_$nonce", "1", $this->dbh);
+
         return false;
     }
   }/*}}}*/
@@ -813,6 +828,7 @@ class SimpleOAuthDataStore extends doubanOAuthDataStore
       if (!dba_insert("${type}_$key", serialize($token), $this->dbh)) {
           throw new doubanOAuthException("doooom!");
       }
+
       return $token;
   }/*}}}*/
 
@@ -825,7 +841,8 @@ class SimpleOAuthDataStore extends doubanOAuthDataStore
   {/*{{{*/
 
     $token = $this->new_token($consumer, 'access');
-      dba_delete("request_" . $token->key, $this->dbh);
+      dba_delete("request_".$token->key, $this->dbh);
+
       return $token;
   }/*}}}*/
 }/*}}}*/

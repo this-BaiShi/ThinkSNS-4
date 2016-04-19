@@ -124,8 +124,8 @@ class UploadFile
      +----------------------------------------------------------
      * @access public
      +----------------------------------------------------------
-     * @param mixed $name 数据
-     * @param string $value  数据表名
+     * @param mixed  $name  数据
+     * @param string $value 数据表名
      +----------------------------------------------------------
      * @return string
      +----------------------------------------------------------
@@ -138,11 +138,13 @@ class UploadFile
         if (!$this->uploadReplace && is_file($filename)) {
             // 不覆盖同名文件
             $this->error    =    '文件已经存在！'.$filename;
+
             return false;
         }
         $saveFileName = auto_charset($filename, 'utf-8', 'gbk');
         if (!move_uploaded_file($file['tmp_name'], $saveFileName)) {
             $this->error = '文件上传保存错误！';
+
             return false;
         }
         if ($this->thumb) { //是否主动生成缩略图 不建议开启
@@ -167,7 +169,7 @@ class UploadFile
      +----------------------------------------------------------
      * @access public
      +----------------------------------------------------------
-     * @param string $savePath  上传文件保存路径
+     * @param string $savePath 上传文件保存路径
      +----------------------------------------------------------
      * @return string
      +----------------------------------------------------------
@@ -190,12 +192,14 @@ class UploadFile
                 // 尝试创建目录
                 if (!mkdir($savePath, 0777, true)) {
                     $this->error  =  '上传目录'.$savePath.'不存在';
+
                     return false;
                 }
             }
         } else {
             if (!is_writeable($savePath)) {
                 $this->error  =  '上传目录'.$savePath.'不可写';
+
                 return false;
             }
         }
@@ -246,9 +250,11 @@ class UploadFile
         }
         if ($isUpload) {
             $this->uploadFileInfo = $fileInfo;
+
             return true;
         } else {
             $this->error  = '上传出错！文件不符合上传要求。';
+
             return false;
         }
     }
@@ -259,7 +265,7 @@ class UploadFile
      +----------------------------------------------------------
      * @access private
      +----------------------------------------------------------
-     * @param array $files  上传的文件变量
+     * @param array $files 上传的文件变量
      +----------------------------------------------------------
      * @return array
      +----------------------------------------------------------
@@ -281,6 +287,7 @@ class UploadFile
             }
             break;
         }
+
         return $fileArray;
     }
 
@@ -290,9 +297,8 @@ class UploadFile
      +----------------------------------------------------------
      * @access public
      +----------------------------------------------------------
-     * @param string $errorNo  错误号码
+     * @param string $errorNo 错误号码
      +----------------------------------------------------------
-     * @return void
      +----------------------------------------------------------
      * @throws ThinkExecption
      +----------------------------------------------------------
@@ -341,6 +347,7 @@ class UploadFile
             default:
                 $this->error = '未知上传错误！';
         }
+
         return ;
     }
 
@@ -377,6 +384,7 @@ class UploadFile
                 // 使用子目录保存文件
                 $saveName   =  $this->getSubName($filename).'/'.$saveName;
             }
+
             return $saveName;
         }
     }
@@ -387,7 +395,7 @@ class UploadFile
      +----------------------------------------------------------
      * @access private
      +----------------------------------------------------------
-     * @param array $file  上传的文件信息
+     * @param array $file 上传的文件信息
      +----------------------------------------------------------
      * @return string
      +----------------------------------------------------------
@@ -411,6 +419,7 @@ class UploadFile
         if (!is_dir($file['savepath'].$dir)) {
             mk_dir($file['savepath'].$dir);
         }
+
         return $dir;
     }
 
@@ -422,7 +431,7 @@ class UploadFile
      +----------------------------------------------------------
      * @param array $file 文件信息
      +----------------------------------------------------------
-     * @return boolean
+     * @return bool
      +----------------------------------------------------------
      */
     private function check($file)
@@ -431,31 +440,37 @@ class UploadFile
             //文件上传失败
             //捕获错误代码
             $this->error($file['error']);
+
             return false;
         }
         //文件上传成功，进行自定义规则检查
         //检查文件大小
         if (!$this->checkSize($file['size'])) {
             $this->error = '上传文件大小不符,文件不能超过 '.byte_format($this->maxSize);
+
             return false;
         }
 
         //检查文件Mime类型
         if (!$this->checkType($file['type'])) {
             $this->error = '上传文件MIME类型不允许！';
+
             return false;
         }
         //检查文件类型
         if (!$this->checkExt($file['extension'])) {
             $this->error ='上传文件类型不允许';
+
             return false;
         }
 
         //检查是否合法上传
         if (!$this->checkUpload($file['tmp_name'])) {
             $this->error = '非法上传文件！';
+
             return false;
         }
+
         return true;
     }
 
@@ -467,7 +482,7 @@ class UploadFile
      +----------------------------------------------------------
      * @param string $type 数据
      +----------------------------------------------------------
-     * @return boolean
+     * @return bool
      +----------------------------------------------------------
      */
     private function checkType($type)
@@ -475,6 +490,7 @@ class UploadFile
         if (!empty($this->allowTypes)) {
             return in_array(strtolower($type), $this->allowTypes);
         }
+
         return true;
     }
 
@@ -487,19 +503,21 @@ class UploadFile
      +----------------------------------------------------------
      * @param string $ext 后缀名
      +----------------------------------------------------------
-     * @return boolean
+     * @return bool
      +----------------------------------------------------------
      */
     private function checkExt($ext)
     {
         if (in_array($ext, array('php', 'php3', 'exe', 'sh', 'html', 'asp', 'aspx'))) {
             $this->error    =   '不允许上传可执行的脚本文件，如：php、exe、html后缀的文件';
+
             return false;
         }
 
         if (!empty($this->allowExts)) {
             return in_array(strtolower($ext), $this->allowExts, true);
         }
+
         return true;
     }
 
@@ -509,9 +527,9 @@ class UploadFile
      +----------------------------------------------------------
      * @access private
      +----------------------------------------------------------
-     * @param integer $size 数据
+     * @param int $size 数据
      +----------------------------------------------------------
-     * @return boolean
+     * @return bool
      +----------------------------------------------------------
      */
     private function checkSize($size)
@@ -527,7 +545,7 @@ class UploadFile
      +----------------------------------------------------------
      * @param string $filename 文件名
      +----------------------------------------------------------
-     * @return boolean
+     * @return bool
      +----------------------------------------------------------
      */
     private function checkUpload($filename)
@@ -543,12 +561,13 @@ class UploadFile
      +----------------------------------------------------------
      * @param string $filename 文件名
      +----------------------------------------------------------
-     * @return boolean
+     * @return bool
      +----------------------------------------------------------
      */
     private function getExt($filename)
     {
         $pathinfo = pathinfo($filename);
+
         return $pathinfo['extension'];
     }
 
@@ -594,12 +613,12 @@ class UploadFile
         $file_path = date('/Y/md/H/');
         $filename  = UPLOAD_URL.$file_path.$image_name; //将URL转化为本地地址
 
-         
+
         $oldimageinfo = getimagesize($filename);
         $w  = intval($oldimageinfo[0]);
         $h = intval($oldimageinfo[1]);
         $type = intval($oldimageinfo[2]);
-    
+
         switch ($type) {
             case 2:
                 $image = imagecreatefromjpeg($filename);
@@ -618,7 +637,7 @@ class UploadFile
                 $temp = 1000/$w;
                 $width = 1000;
                 $height = floor($h*$temp);
-                    
+
                 $image_p = imagecreatetruecolor($width, $height);
                 imagealphablending($image_p, false);
                 imagesavealpha($image_p, true);

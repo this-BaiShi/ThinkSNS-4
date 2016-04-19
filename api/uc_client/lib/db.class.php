@@ -68,12 +68,14 @@ class ucclient_db
     public function result_first($sql)
     {
         $query = $this->query($sql);
+
         return $this->result($query, 0);
     }
 
     public function fetch_first($sql)
     {
         $query = $this->query($sql);
+
         return $this->fetch_array($query);
     }
 
@@ -84,6 +86,7 @@ class ucclient_db
         while ($data = $this->fetch_array($query)) {
             $id ? $arr[$data[$id]] = $data : $arr[] = $data;
         }
+
         return $arr;
     }
 
@@ -100,6 +103,7 @@ class ucclient_db
         }
         $this->querynum++;
         $this->histories[] = $sql;
+
         return $query;
     }
 
@@ -110,7 +114,7 @@ class ucclient_db
 
     public function error()
     {
-        return (($this->link) ? mysql_error($this->link) : mysql_error());
+        return ($this->link) ? mysql_error($this->link) : mysql_error();
     }
 
     public function errno()
@@ -121,12 +125,14 @@ class ucclient_db
     public function result($query, $row)
     {
         $query = @mysql_result($query, $row);
+
         return $query;
     }
 
     public function num_rows($query)
     {
         $query = mysql_num_rows($query);
+
         return $query;
     }
 
@@ -148,6 +154,7 @@ class ucclient_db
     public function fetch_row($query)
     {
         $query = mysql_fetch_row($query);
+
         return $query;
     }
 

@@ -21,9 +21,8 @@ class Addons
 
     /**
      * 调用插件Hook
-     * @param string $name 钩子名称
-     * @param array $param 相关参数
-     * @return void
+     * @param string $name  钩子名称
+     * @param array  $param 相关参数
      */
     public static function hook($name, $param = array())
     {
@@ -80,10 +79,9 @@ class Addons
     /**
      * 单个调用钩子
      * @param string $addonsName 插件名称
-     * @param string $name 钩子名称
-     * @param array $param 相关参数
-     * @param boolean $admin 是否是管理员
-     * @return void
+     * @param string $name       钩子名称
+     * @param array  $param      相关参数
+     * @param bool   $admin      是否是管理员
      */
     public static function addonsHook($addonsName, $name, $param = array(), $admin = false)
     {
@@ -140,7 +138,6 @@ class Addons
 
     /**
      * 加载所有有效的插件
-     * @return void
      */
     public static function loadAllValidAddons()
     {
@@ -153,9 +150,9 @@ class Addons
 
     /**
      * 是否能请求钩子操作
-     * @param string $hookname 钩子名称
-     * @param object $addon 钩子对象
-     * @return boolean 是否能请求钩子操作
+     * @param  string $hookname 钩子名称
+     * @param  object $addon    钩子对象
+     * @return bool   是否能请求钩子操作
      */
     public static function requireHooks($hookname, $addon = null)
     {
@@ -166,24 +163,24 @@ class Addons
 
     /**
      * 用于生成插件后台管理页面的URL
-     * @param string $page 管理页面或操作
-     * @param array $param 相关参数
+     * @param  string $page  管理页面或操作
+     * @param  array  $param 相关参数
      * @return string 插件后台管理页面的URL
      */
     public static function adminPage($page, $param = null)
     {
-        return U('admin/Addons/admin', array('pluginid'=>intval($_GET['pluginid']), 'page'=>$page) + (array)$param);
+        return U('admin/Addons/admin', array('pluginid'=>intval($_GET['pluginid']), 'page'=>$page) + (array) $param);
     }
 
     /**
      * [adminUrl description]
-     * @param string $page
-     * @param array $param
+     * @param  string $page
+     * @param  array  $param
      * @return [type] [description]
      */
     public static function adminUrl($page, $param = null)
     {
-        return U('admin/Addons/doAdmin', array('pluginid'=>intval($_GET['pluginid']), 'page'=>$page) + (array)$param);
+        return U('admin/Addons/doAdmin', array('pluginid'=>intval($_GET['pluginid']), 'page'=>$page) + (array) $param);
     }
 
     /**
@@ -191,12 +188,13 @@ class Addons
      * @param  [type] $name  [description]
      * @param  [type] $hooks [description]
      * @param  [type] $param [description]
-     * @return [type]        [description]
+     * @return [type] [description]
      */
     public static function createAddonUrl($name, $hooks, $param = null)
     {
         $param['addon'] = $name;
         $param['hook'] = $hooks;
+
         return U('public/Widget/addonsRequest', $param);
     }
 
@@ -208,12 +206,12 @@ class Addons
      * @param mixed $param
      * @static
      * @access public
-     * @return void
      */
     public static function createAddonShow($name, $hooks, $param=null)
     {
         $param['addon'] = $name;
         $param['hook'] = $hooks;
+
         return U('public/Widget/displayAddons', $param);
     }
 }

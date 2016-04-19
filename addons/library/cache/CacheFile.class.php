@@ -19,7 +19,6 @@ defined('THINK_PATH') or exit();
  */
 class CacheFile extends Cache
 {
-
     /**
      * 架构函数
      * @access public
@@ -61,7 +60,7 @@ class CacheFile extends Cache
     /**
      * 取得变量的存储文件名
      * @access private
-     * @param string $name 缓存变量名
+     * @param  string $name 缓存变量名
      * @return string
      */
     private function filename($name)
@@ -81,13 +80,14 @@ class CacheFile extends Cache
         } else {
             $filename    =    $this->options['prefix'].$name.'.php';
         }
+
         return $this->options['temp'].$filename;
     }
 
     /**
      * 读取缓存
      * @access public
-     * @param string $name 缓存变量名
+     * @param  string $name 缓存变量名
      * @return mixed
      */
     public function get($name)
@@ -99,10 +99,11 @@ class CacheFile extends Cache
         N('cache_read', 1);
         $content    =   file_get_contents($filename);
         if (false !== $content) {
-            $expire  =  (int)substr($content, 8, 12);
+            $expire  =  (int) substr($content, 8, 12);
             if ($expire != 0 && time() > filemtime($filename) + $expire) {
                 //缓存过期删除缓存文件
                 unlink($filename);
+
                 return false;
             }
             if (C('DATA_CACHE_CHECK')) {
@@ -121,6 +122,7 @@ class CacheFile extends Cache
                 $content   =   gzuncompress($content);
             }
             $content    =   unserialize($content);
+
             return $content;
         } else {
             return false;
@@ -130,9 +132,9 @@ class CacheFile extends Cache
     /**
      * 写入缓存
      * @access public
-     * @param string $name 缓存变量名
-     * @param mixed $value  存储数据
-     * @param int $expire  有效时间 0为永久
+     * @param  string $name   缓存变量名
+     * @param  mixed  $value  存储数据
+     * @param  int    $expire 有效时间 0为永久
      * @return boolen
      */
     public function set($name, $value, $expire=null)
@@ -161,6 +163,7 @@ class CacheFile extends Cache
                 $this->queue($name);
             }
             clearstatcache();
+
             return true;
         } else {
             return false;
@@ -170,7 +173,7 @@ class CacheFile extends Cache
     /**
      * 删除缓存
      * @access public
-     * @param string $name 缓存变量名
+     * @param  string $name 缓存变量名
      * @return boolen
      */
     public function rm($name)
@@ -183,7 +186,7 @@ class CacheFile extends Cache
     /**
      * 清除缓存
      * @access public
-     * @param string $name 缓存变量名
+     * @param  string $name 缓存变量名
      * @return boolen
      */
     public function clear()
@@ -193,10 +196,11 @@ class CacheFile extends Cache
             while ($file = readdir($dir)) {
                 $check = is_dir($file);
                 if (!$check) {
-                    unlink($path . $file);
+                    unlink($path.$file);
                 }
             }
             closedir($dir);
+
             return true;
         }
     }

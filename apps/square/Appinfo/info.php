@@ -1,4 +1,5 @@
 <?php
+
 if (!defined('SITE_PATH')) {
     exit();
 }
@@ -13,9 +14,9 @@ return array(
     // 前台入口 [必填]（格式：Action/act）
     'APP_ENTRY'                    => 'Index/index',
     // 应用图标 [必填]
-    'ICON_URL'                    => SITE_URL . '/apps/square/Appinfo/icon_app.png',
+    'ICON_URL'                    => SITE_URL.'/apps/square/Appinfo/icon_app.png',
     // 应用图标 [必填]
-    'LARGE_ICON_URL'            => SITE_URL . '/apps/square/Appinfo/icon_app_large.png',
+    'LARGE_ICON_URL'            => SITE_URL.'/apps/square/Appinfo/icon_app_large.png',
     // 版本号 [必填]
     'VERSION_NUMBER'            => '36263',
     // 后台入口 [选填]

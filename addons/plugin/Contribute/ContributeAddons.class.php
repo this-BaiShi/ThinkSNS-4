@@ -16,23 +16,24 @@ class ContributeAddons extends NormalAddons
     public function getHooksInfo()
     {
         $hooks['list'] = array('ContributeHooks');
+
         return $hooks;
     }
 
     public function start()
     {
     }
-    
+
     public function install()
     {
         return true;
     }
-    
+
     public function uninstall()
     {
         return true;
     }
-    
+
     public function adminMenu()
     {
     }

@@ -6,7 +6,6 @@
  */
 class CommentAction extends Action
 {
-        
     /**
      * 我的评论页面
      */
@@ -42,8 +41,8 @@ class CommentAction extends Action
             } else {
                 // 微吧
                 strtolower($key) === 'weiba_post' && $key = 'weiba';
-                
-                $langKey = 'PUBLIC_APPNAME_' . strtoupper($key);
+
+                $langKey = 'PUBLIC_APPNAME_'.strtoupper($key);
                 $lang = L($langKey);
                 if ($lang==$langKey) {
                     $d['tabHash'][$key] = ucfirst($key);

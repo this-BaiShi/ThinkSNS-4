@@ -5,5 +5,5 @@
 return array(
     "access" => array(
         'channel/Index/*' => true,
-    )
+    ),
 );

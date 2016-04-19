@@ -8,7 +8,6 @@ class ShareAction extends Action
 {
     /**
      * _initialize 模块初始化
-     * @return void
      */
     protected function _initialize()
     {
@@ -16,7 +15,6 @@ class ShareAction extends Action
 
     /**
      * 分享控制
-     * @return void
      */
     public function index()
     {
@@ -137,7 +135,7 @@ class ShareAction extends Action
                     'attach_name' => $av['name'],
                     'attach_url'  => getImageUrl($av['save_path'].$av['save_name']),
                     'extension'   => $av['extension'],
-                    'size'          => $av['size']
+                    'size'          => $av['size'],
                 );
                 if (in_array($av['extension'], array('jpg', 'png', 'gif', 'bmp'))) {
                     $_attach['attach_small'] = getImageUrl($av['save_path'].$av['save_name'], 100, 100, true);

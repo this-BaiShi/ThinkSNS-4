@@ -7,7 +7,6 @@
  */
 class WebMessageModel
 {
-
     protected $userId = null;
 
     protected $room = null;
@@ -31,7 +30,7 @@ class WebMessageModel
             return false;
         }
 
-        $toUid = (int)$toUid;
+        $toUid = (int) $toUid;
 
         if ($this->userId == $toUid) {
             return false;
@@ -42,9 +41,9 @@ class WebMessageModel
         }
 
         if ($this->userId > $toUid) {
-            $minMax = $toUid . '_' . $this->userId;
+            $minMax = $toUid.'_'.$this->userId;
         } else {
-            $minMax = $this->userId . '_' . $toUid;
+            $minMax = $this->userId.'_'.$toUid;
         }
 
         $map['min_max'] = $minMax;
@@ -64,12 +63,13 @@ class WebMessageModel
             if ($listId) {
                 $data['list_id'] = $listId;
                 $table = $this->table('message_member');
-                $sql = "INSERT INTO `{$table}` (`list_id`,`member_uid`,`new`,`message_num`,`ctime`,`list_ctime`) " .
+                $sql = "INSERT INTO `{$table}` (`list_id`,`member_uid`,`new`,`message_num`,`ctime`,`list_ctime`) ".
                     "VALUES ({$listId},{$this->userId},0,0,{$time},{$time}),({$listId},{$toUid},0,0,{$time},{$time})";
                 if (M()->execute($sql)) {
                     return $data;
                 }
             }
+
             return false;
         } else {
             unset($result['last_message']);
@@ -80,7 +80,7 @@ class WebMessageModel
 
     /**
      * @param $uids
-     * @param null $title
+     * @param  null       $title
      * @return array|bool
      */
     public function createGroupRoom($uids, $title = null)
@@ -129,9 +129,11 @@ class WebMessageModel
                         'room_member_num' => count($users),
                     ),
                 ), true);
+
                 return $room;
             }
         }
+
         return false;
     }
 
@@ -183,9 +185,11 @@ class WebMessageModel
                     $result['to_uids'], explode(',', $memberUids)
                 ));
                 $this->pushMessage($result['to_uids'], array($result['return']));
+
                 return true;
             }
         }
+
         return false;
     }
 
@@ -220,7 +224,7 @@ class WebMessageModel
             return false;
         }
         if (false !== M()->execute("INSERT INTO `{$table}` (`list_id`,`member_uid`,`new`".
-            ",`message_num`,`ctime`,`list_ctime`) VALUES " . rtrim($sql_values, ','))) {
+            ",`message_num`,`ctime`,`list_ctime`) VALUES ".rtrim($sql_values, ','))) {
             // 更新成员数量和min_max
             $member_num = $this->refreshRoomMember($roomId);
             // 发消息
@@ -232,14 +236,16 @@ class WebMessageModel
                     'room_member_num' => $member_num,
                 ),
             ), true);
+
             return true;
         }
+
         return false;
     }
 
     /**
      * 主动退出群房间
-     * @param integer $roomId 房间ID
+     * @param  int  $roomId 房间ID
      * @return bool
      */
     public function quitGroupRoom($roomId)
@@ -274,8 +280,10 @@ class WebMessageModel
                 $this->sendMessage($data, true);
                 $this->pushMessage(array($uid), array($data));
             }
+
             return true;
         }
+
         return false;
     }
 
@@ -310,6 +318,7 @@ class WebMessageModel
                     ),
                 ),
             ), true);
+
             return true;
         } else {
             return false;
@@ -318,9 +327,9 @@ class WebMessageModel
 
     /**
      * 检查群组权限
-     * @param integer $roomId 房间ID
-     * @param bool $checkMaster 是否检查uid为群主
-     * @param int $type 群房间类型 null 为不限制
+     * @param  int  $roomId      房间ID
+     * @param  bool $checkMaster 是否检查uid为群主
+     * @param  int  $type        群房间类型 null 为不限制
      * @return bool
      */
     public function checkGroupPermissions($roomId, $checkMaster = false, $type = 2)
@@ -334,14 +343,15 @@ class WebMessageModel
             $where .= ' AND `type`='.intval($type);
         }
         $uids = $this->room()->where($where)->getField('min_max');
+
         return $uids && ($checkMaster || false !== strpos("_{$uids}_", "_{$uid}_"));
     }
 
     /**
      * 刷新房间成员信息
-     * @param integer $roomId 房间ID
-     * @param bool $changeMaster
-     * @return int 返回群成员数量
+     * @param  int  $roomId       房间ID
+     * @param  bool $changeMaster
+     * @return int  返回群成员数量
      */
     public function refreshRoomMember($roomId, $changeMaster = false)
     {
@@ -352,6 +362,7 @@ class WebMessageModel
             $this->room()->where($where)->delete();
             $this->push()->where($where)->delete();
             $this->content()->where($where)->delete();
+
             return 0;
         } else { // 更新群成员信息
             $members = array_column($members, 'member_uid');
@@ -428,17 +439,19 @@ class WebMessageModel
                 $list = $this->appendRoomListMember($list);
             }
         }
+
         return $data;
     }
 
     public function getRoomMember($roomId)
     {
         $map['list_id'] = intval($roomId);
+
         return $this->member()->where($map)->order('id')->findAll();
     }
 
     /**
-     * @param array $data
+     * @param  array       $data
      * @return array|mixed
      */
     public function appendRoomListMember(array $data)
@@ -519,14 +532,16 @@ class WebMessageModel
             if ($direction == 'lt') {
                 $data = array_reverse($data);
             }
+
             return $this->parseMessage($data);
         }
+
         return $data;
     }
 
     /**
      * 将消息列表整理为标准的返回格式
-     * @param array $list 需要整理的消息列表
+     * @param  array $list 需要整理的消息列表
      * @return array 返回整理好的消息列表
      */
     public function parseMessage($list)
@@ -536,12 +551,12 @@ class WebMessageModel
         }
         $array = array();
         foreach ($list as $key => $rs) {
-            $array[$key]['message_id'] = (int)$rs['message_id'];
-            $array[$key]['from_uid'] = (int)$rs['from_uid'];
+            $array[$key]['message_id'] = (int) $rs['message_id'];
+            $array[$key]['from_uid'] = (int) $rs['from_uid'];
             $array[$key]['type'] = $rs['type'];
-            $array[$key]['content'] = (string)$rs['content'];
-            $array[$key]['list_id'] = (int)$rs['list_id'];
-            $array[$key]['mtime'] = (int)$rs['mtime'];
+            $array[$key]['content'] = (string) $rs['content'];
+            $array[$key]['list_id'] = (int) $rs['list_id'];
+            $array[$key]['mtime'] = (int) $rs['mtime'];
             if (empty($rs['attach_ids'])) {
                 $attach = array();
             } else {
@@ -563,11 +578,12 @@ class WebMessageModel
                 $array[$key]['location'] = $attach['location'];
                 $array[$key]['attach_id'] = $attach['attach_id'];
             } elseif ($rs['type'] == 'card') {
-                $array[$key]['uid'] = (int)$attach['uid'];
+                $array[$key]['uid'] = (int) $attach['uid'];
             } else {
                 $array[$key]['type'] = 'text';
             }
         }
+
         return $array;
     }
 
@@ -643,7 +659,7 @@ class WebMessageModel
                 }
                 $data['attach_ids'] = serialize(array(
                     'attach_id' => $attachId,
-                    'length'    => $message['length']
+                    'length'    => $message['length'],
                 ));
                 $return['length'] = $message['length'];
                 $data['content'] = $return['content'] = '[语音]';
@@ -666,7 +682,7 @@ class WebMessageModel
                 $data['content'] = $return['content'] = '[位置]';
             } else {
                 $data['attach_ids'] = serialize(array(
-                    'attach_id' => $attachId
+                    'attach_id' => $attachId,
                 ));
                 $data['content'] = $return['content'] = '[图片]';
             }
@@ -712,6 +728,7 @@ class WebMessageModel
                 return array('to_uids'=>$toUids, 'return'=>$return);
             }
         }
+
         return false;
     }
 
@@ -724,11 +741,11 @@ class WebMessageModel
                 require ADDON_PATH.'/library/GatewayClient/Gateway.php';
             }
             foreach ($data as &$rs) {
-                $rs['message_id'] = (int)$rs['message_id'];
-                $rs['from_uid'] = (int)$rs['from_uid'];
-                $rs['room_id'] = (int)$rs['list_id'];
-                $rs['mtime'] = (int)$rs['mtime'];
-                $rs['from_uname'] = (string)getUserName($rs['from_uid']);
+                $rs['message_id'] = (int) $rs['message_id'];
+                $rs['from_uid'] = (int) $rs['from_uid'];
+                $rs['room_id'] = (int) $rs['list_id'];
+                $rs['mtime'] = (int) $rs['mtime'];
+                $rs['from_uname'] = (string) getUserName($rs['from_uid']);
                 if (isset($rs['attach_id'])) {
                     $rs['attach_id'] = @desencrypt($rs['attach_id'], C('SECURE_CODE'));
                 }
@@ -758,7 +775,7 @@ class WebMessageModel
 
     public function clearMessage($roomId, $type = 'unread')
     {
-        $uid = (int)$this->userId;
+        $uid = (int) $this->userId;
         $update = "`member_uid`={$uid}";
         $delete = "`uid`={$uid}";
         if ($roomId != 'all') {
@@ -783,14 +800,15 @@ class WebMessageModel
         if (false !== $this->member()->where($update)->save($sets)) {
             return false !== $this->push()->where($delete)->delete();
         }
+
         return false;
     }
 
     /**
      * 根据用户Id，获取全部客户端连接ID
-     * @param string|array $uids 用户ID列表，逗号分隔或一个数组
-     * @param bool $removeCurrentUser 如果为false，那么如果查询结果有当前用户将会保留
-     * @return array 返回一个包含指定用户id的客户端连接Id数组
+     * @param  string|array $uids              用户ID列表，逗号分隔或一个数组
+     * @param  bool         $removeCurrentUser 如果为false，那么如果查询结果有当前用户将会保留
+     * @return array        返回一个包含指定用户id的客户端连接Id数组
      */
     public function getClientByUser($uids, $removeCurrentUser = true)
     {
@@ -818,6 +836,7 @@ class WebMessageModel
     public function hasRoom($roomId)
     {
         $map['list_id'] = intval($roomId);
+
         return $this->room()->where($map)->count() > 0;
     }
 
@@ -829,6 +848,7 @@ class WebMessageModel
 
         $map['list_id'] = intval($roomId);
         $map['member_uid'] = intval($uid);
+
         return $this->member()->where($map)->count() > 0;
     }
 
@@ -837,9 +857,11 @@ class WebMessageModel
         $userId = @intval($userId);
         if ($userId > 0) {
             $this->userId = $userId;
+
             return true;
         } else {
             $this->userId = null;
+
             return false;
         }
     }
@@ -901,7 +923,7 @@ class WebMessageModel
 
     /**
      * @param $name
-     * @param null $propName
+     * @param  null  $propName
      * @return Model
      */
     public function model($name, $propName = null)
@@ -910,6 +932,7 @@ class WebMessageModel
             if (!isset($this->models[$propName])) {
                 $this->models[$propName] = M($name);
             }
+
             return $this->models[$propName];
         } else {
             return M($name);
@@ -918,15 +941,15 @@ class WebMessageModel
 
     public function table($table)
     {
-        return C('DB_PREFIX') . $table;
+        return C('DB_PREFIX').$table;
     }
 
     /**
      * 将一个包含id列表的数组或字符串格式化为标准的逗号分隔值
-     * @param array|string $ints 需要整理的id列表
-     * @param string $default 如果列表中没有符合的ID，则返回此值
-     * @param boolean $unique 是否需要去除重复
-     * @return string 整理好的字符串，如果没有则返回默认值
+     * @param  array|string $ints    需要整理的id列表
+     * @param  string       $default 如果列表中没有符合的ID，则返回此值
+     * @param  bool         $unique  是否需要去除重复
+     * @return string       整理好的字符串，如果没有则返回默认值
      */
     protected static function formatInList($ints, $default = '', $unique = true)
     {
@@ -946,13 +969,14 @@ class WebMessageModel
         if ($unique) {
             $list = array_unique($list);
         }
+
         return implode(',', $list);
     }
 
     /**
      * html编码，默认包括单引号
-     * @param string $string
-     * @param integer $flags
+     * @param  string $string
+     * @param  int    $flags
      * @return string
      */
     protected static function htmlEncode($string, $flags = ENT_QUOTES, $charset = 'UTF-8')
@@ -962,8 +986,8 @@ class WebMessageModel
 
     /**
      * html编码，默认包括单引号
-     * @param string $string
-     * @param integer $flags
+     * @param  string $string
+     * @param  int    $flags
      * @return string
      */
     protected static function htmlDecode($string, $flags = ENT_QUOTES)

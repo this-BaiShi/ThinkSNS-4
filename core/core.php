@@ -114,8 +114,8 @@ tsdefine('TOKEN', 'ts_wx');
 
 /**
  * 载入文件 去重\缓存.
- * @param string $filename 载入的文件名
- * @return boolean
+ * @param  string $filename 载入的文件名
+ * @return bool
  */
 function tsload($filename)
 {
@@ -134,13 +134,13 @@ function tsload($filename)
             $_importFiles[$key] = false;
         }
     }
+
     return $_importFiles[$key];
 }
 
 /**
  * 系统自动加载函数
  * @param string $classname 对象类名
- * @return void
  */
 function tsautoload($classname)
 {
@@ -174,14 +174,15 @@ function tsautoload($classname)
             }
         }
     }
+
     return ;
 }
 
 /**
  * 定义常量,判断是否未定义.
  *
- * @param string $name 常量名
- * @param string $value 常量值
+ * @param  string $name  常量名
+ * @param  string $value 常量值
  * @return string $str 返回常量的值
  */
 function tsdefine($name, $value)
@@ -197,13 +198,14 @@ function tsdefine($name, $value)
     }
     //缓存已定义常量列表
     $ts['_define'][$name] = $value;
+
     return $value;
 }
 
 /**
  * 返回16位md5值
  *
- * @param string $str 字符串
+ * @param  string $str 字符串
  * @return string $str 返回16位的字符串
  */
 function tsmd5($str)
@@ -214,8 +216,8 @@ function tsmd5($str)
 /**
  * 载入配置 修改自ThinkPHP:C函数 为了不与tp冲突
  *
- * @param string $name 配置名/文件名.
- * @param string|array|object $value 配置赋值
+ * @param  string              $name  配置名/文件名.
+ * @param  string|array|object $value 配置赋值
  * @return void|null
  */
 function tsconfig($name=null, $value=null)
@@ -233,6 +235,7 @@ function tsconfig($name=null, $value=null)
                 return isset($ts['_config'][$name])? $ts['_config'][$name] : null;
             }
             $ts['_config'][$name] = $value;
+
             return;
         }
         // 二维数组设置和获取支持
@@ -242,20 +245,22 @@ function tsconfig($name=null, $value=null)
             return isset($ts['_config'][$name[0]][$name[1]]) ? $ts['_config'][$name[0]][$name[1]] : null;
         }
         $ts['_config'][$name[0]][$name[1]] = $value;
+
         return;
     }
     // 批量设置
     if (is_array($name)) {
-        return $ts['_config'] = array_merge((array)$ts['_config'], array_change_key_case($name));
+        return $ts['_config'] = array_merge((array) $ts['_config'], array_change_key_case($name));
     }
+
     return null;// 避免非法参数
 }
 
 /**
  * 执行钩子方法
  *
- * @param string $name 钩子方法名.
- * @param array $params 钩子参数数组.
+ * @param  string       $name   钩子方法名.
+ * @param  array        $params 钩子参数数组.
  * @return array|string Stripped array (or string in the callback).
  */
 function tshook($name, $params=array())
@@ -268,8 +273,10 @@ function tshook($name, $params=array())
                 $result = call_user_func_array($call, $params);
             }
         }
+
         return $result;
     }
+
     return false;
 }
 
@@ -278,7 +285,7 @@ function tshook($name, $params=array())
  *
  * If an array is passed, the array_map() function causes a callback to pass the
  * value back to the function. The slashes from this value will removed.
- * @param array|string $value The array or string to be striped.
+ * @param  array|string $value The array or string to be striped.
  * @return array|string Stripped array (or string in the callback).
  */
 function stripslashes_deep($value)
@@ -293,12 +300,13 @@ function stripslashes_deep($value)
     } else {
         $value = stripslashes($value);
     }
+
     return $value;
 }
 
 /**
  * GPC参数过滤
- * @param array|string $value The array or string to be striped.
+ * @param  array|string $value The array or string to be striped.
  * @return array|string Stripped array (or string in the callback).
  */
 function check_gpc($value=array())
@@ -328,6 +336,7 @@ function static_cache($cache_id, $value=null, $clean = false)
     if ($clean) { //清空缓存 其实是清不了的 程序执行结束才会自动清理
         unset($cacheHash);
         $cacheHash = array(0);
+
         return $cacheHash;
     }
     if (empty($cache_id)) {
@@ -339,6 +348,7 @@ function static_cache($cache_id, $value=null, $clean = false)
     } else {
         //设置缓存数据
         $cacheHash[$cache_id] = $value;
+
         return $cacheHash[$cache_id];
     }
 }

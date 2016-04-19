@@ -55,21 +55,21 @@ $ext            =    '';
 
 /* 新系统需要的一些配置 */
 define('TS_ROOT', dirname(__FILE__));        // Ts根
-define('TS_APPLICATION', TS_ROOT . '/apps'); // 应用存在的目录
-define('TS_CONFIGURE', TS_ROOT . '/config'); // 配置文件存在的目录
+define('TS_APPLICATION', TS_ROOT.'/apps'); // 应用存在的目录
+define('TS_CONFIGURE', TS_ROOT.'/config'); // 配置文件存在的目录
 define('TS_STORAGE', '/storage');            // 储存目录，需要可以公开访问，相对于域名根
 // 新的系统核心接入
-require TS_ROOT . '/src/Build.php';
+require TS_ROOT.'/src/Build.php';
 
 //记录在线统计.
 if ($_GET['action']=='trace') {
-    
-    
+
+
     /* ===================================== step 1 record track ========================================== */
-        
+
     /*$sql    =    "INSERT INTO ".$config['DB_PREFIX']."online_logs 
-				(day,uid,uname,action,refer,isGuest,isIntranet,ip,agent,ext)
-				VALUES ( CURRENT_DATE,'$uid','$uname','$action','$refer','$isGuest','$isIntranet','$ip','$agent','$ext');";
+                (day,uid,uname,action,refer,isGuest,isIntranet,ip,agent,ext)
+                VALUES ( CURRENT_DATE,'$uid','$uname','$action','$refer','$isGuest','$isIntranet','$ip','$agent','$ext');";
     
               
     $result    =    $db->execute("$sql");*/
@@ -86,21 +86,21 @@ if ($_GET['action']=='trace') {
                 'isIntranet' => $isIntranet,
                 'ip'         => $ip,
                 'agent'      => $agent,
-                'ext'        => $ext
+                'ext'        => $ext,
             )
         )
     ;
-    
+
 
     /* ===================================== step 2 update hits ========================================== */
-    
+
     //memcached更新.写入全局点击量.每个应用的点击量.每个版块的点击量.
 
     /* ===================================== step 3 update heartbeat ========================================== */
-    
+
 
     if ((cookie('online_update') + $check_time) < $cTime) {
-       
+
     //刷新用户在线时间
         //设置10分钟过期
         cookie('online_update', $cTime, 7200);
@@ -121,7 +121,7 @@ if ($_GET['action']=='trace') {
             ;
         }
         // $sql    =    "SELECT uid FROM ".$config['DB_PREFIX']."online ".$where;
-       
+
         // $result    =    $db->query("$sql");
 
         $result = $online->select('uid')->get();
@@ -133,9 +133,8 @@ if ($_GET['action']=='trace') {
 
             $result = $online->update(array(
                 'activeTime' => $cTime,
-                'ip'         => $ip
+                'ip'         => $ip,
             ));
-
         } else {
             // $sql    =    "INSERT INTO ".$config['DB_PREFIX']."online (uid,uname,app,ip,agent,activeTime) VALUES ('$uid','{$uname}','$app','$ip','$agent',$cTime);";
             // $result    =    $db->execute("$sql");
@@ -145,7 +144,7 @@ if ($_GET['action']=='trace') {
                 'app'        => $app,
                 'ip'         => $ip,
                 'agent'      => $agent,
-                'activeTime' => $cTime
+                'activeTime' => $cTime,
             ));
         }
     }
@@ -169,6 +168,7 @@ function getClientIp()
     } else {
         $ip = "unknown";
     }
+
     return addslashes($ip);
 }
 
@@ -180,12 +180,14 @@ function t($text)
     $text = real_strip_tags($text);
     $text = addslashes($text);
     $text = trim($text);
+
     return addslashes($text);
 }
 
 function real_strip_tags($str, $allowable_tags="")
 {
     $str = stripslashes(htmlspecialchars_decode($str));
+
     return strip_tags($str, $allowable_tags);
 }
 
@@ -231,6 +233,7 @@ function getBrower()
     } else {
         $browser = 'other';
     }
+
     return addslashes($browser);
 }
 
@@ -242,10 +245,10 @@ function dump($var)
     $output = ob_get_clean();
     if (!extension_loaded('xdebug')) {
         $output = preg_replace("/\]\=\>\n(\s+)/m", "] => ", $output);
-        $output = '<pre style="text-align:left">'. $label. htmlspecialchars($output, ENT_QUOTES). '</pre>';
+        $output = '<pre style="text-align:left">'.$label.htmlspecialchars($output, ENT_QUOTES).'</pre>';
     }
     echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
-    echo($output);
+    echo $output;
 }
 
 // 设置cookie
@@ -286,11 +289,12 @@ function cookie($name, $value='', $option=null)
                }
            }
         }
+
         return;
     }
     $name = $config['prefix'].$name;
 
- 
+
     if (''===$value) {
         //return isset($_COOKIE[$name]) ? unserialize($_COOKIE[$name]) : null;// 获取指定Cookie
         return isset($_COOKIE[$name]) ? ($_COOKIE[$name]) : null;// 获取指定Cookie

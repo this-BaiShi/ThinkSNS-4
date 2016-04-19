@@ -6,23 +6,22 @@
  */
 class PublicSearchModel extends Model
 {
-
     protected $tableName = 'search';
     protected $fields    = array(0=>'doc_id',1=>'app',2=>'type',3=>'string01',4=>'string02',
                                 5=>'string03',6=>'string04',7=>'string05',8=>'int01',9=>'int02',
                                 10=>'int03',11=>'int04',12=>'int05',13=>'file_path',14=>'content',
-                                15=>'mtime',16=>'data',17=>'int06',18=>'int07',19=>'int08',20=>'int09',21=>'int10');
+                                15=>'mtime',16=>'data',17=>'int06',18=>'int07',19=>'int08',20=>'int09',21=>'int10', );
 
     public $appid = 0;                // 应用ID
 
     /**
      * 搜索引擎接口
-     * @param string $key 查询关键字
-     * @param integer $limit 结果集数目，默认为10
-     * @param integer $type 搜索结果类型
-     * @param string $tabkey 搜索Tab类型Key值
-     * @param string $tabvalue 搜索Tab类型Value值
-     * @return array 搜索结果列表数据
+     * @param  string $key      查询关键字
+     * @param  int    $limit    结果集数目，默认为10
+     * @param  int    $type     搜索结果类型
+     * @param  string $tabkey   搜索Tab类型Key值
+     * @param  string $tabvalue 搜索Tab类型Value值
+     * @return array  搜索结果列表数据
      */
     public function search($key, $limit = 10, $type = 1, $tabkey = '', $tabvalue = '')
     {
@@ -36,8 +35,9 @@ class PublicSearchModel extends Model
         $where = $this->getWhere($key, $type, $tabkey, $tabvalue);
 
         $query = "SELECT * FROM ".C('DB_PREFIX')."search WHERE ".$initWhere.$where;
-        
+
         $list  = model('Search')->search($query, $limit);
+
         return $list;
         exit;
         // 筛选项处理
@@ -61,8 +61,8 @@ class PublicSearchModel extends Model
 
     /**
      * 全站查找接口
-     * @param string $key 关键字
-     * @return array 搜索结果列表数据
+     * @param  string $key 关键字
+     * @return array  搜索结果列表数据
      */
     public function searchInAll($key)
     {
@@ -96,14 +96,15 @@ class PublicSearchModel extends Model
         }
         unset($data['public']);
         $return = is_array($data) ? array_merge($return, $data) : $return;
+
         return $return;
     }
 
     /**
      * 根据类型获取提供筛选的Tab数组
-     * @param integer $type 数据类型
-     * @param string $tabkey 选定的Tab的Key值
-     * @return array 提供筛选的Tab数组
+     * @param  int    $type   数据类型
+     * @param  string $tabkey 选定的Tab的Key值
+     * @return array  提供筛选的Tab数组
      */
     public function getTablist($type, $tabkey = '')
     {
@@ -122,7 +123,6 @@ class PublicSearchModel extends Model
 
     /**
      * 初始化数据，用户数据与分享数据
-     * @return void
      */
     public function initData()
     {
@@ -134,8 +134,8 @@ class PublicSearchModel extends Model
 
     /**
      * 格式化搜索结果的数据
-     * @param array $list 搜索的结果数据
-     * @param integer $type 类型值
+     * @param  array $list 搜索的结果数据
+     * @param  int   $type 类型值
      * @return array 格式化后的搜索结果数据
      */
     private function foramtList($list, $type)
@@ -149,6 +149,7 @@ class PublicSearchModel extends Model
         }
         if (empty($pkIds)) {
             $list['data'] = array();
+
             return $list;
         }
 
@@ -194,10 +195,10 @@ class PublicSearchModel extends Model
 
     /**
      * 获取查询的Query的条件语句
-     * @param string $key 查询关键字
-     * @param integer $type 搜索结果类型
-     * @param string $tabkey 搜索Tab类型Key值
-     * @param string $tabvalue 搜索Tab类型Value值
+     * @param  string $key      查询关键字
+     * @param  int    $type     搜索结果类型
+     * @param  string $tabkey   搜索Tab类型Key值
+     * @param  string $tabvalue 搜索Tab类型Value值
      * @return string 查询的Query的条件语句
      */
     private function getWhere($key, $type, $tabkey, $tabvalue)
@@ -258,6 +259,7 @@ class PublicSearchModel extends Model
 					GROUP BY uid
 				) b
 				LEFT JOIN ".$this->tablePrefix."user a ON b.uid = a.uid  where a.uid > {$maxId}";
+
         return $this->query($sql);
     }
 

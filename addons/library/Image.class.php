@@ -49,8 +49,9 @@ class Image
                 "height"=>$imageInfo[1],
                 "type"=>$imageType,
                 "size"=>$imageSize,
-                "mime"=>$imageInfo['mime']
+                "mime"=>$imageInfo['mime'],
             );
+
             return $info;
         } else {
             return false;
@@ -66,11 +67,10 @@ class Image
      * @access public
      +----------------------------------------------------------
      * @param string $imgFile 图像文件名
-     * @param string $text 文字字符串
-     * @param string $width 图像宽度
-     * @param string $height 图像高度
+     * @param string $text    文字字符串
+     * @param string $width   图像宽度
+     * @param string $height  图像高度
      +----------------------------------------------------------
-     * @return void
      +----------------------------------------------------------
      */
     public static function showImg($imgFile, $text='', $width=80, $height=30)
@@ -93,6 +93,7 @@ class Image
                 header("Content-type: ".$info['mime']);
                 $ImageFun($im);
                 imagedestroy($im);
+
                 return ;
             }
         }
@@ -103,6 +104,7 @@ class Image
         imagefilledrectangle($im, 0, 0, 150, 30, $bgc);
         imagestring($im, 4, 5, 5, "NO PIC", $tc);
         Image::output($im);
+
         return ;
     }
 
@@ -112,12 +114,11 @@ class Image
      * @static
      * @access public
      +----------------------------------------------------------
-     * @param string $image  原图
-     * @param string $cutfile 切割后的图片
-     * @param int $cutWidth
-     * @param int $cutHeight
+     * @param string $image     原图
+     * @param string $cutfile   切割后的图片
+     * @param int    $cutWidth
+     * @param int    $cutHeight
      +----------------------------------------------------------
-     * @return void
      */
     public static function cut($image, $filename, $maxWidth='', $maxHeight='')
     {
@@ -189,27 +190,28 @@ class Image
 
             $imageFun($thumbImg, $filename);
             ImageDestroy($thumbImg);
+
             return $filename;
         }
+
         return false;
     }
     /**
-
+     
      +----------------------------------------------------------
      * 生成缩略图
      +----------------------------------------------------------
      * @static
      * @access public
      +----------------------------------------------------------
-     * @param string $image  原图
-     * @param string $type 图像格式
+     * @param string $image     原图
+     * @param string $type      图像格式
      * @param string $thumbname 缩略图文件名
      * @param string $maxWidth  宽度
-     * @param string $maxHeight  高度
-     * @param string $position 缩略图保存目录
-     * @param boolean $interlace 启用隔行扫描
+     * @param string $maxHeight 高度
+     * @param string $position  缩略图保存目录
+     * @param bool   $interlace 启用隔行扫描
      +----------------------------------------------------------
-     * @return void
      +----------------------------------------------------------
      */
     public static function thumb($image, $thumbname, $type='', $maxWidth=200, $maxHeight='auto', $interlace=true)
@@ -234,8 +236,8 @@ class Image
                 $height  =  $srcHeight;
             } else {
                 // 缩略图尺寸
-                $width  = (int)($srcWidth*$scale);
-                $height = (int)($srcHeight*$scale);
+                $width  = (int) ($srcWidth*$scale);
+                $height = (int) ($srcHeight*$scale);
             }
 
             // 载入原图
@@ -284,8 +286,10 @@ class Image
             $imageFun($thumbImg, $thumbname);
             imagedestroy($thumbImg);
             imagedestroy($srcImg);
+
             return $thumbname;
         }
+
         return false;
     }
 
@@ -297,11 +301,11 @@ class Image
      * @access public
      +----------------------------------------------------------
      * @param string $string  字符串
-     * @param string $size  图像大小 width,height 或者 array(width,height)
-     * @param string $font  字体信息 fontface,fontsize 或者 array(fontface,fontsize)
-     * @param string $type 图像格式 默认PNG
-     * @param integer $disturb 是否干扰 1 点干扰 2 线干扰 3 复合干扰 0 无干扰
-     * @param bool $border  是否加边框 array(color)
+     * @param string $size    图像大小 width,height 或者 array(width,height)
+     * @param string $font    字体信息 fontface,fontsize 或者 array(fontface,fontsize)
+     * @param string $type    图像格式 默认PNG
+     * @param int    $disturb 是否干扰 1 点干扰 2 线干扰 3 复合干扰 0 无干扰
+     * @param bool   $border  是否加边框 array(color)
      +----------------------------------------------------------
      * @return string
      +----------------------------------------------------------
@@ -360,11 +364,11 @@ class Image
      * @static
      * @access public
      +----------------------------------------------------------
-     * @param string $length  位数
-     * @param string $mode  类型
-     * @param string $type 图像格式
+     * @param string $length 位数
+     * @param string $mode   类型
+     * @param string $type   图像格式
      * @param string $width  宽度
-     * @param string $height  高度
+     * @param string $height 高度
      +----------------------------------------------------------
      * @return string
      +----------------------------------------------------------
@@ -448,7 +452,7 @@ class Image
      * @static
      * @access public
      +----------------------------------------------------------
-     * @param string $image  要显示的图像
+     * @param string $image 要显示的图像
      * @param string $type  图像类型，默认自动获取
      +----------------------------------------------------------
      * @return string
@@ -479,8 +483,10 @@ class Image
             }
             $out .=  '</span>';
             imagedestroy($im);
+
             return $out;
         }
+
         return false;
     }
 
@@ -491,9 +497,9 @@ class Image
      * @static
      * @access public
      +----------------------------------------------------------
-     * @param string $type 图像格式
+     * @param string $type   图像格式
      * @param string $width  宽度
-     * @param string $height  高度
+     * @param string $height 高度
      +----------------------------------------------------------
      * @return string
      +----------------------------------------------------------
@@ -539,7 +545,7 @@ class Image
      +----------------------------------------------------------
      * @param string $type 图像格式
      * @param string $type 图像格式
-     * @param string $lw  单元宽度
+     * @param string $lw   单元宽度
      * @param string $hi   条码高度
      +----------------------------------------------------------
      * @return string
@@ -548,9 +554,9 @@ class Image
     public static function UPCA($code, $type='png', $lw=2, $hi=100)
     {
         static $Lencode = array('0001101','0011001','0010011','0111101','0100011',
-                         '0110001','0101111','0111011','0110111','0001011');
+                         '0110001','0101111','0111011','0110111','0001011', );
         static $Rencode = array('1110010','1100110','1101100','1000010','1011100',
-                         '1001110','1010000','1000100','1001000','1110100');
+                         '1001110','1010000','1000100','1001000','1110100', );
         $ends = '101';
         $center = '01010';
         /* UPC-A Must be 11 digits, we compute the checksum. */
@@ -631,11 +637,11 @@ if (!function_exists('ImageCreateFrombmp')) {
     function ImageCreateFrombmp($filename)
     {
         $buf=@file_get_contents($filename);
-    
+
         if (strlen($buf)<54) {
             return false;
         }
-    
+
         $file_header=unpack("sbfType/LbfSize/sbfReserved1/sbfReserved2/LbfOffBits", substr($buf, 0, 14));
         if ($file_header["bfType"]!=19778) {
             return false;
@@ -649,7 +655,7 @@ if (!function_exists('ImageCreateFrombmp')) {
         if ($x>0) {
             $line_len+=4-$x;
         }
-    
+
         $img=imagecreatetruecolor($info_header["biWidth"], $info_header["biHeight"]);
         switch ($info_header["biBitCountLbiCompression"]) {
         case 4:
@@ -709,6 +715,7 @@ if (!function_exists('ImageCreateFrombmp')) {
             return false;
             break;
     }
+
         return $img;
     }
     function imagebmp(&$im, $filename = '', $bit = 8, $compression = 0)
@@ -720,58 +727,58 @@ if (!function_exists('ImageCreateFrombmp')) {
 
         $bit = 24;
         }
- 
+
         $bits = pow(2, $bit);
- 
+
     // 调整调色板
     imagetruecolortopalette($im, true, $bits);
         $width = imagesx($im);
         $height = imagesy($im);
         $colors_num = imagecolorstotal($im);
- 
+
         if ($bit <= 8) {
             // 颜色索引
         $rgb_quad = '';
             for ($i = 0; $i < $colors_num; $i ++) {
                 $colors = imagecolorsforindex($im, $i);
-                $rgb_quad .= chr($colors['blue']) . chr($colors['green']) . chr($colors['red']) . "\0";
+                $rgb_quad .= chr($colors['blue']).chr($colors['green']).chr($colors['red'])."\0";
             }
- 
+
         // 位图数据
         $bmp_data = '';
- 
+
         // 非压缩
         if ($compression == 0 || $bit < 8) {
             if (!in_array($bit, array(1, 4, 8))) {
                 $bit = 8;
             }
- 
+
             $compression = 0;
- 
+
         // 每行字节数必须为4的倍数，补齐。
 
- 
+
             $extra = '';
             $padding = 4 - ceil($width / (8 / $bit)) % 4;
             if ($padding % 4 != 0) {
                 $extra = str_repeat("\0", $padding);
             }
- 
+
             for ($j = $height - 1; $j >= 0; $j --) {
                 $i = 0;
                 while ($i < $width) {
                     $bin = 0;
                     $limit = $width - $i < 8 / $bit ? (8 / $bit - $width + $i) * $bit : 0;
- 
+
                     for ($k = 8 - $bit; $k >= $limit; $k -= $bit) {
                         $index = imagecolorat($im, $i, $j);
                         $bin |= $index << $k;
                         $i ++;
                     }
- 
+
                     $bmp_data .= chr($bin);
                 }
- 
+
                 $bmp_data .= $extra;
             }
         }
@@ -784,22 +791,22 @@ if (!function_exists('ImageCreateFrombmp')) {
                             $index = imagecolorat($im, $i, $j);
                             if ($index !== $last_index || $same_num > 255) {
                                 if ($same_num != 0) {
-                                    $bmp_data .= chr($same_num) . chr($last_index);
+                                    $bmp_data .= chr($same_num).chr($last_index);
                                 }
- 
+
                                 $last_index = $index;
                                 $same_num = 1;
                             } else {
                                 $same_num ++;
                             }
                         }
- 
+
                         $bmp_data .= "\0\0";
                     }
- 
+
                     $bmp_data .= "\0\1";
                 }
- 
+
             $size_quad = strlen($rgb_quad);
             $size_data = strlen($bmp_data);
         } else {
@@ -809,62 +816,62 @@ if (!function_exists('ImageCreateFrombmp')) {
             if ($padding % 4 != 0) {
                 $extra = str_repeat("\0", $padding);
             }
- 
+
                                     // 位图数据
                                     $bmp_data = '';
- 
+
             for ($j = $height - 1; $j >= 0; $j --) {
                 for ($i = 0; $i < $width; $i ++) {
                     $index = imagecolorat($im, $i, $j);
                     $colors = imagecolorsforindex($im, $index);
- 
+
                     if ($bit == 16) {
                         $bin = 0 << $bit;
- 
+
                         $bin |= ($colors['red'] >> 3) << 10;
                         $bin |= ($colors['green'] >> 3) << 5;
                         $bin |= $colors['blue'] >> 3;
- 
+
                         $bmp_data .= pack("v", $bin);
                     } else {
                         $bmp_data .= pack("c*", $colors['blue'], $colors['green'], $colors['red']);
                     }
- 
+
                 // todo: 32bit;
                 }
- 
+
                 $bmp_data .= $extra;
             }
- 
+
             $size_quad = 0;
             $size_data = strlen($bmp_data);
             $colors_num = 0;
         }
- 
+
                 // 位图文件头
-                $file_header = "BM" . pack("V3", 54 + $size_quad + $size_data, 0, 54 + $size_quad);
- 
+                $file_header = "BM".pack("V3", 54 + $size_quad + $size_data, 0, 54 + $size_quad);
+
                 // 位图信息头
                 $info_header = pack("V3v2V*", 0x28, $width, $height, 1, $bit, $compression, $size_data, 0, 0, $colors_num, 0);
                 // 写入文件
                 if ($filename != '') {
                     $fp = fopen($filename, "wb");
-     
+
                     fwrite($fp, $file_header);
                     fwrite($fp, $info_header);
                     fwrite($fp, $rgb_quad);
                     fwrite($fp, $bmp_data);
                     fclose($fp);
-     
+
                     return 1;
                 }
- 
+
                 // 浏览器输出
                 header("Content-Type: image/bmp");
-        echo $file_header . $info_header;
+        echo $file_header.$info_header;
         echo $rgb_quad;
         echo $bmp_data;
- 
+
         return 1;
     }
 }

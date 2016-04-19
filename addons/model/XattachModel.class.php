@@ -21,7 +21,6 @@ tsload(SITE_PATH."/addons/library/UploadFile.class.php");
 
 class XattachModel
 {
-
     /**
      * 上传附件
      *
@@ -52,7 +51,7 @@ class XattachModel
 
         //定制化设这 覆盖默认设置
         $options    =    array_merge($default_options, $input_options);
-        
+
         //用户ID
         if (intval($options['uid'])==0) {
             $options['uid']    = $_SESSION['mid'];
@@ -80,6 +79,7 @@ class XattachModel
             //上传失败，返回错误
             $return['status']    =    false;
             $return['info']        =    $upload->getErrorMsg();
+
             return    $return;
         } else {
             $upload_info    =    $upload->getUploadFileInfo();
@@ -154,6 +154,7 @@ class XattachModel
             //上传失败，返回错误
             $return['status']    =    false;
             $return['info']        =    '原始文件不存在';
+
             return    $return;
         } else {
 
@@ -202,6 +203,7 @@ class XattachModel
             //上传失败，返回错误
             $return['status']    =    false;
             $return['info']        =    '文件转移失败';
+
             return    $return;
         } else {
 
@@ -224,6 +226,7 @@ class XattachModel
             //上传成功，输出信息
             $return['status']    =    true;
             $return['info']        =    $map;
+
             return    $return;
         }
     }
@@ -244,7 +247,7 @@ class XattachModel
         }
         //下载函数
         tsload('./addons/library/Http.class.php');
-        $file_path = UPLOAD_PATH . '/' .$attach['savepath'] . $attach['savename'];
+        $file_path = UPLOAD_PATH.'/'.$attach['savepath'].$attach['savename'];
         if (file_exists($file_path)) {
             $filename = strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') ? iconv('utf-8', 'gbk', $attach['name']) : preg_replace('/\s/', '_', $attach['name']);
             Http::download($file_path, $filename);

@@ -7,12 +7,11 @@
  */
 class TagWidget extends Widget
 {
-
     /**
      * @param string width wigdet显示宽度
      * @param string appname 资源对应的应用名称
      * @param string apptable 资源对应的表
-     * @param integer row_id 资源在资源所在表中的主键ID,为0表示该资源为新加资源，需要在资源添加,往sociax_app_tag表添加相关数据
+     * @param int row_id 资源在资源所在表中的主键ID,为0表示该资源为新加资源，需要在资源添加,往sociax_app_tag表添加相关数据
      * @param string tpl 显示模版，tag/show 默认是tag，如果为show表示只显示标签
      * @param string tag_url 标签上的链接前缀，为空表示标签没有链接，只针对tpl=show有效
      * @param string name 输入框的input名称,标签的ID存储的隐藏域名称为 {name}_tags
@@ -57,7 +56,7 @@ class TagWidget extends Widget
             }
         }
         $content = $this->renderFile(dirname(__FILE__)."/".$var['tpl'].".html", $var);
-        
+
         return $content;
     }
 
@@ -97,7 +96,7 @@ class TagWidget extends Widget
         $appTable = t($_REQUEST['apptable']);
         $row_id      = intval($_REQUEST['row_id']);
         $result = model('Tag')->setAppName($appName)->setAppTable($appTable)->deleteAppTag($row_id, t($_POST['tag_id']));
-        
+
         $return['info']    = model('Tag')->getError();
         $return['status']    = $result;
         $return['data']        = null;
@@ -108,7 +107,6 @@ class TagWidget extends Widget
     /**
      * 获取标签的ID
      * @access public 
-     * @return void
      */
     public function getTagId()
     {

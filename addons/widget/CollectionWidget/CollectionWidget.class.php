@@ -7,9 +7,8 @@
  */
 class CollectionWidget extends Widget
 {
-    
     /**
-     * @param integer sid 资源ID
+     * @param int sid 资源ID
      * @param string stable 资源所在的表
      * @param string sapp 资源所在的应用
      * @param string tpl 渲染的模板，可分为simple(有统计数) 和 btn(无统计数)
@@ -18,12 +17,12 @@ class CollectionWidget extends Widget
     {
         $var['tpl'] = 'btn';
         $var['type'] = 'btn';
-        
+
         is_array($data) && $var = array_merge($var, $data);
-        
+
         $var['coll'] = model('Collection')->getCollection($var['sid'], $var['stable']);
         $var['count'] = model('Collection')->getCollectionCount($var['sid'], $var['stable']);
-        
+
         //默认模板直接输出，减少模版解析，提升效率
         if ($var['tpl']=='btn') {
             extract($var, EXTR_OVERWRITE);
@@ -35,7 +34,7 @@ class CollectionWidget extends Widget
         }
 
         $content = $this->renderFile(dirname(__FILE__)."/".t($var['tpl']).'.html', $var);
-        
+
         return $content;
     }
 
@@ -64,7 +63,7 @@ class CollectionWidget extends Widget
             $return = array('status'=>0, 'data'=>'内容已被删除，收藏失败');
             exit(json_encode($return));
         }
-                
+
         if (model('Collection')->addCollection($data)) {
             $return = array('status'=>1,'data'=>L('PUBLIC_FAVORITE_SUCCESS'));
         } else {
@@ -73,7 +72,7 @@ class CollectionWidget extends Widget
         }
         exit(json_encode($return));
     }
-    
+
     /**
      * 取消收藏
      * @return array 成功取消的状态及错误提示

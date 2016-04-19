@@ -8,9 +8,8 @@
 tsload(APPS_PATH.'/admin/Lib/Action/AdministratorAction.class.php');
 class AdminAction extends AdministratorAction
 {
-
     public $pageTitle = array();
-    
+
     /**
      * 初始化，初始化页面表头信息，用于双语
      */
@@ -32,7 +31,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 微吧列表
-     * @return void
      */
     public function index()
     {
@@ -45,17 +43,16 @@ class AdminAction extends AdministratorAction
                 $this->error('保存失败');
             }
         }
-        
+
         //model('Xdata')->lput('square', $this->GroupSetting->getGroupSetting());
         $setting = model('Xdata')->lget('square');
-        
+
         $this->assign('setting', $setting);
         $this->display();
     }
 
     /**
      * 添加微吧
-     * @return void
      */
     public function addWeiba()
     {
@@ -76,7 +73,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 执行添加微吧
-     * @return  void
      */
     public function doAddWeiba()
     {
@@ -125,7 +121,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 编辑微吧
-     * @return void
      */
     public function editWeiba()
     {
@@ -159,7 +154,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 执行编辑微吧
-     * @return void
      */
     public function doEditWeiba()
     {
@@ -394,7 +388,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 后台帖子列表
-     * @return void 
      */
     public function postList()
     {
@@ -527,7 +520,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 后台编辑帖子
-     * @return void
      */
     public function editPost()
     {
@@ -555,7 +547,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 执行编辑帖子
-     * @return void
      */
     public function doEditPost()
     {
@@ -597,7 +588,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 后台删除帖子至回收站
-     * @return void
      */
     public function delPost()
     {
@@ -627,7 +617,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 调整评论楼层
-     * @return void
      */
     public function doStorey()
     {
@@ -652,7 +641,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 后台还原帖子
-     * @return void
      */
     public function recoverPost()
     {
@@ -682,7 +670,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 后台删除帖子至回收站
-     * @return void
      */
     public function deletePost()
     {
@@ -709,7 +696,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 圈主审核配置
-     * @return void
      */
     public function weibaAdminAuditConfig()
     {
@@ -745,7 +731,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 圈主审核
-     * @return void
      */
     public function weibaAdminAudit()
     {
@@ -813,7 +798,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 微吧审核配置
-     * @return void
      */
     public function weibaAuditConfig()
     {
@@ -852,7 +836,6 @@ class AdminAction extends AdministratorAction
     }
     /**
      * 微吧审核
-     * @return void
      */
     public function weibaAudit()
     {
@@ -916,7 +899,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 微吧后台管理菜单
-     * @return void
      */
     private function _initWeibaListAdminMenu()
     {

@@ -16,7 +16,7 @@ class DenouceWidget extends Widget
     {
         return  false;
     }
-    
+
     /**
      * 举报弹框
      * @return string 弹窗页面HTML
@@ -30,6 +30,7 @@ class DenouceWidget extends Widget
             $var['source']['source_content'] = $var['source']['api_source']['source_content'];
         }
         $content = $this->renderFile(dirname(__FILE__)."/index.html", $var);
+
         return $content;
     }
 
@@ -53,7 +54,7 @@ class DenouceWidget extends Widget
         }
         exit(json_encode($res));
     }
-    
+
     /**
      * 格式化模板变量
      * @return array 被举报的信息
@@ -69,9 +70,10 @@ class DenouceWidget extends Widget
         $var['uid'] = $GLOBALS['ts']['mid'];
         empty($var['app']) &&  $var['app'] = 'public';
         $var['source'] = model('Source')->getSourceInfo($var['type'], $var['aid'], false, $var['app']);
+
         return $var;
     }
-    
+
     /**
      * 提交举报
      * @return array 举报信息和操作状态

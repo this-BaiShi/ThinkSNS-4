@@ -26,7 +26,6 @@ defined('THINK_PATH') or exit();
  */
 class CacheDb extends Cache
 {
-
     /**
      * 架构函数
      * @param array $options 缓存参数
@@ -50,7 +49,7 @@ class CacheDb extends Cache
     /**
      * 读取缓存
      * @access public
-     * @param string $name 缓存变量名
+     * @param  string $name 缓存变量名
      * @return mixed
      */
     public function get($name)
@@ -73,6 +72,7 @@ class CacheDb extends Cache
                 $content   =   gzuncompress($content);
             }
             $content    =   unserialize($content);
+
             return $content;
         } else {
             return false;
@@ -82,9 +82,9 @@ class CacheDb extends Cache
     /**
      * 写入缓存
      * @access public
-     * @param string $name 缓存变量名
-     * @param mixed $value  存储数据
-     * @param integer $expire  有效时间（秒）
+     * @param  string $name   缓存变量名
+     * @param  mixed  $value  存储数据
+     * @param  int    $expire 有效时间（秒）
      * @return boolen
      */
     public function set($name, $value, $expire=null)
@@ -119,6 +119,7 @@ class CacheDb extends Cache
                 // 记录缓存队列
                 $this->queue($name);
             }
+
             return true;
         } else {
             return false;
@@ -128,12 +129,13 @@ class CacheDb extends Cache
     /**
      * 删除缓存
      * @access public
-     * @param string $name 缓存变量名
+     * @param  string $name 缓存变量名
      * @return boolen
      */
     public function rm($name)
     {
         $name  =  $this->options['prefix'].addslashes($name);
+
         return $this->handler->execute('DELETE FROM `'.$this->options['table'].'` WHERE `cachekey`=\''.$name.'\'');
     }
 

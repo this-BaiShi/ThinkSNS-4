@@ -1,7 +1,7 @@
 <?php
+
 class CloudImageModel
 {
-
     // 上传文件的最大值
     public $maxSize = 2048000;
 
@@ -16,10 +16,10 @@ class CloudImageModel
 
     // 缩略图最大宽度
     public $thumbMaxWidth = 1024;
-    
+
     // 缩略图最大高度
     public $thumbMaxHeight = 2048;
-    
+
     // 上传文件保存路径
     public $customPath = '';
     public $savePath = '';
@@ -29,7 +29,7 @@ class CloudImageModel
     public $hashType = 'md5_file';
 
     public $autoCheck = true;
-    
+
     // 错误信息
     private $error = '';
 
@@ -49,9 +49,10 @@ class CloudImageModel
     public function getConfig()
     {
         $config = model('Xdata')->get('admin_Config:cloudimage');
+
         return $config;
     }
-    
+
     //是否开启Upyun
     public function isOpen()
     {
@@ -105,6 +106,7 @@ class CloudImageModel
         $cloud = new UpYun($config['cloud_image_bucket'], $config['cloud_image_admin'], $config['cloud_image_password']);
         $cloud->setTimeout(60);
         $res = $cloud->getFileInfo($filename);
+
         return $res;
     }
 
@@ -122,8 +124,9 @@ class CloudImageModel
            "expiration" =>  time()+600, //1分钟超时
            "save-key"   =>  "/{year}/{mon}{day}/{random}.{suffix}",
            "allow-file-type" => "jpg,jpeg,gif,png",
-           "content-length-range" => '0,5120000'    //最大5M
+           "content-length-range" => '0,5120000',    //最大5M
         );
+
         return $policydoc;
     }
 
@@ -131,6 +134,7 @@ class CloudImageModel
     public function getPolicy()
     {
         $policy = base64_encode(json_encode($this->getPolicydoc()));
+
         return $policy;
     }
 
@@ -138,14 +142,15 @@ class CloudImageModel
     public function getSignature()
     {
         $signature = md5($this->getPolicy().'&'.$this->config['cloud_image_form_api_key']);
+
         return $signature;
     }
 
     /**
      * 写入文件
      * @access public
-     * @param string $filename  文件相对路径
-     * @param string $filecontent  文件数据
+     * @param  string $filename    文件相对路径
+     * @param  string $filecontent 文件数据
      * @return bool
      */
     public function writeFile($filename, $filecontent)
@@ -158,6 +163,7 @@ class CloudImageModel
         $res = $cloud->writeFile($filename, $filecontent, true);
         if (!$res) {
             $this->error = '上传到云服务器失败！';
+
             return false;
         } else {
             return true;
@@ -167,7 +173,7 @@ class CloudImageModel
     /**
      * 删除文件
      * @access public
-     * @param string $filename  文件相对路径
+     * @param  string $filename 文件相对路径
      * @return bool
      */
     public function deleteFile($filename)
@@ -180,6 +186,7 @@ class CloudImageModel
         $res = $cloud->deleteFile($filename);
         if (!$res) {
             $this->error = '删除云服务器文件失败！';
+
             return false;
         } else {
             return true;
@@ -189,7 +196,7 @@ class CloudImageModel
     /**
      * 上传文件
      * @access public
-     * @param string $savePath  上传文件保存路径
+     * @param  string         $savePath 上传文件保存路径
      * @return string
      * @throws ThinkExecption
      */
@@ -197,9 +204,10 @@ class CloudImageModel
     {
         if (!$this->isOpen()) {
             $this->error  = '没有开启云图片功能';
+
             return false;
         }
-        
+
         $fileInfo = array();
         $isUpload   = false;
 
@@ -210,7 +218,7 @@ class CloudImageModel
             if (!empty($file['name'])) {
                 $file['key']        =  $key;
                 $file['extension']  = $this->getExt($file['name']);
-                
+
                 if ($this->savePath) {
                     $file['savepath']  = $this->savePath;
                 } else {
@@ -232,7 +240,7 @@ class CloudImageModel
                         return false;
                     }
                 }
-                
+
                 //计算hash
                 if (function_exists($this->hashType)) {
                     $fun =  $this->hashType;
@@ -249,12 +257,13 @@ class CloudImageModel
                 $res = $cloud->writeFile('/'.$file['savepath'].$file['savename'], $file_content, true);
                 if (!$res) {
                     $this->error = '上传到云服务器失败！';
+
                     return false;
                 }
 
                 //上传成功后保存文件信息，供其它地方调用
                 unset($file['tmp_name'], $file['error'], $file_content);
-                
+
                 $fileInfo[] = $file;
                 $isUpload   = true;
             }
@@ -262,9 +271,11 @@ class CloudImageModel
 
         if ($isUpload) {
             $this->uploadFileInfo = $fileInfo;
+
             return true;
         } else {
             $this->error  = '上传出错！文件不符合上传要求。';
+
             return false;
         }
     }
@@ -272,7 +283,7 @@ class CloudImageModel
     /**
      * 转换上传文件数组变量为正确的方式
      * @access private
-     * @param array $files  上传的文件变量
+     * @param  array $files 上传的文件变量
      * @return array
      */
     private function dealFiles($files)
@@ -292,14 +303,14 @@ class CloudImageModel
             }
             break;
         }
+
         return $fileArray;
     }
 
     /**
      * 获取错误代码信息
      * @access public
-     * @param string $errorNo  错误号码
-     * @return void
+     * @param  string         $errorNo 错误号码
      * @throws ThinkExecption
      */
     protected function error($errorNo)
@@ -344,14 +355,15 @@ class CloudImageModel
             default:
                 $this->error = '未知上传错误！';
         }
+
         return ;
     }
 
     /**
      * 检查上传的文件
      * @access private
-     * @param array $file 文件信息
-     * @return boolean
+     * @param  array $file 文件信息
+     * @return bool
      */
     private function check($file)
     {
@@ -359,29 +371,34 @@ class CloudImageModel
             //文件上传失败
             //捕获错误代码
             $this->error($file['error']);
+
             return false;
         }
         //文件上传成功，进行自定义规则检查
         //检查文件大小
         if (!$this->checkSize($file['size'])) {
             $this->error = '上传文件大小不符,文件不能超过 '.byte_format($this->maxSize);
+
             return false;
         }
 
         //检查文件Mime类型
         if (!$this->checkType($file['type'])) {
             $this->error = '上传文件MIME类型不允许！';
+
             return false;
         }
         //检查文件类型
         if (!$this->checkExt($file['extension'])) {
             $this->error ='上传文件类型不允许';
+
             return false;
         }
 
         //检查是否合法上传
         if (!$this->checkUpload($file['tmp_name'])) {
             $this->error = '非法上传文件！';
+
             return false;
         }
 
@@ -391,8 +408,8 @@ class CloudImageModel
     /**
      * 检查上传的文件类型是否合法
      * @access private
-     * @param string $type 数据
-     * @return boolean
+     * @param  string $type 数据
+     * @return bool
      */
     private function checkType($type)
     {
@@ -400,8 +417,10 @@ class CloudImageModel
             if (!is_array($this->allowTypes)) {
                 $this->allowTypes = explode(',', $this->allowTypes);
             }
+
             return in_array(strtolower($type), $this->allowTypes);
         }
+
         return true;
     }
 
@@ -409,8 +428,8 @@ class CloudImageModel
     /**
      * 检查上传的文件后缀是否合法
      * @access private
-     * @param string $ext 后缀名
-     * @return boolean
+     * @param  string $ext 后缀名
+     * @return bool
      */
     private function checkExt($ext)
     {
@@ -418,16 +437,18 @@ class CloudImageModel
             if (!is_array($this->allowExts)) {
                 $this->allowExts = explode(',', $this->allowExts);
             }
+
             return in_array(strtolower($ext), $this->allowExts, true);
         }
+
         return true;
     }
 
     /**
      * 检查文件大小是否合法
      * @access private
-     * @param integer $size 数据
-     * @return boolean
+     * @param  int  $size 数据
+     * @return bool
      */
     private function checkSize($size)
     {
@@ -437,8 +458,8 @@ class CloudImageModel
     /**
      * 检查文件是否非法提交
      * @access private
-     * @param string $filename 文件名
-     * @return boolean
+     * @param  string $filename 文件名
+     * @return bool
      */
     private function checkUpload($filename)
     {
@@ -448,12 +469,13 @@ class CloudImageModel
     /**
      * 取得上传文件的后缀
      * @access private
-     * @param string $filename 文件名
-     * @return boolean
+     * @param  string $filename 文件名
+     * @return bool
      */
     private function getExt($filename)
     {
         $pathinfo = pathinfo($filename);
+
         return $pathinfo['extension'];
     }
 

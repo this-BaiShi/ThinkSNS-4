@@ -70,6 +70,7 @@ class PinYinModel
             }
             $_Res .= $this->_Pinyin($_P, $_Data);
         }
+
         return preg_replace("/[^a-z0-9]*/", '', $_Res);
     }
     private function _Pinyin($_Num, $_Data)
@@ -84,6 +85,7 @@ class PinYinModel
                     break;
                 }
             }
+
             return $k;
         }
     }
@@ -105,6 +107,7 @@ class PinYinModel
             $_String .= chr(0x80 | $_C>>6 & 0x3F);
             $_String .= chr(0x80 | $_C & 0x3F);
         }
+
         return iconv('UTF-8', 'GB2312', $_String);
     }
 }

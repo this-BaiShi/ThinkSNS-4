@@ -7,12 +7,11 @@
  */
 class ManageWeibaListWidget extends Widget
 {
-
     /**
      * 渲染关注按钮模板
      * @example
      * $data['manage_uid'] integer 用户ID
-     * @param array $data 渲染的相关配置参数
+     * @param  array  $data 渲染的相关配置参数
      * @return string 渲染后的模板数据
      */
     public function render($data)
@@ -29,7 +28,7 @@ class ManageWeibaListWidget extends Widget
         }
         is_array($data) && $var = array_merge($var, $data);
         // 渲染模版
-        $content = $this->renderFile(dirname(__FILE__) . "/manageWeibaList.html", $var);
+        $content = $this->renderFile(dirname(__FILE__)."/manageWeibaList.html", $var);
         unset($var, $data);
         // 输出数据
         return $content;

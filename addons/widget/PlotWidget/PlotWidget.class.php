@@ -7,12 +7,11 @@
  **/
 class PlotWidget extends Widget
 {
-
     /**
      * @param string type 报表类型 分为pieChart(饼状图)、pointLabelsChart(折线图)、barChart(柱状图)
-     * @param integer id //未知
-     * @param integer pWidth 图表宽度
-     * @param integer pHeight 图表高度
+     * @param int id //未知
+     * @param int pWidth 图表宽度
+     * @param int pHeight 图表高度
      * @param array key //好像没用
      * @param array value
      * @param array color

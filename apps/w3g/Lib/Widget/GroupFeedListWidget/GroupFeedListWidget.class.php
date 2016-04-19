@@ -7,7 +7,6 @@
  */
 class GroupFeedListWidget extends Widget
 {
-    
     private static $rand = 1;
     private $limitnums   = 10;
 
@@ -15,9 +14,9 @@ class GroupFeedListWidget extends Widget
      * @param string type 获取哪类分享 following:我关注的 space：
      * @param string feed_type 分享类型
      * @param string feed_key 分享关键字
-     * @param integer fgid 关注的分组id
-     * @param integer gid 群组id
-     * @param integer loadnew 是否加载更多 1:是  0:否
+     * @param int fgid 关注的分组id
+     * @param int gid 群组id
+     * @param int loadnew 是否加载更多 1:是  0:否
      */
     public function render($data)
     {
@@ -27,7 +26,7 @@ class GroupFeedListWidget extends Widget
         $var['tpl'] = 'GroupFeedList.html';
         //dump($var);exit;
         is_array($data) && $var = array_merge($var, $data);
-    
+
 //  		$weiboSet = model('Xdata')->get('admin_Config:feed');
 //         $var['initNums'] = $weiboSet['weibo_nums'];
 //         $var['weibo_type'] = $weiboSet['weibo_type'];
@@ -43,7 +42,7 @@ class GroupFeedListWidget extends Widget
 
     /**
      * 显示更多分享
-     * @return  array 更多分享信息、状态和提示
+     * @return array 更多分享信息、状态和提示
      */
     public function loadMore()
     {
@@ -80,7 +79,7 @@ class GroupFeedListWidget extends Widget
 
     /**
      * 显示最新分享
-     * @return  array 最新分享信息、状态和提示
+     * @return array 最新分享信息、状态和提示
      */
     public function loadNew()
     {
@@ -103,12 +102,12 @@ class GroupFeedListWidget extends Widget
         echo json_encode($return);
         exit();
     }
-    
+
     /**
      * 获取分享数据，渲染分享显示页面
-     * @param array $var 分享数据相关参数
-     * @param string $tpl 渲染的模板
-     * @return array 获取分享相关模板数据
+     * @param  array  $var 分享数据相关参数
+     * @param  string $tpl 渲染的模板
+     * @return array  获取分享相关模板数据
      */
     private function getData($var, $tpl = 'FeedList.html')
     {
@@ -173,15 +172,15 @@ class GroupFeedListWidget extends Widget
         $content['pageHtml'] = $list['html'];
         // 渲染模版
         $content['html'] = $this->renderFile(dirname(__FILE__)."/".$tpl, $var);
-      
+
         return $content;
     }
 
     /**
      * 获取话题分享数据，渲染分享显示页面
-     * @param array $var 分享数据相关参数
-     * @param string $tpl 渲染的模板
-     * @return array 获取分享相关模板数据
+     * @param  array  $var 分享数据相关参数
+     * @param  string $tpl 渲染的模板
+     * @return array  获取分享相关模板数据
      */
     private function getTopicData($var, $tpl='FeedList.html')
     {
@@ -209,7 +208,7 @@ class GroupFeedListWidget extends Widget
         $list = model('Feed')->getList($map, $this->limitnums);
         //分页的设置
         isset($list['html']) && $var['html'] = $list['html'];
-        
+
         if (!empty($list['data'])) {
             $content['firstId'] = $var['firstId'] = $list['data'][0]['feed_id'];
             $content['lastId']  = $var['lastId'] = $list['data'][(count($list['data'])-1)]['feed_id'];
@@ -237,10 +236,10 @@ class GroupFeedListWidget extends Widget
         }
 
         $content['pageHtml'] = $list['html'];
-       
+
         //渲染模版
         $content['html'] = $this->renderFile(dirname(__FILE__)."/".$tpl, $var);
-      
+
         return $content;
     }
 }

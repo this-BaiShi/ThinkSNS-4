@@ -6,5 +6,5 @@ return array(
     "html" => array(
         // 'public/Register/index' => true, // 注册
         'public/Passport/login' => true, // 登录
-    )
+    ),
 );

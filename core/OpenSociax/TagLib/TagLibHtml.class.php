@@ -92,6 +92,7 @@ class TagLibHtml extends TagLib
         } elseif ($type=='css') {
             $parseStr = "<link rel='stylesheet' type='text/css' href='".$file."' />";
         }
+
         return $parseStr;
     }
 
@@ -118,6 +119,7 @@ class TagLibHtml extends TagLib
         } elseif ($type=='css') {
             $parseStr = "<link rel='stylesheet' type='text/css' href='".$basepath.'/'.str_replace(array('.', '#'), array('/', '.'), $file).'.css'."' />";
         }
+
         return $parseStr;
     }
 
@@ -241,6 +243,7 @@ class TagLibHtml extends TagLib
             $parseStr   .= '<?php } ?>';
         }
         $parseStr   .= '</select>';
+
         return $parseStr;
     }
 
@@ -273,6 +276,7 @@ class TagLibHtml extends TagLib
                 $parseStr .= '<input type="checkbox" name="'.$name.'[]" value="'.$key.'">'.$val.$separator;
             }
         }
+
         return $parseStr;
     }
 
@@ -305,6 +309,7 @@ class TagLibHtml extends TagLib
                 $parseStr .= '<input type="radio" name="'.$name.'[]" value="'.$key.'">'.$val.$separator;
             }
         }
+
         return $parseStr;
     }
 
@@ -468,6 +473,7 @@ class TagLibHtml extends TagLib
         }
         $parseStr    .= '</tr></volist><tr><td height="5" colspan="'.$colNum.'" class="bottomTd"></td></tr></table>';
         $parseStr    .= "\n<!-- Think 系统列表组件结束 -->\n";
+
         return $parseStr;
     }
 }//类定义结束

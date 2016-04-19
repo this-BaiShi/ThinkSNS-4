@@ -6,7 +6,6 @@
  */
 class TaskAction extends Action
 {
-    
     public function __construct()
     {
         parent::__construct();
@@ -14,7 +13,7 @@ class TaskAction extends Action
             $this->error('该页面不存在！');
         }
     }
-    
+
     public function index()
     {
         $type = $_REQUEST['type'] ? intval($_REQUEST['type']) : 1;
@@ -106,17 +105,17 @@ class TaskAction extends Action
         $res = model('TaskCustom')->completeTask($id, $mid);
         if ($res) {
             $reward = json_decode($task['reward']);
-            
+
             //获得奖励
             model('Task')->getReward($reward->exp, $reward->score, $reward->medal->id, $GLOBALS['ts']['mid']);
-            
+
             $reward->exp && $exp = '经验+'.$reward->exp;
             $reward->score && $score = ' 积分+'.$reward->score;
             $reward->medal->name && $medalname = ' 获得一枚’'.$reward->medal->name.'‘勋章<img src="'.getImageUrl($reward->medal->src).'" class="ico-badge" width="100" height="100"/>';
-            
+
             $content = '已完成'.$task['task_name'].$exp.$score.$medalname;
             $button = '<span><input type="checkbox" id="taskfeed" value="1" class="checkbox"/>同时发表一条分享</span><a href="javascript:postfeed('.$id.');" class="btn-grey-white">确定</a>';
-            
+
             $content = '<div class="task-box"><a href="javascript:ui.box.close();" class="ico-close right"></a><div class="content"><h3>恭喜你：</h3><p>已完成'.$task['task_name'].','.$exp.$score.$medalname.'</p>
 						'.$button.'</div></div>';
             echo $content;
@@ -141,14 +140,14 @@ class TaskAction extends Action
             $map['task_level'] = $level;
             $jsreward = D('task_reward')->where($map)->getField('reward');
             $reward = json_decode($jsreward);
-            
+
             $reward->exp && $exp = '经验+'.$reward->exp;
             $reward->score && $score = ' 积分+'.$reward->score;
-            
+
             $reward->medal->name && $medalname = ' 获得一枚’'.$reward->medal->name.'‘勋章<img src="'.getImageUrl($reward->medal->src).'" class="ico-badge" width="100" height="100"/>';
             //获得奖励
             model('Task')->getReward($reward->exp, $reward->score, $reward->medal->id, $this->mid);
-            
+
             if ($type == 1) {
                 //任务奖励
                 $content = '<div class="task-box"><a href="javascript:ui.box.close();" class="ico-close right"></a><div class="content"><h3>恭喜你：</h3><p>已完成每日任务,'.$exp.$score.$medalname.'</p></div></div>';
@@ -161,7 +160,7 @@ class TaskAction extends Action
                 $content = '<div class="task-box"><a href="javascript:ui.box.close();" class="ico-close right"></a><div class="content"><h3>恭喜你：</h3><p>已完成所有的'.$task_name.','.$exp.$score.$medalname.'</p>
 						'.$button.'</div></div>';
             }
-            
+
             echo $content;
         } else {
             echo 0;
@@ -175,6 +174,7 @@ class TaskAction extends Action
             $taskexist = D('task_user')->where('uid='.$this->mid.' and id='.$id)->find();
             if ($status || !$taskexist) {
                 echo 0;
+
                 return;
             }
             $res = D('task_user')->setField('receive', 1, 'id='.$id);
@@ -185,7 +185,7 @@ class TaskAction extends Action
                     $exist = D('task_user')->where('uid='.$this->mid.' and task_type=2 and task_level='.$tasklevel.' and receive=0')->find();
                     $exist && $allcomplete = false;
                 }
-                
+
                 //任务奖励
                 $tasklevel = D('task_user')->where('id='.$id)->getField('task_level');
                 $tid = D('task_user')->where('id='.$id)->getField('tid');
@@ -209,22 +209,22 @@ class TaskAction extends Action
         }
         $task = model('TaskCustom')->where('id='.$id)->field('task_name,reward')->find();
         $taskname = $task['task_name'];
-        
+
         $reward = $task['reward'];
         $reward = json_decode($reward);
-        
+
         $feedtype = 'post';
         $medalname = $reward->medal->name;
-        
+
         $str = '我刚刚完成了任务‘'.$taskname.'’';
-        
+
         if ($medalname) {
             $str .= ',获得了‘'.$medalname.'’勋章,';
             $feedtype = 'post';
         }
-        
+
         $str .= '快来做任务吧。'.U('public/Medal/index', 'type=1&uid='.$this->mid);
-        
+
         $data['body'] = $str;
         model('Feed')->put($this->mid, 'public', $feedtype, $data);
     }
@@ -232,26 +232,26 @@ class TaskAction extends Action
     {
         $type = intval($_POST['type']);
         $level = intval($_POST['level']);
-        
+
         $taskname = model('Task')->where('task_type='.$type.' and task_level='.$level)->getField('task_name');
         $reward = D('task_reward')->where('task_type='.$type.' and task_level='.$level)->getField('reward');
         $reward = json_decode($reward);
-        
+
         $feedtype = 'post';
         $medalname = $reward->medal->name;
-        
+
         $str = '我刚刚完成了全部的‘'.$taskname.'’';
-        
+
         if ($medalname) {
             $str .= '，获得了‘'.$medalname.'’勋章，';
         }
-        
+
         $str .= '快来做任务吧。'.U('public/Medal/index', 'type=1&uid='.$this->mid);
-        
+
         //炫耀卡片
         $map['name'] = $medalname;
         $share_card = model('Medal')->where($map)->getField('share_card');
-        
+
         if ($share_card != null) {
             $share_card = explode('|', $share_card);
             $data['attach_id'] = $share_card[0];

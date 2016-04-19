@@ -7,7 +7,6 @@ class MessageAction extends BaseAction
 {
     /**
      * 模块初始化
-     * @return void
      */
     public function _initialize()
     {
@@ -15,7 +14,6 @@ class MessageAction extends BaseAction
 
     /**
      * 私信列表
-     * @return void
      */
     public function index()
     {
@@ -59,7 +57,6 @@ class MessageAction extends BaseAction
 
     /**
      * 系统通知
-     * @return void
      */
     public function notify()
     {
@@ -89,7 +86,6 @@ class MessageAction extends BaseAction
 
     /**
      * 获取指定应用指定用户下的消息列表
-     * @return void
      */
     public function notifyDetail()
     {
@@ -108,7 +104,6 @@ class MessageAction extends BaseAction
 
     /**
      * 删除私信
-     * @return void
      */
     public function delnotify()
     {
@@ -117,7 +112,6 @@ class MessageAction extends BaseAction
 
     /**
      * 私信详情
-     * @return void
      */
     public function detail()
     {
@@ -163,7 +157,6 @@ class MessageAction extends BaseAction
 
     /**
      * 获取指定私信列表中的私信内容
-     * @return void
      */
     public function loadMessage()
     {
@@ -182,7 +175,6 @@ class MessageAction extends BaseAction
 
     /**
      * 发送私信弹窗
-     * @return void
      */
     public function post()
     {
@@ -196,10 +188,9 @@ class MessageAction extends BaseAction
 
         $this->display();
     }
-    
+
     /**
      * 发送私信
-     * @return void
      */
     public function doPost()
     {
@@ -239,7 +230,6 @@ class MessageAction extends BaseAction
         } else {
             $return['status'] = 0;
             $return['data']   = model('Message')->getError();
-            ;
             echo json_encode($return);
             exit();
         }
@@ -247,7 +237,6 @@ class MessageAction extends BaseAction
 
     /**
      * 回复私信
-     * @return void
      */
     public function doReply()
     {
@@ -282,7 +271,7 @@ class MessageAction extends BaseAction
 
     /**
      * 设置指定私信为已读
-     * @return integer 1=成功 0=失败
+     * @return int 1=成功 0=失败
      */
     public function doSetIsRead()
     {
@@ -296,7 +285,7 @@ class MessageAction extends BaseAction
 
     /**
      * 删除私信
-     * @return integer 1=成功 0=失败
+     * @return int 1=成功 0=失败
      */
     public function doDelete()
     {
@@ -310,7 +299,7 @@ class MessageAction extends BaseAction
 
     /**
      * 删除用户指定私信会话
-     * @return integer 1=成功 0=失败
+     * @return int 1=成功 0=失败
      */
     public function doDeleteSession()
     {

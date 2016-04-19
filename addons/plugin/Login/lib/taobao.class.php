@@ -9,7 +9,8 @@ class taobao
             $redirect_uri = Addons::createAddonShow('Login', 'no_register_display', array('type'=>'taobao', 'do'=>"bind"));
         }
         $_SESSION['state'] = md5(uniqid(rand(), true));
-        $this->loginUrl = 'https://oauth.taobao.com/authorize?'.'client_id='.TAOBAO_KEY.'&redirect_uri='.urlencode($redirect_uri).'&response_type=code&state=' . $_SESSION['state'] ;
+        $this->loginUrl = 'https://oauth.taobao.com/authorize?'.'client_id='.TAOBAO_KEY.'&redirect_uri='.urlencode($redirect_uri).'&response_type=code&state='.$_SESSION['state'] ;
+
         return $this->loginUrl;
     }
     //用户资料
@@ -23,6 +24,7 @@ class taobao
             $user['location']   = '';
             $user['userface']   = $_SESSION['taobao']['userface'];
             $user['sex']        = ($_SESSION['taobao']['sex']=='1')?1:0;
+
             return $user;
         } else {
             //用接口获取数据
@@ -53,6 +55,7 @@ class taobao
                 $_SESSION['taobao']['uname'] = $res['taobao_user_nick'];
                 $_SESSION['taobao']['userface'] = '';
                 $_SESSION['open_platform_type'] = 'taobao';
+
                 return $res;
             } else {
                 return false;

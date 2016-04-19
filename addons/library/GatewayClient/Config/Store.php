@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 /**
  * This file is part of workerman.
  *
@@ -11,6 +12,7 @@
  * @link http://www.workerman.net/
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace Config;
 
 /**
@@ -47,15 +49,15 @@ class Store
     const DRIVER_MC = 2;
     // 使用redis存储（推荐），支持workerman分布式部署
     const DRIVER_REDIS = 3;
-    
+
      // DRIVER_FILE 或者 DRIVER_MC 或者 DRIVER_REDIS（推荐）
     public static $driver = self::DRIVER_FILE;
-    
+
     //$driver为DRIVER_MC/DRIVER_REDIS时需要配置memcached/redis服务端ip和端口
     public static $gateway = array(
         '127.0.0.1:6379',
     );
-    
+
     // $driver为DRIVER_FILE时要配置此项，实际配置在最下面一行
     public static $storePath = '';
 }

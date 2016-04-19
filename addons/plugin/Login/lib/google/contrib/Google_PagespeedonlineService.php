@@ -26,8 +26,8 @@
      * Runs Page Speed analysis on the page at the specified URL, and returns a Page Speed score, a list
      * of suggestions to make that page faster, and other information. (pagespeedapi.runpagespeed)
      *
-     * @param string $url The URL to fetch and analyze
-     * @param array $optParams Optional parameters.
+     * @param string $url       The URL to fetch and analyze
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string locale The locale used to localize formatted results
      * @opt_param string rule A Page Speed rule to run; if none are given, all rules are run

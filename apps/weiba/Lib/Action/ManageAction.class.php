@@ -6,7 +6,6 @@
  */
 class ManageAction extends Action
 {
-
     /**
      * 初始化，验证当前登录用户权限
      */
@@ -31,7 +30,6 @@ class ManageAction extends Action
 
     /**
      * 微吧管理首页-修改微吧信息
-     * @return void
      */
     public function index()
     {
@@ -50,7 +48,6 @@ class ManageAction extends Action
 
     /**
      * 执行编辑微吧
-     * @return void
      */
     public function doWeibaEdit()
     {
@@ -107,7 +104,6 @@ class ManageAction extends Action
 
     /**
      * 微吧成员管理
-     * @return void
      */
     public function member()
     {
@@ -161,7 +157,6 @@ class ManageAction extends Action
 
     /**
      * 设置微吧成员等级
-     * @return void
      */
     public function editLevel()
     {
@@ -190,7 +185,7 @@ class ManageAction extends Action
 
                     //添加积分
                     model('Credit')->setUserCredit(intval($_POST['follower_uid']), 'unappointed_weiba');
-                    
+
                     break;
                 case '2':
                     $content = '将用户'.$user_info[$map['follower_uid']]['space_link'].'设为小主';
@@ -214,7 +209,6 @@ class ManageAction extends Action
 
     /**
      * 移出成员
-     * @return void
      */
     public function moveOut()
     {
@@ -241,7 +235,6 @@ class ManageAction extends Action
 
     /**
      * 加入黑名单
-     * @return void
      */
     public function moveTo()
     {
@@ -265,10 +258,9 @@ class ManageAction extends Action
         echo json_encode($return);
         exit();
     }
-    
+
     /**
      * 移除黑名单
-     * @return void
      */
     public function moveOutTo()
     {
@@ -291,7 +283,7 @@ class ManageAction extends Action
         echo json_encode($return);
         exit();
     }
-    
+
     /**
      * 处理用户申请圈主或小主
      */
@@ -339,7 +331,6 @@ class ManageAction extends Action
 
     /**
      * 公告发布
-     * @return void
      */
     public function notify()
     {
@@ -356,7 +347,6 @@ class ManageAction extends Action
 
     /**
      * 修改公告
-     * @return void
      */
     public function doNotify()
     {
@@ -381,7 +371,6 @@ class ManageAction extends Action
 
     /**
      * 微吧管理知识
-     * @return void
      */
     public function log()
     {

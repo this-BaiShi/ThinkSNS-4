@@ -11,7 +11,6 @@
 
 class tagmodel
 {
-
     public $db;
     public $base;
 
@@ -29,12 +28,14 @@ class tagmodel
     public function get_tag_by_name($tagname)
     {
         $arr = $this->db->fetch_all("SELECT * FROM ".UC_DBTABLEPRE."tags WHERE tagname='$tagname'");
+
         return $arr;
     }
 
     public function get_template($appid)
     {
         $result = $this->db->result_first("SELECT tagtemplates FROM ".UC_DBTABLEPRE."applications WHERE appid='$appid'");
+
         return $result;
     }
 

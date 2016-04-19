@@ -47,6 +47,7 @@ class Google_CacheParser
     if ($resp->getRequestHeader("authorization")) {
         return false;
     }
+
       return true;
   }
   /**
@@ -94,6 +95,7 @@ class Google_CacheParser
       if ($vary) {
           return false;
       }
+
       return true;
   }
   /**
@@ -142,6 +144,7 @@ class Google_CacheParser
       if (isset($responseHeaders['age'])) {
           $age = max($age, strtotime($responseHeaders['age']));
       }
+
       return $freshnessLifetime <= $age;
   }
   /**

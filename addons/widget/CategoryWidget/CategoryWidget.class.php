@@ -7,8 +7,7 @@
  */
 class CategoryWidget extends Widget
 {
-    
-    /**
+    /*
       * @param app_name 此分类所在的应用名称
       * @param model_name 分类model名称
       * @param method 分类model中根据某个id获取对应分类信息的函数
@@ -47,7 +46,7 @@ class CategoryWidget extends Widget
         }
     }*/
 
-    /**
+    /*
      * 选择分类
      */
 /*	private function select($data){
@@ -57,7 +56,7 @@ class CategoryWidget extends Widget
         return $content;	 
     }*/
 
-    /**
+    /*
      * 收藏分类
      */
 /*	private function menu($data){
@@ -108,7 +107,7 @@ class CategoryWidget extends Widget
         return $content;
     }*/
 
-    /**
+    /*
      * 两级分类
      */
 /*	private function two($data){
@@ -118,7 +117,7 @@ class CategoryWidget extends Widget
         return $content;	 
     }
 */
-    /**
+    /*
      * 弹出窗
      */
 /*	public function selectBox(){
@@ -135,7 +134,7 @@ class CategoryWidget extends Widget
         return $content;
     }*/
 
-    /**
+    /*
      * 获取某级下面的子集
      */
 /*	public function getChild(){
@@ -150,7 +149,7 @@ class CategoryWidget extends Widget
         exit();
     }*/
 
-    /**
+    /*
      * getCatePathById方法不存在？？？
      * @return 分类地址
      */
@@ -162,7 +161,7 @@ class CategoryWidget extends Widget
         die();
     }*/
 
-    /**
+    /*
      * 两级分类选择模板
      */
 /*	private function twochecked($data) {
@@ -173,7 +172,7 @@ class CategoryWidget extends Widget
         return $content;
     }*/
 
-    /**
+    /*
      * 两级分类带统计数目
      */
 /*	private function twonums($data) {
@@ -185,7 +184,7 @@ class CategoryWidget extends Widget
         return $content;		
     }*/
 
-    /**
+    /*
      * 浮动两级分类模板
      */
 /*	private function twofloat($data) {
@@ -195,7 +194,7 @@ class CategoryWidget extends Widget
         return $content;
     }*/
 
-    /**
+    /*
      * 数据安全过滤
      */
 /*	private function getData($data = null){

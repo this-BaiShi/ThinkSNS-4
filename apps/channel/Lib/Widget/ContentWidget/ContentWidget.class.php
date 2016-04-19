@@ -8,7 +8,7 @@ class ContentWidget extends Widget
 {
     /**
      * 模板渲染
-     * @param array $data 相关数据
+     * @param  array  $data 相关数据
      * @return string 频道内容渲染入口
      */
     public function render($data)
@@ -38,9 +38,10 @@ class ContentWidget extends Widget
             'blog_post', 'blog_repost',
             'event_post', 'event_repost',
             'vote_post', 'vote_repost',
-            'photo_post', 'photo_repost');
-        
+            'photo_post', 'photo_repost', );
+
         $content = $this->renderFile(dirname(__FILE__)."/".$template.".html", $var);
+
         return $content;
     }
 
@@ -95,7 +96,7 @@ class ContentWidget extends Widget
 
     /**
      * 处理分享附件数据
-     * @param array $data 频道关联数组信息
+     * @param  array $data 频道关联数组信息
      * @return array 处理后的分享数据
      */
     private function _formatContent($data)
@@ -136,7 +137,7 @@ class ContentWidget extends Widget
                                 'name' => $val['name'],
                                 'attach_url' => getImageUrl($val['save_path'].$val['save_name'], '236'),
                                 'extension' => $val['extension'],
-                                'size' => $val['size']
+                                'size' => $val['size'],
                             );
                         $value['attachInfo'][] = $_attach;
                     }
@@ -174,7 +175,7 @@ class ContentWidget extends Widget
 
     /**
      * 获取频道分类列表数据
-     * @param integer $cid 频道分类ID
+     * @param  int   $cid 频道分类ID
      * @return array 频道分类列表数据
      */
     public function getListData($cid)
@@ -209,7 +210,7 @@ class ContentWidget extends Widget
             $value['digg_count'] = $feedInfos[$value['feed_id']]['digg_count'];
             $value['categoryInfo'] = $categoryInfos[$value['feed_id']];
         }
-        
+
         return $list;
     }
 }

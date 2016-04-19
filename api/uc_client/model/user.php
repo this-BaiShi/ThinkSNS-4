@@ -11,7 +11,6 @@
 
 class usermodels
 {
-
     public $db;
     public $base;
 
@@ -29,18 +28,21 @@ class usermodels
     public function get_user_by_uid($uid)
     {
         $arr = $this->db->fetch_first("SELECT * FROM ".UC_DBTABLEPRE."members WHERE uid='$uid'");
+
         return $arr;
     }
 
     public function get_user_by_username($username)
     {
         $arr = $this->db->fetch_first("SELECT * FROM ".UC_DBTABLEPRE."members WHERE username='$username'");
+
         return $arr;
     }
 
     public function get_user_by_email($email)
     {
         $arr = $this->db->fetch_first("SELECT * FROM ".UC_DBTABLEPRE."members WHERE email='$email'");
+
         return $arr;
     }
 
@@ -75,12 +77,14 @@ class usermodels
             }
             $count++;
         }
+
         return $count;
     }
 
     public function check_mergeuser($username)
     {
         $data = $this->db->result_first("SELECT count(*) FROM ".UC_DBTABLEPRE."mergemembers WHERE appid='".$this->base->app['appid']."' AND username='$username'");
+
         return $data;
     }
 
@@ -101,6 +105,7 @@ class usermodels
     public function check_usernameexists($username)
     {
         $data = $this->db->result_first("SELECT username FROM ".UC_DBTABLEPRE."members WHERE username='$username'");
+
         return $data;
     }
 
@@ -131,6 +136,7 @@ class usermodels
     {
         $sqladd = $username !== '' ? "AND username<>'$username'" : '';
         $email = $this->db->result_first("SELECT email FROM  ".UC_DBTABLEPRE."members WHERE email='$email' $sqladd");
+
         return $email;
     }
 
@@ -142,6 +148,7 @@ class usermodels
         } elseif ($user['password'] != md5(md5($password).$user['salt'])) {
             return -2;
         }
+
         return $user['uid'];
     }
 
@@ -155,6 +162,7 @@ class usermodels
         $this->db->query("INSERT INTO ".UC_DBTABLEPRE."members SET $sqladd username='$username', password='$password', email='$email', regip='$regip', regdate='".$this->base->time."', salt='$salt'");
         $uid = $this->db->insert_id();
         $this->db->query("INSERT INTO ".UC_DBTABLEPRE."memberfields SET uid='$uid'");
+
         return $uid;
     }
 
@@ -184,6 +192,7 @@ class usermodels
         }
         if ($sqladd || $emailadd) {
             $this->db->query("UPDATE ".UC_DBTABLEPRE."members SET $sqladd WHERE username='$username'");
+
             return $this->db->affected_rows();
         } else {
             return -7;
@@ -192,14 +201,14 @@ class usermodels
 
     public function delete_user($uidsarr)
     {
-        $uidsarr = (array)$uidsarr;
+        $uidsarr = (array) $uidsarr;
         if (!$uidsarr) {
             return 0;
         }
         $uids = $this->base->implode($uidsarr);
         $arr = $this->db->fetch_all("SELECT uid FROM ".UC_DBTABLEPRE."protectedmembers WHERE uid IN ($uids)");
         $puids = array();
-        foreach ((array)$arr as $member) {
+        foreach ((array) $arr as $member) {
             $puids[] = $member['uid'];
         }
         $uids = $this->base->implode(array_diff($uidsarr, $puids));
@@ -209,6 +218,7 @@ class usermodels
             uc_user_deleteavatar($uidsarr);
             $this->base->load('note');
             $_ENV['note']->add('deleteuser', "ids=$uids");
+
             return $this->db->affected_rows();
         } else {
             return 0;
@@ -218,6 +228,7 @@ class usermodels
     public function get_total_num($sqladd = '')
     {
         $data = $this->db->result_first("SELECT COUNT(*) FROM ".UC_DBTABLEPRE."members $sqladd");
+
         return $data;
     }
 
@@ -225,6 +236,7 @@ class usermodels
     {
         $start = $this->base->page_get_start($page, $ppp, $totalnum);
         $data = $this->db->fetch_all("SELECT * FROM ".UC_DBTABLEPRE."members $sqladd LIMIT $start, $ppp");
+
         return $data;
     }
 
@@ -237,6 +249,7 @@ class usermodels
         while ($user = $this->db->fetch_array($query)) {
             $arr[] = $user['uid'];
         }
+
         return $arr;
     }
 
@@ -247,6 +260,7 @@ class usermodels
         while ($user = $this->db->fetch_array($query)) {
             $arr[$user['uid']] = $user['username'];
         }
+
         return $arr;
     }
 

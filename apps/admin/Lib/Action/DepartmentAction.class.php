@@ -11,8 +11,8 @@ class DepartmentAction extends AdministratorAction
     public $pageTitle = array(
                             'index'  => '部门设置',
                             );
-    
-    
+
+
     public function _initialize()
     {
         $this->pageTitle['index'] = L('PUBLIC_DEPARTMENT_SETTING');
@@ -34,7 +34,7 @@ class DepartmentAction extends AdministratorAction
         $this->assign('_func', 'department');    //JS操作函数前缀	
 
         $this->pageKeyList = array('department_id','title','parent_dept_id','display_order','ctime','DOACTION');
-        
+
         $this->savePostUrl = U('admin/Department/index');    //添加部门的数据提交地址
 
         //获取1级部门	
@@ -65,7 +65,7 @@ class DepartmentAction extends AdministratorAction
         $save['title']           = t($_POST['title']);
         $save['display_order'] = intval($_POST['display_order']);
         $old = $new  = model('Department')->getTreeName($id);
-        
+
         if (!model('Department')->where($map)->save($save)) {
             $return['status'] = 0;
             $return['data'] = L('PUBLIC_DEPARTMENT_MODIFY_FAIL');

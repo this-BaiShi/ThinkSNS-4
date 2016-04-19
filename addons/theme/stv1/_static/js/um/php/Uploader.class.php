@@ -31,14 +31,14 @@ class Uploader
         "IO" => "输入输出错误" ,
         "UNKNOWN" => "未知错误" ,
         "MOVE" => "文件保存时出错",
-        "DIR_ERROR" => "创建目录失败"
+        "DIR_ERROR" => "创建目录失败",
     );
 
     /**
      * 构造函数
      * @param string $fileField 表单名称
-     * @param array $config  配置项
-     * @param bool $base64  是否解析base64编码，可省略。若开启，则$fileField代表的是base64编码的字符串表单名
+     * @param array  $config    配置项
+     * @param bool   $base64    是否解析base64编码，可省略。若开启，则$fileField代表的是base64编码的字符串表单名
      */
     public function __construct($fileField, $config, $base64 = false)
     {
@@ -59,6 +59,7 @@ class Uploader
         if ("base64" == $base64) {
             $content = $_POST[ $this->fileField ];
             $this->base64ToImage($content);
+
             return;
         }
 
@@ -66,14 +67,17 @@ class Uploader
         $file = $this->file = $_FILES[ $this->fileField ];
         if (!$file) {
             $this->stateInfo = $this->getStateInfo('POST');
+
             return;
         }
         if ($this->file[ 'error' ]) {
             $this->stateInfo = $this->getStateInfo($file[ 'error' ]);
+
             return;
         }
         if (!is_uploaded_file($file[ 'tmp_name' ])) {
             $this->stateInfo = $this->getStateInfo("UNKNOWN");
+
             return;
         }
 
@@ -83,10 +87,12 @@ class Uploader
 
         if (!$this->checkSize()) {
             $this->stateInfo = $this->getStateInfo("SIZE");
+
             return;
         }
         if (!$this->checkType()) {
             $this->stateInfo = $this->getStateInfo("TYPE");
+
             return;
         }
 
@@ -94,10 +100,11 @@ class Uploader
 
         if ($folder === false) {
             $this->stateInfo = $this->getStateInfo("DIR_ERROR");
+
             return;
         }
 
-        $this->fullName = $folder . '/' . $this->getName();
+        $this->fullName = $folder.'/'.$this->getName();
 
         if ($this->stateInfo == $this->stateMap[ 0 ]) {
             if (!move_uploaded_file($file[ "tmp_name" ], $this->fullName)) {
@@ -114,10 +121,11 @@ class Uploader
     private function base64ToImage($base64Data)
     {
         $img = base64_decode($base64Data);
-        $this->fileName = time() . rand(1, 10000) . ".png";
-        $this->fullName = $this->getFolder() . '/' . $this->fileName;
+        $this->fileName = time().rand(1, 10000).".png";
+        $this->fullName = $this->getFolder().'/'.$this->fileName;
         if (!file_put_contents($this->fullName, $img)) {
             $this->stateInfo = $this->getStateInfo("IO");
+
             return;
         }
         $this->oriName = "";
@@ -137,7 +145,7 @@ class Uploader
             "url" => $this->fullName ,
             "size" => $this->fileSize ,
             "type" => $this->fileType ,
-            "state" => $this->stateInfo
+            "state" => $this->stateInfo,
         );
     }
 
@@ -157,7 +165,7 @@ class Uploader
      */
     private function getName()
     {
-        return $this->fileName = time() . rand(1, 10000) . $this->getFileExt();
+        return $this->fileName = time().rand(1, 10000).$this->getFileExt();
     }
 
     /**
@@ -203,6 +211,7 @@ class Uploader
                 return false;
             }
         }
+
         return $pathStr;
     }
 }

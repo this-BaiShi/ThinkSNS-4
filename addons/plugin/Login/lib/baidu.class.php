@@ -9,6 +9,7 @@ class baidu
     {
         $baidu = new BaiduAPI(BAIDU_KEY, BAIDU_SECRET, $redirectUri, new BaiduCookieStore(BAIDU_KEY));
         $loginUrl = $baidu->getLoginUrl();
+
         return $loginUrl;
     }
     //用户资料
@@ -27,6 +28,7 @@ class baidu
         $user['location']    = '';
         $user['userface']    = $profile['portrait'];
         $user['sex']         = $profile['sex'];
+
         return $user;
     }
     //验证用户
@@ -42,6 +44,7 @@ class baidu
             $_SESSION['baidu']['isSync'] = 0;
             $_SESSION['baidu']['uid'] = $user['uid'];
             $_SESSION['open_platform_type'] = 'baidu';
+
             return $user;
         } else {
             return false;

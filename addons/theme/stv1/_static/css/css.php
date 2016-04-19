@@ -25,9 +25,9 @@ if ($gettype=='css') {
 header("content-type: ".$content_type."; charset: utf-8");        //注意修改到你的编码
 // header ( "cache-control: must-revalidate" );
 header("cache-control: max-age=".$offset);
-header("Last-Modified: " . gmdate("D, d M Y H:i:s", time()) . "GMT");
+header("Last-Modified: ".gmdate("D, d M Y H:i:s", time())."GMT");
 header("Pragma: max-age=".$offset);
-header("Expires:" . gmdate("D, d M Y H:i:s", time() + $offset) . " GMT");
+header("Expires:".gmdate("D, d M Y H:i:s", time() + $offset)." GMT");
 set_cache_limit($offset);
 
 ob_start("compress");
@@ -36,6 +36,7 @@ function compress($buffer)
 {
     //去除文件中的注释
     $buffer = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $buffer);
+
     return $buffer;
 }
 
@@ -46,9 +47,10 @@ function set_cache_limit($second=1)
         return;
     }
     $etag=time()."||".base64_encode($_SERVER['REQUEST_URI']);
-    
+
     if (!isset($_SERVER['HTTP_IF_NONE_MATCH'])) {
         header("Etag:$etag", true, 200);
+
         return;
     } else {
         $id = $_SERVER['HTTP_IF_NONE_MATCH'];

@@ -1,7 +1,7 @@
 <?php
+
 class InviteTestModel extends Model
 {
-
     protected static $config = null;
 
     public function check($code, $uid, $uniqid)
@@ -10,6 +10,7 @@ class InviteTestModel extends Model
         $data = $this->where($map)->find();
         if (!$data) {
             $this->error = '没有这个邀请码';
+
             return false;
         }
         //禁用邀请码
@@ -20,6 +21,7 @@ class InviteTestModel extends Model
         $hash = md5(C('SECURE_CODE').get_client_ip().$uniqid);
         if ($data['hash'] != $hash && $data['utime']>time()-900) {
             $this->error = '此邀请码其他用户正在使用';
+
             return false;
         } else {
             $data['hash'] = $hash;
@@ -27,6 +29,7 @@ class InviteTestModel extends Model
         if ($data['uid']) { // 已经绑定了用户ID
             if ($uid && $data['uid'] != $uid) {
                 $this->error = '邀请码已绑定其他帐号';
+
                 return false;
             } else {
                 //用户使用了已绑定的用户ID的邀请码
@@ -48,6 +51,7 @@ class InviteTestModel extends Model
         $data['utime'] = time();
         $map = array('id'=>$data['id']);
         unset($data['id']);
+
         return false !== $this->where($map)->save($data);
     }
 
@@ -61,6 +65,7 @@ class InviteTestModel extends Model
                 $add++;
             }
         }
+
         return $add;
     }
 
@@ -68,6 +73,7 @@ class InviteTestModel extends Model
     {
         $save['bgimg'] = intval($config['bgimg']);
         $save['rule']  = $config['rule'];
+
         return !!model('AddonData')->lput('InviteTest', $save);
     }
 
@@ -76,6 +82,7 @@ class InviteTestModel extends Model
         if (self::$config === null) {
             self::$config = model('AddonData')->lget('InviteTest');
         }
+
         return self::$config;
     }
 }

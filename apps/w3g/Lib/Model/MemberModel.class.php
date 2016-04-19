@@ -1,4 +1,5 @@
 <?php
+
 class MemberModel extends Model
 {
     public $tableName = 'group_member';
@@ -10,6 +11,7 @@ class MemberModel extends Model
         foreach ($new_member_list as &$v) {
             $v['userinfo'] = model('User')->getUserInfo($v['uid']);
         }
+
         return $new_member_list;
     }
 

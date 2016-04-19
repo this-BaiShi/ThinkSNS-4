@@ -36,7 +36,6 @@ class Think
      * 系统自动加载ThinkPHP类库
      * 并且支持配置自动加载路径
      * @param string $classname 对象类名
-     * @return void
      */
     public static function autoload($classname)
     {
@@ -61,13 +60,14 @@ class Think
                 }
             }
         }
+
         return ;
     }
 
     /**
      * 取得对象实例 支持调用类的静态方法
-     * @param string $class 对象类名
-     * @param string $method 类的静态方法名
+     * @param  string $class  对象类名
+     * @param  string $method 类的静态方法名
      * @return object
      */
     public static function instance($class, $method='')
@@ -85,6 +85,7 @@ class Think
                 halt(L('_CLASS_NOT_EXIST_').' = '.$class.' = '.$method);
             }
         }
+
         return self::$_instance[$identify];
     }
 }//类定义结束

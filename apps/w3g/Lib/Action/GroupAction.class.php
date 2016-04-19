@@ -1,4 +1,5 @@
 <?php
+
 ini_set('display_errors', true);
 error_reporting(E_ALL);
 class GroupAction extends BaseAction
@@ -14,15 +15,15 @@ class GroupAction extends BaseAction
         // 基本配置
         $this->config = model('Xdata')->lget('group');
         $this->assign('config', $this->config);
-        
+
         $this->topic = D('Topic', 'group');
         $this->post = D('post');
-        
+
         $this->gid = intval($_REQUEST ['gid']);
         $this->assign('gid', $this->gid);
-        
+
         if ($this->gid) {
-            $groupinfo = D('group')->where('id=' . $this->gid . " AND is_del=0")->find();
+            $groupinfo = D('group')->where('id='.$this->gid." AND is_del=0")->find();
             if (! $groupinfo) {
                 $jumpUrl = U('w3g/Group/index');
                 $this->error('该微吧不存在，或者被删除', 3, $jumpUrl);
@@ -30,19 +31,19 @@ class GroupAction extends BaseAction
             // 关闭群分享时，自动跳转到群帖子页面；如果群帖子也没开启，自动跳转到群成员页面
             if ($groupinfo ['openWeibo'] == 0 && $groupinfo ['openBlog'] == 1 && ACTION_NAME == 'detail') {
                 redirect(U('w3g/Group/topic', array(
-                        'gid' => $this->gid
+                        'gid' => $this->gid,
                 )));
                 // 如果群帖子也没开启，自动跳转到群成员页面
             } elseif ($groupinfo ['openWeibo'] == 0 && $groupinfo ['openBlog'] == 0) {
                 $jumpUrl = U('w3g/Group/index');
                 $this->error('该微吧已关闭', 3, $jumpUrl);
             }
-            
+
             $groupinfo ['cname0'] = D('Category', 'group')->getField('title', array(
-                    'id' => $groupinfo ['cid0']
+                    'id' => $groupinfo ['cid0'],
             ));
             $groupinfo ['cname1'] = D('Category', 'group')->getField('title', array(
-                    'id' => $groupinfo ['cid1']
+                    'id' => $groupinfo ['cid1'],
             ));
             $groupinfo ['type_name'] = $groupinfo ['brower_level'] == - 1 ? '公开' : '私密';
             $groupinfo ['tags'] = D('GroupTag', 'group')->getGroupTagList($this->gid);
@@ -53,11 +54,11 @@ class GroupAction extends BaseAction
             }
             $groupinfo ['path'] = implode(' - ', $groupinfo ['path']);
             $groupinfo ['logourl'] = logo_path_to_url($groupinfo ['logo'], 750, 370);
-            
+
             // dump ( $groupinfo );
             $this->groupinfo = $groupinfo;
             $this->assign('groupinfo', $groupinfo);
-            
+
             if ($this->mid) {
                 // 判读当前用户的成员状态
                 $member_info = M('group_member')->where("uid={$this->mid} AND gid={$this->gid}")->find();
@@ -70,14 +71,14 @@ class GroupAction extends BaseAction
                             $this->assign('isadmin', $this->isadmin);
                         }
                         // 记录访问时间
-                        M('group_member')->where('gid=' . $this->gid . " AND uid={$this->mid}")->setField('mtime', time());
+                        M('group_member')->where('gid='.$this->gid." AND uid={$this->mid}")->setField('mtime', time());
                     } else {
                         $need_join_audit;
                         $this->assign('need_join_audit', 1);
                     }
                 }
             }
-            
+
             // 浏览权限
             if (! $this->ismember) {
                 // 邀请加入
@@ -89,14 +90,14 @@ class GroupAction extends BaseAction
                     if (ACTION_NAME == 'PostFeed') {
                         $return = array(
                                 'status' => 0,
-                                'data' => '抱歉，您不是该圈成员'
+                                'data' => '抱歉，您不是该圈成员',
                         );
                         exit(json_encode($return));
                     }
                     if (MODULE_NAME != 'Group' || (ACTION_NAME != 'index' && ACTION_NAME != 'joinGroup')) {
                         if (ACTION_NAME != 'loadmore') {
                             $this->redirect('w3g/Group/index', array(
-                                    'gid' => $this->gid
+                                    'gid' => $this->gid,
                             ));
                         } else {
                             exit();
@@ -118,7 +119,7 @@ class GroupAction extends BaseAction
 
         // 微吧分类
         $list = D('Category', 'group')->where('pid=0')->order('pid')->findAll();
-        
+
         $group_list = D('group')->where('is_del=0')->order('ctime desc')->findAll();
         foreach ($group_list as $vo) {
             if (count($group_arr [$vo ['cid0']]) < 4) {
@@ -128,7 +129,7 @@ class GroupAction extends BaseAction
         foreach ($list as &$v) {
             $v ['group_list'] = $group_arr [$v ['id']];
         }
-        
+
         $this->assign('catelist', $list);
         // dump ( $list );
 
@@ -139,9 +140,9 @@ class GroupAction extends BaseAction
         // 微吧分类
         $cate_list = D('Category', 'group')->where('pid=0')->order('pid')->findAll();
         $this->assign('catelist', $cate_list);
-        
+
         $cate = intval($_GET ['cate']);
-        
+
         $map ['is_del'] = 0;
         if ($cate == - 1) {
             $cate_title = '推荐微吧';
@@ -163,13 +164,13 @@ class GroupAction extends BaseAction
         }
         $this->assign('list', $list);
         $this->assign('cate_title', $cate_title);
-        
+
         $this->display();
     }
     public function my()
     {
         $this->need_login();
-        
+
         // $group_list = D ( 'Group', 'group' )->getAllMyGroup ( $this->uid, 1 );
         $group_manage =  D('group')->mymanagegroup($this->uid, 1);
         $this->_getGroupInfo($group_manage);
@@ -226,68 +227,68 @@ class GroupAction extends BaseAction
         // 判断功能是否开启
         if (! $this->groupinfo ['openBlog']) {
             $jumpUrl = U('w3g/Group/index', array(
-                    'gid' => $this->gid
+                    'gid' => $this->gid,
             ));
             $this->error('帖子功能已关闭', 3, $jumpUrl);
         }
-        
-        $topiclist = $this->topic->order('top DESC,replytime DESC')->where('is_del=0 AND gid=' . $this->gid)->findPage();
+
+        $topiclist = $this->topic->order('top DESC,replytime DESC')->where('is_del=0 AND gid='.$this->gid)->findPage();
         // dump ( $topiclist );
         $this->assign('topiclist', $topiclist);
-        
+
         $this->display();
     }
     public function topicDetail()
     {
         $tid = intval($_GET ['tid']) > 0 ? $_GET ['tid'] : 0;
-        
+
         if ($tid == 0) {
             $this->error('参数错误');
         }
         $limit = 20;
-        
-        $this->topic->setInc('viewcount', 'id=' . $tid);
+
+        $this->topic->setInc('viewcount', 'id='.$tid);
         $thread = $this->topic->getThread($tid); // 获取主题
                                                     // 判读帖子存不存在
         if (! $thread) {
             $jumpUrl = U('w3g/Group/detail', array(
-                    'gid' => $this->gid
+                    'gid' => $this->gid,
             ));
             $this->error('帖子不存在');
         }
         // 帖子的分类
         $thread ['ctitle'] = M('group_topic_category')->getField('title', "id={$thread['cid']} AND gid={$this->gid}");
         $thread ['ctitle'] = $thread ['ctitle'] ? "[{$thread['ctitle']}]" : '';
-        
+
         // 附件信息
         if ($thread ['attach']) {
             $_attach_map ['id'] = array(
                     'IN',
-                    unserialize($thread ['attach'])
+                    unserialize($thread ['attach']),
             );
             $thread ['attach'] = D('Dir', 'group')->field('id,name,note,is_del')->where($_attach_map)->findAll();
         }
         if (! empty($thread ['image_ids'])) {
             $thread ['attachIds'] = explode(',', $thread ['image_ids']);
-            
+
             $attachInfo = model('Attach')->getAttachByIds($thread ['attachIds']);
             foreach ($attachInfo as $var) {
-                $src = getImageUrl($var ['save_path'] . $var ['save_name'], 250, 250, true);
+                $src = getImageUrl($var ['save_path'].$var ['save_name'], 250, 250, true);
                 if ($src) {
-                    $thread ['content'] .= '<br/><p><img src="' . $src . '" /></p>';
+                    $thread ['content'] .= '<br/><p><img src="'.$src.'" /></p>';
                 }
             }
         }
-        $postlist = $this->post->where('is_del = 0 AND istopic=0 AND tid=' . $tid)->findPage($limit);
+        $postlist = $this->post->where('is_del = 0 AND istopic=0 AND tid='.$tid)->findPage($limit);
         foreach ($postlist ['data'] as &$vo) {
             if (! empty($vo ['image_ids'])) {
                 $vo ['attachIds'] = explode(',', $vo ['image_ids']);
-                
+
                 $attachInfo = model('Attach')->getAttachByIds($vo ['attachIds']);
                 foreach ($attachInfo as $var) {
-                    $src = getImageUrl($var ['save_path'] . $var ['save_name'], 250, 250, true);
+                    $src = getImageUrl($var ['save_path'].$var ['save_name'], 250, 250, true);
                     if ($src) {
-                        $vo ['content'] .= '<br/><p><img src="' . $src . '" /></p>';
+                        $vo ['content'] .= '<br/><p><img src="'.$src.'" /></p>';
                     }
                 }
             }
@@ -295,12 +296,12 @@ class GroupAction extends BaseAction
         // 起始楼层计算
         $p = $_GET [C('VAR_PAGE')] ? intval($_GET [C('VAR_PAGE')]) : 1;
         $this->assign('start_floor', intval((1 == $p) ? (($p - 1) * $limit + 1) : (($p - 1) * $limit)));
-        
+
         $this->assign('topic', $thread);
         // dump($thread);
         $this->assign('tid', $tid);
         $this->assign('postlist', $postlist);
-        
+
         $this->assign('isCollect', D('Collect', 'group')->isCollect($tid, $this->mid)); // 判断是否收藏
 
         $this->setTitle("{$thread['title']} - 帖子 - {$this->groupinfo['name']}");
@@ -311,7 +312,7 @@ class GroupAction extends BaseAction
     {
         // 权限判读
         $tid = is_numeric($_POST ['tid']) ? intval($_POST ['tid']) : 0;
-        
+
         if ($tid > 0) {
             $topic = D('Topic', 'group')->field('id,uid,title,`lock`')->where("gid={$this->gid} AND id={$tid} AND is_del=0")->find(); // 获取话题内容
             if (! $topic) {
@@ -319,7 +320,7 @@ class GroupAction extends BaseAction
             } elseif ($topic ['lock'] == 1) {
                 $url = U('group/Topic/topic', array(
                         'gid' => $this->gid,
-                        'tid' => $tid
+                        'tid' => $tid,
                 ));
                 $this->error('帖子已被锁定，不可回复', 3, $url);
             }
@@ -332,7 +333,7 @@ class GroupAction extends BaseAction
             $post ['ctime'] = time();
             $post ['ip'] = get_client_ip();
             $post ['attach'] = implode(',', array_filter(explode('|', $_POST ['image_ids'])));
-            
+
             if (isset($_POST ['quote'])) { // 如果引用帖子
                 $post ['quote'] = isset($_POST ['qid']) ? intval($_POST ['qid']) : 0; // 引用帖子id
                 $post_info = $this->post->field('uid,istopic,content')->where("id={$post['quote']}")->find();
@@ -344,13 +345,13 @@ class GroupAction extends BaseAction
                             'quote' => strip_tags(getShort(html_entity_decode($post_info ['content']), 30, '...')),
                             'content' => strip_tags(getShort(html_entity_decode($post ['content']), 60, '...')),
                             'gid' => $this->gid,
-                            'tid' => $topic ['id']
+                            'tid' => $topic ['id'],
                     );
                     $notify_dao->send($post_info ['uid'], 'group_topic_quote', $notify_data, $this->mid);
                     D('GroupUserCount', 'group')->addCount($post_info ['uid'], 'bbs', $this->gid);
                 }
             }
-            
+
             $result = $this->post->add($post); // 添加回复
             if ($result) {
                 if ($topic ['uid'] != $this->mid && $post_info ['uid'] != $topic ['uid']) {
@@ -360,20 +361,20 @@ class GroupAction extends BaseAction
                             'title' => $topic ['title'],
                             'content' => strip_tags(getShort(html_entity_decode($post ['content']), 60, '...')),
                             'gid' => $this->gid,
-                            'tid' => $topic ['id']
+                            'tid' => $topic ['id'],
                     );
                     $notify_dao->send($topic ['uid'], 'group_topic_reply', $notify_data, $this->mid);
                     D('GroupUserCount', 'group')->addCount($post_info ['uid'], 'bbs', $this->gid);
                 }
-                
-                $this->topic->setField('replytime', time(), 'id=' . $tid);
-                $this->topic->setInc('replycount', 'id=' . $tid);
+
+                $this->topic->setField('replytime', time(), 'id='.$tid);
+                $this->topic->setInc('replycount', 'id='.$tid);
                 // 积分
                 X('Credit')->setUserCredit($this->mid, 'group_reply_topic');
             }
             $this->redirect('w3g/Group/topicDetail', array(
                     'gid' => $this->gid,
-                    'tid' => $tid
+                    'tid' => $tid,
             ));
         } else {
             $this->error('帖子参数错误');
@@ -384,26 +385,26 @@ class GroupAction extends BaseAction
         $tid = intval($_GET ['tid']);
         $thread = $this->topic->getThread($tid);
         $this->assign('topic', $thread);
-        
+
         $map ['id'] = intval($_GET ['qid']);
         $quote = $this->post->where($map)->find();
         $this->assign('quote', $quote);
-        
+
         $this->assign('qid', $map ['id']);
         $this->assign('tid', $tid);
-        
+
         $this->display();
     }
     private function __checkContent($content, $mix = 5, $max = 5000)
     {
         $content_length = get_str_length($content, true);
-        
+
         if (0 == $content_length) {
             $this->ajaxReturn(false, '内容不能为空', false);
         } elseif ($content_length < $mix) {
-            $this->ajaxReturn(false, '内容不能少于' . $mix . '个字', false);
+            $this->ajaxReturn(false, '内容不能少于'.$mix.'个字', false);
         } elseif ($content_length > $max) {
-            $this->ajaxReturn(false, '内容不能超过' . $max . '个字', false);
+            $this->ajaxReturn(false, '内容不能超过'.$max.'个字', false);
         }
     }
     public function addTopic()
@@ -414,9 +415,9 @@ class GroupAction extends BaseAction
             if (empty($title)) {
                 $this->ajaxReturn(false, '标题不能为空', false);
             }
-            
+
             $this->__checkContent($_POST ['content'], 10, 5000);
-            
+
             $topic ['gid'] = $this->gid;
             $topic ['uid'] = $this->mid;
             $topic ['name'] = getUserName($this->mid);
@@ -436,14 +437,15 @@ class GroupAction extends BaseAction
                 $post ['ip'] = get_client_ip();
                 $post ['image_ids'] = $topic ['image_ids'];
                 $post_id = $this->post->add($post);
-                
-                D('GroupFeed', 'group')->syncToFeed('我发布了一个微吧帖子“' . t($_POST ['title']) . '”,详情请点击' . U('group/Topic/topic', array(
+
+                D('GroupFeed', 'group')->syncToFeed('我发布了一个微吧帖子“'.t($_POST ['title']).'”,详情请点击'.U('group/Topic/topic', array(
                         'tid' => $tid,
-                        'gid' => $this->gid
+                        'gid' => $this->gid,
                 )), $this->mid, 0, 0, $this->gid);
-                
+
                 $res ['tid'] = $tid;
                 $res ['gid'] = $this->gid;
+
                 return $this->ajaxReturn($res, '发布成功', 1);
             } else {
                 $this->ajaxReturn(false, '发帖失败', false);
@@ -451,7 +453,7 @@ class GroupAction extends BaseAction
         } else {
             $category_list = $this->topic->categoryList($this->gid);
             $this->assign('category_list', $category_list);
-            
+
             $this->display();
         }
     }
@@ -459,23 +461,23 @@ class GroupAction extends BaseAction
     public function add()
     {
         $this->need_login();
-        
+
         $this->group = D('Group', 'group');
-        
+
         if (0 == $this->config ['createGroup']) {
             // 系统后台配置关闭创建
             $this->error('微吧创建已关闭');
-        } elseif ($this->config ['createMaxGroup'] <= $this->group->where('is_del=0 AND uid=' . $this->mid)->count()) {
+        } elseif ($this->config ['createMaxGroup'] <= $this->group->where('is_del=0 AND uid='.$this->mid)->count()) {
             // 系统后台配置要求，如果超过，则不可以创建
             $this->error('你不可以再创建了，超过系统规定数目');
         }
-        
+
         if (IS_POST) {
             // 检查验证码
             if (md5(strtoupper($_POST ['verify'])) != $_SESSION ['verify']) {
                 $this->error('验证码错误');
             }
-            
+
             $group ['uid'] = $this->mid;
             $group ['name'] = h(t($_POST ['name']));
             $group ['intro'] = h(t($_POST ['intro']));
@@ -483,19 +485,19 @@ class GroupAction extends BaseAction
             // intval($_POST['cid1']) > 0 && $group['cid1'] = intval($_POST['cid1']);
             $cid1 = D('Category', 'group')->_digCateNew($_POST);
             intval($cid1) > 0 && $group ['cid1'] = intval($cid1);
-            
+
             if (! $group ['name']) {
                 $this->error('微吧名称不能为空');
             } elseif (get_str_length($_POST ['name']) > 30) {
                 $this->error('微吧名称不能超过30个字');
             }
-            
+
             if (D('Group', 'group')->where(array(
-                    'name' => $group ['name']
+                    'name' => $group ['name'],
             ))->find()) {
                 $this->error('这个微吧名称已被占用');
             }
-            
+
             if (get_str_length($_POST ['intro']) > 200) {
                 $this->error('微吧简介请不要超过200个字');
             }
@@ -504,8 +506,8 @@ class GroupAction extends BaseAction
             // }
 
             $group ['type'] = $_POST ['type'] == 'open' ? 'open' : 'close';
-            
-            $group ['need_invite'] = intval($this->config [$group ['type'] . '_invite']); // 是否需要邀请
+
+            $group ['need_invite'] = intval($this->config [$group ['type'].'_invite']); // 是否需要邀请
             $group ['brower_level'] = $_POST ['type'] == 'open' ? '-1' : '1'; // 浏览权限
 
             $group ['openWeibo'] = intval($this->config ['openWeibo']);
@@ -518,38 +520,38 @@ class GroupAction extends BaseAction
             $group ['whoUploadPic'] = intval($this->config ['whoUploadPic']);
             $group ['anno'] = intval($_POST ['anno']);
             $group ['ctime'] = time();
-            
+
             if (1 == $this->config ['createAudit']) {
                 $group ['status'] = 0;
             }
-            
+
             // 微吧LOGO
             $group ['logo'] = 'default.gif';
             if (! empty($_POST ['image_ids'])) {
                 $_POST ['image_ids'] = implode(',', array_filter(explode('|', $_POST ['image_ids'])));
                 $attachInfo = model('Attach')->getAttachById($_POST ['image_ids']);
-                $group ['logo'] = $attachInfo ['save_path'] . $attachInfo ['save_name'];
+                $group ['logo'] = $attachInfo ['save_path'].$attachInfo ['save_name'];
             }
-            
+
             $gid = $this->group->add($group);
-            
+
             if ($gid) {
                 // 把自己添加到成员里面
                 $res = $this->group->joingroup($this->mid, $gid, 1, $incMemberCount = true);
-                
+
                 // 积分操作
                 X('Credit')->setUserCredit($this->mid, 'add_group');
-                
+
                 // 添加微吧标签
                 D('GroupTag', 'group')->setGroupTag($_POST ['tags'], $gid);
-                
-                S('Cache_MyGroup_' . $this->mid, null);
-                model('UserData')->setKeyValue($this->mid, 'group_count', D('group_member')->where('level>0 and uid=' . $this->mid)->count());
+
+                S('Cache_MyGroup_'.$this->mid, null);
+                model('UserData')->setKeyValue($this->mid, 'group_count', D('group_member')->where('level>0 and uid='.$this->mid)->count());
                 if (1 == $this->config ['createAudit']) {
                     $this->success('创建成功，请等待审核', 3, U('w3g/Group/my'));
                 } else {
                     $jumpUrl = U('w3g/Group/detail', array(
-                            'gid' => $gid
+                            'gid' => $gid,
                     ));
                     $this->success('创建成功', 3, $jumpUrl);
                 }
@@ -558,10 +560,10 @@ class GroupAction extends BaseAction
             }
         } else {
             $this->_getSearchKey();
-            
+
             $attachConf = model('Xdata')->get('admin_Config:attachimage');
             $this->assign($attachConf);
-            
+
             $this->assign('reTags', D('GroupTag', 'group')->getHotTags('recommend'));
             $this->setTitle("创建微吧");
             $this->display();
@@ -581,22 +583,23 @@ class GroupAction extends BaseAction
             if (mb_strlen($key, 'UTF8') > 30) {
                 $key = mb_substr($key, 0, 30, 'UTF8');
             }
-            $_SESSION [$prefix . '_' . $key_name] = serialize($key);
+            $_SESSION [$prefix.'_'.$key_name] = serialize($key);
         } elseif (is_numeric($_GET [C('VAR_PAGE')])) {
-            $key = unserialize($_SESSION [$prefix . '_' . $key_name]);
+            $key = unserialize($_SESSION [$prefix.'_'.$key_name]);
         } else {
-            unset($_SESSION [$prefix . '_' . $key_name]);
+            unset($_SESSION [$prefix.'_'.$key_name]);
         }
         $this->assign('search_key', h(t($key)));
+
         return trim($key);
     }
-    
+
     // 加入该群
     public function joinGroup()
     {
         $joinCount = D('Member')->where("uid={$this->mid} AND level>1")->count();
         $member_info = D('Member')->field('level')->where("gid={$this->gid} AND uid={$this->mid}")->find();
-        
+
         $msg = '';
         if ($this->groupinfo ['need_invite'] == 2) {
             $msg = '需要邀请才能加入';
@@ -609,12 +612,12 @@ class GroupAction extends BaseAction
                 $msg = '请等待审核！！！';
             }
         }
-        
+
         if (! empty($msg)) {
             $this->ajaxReturn(0, $msg, 0);
             exit();
         }
-        
+
         $level = 0;
         $incMemberCount = false;
         if ($this->groupinfo ['need_invite'] == 0) {
@@ -627,38 +630,38 @@ class GroupAction extends BaseAction
             $level = 0;
             $incMemberCount = false;
             // 添加通知
-            $toUserIds = D('Member')->field('uid')->where('gid=' . $this->gid . ' AND (level=1 or level=2)')->findAll();
+            $toUserIds = D('Member')->field('uid')->where('gid='.$this->gid.' AND (level=1 or level=2)')->findAll();
             foreach ($toUserIds as $k => $v) {
                 $toUserIds [$k] = $v ['uid'];
             }
-            
+
             $message_data ['title'] = "申请加入微吧 {$this->groupinfo['name']}";
-            $message_data ['content'] = "你好，请求你批准加入“{$this->groupinfo['name']}” 微吧，点此" . "<a href='" . U('group/Manage/membermanage', array(
+            $message_data ['content'] = "你好，请求你批准加入“{$this->groupinfo['name']}” 微吧，点此"."<a href='".U('group/Manage/membermanage', array(
                     'gid' => $this->gid,
-                    'type' => 'apply'
-            )) . "' target='_blank'>" . U('group/Manage/membermanage', array(
+                    'type' => 'apply',
+            ))."' target='_blank'>".U('group/Manage/membermanage', array(
                     'gid' => $this->gid,
-                    'type' => 'apply'
-            )) . '</a>进行操作。';
+                    'type' => 'apply',
+            )).'</a>进行操作。';
             $message_data ['to'] = $toUserIds;
             $res = model('Message')->postMessage($message_data, $this->mid);
             $msg = '请等待审核！！！';
         }
-        
+
         $result = D('Group', 'group')->joinGroup($this->mid, $this->gid, $level, $incMemberCount); // 加入
-        S('Cache_MyGroup_' . $this->mid, null);
-        
+        S('Cache_MyGroup_'.$this->mid, null);
+
         $this->ajaxReturn(1, $msg, 1);
         exit();
     }
-    
+
     // 退出该群对话框
     public function quitGroupDialog()
     {
         $this->assign('gid', $this->gid);
         $this->display();
     }
-    
+
     // 退出该群
     public function quitGroup()
     {
@@ -671,11 +674,11 @@ class GroupAction extends BaseAction
             $map ['uid'] = $this->mid;
             $map ['gid'] = $this->gid;
             D('GroupUserCount', 'group')->where($map)->delete();
-            D('Group', 'group')->setDec('membercount', 'id=' . $this->gid); // 用户数量减少1
-            model('UserData')->setKeyValue($this->mid, 'group_count', D('group_member')->where('level>0 and uid=' . $this->mid)->count());
+            D('Group', 'group')->setDec('membercount', 'id='.$this->gid); // 用户数量减少1
+            model('UserData')->setKeyValue($this->mid, 'group_count', D('group_member')->where('level>0 and uid='.$this->mid)->count());
             // 积分操作
             X('Credit')->setUserCredit($this->mid, 'quit_group');
-            S('Cache_MyGroup_' . $this->mid, null);
+            S('Cache_MyGroup_'.$this->mid, null);
             echo '1';
             exit();
         } else {
@@ -683,7 +686,7 @@ class GroupAction extends BaseAction
             exit();
         }
     }
-    
+
     // 删除
     public function del()
     {
@@ -691,15 +694,15 @@ class GroupAction extends BaseAction
         if ($id == '') {
             exit(json_encode(array(
                     'flag' => '0',
-                    'msg' => 'tid错误'
+                    'msg' => 'tid错误',
             )));
         }
-        
+
         if ($_POST ['type'] == 'thread') {
             if (strpos($id, ',') && $this->isadmin) {
                 $map ['id'] = array(
                         'IN',
-                        $id
+                        $id,
                 );
                 $map ['gid'] = $this->gid;
                 $topicInfo = $this->topic->field('id,uid,title')->where($map)->findAll();
@@ -710,40 +713,40 @@ class GroupAction extends BaseAction
                 if (! $this->isadmin && $topicInfo ['uid'] != $this->mid) {
                     exit(json_encode(array(
                             'flag' => '0',
-                            'msg' => '你没有权限'
+                            'msg' => '你没有权限',
                     )));
                 }
             } else {
                 exit(json_encode(array(
                         'flag' => '0',
-                        'msg' => '你没有权限'
+                        'msg' => '你没有权限',
                 )));
             }
             $res = $this->topic->remove($id);
-            
+
             if ($res === false) {
                 exit(json_encode(array(
                         'flag' => '0',
-                        'msg' => '删除失败'
+                        'msg' => '删除失败',
                 )));
             } else {
                 exit(json_encode(array(
                         'flag' => '1',
-                        'msg' => '删除成功'
+                        'msg' => '删除成功',
                 )));
             }
         } elseif ($_POST ['type'] == 'post') {
-            $post_info = $this->post->field('uid,tid')->where('id=' . $id)->find(); // 获取要删除的帖子id
+            $post_info = $this->post->field('uid,tid')->where('id='.$id)->find(); // 获取要删除的帖子id
             if (! $this->isadmin && $post_info ['uid'] != $this->mid) {
                 $this->error('你没有权限');
             }
             $this->post->remove($id); // 删除回复
 
             // 帖子回复数目减少1个
-            $this->topic->setDec('replycount', 'id=' . $post_info ['tid']);
+            $this->topic->setDec('replycount', 'id='.$post_info ['tid']);
             exit(json_encode(array(
                     'flag' => '1',
-                    'msg' => '删除成功'
+                    'msg' => '删除成功',
             )));
         }
     }
@@ -784,7 +787,7 @@ class GroupAction extends BaseAction
         //if ($search_key) {
 
         //} else {
-            $memberInfo = $this->member->order($order)->where('gid=' . $this->gid . " AND status=1 AND level>0")->findPage(20);
+            $memberInfo = $this->member->order($order)->where('gid='.$this->gid." AND status=1 AND level>0")->findPage(20);
         //}
         foreach ($memberInfo['data'] as &$member) {
             $feedid = D('GroupFeed')->where("uid={$member['uid']} AND gid={$member['gid']} AND is_del=0")->order('publish_time DESC')->getField('feed_id');
@@ -895,12 +898,12 @@ class GroupAction extends BaseAction
         }
         // 类型描述术语 TODO:放到统一表里面
         $d['tabHash'] = array(
-                'feed'    => L('PUBLIC_WEIBO')            // 分享
+                'feed'    => L('PUBLIC_WEIBO'),            // 分享
         );
-        
+
         $d['tab'] = model('Comment')->getTab($map);
         $this->assign($d);
-        
+
         // 安全过滤
         $t = t($_GET['t']);
         !empty($t) && $map['table'] = $t;

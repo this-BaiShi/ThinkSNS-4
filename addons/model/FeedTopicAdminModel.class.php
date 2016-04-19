@@ -5,12 +5,11 @@
  */
 class FeedTopicAdminModel extends Model
 {
-
     //var $tableName = 'feed_topic';
 
     /**
      * 获取全部话题
-     * @param integer limit 每页显示条数
+     * @param int limit 每页显示条数
      * @return array 话题列表
      */
     public function getTopic($limit=20, $isrecommend)
@@ -52,13 +51,14 @@ class FeedTopicAdminModel extends Model
             $topic_list['data'][$k]['DOACTION'] .= '<a href="'.U('admin/Content/editTopic', array('topic_id'=>$v['topic_id'], 'tabHash'=>'editTopic')).'">编辑</a>';
             //$listData['data'][$k]['DOACTION'] .= '<a href="javascript:void(0)" onclick="admin.deleteUser(\''.$v['uid'].'\')">'.L('PUBLIC_STREAM_DELETE').'</a>';
         }
+
         return $topic_list;
     }
 
     /**
      * 后台添加话题
      * @param array data 要添加的话题信息
-     * @return boolean 是否成功
+     * @return bool 是否成功
      */
     public function addTopic($data)
     {
@@ -75,6 +75,7 @@ class FeedTopicAdminModel extends Model
         }
         $maps['essence'] = intval($data['essence']);
         $maps['ctime'] = time();
+
         return D('feed_topic')->add($maps);
     }
 }

@@ -8,6 +8,7 @@ class DES_MOBILE
     {
         $key = substr($key, 0, 8);
         $this->key = $key;
+
         return $this;
     }
 
@@ -26,6 +27,7 @@ class DES_MOBILE
         $data =  mcrypt_encrypt(MCRYPT_DES, $this->key, $string, MCRYPT_MODE_CBC, $iv);
 
         $data = base64_encode($data);
+
         return $data;
     }
 
@@ -45,14 +47,15 @@ class DES_MOBILE
 
         return $result;
     }
-    
-    
+
+
     public function pkcs5Pad($text, $blocksize)
     {
         $pad = $blocksize - (strlen($text) % $blocksize);
-        return $text . str_repeat(chr($pad), $pad);
+
+        return $text.str_repeat(chr($pad), $pad);
     }
-  
+
     public function pkcs5Unpad($text)
     {
         $pad = ord($text {strlen($text) - 1});
@@ -62,6 +65,7 @@ class DES_MOBILE
         if (strspn($text, chr($pad), strlen($text) - $pad) != $pad) {
             return false;
         }
+
         return substr($text, 0, - 1 * $pad);
     }
 }

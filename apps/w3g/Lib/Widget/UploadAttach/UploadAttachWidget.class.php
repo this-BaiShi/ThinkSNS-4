@@ -1,7 +1,7 @@
 <?php
+
 class UploadAttachWidget extends Widget
 {
-
     public function render($data)
     {
         // 附件信息
@@ -13,6 +13,7 @@ class UploadAttachWidget extends Widget
             $data['attach'] = D('Dir', 'group')->field('id,name,is_del')->where($_attach_map)->findAll();
         }
         $content = $this->renderFile("UploadAttach", $data);
+
         return $content;
     }
 }

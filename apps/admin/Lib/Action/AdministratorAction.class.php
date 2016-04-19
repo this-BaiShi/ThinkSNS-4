@@ -7,7 +7,6 @@
  */
 class AdministratorAction extends Action
 {
-
     /**
      * 页面字段列表
      *
@@ -49,7 +48,7 @@ class AdministratorAction extends Action
      * @var string
      */
     protected $savePostUrl = '';
-    
+
     /**
      * 搜索提交地址
      *
@@ -75,7 +74,7 @@ class AdministratorAction extends Action
     /**
      * 列表页的TAB切换项
      * 例子 : $this->pageTab[] = array('title'=>'邀请列表','tabHash'=>'list','url'=>U('admin/Home/invatecount'));
-     * @var array 
+     * @var array
      */
     protected $pageTab = array();
 
@@ -105,14 +104,14 @@ class AdministratorAction extends Action
      */
     protected $onload = array();
 
-   /**
-    * 提交时候需要进行的验证js函数
-    */
+    /**
+     * 提交时候需要进行的验证js函数
+     */
     protected $onsubmit = '';
 
-   /**
-    * 不能为空的字段
-    */
+    /**
+     * 不能为空的字段
+     */
     protected $notEmpty = array();
 
     protected $navList = array();
@@ -233,7 +232,7 @@ class AdministratorAction extends Action
         $this->onload[] = "admin.bindCatetree()";
         //页面Key配置保存的值
         $pageKeyData = model('Xconfig')->pagekey_get('pageKey:'.$this->pageKey);
-        
+
         $this->assign('pageKeyData', $pageKeyData);
 
         $this->assign('tree', $tree['_child']);
@@ -243,11 +242,11 @@ class AdministratorAction extends Action
 
     /**
      * 现实分类页面
-     * @param array $tree 树形结构数据
-     * @param string $stable 资源表明
-     * @param integer $level 子分类添加层级数目，默认为0（无限极）
-     * @param array $delParam 删除关联数据模型参数，app、module、method
-     * @param array $extra 附加配置信息字段，字段间使用|分割，字段的属性用-分割。例：attach|type-是-否|is_audit
+     * @param  array  $tree     树形结构数据
+     * @param  string $stable   资源表明
+     * @param  int    $level    子分类添加层级数目，默认为0（无限极）
+     * @param  array  $delParam 删除关联数据模型参数，app、module、method
+     * @param  array  $extra    附加配置信息字段，字段间使用|分割，字段的属性用-分割。例：attach|type-是-否|is_audit
      * @return string HTML页面数据
      */
     public function displayTree($tree = array(), $stable = null, $level = 0, $delParam = null, $extra = '', $limit = 0)
@@ -267,7 +266,7 @@ class AdministratorAction extends Action
     private function _assignPageKeyData($detailData = false)
     {
         $pageKeyData = model('Xconfig')->pagekey_get('pageKey:'.$this->pageKey);
-       
+
         $this->assign('pageKeyData', $pageKeyData);
 
 
@@ -299,7 +298,7 @@ class AdministratorAction extends Action
             $v = $this->setKVArr($v, $keyArr);
         }
         $data[$key]  = $_POST;
-     
+
         if (model('Xconfig')->pageKey_lput('pageKey', $data)) {
             LogRecord('admin_config', 'editPagekey', array('name'=>$title, 'k1'=>L('PUBLIC_ADMIN_EDIT_PEIZHI')), true);
             $this->success();
@@ -338,6 +337,7 @@ class AdministratorAction extends Action
             $key = is_array($keyList[$k]) ? $keyList[$k][0] : $keyList[$k];
             $r[$key] = $v;
         }
+
         return $r;
     }
 
@@ -363,7 +363,6 @@ class AdministratorAction extends Action
 
     /**
      * 保存配置页面详细数据
-     * @return void
      */
     public function saveConfigData()
     {
@@ -419,7 +418,7 @@ class AdministratorAction extends Action
         $this->assign($ruleList);
         $this->display('admin_permissionset');
     }
-   
+
     public function permissionsave()
     {
         $data = array();
@@ -463,7 +462,7 @@ class AdministratorAction extends Action
         $this->assign('submitAlias', $this->submitAlias);
         parent::display($templateFile, $charset, $contentType);
     }
-    
+
     private function _switchTheme($themeName='')
     {
         if (empty($themeName)) {

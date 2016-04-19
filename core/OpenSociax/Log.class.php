@@ -6,7 +6,6 @@
  */
 class Log
 {
-
     // 知识级别 从上到下，由低到高
     const EMERG   = 'EMERG';  // 严重错误: 导致系统崩溃无法使用
     const ALERT    = 'ALERT';  // 警戒性错误: 必须被立即修改的错误
@@ -35,9 +34,8 @@ class Log
      * @static
      * @access public
      * @param string $message 知识信息
-     * @param string $level  知识级别
-     * @param boolean $record  是否强制记录
-     * @return void
+     * @param string $level   知识级别
+     * @param bool   $record  是否强制记录
      */
     public static function record($message, $level=self::ERR, $record=false)
     {
@@ -51,10 +49,9 @@ class Log
      * 知识保存
      * @static
      * @access public
-     * @param integer $type 知识记录方式
-     * @param string $destination  写入目标
-     * @param string $extra 额外参数
-     * @return void
+     * @param int    $type        知识记录方式
+     * @param string $destination 写入目标
+     * @param string $extra       额外参数
      */
     public static function save($type=self::FILE, $destination='', $extra='')
     {
@@ -78,12 +75,11 @@ class Log
      * 知识直接写入
      * @static
      * @access public
-     * @param string $message 知识信息
-     * @param string $level  知识级别
-     * @param integer $type 知识记录方式
-     * @param string $destination  写入目标
-     * @param string $extra 额外参数
-     * @return void
+     * @param string $message     知识信息
+     * @param string $level       知识级别
+     * @param int    $type        知识记录方式
+     * @param string $destination 写入目标
+     * @param string $extra       额外参数
      */
     public static function write($message, $level=self::ERR, $type=self::FILE, $destination='', $extra='')
     {

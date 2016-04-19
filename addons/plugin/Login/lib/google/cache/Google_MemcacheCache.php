@@ -40,9 +40,10 @@ class Google_MemcacheCache extends Google_Cache
     private function isLocked($key)
     {
         $this->check();
-        if ((@memcache_get($this->connection, $key . '.lock')) === false) {
+        if ((@memcache_get($this->connection, $key.'.lock')) === false) {
             return false;
         }
+
         return true;
     }
     private function createLock($key)
@@ -50,13 +51,13 @@ class Google_MemcacheCache extends Google_Cache
         $this->check();
     // the interesting thing is that this could fail if the lock was created in the meantime..
     // but we'll ignore that out of convenience
-    @memcache_add($this->connection, $key . '.lock', '', 0, 5);
+    @memcache_add($this->connection, $key.'.lock', '', 0, 5);
     }
     private function removeLock($key)
     {
         $this->check();
     // suppress all warnings, if some other process removed it that's ok too
-    @memcache_delete($this->connection, $key . '.lock');
+    @memcache_delete($this->connection, $key.'.lock');
     }
     private function waitForLock($key)
     {
@@ -99,8 +100,10 @@ class Google_MemcacheCache extends Google_Cache
       }
       if (! $expiration || (time() - $ret['time'] > $expiration)) {
           $this->delete($key);
+
           return false;
       }
+
       return $ret['data'];
   }
   /**
@@ -114,7 +117,7 @@ class Google_MemcacheCache extends Google_Cache
       $this->check();
     // we store it with the cache_time default expiration so objects will at least get cleaned eventually.
     if (@memcache_set($this->connection, $key, array('time' => time(),
-        'data' => $value), false) == false) {
+        'data' => $value, ), false) == false) {
         throw new Google_CacheException("Couldn't store data in cache");
     }
   }

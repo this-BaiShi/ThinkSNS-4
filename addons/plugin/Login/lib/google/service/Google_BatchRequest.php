@@ -41,18 +41,19 @@ class Google_BatchRequest
     /** @var Google_HttpRequest $req */
     foreach ($this->requests as $key => $req) {
         $body .= "--{$this->boundary}\n";
-        $body .= $req->toBatchString($key) . "\n";
+        $body .= $req->toBatchString($key)."\n";
     }
         $body = rtrim($body);
         $body .= "\n--{$this->boundary}--";
         global $apiConfig;
-        $url = $apiConfig['basePath'] . '/batch';
+        $url = $apiConfig['basePath'].'/batch';
         $httpRequest = new Google_HttpRequest($url, 'POST');
         $httpRequest->setRequestHeaders(array(
-        'Content-Type' => 'multipart/mixed; boundary=' . $this->boundary));
+        'Content-Type' => 'multipart/mixed; boundary='.$this->boundary, ));
         $httpRequest->setPostBody($body);
         $response = Google_Client::$io->makeRequest($httpRequest);
         $response = $this->parseResponse($response);
+
         return $response;
     }
     public function parseResponse(Google_HttpRequest $response)
@@ -89,8 +90,10 @@ class Google_BatchRequest
           $responses[$metaHeaders['content-id']] = $response;
                 }
             }
+
             return $responses;
         }
+
         return null;
     }
 }

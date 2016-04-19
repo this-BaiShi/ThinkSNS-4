@@ -90,14 +90,14 @@ class WidgetAction extends Action
             $imageInfo = getimagesize($pic_url);
             $imageType = strtolower(substr(image_type_to_extension($imageInfo[2]), 1));
             if ('bmp' != $imageType) { // 禁止BMP格式的图片
-                $save_path = SITE_PATH . '/data/uploads/temp'; // 临时图片地址
-                $filename  = md5($pic_url) . '.' . $imageType; // 重复刷新时, 生成的文件名应一致
+                $save_path = SITE_PATH.'/data/uploads/temp'; // 临时图片地址
+                $filename  = md5($pic_url).'.'.$imageType; // 重复刷新时, 生成的文件名应一致
                 $img       = file_get_contents($pic_url);
                 $filepath  = $save_path.'/'.$filename;
                 $result    = file_put_contents($filepath, $img);
                 if ($result) {
                     $data['type']       = 1;
-                    $data['type_data'] = 'temp/' . $filename;
+                    $data['type_data'] = 'temp/'.$filename;
                 }
             }
         }
@@ -167,7 +167,7 @@ class WidgetAction extends Action
             $title = $title[1];
             // 拼装分享内容
             $weibo_content = array(
-                'content' => $title . ' ' . $url,
+                'content' => $title.' '.$url,
             );
             // // 评论箱UID
             // $uid = 10315;

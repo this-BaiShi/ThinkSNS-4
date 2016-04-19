@@ -75,7 +75,7 @@ class PeopleAction extends BaseAction
         $this->display();
     }
 
-    
+
     /**
      * 添加关注操作
      * @return json 返回操作后的JSON信息数据
@@ -197,7 +197,7 @@ class PeopleAction extends BaseAction
 
     /**
      * 获取指定父分类的树形结构
-     * @return integer $pid 父分类ID
+     * @return int   $pid 父分类ID
      * @return array 指定父分类的树形结构
      */
     public function getNetworkList()

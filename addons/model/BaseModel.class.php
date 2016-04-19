@@ -27,10 +27,9 @@
         /**
          * DateToTimeStemp 
          * 时间换算成时间戳返回
-         * @param mixed $stime 
-         * @param mixed $etime 
+         * @param mixed $stime
+         * @param mixed $etime
          * @access public
-         * @return void
          */
         public function DateToTimeStemp($stime, $etime)
         {
@@ -69,7 +68,6 @@
          * @param string $findTime 200903这样格式的参数
          * @static
          * @access protected
-         * @return void
          */
         protected function paramData($findTime)
         {
@@ -83,10 +81,10 @@
 
                 //判断时间.处理结束日期
                 switch (true) {
-                    case (in_array($month, array( 1, 3, 5, 7, 8, 10, 12 ))):
+                    case in_array($month, array( 1, 3, 5, 7, 8, 10, 12 )):
                         $day = 31;
                         break;
-                    case (2 == $month):
+                    case 2 == $month:
                         if (0 != $year % 4) {
                             $day = 28;
                         } else {

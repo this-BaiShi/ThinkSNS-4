@@ -8,7 +8,6 @@ class ManageAction extends Action
 {
     /**
      * 频道管理弹窗
-     * @return void
      */
     public function getAdminBox()
     {

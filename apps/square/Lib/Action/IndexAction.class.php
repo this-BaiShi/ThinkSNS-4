@@ -16,7 +16,6 @@ class IndexAction extends Action
      * 初始化
      *
      * @access public
-     * @return void
      */
     public function _initialize()
     {
@@ -26,7 +25,6 @@ class IndexAction extends Action
      * 好友的广场
      *
      * @access public
-     * @return void
      */
     public function index()
     {
@@ -120,7 +118,7 @@ class IndexAction extends Action
             foreach ($weiba_recommend as $k=>$v) {
                 $weiba_recommend[$k]['logo'] = getImageUrlByAttachId($v['logo']);
                 //帖子推荐
-                $sql = "SELECT post_id,title FROM `" . C('DB_PREFIX') . "weiba_post` WHERE weiba_id=".$v['weiba_id']." AND ( `is_del` = 0 ) ORDER BY recommend desc,recommend_time desc,post_time desc LIMIT 3";
+                $sql = "SELECT post_id,title FROM `".C('DB_PREFIX')."weiba_post` WHERE weiba_id=".$v['weiba_id']." AND ( `is_del` = 0 ) ORDER BY recommend desc,recommend_time desc,post_time desc LIMIT 3";
                 $weiba_post = M('weiba_post')->query($sql);
                 if ($weiba_post) {
                     foreach ($weiba_post as $kk=>$vv) {
@@ -140,7 +138,7 @@ class IndexAction extends Action
             if ($fids) {
                 $maps['weiba_id'] = array(
                         'not in',
-                        $fids
+                        $fids,
                 );
             }
             //首页推荐帖子
@@ -153,7 +151,7 @@ class IndexAction extends Action
                 $post_ids = getSubByKey($list, 'post_id');
                 $maps['post_id'] = array(
                         'not in',
-                        $post_ids
+                        $post_ids,
                 );
                 $maps['is_index'] = 0;
                 $order = 'top desc,last_reply_time desc';
@@ -172,7 +170,7 @@ class IndexAction extends Action
         } else {
             $this->assign('weiba_recommend', '');
         }
-        
+
         if ($setting['relateduser']=='1') {
             //最新认证用户
             $user_recommend = model('RelatedUser')->getRelatedUserSquare(6);
@@ -210,7 +208,7 @@ class IndexAction extends Action
             $_user_recommend_posts = D('weiba_post')->field("post_id,title")->where($pmap)->limit(5)->order('post_time desc')->select();
             $this->assign('_user_recommend_posts', $_user_recommend_posts);
         }
-        
+
         $this->display();
     }
 

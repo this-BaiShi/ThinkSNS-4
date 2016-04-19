@@ -6,7 +6,6 @@
  */
 class InviteFriendWidget extends Widget
 {
-
     /**
      * 渲染邀请好友页面
      */

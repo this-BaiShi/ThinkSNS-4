@@ -28,7 +28,7 @@ abstract class Google_Cache
    * key is unknown or expired
    *
    * @param String $key The key who's data to retrieve
-   * @param boolean|int $expiration Expiration time in seconds
+   * @param bool|int $expiration Expiration time in seconds
    *
    */
   abstract public function get($key, $expiration = false);

@@ -19,7 +19,6 @@ defined('THINK_PATH') or exit();
  */
 class CacheWincache extends Cache
 {
-
     /**
      * 架构函数
      * @param array $options 缓存参数
@@ -38,22 +37,23 @@ class CacheWincache extends Cache
     /**
      * 读取缓存
      * @access public
-     * @param string $name 缓存变量名
+     * @param  string $name 缓存变量名
      * @return mixed
      */
     public function get($name)
     {
         N('cache_read', 1);
         $name   =   $this->options['prefix'].$name;
+
         return wincache_ucache_exists($name)? wincache_ucache_get($name) : false;
     }
 
     /**
      * 写入缓存
      * @access public
-     * @param string $name 缓存变量名
-     * @param mixed $value  存储数据
-     * @param integer $expire  有效时间（秒）
+     * @param  string $name   缓存变量名
+     * @param  mixed  $value  存储数据
+     * @param  int    $expire 有效时间（秒）
      * @return boolen
      */
     public function set($name, $value, $expire=null)
@@ -68,15 +68,17 @@ class CacheWincache extends Cache
                 // 记录缓存队列
                 $this->queue($name);
             }
+
             return true;
         }
+
         return false;
     }
 
     /**
      * 删除缓存
      * @access public
-     * @param string $name 缓存变量名
+     * @param  string $name 缓存变量名
      * @return boolen
      */
     public function rm($name)

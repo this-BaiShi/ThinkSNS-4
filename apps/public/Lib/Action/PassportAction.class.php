@@ -10,7 +10,6 @@ class PassportAction extends Action
 
     /**
      * 模块初始化
-     * @return void
      */
     protected function _initialize()
     {
@@ -19,7 +18,6 @@ class PassportAction extends Action
 
     /**
      * 通行证首页
-     * @return void
      */
     public function index()
     {
@@ -31,7 +29,6 @@ class PassportAction extends Action
 
     /**
      * 默认登录页
-     * @return void
      */
     public function login()
     {
@@ -49,15 +46,15 @@ class PassportAction extends Action
         !empty($data['title']) && $this->setTitle($data['title']);
         !empty($data['keywords']) && $this->setKeywords($data['keywords']);
         !empty($data['des']) && $this->setDescription($data ['des']);
-        
+
         $login_bg = getImageUrlByAttachId($this->site ['login_bg']);
         // if(empty($login_bg))
         // 	$login_bg = APP_PUBLIC_URL . '/image/login/banner.png';
         $this->assign('login_bg', $login_bg);
-        
+
         $this->display('login');
     }
-    
+
     /**
      * 快速登录
      */
@@ -79,7 +76,6 @@ class PassportAction extends Action
 
     /**
      * 用户登录
-     * @return void
      */
     public function doLogin()
     {
@@ -99,21 +95,19 @@ class PassportAction extends Action
         }
         $this->ajaxReturn($data, $info, $status);
     }
-    
+
     /**
      * 注销登录
-     * @return void
      */
     public function logout()
     {
         $this->passport->logoutLocal();
         $url = $_SERVER['HTTP_REFERER'];
-        header('Location: ' .$url);
+        header('Location: '.$url);
     }
 
     /**
      * 找回密码页面
-     * @return void
      */
     public function findPassword()
     {
@@ -140,8 +134,8 @@ class PassportAction extends Action
             ->where(array(
                 'phone' => array(
                     'eq',
-                    floatval($mobile)
-                )
+                    floatval($mobile),
+                ),
             ))
             ->count()
         ;
@@ -167,7 +161,6 @@ class PassportAction extends Action
     /**
      * 验证手机验证码是否正确
      *
-     * @return void
      * @author Medz Seven <lovevipdsw@vip.qq.com>
      **/
     public function isRegCodeAvailable()
@@ -186,7 +179,6 @@ class PassportAction extends Action
     /**
      * 发送找回密码验证码
      *
-     * @return void
      * @author Medz Seven <lovevipdsw@vip.qq.com>
      **/
     public function sendPasswordCode()
@@ -243,7 +235,6 @@ class PassportAction extends Action
 
     /**
      * 通过安全问题找回密码
-     * @return void
      */
     public function doFindPasswordByQuestions()
     {
@@ -292,6 +283,7 @@ class PassportAction extends Action
             $result = D('FindPassword')->add($add);
             if ($result) {
                 model('Notify')->sendNotify($user['uid'], 'password_reset', $config);
+
                 return true;
             } else {
                 return false;
@@ -317,7 +309,6 @@ class PassportAction extends Action
 
     /**
      * 通过手机短信找回密码
-     * @return void
      */
     public function doFindPasswordBySMS()
     {
@@ -326,7 +317,6 @@ class PassportAction extends Action
 
     /**
      * 重置密码页面
-     * @return void
      */
     public function resetPassword()
     {
@@ -338,7 +328,6 @@ class PassportAction extends Action
 
     /**
      * 执行重置密码操作
-     * @return void
      */
     public function doResetPassword()
     {
@@ -353,7 +342,7 @@ class PassportAction extends Action
 
         $map['uid'] = $user_info['uid'];
         $data['login_salt'] = rand(10000, 99999);
-        $data['password']   = md5(md5($password) . $data['login_salt']);
+        $data['password']   = md5(md5($password).$data['login_salt']);
         $res = model('User')->where($map)->save($data);
         if ($res) {
             D('find_password')->where('uid='.$user_info['uid'])->setField('is_used', 1);
@@ -370,7 +359,6 @@ class PassportAction extends Action
 
     /**
      * 检查重置密码的验证码操作
-     * @return void
      */
     private function _checkResetPasswordCode($code)
     {
@@ -420,6 +408,7 @@ class PassportAction extends Action
     private function _markPassword($str)
     {
         $c = strlen($str)/2;
+
         return preg_replace('|(?<=.{'.(ceil($c/2)).'})(.{'.floor($c).'}).*?|', str_pad('', floor($c), '*'), $str, 1);
     }
 }

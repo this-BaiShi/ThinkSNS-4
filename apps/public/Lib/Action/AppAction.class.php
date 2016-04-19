@@ -6,7 +6,6 @@
  */
 class AppAction extends Action
 {
-
     /**
      * 初始化控制器，加载相关样式表
      */
@@ -38,7 +37,7 @@ class AppAction extends Action
         $this->assign('list', $list);
         $this->display();
     }
-    
+
     /**
      * 登录用户卸载应用操作
      * @return json 返回操作后的JSON信息数据
@@ -80,7 +79,7 @@ class AppAction extends Action
     // 添加更多应用
 
     /**  前台 应用管理  **/
-    
+
     public function addapp()
     {
         $dao = model('App');
@@ -100,7 +99,7 @@ class AppAction extends Action
         if ($ts['site']['my_status']) {
             model('Myop')->unsetAllInstalledByUser($this->mid);
         }
-        
+
         $this->assign('has_order', array('local_app', 'myop_app'));
         $this->setTitle(L('manage_apps'));
         $this->display();

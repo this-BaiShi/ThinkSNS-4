@@ -18,7 +18,6 @@
  */
 class Cache
 {
-
     /**
      * 操作句柄
      * @var string
@@ -28,7 +27,7 @@ class Cache
 
     /**
      * 缓存连接参数
-     * @var integer
+     * @var int
      * @access protected
      */
     protected $options = array();
@@ -36,8 +35,8 @@ class Cache
     /**
      * 连接缓存
      * @access public
-     * @param string $type 缓存类型
-     * @param array $options  配置数组
+     * @param  string $type    缓存类型
+     * @param  array  $options 配置数组
      * @return object
      */
     public function connect($type='', $options=array())
@@ -53,6 +52,7 @@ class Cache
         } else {
             throw_exception(L('_CACHE_TYPE_INVALID_').':'.$type);
         }
+
         return $cache;
     }
 
@@ -89,15 +89,16 @@ class Cache
     public static function getInstance()
     {
         $param = func_get_args();
+
         return get_instance_of(__CLASS__, 'connect', $param);
     }
 
-    /**
-     * 队列缓存
-     * @access protected
-     * @param string $key 队列名
-     * @return mixed
-     */
+/**
+ * 队列缓存
+ * @access protected
+ * @param  string $key 队列名
+ * @return mixed
+ */
     // 
     protected function queue($key)
     {
@@ -127,9 +128,10 @@ class Cache
                 N($queue_name.'_out_times', 1, true);
             }
         }
+
         return $fun[1]($queue_name, $value);
     }
-    
+
     public function __call($method, $args)
     {
         //调用缓存类型自己的方法
@@ -137,6 +139,7 @@ class Cache
             return call_user_func_array(array($this->handler, $method), $args);
         } else {
             throw_exception(__CLASS__.':'.$method.L('_METHOD_NOT_EXIST_'));
+
             return;
         }
     }

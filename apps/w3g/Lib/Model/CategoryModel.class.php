@@ -1,4 +1,5 @@
 <?php
+
 class CategoryModel extends Model
 {
     public $tableName = 'group_category';
@@ -8,7 +9,7 @@ class CategoryModel extends Model
         if ($pid==0 && $cache = S('Cache_Group_Cate_'.$pid)) { // pid=0 才缓存
             return $cache;
         }
-            
+
         if ($c = $this->where("pid='$pid'")->findAll()) {
             if ($pid == 0) {
                 foreach ($c as $v) {
@@ -51,6 +52,7 @@ class CategoryModel extends Model
     public function getCategoryList($pid='0')
     {
         $list    =    $this->_makeLiTree($pid);
+
         return $list;
     }
     public function _makeLiTree($pid)
@@ -76,6 +78,7 @@ class CategoryModel extends Model
             }
             $list    .=    '</ul>';
         }
+
         return $list;
     }
     //解析分类
@@ -90,6 +93,7 @@ class CategoryModel extends Model
         $pid    =    is_array($cates)?end($cates):0;
 
         unset($cates);
+
         return intval($pid);
     }
 
@@ -105,6 +109,7 @@ class CategoryModel extends Model
         $pid = is_array($cates)?end($cates):0;
 
         unset($cates);
+
         return intval($pid);
     }
 
@@ -128,8 +133,9 @@ class CategoryModel extends Model
     {
         $tree    =    $this->_makeCateTree($id);
         if ($onlyShowPid) {
-            $tree    =    preg_replace('/^' . $id . '|,'.$id.'$/', '', $tree);
+            $tree    =    preg_replace('/^'.$id.'|,'.$id.'$/', '', $tree);
         }
+
         return $tree;
     }
     public function _makeCateTree($id)
@@ -142,6 +148,7 @@ class CategoryModel extends Model
         } else {
             $tree    =    $id;
         }
+
         return $tree;
     }
 

@@ -36,7 +36,7 @@ class ChannelCategory extends Model
     /**
      * 设置是否开启软删除
      *
-     * @var boolean
+     * @var bool
      */
     protected $softDelete = false;
 
@@ -65,5 +65,4 @@ class ChannelCategory extends Model
     {
         return $this->hasMany('Ts\\Model\\ChannelFollow', 'channel_category_id');
     }
-
 } // END class ChannelCategory extends Model

@@ -25,8 +25,8 @@
       /**
      * Search public activities. (activities.search)
      *
-     * @param string $query Full-text search query string.
-     * @param array $optParams Optional parameters.
+     * @param string $query     Full-text search query string.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string orderBy Specifies how to order search results.
      * @opt_param string pageToken The continuation token, used to page through large result sets. To get the next page of results, set this parameter to the value of "nextPageToken" from the previous response. This token may be of any length.
@@ -48,9 +48,9 @@
     /**
      * List all of the activities in the specified collection for a particular user. (activities.list)
      *
-     * @param string $userId The ID of the user to get activities for. The special value "me" can be used to indicate the authenticated user.
+     * @param string $userId     The ID of the user to get activities for. The special value "me" can be used to indicate the authenticated user.
      * @param string $collection The collection of activities to list.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams  Optional parameters.
      *
      * @opt_param string pageToken The continuation token, used to page through large result sets. To get the next page of results, set this parameter to the value of "nextPageToken" from the previous response.
      * @opt_param string maxResults The maximum number of activities to include in the response, used for paging. For any response, the actual number returned may be less than the specified maxResults.
@@ -70,8 +70,8 @@
     /**
      * Get an activity. (activities.get)
      *
-     * @param string $activityId The ID of the activity to get.
-     * @param array $optParams Optional parameters.
+     * @param  string          $activityId The ID of the activity to get.
+     * @param  array           $optParams  Optional parameters.
      * @return Google_Activity
      */
     public function get($activityId, $optParams = array())
@@ -100,7 +100,7 @@
      * List all of the comments for an activity. (comments.list)
      *
      * @param string $activityId The ID of the activity to get comments for.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams  Optional parameters.
      *
      * @opt_param string pageToken The continuation token, used to page through large result sets. To get the next page of results, set this parameter to the value of "nextPageToken" from the previous response.
      * @opt_param string maxResults The maximum number of comments to include in the response, used for paging. For any response, the actual number returned may be less than the specified maxResults.
@@ -121,8 +121,8 @@
     /**
      * Get a comment. (comments.get)
      *
-     * @param string $commentId The ID of the comment to get.
-     * @param array $optParams Optional parameters.
+     * @param  string         $commentId The ID of the comment to get.
+     * @param  array          $optParams Optional parameters.
      * @return Google_Comment
      */
     public function get($commentId, $optParams = array())
@@ -153,7 +153,7 @@
      *
      * @param string $activityId The ID of the activity to get the list of people for.
      * @param string $collection The collection of people to list.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams  Optional parameters.
      *
      * @opt_param string pageToken The continuation token, used to page through large result sets. To get the next page of results, set this parameter to the value of "nextPageToken" from the previous response.
      * @opt_param string maxResults The maximum number of people to include in the response, used for paging. For any response, the actual number returned may be less than the specified maxResults.
@@ -173,8 +173,8 @@
     /**
      * Search all public profiles. (people.search)
      *
-     * @param string $query Specify a query string for full text search of public text in all profiles.
-     * @param array $optParams Optional parameters.
+     * @param string $query     Specify a query string for full text search of public text in all profiles.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string pageToken The continuation token, used to page through large result sets. To get the next page of results, set this parameter to the value of "nextPageToken" from the previous response. This token may be of any length.
      * @opt_param string maxResults The maximum number of people to include in the response, used for paging. For any response, the actual number returned may be less than the specified maxResults.
@@ -195,8 +195,8 @@
     /**
      * Get a person's profile. (people.get)
      *
-     * @param string $userId The ID of the person to get the profile for. The special value "me" can be used to indicate the authenticated user.
-     * @param array $optParams Optional parameters.
+     * @param  string        $userId    The ID of the person to get the profile for. The special value "me" can be used to indicate the authenticated user.
+     * @param  array         $optParams Optional parameters.
      * @return Google_Person
      */
     public function get($userId, $optParams = array())

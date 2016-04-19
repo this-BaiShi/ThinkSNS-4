@@ -1,4 +1,5 @@
 <?php
+
 class GroupFeedDataModel extends Model
 {
     //表名
@@ -9,6 +10,6 @@ class GroupFeedDataModel extends Model
             2=>'feed_data',
             3=>'client_ip',
             4=>'feed_content',
-            5=>'from_data'
+            5=>'from_data',
     );
 }

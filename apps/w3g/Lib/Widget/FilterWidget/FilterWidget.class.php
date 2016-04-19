@@ -8,7 +8,7 @@ class FilterWidget extends Widget
 {
     /**
      * 模板渲染
-     * @param array $data 相关数据
+     * @param  array  $data 相关数据
      * @return string 用户身份选择模板
      */
     public function render($data)
@@ -69,7 +69,7 @@ class FilterWidget extends Widget
                 $var['path'] = implode('&nbsp;&gt;&nbsp;', $path);
                 break;
         }
-        
+
         // 渲染模版
         $content = $this->renderFile(dirname(__FILE__)."/".$template.".html", $var);
         // 输出数据

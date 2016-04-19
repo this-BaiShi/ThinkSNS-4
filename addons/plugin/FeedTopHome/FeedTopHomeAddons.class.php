@@ -2,7 +2,6 @@
 
 class FeedTopHomeAddons extends NormalAddons
 {
-
     protected $version = '1.0';
     protected $author = '智士软件';
     protected $site = 'http://www.thinksns.com';
@@ -14,6 +13,7 @@ class FeedTopHomeAddons extends NormalAddons
     public function getHooksInfo()
     {
         $hooks['list'] = array('FeedTopHomeHooks');
+
         return $hooks;
     }
 
@@ -37,6 +37,7 @@ class FeedTopHomeAddons extends NormalAddons
 				UNIQUE KEY `feed_id_UNIQUE` (`feed_id`)
 				) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
         D()->execute($sql);
+
         return true;
     }
 
@@ -45,6 +46,7 @@ class FeedTopHomeAddons extends NormalAddons
         $db_prefix = C('DB_PREFIX');
         $sql = "DROP TABLE `{$db_prefix}feed_top_home`;";
         D()->execute($sql);
+
         return true;
     }
 }

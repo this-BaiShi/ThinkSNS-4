@@ -6,10 +6,9 @@
  */
 class AnnouncementWidget extends Widget
 {
-    
     /**
-     * @param  integer type 类型(1:公告,2:页脚配置文章)
-     * @param  integer limit 显示条数
+     * @param  int type 类型(1:公告,2:页脚配置文章)
+     * @param  int limit 显示条数
      */
     public function render($data)
     {
@@ -19,6 +18,7 @@ class AnnouncementWidget extends Widget
         $map['type'] = $var['type'];
         $var['announcement'] = model('Xarticle')->where($map)->order('sort desc')->limit($var['limit'])->findAll();
         $content = $this->renderFile(dirname(__FILE__)."/default.html", $var);
+
         return $content;
     }
 }

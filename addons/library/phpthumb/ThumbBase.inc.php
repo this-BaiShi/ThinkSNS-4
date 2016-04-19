@@ -91,7 +91,7 @@ abstract class ThumbBase
      * @var bool
      */
     protected $isDataStream;
-    
+
     /**
      * Class constructor
      * 
@@ -106,10 +106,10 @@ abstract class ThumbBase
         $this->fileName                = $fileName;
         $this->remoteImage            = false;
         $this->isDataStream            = $isDataStream;
-        
+
         $this->fileExistsAndReadable();
     }
-    
+
     /**
      * Imports plugins in $registry to the class
      * 
@@ -121,7 +121,7 @@ abstract class ThumbBase
             $this->imports($plugin);
         }
     }
-    
+
     /**
      * Imports a plugin
      * 
@@ -138,16 +138,16 @@ abstract class ThumbBase
         $importName            = get_class($newImport);
         // the new functions to import
         $importFunctions    = get_class_methods($newImport);
-        
+
         // add the object to the registry
         array_push($this->imported, array($importName, $newImport));
-        
+
         // add the methods to the registry
         foreach ($importFunctions as $key => $functionName) {
             $this->importedFunctions[$functionName] = &$newImport;
         }
     }
-    
+
     /**
      * Checks to see if $this->fileName exists and is readable
      * 
@@ -157,19 +157,20 @@ abstract class ThumbBase
         if ($this->isDataStream === true) {
             return;
         }
-        
+
         if (stristr($this->fileName, 'http://') !== false) {
             $this->remoteImage = true;
+
             return;
         }
-        
+
         if (!file_exists($this->fileName)) {
-            $this->triggerError('Image file not found: ' . $this->fileName);
+            $this->triggerError('Image file not found: '.$this->fileName);
         } elseif (!is_readable($this->fileName)) {
-            $this->triggerError('Image file not readable: ' . $this->fileName);
+            $this->triggerError('Image file not readable: '.$this->fileName);
         }
     }
-    
+
     /**
      * Sets $this->errorMessage to $errorMessage and throws an exception
      * 
@@ -182,10 +183,10 @@ abstract class ThumbBase
     {
         $this->hasError    = true;
         $this->errorMessage    = $errorMessage;
-        
+
         throw new Exception($errorMessage);
     }
-    
+
     /**
      * Calls plugin / imported functions
      * 
@@ -195,16 +196,17 @@ abstract class ThumbBase
      * You should NEVER EVER EVER invoke this function manually.  The universe will implode if you do... seriously ;)
      * 
      * @param string $method
-     * @param array $args
+     * @param array  $args
      */
     public function __call($method, $args)
     {
         if (array_key_exists($method, $this->importedFunctions)) {
             $args[] = $this;
+
             return call_user_func_array(array($this->importedFunctions[$method], $method), $args);
         }
-        
-        throw new BadMethodCallException('Call to undefined method/class function: ' . $method);
+
+        throw new BadMethodCallException('Call to undefined method/class function: '.$method);
     }
 
     /**
@@ -216,7 +218,7 @@ abstract class ThumbBase
     {
         return $this->imported;
     }
-    
+
     /**
      * Returns $importedFunctions.
      * @see ThumbBase::$importedFunctions
@@ -226,7 +228,7 @@ abstract class ThumbBase
     {
         return $this->importedFunctions;
     }
-    
+
     /**
      * Returns $errorMessage.
      *
@@ -236,7 +238,7 @@ abstract class ThumbBase
     {
         return $this->errorMessage;
     }
-    
+
     /**
      * Sets $errorMessage.
      *
@@ -247,7 +249,7 @@ abstract class ThumbBase
     {
         $this->errorMessage = $errorMessage;
     }
-    
+
     /**
      * Returns $fileName.
      *
@@ -257,7 +259,7 @@ abstract class ThumbBase
     {
         return $this->fileName;
     }
-    
+
     /**
      * Sets $fileName.
      *
@@ -268,7 +270,7 @@ abstract class ThumbBase
     {
         $this->fileName = $fileName;
     }
-    
+
     /**
      * Returns $format.
      *
@@ -278,7 +280,7 @@ abstract class ThumbBase
     {
         return $this->format;
     }
-    
+
     /**
      * Sets $format.
      *
@@ -289,7 +291,7 @@ abstract class ThumbBase
     {
         $this->format = $format;
     }
-    
+
     /**
      * Returns $hasError.
      *
@@ -299,7 +301,7 @@ abstract class ThumbBase
     {
         return $this->hasError;
     }
-    
+
     /**
      * Sets $hasError.
      *

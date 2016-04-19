@@ -92,9 +92,9 @@ function request($url)
     list($header, $body) = explode("\r\n\r\n", $result, 2);
     $header = explode("\r\n", $header);
     $http = explode(' ', $header[0], 2);
-    header('HTTP/1.1 ' . $http[1]);
+    header('HTTP/1.1 '.$http[1]);
     // 确保FastCGI模式下正常
-    header('Status:' . $http[1]);
+    header('Status:'.$http[1]);
     unset($header[0]);
     foreach ($header as $string) {
         header($string);

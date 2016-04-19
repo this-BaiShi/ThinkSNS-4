@@ -8,7 +8,7 @@ class MenuWidget extends Widget
 {
     /**
      * 模板渲染
-     * @param array $data 相关数据
+     * @param  array  $data 相关数据
      * @return string 用户身份选择模板
      */
     public function render($data)
@@ -55,7 +55,7 @@ class MenuWidget extends Widget
                         $var['city'] = model('CategoryTree')->setTable('area')->getNetworkList($cate['pid']);
                     }
                 }
-                
+
 
                 break;
             case 'verify':

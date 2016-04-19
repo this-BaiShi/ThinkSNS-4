@@ -2,7 +2,6 @@
 
 class SelectFriendsAction extends Action
 {
-
     public function getOne()
     {
         $name = t(urldecode($_GET['name']));
@@ -65,7 +64,7 @@ class SelectFriendsAction extends Action
 
                 //$follow = M('User')->field('uid AS fuid,uname AS funame')->where("uid IN (SELECT uid FROM {$db_prefix}user_follow WHERE fid={$this->mid}) AND uid IN (SELECT fid FROM {$db_prefix}user_follow WHERE uid={$this->mid})")->findPage(15);
 
-            
+
                 //$follow = M('')->query("SELECT follow.fid AS fuid,user.uname AS funame FROM {$db_prefix}user_follow AS follow LEFT JOIN {$db_prefix}user AS user ON follow.fid=user.uid WHERE follow.uid={$this->mid} AND follow.type={$typeId}");
         }
 
@@ -113,7 +112,7 @@ class SelectFriendsAction extends Action
     public function unique_arr($array2D)
     {
         foreach ($array2D as &$v) {
-            $v = join(",", $v);  //降维,也可以用implode,将一维数组转换为用逗号连接的字
+            $v = implode(",", $v);  //降维,也可以用implode,将一维数组转换为用逗号连接的字
         }
         $array2D = array_unique($array2D);    //去掉重复的字符串,也就是重复的一维数组  
         foreach ($array2D as &$v) {

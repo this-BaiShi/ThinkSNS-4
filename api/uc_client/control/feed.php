@@ -11,7 +11,6 @@
 
 class feedcontrol extends base
 {
-
     public function __construct()
     {
         $this->_feedcontrol();
@@ -54,6 +53,7 @@ class feedcontrol extends base
 			image_1='$image_1', image_1_link='$image_1_link', image_2='$image_2', image_2_link='$image_2_link',
 			image_3='$image_3', image_3_link='$image_3_link', image_4='$image_4', image_4_link='$image_4_link',
 			hash_template='$hash_template', hash_data='$hash_data', target_ids='$target_ids', dateline='$dateline'");
+
         return $this->db->insert_id();
     }
 
@@ -84,6 +84,7 @@ class feedcontrol extends base
                 $this->_delete(0, $maxfeedid);
             }
         }
+
         return $feedlist;
     }
 
@@ -105,6 +106,7 @@ class feedcontrol extends base
         $template = htmlspecialchars($template);
         $template = nl2br($template);
         $template = str_replace(array('[B]', '[I]', '[U]', '[/B]', '[/I]', '[/U]'), array('<b>', '<i>', '<u>', '</b>', '</i>', '</u>'), $template);
+
         return $template;
     }
 }

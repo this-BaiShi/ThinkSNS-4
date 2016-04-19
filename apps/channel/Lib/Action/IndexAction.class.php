@@ -8,7 +8,6 @@ class IndexAction extends Action
 {
     /**
      * 频道首页页面
-     * @return void
      */
     public function index()
     {
@@ -22,6 +21,7 @@ class IndexAction extends Action
         $categoryIds = getSubByKey($channelCategory, 'channel_category_id');
         if (!in_array($cid, $categoryIds) && !empty($cid)) {
             $this->error('您请求的频道分类不存在');
+
             return false;
         }
         $channelConf = model('Xdata')->get('channel_Admin:index');
@@ -85,13 +85,12 @@ class IndexAction extends Action
             $result['status'] = 1;
             $result['data'] = $data;
         }
-        
+
         exit(json_encode($result));
     }
 
     /**
      * 投稿发布框
-     * @return void
      */
     public function contributeBox()
     {

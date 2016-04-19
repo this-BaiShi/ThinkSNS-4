@@ -6,7 +6,6 @@
  */
 class InviteAction extends Action
 {
-
     private $_invite_model;
     private $_invite_config;
     private $_register_config;
@@ -37,11 +36,11 @@ class InviteAction extends Action
 
         $tab_list [] = array(
             'field_key' => 'index',
-            'field_name' => L('PUBLIC_PROFILESET_INDEX')
+            'field_name' => L('PUBLIC_PROFILESET_INDEX'),
         ); // 基本资料
         $tab_list [] = array(
             'field_key' => 'tag',
-            'field_name' => L('PUBLIC_PROFILE_TAG')
+            'field_name' => L('PUBLIC_PROFILE_TAG'),
         ); // 基本资料
         $tab_lists = $profile_category_list;
 
@@ -50,50 +49,50 @@ class InviteAction extends Action
         }
         $tab_list [] = array(
             'field_key' => 'avatar',
-            'field_name' => L('PUBLIC_IMAGE_SETTING')
+            'field_name' => L('PUBLIC_IMAGE_SETTING'),
         ); // 头像设置
         $tab_list [] = array(
             'field_key' => 'domain',
-            'field_name' => L('PUBLIC_DOMAIN_NAME')
+            'field_name' => L('PUBLIC_DOMAIN_NAME'),
         ); // 个性域名
         $tab_list [] = array(
             'field_key' => 'authenticate',
-            'field_name' => '申请认证'
+            'field_name' => '申请认证',
         ); // 申请认证
         $tab_list_score [] = array(
             'field_key' => 'scoredetail',
-            'field_name' => L('积分规则')
+            'field_name' => L('积分规则'),
         ); // 积分规则
         $tab_list_preference [] = array(
             'field_key' => 'privacy',
-            'field_name' => L('PUBLIC_PRIVACY')
+            'field_name' => L('PUBLIC_PRIVACY'),
         ); // 隐私设置
         $tab_list_preference [] = array(
             'field_key' => 'notify',
-            'field_name' => '通知设置'
+            'field_name' => '通知设置',
         ); // 通知设置
         $tab_list_preference [] = array(
             'field_key' => 'blacklist',
-            'field_name' => '黑名单'
+            'field_name' => '黑名单',
         ); // 黑名单
         $tab_list_security [] = array(
             'field_key' => 'security',
-            'field_name' => L('PUBLIC_ACCOUNT_SECURITY')
+            'field_name' => L('PUBLIC_ACCOUNT_SECURITY'),
         ); // 帐号安全
         // 插件增加菜单
         $tab_list_security [] = array(
             'field_key' => 'bind',
-            'field_name' => '帐号绑定'
+            'field_name' => '帐号绑定',
         ); // 帐号绑定
 
         $tab_list_invite [] = array(
             'field_key' => 'invite',
-            'field_name' => '邮件邀请'
+            'field_name' => '邮件邀请',
         ); // 邮件邀请
 
         $tab_list_invite [] = array(
             'field_key' => 'linvite',
-            'field_name' => '链接邀请'
+            'field_name' => '链接邀请',
         ); // 链接邀请
 
         $this->assign('tab_list', $tab_list);
@@ -105,7 +104,6 @@ class InviteAction extends Action
 
     /**
      * 邀请页面 - 页面
-     * @return void
      */
     public function invite()
     {
@@ -120,7 +118,7 @@ class InviteAction extends Action
             $applyCredit['score'] = abs($creditRule['score']);
             $applyCredit['experience'] = abs($creditRule['experience']);
             $this->assign('applyCredit', $applyCredit);
-            
+
             //好友注册成功积分规则
             $_creditRule = model('Credit')->getCreditRuleByName('invite_friend');
             $_applyCredit['score'] = abs($_creditRule['score']);
@@ -146,7 +144,6 @@ class InviteAction extends Action
 
     /**
      * 邀请页面 - 页面
-     * @return void
      */
     public function linvite()
     {
@@ -160,7 +157,7 @@ class InviteAction extends Action
             $creditRule = model('Credit')->getCreditRuleByName('core_code');
             $applyCredit['score'] = abs($creditRule['score']);
             $applyCredit['experience'] = abs($creditRule['experience']);
-            
+
             //好友注册成功积分规则
             $_creditRule = model('Credit')->getCreditRuleByName('invite_friend');
             $_applyCredit['score'] = abs($_creditRule['score']);
@@ -185,7 +182,6 @@ class InviteAction extends Action
 
     /**
      * 邮箱邀请相关数据
-     * @return void
      */
     private function _getInviteEmail()
     {
@@ -202,7 +198,6 @@ class InviteAction extends Action
 
     /**
      * 链接邀请相关数据
-     * @return void
      */
     private function _getInviteLink()
     {
@@ -219,7 +214,6 @@ class InviteAction extends Action
 
     /**
      * 邀请页面 - 弹窗
-     * @return void
      */
     public function inviteBox()
     {

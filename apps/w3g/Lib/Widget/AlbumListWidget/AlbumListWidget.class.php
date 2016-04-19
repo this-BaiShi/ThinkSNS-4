@@ -1,4 +1,5 @@
 <?php
+
 class AlbumListWidget extends Widget
 {
     //type:select
@@ -26,9 +27,10 @@ class AlbumListWidget extends Widget
             $album['userId']    =    $_SESSION['mid'];
             $album['gid']    =    $data['gid'];
             $album['name']        =    '群组默认相册';
-            
+
             D()->table("{$pre}group_album")->add($album);
         }
+
         return $this->renderFile($data);
     }
     /**
@@ -62,11 +64,11 @@ class AlbumListWidget extends Widget
         }
 
         $var['data']        =    D()->table("{$pre}group_album")->where("is_del = 0 AND gid='".$data['gid']."'")->findAll();
-        
+
         $var['form_name']    =    $data['form_name'];
         $var['form_id']        =    $data['form_id'];
         $var['selected']    =    intval($data['selected']);
-       
+
         return parent::renderFile($templateFile, $var, $charset);
     }
 }

@@ -17,6 +17,7 @@ function getAlipayConfig(array $alipayConfig = null)
     if ($alipayConfig) {
         $config = array_merge($config, $alipayConfig);
     }
+
     return $config;
 }
 
@@ -37,11 +38,12 @@ function createAlipayUrl(array $alipayConfig, array $parameter)
         "show_url"  => '',
         "anti_phishing_key"    => '',
         "exter_invoke_ip"    => '',
-        "_input_charset"    => trim(strtolower($alipayConfig['input_charset']))
+        "_input_charset"    => trim(strtolower($alipayConfig['input_charset'])),
     ), $parameter);
     $alipaySubmit = new AlipaySubmit($alipayConfig);
     $url = $alipaySubmit->alipay_gateway_new;
     $url .= $alipaySubmit->buildRequestParaToString($parameter);
+
     return $url;
 }
 
@@ -50,14 +52,16 @@ function verifyAlipayReturn(array $alipayConfig)
     $alipayConfig = getAlipayConfig($alipayConfig);
     $alipayNotify = new AlipayNotify($alipayConfig);
     $verifyResult = $alipayNotify->verifyReturn();
-    return (bool)$verifyResult;
+
+    return (bool) $verifyResult;
 }
 
 function verifyAlipayNotify(array $alipayConfig)
 {
     $alipayConfig = getAlipayConfig($alipayConfig);
     $alipayNotify = new AlipayNotify($alipayConfig);
-    $verifyResult = (bool)$alipayNotify->verifyNotify();
+    $verifyResult = (bool) $alipayNotify->verifyNotify();
     echo $verifyResult ? 'success' : 'fail';
+
     return $verifyResult;
 }

@@ -25,9 +25,9 @@
       /**
      * Adds a new column to the table. (column.insert)
      *
-     * @param string $tableId Table for which a new column is being added.
-     * @param Google_Column $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string        $tableId   Table for which a new column is being added.
+     * @param  Google_Column $postBody
+     * @param  array         $optParams Optional parameters.
      * @return Google_Column
      */
     public function insert($tableId, Google_Column $postBody, $optParams = array())
@@ -44,9 +44,9 @@
     /**
      * Retrieves a specific column by its id. (column.get)
      *
-     * @param string $tableId Table to which the column belongs.
-     * @param string $columnId Name or identifier for the column that is being requested.
-     * @param array $optParams Optional parameters.
+     * @param  string        $tableId   Table to which the column belongs.
+     * @param  string        $columnId  Name or identifier for the column that is being requested.
+     * @param  array         $optParams Optional parameters.
      * @return Google_Column
      */
     public function get($tableId, $columnId, $optParams = array())
@@ -63,8 +63,8 @@
     /**
      * Retrieves a list of columns. (column.list)
      *
-     * @param string $tableId Table whose columns are being listed.
-     * @param array $optParams Optional parameters.
+     * @param string $tableId   Table whose columns are being listed.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string pageToken Continuation token specifying which result page to return. Optional.
      * @opt_param string maxResults Maximum number of columns to return. Optional. Default is 5.
@@ -84,10 +84,10 @@
     /**
      * Updates the name or type of an existing column. (column.update)
      *
-     * @param string $tableId Table for which the column is being updated.
-     * @param string $columnId Name or identifier for the column that is being updated.
-     * @param Google_Column $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string        $tableId   Table for which the column is being updated.
+     * @param  string        $columnId  Name or identifier for the column that is being updated.
+     * @param  Google_Column $postBody
+     * @param  array         $optParams Optional parameters.
      * @return Google_Column
      */
     public function update($tableId, $columnId, Google_Column $postBody, $optParams = array())
@@ -105,10 +105,10 @@
      * Updates the name or type of an existing column. This method supports patch semantics.
      * (column.patch)
      *
-     * @param string $tableId Table for which the column is being updated.
-     * @param string $columnId Name or identifier for the column that is being updated.
-     * @param Google_Column $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string        $tableId   Table for which the column is being updated.
+     * @param  string        $columnId  Name or identifier for the column that is being updated.
+     * @param  Google_Column $postBody
+     * @param  array         $optParams Optional parameters.
      * @return Google_Column
      */
     public function patch($tableId, $columnId, Google_Column $postBody, $optParams = array())
@@ -125,15 +125,16 @@
     /**
      * Deletes the column. (column.delete)
      *
-     * @param string $tableId Table from which the column is being deleted.
-     * @param string $columnId Name or identifier for the column being deleted.
-     * @param array $optParams Optional parameters.
+     * @param string $tableId   Table from which the column is being deleted.
+     * @param string $columnId  Name or identifier for the column being deleted.
+     * @param array  $optParams Optional parameters.
      */
     public function delete($tableId, $columnId, $optParams = array())
     {
         $params = array('tableId' => $tableId, 'columnId' => $columnId);
         $params = array_merge($params, $optParams);
         $data = $this->__call('delete', array($params));
+
         return $data;
     }
   }
@@ -150,8 +151,8 @@
       /**
      * Executes an SQL SELECT/SHOW/DESCRIBE statement. (query.sqlGet)
      *
-     * @param string $sql An SQL SELECT/SHOW/DESCRIBE statement.
-     * @param array $optParams Optional parameters.
+     * @param string $sql       An SQL SELECT/SHOW/DESCRIBE statement.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param bool typed Should typed values be returned in the (JSON) response -- numbers for numeric values and parsed geometries for KML values? Default is true.
      * @opt_param bool hdrs Should column names be included (in the first row)?. Default is true.
@@ -171,8 +172,8 @@
     /**
      * Executes an SQL SELECT/INSERT/UPDATE/DELETE/SHOW/DESCRIBE statement. (query.sql)
      *
-     * @param string $sql An SQL SELECT/SHOW/DESCRIBE/INSERT/UPDATE/DELETE statement.
-     * @param array $optParams Optional parameters.
+     * @param string $sql       An SQL SELECT/SHOW/DESCRIBE/INSERT/UPDATE/DELETE statement.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param bool typed Should typed values be returned in the (JSON) response -- numbers for numeric values and parsed geometries for KML values? Default is true.
      * @opt_param bool hdrs Should column names be included (in the first row)?. Default is true.
@@ -203,9 +204,9 @@
       /**
      * Adds a new style for the table. (style.insert)
      *
-     * @param string $tableId Table for which a new style is being added
-     * @param Google_StyleSetting $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string              $tableId   Table for which a new style is being added
+     * @param  Google_StyleSetting $postBody
+     * @param  array               $optParams Optional parameters.
      * @return Google_StyleSetting
      */
     public function insert($tableId, Google_StyleSetting $postBody, $optParams = array())
@@ -222,9 +223,9 @@
     /**
      * Gets a specific style. (style.get)
      *
-     * @param string $tableId Table to which the requested style belongs
-     * @param int $styleId Identifier (integer) for a specific style in a table
-     * @param array $optParams Optional parameters.
+     * @param  string              $tableId   Table to which the requested style belongs
+     * @param  int                 $styleId   Identifier (integer) for a specific style in a table
+     * @param  array               $optParams Optional parameters.
      * @return Google_StyleSetting
      */
     public function get($tableId, $styleId, $optParams = array())
@@ -241,8 +242,8 @@
     /**
      * Retrieves a list of styles. (style.list)
      *
-     * @param string $tableId Table whose styles are being listed
-     * @param array $optParams Optional parameters.
+     * @param string $tableId   Table whose styles are being listed
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string pageToken Continuation token specifying which result page to return. Optional.
      * @opt_param string maxResults Maximum number of styles to return. Optional. Default is 5.
@@ -262,10 +263,10 @@
     /**
      * Updates an existing style. (style.update)
      *
-     * @param string $tableId Table whose style is being updated.
-     * @param int $styleId Identifier (within a table) for the style being updated.
-     * @param Google_StyleSetting $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string              $tableId   Table whose style is being updated.
+     * @param  int                 $styleId   Identifier (within a table) for the style being updated.
+     * @param  Google_StyleSetting $postBody
+     * @param  array               $optParams Optional parameters.
      * @return Google_StyleSetting
      */
     public function update($tableId, $styleId, Google_StyleSetting $postBody, $optParams = array())
@@ -282,10 +283,10 @@
     /**
      * Updates an existing style. This method supports patch semantics. (style.patch)
      *
-     * @param string $tableId Table whose style is being updated.
-     * @param int $styleId Identifier (within a table) for the style being updated.
-     * @param Google_StyleSetting $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string              $tableId   Table whose style is being updated.
+     * @param  int                 $styleId   Identifier (within a table) for the style being updated.
+     * @param  Google_StyleSetting $postBody
+     * @param  array               $optParams Optional parameters.
      * @return Google_StyleSetting
      */
     public function patch($tableId, $styleId, Google_StyleSetting $postBody, $optParams = array())
@@ -302,15 +303,16 @@
     /**
      * Deletes a style. (style.delete)
      *
-     * @param string $tableId Table from which the style is being deleted
-     * @param int $styleId Identifier (within a table) for the style being deleted
-     * @param array $optParams Optional parameters.
+     * @param string $tableId   Table from which the style is being deleted
+     * @param int    $styleId   Identifier (within a table) for the style being deleted
+     * @param array  $optParams Optional parameters.
      */
     public function delete($tableId, $styleId, $optParams = array())
     {
         $params = array('tableId' => $tableId, 'styleId' => $styleId);
         $params = array_merge($params, $optParams);
         $data = $this->__call('delete', array($params));
+
         return $data;
     }
   }
@@ -327,9 +329,9 @@
       /**
      * Creates a new template for the table. (template.insert)
      *
-     * @param string $tableId Table for which a new template is being created
-     * @param Google_Template $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string          $tableId   Table for which a new template is being created
+     * @param  Google_Template $postBody
+     * @param  array           $optParams Optional parameters.
      * @return Google_Template
      */
     public function insert($tableId, Google_Template $postBody, $optParams = array())
@@ -346,9 +348,9 @@
     /**
      * Retrieves a specific template by its id (template.get)
      *
-     * @param string $tableId Table to which the template belongs
-     * @param int $templateId Identifier for the template that is being requested
-     * @param array $optParams Optional parameters.
+     * @param  string          $tableId    Table to which the template belongs
+     * @param  int             $templateId Identifier for the template that is being requested
+     * @param  array           $optParams  Optional parameters.
      * @return Google_Template
      */
     public function get($tableId, $templateId, $optParams = array())
@@ -365,8 +367,8 @@
     /**
      * Retrieves a list of templates. (template.list)
      *
-     * @param string $tableId Identifier for the table whose templates are being requested
-     * @param array $optParams Optional parameters.
+     * @param string $tableId   Identifier for the table whose templates are being requested
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string pageToken Continuation token specifying which results page to return. Optional.
      * @opt_param string maxResults Maximum number of templates to return. Optional. Default is 5.
@@ -386,10 +388,10 @@
     /**
      * Updates an existing template (template.update)
      *
-     * @param string $tableId Table to which the updated template belongs
-     * @param int $templateId Identifier for the template that is being updated
-     * @param Google_Template $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string          $tableId    Table to which the updated template belongs
+     * @param  int             $templateId Identifier for the template that is being updated
+     * @param  Google_Template $postBody
+     * @param  array           $optParams  Optional parameters.
      * @return Google_Template
      */
     public function update($tableId, $templateId, Google_Template $postBody, $optParams = array())
@@ -406,10 +408,10 @@
     /**
      * Updates an existing template. This method supports patch semantics. (template.patch)
      *
-     * @param string $tableId Table to which the updated template belongs
-     * @param int $templateId Identifier for the template that is being updated
-     * @param Google_Template $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string          $tableId    Table to which the updated template belongs
+     * @param  int             $templateId Identifier for the template that is being updated
+     * @param  Google_Template $postBody
+     * @param  array           $optParams  Optional parameters.
      * @return Google_Template
      */
     public function patch($tableId, $templateId, Google_Template $postBody, $optParams = array())
@@ -426,15 +428,16 @@
     /**
      * Deletes a template (template.delete)
      *
-     * @param string $tableId Table from which the template is being deleted
-     * @param int $templateId Identifier for the template which is being deleted
-     * @param array $optParams Optional parameters.
+     * @param string $tableId    Table from which the template is being deleted
+     * @param int    $templateId Identifier for the template which is being deleted
+     * @param array  $optParams  Optional parameters.
      */
     public function delete($tableId, $templateId, $optParams = array())
     {
         $params = array('tableId' => $tableId, 'templateId' => $templateId);
         $params = array_merge($params, $optParams);
         $data = $this->__call('delete', array($params));
+
         return $data;
     }
   }
@@ -451,8 +454,8 @@
       /**
      * Creates a new table. (table.insert)
      *
-     * @param Google_Table $postBody
-     * @param array $optParams Optional parameters.
+     * @param  Google_Table $postBody
+     * @param  array        $optParams Optional parameters.
      * @return Google_Table
      */
     public function insert(Google_Table $postBody, $optParams = array())
@@ -469,8 +472,8 @@
     /**
      * Retrieves a specific table by its id. (table.get)
      *
-     * @param string $tableId Identifier(ID) for the table being requested.
-     * @param array $optParams Optional parameters.
+     * @param  string       $tableId   Identifier(ID) for the table being requested.
+     * @param  array        $optParams Optional parameters.
      * @return Google_Table
      */
     public function get($tableId, $optParams = array())
@@ -508,9 +511,9 @@
      * Updates an existing table. Unless explicitly requested, only the name, description, and
      * attribution will be updated. (table.update)
      *
-     * @param string $tableId Id of the table that is being updated.
+     * @param string       $tableId   Id of the table that is being updated.
      * @param Google_Table $postBody
-     * @param array $optParams Optional parameters.
+     * @param array        $optParams Optional parameters.
      *
      * @opt_param bool replaceViewDefinition Should the view definition also be updated? The specified view definition replaces the existing one. Only a view can be updated with a new definition.
      * @return Google_Table
@@ -530,9 +533,9 @@
      * Updates an existing table. Unless explicitly requested, only the name, description, and
      * attribution will be updated. This method supports patch semantics. (table.patch)
      *
-     * @param string $tableId Id of the table that is being updated.
+     * @param string       $tableId   Id of the table that is being updated.
      * @param Google_Table $postBody
-     * @param array $optParams Optional parameters.
+     * @param array        $optParams Optional parameters.
      *
      * @opt_param bool replaceViewDefinition Should the view definition also be updated? The specified view definition replaces the existing one. Only a view can be updated with a new definition.
      * @return Google_Table
@@ -551,14 +554,15 @@
     /**
      * Deletes a table. (table.delete)
      *
-     * @param string $tableId Id of the table that is being deleted.
-     * @param array $optParams Optional parameters.
+     * @param string $tableId   Id of the table that is being deleted.
+     * @param array  $optParams Optional parameters.
      */
     public function delete($tableId, $optParams = array())
     {
         $params = array('tableId' => $tableId);
         $params = array_merge($params, $optParams);
         $data = $this->__call('delete', array($params));
+
         return $data;
     }
   }

@@ -7,7 +7,6 @@
 tsload(APPS_PATH.'/admin/Lib/Action/AdministratorAction.class.php');
 class PublicAction extends AdministratorAction
 {
-    
     public function _initialize()
     {
         if (!in_array(ACTION_NAME, array('login', 'doLogin', 'logout', 'selectDepartment'))) {
@@ -49,7 +48,7 @@ class PublicAction extends AdministratorAction
             $this->error(model('Passport')->getError());
         }
     }
-    
+
     /**
      * 退出登录
      * Enter description here ...
@@ -59,15 +58,15 @@ class PublicAction extends AdministratorAction
         model('Passport')->adminLogout();
         U('admin/Public/login', '', true);
     }
-    
-    
+
+
     /**
      * 通用部门选择数据接口
      */
     public function selectDepartment()
     {
         $return = array('status'=>1,'data'=>'');
-        
+
         if (empty($_POST['pid'])) {
             $return['status'] = 0;
             $return['data']   = L('PUBLIC_SYSTEM_CATEGORY_ISNOT');
@@ -119,7 +118,6 @@ class PublicAction extends AdministratorAction
 
     /**
      * 添加分类窗口API
-     * @return void
      */
     public function addTreeCategory()
     {
@@ -160,7 +158,6 @@ class PublicAction extends AdministratorAction
 
     /**
      * 编辑分类窗口API
-     * @return void
      */
     public function upTreeCategory()
     {
@@ -235,7 +232,6 @@ class PublicAction extends AdministratorAction
 
     /**
      * 设置分类配置页面
-     * @return void
      */
     public function setCategoryConf()
     {
@@ -282,7 +278,6 @@ class PublicAction extends AdministratorAction
 
     /**
      * 存储分类配置操作
-     * @return void
      */
     public function doSetCategoryConf()
     {
@@ -304,7 +299,7 @@ class PublicAction extends AdministratorAction
             $this->error('分类配置失败');
         }
     }
-    
+
     //发送测试邮件
     public function test_email()
     {

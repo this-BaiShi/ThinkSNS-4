@@ -11,7 +11,6 @@
 
 class friendmodel
 {
-
     public $db;
     public $base;
 
@@ -32,6 +31,7 @@ class friendmodel
         if ($direction == 1) {
             $this->db->query("INSERT INTO ".UC_DBTABLEPRE."friends SET uid='$uid', friendid='$friendid', comment='$comment', direction='3'", 'SILENT');
             $this->db->query("UPDATE ".UC_DBTABLEPRE."friends SET direction='3' WHERE uid='$friendid' AND friendid='$uid'");
+
             return 1;
         } elseif ($direction == 2) {
             return 1;
@@ -39,6 +39,7 @@ class friendmodel
             return -1;
         } else {
             $this->db->query("INSERT INTO ".UC_DBTABLEPRE."friends SET uid='$uid', friendid='$friendid', comment='$comment', direction='1'", 'SILENT');
+
             return $this->db->insert_id();
         }
     }
@@ -51,6 +52,7 @@ class friendmodel
         if ($affectedrows > 0) {
             $this->db->query("UPDATE ".UC_DBTABLEPRE."friends SET direction=1 WHERE uid IN ($friendids) AND friendid='$uid' AND direction='3'");
         }
+
         return $affectedrows;
     }
 
@@ -67,6 +69,7 @@ class friendmodel
             $sqladd = "uid='$uid' AND direction='3'";
         }
         $totalnum = $this->db->result_first("SELECT COUNT(*) FROM ".UC_DBTABLEPRE."friends WHERE $sqladd");
+
         return $totalnum;
     }
 
@@ -85,6 +88,7 @@ class friendmodel
         }
         if ($sqladd) {
             $data = $this->db->fetch_all("SELECT f.*, m.username FROM ".UC_DBTABLEPRE."friends f LEFT JOIN ".UC_DBTABLEPRE."members m ON f.friendid=m.uid WHERE $sqladd LIMIT $start, $pagesize");
+
             return $data;
         } else {
             return array();

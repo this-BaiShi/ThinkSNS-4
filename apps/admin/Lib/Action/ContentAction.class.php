@@ -26,7 +26,7 @@ class ContentAction extends AdministratorAction
     public $pageTitle = array();
     //TODO  要移位置
     public $from = array(0=>'网站',1=>'手机网页版',2=>'android',3=>'iphone');
-    
+
     public function feed($isRec = 0, $is_audit = 1)
     {
         //搜索区别
@@ -34,7 +34,7 @@ class ContentAction extends AdministratorAction
         if (!$isRec) {
             $_POST['is_audit'] = $isRec = isset($_REQUEST['is_audit']) ? t($_REQUEST['is_audit']) : $isRec;
         }
-         
+
         $this->pageKeyList = array('feed_id','uid','uname','data','publish_time','type','from','DOACTION');
         $this->searchKey = array('feed_id','uid','type','rec');
         $this->opt['type'] = array('0'=>L('PUBLIC_ALL_STREAM'),'post'=>L('PUBLIC_ORDINARY_WEIBO'),'repost'=>L('PUBLIC_SHARE_WEIBO'),'postimage'=>L('PUBLIC_PICTURE_WEIBO'),'postfile'=>L('PUBLIC_ATTACHMENT_WEIBO'));    //TODO 临时写死
@@ -42,7 +42,7 @@ class ContentAction extends AdministratorAction
         $this->pageTab[] = array('title'=>L('PUBLIC_DYNAMIC_MANAGEMENT'),'tabHash'=>'list','url'=>U('admin/Content/feed'));
         $this->pageTab[] = array('title'=>'待审列表','tabHash'=>'unAudit','url'=>U('admin/Content/feedUnAudit'));
         $this->pageTab[] = array('title'=>L('PUBLIC_RECYCLE_BIN'),'tabHash'=>'rec','url'=>U('admin/Content/feedRec'));
-        
+
         $this->pageButton[] = array('title'=>L('PUBLIC_DYNAMIC_SEARCH'),'onclick'=>"admin.fold('search_form')");
         if ($isRec == 0 && $is_audit == 1) {
             $this->pageButton[] = array('title'=>L('PUBLIC_DYNAMIC_DELETE'),'onclick'=>"admin.ContentEdit('','delFeed','".L('PUBLIC_STREAM_DELETE')."','".L('PUBLIC_DYNAMIC')."')");
@@ -52,7 +52,7 @@ class ContentAction extends AdministratorAction
         } else {
             $this->pageButton[] = array('title'=>L('PUBLIC_REMOVE_COMPLETELY'),'onclick'=>"admin.ContentEdit('','deleteFeed','".L('PUBLIC_REMOVE_COMPLETELY')."','".L('PUBLIC_DYNAMIC')."')");
         }
-        
+
         $isRec == 1 &&  $_REQUEST['tabHash'] = 'rec';
         $is_audit == 0 && $_REQUEST['tabHash'] = 'unAudit';
         $this->assign('pageTitle', $isRec ? L('PUBLIC_RECYCLE_BIN'):L('PUBLIC_DYNAMIC_MANAGEMENT'));
@@ -78,7 +78,6 @@ class ContentAction extends AdministratorAction
                 $v['DOACTION'] = "<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['feed_id']},\"delFeed\",\"".L('PUBLIC_STREAM_DELETE')."\",\"".L('PUBLIC_DYNAMIC')."\")'>".L('PUBLIC_STREAM_DELETE')."</a>";
             } elseif ($isRec==0 && $is_audit == 0) {
                 $v['DOACTION'] = "<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['feed_id']},\"auditFeed\",\"".'通过'."\",\"".L('PUBLIC_DYNAMIC')."\")'>".'通过'."</a>&nbsp;|&nbsp;"."<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['feed_id']},\"delFeed\",\"".L('PUBLIC_STREAM_DELETE')."\",\"".L('PUBLIC_DYNAMIC')."\")'>".L('PUBLIC_STREAM_DELETE')."</a>";
-                ;
             } else {
                 $v['DOACTION'] = "<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['feed_id']},\"feedRecover\",\"".L('PUBLIC_RECOVER')."\",\"".L('PUBLIC_DYNAMIC')."\")'>".L('PUBLIC_RECOVER')."</a>";
             }
@@ -150,24 +149,24 @@ class ContentAction extends AdministratorAction
         echo json_encode($return);
         exit();
     }
-    
+
     /**
      * 评论管理
-     * @param boolean $isRec 是否是回收站列表
+     * @param  bool  $isRec 是否是回收站列表
      * @return array 相关数据
      */
     public function comment($isRec = false, $is_audit = 1)
     {
         // 搜索区别
         $_POST['rec'] = $isRec = isset($_REQUEST['rec']) ? t($_REQUEST['rec']) : $isRec;
-         
+
         $this->pageKeyList = array('comment_id','uid','app_uid','source_type','content','ctime','client_type','DOACTION');
         $this->searchKey = array('comment_id','uid','app_uid');
-        
+
         $this->pageTab[] = array('title'=>'评论管理','tabHash'=>'list','url'=>U('admin/Content/comment'));
         $this->pageTab[] = array('title'=>'待审评论列表','tabHash'=>'unAudit','url'=>U('admin/Content/commentUnAudit'));
         $this->pageTab[] = array('title'=>L('PUBLIC_RECYCLE_BIN'),'tabHash'=>'rec','url'=>U('admin/Content/commentRec'));
-        
+
         $this->pageButton[] = array('title'=>L('PUBLIC_SEARCH_COMMENT'),'onclick'=>"admin.fold('search_form')");
         if ($isRec == 0 && $is_audit == 1) {
             $this->pageButton[] = array('title'=>L('PUBLIC_DELETE_COMMENT'),'onclick'=>"admin.ContentEdit('','delComment','".L('PUBLIC_STREAM_DELETE')."','".L('PUBLIC_STREAM_COMMENT')."')");
@@ -177,7 +176,7 @@ class ContentAction extends AdministratorAction
         } else {
             $this->pageButton[] = array('title'=>L('PUBLIC_REMOVE_COMPLETELY'),'onclick'=>"admin.ContentEdit('','deleteComment','".L('PUBLIC_REMOVE_COMPLETELY')."','".L('PUBLIC_STREAM_COMMENT')."')");
         }
-        
+
         $isRec == 1 &&  $_REQUEST['tabHash'] = 'rec';
         $is_audit == 0 && $_REQUEST['tabHash'] = 'unAudit';
         $this->assign('pageTitle', $isRec ? L('PUBLIC_RECYCLE_BIN'):'评论管理');
@@ -203,7 +202,6 @@ class ContentAction extends AdministratorAction
                 $v['DOACTION'] = "<a href='".$v['sourceInfo']['source_url']."' target='_blank'>".L('PUBLIC_VIEW')."</a> <a href='javascript:void(0)' onclick='admin.ContentEdit({$v['comment_id']},\"delComment\",\"".L('PUBLIC_STREAM_DELETE')."\",\"".L('PUBLIC_STREAM_COMMENT')."\")'>".L('PUBLIC_STREAM_DELETE')."</a>";
             } elseif ($isRec==0 && $is_audit == 0) {
                 $v['DOACTION'] = "<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['comment_id']},\"auditComment\",\"".'通过'."\",\"".L('PUBLIC_STREAM_COMMENT')."\")'>".'通过'."</a>&nbsp;|&nbsp;"."<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['comment_id']},\"delComment\",\"".L('PUBLIC_STREAM_DELETE')."\",\"".L('PUBLIC_DYNAMIC')."\")'>".L('PUBLIC_STREAM_DELETE')."</a>";
-                ;
             } else {
                 $v['DOACTION'] = "<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['comment_id']},\"CommentRecover\",\"".L('PUBLIC_RECOVER')."\",\"".L('PUBLIC_STREAM_COMMENT')."\")'>".L('PUBLIC_RECOVER')."</a>";
             }
@@ -219,7 +217,7 @@ class ContentAction extends AdministratorAction
         $this->searchPageKey = 'S_'.$this->pageKey ;
         $this->comment(0, 0);
     }
-    
+
     //回收站
     public function commentRec()
     {
@@ -257,11 +255,10 @@ class ContentAction extends AdministratorAction
     {
         echo json_encode(model('Comment')->doEditComment($_POST['id'], 'deleteComment', '评论彻底删除成功'));
     }
-    
+
     /**
      * 私信管理列表
-     * @param integer $isRec [description]
-     * @return void
+     * @param int $isRec [description]
      */
     public function message($isRec = 0)
     {
@@ -311,7 +308,7 @@ class ContentAction extends AdministratorAction
             } else {
                 $v['from_uid'] = $uname[$v['from_uid']];
             }
-            
+
             $v['content']  = '<div style="width:500px">'.getShort($v['content'], 120, '...').'</div>';// 截取120字
             $v['mtime']    = date('Y-m-d H:i:s', $v['mtime']);
             $v['DOACTION'] = $isRec==0 ? "<a href='javascript:void(0)' onclick='admin.ContentEdit({$v['message_id']},\"delMessage\",\"".L('PUBLIC_STREAM_DELETE')."\",\"".L('PUBLIC_PRIVATE_MESSAGE')."\");'>".L('PUBLIC_STREAM_DELETE')."</a>"
@@ -321,7 +318,7 @@ class ContentAction extends AdministratorAction
         $this->_listpk = 'message_id';
         $this->displayList($listData);
     }
-        
+
     //回收站
     public function messageRec()
     {
@@ -344,28 +341,28 @@ class ContentAction extends AdministratorAction
     {
         echo json_encode(model('Message')->doEditMessage($_POST['id'], 'deleteMessage', L('PUBLIC_REMOVE_COMPLETELY')));
     }
-    
-    
+
+
     public function attach($isRec = 0)
     {
         $this->_listpk = 'attach_id';
         //搜索区别
         $_POST['rec'] = $isRec = isset($_REQUEST['rec']) ? t($_REQUEST['rec']) : $isRec;
-         
+
         $this->pageKeyList = array('attach_id','name','size','uid','ctime','from','DOACTION');
         $this->searchKey = array('attach_id','name','from');
-        
+
         $this->opt['from'] = array_merge(array('-1'=>L('PUBLIC_ALL_STREAM')), $this->from);
         $this->pageTab[] = array('title'=>L('PUBLIC_FILE_MANAGEMENT'),'tabHash'=>'list','url'=>U('admin/Content/attach'));
         $this->pageTab[] = array('title'=>L('PUBLIC_RECYCLE_BIN'),'tabHash'=>'rec','url'=>U('admin/Content/attachRec'));
-        
+
         $this->pageButton[] = array('title'=>L('PUBLIC_FILE_STREAM_SEARCH'),'onclick'=>"admin.fold('search_form')");
         if ($isRec == 0) {
             $this->pageButton[] = array('title'=>L('PUBLIC_FILE_STREAM_DEL'),'onclick'=>"admin.ContentEdit('','delAttach','".L('PUBLIC_STREAM_DELETE')."','".L('PUBLIC_FILE_STREAM')."');");
         } else {
             $this->pageButton[] = array('title'=>L('PUBLIC_REMOVE_COMPLETELY'),'onclick'=>"admin.ContentEdit('','deleteAttach','".L('PUBLIC_REMOVE_COMPLETELY')."','".L('PUBLIC_FILE_STREAM')."')");
         }
-        
+
         $isRec == 1 &&  $_REQUEST['tabHash'] = 'rec';
         $this->assign('pageTitle', $isRec ? L('PUBLIC_RECYCLE_BIN'):L('PUBLIC_FILE_MANAGEMENT'));
         $map['is_del'] = $isRec==1 ? 1:0;    //未删除的 
@@ -374,8 +371,8 @@ class ContentAction extends AdministratorAction
         !empty($_POST['name']) && $map['name'] = array('like','%'.t($_POST['name']).'%');
 
         $listData = model('Attach')->getAttachList($map, '*', 'attach_id desc', 10);
-    
-        
+
+
 
         //$listData = model('Comment')->getCommentList($map,'comment_id desc',20);
         $image = array('png','jpg','gif','jpeg','bmp');
@@ -395,7 +392,7 @@ class ContentAction extends AdministratorAction
         }
         $this->displayList($listData);
     }
-        
+
     //回收站
     public function attachRec()
     {
@@ -420,7 +417,7 @@ class ContentAction extends AdministratorAction
     }
     //TODO 临时放着 后面要移动到messagemodel中
 
-    
+
     /**
      * 视频管理
      */
@@ -429,10 +426,10 @@ class ContentAction extends AdministratorAction
         $this->_listpk = 'video_id';
         //搜索区别
         $_POST['is_del'] = $isRec = isset($_REQUEST['is_del']) ? t($_REQUEST['is_del']) : $isRec;
-         
+
         $this->pageKeyList = array('video_id','name','size','uid','ctime','from','DOACTION');
         $this->searchKey = array('video_id','name','from');
-        
+
         $this->opt['from'] = array_merge(array('-1'=>L('PUBLIC_ALL_STREAM')), $this->from);
         $this->pageTab[] = array('title'=>'视频列表','tabHash'=>'list','url'=>U('admin/Content/video'));
         $this->pageTab[] = array('title'=>L('PUBLIC_RECYCLE_BIN'),'tabHash'=>'rec','url'=>U('admin/Content/videoRec'));
@@ -444,7 +441,7 @@ class ContentAction extends AdministratorAction
         } else {
             $this->pageButton[] = array('title'=>L('PUBLIC_REMOVE_COMPLETELY'),'onclick'=>"admin.ContentEdit('','deleteVideo','".L('PUBLIC_REMOVE_COMPLETELY')."','".L('PUBLIC_FILE_STREAM')."')");
         }
-        
+
         $is_del == 1 &&  $_REQUEST['tabHash'] = 'rec';
         $this->assign('pageTitle', $is_del ? L('PUBLIC_RECYCLE_BIN'):L('视频管理'));
         $map['is_del'] = $is_del==1 ? 1:0;    //未删除的 
@@ -469,7 +466,7 @@ class ContentAction extends AdministratorAction
         }
         $this->displayList($listData);
     }
-        
+
     //回收站
     public function videoRec()
     {
@@ -523,7 +520,7 @@ class ContentAction extends AdministratorAction
             $this->error(L('PUBLIC_ADMIN_OPRETING_ERROR'));
         }
     }
-    
+
     /**
      * 举报管理
      */
@@ -551,7 +548,7 @@ class ContentAction extends AdministratorAction
 
     /**
      * 删除举报回收站内容
-     * @return integer 是否删除成功
+     * @return int 是否删除成功
      */
     public function doDeleteDenounce()
     {
@@ -570,7 +567,7 @@ class ContentAction extends AdministratorAction
 
     /**
      * 撤销举报内容
-     * @return integer 是否撤销成功
+     * @return int 是否撤销成功
      */
     public function doReviewDenounce()
     {
@@ -586,11 +583,10 @@ class ContentAction extends AdministratorAction
         //todo 记录知识
         echo model('Denounce')->reviewDenounce(t($_POST['ids'])) ? '1' : '0';
     }
-    
+
 
     /**
      * 话题管理
-     * @return void
      */
     public function topic()
     {
@@ -616,7 +612,6 @@ class ContentAction extends AdministratorAction
 
     /**
      * 添加话题
-     * @return  void
      */
     public function addTopic()
     {
@@ -638,7 +633,6 @@ class ContentAction extends AdministratorAction
 
     /**
      * 执行添加话题
-     * @return  void
      */
     public function doAddTopic()
     {
@@ -714,7 +708,6 @@ class ContentAction extends AdministratorAction
 
     /**
      * 编辑话题
-     * @return  void
      */
     public function editTopic()
     {
@@ -791,7 +784,6 @@ class ContentAction extends AdministratorAction
 
     /**
      * 模板管理页面
-     * @return void
      */
     public function template()
     {
@@ -817,7 +809,6 @@ class ContentAction extends AdministratorAction
 
     /**
      * 添加/编辑模板页面
-     * @return void
      */
     public function upTemplate()
     {

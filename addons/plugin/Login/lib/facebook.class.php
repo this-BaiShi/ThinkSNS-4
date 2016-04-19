@@ -10,6 +10,7 @@ class facebook
     {
         $facebook = new FacebookAPI(array('appId' => FACEBOOK_KEY, 'secret' => FACEBOOK_SECRET));
         $loginUrl = $facebook->getLoginUrl();
+
         return $loginUrl;
     }
 
@@ -31,6 +32,7 @@ class facebook
         $user['location']    = '';
         $user['userface']    = $profile['portrait'];
         $user['sex']         = $profile['sex'];
+
         return $user;
     }
 

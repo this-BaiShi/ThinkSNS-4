@@ -7,7 +7,6 @@
  */
 class FollowGroupWidget extends Widget
 {
-
     /**
      * 渲染关注用户分组调整模板
      * @example
@@ -15,7 +14,7 @@ class FollowGroupWidget extends Widget
      * $data['fid'] integer 关注用户ID
      * $data['follow_group_status'] array 指定关注用户的分组信息
      * @data['tpl'] string 模板字段
-     * @param array $data 配置的相关信息
+     * @param  array  $data 配置的相关信息
      * @return string 渲染后的模板数据
      */
     public function render($data)
@@ -37,22 +36,22 @@ class FollowGroupWidget extends Widget
         $title = getSubByKey($followGroupStatus, 'title');       // 用于存储原始数据
         $data['title'] = implode(',', $title);
 
-        $content = $this->renderFile(dirname(__FILE__) . '/'.$template.'.html', $data);
+        $content = $this->renderFile(dirname(__FILE__).'/'.$template.'.html', $data);
 
         return $content;
     }
-    
+
     /**
      * 渲染添加分组页面
      */
     public function addgroup()
     {
-        return  $content = $this->renderFile(dirname(__FILE__) . '/addgroup.html');
+        return  $content = $this->renderFile(dirname(__FILE__).'/addgroup.html');
     }
-    
+
     /**
      * 添加分组
-     * @return  array 添加分组状态和提示信息
+     * @return array 添加分组状态和提示信息
      */
     public function doaddGroup()
     {
@@ -80,7 +79,7 @@ class FollowGroupWidget extends Widget
         }
         exit(json_encode($return));
     }
-    
+
     /**
      * 渲染编辑分组页面
      */
@@ -88,13 +87,13 @@ class FollowGroupWidget extends Widget
     {
         $followGroupDao = model('FollowGroup');
         $var['group_list'] = $followGroupDao->getGroupList($GLOBALS['ts']['mid']);
-        
-        return  $content = $this->renderFile(dirname(__FILE__) . '/editgroup.html', $var);
+
+        return  $content = $this->renderFile(dirname(__FILE__).'/editgroup.html', $var);
     }
-    
+
     /**
      * 验证分组个数
-     * @return  mixed 验证分组状态和提示信息
+     * @return mixed 验证分组状态和提示信息
      */
     public function checkGroup()
     {

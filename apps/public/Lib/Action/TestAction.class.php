@@ -1,7 +1,7 @@
-<?php 
+<?php
+
 class TestAction extends Action
 {
-
     public function _initialize()
     {
         header("Content-Type:text/html; charset=UTF8");
@@ -38,7 +38,7 @@ class TestAction extends Action
         // $demo = model('User')->getUserInfo($this->mid);
         // dump($demo);
     }
-    
+
     public function mylove()
     {
         $str = 'alipay_jilu:;atme:;attach:;attach_t:;blog:;blog_category:;channel:;channel_follow:;check_info:;collection:;comment:app_uid;comment:;comment:to_uid;credit_user:;denounce:;denounce:fuid;develop:;diy_page:;diy_widget:;document:deleteUid;document_attach:;document_draft:;document_lock:;event:;event_photo:;event_user:;feed:;feedback:;find_password:;group:;group_atme:;group_attachment:;group_comment:app_uid;group_comment:;group_comment:to_uid;group_feed:;group_invite_verify:;group_log:;group_member:;group_post:;group_topic:;group_user_count:;invite_code:inviter_uid;invite_code:receiver_uid;login:;login_logs:;login_record:;medal_user:;message_content:from_uid;message_list:from_uid;message_member:member_uid;notify_email:;notify_message:;online:;online_logs:;online_logs_bak:;poppk:cUid;poppk_vote:;poster:;sitelist_site:;survey_answer:;task_receive:;task_user:;template_record:;tipoff:;tipoff:bonus_uid;tipoff_log:;tips:;user_app:;user_blacklist:;user_category_link:;user_change_style:;user_count:;user_credit_history:;user_data:;user_department:;user_follow:;user_follow_group:;user_follow_group_link:;user_group_link:;user_official:;user_online:;user_privacy:;user_profile:;user_verified:;vote:;vote_user:;vtask:assigner_uid;vtask:deal_uid;vtask_log:;vtask_process:assigner_uid;vtask_process:deal_uid;weiba:;weiba:admin_uid;weiba_apply:follower_uid;weiba_apply:manager_uid;weiba_favorite:;weiba_favorite:post_uid;weiba_follow:follower_uid;weiba_log:;weiba_post:post_uid;weiba_post:last_reply_uid;weiba_reply:post_uid;weiba_reply:;weiba_reply:to_uid;x_article:;x_logs:';
@@ -47,11 +47,11 @@ class TestAction extends Action
             $info = explode(':', $v);
             $table = C('DB_PREFIX').$info[0];
             $field = empty($info[1]) ? 'uid' : $info[1];
-            
+
             $sql = 'DELETE FROM '.$table.' WHERE '.$field.' NOT IN (SELECT uid FROM ts_user) ';
             M()->execute($sql);
         }
-                
+
 /* 		$sql = "SELECT TABLE_NAME,COLUMN_NAME FROM information_schema.`COLUMNS` WHERE TABLE_SCHEMA='uat_sociax' AND COLUMN_NAME LIKE '%uid%' AND DATA_TYPE='int'";
         $list = M()->query($sql);
         $str = '';
@@ -113,7 +113,7 @@ class TestAction extends Action
             dump("update weiba_post : false");
             echo '<hr />';
         }
-        
+
 
         $sql = "select * from ts_feed where app='weiba' AND type='repost' AND app_row_table='feed' LIMIT 100";
         $result = D()->query($sql);
@@ -245,9 +245,9 @@ class TestAction extends Action
         $filePath[] = SITE_PATH."/apps/task";
 
 
-        
+
         $filelist    = array();
-        require_once ADDON_PATH . '/library/io/Dir.class.php';
+        require_once ADDON_PATH.'/library/io/Dir.class.php';
 
         foreach ($filePath as $v) {
             $filelist[$v] = $this->getDir($v);
@@ -284,6 +284,7 @@ class TestAction extends Action
                 continue;
             }
         }
+
         return $list;
     }
     //下面是一些demo
@@ -335,7 +336,7 @@ class TestAction extends Action
 
     public function _tree($data)
     {
-            
+
             //所有节点的子节点
             $child = array();
             //hash缓存数组
@@ -390,7 +391,6 @@ class TestAction extends Action
 
     /**
      * 生成语言文件
-     * @return void
      */
     public function createLangPhpFile()
     {
@@ -422,7 +422,6 @@ class TestAction extends Action
 
     /**
      * 获取生成的语言文件内容
-     * @return void
      */
     public function getzLang()
     {
@@ -608,7 +607,6 @@ class TestAction extends Action
 
     /**
      * 插入Ts2.8用户信息
-     * @return void
      */
     public function insertTsUser()
     {
@@ -722,6 +720,7 @@ class TestAction extends Action
         curl_setopt($ch, CURLOPT_POSTFIELDS, "&hl=zh-CN&sl={$sl}&ie={$ie}&tl={$tl}&text=".urlencode($text));
         $html = curl_exec($ch);
         preg_match('#<span id=result_box class="short_text">(.*?)</span></div>#', $html, $doc);
+
         return strip_tags($doc['1'], '<br>');
     }
 
@@ -747,7 +746,7 @@ class TestAction extends Action
         $count = 10;
         $limit = ($p - 1) * $count.', '.$count;
         $list = model('User')->limit($limit)->getAsFieldArray('uid');
-        
+
         if (empty($list)) {
             dump('OK');
             exit;
@@ -771,17 +770,17 @@ class TestAction extends Action
                 $sql = 'SELECT count(follow_id) as total FROM '.C('DB_PREFIX').'user_follow where uid ='.$uid;
                 $vo = M()->query($sql);
                 $res['following_count'] = intval($vo[0]['total']);
-                
+
                 // 粉丝数目
                 $sql = 'SELECT count(follow_id) as total FROM '.C('DB_PREFIX').'user_follow where fid ='.$uid;
                 $vo = M()->query($sql);
                 $res['follower_count'] = intval($vo[0]['total']);
 
-                
+
                 $map['uid'] = $uid;
                 $map['key'] = array('in', array('feed_count', 'weibo_count', 'favorite_count', 'following_count', 'follower_count'));
                 M('UserData')->where($map)->delete();
-            
+
                 $sql = 'INSERT INTO '.C('DB_PREFIX').'user_data (`uid`,`key`,`value`) values';
                 $data['uid'] = $uid;
                 $k = 0;
@@ -798,7 +797,7 @@ class TestAction extends Action
                 $sql = '';
                 // 清掉该用户的缓存
                 model('Cache')->rm('UserData_'.$uid);
-                
+
                 if ($rr) {
                     echo $uid.' -- done -- <br />';
                 } else {
@@ -812,7 +811,6 @@ class TestAction extends Action
     }
     /**
      * 转移2.8头像为3.0头像地址
-     * @return void
      */
     public function upFacePath()
     {
@@ -821,7 +819,7 @@ class TestAction extends Action
         $count = 1000;
         $limit = ($p - 1) * $count.', '.$count;
         $list = model('User')->limit($limit)->getAsFieldArray('uid');
-        
+
         if (empty($list)) {
             dump('OK');
             exit;
@@ -830,7 +828,7 @@ class TestAction extends Action
                 if (empty($uid)) {
                     continue;
                 }
-                
+
                 $oldPath = UPLOAD_PATH.'/avatar/'.$uid.'/big.jpg';
                 if (!file_exists($oldPath)) {
                     continue;
@@ -839,22 +837,21 @@ class TestAction extends Action
                 // $uid = 10045;
                 $path = UPLOAD_PATH.'/avatar'.model('Avatar')->convertUidToPath($uid);
                 $this->_createFolder($path);
-                
+
                 $res = copy($oldPath, $path.'/original.jpg');
-                echo($oldPath.'  =>  '.$path.'/original.jpg'.'  '.$res.'<br/>');
+                echo $oldPath.'  =>  '.$path.'/original.jpg'.'  '.$res.'<br/>';
             }
-            
+
             $p += 1;
             echo '<script>window.location.href="'.U('public/Test/upFacePath', array('p'=>$p)).'";</script>';
         }
     }
 
-    
-    
+
+
     /**
      * 创建多级文件目录
      * @param string $path 路径名称
-     * @return void
      */
     private function _createFolder($path)
     {

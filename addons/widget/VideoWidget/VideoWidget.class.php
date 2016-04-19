@@ -9,12 +9,12 @@ class VideoWidget extends Widget
     public function render($data)
     {
     }
-      
+
     /**
-    * 
-    * 上传视频接受处理
-    * 
-    */
+     * 
+     * 上传视频接受处理
+     * 
+     */
     public function paramUrl()
     {
         $link = t($_POST['url']);
@@ -25,7 +25,7 @@ class VideoWidget extends Widget
             $return['boolen'] = 0;
             $return['message'] = '仅支持优酷网、土豆网、音悦台视频发布';
         }
-        
+
         $flashinfo = model('Video')->_video_getflashinfo($link, strtolower($hosts[1]));
 
         $return['title'] = 1;

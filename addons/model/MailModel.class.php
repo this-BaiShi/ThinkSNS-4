@@ -6,14 +6,12 @@
  */
 class MailModel
 {
-
     // 允许发送邮件的类型
     public static $allowed = array('Register','unAudit','resetPass','resetPassOk','invateOpen','invate','atme','comment','reply');
     public $message;
 
     /**
      * 初始化方法，加载phpmailer，初始化默认参数
-     * @return void
      */
     public function __construct()
     {
@@ -30,29 +28,30 @@ class MailModel
             'email_password'        => $emailset['email_password'],
             'email_sender_name'        => $emailset['email_sender_name'],
             'email_sender_email'    => $emailset['email_sender_email'],
-            'email_reply_account'    => $emailset['email_sender_email']
+            'email_reply_account'    => $emailset['email_sender_email'],
         );
     }
 
     /**
      * 测试发送邮件
-     * @param array $data 邮件相关内容数据
-     * @return boolean 是否发送成功
+     * @param  array $data 邮件相关内容数据
+     * @return bool  是否发送成功
      */
     public function test_email($data)
     {
         $this->option = $data;
         $this->option['email_reply_account'] = $this->option['email_sender_email'];
+
         return $this->send_email($data['sendto_email'], '测试邮件', '这是一封测试邮件');
     }
 
     /**
      * 发送邮件
-     * @param string $sendto_email 收件人的Email
-     * @param string $subject 主题
-     * @param string $body 正文
-     * @param array $senderInfo 发件人信息 array('email_sender_name'=>'发件人姓名', 'email_account'=>'发件人Email地址')
-     * @return boolean 是否发送邮件成功
+     * @param  string $sendto_email 收件人的Email
+     * @param  string $subject      主题
+     * @param  string $body         正文
+     * @param  array  $senderInfo   发件人信息 array('email_sender_name'=>'发件人姓名', 'email_account'=>'发件人Email地址')
+     * @return bool   是否发送邮件成功
      */
     public function send_email($sendto_email, $subject, $body, $senderInfo = '')
     {
@@ -83,7 +82,7 @@ class MailModel
         } else {
             $mail->Mailer = "mail";
         }
-        
+
         $mail->Sender = $this->option['email_account'];            // 真正的发件邮箱
 
         $mail->SetFrom($sender_email, $sender_name, 0);                // 设置发件人信息
@@ -109,7 +108,7 @@ class MailModel
         $result = $mail->Send();
 
         $this->setMessage($mail->ErrorInfo);
-        
+
         return $result;
     }
 

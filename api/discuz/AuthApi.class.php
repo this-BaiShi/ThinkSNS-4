@@ -1,6 +1,7 @@
 <?php
+
 $discuz_url = 'http://127.0.0.1/discuz/';//论坛地址
-$login_url = $discuz_url .'logging.php?action=login';//登录页地址
+$login_url = $discuz_url.'logging.php?action=login';//登录页地址
 
 
 $post_fields = array();

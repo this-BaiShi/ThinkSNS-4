@@ -14,7 +14,6 @@ define('UC_ARRAY_SEP_2', 'UC_ARRAY_SEP_2');
 
 class miscmodel
 {
-
     public $db;
     public $base;
 
@@ -32,6 +31,7 @@ class miscmodel
     public function get_apps($col = '*', $where = '')
     {
         $arr = $this->db->fetch_all("SELECT $col FROM ".UC_DBTABLEPRE."applications".($where ? ' WHERE '.$where : ''));
+
         return $arr;
     }
 
@@ -71,6 +71,7 @@ class miscmodel
             return '';
         }
         $url .= (strpos($url, '?') === false ? '?' : '&')."__times__=$__times__";
+
         return $this->dfopen($url, $limit, $post, $cookie, $bysocket, $ip, $timeout, $block, $encodetype);
     }
 
@@ -141,6 +142,7 @@ class miscmodel
                 }
             }
             @fclose($fp);
+
             return $return;
         }
     }
@@ -154,6 +156,7 @@ class miscmodel
                 $sep = UC_ARRAY_SEP_2;
             }
         }
+
         return $s;
     }
 
@@ -165,6 +168,7 @@ class miscmodel
             list($key, $val) = explode(UC_ARRAY_SEP_1, $v);
             $arr2[$key] = $val;
         }
+
         return $arr2;
     }
 }

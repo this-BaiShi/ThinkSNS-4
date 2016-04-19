@@ -4,7 +4,6 @@
  */
 class FeedbackAction extends Action
 {
-
     /**
      * 添加意见反馈操作
      */

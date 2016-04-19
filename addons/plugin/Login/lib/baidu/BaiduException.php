@@ -17,7 +17,6 @@ class BaiduException extends Exception
     /**
      * Constructor: initialize the BaiduException instance.
      * 
-     * @return void
      */
     public function __construct($message, $code = 0)
     {
@@ -25,5 +24,5 @@ class BaiduException extends Exception
     }
 }
 
- 
+
 /* vim: set expandtab ts=4 sw=4 sts=4 tw=100: */

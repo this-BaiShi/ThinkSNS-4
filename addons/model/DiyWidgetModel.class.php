@@ -34,7 +34,7 @@ class DiyWidgetModel extends Model
     }
     /**
      * 返回模块参数
-     * @param string $sign
+     * @param  string $sign
      * @return mixed
      */
     public function getTagInfo($sign)
@@ -46,11 +46,12 @@ class DiyWidgetModel extends Model
         $result['content'] = $data['content'];
         $result['tagLib']  = $data['tagLib'];
         $result['attr'] = unserialize($ext['attr']);
+
         return $result;
     }
     /**
      * 返回模块参数  $sign是数组 
-     * @param array $sign
+     * @param  array $sign
      * @return mixed
      */
     public function getTagInofs(array $sign)
@@ -66,6 +67,7 @@ class DiyWidgetModel extends Model
             $result[$value['pluginId']]['tagLib']  = $value['tagLib'];
             $result[$value['pluginId']]['attr'] = unserialize($ext['attr']);
         }
+
         return $result;
     }
 
@@ -76,6 +78,7 @@ class DiyWidgetModel extends Model
     {
         $map['widgetId'] = $widgetId;
         $ext = unserialize($this->where($map)->getField('ext'));
+
         return $ext['tagInfo']['name'];
     }
 
@@ -87,6 +90,7 @@ class DiyWidgetModel extends Model
     {
         $map['pluginId'] = $pluginId;
         $content = $this->where($map)->getField('content');
+
         return empty($content)?false:$content;
     }
 
@@ -97,6 +101,7 @@ class DiyWidgetModel extends Model
     {
         $map['widgetId'] = $WidgetId;
         $content = $this->where($map)->getField('content');
+
         return empty($content)?false:$content;
     }
     /**
@@ -106,6 +111,7 @@ class DiyWidgetModel extends Model
     {
         $map['widgetId'] = $widgetId;
         $save['content'] = $content;
+
         return $this->where($map)->save($save);
     }
 
@@ -113,6 +119,7 @@ class DiyWidgetModel extends Model
     public function getCache($sign)
     {
         $map['pluginId'] = $sign;
+
         return $this->where($map)->getField('cache');
     }
 
@@ -125,13 +132,14 @@ class DiyWidgetModel extends Model
     }
     /**
      * 是否存在相同的模块
-     * @param unknown_type $sign
-     * @return boolean
+     * @param  unknown_type $sign
+     * @return bool
      */
     public function checkHasWidget($sign)
     {
         $map['pluginId'] = $sign;
         $count = $this->where($map)->count();
+
         return $count>0?true:false;
     }
 }

@@ -5,5 +5,5 @@
 return array(
     "access" => array(
         'people/Index/*' => true,
-    )
+    ),
 );

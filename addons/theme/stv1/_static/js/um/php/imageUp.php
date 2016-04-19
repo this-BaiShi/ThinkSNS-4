@@ -6,7 +6,7 @@
     $config = array(
         "savePath" => "upload/" ,             //存储文件夹
         "maxSize" => 1000 ,                   //允许的文件最大尺寸，单位KB
-        "allowFiles" => array( ".gif" , ".png" , ".jpg" , ".jpeg" , ".bmp" )  //允许的文件格式
+        "allowFiles" => array( ".gif" , ".png" , ".jpg" , ".jpeg" , ".bmp" ),  //允许的文件格式
     );
     //上传文件目录
     $Path = "upload/";
@@ -18,11 +18,11 @@
     $editorId=$_GET['editorid'];
 
     $info = $up->getFileInfo();
-    /**
+    /*
      * 返回数据，调用父页面的ue_callback回调
      */
     if ($type == "ajax") {
         echo $info[ "url" ];
     } else {
-        echo "<script>parent.UM.getEditor('". $editorId ."').getWidgetCallback('image')('" . $info[ "url" ] . "','" . $info[ "state" ] . "')</script>";
+        echo "<script>parent.UM.getEditor('".$editorId."').getWidgetCallback('image')('".$info[ "url" ]."','".$info[ "state" ]."')</script>";
     }

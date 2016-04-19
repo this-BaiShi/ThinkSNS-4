@@ -1,4 +1,5 @@
 <?php
+
 namespace Ts\AutoLoader;
 
 use Ts;
@@ -14,7 +15,7 @@ class VendorAutoLoader
     /**
      * 第三方包命名空间入口
      *
-     * @param array $namespace 切割后的命名空间
+     * @param  array $namespace 切割后的命名空间
      * @return array
      * @author Seven Du <lovevipdsw@vip.qq.com>
      **/
@@ -22,6 +23,7 @@ class VendorAutoLoader
     {
         array_unshift($namespace, Ts::getRootPath());
         array_push($namespace, '.php');
+
         return $namespace;
     }
 
@@ -34,6 +36,7 @@ class VendorAutoLoader
     public static function import($vendorName)
     {
         $namespace = strval($namespace);
+
         return array(Ts::getRootPath(), 'Vendor', 'Entry', '.php');
     }
 } // END class VendorAutoLoader

@@ -9,7 +9,7 @@ class TaskModel extends Model
     protected $tableName = 'task';
     // 用于存储日常任务统计数据
     private $amountHash = array();
-    
+
     public function getUserTask($type, $uid)
     {
         //用户任务执行情况   主要判断 ：是新手任务，进阶任务 ......
@@ -50,7 +50,7 @@ class TaskModel extends Model
             $steps[$s['id']]['step_desc'] = $s['step_desc'];
             $steps[$s['id']]['action'] = $s['action'] ? U($s['action']) : '';
             $steps[$s['id']]['reward'] = json_decode($s['reward']);
-            $steps[$s['id']]['conkey'] = array_shift(array_keys((array)json_decode($s['condition'])));
+            $steps[$s['id']]['conkey'] = array_shift(array_keys((array) json_decode($s['condition'])));
         }
         $iscomplete = 1;
         foreach ($list as $k => &$v) {
@@ -88,7 +88,7 @@ class TaskModel extends Model
 // 		dump($redata);
         return $redata;
     }
-    
+
     private function isComplete($tasktype, $uid, $tasklevel)
     {
         $map['task_type'] = $tasktype;
@@ -138,7 +138,7 @@ class TaskModel extends Model
             }
         }
     }
-    
+
     public function completeTask($tasktype, $tasklevel = 1, $uid)
     {
         $complete = D('task_user')->where('status=0 and task_type='.$tasktype.' and task_level='.$tasklevel.' and uid='.$uid)->find();
@@ -161,11 +161,12 @@ class TaskModel extends Model
                 $data['task_level'] = $tasklevel;
                 $data['ctime'] = $_SERVER['REQUEST_TIME'];
                 $res = D('task_receive')->add($data);
-                
+
                 //初始化新的任务
                 $map['task_level'] = $tasklevel + 1;
                 $map['task_type'] = $tasktype;
                 $this->addTask($map, $uid);
+
                 return $res;
             }
     }
@@ -188,9 +189,10 @@ class TaskModel extends Model
             //加入任务表
             D('task_user')->add($udata);
         }
+
         return true;
     }
-    
+
     public function _executeTask($excutetype, $num, $uid, $type, $userdata)
     {
         //每日任务判断
@@ -230,6 +232,7 @@ class TaskModel extends Model
                     //上传头像
                 case 'uploadface':
                     $res = model('Avatar')->hasAvatar();
+
                     return $res ? true : false;
                     break;
                     //粉丝数
@@ -264,6 +267,7 @@ class TaskModel extends Model
                     $fids = D('Feed')->where('uid='.$uid)->field('feed_id')->findAll();
                     $map['row_id'] = array( 'in' , getSubByKey($fids, 'feed_id') );
                     $res = D('atme')->where($map)->find();
+
                     return $res ? true : false;
                     break;
                     //用户等级
@@ -282,11 +286,13 @@ class TaskModel extends Model
                     //单条分享被转发
                 case 'weiboonetranspost':
                     $res = model('Feed')->where('uid='.$uid.' and repost_count>'.$num)->find();
+
                     return $res ? true : false;
                     break;
                     //单条分享被评论
                 case 'weiboonecomment':
                     $res = model('Feed')->where('uid='.$uid.' and comment_count>'.$num)->find();
+
                     return $res ? true : false;
                     break;
                     //转发指定分享
@@ -295,11 +301,13 @@ class TaskModel extends Model
                     $map['type'] = 'repost';
                     $map['app_row_id'] = $num;
                     $res = model('Feed')->where($map)->find();
+
                     return $res ? true : false;
                     break;
                     //关注微吧
                 case 'weibafollow':
                     $res = D('weiba_follow')->where('follower_uid='.$uid)->find();
+
                     return $res ? true : false;
                     break;
                     //微吧发布帖子
@@ -337,6 +345,7 @@ class TaskModel extends Model
                     //管理员
                 case 'manager':
                     $res = D('user_group_link')->where('uid='.$uid.' and user_group_id='.$num)->find();
+
                     return $res ? true : false;
                     break;
                     //绑定手机-new
@@ -351,11 +360,13 @@ class TaskModel extends Model
                     //绑定手机-new
                 case 'inviteuser':
                     $res = D('invite_code')->where('inviter_uid='.$uid)->count();
+
                     return $res ? true : false;
                     break;
                     //商城送礼-new
                 case 'sendgift':
                     $res = D('gift_user')->where('fromUserId='.$uid)->count();
+
                     return $res ? true : false;
                     break;
                     //分享被赞100次-new
@@ -403,7 +414,6 @@ class TaskModel extends Model
      * 设置统计数据Hash数据
      * @param string key 键值
      * @param string progressRate 进度比
-     * @return void
      */
     private function setAmountHash($key, $progressRate)
     {

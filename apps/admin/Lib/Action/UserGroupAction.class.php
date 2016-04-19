@@ -76,7 +76,7 @@ class UserGroupAction extends AdministratorAction
         }
 
         $this->opt['user_group_icon'] = $icons;
-            
+
         $this->savePostUrl = U('admin/UserGroup/addUsergroup');
 
         $detailData =  array();

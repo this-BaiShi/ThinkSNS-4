@@ -1,7 +1,7 @@
 <?php
+
 class groupStatisticsModel extends Model
 {
-
     public function statistics()
     {
         $app_alias     = getAppAlias('group');
@@ -15,6 +15,7 @@ class groupStatisticsModel extends Model
                                ->where('`is_del`=0')->find();
         $filecount      = $fileDao->field('COUNT(*) AS filecount')
                                 ->where('`is_del`=0')->find();
+
         return array(
             "{$app_alias}总数"       => $allCount['groupcount'],
             '平均成员数'               => number_format($allCount['membercount'], 1, '.', ''),

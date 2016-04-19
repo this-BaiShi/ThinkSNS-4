@@ -12,6 +12,7 @@ function xml_unserialize(&$xml, $isnormal = false)
     $xml_parser = new XML($isnormal);
     $data = $xml_parser->parse($xml);
     $xml_parser->destruct();
+
     return $data;
 }
 
@@ -27,12 +28,12 @@ function xml_serialize($arr, $htmlon = false, $isnormal = false, $level = 1)
         }
     }
     $s = preg_replace("/([\x01-\x08\x0b-\x0c\x0e-\x1f])+/", ' ', $s);
+
     return $level == 1 ? $s."</root>" : $s;
 }
 
 class XML
 {
-
     public $parser;
     public $document;
     public $stack;
@@ -66,6 +67,7 @@ class XML
     {
         $this->document = array();
         $this->stack    = array();
+
         return xml_parse($this->parser, $data, true) && !$this->failed ? $this->document : '';
     }
 

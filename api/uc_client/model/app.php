@@ -11,7 +11,6 @@
 
 class appmodels
 {
-
     public $db;
     public $base;
 
@@ -34,6 +33,7 @@ class appmodels
             unset($v['authkey']);
             $arr[$k] = $v;
         }
+
         return $arr;
     }
 }

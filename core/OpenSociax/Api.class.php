@@ -6,7 +6,6 @@
  */
 class Api
 {
-    
     public $mid; //当前登陆的用户ID
     public $since_id;
     public $max_id;
@@ -20,8 +19,7 @@ class Api
 
     /**
      * 架构函数
-     * @param boolean $location 是否本机调用，本机调用不需要认证
-     * @return void
+     * @param bool $location 是否本机调用，本机调用不需要认证
      */
     public function __construct($location=false)
     {
@@ -35,7 +33,7 @@ class Api
         }
 
         $GLOBALS['ts']['mid'] = $this->mid;
-        
+
         //默认参数处理
         $this->since_id   = isset($_REQUEST['since_id'])    ? intval($_REQUEST['since_id']) : '';
         $this->max_id     = isset($_REQUEST['max_id'])      ? intval($_REQUEST['max_id'])   : '';
@@ -53,7 +51,7 @@ class Api
 
         //接口初始化钩子
         Addons::hook('core_filter_init_api');
-        
+
         //控制器初始化
         if (method_exists($this, '_initialize')) {
             $this->_initialize();
@@ -62,7 +60,6 @@ class Api
 
     /**
      * 用户身份认证
-     * @return void
      */
     private function verifyUser()
     {
@@ -72,7 +69,7 @@ class Api
         if (file_exists(SITE_PATH.'/config/api.inc.php')) {
             $acl = include SITE_PATH.'/config/api.inc.php';
         }
-    
+
         if (!isset($acl['access'])) {
             $acl['access'] = array('Oauth/*' => true);
         }
@@ -97,7 +94,7 @@ class Api
             $app_time = (int) $_REQUEST["app_time"];
             $app_id = t($_REQUEST["app_id"]);
             $app_secret = C('APP_SECRET');
-            
+
             //过期时间判断 - 默认10分钟
             if ((time() - $app_time) > 600) {
                 $message['msg'] = '接口认证失败';
@@ -105,9 +102,10 @@ class Api
                 //兼容
                 $message['message'] = '接口认证失败';
                 $message['code']    = '00001';
+
                 return $this->error($message);
             }
-            
+
             //签名判断
             $tmpArr = array($app_time, $app_uid, $app_token, $app_secret);
             sort($tmpArr, SORT_STRING);
@@ -115,6 +113,7 @@ class Api
             $tmpStr = md5($tmpStr);
             if ($tmpStr == $signature) {
                 $_SESSION['mid'] = $app_uid;
+
                 return true;
             } else {
                 $message['msg'] = '签名认证失败';
@@ -122,6 +121,7 @@ class Api
                 //兼容
                 $message['message'] = '签名认证失败';
                 $message['code']    = '00001';
+
                 return $this->error($message);
             }
         }
@@ -129,7 +129,7 @@ class Api
         //OAUTH_TOKEN认证
         $token_key = $_REQUEST['oauth_token'].$_REQUEST['oauth_token_secret'];
         $login = S($token_key);
-        if(!$login){
+        if (!$login) {
             if (isset($_REQUEST['oauth_token'])) {
                 $verifycode['oauth_token'] = h($_REQUEST['oauth_token']);
                 $verifycode['oauth_token_secret'] = h($_REQUEST['oauth_token_secret']);
@@ -139,7 +139,7 @@ class Api
                     $this->mid = (int) $login;
                     $_SESSION['mid'] = $this->mid;
                     $canaccess = true;
-                    S($token_key,$login,84600);
+                    S($token_key, $login, 84600);
                 } else {
                     $canaccess = false;
                 }
@@ -157,13 +157,14 @@ class Api
             //兼容
             $message['message'] = '接口认证失败';
             $message['code']    = '00001';
+
             return $this->error($message);
         }
     }
 
     /**
      * 输出API认证失败信息
-     * @return  object|json
+     * @return object|json
      */
     protected function verifyError()
     {
@@ -171,6 +172,7 @@ class Api
         $message['status'] = 403;
         $message['message'] = '接口认证失败';
         $message['code']    = '00001';
+
         return $this->error($message);
     }
 
@@ -178,7 +180,6 @@ class Api
      * 通过api方法调用API时的赋值
      * api('WeiboStatuses')->data($data)->public_timeline();
      * @param array $data 方法调用时的参数
-     * @return void
      */
     public function data($data)
     {
@@ -195,6 +196,7 @@ class Api
         $this->uname      = $_REQUEST['uname']      ? h($_REQUEST['uname'])     : '';
         $this->id         = $data['id']         ? intval($data['id'])        : 0;
         $this->data = $data;
+
         return $this;
     }
 
@@ -249,7 +251,6 @@ class Api
     /**
      * 运行控制器
      * @access public
-     * @return void
      */
     public static function run()
     {
@@ -257,7 +258,7 @@ class Api
         // 设定错误和异常处理
         set_error_handler(array('App', 'appError'));
         set_exception_handler(array('App', 'appException'));
-        
+
         // Session初始化
         if (!session_id()) {
             session_start();
@@ -311,7 +312,7 @@ class Api
         }
 
         $GLOBALS['time_run_detail']['obflush'] = microtime(true);
-        
+
         if (C('LOG_RECORD')) {
             Log::save();
         }
@@ -322,7 +323,6 @@ class Api
     /**
      * app异常处理
      * @access public
-     * @return void
      */
     public static function appException($e)
     {
@@ -332,11 +332,10 @@ class Api
     /**
      * 自定义错误处理
      * @access public
-     * @param int $errno 错误类型
-     * @param string $errstr 错误信息
+     * @param int    $errno   错误类型
+     * @param string $errstr  错误信息
      * @param string $errfile 错误文件
-     * @param int $errline 错误行数
-     * @return void
+     * @param int    $errline 错误行数
      */
     public static function appError($errno, $errstr, $errfile, $errline)
     {

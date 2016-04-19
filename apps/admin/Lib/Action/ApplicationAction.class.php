@@ -1,6 +1,7 @@
 <?php
+
 /* # include base class */
-import(APPS_PATH . '/admin/Lib/Action/AdministratorAction.class.php');
+import(APPS_PATH.'/admin/Lib/Action/AdministratorAction.class.php');
 
 /**
  * APP 客户端设置
@@ -10,7 +11,6 @@ import(APPS_PATH . '/admin/Lib/Action/AdministratorAction.class.php');
  **/
 class ApplicationAction extends AdministratorAction
 {
-
     /**
      * 轮播列表设置类型
      *
@@ -30,7 +30,6 @@ class ApplicationAction extends AdministratorAction
     /**
      * 轮播列表
      *
-     * @return void
      * @author Medz Seven <lovevipdsw@vip.qq.com>
      **/
     public function index()
@@ -39,12 +38,12 @@ class ApplicationAction extends AdministratorAction
         array_push($this->pageTab, array(
             'title'   => '轮播列表',
             'tabHash' => 'index',
-            'url'     => U('admin/Application/index')
+            'url'     => U('admin/Application/index'),
         ));
         array_push($this->pageTab, array(
             'title'   => '添加轮播',
             'tabHash' => 'addSlide',
-            'url'     => U('admin/Application/addSlide')
+            'url'     => U('admin/Application/addSlide'),
         ));
 
         $list = D('application_slide')->findPage(20);
@@ -75,7 +74,6 @@ class ApplicationAction extends AdministratorAction
     /**
      * 添加|修改 幻灯
      *
-     * @return void
      * @author Medz Seven <lovevipdsw@vip.qq.com>
      **/
     public function addSlide()
@@ -85,12 +83,12 @@ class ApplicationAction extends AdministratorAction
         array_push($this->pageTab, array(
             'title'   => '轮播列表',
             'tabHash' => 'index',
-            'url'     => U('admin/Application/index')
+            'url'     => U('admin/Application/index'),
         ));
         array_push($this->pageTab, array(
             'title'   => '添加轮播',
             'tabHash' => 'addSlide',
-            'url'     => U('admin/Application/addSlide')
+            'url'     => U('admin/Application/addSlide'),
         ));
 
         $this->opt['type'] = $this->type;
@@ -100,7 +98,7 @@ class ApplicationAction extends AdministratorAction
         $data = array();
 
         if (isset($_GET['id']) and intval($_GET['id'])) {
-            $data = D('application_slide')->where('`id` = ' . intval($_GET['id']))->find();
+            $data = D('application_slide')->where('`id` = '.intval($_GET['id']))->find();
         }
 
         $this->displayConfig($data);
@@ -109,7 +107,6 @@ class ApplicationAction extends AdministratorAction
     /**
      * 添加|修改幻灯数据
      *
-     * @return void
      * @author Medz Seven <lovevipdsw@vip.qq.com>
      **/
     public function doSlide()
@@ -131,11 +128,11 @@ class ApplicationAction extends AdministratorAction
             'title' => $title,
             'image' => $image,
             'type'  => $type,
-            'data'  => $data
+            'data'  => $data,
         );
 
-        if ($id and D('application_slide')->where('`id` = ' . $id)->field('id')->count()) {
-            D('application_slide')->where('`id` = ' . $id)->save($data);
+        if ($id and D('application_slide')->where('`id` = '.$id)->field('id')->count()) {
+            D('application_slide')->where('`id` = '.$id)->save($data);
             $this->success('修改成功');
         }
 
@@ -148,13 +145,12 @@ class ApplicationAction extends AdministratorAction
     /**
      * 删除幻灯
      *
-     * @return void
      * @author Medz Seven <lovevipdsw@vip.qq.com>
      **/
     public function delSlide()
     {
         $id = intval($_GET['id']);
-        D('application_slide')->where('`id` = ' . $id)->delete();
+        D('application_slide')->where('`id` = '.$id)->delete();
         $this->success('删除成功');
     }
 
@@ -162,7 +158,6 @@ class ApplicationAction extends AdministratorAction
     /**
      * Socket 服务器设置
      *
-     * @return void
      * @author Medz Seven <lovevipdsw@vip.qq.com>
      **/
     public function socket()
@@ -171,7 +166,7 @@ class ApplicationAction extends AdministratorAction
         array_push($this->pageTab, array(
             'title' => 'Socket服务器地址设置',
             'hash'  => 'socket',
-            'url'   => U('admin/Application/socket')
+            'url'   => U('admin/Application/socket'),
         ));
         $this->displayConfig();
     }
@@ -181,7 +176,6 @@ class ApplicationAction extends AdministratorAction
     /**
      * 客户端About页面设置
      *
-     * @return void
      * @author Medz Seven <lovevipdsw@vip.qq.com>
      **/
     public function about()
@@ -190,7 +184,7 @@ class ApplicationAction extends AdministratorAction
         array_push($this->pageTab, array(
             'title' => '关于我们设置',
             'hash'  => 'about',
-            'url'   => U('admin/Application/about')
+            'url'   => U('admin/Application/about'),
         ));
         $this->displayConfig();
     }
@@ -200,7 +194,6 @@ class ApplicationAction extends AdministratorAction
     /**
      * APP反馈管理
      *
-     * @return void
      * @author Medz Seven <lovevipdsw@vip.qq.com>
      **/
     public function feedback()
@@ -209,7 +202,7 @@ class ApplicationAction extends AdministratorAction
         array_push($this->pageTab, array(
             'title' => 'APP反馈管理',
             'hash'  => 'feedback',
-            'url'   => U('admin/Application/feedback')
+            'url'   => U('admin/Application/feedback'),
         ));
         $this->allSelected = false;
 
@@ -230,7 +223,7 @@ class ApplicationAction extends AdministratorAction
             $data['user']    = getUserName($value['uid']);
             $data['time']    = friendlyDate($value['cTime']);
 
-            $data['doaction']= '<a href="' . U('admin/Application/deleteFeedback', array('fid' => $value['id'])) . '">[删除反馈]</a>';
+            $data['doaction']= '<a href="'.U('admin/Application/deleteFeedback', array('fid' => $value['id'])).'">[删除反馈]</a>';
 
             $list['data'][$key] = $data;
         }
@@ -242,7 +235,6 @@ class ApplicationAction extends AdministratorAction
     /**
      * 删除反馈
      *
-     * @return void
      * @author Medz Seven <lovevipdsw@vip.qq.com>
      **/
     public function deleteFeedback()
@@ -256,7 +248,6 @@ class ApplicationAction extends AdministratorAction
     /**
      * 极光推送
      *
-     * @return void
      * @author Medz Seven <lovevipdsw@vip.qq.com>
      **/
     public function jpush()
@@ -265,7 +256,7 @@ class ApplicationAction extends AdministratorAction
         array_push($this->pageTab, array(
             'title' => '极光推送设置',
             'hash'  => 'jpush',
-            'url'   => U('admin/Application/jpush')
+            'url'   => U('admin/Application/jpush'),
         ));
 
         $this->displayConfig();

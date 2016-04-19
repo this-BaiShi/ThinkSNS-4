@@ -53,21 +53,22 @@ class CacheRedis extends Cache
     /**
      * 读取缓存
      * @access public
-     * @param string $name 缓存变量名
+     * @param  string $name 缓存变量名
      * @return mixed
      */
     public function get($name)
     {
         N('cache_read', 1);
+
         return $this->handler->get($this->options['prefix'].$name);
     }
 
     /**
      * 写入缓存
      * @access public
-     * @param string $name 缓存变量名
-     * @param mixed $value  存储数据
-     * @param integer $expire  有效时间（秒）
+     * @param  string $name   缓存变量名
+     * @param  mixed  $value  存储数据
+     * @param  int    $expire 有效时间（秒）
      * @return boolen
      */
     public function set($name, $value, $expire = null)
@@ -86,13 +87,14 @@ class CacheRedis extends Cache
             // 记录缓存队列
             $this->queue($name);
         }
+
         return $result;
     }
 
     /**
      * 删除缓存
      * @access public
-     * @param string $name 缓存变量名
+     * @param  string $name 缓存变量名
      * @return boolen
      */
     public function rm($name)

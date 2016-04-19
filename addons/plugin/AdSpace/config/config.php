@@ -5,7 +5,7 @@
  * @version TS3.0
  */
 return array(
-    
+
     'home_middle' => array('id'=>'1','name'=>'朋友圈首页中部','key'=>'home_middle','width'=>700, 'bottom'=>20),
     'home_right_bottom' => array('id'=>'3','name'=>'朋友圈首页右下','key'=>'home_right_bottom','width'=>240),
     'topic_right' => array('id'=>'4','name'=>'话题右下','key'=>'topic_right','width'=>240),

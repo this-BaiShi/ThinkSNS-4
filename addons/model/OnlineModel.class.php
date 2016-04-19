@@ -7,7 +7,6 @@
  */
 class OnlineModel
 {
-
     private $today = 0;                        // 今日日期字符串
     private $todayTimestamp = 0;            // 今日0点的时间戳
     private $check_point = 0;                // 查询在线起始时间点的时间戳
@@ -15,7 +14,6 @@ class OnlineModel
     private $stats_step = 1800;                // 统计在线用户步长，30分钟
     /**
      * 初始化方法，数据库配置、连接初始化
-     * @return void
      */
     public function __construct()
     {
@@ -36,7 +34,7 @@ class OnlineModel
             if ($db_pwd != '') {
                 require_once(SITE_PATH.'/addons/library/CryptDES.php');
                 $crypt = new CryptDES;
-                $db_pwd = (string)$crypt->decrypt($db_pwd);
+                $db_pwd = (string) $crypt->decrypt($db_pwd);
             }
         }
         // 重设Service的数据连接信息
@@ -56,9 +54,9 @@ class OnlineModel
 
     /**
      * 获取统计列表
-     * @param string $where 查询条件
-     * @param integer $limit 结果集数目，默认为30
-     * @return array 统计列表数据
+     * @param  string $where 查询条件
+     * @param  int    $limit 结果集数目，默认为30
+     * @return array  统计列表数据
      */
     public function getStatsList($where = '1', $limit = 30)
     {
@@ -70,9 +68,9 @@ class OnlineModel
         } else {
             $count = 0;
         }
-        
+
         $sql = "SELECT * FROM ".C('DB_PREFIX')."online_stats WHERE {$where} LIMIT $start,$limit";
-        
+
         $data = $this->odb->query($sql);
 
         $p = new Page($count, $limit);
@@ -82,13 +80,12 @@ class OnlineModel
         $output['nowPage'] = $p->nowPage;
         $output['html'] = $p->show();
         $output['data'] = $data;
-        
+
         return $output;
     }
 
     /**
      * 执行统计
-     * @return void
      */
     public function dostatus()
     {
@@ -141,7 +138,7 @@ class OnlineModel
                 $this->odb->execute($sql);
             }
         }
-        
+
         // 从online表统计在线用户到most_onine_user表
         $this->checkOnline();
         // 将logs表中今天之前的的数据移动到bak表
@@ -155,7 +152,6 @@ class OnlineModel
 
     /**
      * 在线用户检查及入库
-     * @return void
      */
     public function checkOnline()
     {
@@ -198,28 +194,30 @@ class OnlineModel
 
     /**
      * 获取指定用户最后操作的IP地址信息
-     * @param array $uids 指定用户ID数组
+     * @param  array $uids 指定用户ID数组
      * @return array 指定用户最后操作的IP地址信息
      */
     public function getLastOnlineInfo($uids)
     {
         $map['uid'] = array('IN', $uids);
         $data = D()->table(C('DB_PREFIX').'online')->where($map)->getHashList('uid', 'ip');
+
         return $data;
     }
 
     /**
      * 获取指定用户的操作知识 - 分页型
-     * @param integer $uid 用户ID
-     * @param array $map 查询条件
-     * @param integer $count 结果集数目，默认为20
-     * @param string $order 排序条件，默认为day DESC
-     * @return array 指定用户的操作知识 - 分页型
+     * @param  int    $uid   用户ID
+     * @param  array  $map   查询条件
+     * @param  int    $count 结果集数目，默认为20
+     * @param  string $order 排序条件，默认为day DESC
+     * @return array  指定用户的操作知识 - 分页型
      */
     public function getUserOperatingList($uid, $map, $count = 20, $order = 'id DESC')
     {
         $map['uid'] = $uid;
         $data = D()->table(C('DB_PREFIX').'online_logs_bak')->where($map)->order($order)->findPage($count);
+
         return $data;
     }
 }

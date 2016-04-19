@@ -18,8 +18,6 @@ define('UC_USER_EMAIL_EXISTS', -6);
 
 class usercontrol extends base
 {
-
-
     public function __construct()
     {
         $this->_usercontrol();
@@ -44,9 +42,11 @@ class usercontrol extends base
                         $synstr .= '<script type="text/javascript" src="'.$app['url'].'/api/uc.php?time='.$this->time.'&code='.urlencode($this->authcode('action=synlogin&username='.$this->user['username'].'&uid='.$this->user['uid'].'&password='.$this->user['password']."&time=".$this->time, 'ENCODE', $app['authkey'])).'"></script>';
                     }
                 }
+
                 return $synstr;
             }
         }
+
         return '';
     }
 
@@ -60,8 +60,10 @@ class usercontrol extends base
                     $synstr .= '<script type="text/javascript" src="'.$app['url'].'/api/uc.php?time='.$this->time.'&code='.urlencode($this->authcode('action=synlogout&time='.$this->time, 'ENCODE', $app['authkey'])).'"></script>';
                 }
             }
+
             return $synstr;
         }
+
         return '';
     }
 
@@ -82,6 +84,7 @@ class usercontrol extends base
             return $status;
         }
         $uid = $_ENV['user']->add_user($username, $password, $email, 0, $questionid, $answer, $regip);
+
         return $uid;
     }
 
@@ -106,6 +109,7 @@ class usercontrol extends base
             $_ENV['note']->add('updatepw', 'username='.urlencode($username).'&password=');
             $_ENV['note']->send();
         }
+
         return $status;
     }
 
@@ -137,6 +141,7 @@ class usercontrol extends base
             $status = $user['uid'];
         }
         $merge = $status != -1 && !$isuid && $_ENV['user']->check_mergeuser($username) ? 1 : 0;
+
         return array($status, $user['username'], $password, $user['email'], $merge);
     }
 
@@ -144,6 +149,7 @@ class usercontrol extends base
     {
         $this->init_input();
         $email = $this->input('email');
+
         return $this->_check_email($email);
     }
 
@@ -178,6 +184,7 @@ class usercontrol extends base
     public function ongetprotected()
     {
         $protectedmembers = $this->db->fetch_all("SELECT uid,username FROM ".UC_DBTABLEPRE."protectedmembers GROUP BY username");
+
         return $protectedmembers;
     }
 
@@ -185,6 +192,7 @@ class usercontrol extends base
     {
         $this->init_input();
         $uid = $this->input('uid');
+
         return $_ENV['user']->delete_user($uid);
     }
 
@@ -194,12 +202,13 @@ class usercontrol extends base
         $username = $this->input('username');
         $admin = $this->input('admin');
         $appid = $this->app['appid'];
-        $usernames = (array)$username;
+        $usernames = (array) $username;
         foreach ($usernames as $username) {
             $user = $_ENV['user']->get_user_by_username($username);
             $uid = $user['uid'];
             $this->db->query("REPLACE INTO ".UC_DBTABLEPRE."protectedmembers SET uid='$uid', username='$username', appid='$appid', dateline='{$this->time}', admin='$admin'", 'SILENT');
         }
+
         return $this->db->errno() ? -1 : 1;
     }
 
@@ -208,10 +217,11 @@ class usercontrol extends base
         $this->init_input();
         $username = $this->input('username');
         $appid = $this->app['appid'];
-        $usernames = (array)$username;
+        $usernames = (array) $username;
         foreach ($usernames as $username) {
             $this->db->query("DELETE FROM ".UC_DBTABLEPRE."protectedmembers WHERE username='$username' AND appid='$appid'");
         }
+
         return $this->db->errno() ? -1 : 1;
     }
 
@@ -228,6 +238,7 @@ class usercontrol extends base
         }
         $uid = $_ENV['user']->add_user($newusername, $password, $email, $uid);
         $this->db->query("DELETE FROM ".UC_DBTABLEPRE."mergemembers WHERE appid='".$this->app['appid']."' AND username='$oldusername'");
+
         return $uid;
     }
 
@@ -236,6 +247,7 @@ class usercontrol extends base
         $this->init_input();
         $username = $this->input('username');
         $this->db->query("DELETE FROM ".UC_DBTABLEPRE."mergemembers WHERE appid='".$this->app['appid']."' AND username='$username'");
+
         return null;
     }
 
@@ -249,6 +261,7 @@ class usercontrol extends base
         } elseif ($_ENV['user']->check_usernameexists($username)) {
             return UC_USER_USERNAME_EXISTS;
         }
+
         return 1;
     }
 

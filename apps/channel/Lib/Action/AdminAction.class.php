@@ -12,7 +12,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 初始化，配置内容标题
-     * @return void
      */
     public function _initialize()
     {
@@ -34,7 +33,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 频道基本配置页面
-     * @return void
      */
     public function index()
     {
@@ -49,7 +47,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 频道分类配置页面
-     * @return void
      */
     public function channelCategory()
     {
@@ -68,7 +65,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 已审核管理页面
-     * @return void
      */
     public function auditList()
     {
@@ -83,7 +79,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 未审核管理页面
-     * @return void
      */
     public function unauditList()
     {
@@ -149,7 +144,6 @@ class AdminAction extends AdministratorAction
 
     /**
      * 频道管理弹窗
-     * @return void
      */
     public function editAdminBox()
     {
@@ -168,9 +162,9 @@ class AdminAction extends AdministratorAction
 
     /**
      * 获取内容信息
-     * @param array $map 查询条件
-     * @param string $type 类型
-     * @return array 获取相应的列表信息
+     * @param  array  $map  查询条件
+     * @param  string $type 类型
+     * @return array  获取相应的列表信息
      */
     private function _getData($map, $type)
     {

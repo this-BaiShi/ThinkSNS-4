@@ -19,7 +19,6 @@ defined('THINK_PATH') or exit();
  */
 class CacheMemcache extends Cache
 {
-
     /**
      * 架构函数
      * @param array $options 缓存参数
@@ -73,19 +72,20 @@ class CacheMemcache extends Cache
     /**
      * 读取缓存
      * @access public
-     * @param string $name 缓存变量名
+     * @param  string $name 缓存变量名
      * @return mixed
      */
     public function get($name)
     {
         N('cache_read', 1);
+
         return $this->handler->get($this->options['prefix'].$name);
     }
 
     /**
      * 批量读取缓存
      * @access public
-     * @param string $prefix 缓存前缀
+     * @param  string $prefix 缓存前缀
      * @return mixed
      */
     public function getMulti($prefix, $key)
@@ -94,23 +94,24 @@ class CacheMemcache extends Cache
         foreach ($key as $k=>$v) {
             $namelist[] = $this->options['prefix'].$prefix.$v;
         }
-        
+
         $result = $this->handler->get($namelist);
-        
+
         foreach ($result as $k=>$v) {
             $k = str_replace($this->options['prefix'].$prefix, '', $k);
             $data[ $k ] = $v;
         }
         unset($result);
+
         return $data;
     }
 
     /**
      * 写入缓存
      * @access public
-     * @param string $name 缓存变量名
-     * @param mixed $value  存储数据
-     * @param integer $expire  有效时间（秒）
+     * @param  string $name   缓存变量名
+     * @param  mixed  $value  存储数据
+     * @param  int    $expire 有效时间（秒）
      * @return boolen
      */
     public function set($name, $value, $expire = null)
@@ -125,20 +126,23 @@ class CacheMemcache extends Cache
                 // 记录缓存队列
                 $this->queue($name);
             }
+
             return true;
         }
+
         return false;
     }
 
     /**
      * 删除缓存
      * @access public
-     * @param string $name 缓存变量名
+     * @param  string $name 缓存变量名
      * @return boolen
      */
     public function rm($name, $ttl = false)
     {
         $name   =   $this->options['prefix'].$name;
+
         return $ttl === false ?
             $this->handler->delete($name) :
             $this->handler->delete($name, $ttl);

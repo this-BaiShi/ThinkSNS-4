@@ -1,4 +1,5 @@
 <?php
+
 class LoginAddons extends NormalAddons
 {
     protected $version = "3.0";
@@ -10,6 +11,7 @@ class LoginAddons extends NormalAddons
     public function getHooksInfo()
     {
         $hooks['list']=array('LoginHooks');
+
         return $hooks;
     }
     public function adminMenu()

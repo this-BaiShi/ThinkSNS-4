@@ -1,10 +1,11 @@
 <?php
+
 if (!defined('THINKSNS_INSTALL')) {
     exit('Access Denied');
 }
 
-$i_message['install_lock'] = '您已安装过ThinkSNS ' . $_TSVERSION . '，如果需要重新安装，请先删除data目录下的install.lock文件';
-$i_message['install_title'] = 'ThinkSNS ' . $_TSVERSION . ' 安装向导';
+$i_message['install_lock'] = '您已安装过ThinkSNS '.$_TSVERSION.'，如果需要重新安装，请先删除data目录下的install.lock文件';
+$i_message['install_title'] = 'ThinkSNS '.$_TSVERSION.' 安装向导';
 $i_message['install_wizard'] = '安装向导';
 $i_message['install_warning'] = '<strong>注意 </strong>这个安装程序仅仅用在你首次安装ThinkSNS。如果你已经在使用 ThinkSNS 或者要更新到一个新版本，请不要运行这个安装程序。';
 $i_message['install_intro'] = '<h4>安装须知</h4><p>一、运行环境需求：PHP(5.3.12+)+MYSQL(5.5.12+)</p><p>二、安装步骤：<br /><br />1、使用ftp工具以二进制模式，将该软件包里的 thinksns 目录及其文件上传到您的空间，假设上传后目录仍旧为 thinksns。<br /><br />2、如果您使用的是Linux 或 Freebsd 服务器，先确认以下目录或文件属性为 (777) 可写模式。<br /><br />目录: data<br />目录: _runtime<br />目录: install<br />目录: config<br />3、运行 http://yourwebsite/thinksns/install/install.php 安装程序，填入安装相关信息与资料，完成安装！<br />4、运行 http://yourwebsite/thinksns/cleancache.php 清除系统缓存文件！<br />5、运行 http://yourwebsite/thinksns/index.php 开始体验ThinkSNS！</p>';

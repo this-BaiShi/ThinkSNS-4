@@ -33,7 +33,7 @@ class Http extends Think
      * @access public
      +----------------------------------------------------------
      * @param string $remote 远程文件名
-     * @param string $local 本地保存文件名
+     * @param string $local  本地保存文件名
      +----------------------------------------------------------
      * @return mixed
      +----------------------------------------------------------
@@ -61,9 +61,8 @@ class Http extends Think
      * @param string $filename 下载文件名
      * @param string $showname 下载显示的文件名
      * @param string $content  下载的内容
-     * @param integer $expire  下载内容浏览器缓存时间
+     * @param int    $expire   下载内容浏览器缓存时间
      +----------------------------------------------------------
-     * @return void
      +----------------------------------------------------------
      * @throws ThinkExecption
      +----------------------------------------------------------
@@ -95,8 +94,8 @@ class Http extends Think
         header("Pragma: public");
         header("Cache-control: max-age=".$expire);
         //header('Cache-Control: no-store, no-cache, must-revalidate');
-        header("Expires: " . gmdate("D, d M Y H:i:s", time()+$expire) . "GMT");
-        header("Last-Modified: " . gmdate("D, d M Y H:i:s", time()) . "GMT");
+        header("Expires: ".gmdate("D, d M Y H:i:s", time()+$expire)."GMT");
+        header("Last-Modified: ".gmdate("D, d M Y H:i:s", time())."GMT");
         header("Content-Length: ".$length);
         header("Content-type: ".$type);
         header("Content-Disposition: attachment; filename= ".$showname." ");
@@ -105,7 +104,7 @@ class Http extends Think
         if ($content == '') {
             readfile($filename);
         } else {
-            echo($content);
+            echo $content;
         }
         exit();
     }
@@ -123,16 +122,15 @@ class Http extends Think
         $headers   = getallheaders();
         if (!empty($header)) {
             $info = $headers[$header];
-            echo($header.':'.$info."\n");
-            ;
+            echo $header.':'.$info."\n";
         } else {
             foreach ($headers as $key=>$val) {
-                echo("$key:$val\n");
+                echo "$key:$val\n";
             }
         }
         $output = ob_get_clean();
         if ($echo) {
-            echo(nl2br($output));
+            echo nl2br($output);
         } else {
             return $output;
         }
@@ -195,7 +193,7 @@ class Http extends Think
             503 => 'Service Unavailable',
             504 => 'Gateway Timeout',
             505 => 'HTTP Version Not Supported',
-            509 => 'Bandwidth Limit Exceeded'
+            509 => 'Bandwidth Limit Exceeded',
         );
         if (array_key_exists($code, $_status)) {
             header('HTTP/1.1 '.$code.' '.$_status[$code]);
@@ -413,6 +411,7 @@ if (!function_exists('mime_content_type')) {
         } else {
             $mime = 'application/octet-stream';
         }
+
         return $mime;
     }
 }

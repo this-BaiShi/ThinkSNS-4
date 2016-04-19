@@ -15,7 +15,7 @@ class NewsModel extends Model
      * @var string
      */
     protected $tableName    =    'news';
-    
+
     /**
      * 字段列表
      *
@@ -35,9 +35,9 @@ class NewsModel extends Model
         10 => 'updated',
         11 => 'uid',
         '_autoinc' => true,
-        '_pk' => 'news_id'
+        '_pk' => 'news_id',
     );
-    
+
     /**
      * 定义自动验证
      * 
@@ -47,7 +47,7 @@ class NewsModel extends Model
         array('news_title', 'require', '信息标题不能为空'),
         array('news_content', 'require', '内容不能为空'),
     );
-    
+
     /**
      * 自动填充
      *
@@ -57,11 +57,11 @@ class NewsModel extends Model
         array('created', 'time', 1, 'function'),
         array('updated', 'time', 2, 'function'),
     );
-    
+
     /**
      * 获取状态
      *
-     * @param int $state 状态ID
+     * @param  int   $state 状态ID
      * @return mixed
      */
     public function getState($state = null)
@@ -73,13 +73,14 @@ class NewsModel extends Model
         if ($state === null) {
             return $states ;
         }
+
         return isset($states[$state])?$states[$state]:'' ;
     }
-    
+
     /**
      * 更新信息
      *
-     * @param array $data 字段值
+     * @param  array $data 字段值
      * @return mixed
      */
     public function setNews($uid)
@@ -101,13 +102,14 @@ class NewsModel extends Model
         } else {
             $ret['msg'] = $news->getError();
         }
+
         return $ret ;
     }
-    
+
     /**
      * 获取子分类的ID串
      *
-     * @param int $pid
+     * @param  int   $pid
      * @return array
      */
     private function getChildTids($pid)
@@ -120,9 +122,10 @@ class NewsModel extends Model
         $child = model('CategoryTree')->setTable('news_category')->getNetworkList($pid);
         $ids = array_keys($child) ;
         $_result[$pid] = ($ids)?$ids:array();
+
         return $ids ;
     }
-    
+
     /**
      * 前台列表获取
      *
@@ -131,7 +134,7 @@ class NewsModel extends Model
     {
         $map = array();
         $map['state'] = array('GT',0);
- 
+
         if ($keywords) {
             $map['news_title']=array('like','%'.$keywords.'%');
         }
@@ -160,7 +163,7 @@ class NewsModel extends Model
             if ($v['image']) {
                 $attach = model('Attach')->getAttachById($v['image']);
                 if ($attach) {
-                    $thumb = getImageUrl($attach['save_path']. $attach['save_name'], 100, 100);
+                    $thumb = getImageUrl($attach['save_path'].$attach['save_name'], 100, 100);
                 }
             }
             $data[$k]['image'] = $thumb ;
@@ -171,17 +174,18 @@ class NewsModel extends Model
         }
         if ($findPage) {
             $list['data'] = $data ;
+
             return $list ;
         } else {
             return $data ;
         }
     }
-    
+
     /**
      * 根据ID获取资料
      *
-     * @param int $id
-     * @param boolean $is_admin 是否是后台
+     * @param  int   $id
+     * @param  bool  $is_admin 是否是后台
      * @return array
      */
     public function getOneyById($id, $is_admin = false, $update_hits = false)
@@ -199,7 +203,7 @@ class NewsModel extends Model
             if ($v['image']) {
                 $attach = model('Attach')->getAttachById($v['image']);
                 if ($attach) {
-                    $thumb = getImageUrl($attach['save_path']. $attach['save_name'], 100, 100);
+                    $thumb = getImageUrl($attach['save_path'].$attach['save_name'], 100, 100);
                 }
             }
             $v['image'] = $thumb ;
@@ -208,12 +212,13 @@ class NewsModel extends Model
                 $this->setInc('hits', array('news_id' => $id), 1);
             }
         }
+
         return $v ;
     }
-    
+
     /**
      * 获取信息
-     * @param int $id 
+     * @param  int   $id
      * @return mixed
      */
     public function getSourceInfo($id)
@@ -226,14 +231,16 @@ class NewsModel extends Model
             }
             $info['source_url'] = U('news/Index/detail', array('id'=>$id ));
             $info['source_body'] = $find['news_title'].'<a class="ico-details" href="'.U('news/Index/show', array('id'=>$id)).'"></a>';
+
             return $info;
         }
+
         return false ;
     }
-    
+
     /**
      * 删除分类后的回调
-     * @param int $cid
+     * @param  int  $cid
      * @return bool
      */
     public function deleteAssociatedData($cid)

@@ -11,7 +11,6 @@
 
 class tagcontrol extends base
 {
-
     public function __construct()
     {
         $this->_tagcontrol();
@@ -81,6 +80,7 @@ class tagcontrol extends base
             $this->load('note');
             $_ENV['note']->add('gettag', "id=$tagname", '', $appadd, -1);
         }
+
         return $return;
     }
 }

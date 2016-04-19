@@ -7,7 +7,6 @@
  */
 class ShowImgWidget extends Widget
 {
-    
     private static $rand = 0;
 
     /**
@@ -18,7 +17,7 @@ class ShowImgWidget extends Widget
     public function render($data)
     {
         $var = array();
-        
+
         $var['id']     = 'scroll'.self::$rand;
         $var['width']  = '100%';
         $var['height'] = '100%';
@@ -28,7 +27,7 @@ class ShowImgWidget extends Widget
 
         //渲染模版
         $content = $this->renderFile(dirname(__FILE__)."/".$var['tpl'].".html", $var);
-    
+
         unset($var, $data);
 
         self::$rand ++;

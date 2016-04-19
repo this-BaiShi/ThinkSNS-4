@@ -50,6 +50,7 @@ function cookie($name, $value='', $option=null)
                 }
             }
         }
+
         return;
     }
     $name = $config['prefix'].$name;
@@ -73,8 +74,8 @@ function cookie($name, $value='', $option=null)
 
 /**
  * session管理函数
- * @param string|array $name session名称 如果为数组则表示进行session设置
- * @param mixed $value session值
+ * @param  string|array $name  session名称 如果为数组则表示进行session设置
+ * @param  mixed        $value session值
  * @return mixed
  */
 function session($name, $value = '')
@@ -156,6 +157,7 @@ function session($name, $value = '')
             if (strpos($name, '.')) {
                 // 支持数组
                 list($name1, $name2) = explode('.', $name);
+
                 return $prefix ? isset($_SESSION[$prefix][$name1][$name2]) : isset($_SESSION[$name1][$name2]);
             } else {
                 return $prefix ? isset($_SESSION[$prefix][$name]) : isset($_SESSION[$name]);
@@ -169,6 +171,7 @@ function session($name, $value = '')
         } elseif ($prefix) { // 获取session
             if (strpos($name, '.')) {
                 list($name1, $name2) = explode('.', $name);
+
                 return isset($_SESSION[$prefix][$name1][$name2]) ? $_SESSION[$prefix][$name1][$name2] : null;
             } else {
                 return isset($_SESSION[$prefix][$name]) ? $_SESSION[$prefix][$name] : null;
@@ -176,6 +179,7 @@ function session($name, $value = '')
         } else {
             if (strpos($name, '.')) {
                 list($name1, $name2) = explode('.', $name);
+
                 return isset($_SESSION[$name1][$name2]) ? $_SESSION[$name1][$name2] : null;
             } else {
                 return isset($_SESSION[$name]) ? $_SESSION[$name] : null;
@@ -222,6 +226,7 @@ function isAjax()
     if (!empty($_POST[C('VAR_AJAX_SUBMIT')]) || !empty($_GET[C('VAR_AJAX_SUBMIT')])) {
         return true;
     }
+
     return false;
 }
 
@@ -230,8 +235,8 @@ function isAjax()
  * type
  * =0 将Java风格转换为C的风格
  * =1 将C风格转换为Java的风格
- * @param string $name 字符串
- * @param integer $type 转换类型
+ * @param  string $name 字符串
+ * @param  int    $type 转换类型
  * @return string
  */
 function parse_name($name, $type=0)
@@ -240,14 +245,15 @@ function parse_name($name, $type=0)
         return ucfirst(preg_replace("/_([a-zA-Z])/e", "strtoupper('\\1')", $name));
     } else {
         $name = preg_replace("/[A-Z]/", "_\\0", $name);
+
         return strtolower(trim($name, "_"));
     }
 }
 
 /**
  * 优化格式的打印输出
- * @param string $var 变量
- * @param bool $return 是否return
+ * @param  string $var    变量
+ * @param  bool   $return 是否return
  * @return mixed
  */
 function dump($var, $return=false)
@@ -257,12 +263,12 @@ function dump($var, $return=false)
     $output = ob_get_clean();
     if (!extension_loaded('xdebug')) {
         $output = preg_replace("/\]\=\>\n(\s+)/m", "] => ", $output);
-        $output = '<pre style="text-align:left">'. htmlspecialchars($output, ENT_QUOTES). '</pre>';
+        $output = '<pre style="text-align:left">'.htmlspecialchars($output, ENT_QUOTES).'</pre>';
     }
     if (!$return) {
         echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
         echo '<pre style="text-align:left">';
-        echo($output);
+        echo $output;
         echo '</pre>';
     } else {
         return $output;
@@ -271,8 +277,8 @@ function dump($var, $return=false)
 
 /**
  * 自定义异常处理
- * @param string $msg 异常消息
- * @param string $type 异常类型
+ * @param  string $msg  异常消息
+ * @param  string $type 异常类型
  * @return string
  */
 function throw_exception($msg, $type='')
@@ -292,7 +298,6 @@ function throw_exception($msg, $type='')
  * 系统自动加载ThinkPHP基类库和当前项目的model和Action对象
  * 并且支持配置自动加载路径
  * @param string $name 对象类名
- * @return void
  */
 function halt($text)
 {
@@ -301,7 +306,7 @@ function halt($text)
 
 /**
  * 区分大小写的文件存在判断
- * @param string $filename 文件明
+ * @param  string $filename 文件明
  * @return bool
  */
 function file_exists_case($filename)
@@ -312,14 +317,16 @@ function file_exists_case($filename)
                 return false;
             }
         }
+
         return true;
     }
+
     return false;
 }
 
 /**
  * 根据PHP各种类型变量生成唯一标识号
- * @param mixed $mix 输入变量
+ * @param  mixed  $mix 输入变量
  * @return string 输出唯一编号
  */
 function to_guid_string($mix)
@@ -331,14 +338,15 @@ function to_guid_string($mix)
     } else {
         $mix = serialize($mix);
     }
+
     return md5($mix);
 }
 
 /**
  * 取得对象实例 支持调用类的静态方法
- * @param string $name 类名
- * @param string $method 方法
- * @param string $args 参数
+ * @param  string $name   类名
+ * @param  string $method 方法
+ * @param  string $args   参数
  * @return object 对象实例
  */
 function get_instance_of($name, $method='', $args=array())
@@ -361,13 +369,13 @@ function get_instance_of($name, $method='', $args=array())
             halt(L('_CLASS_NOT_EXIST_').':'.$name);
         }
     }
+
     return $_instance[$identify];
 }
 
 /**
  * 自动加载类
  * @param string $name 类名
- * @return void
  */
 function __autoload($name)
 {
@@ -392,12 +400,13 @@ function __autoload($name)
             }
         }
     }
+
     return ;
 }
 
 /**
  * 导入类库
- * @param string $name 类名
+ * @param  string $name 类名
  * @return bool
  */
 function import($filename)
@@ -423,6 +432,7 @@ function import($filename)
             }
         }
     }
+
     return $_importFiles[$filename];
 }
 
@@ -447,6 +457,7 @@ function C($name=null, $value=null)
                 return isset($ts['_config'][$name])? $ts['_config'][$name] : null;
             }
             $ts['_config'][$name] = $value;
+
             return;
         }
         // 二维数组设置和获取支持
@@ -456,12 +467,14 @@ function C($name=null, $value=null)
             return isset($ts['_config'][$name[0]][$name[1]]) ? $ts['_config'][$name[0]][$name[1]] : null;
         }
         $ts['_config'][$name[0]][$name[1]] = $value;
+
         return;
     }
     // 批量设置
     if (is_array($name)) {
-        return $ts['_config'] = array_merge((array)$ts['_config'], array_change_key_case($name));
+        return $ts['_config'] = array_merge((array) $ts['_config'], array_change_key_case($name));
     }
+
     return null;// 避免非法参数
 }
 
@@ -518,6 +531,7 @@ function D($name='', $app='@', $inclueCommonFunction=true)
         $model  = new Model($name);
     }
     $_model[$app.$OriClassName] =  $model;
+
     return $model;
 }
 
@@ -546,6 +560,7 @@ function A($name, $app='@')
     if (class_exists($className)) {
         $action = new $className();
         $_action[$app.$OriClassName] = $action;
+
         return $action;
     } else {
         return false;
@@ -572,6 +587,7 @@ function L($key, $data = array())
             }
             F('notValveForKey', $notValveForKey, DATA_PATH.'/develop');
         }
+
         return $key;
     }
     if (empty($data)) {
@@ -581,6 +597,7 @@ function L($key, $data = array())
     foreach ($replace as &$v) {
         $v = "{".$v."}";
     }
+
     return str_replace($replace, $data, $GLOBALS['_lang'][$key]);
 }
 
@@ -596,9 +613,9 @@ function L($key, $data = array())
  * 如果end标记位没有定义，则会自动以当前作为标记位
  * 其中统计内存使用需要 MEMORY_LIMIT_ON 常量为true才有效
  * </code>
- * @param string $start 开始标签
- * @param string $end 结束标签
- * @param integer|string $dec 小数位或者m
+ * @param  string     $start 开始标签
+ * @param  string     $end   结束标签
+ * @param  int|string $dec   小数位或者m
  * @return mixed
  */
 function G($start, $end='', $dec=4)
@@ -615,6 +632,7 @@ function G($start, $end='', $dec=4)
             if (!isset($_mem[$end])) {
                 $_mem[$end]     =  memory_get_usage();
             }
+
             return number_format(($_mem[$end]-$_mem[$start])/1024);
         } else {
             return number_format(($_info[$end]-$_info[$start]), $dec);
@@ -636,8 +654,8 @@ function G($start, $end='', $dec=4)
  * echo N('db'); // 获取当前页面数据库的所有操作次数
  * echo N('read'); // 获取当前页面读取次数
  * </code>
- * @param string $key 标识位置
- * @param integer $step 步进值
+ * @param  string $key  标识位置
+ * @param  int    $step 步进值
  * @return mixed
  */
 function N($key, $step=0, $save=false)
@@ -697,13 +715,14 @@ function t($text)
     $text = real_strip_tags($text);
     $text = addslashes($text);
     $text = trim($text);
+
     return $text;
 }
 
 /**
  * h函数用于过滤不安全的html标签，输出安全的html
- * @param string $text 待过滤的字符串
- * @param string $type 保留的标签格式
+ * @param  string $text 待过滤的字符串
+ * @param  string $type 保留的标签格式
  * @return string 处理后内容
  */
 function h($text, $type = 'html')
@@ -736,14 +755,15 @@ function h($text, $type = 'html')
             $text = str_ireplace($mat[0], $mat[1].$mat[3], $text);
         }
     }
+
     return $text;
 }
 
 /**
  * U函数用于生成URL地址
- * @param string $url ThinkSNS特有URL标识符
- * @param array $params URL附加参数
- * @param bool $redirect 是否自动跳转到生成的URL
+ * @param  string $url      ThinkSNS特有URL标识符
+ * @param  array  $params   URL附加参数
+ * @param  bool   $redirect 是否自动跳转到生成的URL
  * @return string 输出URL
  */
 function U($url, $params=false, $redirect=false)
@@ -821,10 +841,9 @@ function U($url, $params=false, $redirect=false)
 
 /**
  * URL跳转函数
- * @param string $url ThinkSNS特有URL标识符
- * @param integer $time 跳转延时(秒)
- * @param string $msg 提示语
- * @return void
+ * @param string $url  ThinkSNS特有URL标识符
+ * @param int    $time 跳转延时(秒)
+ * @param string $msg  提示语
  */
 function redirect($url, $time=0, $msg='')
 {
@@ -840,7 +859,7 @@ function redirect($url, $time=0, $msg='')
         } else {
             header("Content-type: text/html; charset=utf-8");
             header("refresh:{$time};url={$url}");
-            echo($msg);
+            echo $msg;
         }
         exit();
     } else {
@@ -872,12 +891,14 @@ function S($name, $value='', $expire=null)
             if ($result) {
                 unset($_cache[$name]);
             }
+
             return $result;
         } else {
             // 缓存数据
             $cache->set($name, $value, $expire);
             $_cache[$name]     =   $value;
         }
+
         return true;
     }
     if (isset($_cache[$name])) {
@@ -886,6 +907,7 @@ function S($name, $value='', $expire=null)
     // 获取缓存数据
     $value      =  $cache->get($name);
     $_cache[$name]     =   $value;
+
     return $value;
 }
 
@@ -917,6 +939,7 @@ function F($name, $value='', $path=false)
             if (!is_dir($dir)) {
                 @mkdir($dir, 0777, true);
             }
+
             return @file_put_contents($filename, "<?php\nreturn ".var_export($value, true).";\n?>");
         }
     }
@@ -930,6 +953,7 @@ function F($name, $value='', $path=false)
     } else {
         $value  =   false;
     }
+
     return $value;
 }
 
@@ -976,6 +1000,7 @@ function api($name, $api_version=false)
     if (class_exists($className)) {
         $api = new $className(true);
         $_api[$OriClassName] = $api;
+
         return $api;
     } else {
         return false;
@@ -1023,6 +1048,7 @@ function X($name, $params=array(), $domain='model')
     if (class_exists($class)) {
         $obj   =  new $class($params);
         $_service[$domain.'_'.$app.'_'.$name] =  $obj;
+
         return $obj;
     } else {
         throw_exception(L('_CLASS_NOT_EXIST_').':'.$class);
@@ -1089,7 +1115,7 @@ function fetch($templateFile='', $tvar=array(), $charset='utf-8', $contentType='
                 exit("mc init failed\n");
             }
             $content = memcache_get($mmc, $templateCacheFile);
-            eval(' ?> ' . $content);
+            eval(' ?> '.$content);
         } else {
             include $templateCacheFile;
         }
@@ -1166,6 +1192,7 @@ function mk_dir($dir, $mode = 0755)
     if (!mk_dir(dirname($dir), $mode)) {
         return false;
     }
+
     return @mkdir($dir, $mode);
 }
 
@@ -1181,6 +1208,7 @@ function byte_format($size, $dec=2)
         $size /= 1024;
         $pos++;
     }
+
     return round($size, $dec)." ".$a[$pos];
 }
 
@@ -1209,6 +1237,7 @@ function get_client_ip($type = 0)
     // IP地址合法验证
     $long = sprintf("%u", ip2long($ip));
     $ip   = $long ? array($ip, $long) : array('127.0.0.1', 0);
+
     return $ip[$type];
 }
 
@@ -1226,7 +1255,7 @@ function get_client_port()
  * @param unknown_type $app_group
  * @param unknown_type $action
  * @param unknown_type $data
- * @param unknown_type $isAdmin 是否管理员知识
+ * @param unknown_type $isAdmin   是否管理员知识
  */
 function LogRecord($app_group, $action, $data, $isAdmin=false)
 {
@@ -1234,14 +1263,15 @@ function LogRecord($app_group, $action, $data, $isAdmin=false)
     if ($log == null) {
         $log = model('Logs');
     }
+
     return $log->load($app_group)->action($action)->record($data, $isAdmin);
 }
 
 /**
  * 验证权限方法
- * @param string $load 应用 - 模块 字段
- * @param string $action 权限节点字段
- * @param unknown_type $group 是否指定应用内部用户组
+ * @param string       $load   应用 - 模块 字段
+ * @param string       $action 权限节点字段
+ * @param unknown_type $group  是否指定应用内部用户组
  */
 function CheckPermission($load = '', $action = '', $group = '')
 {
@@ -1257,10 +1287,10 @@ function CheckPermission($load = '', $action = '', $group = '')
 }
 /**
  * 微吧管理权限判断
- * @param int $id 微吧id
- * @param string $action 动作
- * @param int $uid 用户uid
- * @return boolean
+ * @param  int    $id     微吧id
+ * @param  string $action 动作
+ * @param  int    $uid    用户uid
+ * @return bool
  */
 function CheckWeibaPermission($weiba_admin, $id, $action, $uid)
 {
@@ -1282,6 +1312,7 @@ function CheckWeibaPermission($weiba_admin, $id, $action, $uid)
         $weiba_admin = D('weiba_follow')->where($map)->order('level desc')->field('follower_uid,level')->findAll();
         $weiba_admin = getSubByKey($weiba_admin, 'follower_uid');
     }
+
     return in_array($uid, $weiba_admin);
 }
 function CheckTaskSwitch()
@@ -1295,13 +1326,14 @@ function CheckTaskSwitch()
 function manageList($uid)
 {
     $list = model('App')->getManageApp($uid);
+
     return $list;
 }
 
 /**
  * 指定用户是否申请认证通过
- * @param integer $uid 用户UID
- * @return boolean 是否申请认证通过
+ * @param  int  $uid 用户UID
+ * @return bool 是否申请认证通过
  */
 function isVerified($uid)
 {
@@ -1339,6 +1371,7 @@ function getSubByKey($pArray, $pKey="", $pCondition="")
                 $result[] = (""==$pKey) ? $temp_array : isset($temp_array[$pKey]) ? $temp_array[$pKey] : "";
             }
         }
+
         return $result;
     } else {
         return false;
@@ -1350,9 +1383,9 @@ function getSubByKey($pArray, $pKey="", $pCondition="")
  *
  * 计算时, 汉字或全角字符占1个长度, 英文字符占0.5个长度
  *
- * @param string  $str
- * @param boolean $filter 是否过滤html标签
- * @return int 字符串的长度
+ * @param  string $str
+ * @param  bool   $filter 是否过滤html标签
+ * @return int    字符串的长度
  */
 function get_str_length($str, $filter = false)
 {
@@ -1360,6 +1393,7 @@ function get_str_length($str, $filter = false)
         $str = html_entity_decode($str, ENT_QUOTES, 'UTF-8');
         $str = strip_tags($str);
     }
+
     return (strlen($str) + mb_strlen($str, 'UTF8')) / 4;
 }
 
@@ -1390,10 +1424,11 @@ function getShort($str, $length = 40, $ext = '')
 
         $output .=  $v;
     }
+
     return $output;
 }
 
-/**
+/*
  * 检查字符串是否是UTF8编码
  * @param string $string 字符串
  * @return Boolean
@@ -1437,6 +1472,7 @@ function auto_charset($fContents, $from, $to)
                 unset($fContents[$key]);
             }
         }
+
         return $fContents;
     } else {
         return $fContents;
@@ -1446,9 +1482,9 @@ function auto_charset($fContents, $from, $to)
 /**
  * 友好的时间显示
  *
- * @param int    $sTime 待显示的时间
- * @param string $type  类型. normal | mohu | full | ymd | other
- * @param string $alt   已失效
+ * @param  int    $sTime 待显示的时间
+ * @param  string $type  类型. normal | mohu | full | ymd | other
+ * @param  string $alt   已失效
  * @return string
  */
 function friendlyDate($sTime, $type = 'normal', $alt = 'false')
@@ -1491,9 +1527,9 @@ function friendlyDate($sTime, $type = 'normal', $alt = 'false')
         } elseif ($dDay > 0 && $dDay<=7) {
             return intval($dDay)."天前";
         } elseif ($dDay > 7 &&  $dDay <= 30) {
-            return intval($dDay/7) . '周前';
+            return intval($dDay/7).'周前';
         } elseif ($dDay > 30) {
-            return intval($dDay/30) . '个月前';
+            return intval($dDay/30).'个月前';
         }
         //full: Y-m-d , H:i:s
     } elseif ($type=='full') {
@@ -1526,10 +1562,11 @@ function preg_html($html)
 {
     $p = array("/<[a|A][^>]+(topic=\"true\")+[^>]*+>#([^<]+)#<\/[a|A]>/",
             "/<[a|A][^>]+(data=\")+([^\"]+)\"[^>]*+>[^<]*+<\/[a|A]>/",
-            "/<[img|IMG][^>]+(src=\")+([^\"]+)\"[^>]*+>/");
+            "/<[img|IMG][^>]+(src=\")+([^\"]+)\"[^>]*+>/", );
     $t = array('topic{data=$2}','$2','img{data=$2}');
     $html = preg_replace($p, $t, $html);
     $html   = strip_tags($html, "<br/>");
+
     return $html;
 }
 
@@ -1554,6 +1591,7 @@ function parse_html($html)
     $html = preg_replace_callback("/@([\w\x{2e80}-\x{9fff}\-]+)/u", "_parse_at_by_uname", $html);
     /* emoji解析 */
     $html = formatEmoji(false, $html);
+
     return $html;
 }
 
@@ -1571,19 +1609,21 @@ function parseForApi($html)
     //敏感词过滤
     /* 解析meoji */
     $html = formatEmoji(false, $html);
+
     return $html;
 }
 
 /**
  * 格式化分享,替换话题
- * @param string  $content 待格式化的内容
- * @param boolean $url     是否替换URL
+ * @param  string $content 待格式化的内容
+ * @param  bool   $url     是否替换URL
  * @return string
  */
 function format($content, $url=false)
 {
     $content = stripslashes($content);
     $content = formatEmoji(false, $content);
+
     return $content;
 }
 
@@ -1591,6 +1631,7 @@ function replaceTheme($content)
 {
     $content = str_replace("＃", "#", $content);
     $content = preg_replace_callback("/#([^#]*[^#^\s][^#]*)#/is", _parse_theme, $content);
+
     return $content;
 }
 
@@ -1599,6 +1640,7 @@ function replaceUrl($content)
     //$content = preg_replace_callback('/((?:https?|ftp):\/\/(?:[a-zA-Z0-9][a-zA-Z0-9\-]*)*(?:\/[^\x{2e80}-\x{9fff}\s<\'\"“”‘’,，。]*)?)/u', '_parse_url', $content);
     $content = str_replace('[SITE_URL]', SITE_URL, $content);
     $content = preg_replace_callback('/((?:https?|mailto|ftp):\/\/([^\x{2e80}-\x{9fff}\s<\'\"“”‘’，。}]*)?)/u', '_parse_url', $content);
+
     return $content;
 }
 
@@ -1647,7 +1689,7 @@ function _parse_url($url)
 
 /**
  * 话题替换 [格式化分享专用]
- * @param array $data
+ * @param  array  $data
  * @return string
  */
 function _parse_theme($data)
@@ -1662,7 +1704,7 @@ function _parse_theme($data)
 
 /**
  * 根据用户昵称获取用户ID [格式化分享与格式化评论专用]
- * @param array $name
+ * @param  array  $name
  * @return string
  */
 function _parse_at_by_uname($name)
@@ -1690,6 +1732,7 @@ function _parse_at_by_uid($result)
 {
     $_userInfo = explode("|", $result[1]);
     $userInfo = model('User')->getUserInfo($_userInfo[0]);
+
     return '<a uid="'.$userInfo['uid'].'" event-node="face_card" data="@{uid='.$userInfo['uid'].'|'.$userInfo['uname'].'}"
             href="'.$userInfo['space_url'].'">@'.$userInfo['uname'].'</a>';
 }
@@ -1717,6 +1760,7 @@ function _parse_wap_at_by_uname($name)
 function _parse_at_forapi($html)
 {
     $_userInfo = explode("|", $html[1]);
+
     return "@".$_userInfo[1];
 }
 
@@ -1726,6 +1770,7 @@ function _parse_at_forapi($html)
 function _parse_img_forapi($html)
 {
     $basename = basename($html[1]);
+
     return "[".substr($basename, 0, strpos($basename, "."))."]";
 }
 
@@ -1745,16 +1790,17 @@ function filter_keyword($html)
     if (empty($audit) || $auditSet['open'] == '0') {
         return $html;
     }
+
     return str_replace($audit, $auditSet['replace'], $html);
 }
 
 //文件名
 /**
  * 获取缩略图
- * @param unknown_type $filename 原图路劲、url
- * @param unknown_type $width 宽度
- * @param unknown_type $height 高
- * @param unknown_type $cut 是否切割 默认不切割
+ * @param  unknown_type $filename 原图路劲、url
+ * @param  unknown_type $width    宽度
+ * @param  unknown_type $height   高
+ * @param  unknown_type $cut      是否切割 默认不切割
  * @return string
  */
 function getThumbImage($filename, $width=100, $height='auto', $cut=false, $replace=false)
@@ -1777,6 +1823,7 @@ function getThumbImage($filename, $width=100, $height='auto', $cut=false, $repla
         $info['src']    = $oldFile;
         $info['width']  = intval($width);
         $info['height'] = intval($height);
+
         return $info;
         //缩图已存在并且 replace替换为false
     } elseif (file_exists(UPLOAD_PATH.$thumbFile) && !$replace) {
@@ -1784,6 +1831,7 @@ function getThumbImage($filename, $width=100, $height='auto', $cut=false, $repla
         $info['src']    = $thumbFile;
         $info['width']  = intval($imageinfo[0]);
         $info['height'] = intval($imageinfo[1]);
+
         return $info;
         //执行缩图操作
     } else {
@@ -1796,6 +1844,7 @@ function getThumbImage($filename, $width=100, $height='auto', $cut=false, $repla
             $info['src']    = $thumbFile;
             $info['width']  = $old_image_width;
             $info['height'] = $old_image_height;
+
             return $info;
         } else {
             //生成缩略图
@@ -1824,6 +1873,7 @@ function getThumbImage($filename, $width=100, $height='auto', $cut=false, $repla
             $info['width'] = $width;
             $info['height'] = $height;
             $info['src'] = $thumbFile;
+
             return $info;
         }
     }
@@ -1838,6 +1888,7 @@ function getImageInfo($file)
     } else {
         $imageInfo = getimagesize(UPLOAD_PATH.'/'.$file);
     }
+
     return $imageInfo;
 }
 
@@ -1855,6 +1906,7 @@ function getImageUrl($file, $width='0', $height='auto', $cut=false, $replace=fal
             $imageUrl = UPLOAD_URL.'/'.ltrim($file, '/');
         }
     }
+
     return $imageUrl;
 }
 
@@ -1868,8 +1920,8 @@ function saveImageToLocal($url)
     'http'=>array(
       'method' => "GET",
       'timeout' => 30, //超时30秒
-      'user_agent'=>"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)"
-      )
+      'user_agent'=>"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)",
+      ),
       );
     $context = stream_context_create($opts);
     $file_content = file_get_contents($url, false, $context);
@@ -1918,8 +1970,8 @@ function getAttachUrl($filename)
         return  $cloud->getFileUrl($filename);
     }
     //本地
-    if (file_exists(UPLOAD_PATH . '/' . $filename)) {
-        return UPLOAD_URL . '/' . $filename;
+    if (file_exists(UPLOAD_PATH.'/'.$filename)) {
+        return UPLOAD_URL.'/'.$filename;
     } else {
         return '';
     }
@@ -1944,6 +1996,7 @@ function getSiteLogo($logoid = '')
     } else {
         $logo = THEME_PUBLIC_URL.'/'.C('site_logo');
     }
+
     return $logo;
 }
 
@@ -1976,8 +2029,9 @@ function getFromClient($type=0, $app='public', $app_name = '')
             $app_name = $appName;
         }
         if (isMobile() || APP_NAME === 'w3g') {
-            return '来自<a href="'.U('w3g/' . $app).'" target="_blank">'.$app_name."</a>";
+            return '来自<a href="'.U('w3g/'.$app).'" target="_blank">'.$app_name."</a>";
         }
+
         return '来自<a href="'.U($app).'" target="_blank">'.$app_name."</a>";
     }
     $type = intval($type);
@@ -2010,6 +2064,7 @@ function desencrypt($input, $key)
     //使用新版的加密方式
     tsload(ADDON_PATH.'/library/DES_MOBILE.php');
     $desc = new DES_MOBILE();
+
     return $desc->setKey($key)->encrypt($input);
 }
 
@@ -2024,26 +2079,27 @@ function desdecrypt($encrypted, $key)
     //使用新版的加密方式
     tsload(ADDON_PATH.'/library/DES_MOBILE.php');
     $desc = new DES_MOBILE();
+
     return $desc->setKey($key)->decrypt($encrypted);
 }
 
 
 function getOAuthToken($uid)
 {
-    return md5($uid . uniqid());
+    return md5($uid.uniqid());
 }
 
 function getOAuthTokenSecret()
 {
-    return md5(time() . uniqid());
+    return md5(time().uniqid());
 }
 
 /**
  * 截取一段话首字母
  *
- * @param string $string 截取的字符串
- * @param string $encode 编码，默认 utf-8
- * @param string $unknow 不知道的字符返回什么,默认返回第一个字
+ * @param  string $string 截取的字符串
+ * @param  string $encode 编码，默认 utf-8
+ * @param  string $unknow 不知道的字符返回什么,默认返回第一个字
  * @return string
  * @author Seven Du <lovevipdsw@vip.qq.com>
  **/
@@ -2056,6 +2112,7 @@ function getShortPinyin($string, $encode = 'utf-8', $unknow = null)
     if (!in_array($string, explode(',', 'Q,W,E,R,T,Y,U,I,O,P,A,S,D,F,G,H,J,K,L,M,N,B,V,C,X,Z'))) {
         $string = $pre;
     }
+
     return $string;
 }
 
@@ -2143,6 +2200,7 @@ function getFirstLetter($s0)
     if ($asc>=-11055 and $asc<=-10247) {
         return "Z";
     }
+
     return '#';
 }
 
@@ -2199,8 +2257,10 @@ function addLang($appname)
         $_lang = include(LANG_PATH.'/'.$appname.'_'.$lang.'.php');
         empty($_lang) && $_lang = array();
         $GLOBALS['_lang'] = array_merge($GLOBALS['_lang'], $_lang);
+
         return true;
     }
+
     return false;
 }
 
@@ -2284,6 +2344,7 @@ function ShowNavMenu($apps)
             $html .="<dd><a href='{$url}'>{$title}</a></dd>";
         }
     }
+
     return $html;
 }
 
@@ -2305,12 +2366,13 @@ function showNavProfile($apps)
             }
         }
     }
+
     return $html;
 }
 
 /**
  * 是否能进行邀请
- * @param integer $uid 用户ID
+ * @param int $uid 用户ID
  */
 function isInvite()
 {
@@ -2325,13 +2387,13 @@ function isInvite()
 
 /**
  * 传统形式显示无限极分类树
- * @param array $data 树形结构数据
- * @param string $stable 所操作的数据表
- * @param integer $left 样式偏移
- * @param array $delParam 删除关联信息参数，app、module、method
- * @param integer $level 添加子分类层级，默认为0，则可以添加无限子分类
- * @param integer $times 用于记录递归层级的次数，默认为1，调用函数时，不需要传入值。
- * @param integer $limit 分类限制字数。
+ * @param  array  $data     树形结构数据
+ * @param  string $stable   所操作的数据表
+ * @param  int    $left     样式偏移
+ * @param  array  $delParam 删除关联信息参数，app、module、method
+ * @param  int    $level    添加子分类层级，默认为0，则可以添加无限子分类
+ * @param  int    $times    用于记录递归层级的次数，默认为1，调用函数时，不需要传入值。
+ * @param  int    $limit    分类限制字数。
  * @return string 树形结构的HTML数据
  */
 function showTreeCategory($data, $stable, $left, $delParam, $level = 0, $ext = '', $times = 1, $limit = 0)
@@ -2372,8 +2434,8 @@ function showTreeCategory($data, $stable, $left, $delParam, $level = 0, $ext = '
 
 /**
  * 格式化分类配置页面参数为字符串
- * @param array $ext 配置页面相关参数
- * @param array $defExt 默认值HASH数组
+ * @param  array  $ext    配置页面相关参数
+ * @param  array  $defExt 默认值HASH数组
  * @return string 格式化后的字符串
  */
 function encodeCategoryExtra($ext, $defExt)
@@ -2401,11 +2463,11 @@ function encodeCategoryExtra($ext, $defExt)
 
 /**
  * 返回解析空间地址
- * @param integer $uid 用户ID
- * @param string $class 样式类
- * @param string $target 是否进行跳转
- * @param string $text 标签内的相关内容
- * @param boolen $icon 是否显示用户组图标，默认为true
+ * @param  int    $uid    用户ID
+ * @param  string $class  样式类
+ * @param  string $target 是否进行跳转
+ * @param  string $text   标签内的相关内容
+ * @param  boolen $icon   是否显示用户组图标，默认为true
  * @return string 解析空间地址HTML
  */
 function getUserSpace($uid, $class, $target, $text, $icon = true)
@@ -2477,6 +2539,7 @@ function getUserSpace($uid, $class, $target, $text, $icon = true)
 function getUserSpaceLink($uid)
 {
     $info = getUserInfo($uid);
+
     return $info['space_url'];
 }
 
@@ -2567,6 +2630,7 @@ function getBrowser()
     } else {
         $browser = 'other';
     }
+
     return $browser;
 }
 
@@ -2585,6 +2649,7 @@ function text($text)
 function real_strip_tags($str, $allowable_tags="")
 {
     $str = html_entity_decode($str, ENT_QUOTES, 'UTF-8');
+
     return strip_tags($str, $allowable_tags);
 }
 
@@ -2602,12 +2667,14 @@ function getUserFace($uid, $size)
             $userface = $userinfo['avatar_small'];
             break;
     }
+
     return $userface;
 }
 
 function getUserName($uid)
 {
     $userinfo = model('User')->getUserInfo($uid);
+
     return $userinfo['uname'];
 }
 
@@ -2641,6 +2708,7 @@ function matchImages($content = '')
         foreach ($src [1] as $v) {
             $images [] = trim($v, "\"'"); //删除首尾的引号 ' "
         }
+
         return $images;
     } else {
         return false;
@@ -2671,12 +2739,14 @@ function getEditorImages($content)
 function matchReplaceImages($content = '')
 {
     $image = preg_replace_callback('/<img.*src=\s*[\'"](.*)[\s>\'"]/isU', "matchReplaceImagesOnce", $content);
+
     return $image;
 }
 
 function matchReplaceImagesOnce($matches)
 {
     $matches[1] = str_replace('"', '', $matches[1]);
+
     return sprintf("<a class='thickbox'  href='%s'>%s</a>", $matches[1], $matches[0]);
 }
 
@@ -2686,6 +2756,7 @@ function jiami($text, $key = null)
     if (empty($key)) {
         $key = C('SECURE_CODE');
     }
+
     return tsauthcode($text, 'ENCODE', $key);
 }
 
@@ -2695,6 +2766,7 @@ function jiemi($text, $key = null)
     if (empty($key)) {
         $key = C('SECURE_CODE');
     }
+
     return tsauthcode($text, 'DECODE', $key);
 }
 
@@ -2750,10 +2822,10 @@ function tsauthcode($string, $operation = 'DECODE', $key = '')
  * @static
  * @access public
  +----------------------------------------------------------
- * @param string $str 需要转换的字符串
- * @param string $length 截取长度
+ * @param string $str     需要转换的字符串
+ * @param string $length  截取长度
  * @param string $charset 编码格式
- * @param string $suffix 截断显示字符
+ * @param string $suffix  截断显示字符
  +----------------------------------------------------------
  * @return string
  +----------------------------------------------------------
@@ -2769,11 +2841,11 @@ function mStr($str, $length, $charset="utf-8", $suffix=true)
  * @static
  * @access public
  +----------------------------------------------------------
- * @param string $str 需要转换的字符串
- * @param string $start 开始位置
- * @param string $length 截取长度
+ * @param string $str     需要转换的字符串
+ * @param string $start   开始位置
+ * @param string $length  截取长度
  * @param string $charset 编码格式
- * @param string $suffix 截断显示字符
+ * @param string $suffix  截断显示字符
  +----------------------------------------------------------
  * @return string
  +----------------------------------------------------------
@@ -2790,11 +2862,12 @@ function msubstr($str, $start=0, $length, $charset="utf-8", $suffix=true)
         $re['gbk']    = "/[\x01-\x7f]|[\x81-\xfe][\x40-\xfe]/";
         $re['big5']   = "/[\x01-\x7f]|[\x81-\xfe]([\x40-\x7e]|\xa1-\xfe])/";
         preg_match_all($re[$charset], $str, $match);
-        $slice = join("", array_slice($match[0], $start, $length));
+        $slice = implode("", array_slice($match[0], $start, $length));
     }
     if ($suffix && $str != $slice) {
         return $slice."...";
     }
+
     return $slice;
 }
 // // 获取给定用户的用户组图标
@@ -2809,7 +2882,7 @@ function msubstr($str, $start=0, $length, $charset="utf-8", $suffix=true)
 /**
  * 检查Email地址是否合法
  *
- * @return boolean
+ * @return bool
  */
 function isValidEmail($email)
 {
@@ -2830,23 +2903,24 @@ function send_http_header($type='utf8')
 }
 /**
  * 判断作者
- * @param unknown_type $dao
- * @param unknown_type $field
- * @param unknown_type $id
- * @param unknown_type $user
- * @return boolean
+ * @param  unknown_type $dao
+ * @param  unknown_type $field
+ * @param  unknown_type $id
+ * @param  unknown_type $user
+ * @return bool
  */
 function CheckAuthorPermission($dao, $id, $field='id', $getfield='uid')
 {
     $map[$field] = $id;
     $value = $dao->where($map)->getField($getfield);
+
     return $value == $GLOBALS['ts']['mid'];
 }
 /**
  * 锁定表单
  *
- * @param int $life_time 表单锁的有效时间(秒). 如果有效时间内未解锁, 表单锁自动失效.
- * @return boolean 成功锁定时返回true, 表单锁已存在时返回false
+ * @param  int  $life_time 表单锁的有效时间(秒). 如果有效时间内未解锁, 表单锁自动失效.
+ * @return bool 成功锁定时返回true, 表单锁已存在时返回false
  */
 function lockSubmit($life_time = null)
 {
@@ -2855,6 +2929,7 @@ function lockSubmit($life_time = null)
     } else {
         $life_time = $life_time ? $life_time : 10;
         $_SESSION['LOCK_SUBMIT_TIME'] = time() + intval($life_time);
+
         return true;
     }
 }
@@ -2862,7 +2937,7 @@ function lockSubmit($life_time = null)
 /**
  * 检查表单是否已锁定
  *
- * @return boolean 表单已锁定时返回true, 否则返回false
+ * @return bool 表单已锁定时返回true, 否则返回false
  */
 function isSubmitLocked()
 {
@@ -2872,7 +2947,6 @@ function isSubmitLocked()
 /**
  * 表单解锁
  *
- * @return void
  */
 function unlockSubmit()
 {
@@ -2882,7 +2956,7 @@ function unlockSubmit()
 /**
  * 获取给定IP的物理地址
  *
- * @param string $ip
+ * @param  string $ip
  * @return string
  */
 function convert_ip($ip)
@@ -2895,8 +2969,8 @@ function convert_ip($ip)
         } elseif ($iparray[0] > 255 || $iparray[1] > 255 || $iparray[2] > 255 || $iparray[3] > 255) {
             $return = '- Invalid IP Address';
         } else {
-            $tinyipfile = ADDON_PATH . '/libs/misc/tinyipdata.dat';
-            $fullipfile = ADDON_PATH . '/libs/misc/wry.dat';
+            $tinyipfile = ADDON_PATH.'/libs/misc/tinyipdata.dat';
+            $fullipfile = ADDON_PATH.'/libs/misc/wry.dat';
             if (@file_exists($tinyipfile)) {
                 $return = convert_ip_tiny($ip, $tinyipfile);
             } elseif (@file_exists($fullipfile)) {
@@ -2905,12 +2979,13 @@ function convert_ip($ip)
         }
     }
     $return = iconv('GBK', 'UTF-8', $return);
+
     return $return;
 }
 
 /**
  * 格式化分享内容中url内容的长度
- * @param string $match 匹配后的字符串
+ * @param  string $match 匹配后的字符串
  * @return string 格式化后的字符串
  */
 function _format_feed_content_url_length($match)
@@ -2919,6 +2994,7 @@ function _format_feed_content_url_length($match)
     $result = '{tsurl=='.chr($i).'}';
     $i++;
     $GLOBALS['replaceHash'][$result] = $match[0];
+
     return $result;
 }
 
@@ -2938,6 +3014,7 @@ function format_array_intval($str)
 function filter_words($content)
 {
     $data = model('SensitiveWord')->checkedContent($content);
+
     return $data;
 }
 
@@ -2954,6 +3031,7 @@ function isIpAccess($type)
     $accesslist = $accesslist[$type];
 
     $result = ipaccess($ip, $accesslist);
+
     return $result;
 }
 
@@ -3019,10 +3097,11 @@ function GetCurUrl()
         $url = 'https://';
     }
     if ($_SERVER ['SERVER_PORT'] != '80') {
-        $url .= $_SERVER ['SERVER_NAME'] . ':' . $_SERVER ['SERVER_PORT'] . $_SERVER ['REQUEST_URI'];
+        $url .= $_SERVER ['SERVER_NAME'].':'.$_SERVER ['SERVER_PORT'].$_SERVER ['REQUEST_URI'];
     } else {
-        $url .= $_SERVER ['SERVER_NAME'] . $_SERVER ['REQUEST_URI'];
+        $url .= $_SERVER ['SERVER_NAME'].$_SERVER ['REQUEST_URI'];
     }
+
     return $url;
 }
 
@@ -3030,6 +3109,7 @@ function GetCurUrl()
 function getUserInfo($uid)
 {
     $userinfo = model('User')->getUserInfo($uid);
+
     return $userinfo;
 }
 function lastsql()
@@ -3040,24 +3120,24 @@ function lastsql()
 /**
  * 获取远程图片的宽高和体积大小
  *
- * @param string $url 远程图片的链接
- * @param string $type 获取远程图片资源的方式, 默认为 curl 可选 fread
- * @param boolean $isGetFilesize 是否获取远程图片的体积大小, 默认false不获取, 设置为 true 时 $type 将强制为 fread 
+ * @param  string      $url           远程图片的链接
+ * @param  string      $type          获取远程图片资源的方式, 默认为 curl 可选 fread
+ * @param  bool        $isGetFilesize 是否获取远程图片的体积大小, 默认false不获取, 设置为 true 时 $type 将强制为 fread 
  * @return false|array
  */
 function myGetImageSize($url, $type = 'curl', $isGetFilesize = false)
 {
     // 若需要获取图片体积大小则默认使用 fread 方式 
     $type = $isGetFilesize ? 'fread' : $type;
-    
+
     if ($type == 'fread') {
         // 或者使用 socket 二进制方式读取, 需要获取图片体积大小最好使用此方法 
         $handle = fopen($url, 'rb');
-    
+
         if (! $handle) {
             return false;
         }
-    
+
         // 只取头部固定长度168字节数据 
         $dataBlock = fread($handle, 168);
     } else {
@@ -3071,33 +3151,33 @@ function myGetImageSize($url, $type = 'curl', $isGetFilesize = false)
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         // 返回结果 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    
+
         $dataBlock = curl_exec($ch);
-    
+
         curl_close($ch);
-    
+
         if (! $dataBlock) {
             return false;
         }
     }
-    
+
     // 将读取的图片信息转化为图片路径并获取图片信息,经测试,这里的转化设置 jpeg 对获取png,gif的信息没有影响,无须分别设置 
     // 有些图片虽然可以在浏览器查看但实际已被损坏可能无法解析信息  
-    $size = getimagesize('data://image/jpeg;base64,'. base64_encode($dataBlock));
+    $size = getimagesize('data://image/jpeg;base64,'.base64_encode($dataBlock));
     if (empty($size)) {
         return false;
     }
-    
+
     $result['width'] = $size[0];
     $result['height'] = $size[1];
-    
+
     // 是否获取图片体积大小 
     if ($isGetFilesize) {
         // 获取文件数据流信息 
         $meta = stream_get_meta_data($handle);
         // nginx 的信息保存在 headers 里，apache 则直接在 wrapper_data  
         $dataInfo = isset($meta['wrapper_data']['headers']) ? $meta['wrapper_data']['headers'] : $meta['wrapper_data'];
-    
+
         foreach ($dataInfo as $va) {
             if (preg_match('/length/iU', $va)) {
                 $ts = explode(':', $va);
@@ -3106,11 +3186,11 @@ function myGetImageSize($url, $type = 'curl', $isGetFilesize = false)
             }
         }
     }
-    
+
     if ($type == 'fread') {
         fclose($handle);
     }
-    
+
     return $result;
 }
 
@@ -3118,9 +3198,9 @@ if (!function_exists('array_column')) {
     /**
      * 返回数组中指定的一列，可兼容php5.5 array_column函数
      * 注意：只能兼容通过键名指定列，不支持通过整数索引指定列，使用键名指定通常已经够用
-     * @param array $input 需要取出数组列的多维数组（或结果集）
-     * @param mixed $column_key 需要返回值列的键名或NULL
-     * @param mixed $index_key 作为返回数组的索引/键的列，该列的键名。
+     * @param  array $input      需要取出数组列的多维数组（或结果集）
+     * @param  mixed $column_key 需要返回值列的键名或NULL
+     * @param  mixed $index_key  作为返回数组的索引/键的列，该列的键名。
      * @return array 从多维数组中返回单列数组或重置列索引或键名的数组
      */
     function array_column(array $input, $column_key, $index_key = null)
@@ -3131,6 +3211,7 @@ if (!function_exists('array_column')) {
             $val = null === $column_key ? $val : $val[$column_key];
             $array[$key] = $val;
         }
+
         return $array;
     }
 }
@@ -3139,7 +3220,7 @@ if (!function_exists('array_column')) {
  * 格式化Emoji
  * 该方法兼容以前使用的地方~如果开发需要，请按照下面示例，使用新的依赖包。
  *
- * @param boolean $type true为将emoji格式化为代码，false为将代码格式化为emoji
+ * @param bool $type true为将emoji格式化为代码，false为将代码格式化为emoji
  * @param string|array 数据，如果数数组，就递归，解析多维内部数据
  * @return string
  * @author Seven Du <lovevipdsw@vip.qq.com>
@@ -3154,61 +3235,63 @@ function formatEmoji($type = false, $data)
 }
 
 /** 
-* @去除XSS（跨站脚本攻击）的函数 
-* @par $val 字符串参数，可能包含恶意的脚本代码如<script language="javascript">alert("hello world");</script> 
-* @return  处理后的字符串 
-* @Recoded By Androidyue 
-**/  
-function RemoveXSS($val) {    
+ * @去除XSS（跨站脚本攻击）的函数 
+ * @par $val 字符串参数，可能包含恶意的脚本代码如<script language="javascript">alert("hello world");</script> 
+ * @return 处理后的字符串
+ * @Recoded By Androidyue 
+ **/
+function RemoveXSS($val)
+{
     // remove all non-printable characters. CR(0a) and LF(0b) and TAB(9) are allowed    
     // this prevents some character re-spacing such as <java\0script>    
     // note that you have to handle splits with \n, \r, and \t later since they *are* allowed in some inputs    
-    $val = preg_replace('/([\x00-\x08\x0b-\x0c\x0e-\x19])/', '', $val);  
+    $val = preg_replace('/([\x00-\x08\x0b-\x0c\x0e-\x19])/', '', $val);
 
     // straight replacements, the user should never need these since they're normal characters    
     // this prevents like <IMG SRC=@avascript:alert('XSS')>    
-    $search = 'abcdefghijklmnopqrstuvwxyz';   
-    $search .= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';    
-    $search .= '1234567890!@#$%^&*()';   
-    $search .= '~`";:?+/={}[]-_|\'\\';   
-    for ($i = 0; $i < strlen($search); $i++) {   
-      // ;? matches the ;, which is optional   
+    $search = 'abcdefghijklmnopqrstuvwxyz';
+    $search .= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $search .= '1234567890!@#$%^&*()';
+    $search .= '~`";:?+/={}[]-_|\'\\';
+    for ($i = 0; $i < strlen($search); $i++) {
+        // ;? matches the ;, which is optional   
       // 0{0,7} matches any padded zeros, which are optional and go up to 8 chars   
 
       // @ @ search for the hex values   
       $val = preg_replace('/(&#[xX]0{0,8}'.dechex(ord($search[$i])).';?)/i', $search[$i], $val); // with a ;   
       // @ @ 0{0,7} matches '0' zero to seven times    
       $val = preg_replace('/(&#0{0,8}'.ord($search[$i]).';?)/', $search[$i], $val); // with a ;   
-    }   
+    }
 
     // now the only remaining whitespace attacks are \t, \n, and \r   
-    $ra1 = Array('javascript', 'vbscript', 'expression', 'applet', 'meta', 'xml', 'blink', 'link', 'style', 'script', 'embed', 'object', 'iframe', 'frame', 'frameset', 'ilayer', 'layer', 'bgsound', 'title', 'base');   
-    $ra2 = Array('onabort', 'onactivate', 'onafterprint', 'onafterupdate', 'onbeforeactivate', 'onbeforecopy', 'onbeforecut', 'onbeforedeactivate', 'onbeforeeditfocus', 'onbeforepaste', 'onbeforeprint', 'onbeforeunload', 'onbeforeupdate', 'onblur', 'onbounce', 'oncellchange', 'onchange', 'onclick', 'oncontextmenu', 'oncontrolselect', 'oncopy', 'oncut', 'ondataavailable', 'ondatasetchanged', 'ondatasetcomplete', 'ondblclick', 'ondeactivate', 'ondrag', 'ondragend', 'ondragenter', 'ondragleave', 'ondragover', 'ondragstart', 'ondrop', 'onerror', 'onerrorupdate', 'onfilterchange', 'onfinish', 'onfocus', 'onfocusin', 'onfocusout', 'onhelp', 'onkeydown', 'onkeypress', 'onkeyup', 'onlayoutcomplete', 'onload', 'onlosecapture', 'onmousedown', 'onmouseenter', 'onmouseleave', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'onmousewheel', 'onmove', 'onmoveend', 'onmovestart', 'onpaste', 'onpropertychange', 'onreadystatechange', 'onreset', 'onresize', 'onresizeend', 'onresizestart', 'onrowenter', 'onrowexit', 'onrowsdelete', 'onrowsinserted', 'onscroll', 'onselect', 'onselectionchange', 'onselectstart', 'onstart', 'onstop', 'onsubmit', 'onunload');   
-    $ra = array_merge($ra1, $ra2);   
+    $ra1 = array('javascript', 'vbscript', 'expression', 'applet', 'meta', 'xml', 'blink', 'link', 'style', 'script', 'embed', 'object', 'iframe', 'frame', 'frameset', 'ilayer', 'layer', 'bgsound', 'title', 'base');
+    $ra2 = array('onabort', 'onactivate', 'onafterprint', 'onafterupdate', 'onbeforeactivate', 'onbeforecopy', 'onbeforecut', 'onbeforedeactivate', 'onbeforeeditfocus', 'onbeforepaste', 'onbeforeprint', 'onbeforeunload', 'onbeforeupdate', 'onblur', 'onbounce', 'oncellchange', 'onchange', 'onclick', 'oncontextmenu', 'oncontrolselect', 'oncopy', 'oncut', 'ondataavailable', 'ondatasetchanged', 'ondatasetcomplete', 'ondblclick', 'ondeactivate', 'ondrag', 'ondragend', 'ondragenter', 'ondragleave', 'ondragover', 'ondragstart', 'ondrop', 'onerror', 'onerrorupdate', 'onfilterchange', 'onfinish', 'onfocus', 'onfocusin', 'onfocusout', 'onhelp', 'onkeydown', 'onkeypress', 'onkeyup', 'onlayoutcomplete', 'onload', 'onlosecapture', 'onmousedown', 'onmouseenter', 'onmouseleave', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'onmousewheel', 'onmove', 'onmoveend', 'onmovestart', 'onpaste', 'onpropertychange', 'onreadystatechange', 'onreset', 'onresize', 'onresizeend', 'onresizestart', 'onrowenter', 'onrowexit', 'onrowsdelete', 'onrowsinserted', 'onscroll', 'onselect', 'onselectionchange', 'onselectstart', 'onstart', 'onstop', 'onsubmit', 'onunload');
+    $ra = array_merge($ra1, $ra2);
 
     $found = true; // keep replacing as long as the previous round replaced something   
-    while ($found == true) {   
-      $val_before = $val;   
-      for ($i = 0; $i < sizeof($ra); $i++) {   
-         $pattern = '/';   
-         for ($j = 0; $j < strlen($ra[$i]); $j++) {   
-            if ($j > 0) {   
-               $pattern .= '(';    
-               $pattern .= '(&#[xX]0{0,8}([9ab]);)';   
-               $pattern .= '|';    
-               $pattern .= '|(&#0{0,8}([9|10|13]);)';   
-               $pattern .= ')*';   
-            }   
-            $pattern .= $ra[$i][$j];   
-         }   
-         $pattern .= '/i';    
-         $replacement = substr($ra[$i], 0, 2).'<x>'.substr($ra[$i], 2); // add in <> to nerf the tag    
+    while ($found == true) {
+        $val_before = $val;
+        for ($i = 0; $i < sizeof($ra); $i++) {
+            $pattern = '/';
+            for ($j = 0; $j < strlen($ra[$i]); $j++) {
+                if ($j > 0) {
+                    $pattern .= '(';
+                    $pattern .= '(&#[xX]0{0,8}([9ab]);)';
+                    $pattern .= '|';
+                    $pattern .= '|(&#0{0,8}([9|10|13]);)';
+                    $pattern .= ')*';
+                }
+                $pattern .= $ra[$i][$j];
+            }
+            $pattern .= '/i';
+            $replacement = substr($ra[$i], 0, 2).'<x>'.substr($ra[$i], 2); // add in <> to nerf the tag    
          $val = preg_replace($pattern, $replacement, $val); // filter out the hex tags    
-         if ($val_before == $val) {    
-            // no replacements were made, so exit the loop    
-            $found = false;    
-         }    
-      }
-    }    
-    return $val;    
-}  
+         if ($val_before == $val) {
+             // no replacements were made, so exit the loop    
+            $found = false;
+         }
+        }
+    }
+
+    return $val;
+}

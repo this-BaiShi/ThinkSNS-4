@@ -11,7 +11,7 @@ abstract class TagsAbstract
     protected $value = ''; //如果是嵌套格式，则为内部数据
     protected $tmplCacheFile = ''; //缓存文件路径
     protected $sign = '';
-    
+
     /**
      * 参数赋值
      * @param unknown_type $attr
@@ -21,39 +21,40 @@ abstract class TagsAbstract
     {
         $this->attr = $attr;
         $this->templateFile = $this->getTemplateFile();
-    
+
         if (! empty($value)) {
             $this->value = $value;
-            $this->sign = tsmd5(json_encode($this->attr). $this->value);
+            $this->sign = tsmd5(json_encode($this->attr).$this->value);
         } else {
-            $this->sign = tsmd5(json_encode($this->attr). $this->templateFile);
+            $this->sign = tsmd5(json_encode($this->attr).$this->templateFile);
         }
         if (is_array($this->attr['head_link']) && !empty($this->attr['head_link'])) {
             foreach ($this->attr['head_link'] as &$value) {
                 $value->url = str_replace('[@]', '&', $value->url);
             }
         }
-        $this->tmplCacheFile = C('TMPL_CACHE_PATH') .'/'.APP_NAME.'_'. $this->sign . C('TMPL_CACHFILE_SUFFIX');
+        $this->tmplCacheFile = C('TMPL_CACHE_PATH').'/'.APP_NAME.'_'.$this->sign.C('TMPL_CACHFILE_SUFFIX');
     }
     /**
      * 编译并返回内容
-     * @param unknown_type $attr
-     * @param unknown_type $value
-     * @param unknown_type $tagInfo
-     * @return Ambigous <void, mixed>|string
+     * @param  unknown_type $attr
+     * @param  unknown_type $value
+     * @param  unknown_type $tagInfo
+     * @return Ambigous     <void, mixed>|string
      */
     public function replaceTag($attr, $value = '', $tagInfo)
     {
         $this->init($attr, $value);
         //调用子类的replace方法把参数引入
         $var = $this->replace();
+
         return fetch($this->templateFile, $var);
     }
     /**
      * 保存模块数据到数据库
-     * @param unknown_type $attr
-     * @param unknown_type $value
-     * @param unknown_type $tagInfo
+     * @param  unknown_type $attr
+     * @param  unknown_type $value
+     * @param  unknown_type $tagInfo
      * @return string
      */
     public function parseTag($attr, $value = '', $tagInfo)
@@ -78,9 +79,10 @@ abstract class TagsAbstract
         $map ['cTime'] = time();
         $map ['mTime'] = time();
         $result =  model('DiyWidget')->add($map);
+
         return $this->sign;
     }
-    
+
     protected function replaceContent($content)
     {
         // 系统默认的特殊变量替换
@@ -113,15 +115,16 @@ abstract class TagsAbstract
             $replace =  array_merge($replace, C('TMPL_PARSE_STRING'));
         }
         $content = str_replace(array_keys($replace), array_values($replace), $content);
+
         return $content;
     }
-    
+
     /**
      * 解析
      */
     abstract public function getTemplateFile($tpl = '');
-    
-    
+
+
     /**
      * 替换
      */

@@ -13,65 +13,65 @@ class Page
 
     /**
      * 分页起始行数
-     * @var integer
+     * @var int
      * @access protected
      */
     public $firstRow ;
 
     /**
      * 列表每页显示行数
-     * @var integer
+     * @var int
      * @access protected
      */
     public $listRows ;
 
     /**
      * 页数跳转时要带的参数
-     * @var integer
+     * @var int
      * @access protected
      */
     public $parameter  ;
 
     /**
      * 分页总页面数
-     * @var integer
+     * @var int
      * @access protected
      */
     public $totalPages  ;
 
     /**
      * 总行数
-     * @var integer
+     * @var int
      * @access protected
      */
     public $totalRows  ;
 
     /**
      * 当前页数
-     * @var integer
+     * @var int
      * @access protected
      */
     public $nowPage    ;
 
     /**
      * 分页的栏的总页数
-     * @var integer
+     * @var int
      * @access protected
      */
     public $coolPages   ;
 
     /**
      * 分页栏每页显示的页数
-     * @var integer
+     * @var int
      * @access protected
      */
     public $rollPage   ;
 
-    /**
-     * 分页记录名称
-     * @var integer
-     * @access protected
-     */
+/**
+ * 分页记录名称
+ * @var int
+ * @access protected
+ */
 
     // 分页显示定制
     public $config   =   array('header'=>'条记录','prev'=>'上一页','next'=>'下一页','first'=>'第一页','last'=>'最后一页');
@@ -79,10 +79,10 @@ class Page
     /**
      * 架构函数
      * @access public
-     * @param array $totalRows  总的记录数
+     * @param array $totalRows 总的记录数
      * @param array $firstRow  起始记录位置
      * @param array $listRows  每页显示记录数
-     * @param array $parameter  分页跳转的参数
+     * @param array $parameter 分页跳转的参数
      */
     public function __construct($totalRows, $listRows='', $parameter='')
     {
@@ -139,7 +139,7 @@ class Page
         $url = str_replace("\t", "&nbsp; &nbsp; ", $url);
         $url = str_replace("\r", "", $url);
         $url = str_replace("   ", "&nbsp; &nbsp;", $url);
-        $url = preg_replace(sprintf('/(#.+$|%s=[0-9]+)/is', C('VAR_PAGE')), '', t($_SERVER['SCRIPT_NAME']) . '?' . $url);
+        $url = preg_replace(sprintf('/(#.+$|%s=[0-9]+)/is', C('VAR_PAGE')), '', t($_SERVER['SCRIPT_NAME']).'?'.$url);
         // $url = eregi_replace("(#.+$|".C('VAR_PAGE')."=[0-9]+)", '', t($_SERVER['PHP_SELF']).'?'.$url);
         $url = $url.(strpos($url, '?')?'':"?");
         // $url = eregi_replace("(&+)", '&', $url);
@@ -230,8 +230,10 @@ class Page
             $pageArray['prePages']  =   $url.'&'.C('VAR_PAGE')."=$preRow";
             $pageArray['linkPages'] =   $linkPage;
             $pageArray['nowPage'] =   $this->nowPage;
+
             return $pageArray;
         }
+
         return $pageStr;
     }
 
@@ -248,7 +250,7 @@ class Page
         }
 
         // $url    =    eregi_replace("(#.+$|p=[0-9]+)", '', $_SERVER['REQUEST_URI']);
-        $url    = preg_replace(sprintf('/(#.+$|%s=[0-9]+)/is', C('VAR_PAGE')), '', t($_SERVER['SCRIPT_NAME']) . '?' . $url);
+        $url    = preg_replace(sprintf('/(#.+$|%s=[0-9]+)/is', C('VAR_PAGE')), '', t($_SERVER['SCRIPT_NAME']).'?'.$url);
         $url    =    $url.(strpos($url, '?')?'':"?");
         // $url    =    eregi_replace("(&+)", '&', $url);
         $url    = preg_replace('/(\&+)/is', '&', $url);
@@ -345,8 +347,10 @@ class Page
             $pageArray['prePages']  =   $url.'&'.C('VAR_PAGE')."=$preRow";
             $pageArray['linkPages'] =   $linkPage;
             $pageArray['nowPage'] =   $this->nowPage;
+
             return $pageArray;
         }
+
         return $pageStr;
     }
 }//类定义结束

@@ -6,7 +6,6 @@
  */
 class InviteTestHooks extends Hooks
 {
-
     protected static $checked = false;
 
     public function core_filter_init_action()
@@ -96,7 +95,7 @@ class InviteTestHooks extends Hooks
             $model = $this->model('InviteTest');
             $num   = $model->create(intval($_POST['number']));
             $this->assign('isAdmin', 1);
-            $this->success('成功生成' . $num . '个邀请码');
+            $this->success('成功生成'.$num.'个邀请码');
             exit;
         }
         $this->display('addinvite');

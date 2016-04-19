@@ -11,7 +11,6 @@
 
 class mailcontrol extends base
 {
-
     public function __construct()
     {
         $this->_mailcontrol();
@@ -37,6 +36,7 @@ class mailcontrol extends base
         $mail['level']        = abs(intval($this->input('level')));
         $mail['frommail']    = $this->input('frommail');
         $mail['dateline']    = $this->time;
+
         return $_ENV['mail']->add($mail);
     }
 }

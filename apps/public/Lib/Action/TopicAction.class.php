@@ -1,7 +1,7 @@
-<?php 
+<?php
+
 class TopicAction extends Action
 {
-
     // 专题页
     public function index()
     {
@@ -77,9 +77,10 @@ class TopicAction extends Action
             //unset($_SESSION['home_user_search_key']);
         }
         $key = str_replace(array('%', '"', '<', '>'), '', $key);
+
         return trim($key);
     }
-    
+
     //话题列表页
     public function topic_list()
     {

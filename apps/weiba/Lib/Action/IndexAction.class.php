@@ -6,10 +6,8 @@
  */
 class IndexAction extends Action
 {
-
     /**
      * 微吧首页
-     * @return void
      */
     public function index()
     {
@@ -35,10 +33,10 @@ class IndexAction extends Action
         //今日发帖strtotime(date('Y-m-d'))
         $day_count = M('weiba_post')->where('post_time>='.strtotime(date('Y-m-d')).' and is_del=0')->count();
         $this->assign('day_count', $day_count);
-        
+
         $yesday_count = M('weiba_post')->where('post_time>='.strtotime(date('Y-m-d', strtotime('-1 day'))).' and post_time<'.strtotime(date('Y-m-d')).' and is_del=0')->count();
         $this->assign('yesday_count', $yesday_count);
-        
+
         $tiezi_count = D('weiba_reply')->where('is_del=0')->count() + D('weiba_post')->where('is_del=0')->count();
         $this->assign('tiezi_count', $tiezi_count);
         //我的微吧
@@ -86,7 +84,7 @@ class IndexAction extends Action
         if ($fids) {
             $maps['weiba_id'] = array(
                     'not in',
-                    $fids
+                    $fids,
             );
         }
         switch ($post_type) {
@@ -158,7 +156,7 @@ class IndexAction extends Action
 
             //dump($userinfo);avatar_small,avatar_tiny
             $list['data'][$k]['image'] = $list['data'][$k]['user']['avatar_middle'];
-            
+
             //首页帖子图片换成缩略图
             // $index_img_url = getImageUrlByAttachId($list['data'][$k]['index_img'], 700, 310);
             // $index_img_info = getThumbImage($index_img_url,700,310,true,false);
@@ -168,12 +166,12 @@ class IndexAction extends Action
             $list['data'][$k]['title'] = formatEmoji(false, $list['data'][$k]['title']);
             $list['data'][$k]['content'] = formatEmoji(false, $list['data'][$k]['content']);
         }
+
         return $list;
     }
-    
+
     /**
      * 微吧列表
-     * @return void
      */
     public function weibaList()
     {
@@ -196,7 +194,7 @@ class IndexAction extends Action
                     }
                 }
             }
-            
+
             $count = D('weiba')->where($map)->order('new_day desc, new_count desc ,recommend desc,follower_count desc,thread_count desc')->count();
             if ($count>6) {
                 $count = 1;
@@ -232,7 +230,6 @@ class IndexAction extends Action
 
     /**
      * 我的微吧
-     * @return  void
      */
     public function myWeiba()
     {
@@ -303,7 +300,6 @@ class IndexAction extends Action
 
     /**
      * 微吧详情页
-     * @return void
      */
     public function detail()
     {
@@ -347,7 +343,7 @@ class IndexAction extends Action
         $this->assign('isadmin', $isadmin);
         //帖子
         $maps['is_del'] = 0;
-        
+
         if ($_GET['type']=='digest') {
             $maps['digest'] = 1;
             $order = 'post_time desc';
@@ -391,7 +387,7 @@ class IndexAction extends Action
             $list['data'][$k]['title'] = formatEmoji(false, $v['title']);
             $list['data'][$k]['content'] = formatEmoji(false, $v['content']);
         }
-        
+
         $this->assign('list', $list);
         //dump($weiba_detail['cid']);
         if ($weiba_detail['cid']>0) {
@@ -403,8 +399,8 @@ class IndexAction extends Action
             $weiba_detail['cid'] = '';
         }
         unset($map);
-        if ((int)$weiba_detail['province']>0 && $weiba_detail['province']) {
-            $map['area_id'] = (int)$weiba_detail['province'];
+        if ((int) $weiba_detail['province']>0 && $weiba_detail['province']) {
+            $map['area_id'] = (int) $weiba_detail['province'];
             $result = M('area')->where($map)->find();
             //dump(M()->getLastSql());
             //dump('=====');dump($result);exit;
@@ -413,14 +409,14 @@ class IndexAction extends Action
             $weiba_detail['province'] =null;
         }
         if ($weiba_detail['city']>0 && $weiba_detail['city']) {
-            $map['area_id'] = (int)$weiba_detail['city'];
+            $map['area_id'] = (int) $weiba_detail['city'];
             $result = M('area')->where($map)->find();
             $weiba_detail['city'] =  $result['title'];
         } else {
             $weiba_detail['city']=null;
         }
         if ($weiba_detail['area']>0 && $weiba_detail['area']) {
-            $map['area_id'] = (int)$weiba_detail['area'];
+            $map['area_id'] = (int) $weiba_detail['area'];
             $result = M('area')->where($map)->find();
             $weiba_detail['area'] =  $result['title'];
         } else {
@@ -444,7 +440,7 @@ class IndexAction extends Action
         $daren_arr_follow = model('Follow')->getFollowStateByFids($this->mid, $daren_arr_uid);
         $this->assign('daren_arr', $daren_arr);
         $this->assign('daren_arr_follow', $daren_arr_follow);
-        
+
         $daren_arrs = $this->_weiba_darens($weiba_id);
         $daren_arrs_uid = getSubByKey($daren_arrs, 'uid');
         $daren_arrs_follow = model('Follow')->getFollowStateByFids($this->mid, $daren_arrs_uid);
@@ -469,7 +465,7 @@ class IndexAction extends Action
     {
         $res = D('weiba')->doFollowWeiba($this->mid, intval($_REQUEST['weiba_id']));
         //清理插件缓存
-        $key = '_getRelatedGroup_' . $this->mid . '_' . date('Ymd');//达人
+        $key = '_getRelatedGroup_'.$this->mid.'_'.date('Ymd');//达人
         S($key, null);
         $this->ajaxReturn($res, D('weiba')->getError(), false !== $res);
     }
@@ -485,7 +481,7 @@ class IndexAction extends Action
 
     /**
      * 检查发帖权限
-     * @return boolean 是否有发帖权限 0：否  1：是
+     * @return bool 是否有发帖权限 0：否  1：是
      */
     public function checkPost()
     {
@@ -537,7 +533,7 @@ class IndexAction extends Action
                 $map['weiba_id'] = $weibaid;
                 $map['level'] = array('in','2,3');
                 $weiba_admin = D('weiba_follow')->where($map)->order('level desc')->field('follower_uid,level')->findAll();
-                
+
                 if (!in_array($this->mid, getSubByKey($weiba_admin, 'follower_uid')) && !CheckPermission('core_admin', 'admin_login')) {
                     echo 2;
                 }
@@ -555,7 +551,6 @@ class IndexAction extends Action
     }
     /**
      * 发布帖子
-     * @return void
      */
     public function post()
     {
@@ -575,7 +570,6 @@ class IndexAction extends Action
 
     /**
      * 执行发布帖子
-     * @return void
      */
     public function doPost()
     {
@@ -626,7 +620,7 @@ class IndexAction extends Action
                     break;
             }
         }
-        
+
         $checkContent = str_replace('&nbsp;', '', $_POST['content']);
         $checkContent = str_replace('<br />', '', $checkContent);
         $checkContent = str_replace('<p>', '', $checkContent);
@@ -644,14 +638,14 @@ class IndexAction extends Action
         if (count($match[0])>25) {     //汉字和字母都为一个字
             $this->error('帖子标题不能超过25个字，等待返回修改标题', $type);
         }
-        
+
         /* # 帖子内容 */
         $content = h($_POST['content']);
         if (get_str_length($content) >= 20000) {
             $this->error('帖子内容过长！无法发布！');
         }
         unset($content);
-        
+
         if ($_POST['attach_ids']) {
             $attach = explode('|', $_POST['attach_ids']);
             foreach ($attach as $k=>$a) {
@@ -716,7 +710,6 @@ class IndexAction extends Action
 
     /**
      * 帖子详情页
-     * @return void
      */
     public function postDetail()
     {
@@ -739,7 +732,7 @@ class IndexAction extends Action
                         'attach_name' => $av['name'],
                         'attach_url'  => getImageUrl($av['save_path'].$av['save_name']),
                         'extension'   => $av['extension'],
-                        'size'          => $av['size']
+                        'size'          => $av['size'],
                 );
                 $post_detail['attachInfo'][$ak] = $_attach;
             }
@@ -774,10 +767,10 @@ class IndexAction extends Action
         $this->assign('weiba_admin', $weiba_admin);
         //该作者的其他帖子
         $this->_assignUserInfo($post_detail['post_uid']);
-        
+
         $tofollow = model('Follow')->getFollowStateByFids($this->mid, array($post_detail['post_uid']));
         $this->assign('tofollow', $tofollow);
-        
+
         $map1['post_id'] = array('neq',$post_id);
         $map1['post_uid'] = $this->mid;
         $map1['is_del'] = 0;
@@ -815,7 +808,6 @@ class IndexAction extends Action
 
     /**
      * 收藏帖子
-     * @return void
      */
     public function favorite()
     {
@@ -829,11 +821,11 @@ class IndexAction extends Action
         if (D('weiba_favorite')->add($data)) {
             D('UserData')->updateKey('collect_topic_count', 1);
             D('UserData')->updateKey('collect_total_count', 1);
-        
+
             //添加积分
             model('Credit')->setUserCredit($this->mid, 'collect_topic');
             model('Credit')->setUserCredit($data['post_uid'], 'collected_topic');
-        
+
             echo 1;
         } else {
             echo 0;
@@ -842,12 +834,12 @@ class IndexAction extends Action
         // 	echo 0;
         // }
     }
-    
+
     public function updatetotal()
     {
         echo D('UserData')->updateUserData();
     }
-    
+
     //是否加入微吧判断
     public function is_follow($weiba_id)
     {
@@ -858,10 +850,9 @@ class IndexAction extends Action
             return false;
         }
     }
-    
+
     /**
      * 取消收藏帖子
-     * @return void
      */
     public function unfavorite()
     {
@@ -883,12 +874,11 @@ class IndexAction extends Action
 
     /**
      * 编辑帖子
-     * @return void
      */
     public function postEdit()
     {
         $post_id = intval($_GET['post_id']);
-        
+
         $post_detail = D('weiba_post')->where('post_id='.$post_id)->find();
         //获得圈主uid
         $map['weiba_id'] = $post_detail['weiba_id'];
@@ -901,7 +891,7 @@ class IndexAction extends Action
                 $this->error('对不起，您没有权限进行该操作！');
             }
         }
-        
+
         if ($this->mid==$post_detail['post_uid'] || CheckWeibaPermission($weiba_admin, 0, 'weiba_edit')) {
             $post_detail['attach'] = unserialize($post_detail['attach']);
             $this->assign('post_detail', $post_detail);
@@ -921,7 +911,6 @@ class IndexAction extends Action
 
     /**
      * 执行编辑帖子
-     * @return void
      */
     public function doPostEdit()
     {
@@ -994,6 +983,7 @@ class IndexAction extends Action
                     model('Cache')->rm('fd_'.$value['feed_id']);
                 }
             }
+
             return $this->ajaxReturn($post_id, '编辑成功', 1);
         } else {
             $this->error('编辑失败', true);
@@ -1002,7 +992,6 @@ class IndexAction extends Action
 
     /**
      * 编辑帖子回复
-     * @return void
      */
     /*
     public function replyEdit(){
@@ -1017,7 +1006,6 @@ class IndexAction extends Action
     */
     /**
      * 执行编辑帖子回复
-     * @return void
      */
     /*
     public function doReplyEdit(){
@@ -1035,7 +1023,6 @@ class IndexAction extends Action
     */
     /**
      * 删除帖子
-     * @return void
      */
     public function postDel()
     {
@@ -1044,16 +1031,19 @@ class IndexAction extends Action
             if ($weiba['post_uid']!=$this->mid) {  //判断是否本人
                 if (!CheckWeibaPermission('', $weiba['weiba_id'])) {  //判断管理员或圈主
                     echo 0;
+
                     return;
                 }
             }
         } else {
             echo 0;
+
             return;
         }
         if (!CheckWeibaPermission('', $weiba['weiba_id'])) {  //判断管理员或圈主
             if (!CheckPermission('weiba_normal', 'weiba_del') || $weiba['post_uid']!=$this->mid) {
                 echo 0;
+
                 return;
             }
         }
@@ -1074,14 +1064,13 @@ class IndexAction extends Action
 
             /* 删除收藏 */
             D('WeibaPost')->where(array('post_id' => $post_id))->delete();
-            
+
             echo 1;
         }
     }
 
     /**
      * 设置帖子类型(置顶或精华)
-     * @return void
      */
     public function postSet()
     {
@@ -1117,7 +1106,7 @@ class IndexAction extends Action
                 $this->error('对不起，您没有权限进行该操作！');
             }
         }
-        
+
         if (D('weiba_post')->where('post_id='.$post_id)->setField($field, $targetValue)) {
             $post_detail = D('weiba_post')->where('post_id='.$post_id)->find();
             $config['post_name'] = $post_detail['title'];
@@ -1139,7 +1128,7 @@ class IndexAction extends Action
                             $config['typename'] = "吧内置顶";
                             model('Notify')->sendNotify($post_detail['post_uid'], 'weiba_post_set', $config);
                             D('log')->writeLog($post_detail['weiba_id'], $this->mid, '将帖子“<a href="'.U('weiba/Index/postDetail', array('post_id'=>$post_id)).'" target="_blank">'.$post_detail['title'].'</a>”设为了吧内置顶', 'posts');
-                        
+
                         //添加积分
                         model('Credit')->setUserCredit($post_detail['post_uid'], 'top_topic_weiba');
 
@@ -1148,7 +1137,7 @@ class IndexAction extends Action
                             $config['typename'] = "全局置顶";
                             model('Notify')->sendNotify($post_detail['post_uid'], 'weiba_post_set', $config);
                             D('log')->writeLog($post_detail['weiba_id'], $this->mid, '将帖子“<a href="'.U('weiba/Index/postDetail', array('post_id'=>$post_id)).'" target="_blank">'.$post_detail['title'].'</a>”设为了全局置顶', 'posts');
-                        
+
                         //添加积分
                         model('Credit')->setUserCredit($post_detail['post_uid'], 'top_topic_all');
 
@@ -1164,7 +1153,7 @@ class IndexAction extends Action
                             $config['typename'] = "精华";
                             model('Notify')->sendNotify($post_detail['post_uid'], 'weiba_post_set', $config);
                             D('log')->writeLog($post_detail['weiba_id'], $this->mid, '将帖子“<a href="'.U('weiba/Index/postDetail', array('post_id'=>$post_id)).'" target="_blank">'.$post_detail['title'].'</a>”设为了精华', 'posts');
-                        
+
                         //添加积分
                         model('Credit')->setUserCredit($post_detail['post_uid'], 'dist_topic');
                         break;
@@ -1180,7 +1169,7 @@ class IndexAction extends Action
                         $config['typename'] = "推荐";
                         model('Notify')->sendNotify($post_detail['post_uid'], 'weiba_post_set', $config);
                         D('log')->writeLog($post_detail['weiba_id'], $this->mid, '将帖子“<a href="'.U('weiba/Index/postDetail', array('post_id'=>$post_id)).'" target="_blank">'.$post_detail['title'].'</a>”设为了推荐', 'posts');
-                        
+
                         //添加积分
                         model('Credit')->setUserCredit($post_detail['post_uid'], 'recommend_topic');
 
@@ -1195,7 +1184,6 @@ class IndexAction extends Action
 
     /**
      * 搜索微吧或帖子
-     * @return  void
      */
     public function search()
     {
@@ -1280,7 +1268,6 @@ class IndexAction extends Action
 
     /**
      * 检查是否有申请资格
-     * @return void
      */
     public function can_apply_weiba_admin()
     {
@@ -1289,7 +1276,7 @@ class IndexAction extends Action
             exit;
         }
         $weiba_id = intval($_POST['weiba_id']);
-        
+
         if (intval($_POST['type']) == 3) {
             if (D('weiba_follow')->where('weiba_id='.$weiba_id.' AND level=3')->find()) {   //已经有了圈主
                 echo 2;
@@ -1381,7 +1368,6 @@ class IndexAction extends Action
 
     /**
      * 申请成为圈主或小主
-     * @return void
      */
     public function apply_weiba_admin()
     {
@@ -1432,7 +1418,6 @@ class IndexAction extends Action
 
     /**
      * 执行申请成为圈主或小主
-     * @return void
      */
     public function do_apply_weiba_admin()
     {
@@ -1502,7 +1487,7 @@ class IndexAction extends Action
             } else {
                 model('Notify')->sendNotify($weiba['admin_uid'], 'weiba_apply', $config);
             }
-             
+
             return $this->ajaxReturn($data['weiba_id'], '申请成功，请等待管理员审核', 1);
         } else {
             $this->error('申请失败');
@@ -1511,7 +1496,7 @@ class IndexAction extends Action
 
     /**
      * 判断是否达到申请微吧的条件
-     * @return boolean
+     * @return bool
      */
     public function can_apply_weiba()
     {
@@ -1705,8 +1690,7 @@ class IndexAction extends Action
 
     /**
      * 微吧推荐
-     * @param integer limit 获取微吧条数
-     * @return void
+     * @param int limit 获取微吧条数
      */
     private function _weiba_recommend($limit=9, $width=100, $height=100)
     {
@@ -1721,8 +1705,7 @@ class IndexAction extends Action
 
     /**
      * 热帖推荐
-     * @param integer limit 获取微吧条数
-     * @return void
+     * @param int limit 获取微吧条数
      */
     private function _post_recommend($limit)
     {
@@ -1747,7 +1730,6 @@ class IndexAction extends Action
 
     /**
      * 微吧排行榜
-     * @return void
      */
     private function _weibaOrder()
     {
@@ -1761,7 +1743,7 @@ class IndexAction extends Action
         $replyCount = count($reply);
         $favoriteCount = D('weiba_favorite')->where('uid='.$this->mid)->count();
         $followCount = D('weiba_follow')->where('follower_uid='.$this->mid)->count();
-        
+
         $data['postCount'] = $postCount ? $postCount : 0;
         $data['replyCount'] = $replyCount ? $replyCount : 0;
         $data['favoriteCount'] = $favoriteCount ? $favoriteCount : 0;
@@ -1773,7 +1755,6 @@ class IndexAction extends Action
 
     /**
      * 获取uid与微吧的关注状态
-     * @return void
      */
     private function _assignFollowState($weiba_ids)
     {
@@ -1796,8 +1777,7 @@ class IndexAction extends Action
 
     /**
      * 批量获取用户uid与一群人fids的彼此关注状态
-     * @param  array $fids 用户uid数组
-     * @return void
+     * @param array $fids 用户uid数组
      */
     private function _assignFollowUidState($fids = null)
     {
@@ -1823,7 +1803,7 @@ class IndexAction extends Action
             !$postList['data'] && $postList['data'] = array();
             $postList['data'] = array_merge($topPostList, $postList['data']);
         }
-        
+
         $weiba_ids = getSubByKey($postList['data'], 'weiba_id');
         $nameArr = $this->_getWeibaName($weiba_ids);
         foreach ($postList['data'] as $k=>$v) {
@@ -1852,6 +1832,7 @@ class IndexAction extends Action
         foreach ($names as $n) {
             $nameArr[$n['weiba_id']] = $n['weiba_name'];
         }
+
         return $nameArr;
     }
 
@@ -1910,6 +1891,7 @@ class IndexAction extends Action
             $post_list[$k]['title'] = formatEmoji(false, $v['title']);
             $post_list[$k]['content'] = formatEmoji(false, $v['content']);
         }
+
         return $post_list;
     }
 
@@ -1928,9 +1910,10 @@ class IndexAction extends Action
         foreach ($uids as $v) {
             $daren_arr[] = model('User')->getUserInfo($v);
         }
+
         return $daren_arr;
     }
-    
+
     /**
      * 微吧掌柜
      */
@@ -1946,9 +1929,10 @@ class IndexAction extends Action
         foreach ($uids as $v) {
             $daren_arr[] = model('User')->getUserInfo($v);
         }
+
         return $daren_arr;
     }
-    
+
     //刷新catelist
     public function catelist()
     {
@@ -1986,7 +1970,7 @@ class IndexAction extends Action
         }
         exit(json_encode($html));
     }
-    
+
     /**
      * 添加关注操作
      * @return json 返回操作后的JSON信息数据
@@ -2009,7 +1993,7 @@ class IndexAction extends Action
         $res = model('Follow')->unFollow($this->mid, intval($fid));
         $this->ajaxReturn($res, model('Follow')->getError(), false !== $res);
     }
-    
+
     /**
      * 换一换数据处理
      *
@@ -2128,7 +2112,7 @@ class IndexAction extends Action
             exit(json_encode($ress));
         }
     }
-    
+
     public function addPostDigg()
     {
         $maps['post_id'] = $map['post_id'] = intval($_POST['row_id']);
@@ -2151,7 +2135,7 @@ class IndexAction extends Action
             echo 0;
         }
     }
-    
+
     public function delPostDigg()
     {
         $maps['post_id'] = $map['post_id'] = intval($_POST['row_id']);

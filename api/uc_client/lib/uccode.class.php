@@ -16,7 +16,7 @@ class uccode
         $this->uccode = array(
             'pcodecount' => -1,
             'codecount' => 0,
-            'codehtml' => ''
+            'codehtml' => '',
         );
     }
 
@@ -26,6 +26,7 @@ class uccode
         $code = str_replace('\\"', '"', preg_replace("/^[\n\r]*(.+?)[\n\r]*$/is", "\\1", $code));
         $this->uccode['codehtml'][$this->uccode['pcodecount']] = $this->tpl_codedisp($code);
         $this->uccode['codecount']++;
+
         return "[\tUCENTER_CODE_".$this->uccode[pcodecount]."\t]";
     }
 
@@ -44,25 +45,25 @@ class uccode
         $message = str_replace(array(
             '[/color]', '[/size]', '[/font]', '[/align]', '[b]', '[/b]',
             '[i]', '[/i]', '[u]', '[/u]', '[list]', '[list=1]', '[list=a]',
-            '[list=A]', '[*]', '[/list]', '[indent]', '[/indent]', '[/float]'
+            '[list=A]', '[*]', '[/list]', '[indent]', '[/indent]', '[/float]',
         ), array(
             '</font>', '</font>', '</font>', '</p>', '<strong>', '</strong>', '<i>',
             '</i>', '<u>', '</u>', '<ul>', '<ul type="1">', '<ul type="a">',
-            '<ul type="A">', '<li>', '</ul>', '<blockquote>', '</blockquote>', '</span>'
+            '<ul type="A">', '<li>', '</ul>', '<blockquote>', '</blockquote>', '</span>',
         ), preg_replace(array(
             "/\[color=([#\w]+?)\]/i",
             "/\[size=(\d+?)\]/i",
             "/\[size=(\d+(\.\d+)?(px|pt|in|cm|mm|pc|em|ex|%)+?)\]/i",
             "/\[font=([^\[\<]+?)\]/i",
             "/\[align=(left|center|right)\]/i",
-            "/\[float=(left|right)\]/i"
+            "/\[float=(left|right)\]/i",
         ), array(
             "<font color=\"\\1\">",
             "<font size=\"\\1\">",
             "<font style=\"font-size: \\1\">",
             "<font face=\"\\1 \">",
             "<p align=\"\\1\">",
-            "<span style=\"float: \\1;\">"
+            "<span style=\"float: \\1;\">",
         ), $message));
         if (strpos($message, '[/quote]') !== false) {
             $message = preg_replace("/\s*\[quote\][\n\r]*(.+?)[\n\r]*\[\/quote\]\s*/is", $this->tpl_quote(), $message);
@@ -70,15 +71,16 @@ class uccode
         if (strpos($message, '[/img]') !== false) {
             $message = preg_replace(array(
                 "/\[img\]\s*([^\[\<\r\n]+?)\s*\[\/img\]/ies",
-                "/\[img=(\d{1,4})[x|\,](\d{1,4})\]\s*([^\[\<\r\n]+?)\s*\[\/img\]/ies"
+                "/\[img=(\d{1,4})[x|\,](\d{1,4})\]\s*([^\[\<\r\n]+?)\s*\[\/img\]/ies",
             ), array(
                 "\$this->bbcodeurl('\\1', '<img src=\"%s\" border=\"0\" alt=\"\" />')",
-                "\$this->bbcodeurl('\\3', '<img width=\"\\1\" height=\"\\2\" src=\"%s\" border=\"0\" alt=\"\" />')"
+                "\$this->bbcodeurl('\\3', '<img width=\"\\1\" height=\"\\2\" src=\"%s\" border=\"0\" alt=\"\" />')",
             ), $message);
         }
         for ($i = 0; $i <= $this->uccode['pcodecount']; $i++) {
             $message = str_replace("[\tUCENTER_CODE_$i\t]", $this->uccode['codehtml'][$i], $message);
         }
+
         return nl2br(str_replace(array("\t", '   ', '  '), array('&nbsp; &nbsp; &nbsp; &nbsp; ', '&nbsp; &nbsp;', '&nbsp;&nbsp;'), $message));
     }
 
@@ -90,12 +92,14 @@ class uccode
             if (strlen($url) > $length) {
                 $text = substr($url, 0, intval($length * 0.5)).' ... '.substr($url, - intval($length * 0.3));
             }
+
             return '<a href="'.(substr(strtolower($url), 0, 4) == 'www.' ? 'http://'.$url : $url).'" target="_blank">'.$text.'</a>';
         } else {
             $url = substr($url, 1);
             if (substr(strtolower($url), 0, 4) == 'www.') {
                 $url = 'http://'.$url;
             }
+
             return '<a href="'.$url.'" target="_blank">'.$text.'</a>';
         }
     }
@@ -104,6 +108,7 @@ class uccode
     {
         if (!$email && preg_match("/\s*([a-z0-9\-_.+]+)@([a-z0-9\-_]+[.][a-z0-9\-_.]+)\s*/i", $text, $matches)) {
             $email = trim($matches[0]);
+
             return '<a href="mailto:'.$email.'">'.$email.'</a>';
         } else {
             return '<a href="mailto:'.substr($email, 1).'">'.$text.'</a>';
@@ -116,6 +121,7 @@ class uccode
             if (!in_array(strtolower(substr($url, 0, 6)), array('http:/', 'https:', 'ftp://', 'rtsp:/', 'mms://'))) {
                 $url = 'http://'.$url;
             }
+
             return str_replace(array('submit', 'logging.php'), array('', ''), sprintf($tags, $url, addslashes($url)));
         } else {
             return '&nbsp;'.$url;

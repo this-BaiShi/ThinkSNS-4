@@ -6,7 +6,6 @@
  */
 class WeiboWidget extends Widget
 {
-
     /**
      * 发布分享Widget, 用法包括分享等
      *
@@ -42,6 +41,7 @@ class WeiboWidget extends Widget
         $data['url'] = U('public/Share/shareToFeed').'&initHTML='.$data['tpl_data'].'&attachId='.$data['attachid'].'&from='.$data['from'].'&appname=public&source_url='.urlencode($data['source_url']);
 // 		$data['url']	= U('public/Widget/weibo',array('button_title'=>urlencode($data['button_title']),'tpl_name'=>$data['tpl_name'],'addon_info'=>$data['addon_info']));
         $content = $this->renderFile(dirname(__FILE__).'/Weibo.html', $data);
+
         return $content;
     }
 }

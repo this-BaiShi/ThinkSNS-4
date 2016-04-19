@@ -14,12 +14,12 @@ abstract class SimpleAddons extends AbstractAddons
      * getHooksList
      * 获取该插件的所有钩子列表
      * @access public
-     * @return void
      */
     public function getHooksList($name)
     {
         $this->name = $name;
         $this->getHooksInfo();
+
         return $this->hooklist;
     }
 

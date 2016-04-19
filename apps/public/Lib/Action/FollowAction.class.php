@@ -6,7 +6,6 @@
  */
 class FollowAction extends Action
 {
-
     private $_follow_model = null;         // 关注模型对象字段
 
     /**

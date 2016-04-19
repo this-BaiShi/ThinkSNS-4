@@ -11,7 +11,6 @@
 
 class cachecontrol extends base
 {
-
     public function __construct()
     {
         $this->_cachecontrol();

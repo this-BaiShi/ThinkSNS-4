@@ -26,9 +26,9 @@
      * Retrieves data about all advertisers that the requesting advertiser/publisher has access to.
      * (advertisers.list)
      *
-     * @param string $role The role of the requester. Valid values: 'advertisers' or 'publishers'.
-     * @param string $roleId The ID of the requesting advertiser or publisher.
-     * @param array $optParams Optional parameters.
+     * @param string $role      The role of the requester. Valid values: 'advertisers' or 'publishers'.
+     * @param string $roleId    The ID of the requesting advertiser or publisher.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string relationshipStatus Filters out all advertisers for which do not have the given relationship status with the requesting publisher.
      * @opt_param double minSevenDayEpc Filters out all advertisers that have a seven day EPC average lower than the given value (inclusive). Min value: 0.0. Optional.
@@ -55,9 +55,9 @@
      * to it. Only publishers can lookup advertisers. Advertisers can request information about
      * themselves by omitting the advertiserId query parameter. (advertisers.get)
      *
-     * @param string $role The role of the requester. Valid values: 'advertisers' or 'publishers'.
-     * @param string $roleId The ID of the requesting advertiser or publisher.
-     * @param array $optParams Optional parameters.
+     * @param string $role      The role of the requester. Valid values: 'advertisers' or 'publishers'.
+     * @param string $roleId    The ID of the requesting advertiser or publisher.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string advertiserId The ID of the advertiser to look up. Optional.
      * @return Google_Advertiser
@@ -88,7 +88,7 @@
      * Retrieves credit card offers for the given publisher. (ccOffers.list)
      *
      * @param string $publisher The ID of the publisher in question.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string advertiser The advertiser ID of a card issuer whose offers to include. Optional, may be repeated.
      * @opt_param string projection The set of fields to return.
@@ -119,9 +119,9 @@
       /**
      * Retrieves event data for a given advertiser/publisher. (events.list)
      *
-     * @param string $role The role of the requester. Valid values: 'advertisers' or 'publishers'.
-     * @param string $roleId The ID of the requesting advertiser or publisher.
-     * @param array $optParams Optional parameters.
+     * @param string $role      The role of the requester. Valid values: 'advertisers' or 'publishers'.
+     * @param string $roleId    The ID of the requesting advertiser or publisher.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string orderId Caret(^) delimited list of order IDs. Filters out all events that do not reference one of the given order IDs. Optional.
      * @opt_param string sku Caret(^) delimited list of SKUs. Filters out all events that do not reference one of the given SKU. Optional.
@@ -166,10 +166,10 @@
       /**
      * Inserts a new link. (links.insert)
      *
-     * @param string $role The role of the requester. Valid values: 'advertisers' or 'publishers'.
-     * @param string $roleId The ID of the requesting advertiser or publisher.
-     * @param Google_Link $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string      $role      The role of the requester. Valid values: 'advertisers' or 'publishers'.
+     * @param  string      $roleId    The ID of the requesting advertiser or publisher.
+     * @param  Google_Link $postBody
+     * @param  array       $optParams Optional parameters.
      * @return Google_Link
      */
     public function insert($role, $roleId, Google_Link $postBody, $optParams = array())
@@ -186,9 +186,9 @@
     /**
      * Retrieves all links that match the query parameters. (links.list)
      *
-     * @param string $role The role of the requester. Valid values: 'advertisers' or 'publishers'.
-     * @param string $roleId The ID of the requesting advertiser or publisher.
-     * @param array $optParams Optional parameters.
+     * @param string $role      The role of the requester. Valid values: 'advertisers' or 'publishers'.
+     * @param string $roleId    The ID of the requesting advertiser or publisher.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string linkType The type of the link.
      * @opt_param string startDateMin The beginning of the start date range.
@@ -219,10 +219,10 @@
      * Advertisers can look up their own links. Publishers can look up visible links or links belonging
      * to advertisers they are in a relationship with. (links.get)
      *
-     * @param string $role The role of the requester. Valid values: 'advertisers' or 'publishers'.
-     * @param string $roleId The ID of the requesting advertiser or publisher.
-     * @param string $linkId The ID of the link to look up.
-     * @param array $optParams Optional parameters.
+     * @param  string      $role      The role of the requester. Valid values: 'advertisers' or 'publishers'.
+     * @param  string      $roleId    The ID of the requesting advertiser or publisher.
+     * @param  string      $linkId    The ID of the link to look up.
+     * @param  array       $optParams Optional parameters.
      * @return Google_Link
      */
     public function get($role, $roleId, $linkId, $optParams = array())
@@ -251,9 +251,9 @@
      * Retrieves data about all publishers that the requesting advertiser/publisher has access to.
      * (publishers.list)
      *
-     * @param string $role The role of the requester. Valid values: 'advertisers' or 'publishers'.
-     * @param string $roleId The ID of the requesting advertiser or publisher.
-     * @param array $optParams Optional parameters.
+     * @param string $role      The role of the requester. Valid values: 'advertisers' or 'publishers'.
+     * @param string $roleId    The ID of the requesting advertiser or publisher.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string publisherCategory Caret(^) delimted list of publisher categories. Valid categories: (unclassified|community_and_content|shopping_and_promotion|loyalty_and_rewards|network|search_specialist|comparison_shopping|email). Filters out all publishers not in one of the given advertiser categories. Optional.
      * @opt_param string relationshipStatus Filters out all publishers for which do not have the given relationship status with the requesting publisher.
@@ -280,9 +280,9 @@
      * to it. Only advertisers can look up publishers. Publishers can request information about
      * themselves by omitting the publisherId query parameter. (publishers.get)
      *
-     * @param string $role The role of the requester. Valid values: 'advertisers' or 'publishers'.
-     * @param string $roleId The ID of the requesting advertiser or publisher.
-     * @param array $optParams Optional parameters.
+     * @param string $role      The role of the requester. Valid values: 'advertisers' or 'publishers'.
+     * @param string $roleId    The ID of the requesting advertiser or publisher.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string publisherId The ID of the publisher to look up. Optional.
      * @return Google_Publisher

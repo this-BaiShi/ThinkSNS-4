@@ -1,4 +1,5 @@
 <?php
+
 tsload(APPS_PATH.'/admin/Lib/Action/AdministratorAction.class.php');
 /**
  * 任务后台管理
@@ -37,7 +38,7 @@ class TaskAction extends AdministratorAction
     public function index()
     {
         $this->_initListAdminMenu();
-        
+
         $this->pageKeyList = array('task_name','step_name','step_desc','count','reward','medal','DOACTION');
         $list = model('Task')->where('task_type=1 and is_del=0')->field('id,task_name,step_name,step_desc,reward')->order('task_type,task_level')->findPage();
         // dump(D()->getLastSql());
@@ -65,7 +66,7 @@ class TaskAction extends AdministratorAction
     public function customIndex()
     {
         $this->_initListAdminMenu();
-        
+
         $this->pageKeyList = array('task_name','task_desc','condesc','count','reward','medal','DOACTION');
         $list = D('task_custom')->field('id,task_name,task_desc,task_condition,`condition`,reward')->order('id')->findPage();
         $ids = getSubByKey($list['data'], 'id');
@@ -119,7 +120,7 @@ class TaskAction extends AdministratorAction
             $v['DOACTION'] = "<a href='".U('admin/Task/editCustomTask', array('id'=>$v['id'], 'tabHash'=>'customIndex'))."' >编辑</a>";
             $v['DOACTION'] .= " <a href='javascript:void(0)' onclick='admin.delcustomtask(".$v['id'].")'>删除</a>";
         }
-        
+
         $this->pageButton[] = array( 'title' => '添加任务' , 'onclick' => "javascript:location.href='".U('admin/Task/addTask', array('tabHash'=>'customIndex'))."';" );
         $this->pageButton[] = array( 'title' => '删除' , 'onclick' => "admin.delcustomtask()" );
         $this->displayList($list);
@@ -144,7 +145,7 @@ class TaskAction extends AdministratorAction
     public function mainIndex()
     {
         $this->_initListAdminMenu();
-        
+
         $this->pageKeyList = array('task_name','step_name','step_desc','count','reward','medal','DOACTION');
         $list = model('Task')->where('task_type=2')->field('id,task_name,step_name,step_desc,reward')->order('task_type,task_level')->findPage();
         $ids = getSubByKey($list['data'], 'id');
@@ -171,17 +172,17 @@ class TaskAction extends AdministratorAction
         $this->pageKeyList = array( 'task_name', 'task_desc',
                 array( 'end_time1', 'end_time2' ),
                 'userlevel',
-                'usergroup', array('reg_time1', 'reg_time2'), 'topic', 'task_condition', 'num', 'exp', 'score', 'attach_id', 'share_card', 'medal_name', 'medal_desc');
-        
+                'usergroup', array('reg_time1', 'reg_time2'), 'topic', 'task_condition', 'num', 'exp', 'score', 'attach_id', 'share_card', 'medal_name', 'medal_desc', );
+
         $this->opt['userlevel'] = array( 1=>'T1',2=>'T2',3=>'T3'
                         ,4=>'T4',5=>'T5',6=>'T6'
-                        ,7=>'T7',8=>'T8',9=>'T9',10=>'T10');
+                        ,7=>'T7',8=>'T8',9=>'T9',10=>'T10', );
         $this->opt['usergroup'] = $groups;
         $this->opt['task_condition'] = array( 0 => '无','1-1'=>'每日任务' , '2-1'=> '新手任务' , '2-2'=> '进阶任务' , '2-3'=> '达人任务' , '2-4'=> '高手任务 ' , '2-5'=> '终极任务 ' );
-        
+
         $this->notEmpty = array('task_name');
         $this->savePostUrl = U('admin/Task/doAddTask');
-        
+
         $data['userlevel'] = array(1,2,3,4,5,6,7,8,9,10);
         $data['usergroup'] = array(1,2,3,5,6,7);
         $this->displayConfig($data);
@@ -206,16 +207,16 @@ class TaskAction extends AdministratorAction
         $score = abs(intval($_POST['score']));
         $medal =  intval($_POST['attach_id']);
         $share_card = intval($_POST['share_card']);
-        
+
         $this->validate($_POST);
-        
+
         if (strtotime($_POST['end_time1'][0]) > strtotime($_POST['end_time1'][1])) {
             $this->error('领取的开始时间不能大于结束时间');
         }
         if (strtotime($_POST['reg_time1'][0]) > strtotime($_POST['reg_time1'][1])) {
             $this->error('注册的开始时间不能大于结束时间');
         }
-        
+
         if ($medal) {
             $data['name'] = t($_POST['medal_name']);
             $exist = model('Medal')->where($data)->find();
@@ -223,12 +224,12 @@ class TaskAction extends AdministratorAction
                 $this->error('已存在相同的勋章名称');
             } else {
                 $data['desc'] = t($_POST['medal_desc']);
-                
+
                 //大图
                 $attach = model('Attach')->getAttachById($medal);
                 $src = $attach['save_path'].$attach['save_name'];
                 $data['src'] = $medal.'|'.$src;
-                
+
                 //小图
                 $small_src = getImageUrl($src, 50, 50);
                 $data['small_src'] = $medal.'|'.$small_src;
@@ -238,25 +239,25 @@ class TaskAction extends AdministratorAction
                     $sharecard_src = model('Attach')->getAttachById($share_card);
                     $data['share_card'] = $share_card.'|'.$sharecard_src['save_path'].$sharecard_src['save_name'];
                 }
-                
+
                 $data['type'] = 3;//自定义任务勋章
                 $medal_id = model('Medal')->add($data);
             }
         }
-        
+
         $task['task_name'] = $taskname;
         $task['task_desc'] = $taskdesc;
         $task['num'] = $num;
         $task['task_condition'] = $taskcondition;
         $task['medal_id'] = $medal_id;
         $task['reward'] = json_encode(array( 'exp' => $exp, 'score' => $score, 'medal' => array( 'id' => $medal_id, 'name'=>$data['name'], 'src'=>$src ) ));
-        
+
         $condition = array();
         if ($_POST['end_time1'][0] || $_POST['end_time1'][1]) {
-            $condition['endtime'] = t($_POST['end_time1'][0]) .'|'. t($_POST['end_time1'][1]) ;
+            $condition['endtime'] = t($_POST['end_time1'][0]).'|'.t($_POST['end_time1'][1]) ;
         }
         if ($_POST['reg_time1'][0] || $_POST['reg_time1'][1]) {
-            $condition['regtime'] = t($_POST['reg_time1'][0]) .'|'.t($_POST['reg_time1'][1]) ;
+            $condition['regtime'] = t($_POST['reg_time1'][0]).'|'.t($_POST['reg_time1'][1]) ;
         }
         if ($_POST['userlevel']) {
             $condition['userlevel'] = implode(',', $_POST['userlevel']);
@@ -267,10 +268,10 @@ class TaskAction extends AdministratorAction
         if ($_POST['topic']) {
             $condition['topic'] = t($_POST['topic']);
         }
-        
-        
+
+
         $task['condition'] = json_encode($condition);
-        
+
         $res = D('task_custom')->add($task);
         if ($res) {
             $this->assign('jumpUrl', U('admin/Task/customIndex', array('tabHash'=>'customIndex')));
@@ -289,18 +290,18 @@ class TaskAction extends AdministratorAction
         $this->pageKeyList = array( 'id', 'task_name', 'task_desc',
                 array( 'end_time1', 'end_time2' ),
                 'userlevel',
-                'usergroup', array('reg_time1', 'reg_time2'), 'topic', 'task_condition', 'num', 'exp', 'medal_id', 'medal_name', 'medal_src', 'score');
-        
+                'usergroup', array('reg_time1', 'reg_time2'), 'topic', 'task_condition', 'num', 'exp', 'medal_id', 'medal_name', 'medal_src', 'score', );
+
         $this->opt['userlevel'] = array( 1=>'T1',2=>'T2',3=>'T3'
                 ,4=>'T4',5=>'T5',6=>'T6'
-                ,7=>'T7',8=>'T8',9=>'T9',10=>'T10');
+                ,7=>'T7',8=>'T8',9=>'T9',10=>'T10', );
         $this->opt['usergroup'] = $groups;
         $this->opt['task_condition'] = array( 0 => '无','1-1'=>'每日任务' , '2-1'=> '新手任务' , '2-2'=> '进阶任务' , '2-3'=> '达人任务' , '2-4'=> '高手任务 ' , '2-5'=> '终极任务 ' );
         $this->notEmpty = array('task_name');
         $this->savePostUrl = U('admin/Task/doAddTask');
-        
+
         $task = D('task_custom')->where('id='.intval($_GET['id']))->find();
-        
+
         $condition = json_decode($task['condition']);
         $reward = json_decode($task['reward']);
         $task['end_time1'] = explode('|', $condition->endtime);
@@ -327,7 +328,7 @@ class TaskAction extends AdministratorAction
         $medalid = intval($_POST['medal_id']);
         $medalname = t($_POST['medal_name']);
         $medalsrc = t($_POST['medal_src']);
-        
+
         $this->validate($_POST);
         if (strtotime($_POST['end_time1'][0]) > strtotime($_POST['end_time1'][1])) {
             $this->error('领取的开始时间不能大于结束时间');
@@ -355,15 +356,15 @@ class TaskAction extends AdministratorAction
         $task['num'] = $num;
         $task['task_condition'] = $taskcondition;
         $task['reward'] = json_encode(array( 'exp' => $exp, 'score' => $score, 'medal' => array( 'id' => $medalid, 'name'=>$medalname, 'src'=>$medalsrc ) ));
-        
+
         $iscondition = false;
         $condition = array();
         if ($_POST['end_time1'][0] || $_POST['end_time1'][1]) {
-            $condition['endtime'] = t($_POST['end_time1'][0]) .'|'. t($_POST['end_time1'][1]) ;
+            $condition['endtime'] = t($_POST['end_time1'][0]).'|'.t($_POST['end_time1'][1]) ;
             $iscondition = true;
         }
         if ($_POST['reg_time1'][0] || $_POST['reg_time1'][1]) {
-            $condition['regtime'] = t($_POST['reg_time1'][0]) .'|'.t($_POST['reg_time1'][1]) ;
+            $condition['regtime'] = t($_POST['reg_time1'][0]).'|'.t($_POST['reg_time1'][1]) ;
             $iscondition = true;
         }
         if ($_POST['userlevel']) {
@@ -378,13 +379,13 @@ class TaskAction extends AdministratorAction
             $condition['topic'] = t($_POST['topic']);
             $iscondition = true;
         }
-        
+
         if (!$iscondition) {
             $this->error('请选择任务条件');
         }
-        
+
         $task['condition'] = json_encode($condition);
-        
+
         $res = D('task_custom')->where('id='.intval($_POST['id']))->save($task);
         if ($res) {
             $this->assign('jumpUrl', U('admin/Task/customIndex', array('tabHash'=>'customIndex')));
@@ -402,10 +403,10 @@ class TaskAction extends AdministratorAction
         $taskinfo = model('Task')->where('id='.$id)->find();
         $condition = json_decode($taskinfo['condition']);
         $conkey = key($condition);
-        
+
         $this->pageKeyList = array('task_id','task_name','step_name','step_desc','task_type','condition','num','exp','score','act2','medal', 'headface', 'show');
         $this->_initListAdminMenu();
-        
+
         $reward = json_decode($taskinfo['reward']);
         $taskinfo['task_id'] = $id;
         $taskinfo['act2'] = $taskinfo['action'];
@@ -417,7 +418,7 @@ class TaskAction extends AdministratorAction
         $headface = explode('|', $taskinfo['headface']);
         $taskinfo['headface'] = $headface[0];
         $taskinfo['show'] = explode(',', $taskinfo['show']);
-        
+
         $medals = model('Medal')->getAllMedal();
         $medals[0] = '无';
         ksort($medals);
@@ -433,7 +434,7 @@ class TaskAction extends AdministratorAction
         $score = intval($_REQUEST['score']);
         $medal = intval($_REQUEST['medal']);
         $num = abs(intval($_REQUEST['num']));
-        
+
         $condition = t($_REQUEST['condition']);
         $taskname = t($_REQUEST['task_name']);
         $stepname = t($_REQUEST['step_name']);
@@ -457,7 +458,7 @@ class TaskAction extends AdministratorAction
         }
         $reward = array( 'exp' => $exp, 'score' => $score, 'medal' => $medalinfo );
         $condition = array( $condition=>$num );
-        
+
         $data['task_name'] = $taskname;
         $data['step_name'] = $stepname;
         $data['step_desc'] = $stepdesc;
@@ -465,7 +466,7 @@ class TaskAction extends AdministratorAction
         $data['reward'] = json_encode($reward);
         $data['action'] = $action;
         $data['show'] = implode(',', $_POST['show']);
-        
+
         $res = model('Task')->where('id='.intval($_REQUEST['task_id']))->save($data);
         if ($res) {
             $url = $_REQUEST['task_type'] == 1 ? 'index' : 'mainIndex';
@@ -502,13 +503,13 @@ class TaskAction extends AdministratorAction
     {
         $tasklevel = intval($_GET['task_level']);
         $tasktype = intval($_GET['task_type']);
-        
+
         if ($tasktype == 1) {
             $this->pageKeyList = array('task_type','task_level','exp','score');
         } else {
             $this->pageKeyList = array('task_type','task_level','exp','score','medal');
         }
-        
+
         $info = D('task_reward')->where('task_level='.$tasklevel.' and task_type='.$tasktype)->find();
         $reward = json_decode($info['reward']);
         $data['task_type'] = $tasktype;
@@ -527,11 +528,11 @@ class TaskAction extends AdministratorAction
     {
         $tasktype = $_REQUEST['task_type'];
         $tasklevel = $_REQUEST['task_level'];
-        
+
         $exp = intval($_REQUEST['exp']);
         $score = intval($_REQUEST['score']);
         $medal = intval($_REQUEST['medal']);
-        
+
         if ($medal) {
             $name = model('Medal')->where('id='.$medal)->field('name,src')->find();
             $src = explode('|', $name['src']);

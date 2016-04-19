@@ -12,9 +12,9 @@ class FeedDiggModel extends Model
             2 => 'feed_id',
             3 => 'fid',
             4 => 'cTime',
-            '_pk' => 'id'
+            '_pk' => 'id',
     );
-    
+
     public function addDigg($feed_id, $mid)
     {
         // $data ['feed_id'] = $feed_id;
@@ -33,14 +33,16 @@ class FeedDiggModel extends Model
         $mid or $this->mid;
         $data = array(
             'uid'     => $mid,
-            'feed_id' => $feed_id
+            'feed_id' => $feed_id,
         );
 
         if (!$data['uid']) {
             $this->error = '未登录';
+
             return false;
         } elseif ($this->where($data)->count()) {
             $this->error = '你已经赞过';
+
             return false;
         }
 
@@ -62,13 +64,14 @@ class FeedDiggModel extends Model
             model('Feed')->where('feed_id='.$feed_id)->setInc('digg_count');
             model('Feed')->cleanCache($feed_id);
             model('UserData')->updateKey('unread_digg', 1, true, $feed['uid']);
-    
+
             //增加积分
             model('Credit')->setUserCredit($mid, 'digg_weibo');
             model('Credit')->setUserCredit($feed['uid'], 'digged_weibo');
 
             $this->setDiggCache($mid, $feed_id, 'add');
         }
+
         return $res;
     }
 
@@ -79,11 +82,13 @@ class FeedDiggModel extends Model
         $data['uid'] = !$data['uid'] ? $GLOBALS['ts']['mid'] : $data['uid'];
         if (!$data['uid']) {
             $this->error = '未登录不能取消赞';
+
             return false;
         }
         $isExit = $this->where($data)->getField('id');
         if (!$isExit) {
             $this->error = '取消赞失败，您可以已取消过赞信息';
+
             return false;
         }
 
@@ -102,9 +107,9 @@ class FeedDiggModel extends Model
     }
     /**
      * 返回赞列表
-     * @param unknown_type $map 
-     * @param unknown_type $page -- 是否分页
-     * @param unknown_type $limit --分页代表每页条数 不分页表示查询条数
+     * @param  unknown_type $map
+     * @param  unknown_type $page  -- 是否分页
+     * @param  unknown_type $limit --分页代表每页条数 不分页表示查询条数
      * @return unknown
      */
     public function getDiggList($map, $page=true, $limit=20)
@@ -139,6 +144,7 @@ class FeedDiggModel extends Model
                 }
             }
         }
+
         return $list;
     }
     public function getDiggListPage($map, $limit=20)
@@ -158,6 +164,7 @@ class FeedDiggModel extends Model
                     break;
             }
         }
+
         return $list;
     }
 
@@ -174,25 +181,26 @@ class FeedDiggModel extends Model
         foreach ($list['data'] as &$v) {
             $v['user'] = model('User')->getUserInfo($v['fid']);
         }
+
         return $list;
     }
 
     /**
      * 返回指定用户是否赞了指定的分享
-     * @var $feed_ids 指定的分享数组
-     * @var $uid 指定的用户
-     * @return array 
+     * @var    $feed_ids 指定的分享数组
+     * @var    $uid      指定的用户
+     * @return array
      */
     public function checkIsDigg($feed_ids, $uid)
     {
         if (! is_array($feed_ids)) {
             $feed_ids = array(
-                    $feed_ids
+                    $feed_ids,
             );
         }
-        
+
         $feed_ids = array_filter($feed_ids);
-        
+
         $digg = S('user_digg_'.$uid);
 
         if ($digg === false) {

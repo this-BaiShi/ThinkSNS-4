@@ -1,4 +1,5 @@
 <?php
+
 /* 字符、数组串编码转换 */
 function ts_change_charset($fContents, $from='UTF8', $to='GBK')
 {
@@ -61,6 +62,7 @@ function ts_update_ucenter_user_ref($uid, $uc_uid, $uc_username='')
         $where .= "AND {$k}='{$v}'";
     }
     $result = $GLOBALS['tsdb']->query("UPDATE ".TS_DBTABLEPRE."ucenter_user_link SET  uc_username='{$uc_username}' WHERE 1=1 ".$where);
+
     return $result;
     // M('ucenter_user_link')->where($map)->save($uc_ref_data);
 }
@@ -78,6 +80,7 @@ function ts_get_ucenter_user_ref($uid='', $uc_uid='', $uc_username='')
         $where .= "AND {$k}='{$v}'";
     }
     $result = $GLOBALS['tsdb']->fetch_first("SELECT * FROM ".TS_DBTABLEPRE."ucenter_user_link WHERE 1=1 ".$where);
+
     return $result;
     // return M('ucenter_user_link')->where($map)->find();
 }
@@ -87,6 +90,7 @@ function ts_get_user($uid)
 {
     $uid = intval($uid);
     $result = $GLOBALS['tsdb']->fetch_first("SELECT uid,uname,email,login,is_active FROM ".TS_DBTABLEPRE."user WHERE uid='{$uid}'");
+
     return $result;
 }
 
@@ -94,6 +98,7 @@ function ts_get_user($uid)
 function ts_get_site_key()
 {
     global $tsconfig;
+
     return md5($tsconfig['SECURE_KEY'].$tsconfig['SECURE_CODE'].$tsconfig['COOKIE_PREFIX']);
 }
 
@@ -255,12 +260,12 @@ function _stripslashes($string)
     } else {
         $string = stripslashes($string);
     }
+
     return $string;
 }
 
 class uc_note
 {
-
     public $dbconfig = '';
     public $db = '';
     public $tablepre = '';
@@ -271,6 +276,7 @@ class uc_note
         if (!function_exists('xml_serialize')) {
             include_once DISCUZ_ROOT.'./uc_client/lib/xml.class.php';
         }
+
         return xml_serialize($arr, $htmlon);
     }
 
@@ -313,6 +319,7 @@ class uc_note
     {
         $uids = $get['ids'];
         !API_DELETEUSER && exit(API_RETURN_FORBIDDEN);
+
         return API_RETURN_SUCCEED;
     }
 
@@ -326,6 +333,7 @@ class uc_note
         //$usernameold = $get['oldusername'];
         $usernamenew = uc_auto_charset($get['newusername']);
         ts_update_ucenter_user_ref('', $uc_uid, $usernamenew);
+
         return API_RETURN_SUCCEED;
     }
 
@@ -338,6 +346,7 @@ class uc_note
         }
 
         $return = array();
+
         return $this->_serialize($return, 1);
     }
 
@@ -411,6 +420,7 @@ class uc_note
         $s .= '$_CACHE[\'badwords\'] = '.var_export($data, true).";\r\n";
         fwrite($fp, $s);
         fclose($fp);
+
         return API_RETURN_SUCCEED;
     }
 
@@ -426,6 +436,7 @@ class uc_note
         $s .= '$_CACHE[\'hosts\'] = '.var_export($post, true).";\r\n";
         fwrite($fp, $s);
         fclose($fp);
+
         return API_RETURN_SUCCEED;
     }
 
@@ -471,6 +482,7 @@ class uc_note
         $s .= '$_CACHE[\'settings\'] = '.var_export($post, true).";\r\n";
         fwrite($fp, $s);
         fclose($fp);
+
         return API_RETURN_SUCCEED;
     }
 
@@ -483,6 +495,7 @@ class uc_note
         $credit = $get['credit'];
         $amount = $get['amount'];
         $uid = $get['uid'];
+
         return API_RETURN_SUCCEED;
     }
 
@@ -501,6 +514,7 @@ class uc_note
             return API_RETURN_FORBIDDEN;
         }
         $credits = array();
+
         return $this->_serialize($credits);
     }
 
@@ -510,6 +524,7 @@ class uc_note
         if (!API_UPDATECREDITSETTINGS) {
             return API_RETURN_FORBIDDEN;
         }
+
         return API_RETURN_SUCCEED;
     }
 }

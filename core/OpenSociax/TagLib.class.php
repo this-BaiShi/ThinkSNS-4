@@ -66,7 +66,6 @@ class TagLib
 
     /**
      * 初始化标签库的定义文件
-     * @return void
      */
     public function _initialize()
     {
@@ -75,11 +74,10 @@ class TagLib
 
     /**
      * 载入模板文件
-     * @return void
      */
     public function load()
     {
-        $array = (array)(simplexml_load_file($this->xml));
+        $array = (array) (simplexml_load_file($this->xml));
         if ($array !== false) {
             $this->parse = $array;
             $this->valid = true;
@@ -92,8 +90,8 @@ class TagLib
      * 分析TagLib文件的信息是否有效
      * 有效则转换成数组
      * @access public
-     * @param mixed $name 数据
-     * @param string $value  数据表名
+     * @param  mixed  $name  数据
+     * @param  string $value 数据表名
      * @return string
      */
     public function valid()
@@ -141,7 +139,7 @@ class TagLib
                 }
             } else {
                 foreach ($tags as $tag) {
-                    $tag = (array)$tag;
+                    $tag = (array) $tag;
                     $list[] =  array(
                         'name'=>$tag['name'],
                         'content'=>$tag['bodycontent'],
@@ -163,6 +161,7 @@ class TagLib
             }
             $this->tagList = $list;
         }
+
         return $this->tagList;
     }
 
@@ -181,7 +180,7 @@ class TagLib
         $list = array();
         $tags = $this->parse['tag'];
         foreach ($tags as $tag) {
-            $tag = (array)$tag;
+            $tag = (array) $tag;
             if (strtolower($tag['name']) == strtolower($tagName)) {
                 if (isset($tag['attribute'])) {
                     if (is_object($tag['attribute'])) {
@@ -189,15 +188,15 @@ class TagLib
                         $attr = $tag['attribute'];
                         $list[] = array(
                             'name'=>$attr->name,
-                            'required'=>$attr->required
+                            'required'=>$attr->required,
                             );
                     } else {
                         // 存在多个属性
                         foreach ($tag['attribute'] as $attr) {
-                            $attr = (array)$attr;
+                            $attr = (array) $attr;
                             $list[] = array(
                                 'name'=>$attr['name'],
-                                'required'=>$attr['required']
+                                'required'=>$attr['required'],
                                 );
                         }
                     }
@@ -205,13 +204,14 @@ class TagLib
             }
         }
         $_tagCache[$_tagCacheId]    =   $list;
+
         return $list;
     }
 
     /**
      * TagLib标签属性分析 返回标签属性数组
      * @access public
-     * @param string $tagStr 标签内容
+     * @param  string $tagStr 标签内容
      * @return array
      */
     public function parseXmlAttr($attr, $tag)
@@ -223,7 +223,7 @@ class TagLib
         if (!$xml) {
             throw_exception(L('_XML_TAG_ERROR_').' : '.$attr);
         }
-        $xml = (array)($xml->tag->attributes());
+        $xml = (array) ($xml->tag->attributes());
         $array = array_change_key_case($xml['@attributes']);
         $attrs  = $this->getTagAttrList($tag);
         foreach ($attrs as $val) {
@@ -234,13 +234,14 @@ class TagLib
                 $array[$name] = str_replace('___', '&', $array[$name]);
             }
         }
+
         return $array;
     }
 
     /**
      * 解析条件表达式
      * @access public
-     * @param string $condition 表达式标签内容
+     * @param  string $condition 表达式标签内容
      * @return array
      */
     public function parseCondition($condition)
@@ -257,13 +258,14 @@ class TagLib
             default:  // 自动判断数组或对象 只支持二维
                 $condition = preg_replace('/\$(\w+)\.(\w+)\s/is', '(is_array($\\1)?$\\1["\\2"]:$\\1->\\2) ', $condition);
         }
+
         return $condition;
     }
 
     /**
      * 自动识别构建变量
      * @access public
-     * @param string $name 变量描述
+     * @param  string $name 变量描述
      * @return string
      */
     public function autoBuildVar($name)
@@ -300,6 +302,7 @@ class TagLib
         } elseif (!defined($name)) {
             $name = '$'.$name;
         }
+
         return $name;
     }
 
@@ -307,7 +310,7 @@ class TagLib
      * 用于标签属性里面的特殊模板变量解析
      * 格式 以 Think. 打头的变量属于特殊模板变量
      * @access public
-     * @param string $varStr  变量字符串
+     * @param  string $varStr 变量字符串
      * @return string
      */
     public function parseThinkVar($varStr)
@@ -341,6 +344,7 @@ class TagLib
   }
             }
         }
+
         return $parseStr;
     }
 }//类定义结束

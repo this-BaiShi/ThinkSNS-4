@@ -25,9 +25,9 @@
       /**
      * Submit model id and request a prediction (trainedmodels.predict)
      *
-     * @param string $id The unique name for the predictive model.
-     * @param Google_Input $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string        $id        The unique name for the predictive model.
+     * @param  Google_Input  $postBody
+     * @param  array         $optParams Optional parameters.
      * @return Google_Output
      */
     public function predict($id, Google_Input $postBody, $optParams = array())
@@ -44,8 +44,8 @@
     /**
      * Begin training your model. (trainedmodels.insert)
      *
-     * @param Google_Training $postBody
-     * @param array $optParams Optional parameters.
+     * @param  Google_Training $postBody
+     * @param  array           $optParams Optional parameters.
      * @return Google_Training
      */
     public function insert(Google_Training $postBody, $optParams = array())
@@ -62,8 +62,8 @@
     /**
      * Check training status of your model. (trainedmodels.get)
      *
-     * @param string $id The unique name for the predictive model.
-     * @param array $optParams Optional parameters.
+     * @param  string          $id        The unique name for the predictive model.
+     * @param  array           $optParams Optional parameters.
      * @return Google_Training
      */
     public function get($id, $optParams = array())
@@ -80,9 +80,9 @@
     /**
      * Add new data to a trained model. (trainedmodels.update)
      *
-     * @param string $id The unique name for the predictive model.
-     * @param Google_Update $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string          $id        The unique name for the predictive model.
+     * @param  Google_Update   $postBody
+     * @param  array           $optParams Optional parameters.
      * @return Google_Training
      */
     public function update($id, Google_Update $postBody, $optParams = array())
@@ -99,14 +99,15 @@
     /**
      * Delete a trained model. (trainedmodels.delete)
      *
-     * @param string $id The unique name for the predictive model.
-     * @param array $optParams Optional parameters.
+     * @param string $id        The unique name for the predictive model.
+     * @param array  $optParams Optional parameters.
      */
     public function delete($id, $optParams = array())
     {
         $params = array('id' => $id);
         $params = array_merge($params, $optParams);
         $data = $this->__call('delete', array($params));
+
         return $data;
     }
   }
@@ -123,9 +124,9 @@
       /**
      * Submit input and request an output against a hosted model. (hostedmodels.predict)
      *
-     * @param string $hostedModelName The name of a hosted model.
-     * @param Google_Input $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string        $hostedModelName The name of a hosted model.
+     * @param  Google_Input  $postBody
+     * @param  array         $optParams       Optional parameters.
      * @return Google_Output
      */
     public function predict($hostedModelName, Google_Input $postBody, $optParams = array())

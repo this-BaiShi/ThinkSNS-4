@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 // 格式化内容
 function wapFormatContent($content, $url = false, $from_url = '', $urlTxt=false)
 {
@@ -18,6 +19,7 @@ function wapFormatContent($content, $url = false, $from_url = '', $urlTxt=false)
     $content = preg_replace_callback("/(?:#[^#]*[^#^\s][^#]*#|(\[.+?\]))/is", replaceEmot, $content);
     $content = preg_replace_callback("/#([^#]*[^#^\s][^#]*)#/is", wapFormatTopic, $content);
     $content = preg_replace_callback("/@([\w\x{2e80}-\x{9fff}\-]+)/u", wapFormatUser, $content);
+
     return $content;
 }
 
@@ -32,6 +34,7 @@ function wapFormatComment($content, $url=false, $from_url = '')
     }
     $content = preg_replace_callback("/(?:#[^#]*[^#^\s][^#]*#|(\[.+?\]))/is", replaceEmot, $content);
     $content = preg_replace_callback("/@([\w\x{2e80}-\x{9fff}\-]+)/u", wapFormatUser, $content);
+
     return $content;
 }
 
@@ -39,6 +42,7 @@ function wapFormatCommentAt($content)
 {
     $content=preg_replace('#<a[^>]*>\s*(@.+)\s*</a>#isU', '\\1', $content);
     $content=preg_replace_callback("/@([\w\x{2e80}-\x{9fff}\-]+)/u", wapFormatUser, $content);
+
     return $content;
 }
 
@@ -77,6 +81,7 @@ function is_iphone()
             break;
         }
     }
+
     return $is_iphone;
 }
 
@@ -91,6 +96,7 @@ function is_android()
             break;
         }
     }
+
     return $is_android;
 }
 
@@ -136,11 +142,11 @@ function bbcodewap($message)
     $message = str_replace(array(
             '[/color]', '[/backcolor]', '[/size]', '[/font]', '[/align]', '[b]', '[/b]', '[s]', '[/s]', '[hr]', '[/p]',
             '[i=s]', '[i]', '[/i]', '[u]', '[/u]', '[list]', '[list=1]', '[list=a]',
-            '[list=A]', "\r\n[*]", '[*]', '[/list]', '[indent]', '[/indent]', '[/float]'
+            '[list=A]', "\r\n[*]", '[*]', '[/list]', '[indent]', '[/indent]', '[/float]',
     ), array(
             '</font>', '</font>', '</font>', '</font>', '</div>', '<strong>', '</strong>', '<strike>', '</strike>', '<hr class="l" />', '</p>', '<i class="pstatus">', '<i>',
             '</i>', '<u>', '</u>', '<ul>', '<ul type="1" class="litype_1">', '<ul type="a" class="litype_2">',
-            '<ul type="A" class="litype_3">', '<li>', '<li>', '</ul>', '<blockquote>', '</blockquote>', '</span>'
+            '<ul type="A" class="litype_3">', '<li>', '<li>', '</ul>', '<blockquote>', '</blockquote>', '</span>',
     ), preg_replace(array(
             "/\[color=([#\w]+?)\]/i",
             "/\[color=((rgb|rgba)\([\d\s,]+?\))\]/i",
@@ -152,7 +158,7 @@ function bbcodewap($message)
             "/\[align=(left|center|right)\]/i",
             "/\[p=(\d{1,2}|null), (\d{1,2}|null), (left|center|right)\]/i",
             "/\[float=left\]/i",
-            "/\[float=right\]/i"
+            "/\[float=right\]/i",
 
     ), array(
             "<font color=\"\\1\">",
@@ -165,7 +171,7 @@ function bbcodewap($message)
             "<div align=\"\\1\">",
             "<p style=\"line-height:\\1px;text-indent:\\2em;text-align:\\3\">",
             "<span style=\"float:left;margin-right:5px\">",
-            "<span style=\"float:right;margin-left:5px\">"
+            "<span style=\"float:right;margin-left:5px\">",
     ), $message));
 
 
@@ -215,13 +221,14 @@ function bbcodewap($message)
     $message = h($message);
     /* # 表情解析 */
     $message = emoji($message);
+
     return $message;
 }
 
 /**
  * 解析获得表情img
  *
- * @param string $data 内容数据
+ * @param  string $data 内容数据
  * @return string
  * @author Medz Seven <lovevipdsw@vip.qq.com>
  **/
@@ -231,6 +238,7 @@ function emoji($data)
         is_array($emojiName) and $emojiName = array_pop($emojiName);
         $emoji = model('Expression')->getAllExpression();
         $emoji = $emoji[$emojiName];
-        return '<img alt="' . $emoji['title'] . '" src="' . __THEME__ . '/image/expression/' . $emoji['type'] . '/' . $emoji['filename'] . '">';
+
+        return '<img alt="'.$emoji['title'].'" src="'.__THEME__.'/image/expression/'.$emoji['type'].'/'.$emoji['filename'].'">';
     }, $data);
 }

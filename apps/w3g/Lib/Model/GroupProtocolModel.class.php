@@ -5,7 +5,6 @@
  */
 class GroupProtocolModel extends Model
 {
-
     // 假删除用户数据
     public function deleteUserAppData($uidArr)
     {
@@ -45,8 +44,9 @@ class GroupProtocolModel extends Model
             $val['unread_usercount'] = $groupHash[$val['id']];
             $val['group_type'] = group_getCategoryName($val['cid0']);
         }
-        
+
         $tpl = APPS_PATH.'/group/Tpl/default/Index/profileContent.html';
+
         return fetch($tpl, $list);
     }
 }

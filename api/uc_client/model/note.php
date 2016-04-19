@@ -17,7 +17,6 @@ define('API_RETURN_FAILED', '-1');
 
 class notemodel
 {
-
     public $db;
     public $base;
     public $apps;
@@ -68,7 +67,7 @@ class notemodel
     {
         $extra = $varextra = '';
         $appadd = $varadd = array();
-        foreach ((array)$this->apps as $appid => $app) {
+        foreach ((array) $this->apps as $appid => $app) {
             $appid = $app['appid'];
             if ($appid == intval($appid)) {
                 if ($appids && !in_array($appid, $appids)) {
@@ -92,6 +91,7 @@ class notemodel
         $this->db->query("INSERT INTO ".UC_DBTABLEPRE."notelist SET getdata='$getdata', operation='$operation', pri='$pri', postdata='$postdata'$extra");
         $insert_id = $this->db->insert_id();
         $insert_id && $this->db->query("REPLACE INTO ".UC_DBTABLEPRE."vars (name, value) VALUES ('noteexists', '1')$varextra");
+
         return $insert_id;
     }
 
@@ -105,6 +105,7 @@ class notemodel
         $note = $this->_get_note();
         if (empty($note)) {
             $this->db->query("REPLACE INTO ".UC_DBTABLEPRE."vars SET name='noteexists".UC_APPID."', value='0'");
+
             return null;
         }
 
@@ -157,6 +158,7 @@ class notemodel
             $this->db->query("UPDATE ".UC_DBTABLEPRE."notelist SET app$appid = app$appid-'1', totalnum=totalnum+1, dateline='{$this->base->time}' $closedsqladd WHERE noteid='$note[noteid]'", 'SILENT');
             $return = false;
         }
+
         return $return;
     }
 
@@ -164,6 +166,7 @@ class notemodel
     {
         $app_field = 'app'.UC_APPID;
         $data = $this->db->fetch_first("SELECT * FROM ".UC_DBTABLEPRE."notelist WHERE closed='0' AND $app_field<'1' AND $app_field>'-".UC_NOTE_REPEAT."' LIMIT 1");
+
         return $data;
     }
 
@@ -191,6 +194,7 @@ class notemodel
     public function _get_note_by_id($noteid)
     {
         $data = $this->db->fetch_first("SELECT * FROM ".UC_DBTABLEPRE."notelist WHERE noteid='$noteid'");
+
         return $data;
     }
 
@@ -202,6 +206,7 @@ class notemodel
         $apifilename = isset($app['apifilename']) && $app['apifilename'] ? $app['apifilename'] : 'uc.php';
         $action = $this->operations[$operation][1];
         $code = urlencode($this->base->authcode("$action&".($getdata ? "$getdata&" : '')."time=".$this->base->time, 'ENCODE', $authkey));
+
         return $url."/api/$apifilename?code=$code";
     }
 }

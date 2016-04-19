@@ -1,4 +1,5 @@
 <?php
+
 tsload(APPS_PATH.'/admin/Lib/Action/AdministratorAction.class.php');
 /**
  * 后台勋章管理类
@@ -150,7 +151,7 @@ class MedalAction extends AdministratorAction
                 $sharecard_src = model('Attach')->getAttachById($_POST['share_card']);
                 $_POST['share_card'] = $_POST['share_card'].'|'.$sharecard_src['save_path'].$sharecard_src['save_name'];
             }
-            
+
             $data = model('Medal')->create();
             $res = model('Medal')->where('id='.$id)->save($data);
             if ($res) {
@@ -202,7 +203,7 @@ class MedalAction extends AdministratorAction
         $this->savePostUrl = U('admin/Medal/doEditUserMedal');
         $user = model('User')->getUserInfo($data['uid']);
         $data['uid'] = $user['uname'];
-        
+
         $this->displayConfig($data);
     }
     public function doEditUserMedal()
@@ -210,7 +211,7 @@ class MedalAction extends AdministratorAction
         $id = intval($_POST['id']);
         $data['medal_id'] = intval($_POST['medal_id']);
         $data['desc'] = t($_POST['desc']);
-        
+
         $res = D('medal_user')->where('id='.$id)->save($data);
         if ($res) {
             $this->assign('jumpUrl', U('admin/Medal/userMedal'));
@@ -225,12 +226,12 @@ class MedalAction extends AdministratorAction
     public function addUserMedal()
     {
         $this->pageKeyList = array( 'user' , 'medal' , 'attach_id' , 'attach_small' , 'medal_name' , 'medal_desc' , 'desc' );
-        
+
         $medals = model('Medal')->getAllMedal();
         $medals[0] = '添加勋章';
         ksort($medals);
         $this->opt['medal'] = $medals;
-        
+
         $this->savePostUrl = U('admin/Medal/doAddUserMedal');
         $this->notEmpty = array('user','attach_id','attach_small','medal_name');
         $data['type'] = 1;
@@ -242,12 +243,12 @@ class MedalAction extends AdministratorAction
         $medalDao = model('Medal');
         $medal =  intval($_POST['attach_id']);
         $medalsmall = intval($_POST['attach_small']);
-        
+
         $users = explode(',', $_POST['user']);
         if (!$users[0]) {
             $this->error('没有选择用户');
         }
-        
+
         if ($medal) {
             $data['name'] = t($_POST['medal_name']);
             if ($data['name']) {
@@ -259,7 +260,7 @@ class MedalAction extends AdministratorAction
                     $attach = model('Attach')->getAttachById($medal);
                     $src = $attach['save_path'].$attach['save_name'];
                     $data['src'] = $medal.'|'.$src;
-                    
+
                     //小图
                     if ($_POST['attach_small']) {
                         $attachsmall = model('Attach')->getAttachById($medalsmall);
@@ -268,7 +269,7 @@ class MedalAction extends AdministratorAction
                         $this->error('请上传勋章小图');
                     }
                     $data['small_src'] = $medalsmall.'|'.$smallsrc;
-                    
+
                     $medal_id = $medalDao->add($data);
                 }
             } else {

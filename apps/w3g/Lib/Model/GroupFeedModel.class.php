@@ -24,24 +24,24 @@ class GroupFeedModel extends Model
             12=>'repost_count',
             13=>'comment_all_count',
             14=>'is_repost',
-            15=>'is_audit'
+            15=>'is_audit',
             );
     /**
      * 添加分享
-     * @param integer $uid 操作用户ID
-     * @param string $app 分享应用类型，默认为public
-     * @param string $type 分享类型，
-     * @param array $data 分享相关数据
-     * @param integer $app_id 应用资源ID，默认为0
-     * @param string $app_table 应用资源表名，默认为feed
-     * @param array  $extUid 额外用户ID，默认为null
-     * @param array $lessUids 去除的用户ID，默认为null
-     * @param boolean $isAtMe 是否为进行发送，默认为true
-     * @return mix 添加失败返回false，成功返回新的分享ID
+     * @param  int    $uid       操作用户ID
+     * @param  string $app       分享应用类型，默认为public
+     * @param  string $type      分享类型，
+     * @param  array  $data      分享相关数据
+     * @param  int    $app_id    应用资源ID，默认为0
+     * @param  string $app_table 应用资源表名，默认为feed
+     * @param  array  $extUid    额外用户ID，默认为null
+     * @param  array  $lessUids  去除的用户ID，默认为null
+     * @param  bool   $isAtMe    是否为进行发送，默认为true
+     * @return mix    添加失败返回false，成功返回新的分享ID
      */
     public function put($uid, $app = 'group', $type = '', $data = array(), $app_id = 0, $app_table = 'group_feed', $extUid = null, $lessUids = null, $isAtMe = true, $is_repost = 0)
     {
-        
+
         // 判断数据的正确性
         if (!$uid || $type == '') {
             return false;
@@ -108,7 +108,7 @@ class GroupFeedModel extends Model
         //分享到分享的应用资源，加入原资源链接
         $data['body'] .= $data['source_url'];
         $data['content'] .= $data['source_url'];
-        
+
         // 分享类型插件钩子
         // if($type){
         //  $addonsData = array();
@@ -158,7 +158,7 @@ class GroupFeedModel extends Model
             }
             // 发送@消息
             D('GroupAtme')->setAppName('group')->setAppTable('group_feed')->addAtme($content, $feed_id, $extUid, $lessUids, $data['gid']);
-            
+
             $data['client_ip'] = get_client_ip();
             $data['feed_id'] = $feed_id;
             $data['feed_data'] = serialize($data);
@@ -177,6 +177,7 @@ class GroupFeedModel extends Model
             if (!$return) {
                 $this->error = L('PUBLIC_CACHE_FAIL');              // Feed缓存写入失败
             }
+
             return $return;
         } else {
             $this->error = L('PUBLIC_ADMIN_OPRETING_ERROR');        // 操作失败
@@ -186,9 +187,9 @@ class GroupFeedModel extends Model
     /**
      * 同步到分享
      * @param string content 内容
-     * @param integer uid 发布者uid
+     * @param int uid 发布者uid
      * @param mixed attach_ids 附件ID
-     * @return integer feed_id 分享ID
+     * @return int feed_id 分享ID
      */
     public function syncToFeed($content, $uid, $attach_ids, $from, $gid)
     {
@@ -203,12 +204,13 @@ class GroupFeedModel extends Model
             $type = 'post';
         }
         $feed = $this->put($uid, 'group', $type, $d, '', 'group_feed');
+
         return $feed['feed_id'];
     }
     /**
      * 获取分享列表
-     * @param array $map 查询条件
-     * @param integer $limit 结果集数目，默认为10
+     * @param  array $map   查询条件
+     * @param  int   $limit 结果集数目，默认为10
      * @return array 分享列表数据
      */
     public function getList($map, $limit = 10, $order = 'publish_time DESC')
@@ -216,11 +218,12 @@ class GroupFeedModel extends Model
         $feedlist = $this->field('feed_id')->where($map)->order($order)->findPage($limit);
         $feed_ids = getSubByKey($feedlist['data'], 'feed_id');
         $feedlist['data'] = $this->getFeeds($feed_ids);
+
         return $feedlist;
     }
     /**
      * 获取指定分享的信息
-     * @param integer $feed_id 分享ID
+     * @param  int $feed_id 分享ID
      * @return mix 获取失败返回false，成功返回分享信息
      */
     public function get($feed_id)
@@ -235,14 +238,14 @@ class GroupFeedModel extends Model
     }
     /**
      * 获取给定分享ID的分享信息
-     * @param array $feed_ids 分享ID数组
+     * @param  array $feed_ids 分享ID数组
      * @return array 给定分享ID的分享信息
      */
     public function getFeeds($feed_ids)
     {
         $feedlist = array();
         $feed_ids = array_filter(array_unique($feed_ids));
-        
+
         // 获取数据
         if (count($feed_ids) > 0) {
             $cacheList = model('Cache')->getList('gfd_', $feed_ids);
@@ -259,12 +262,13 @@ class GroupFeedModel extends Model
                 $feedlist[$key] = $feed[$v];
             }
         }
+
         return $feedlist;
     }
 
     /**
      * 生成指定分享的缓存
-     * @param array $value 分享相关数据
+     * @param array $value   分享相关数据
      * @param array $feed_id 分享ID数组
      */
     public function setFeedCache($value = array(), $feed_id = array())
@@ -308,8 +312,7 @@ class GroupFeedModel extends Model
     /**
      * 清除指定用户指定分享的列表缓存
      * @param array $feed_ids 分享ID数组，默认为空
-     * @param integer $uid 用户ID，默认为空
-     * @return void
+     * @param int   $uid      用户ID，默认为空
      */
     public function cleanCache($feed_ids = array(), $uid = '')
     {
@@ -330,7 +333,7 @@ class GroupFeedModel extends Model
     }
     /**
      * 解析分享模板标签
-     * @param array $_data 分享的原始数据
+     * @param  array $_data 分享的原始数据
      * @return array 解析分享模板后的分享数据
      */
     private function __paseTemplate($_data)
@@ -349,7 +352,7 @@ class GroupFeedModel extends Model
                             'attach_name' => $av['name'],
                             'attach_url'  => getImageUrl($av['save_path'].$av['save_name']),
                             'extension'   => $av['extension'],
-                            'size'        => $av['size']
+                            'size'        => $av['size'],
                         );
                 if ($_data['type'] == 'postimage') {
                     $_attach['attach_small'] = getImageUrl($av['save_path'].$av['save_name'], 100, 100, true);
@@ -419,15 +422,16 @@ class GroupFeedModel extends Model
         $html = preg_replace_callback("/(\[.+?\])/is", "_parse_expression", $html);
         //@提到某人处理
         $html = preg_replace_callback("/@([\w\x{2e80}-\x{9fff}\-]+)/u", "_parse_at_by_uname", $html);
+
         return $html;
     }
 
     /**
      * 从group_weibo中提取资源数据
-     * @param string $table 资源表名
-     * @param integer $row_id 资源ID
-     * @param boolean $forApi 是否提供API，默认为false
-     * @return array 格式化后的资源数据
+     * @param  string $table  资源表名
+     * @param  int    $row_id 资源ID
+     * @param  bool   $forApi 是否提供API，默认为false
+     * @return array  格式化后的资源数据
      */
     public function getSourceInfo($row_id, $forApi)
     {
@@ -440,13 +444,14 @@ class GroupFeedModel extends Model
         $info['source_content'] = $info['content'];
         $info['ctime'] = $info['publish_time'];
         unset($info['content']);
+
         return $info;
     }
 
     /**
      * 获取指定分享的信息，用于资源模型输出???
-     * @param integer $id 分享ID
-     * @param boolean $forApi 是否提供API数据，默认为false
+     * @param  int   $id     分享ID
+     * @param  bool  $forApi 是否提供API数据，默认为false
      * @return array 指定分享数据
      */
     public function getFeedInfo($id, $forApi = false)
@@ -485,7 +490,7 @@ class GroupFeedModel extends Model
                             'attach_name' => $av['name'],
                             'attach_url'  => getImageUrl($av['save_path'].$av['save_name']),
                             'extension'   => $av['extension'],
-                            'size'          => $av['size']
+                            'size'          => $av['size'],
                         );
                 if ($data['type'] == 'postimage') {
                     $_attach['attach_small'] = getImageUrl($av['save_path'].$av['save_name'], 100, 100, true);
@@ -504,7 +509,7 @@ class GroupFeedModel extends Model
             $data['title'] = $fd['title'];
         }
         $data['feedType'] = $data['type'];
-        
+
         // 是否收藏分享
         if ($forApi) {
             $data['iscoll'] = model('Collection')->getCollection($data['feed_id'], 'feed');
@@ -520,15 +525,16 @@ class GroupFeedModel extends Model
         $data['source_body'] = $feedInfo['body'];
         //一分钟缓存
         model('Cache')->set('group_feed_info_'.$id, $data, 60);
+
         return $data;
     }
     /**
      * 分享操作，彻底删除、假删除、回复
-     * @param integer $feed_id 分享ID
-     * @param string $type 分享操作类型，deleteFeed：彻底删除，delFeed：假删除，feedRecover：恢复
-     * @param string $title 知识内容，目前没没有该功能
-     * @param string $uid 删除分享的用户ID（区别超级管理员）
-     * @return array 分享操作后的结果信息数组
+     * @param  int    $feed_id 分享ID
+     * @param  string $type    分享操作类型，deleteFeed：彻底删除，delFeed：假删除，feedRecover：恢复
+     * @param  string $title   知识内容，目前没没有该功能
+     * @param  string $uid     删除分享的用户ID（区别超级管理员）
+     * @return array  分享操作后的结果信息数组
      */
     public function doEditFeed($feed_id, $type, $title, $uid = null)
     {
@@ -538,7 +544,7 @@ class GroupFeedModel extends Model
         } else {
             $map['feed_id'] = is_array($feed_id) ? array('IN', $feed_id) : intval($feed_id);
             $save['is_del'] = $type =='delFeed' ? 1 : 0;
-    
+
             if ($type == 'deleteFeed') {
                 $res = $this->where($map)->delete();
                 // 删除分享相关信息
@@ -582,15 +588,14 @@ class GroupFeedModel extends Model
 //     			model('Credit')->setUserCredit($uid,'delete_weibo');
             }
         }
-    
+
         return $return;
     }
-    
+
     /**
      * 删除分享相关附件数据
-     * @param array $feedIds 分享ID数组
-     * @param string $type 删除附件类型
-     * @return void
+     * @param array  $feedIds 分享ID数组
+     * @param string $type    删除附件类型
      */
     private function _deleteFeedAttach($feedIds, $type)
     {

@@ -9,7 +9,7 @@ class FeedListWidget extends Widget
 {
     private static $rand = 1;
     private $limitnums = 10;
-    
+
     /**
      *
      * @param
@@ -31,7 +31,7 @@ class FeedListWidget extends Widget
         $var = array(
             'loadmore' => 1,
             'loadnew'  => 1,
-            'tpl'      => 'FeedList.html'
+            'tpl'      => 'FeedList.html',
         );
 
         /* # 合并自定义参数 */
@@ -61,7 +61,7 @@ class FeedListWidget extends Widget
                 // $var['channel'] = $num;
                 // unset($sql, $num);
 
-                $var['channel'] = \Ts\Model\ChannelCategory::whereHas('follows', function($q) use ($uid) {
+                $var['channel'] = \Ts\Model\ChannelCategory::whereHas('follows', function ($q) use ($uid) {
                     $q->where('uid', $uid);
                 })->count();
             }
@@ -87,7 +87,7 @@ class FeedListWidget extends Widget
         }
 
         /* # 获取HTML内容 */
-        $content = $this->renderFile(__DIR__ . '/' . $var['tpl'], $var);
+        $content = $this->renderFile(__DIR__.'/'.$var['tpl'], $var);
 
         /* # 数量 + 1 */
         self::$rand += 1;
@@ -98,7 +98,7 @@ class FeedListWidget extends Widget
         /* # 返回数据 */
         return $content;
     }
-    
+
     /**
      * 显示更多分享
      *
@@ -115,7 +115,7 @@ class FeedListWidget extends Widget
         } else {
             $return = array(
                     'status' => - 1,
-                    'msg' => L('PUBLIC_LOADING_ID_ISNULL')
+                    'msg' => L('PUBLIC_LOADING_ID_ISNULL'),
             );
             $_REQUEST ['loadId'] = intval($_REQUEST ['loadId']);
             $this->limitnums = 10;
@@ -131,12 +131,12 @@ class FeedListWidget extends Widget
             // 没有更多的
             $return = array(
                     'status' => 0,
-                    'msg' => L('PUBLIC_WEIBOISNOTNEW')
+                    'msg' => L('PUBLIC_WEIBOISNOTNEW'),
             );
         } else {
             $return = array(
                     'status' => 1,
-                    'msg' => L('PUBLIC_SUCCESS_LOAD')
+                    'msg' => L('PUBLIC_SUCCESS_LOAD'),
             );
             $return ['html'] = $content ['html'];
             $return ['loadId'] = $content ['lastId'];
@@ -145,7 +145,7 @@ class FeedListWidget extends Widget
         }
         exit(json_encode($return));
     }
-    
+
     /**
      * 显示最新分享
      *
@@ -155,7 +155,7 @@ class FeedListWidget extends Widget
     {
         $return = array(
                 'status' => - 1,
-                'msg' => ''
+                'msg' => '',
         );
         $_REQUEST ['maxId'] = intval($_REQUEST ['maxId']);
         if (empty($_REQUEST ['maxId'])) {
@@ -166,12 +166,12 @@ class FeedListWidget extends Widget
         if (empty($content ['html'])) { // 没有最新的
             $return = array(
                     'status' => 0,
-                    'msg' => L('PUBLIC_WEIBOISNOTNEW')
+                    'msg' => L('PUBLIC_WEIBOISNOTNEW'),
             );
         } else {
             $return = array(
                     'status' => 1,
-                    'msg' => L('PUBLIC_SUCCESS_LOAD')
+                    'msg' => L('PUBLIC_SUCCESS_LOAD'),
             );
             $return ['html'] = $content ['html'];
             $return ['maxId'] = intval($content ['firstId']);
@@ -180,15 +180,15 @@ class FeedListWidget extends Widget
         echo json_encode($return);
         exit();
     }
-    
+
     /**
      * 获取分享数据，渲染分享显示页面
      *
-     * @param array $var
-     *        	分享数据相关参数
-     * @param string $tpl
-     *        	渲染的模板
-     * @return array 获取分享相关模板数据
+     * @param  array  $var
+     *                     分享数据相关参数
+     * @param  string $tpl
+     *                     渲染的模板
+     * @return array  获取分享相关模板数据
      */
     private function getData(array $var, $tpl = 'FeedList.html')
     {
@@ -207,7 +207,7 @@ class FeedListWidget extends Widget
         $var['remarkHash'] = model('Follow')->getRemarkHash($this->mid);
 
         $map = $list = array();
-        $type = $var ['new'] ? 'new' . $var ['type'] : $var ['type']; // 最新的分享与默认分享类型一一对应
+        $type = $var ['new'] ? 'new'.$var ['type'] : $var ['type']; // 最新的分享与默认分享类型一一对应
 
         switch ($type) {
             case 'following' : // 我关注的
@@ -215,9 +215,9 @@ class FeedListWidget extends Widget
                     // 关键字匹配 采用搜索引擎兼容函数搜索 后期可能会扩展为搜索引擎
                     $list = model('Feed')->searchFeed($var ['feed_key'], 'following', $var ['loadId'], $this->limitnums);
                 } else {
-                    $where = '( a.is_audit=1 OR ( a.is_audit=0 AND a.uid=' . $GLOBALS ['ts'] ['mid'] . ') ) AND a.is_del = 0 ';
+                    $where = '( a.is_audit=1 OR ( a.is_audit=0 AND a.uid='.$GLOBALS ['ts'] ['mid'].') ) AND a.is_del = 0 ';
                     if ($var ['loadId'] > 0) { // 非第一次
-                        $where .= " AND a.feed_id < '" . intval($var ['loadId']) . "'";
+                        $where .= " AND a.feed_id < '".intval($var ['loadId'])."'";
                     }
                     if (! empty($var ['feed_type'])) {
                         if ($var ['feed_type'] == 'post') {
@@ -225,7 +225,7 @@ class FeedListWidget extends Widget
                         } elseif ($var ['feed_type'] == 'repost') {
                             $where .= " AND a.type LIKE '%repost'";
                         } else {
-                            $where .= " AND a.type = '" . t($var ['feed_type']) . "'";
+                            $where .= " AND a.type = '".t($var ['feed_type'])."'";
                         }
                     }
                     // 设定可查看的关注分享总数，可以提高大数据量下的查询效率
@@ -240,7 +240,7 @@ class FeedListWidget extends Widget
                 } else {
                     $where = ' a.is_audit=1 AND a.is_del = 0 ';
                     if ($var ['loadId'] > 0) { // 非第一次
-                        $where .= " AND a.feed_id < '" . intval($var ['loadId']) . "'";
+                        $where .= " AND a.feed_id < '".intval($var ['loadId'])."'";
                     }
                     if (! empty($var ['feed_type'])) {
                         if ($var ['feed_type'] == 'post') {
@@ -248,7 +248,7 @@ class FeedListWidget extends Widget
                         } elseif ($var ['feed_type'] == 'repost') {
                             $where .= " AND a.type LIKE '%repost'";
                         } else {
-                            $where .= " AND a.type = '" . t($var ['feed_type']) . "'";
+                            $where .= " AND a.type = '".t($var ['feed_type'])."'";
                         }
                     }
                     // 设定可查看的关注分享总数，可以提高大数据量下的查询效率
@@ -261,9 +261,9 @@ class FeedListWidget extends Widget
                     // 关键字匹配 采用搜索引擎兼容函数搜索 后期可能会扩展为搜索引擎
                     $list = model('Feed')->searchFeed($var ['feed_key'], 'all', $var ['loadId'], $this->limitnums);
                 } else {
-                    $where = ' (is_audit=1 OR is_audit=0 AND uid=' . $GLOBALS ['ts'] ['mid'] . ') AND is_del = 0 ';
+                    $where = ' (is_audit=1 OR is_audit=0 AND uid='.$GLOBALS ['ts'] ['mid'].') AND is_del = 0 ';
                     if ($var ['loadId'] > 0) { // 非第一次
-                        $where .= " AND feed_id < '" . intval($var ['loadId']) . "'";
+                        $where .= " AND feed_id < '".intval($var ['loadId'])."'";
                     }
                     if (! empty($var ['feed_type'])) {
                         if ($var ['feed_type'] == 'post') {
@@ -271,7 +271,7 @@ class FeedListWidget extends Widget
                         } elseif ($var ['feed_type'] == 'repost') {
                             $where .= " AND type LIKE '%repost'";
                         } else {
-                            $where .= " AND type = '" . t($var ['feed_type']) . "'";
+                            $where .= " AND type = '".t($var ['feed_type'])."'";
                         }
                     }
 
@@ -281,9 +281,9 @@ class FeedListWidget extends Widget
                 }
                 break;
             case 'newfollowing' : // 关注的人的最新分享
-                $where = '( a.is_audit=1 OR ( a.is_audit=0 AND a.uid=' . $GLOBALS ['ts'] ['mid'] . ') ) AND a.is_del = 0 ';
+                $where = '( a.is_audit=1 OR ( a.is_audit=0 AND a.uid='.$GLOBALS ['ts'] ['mid'].') ) AND a.is_del = 0 ';
                 if ($var ['maxId'] > 0) {
-                    $where .= " AND a.feed_id > '" . intval($var ['maxId']) . "'";
+                    $where .= " AND a.feed_id > '".intval($var ['maxId'])."'";
                     $list = model('Feed')->getFollowingFeed($where);
                     $content ['count'] = $list ['count'];
                 }
@@ -292,18 +292,18 @@ class FeedListWidget extends Widget
                 if ($var ['maxId'] > 0) {
                     $map ['feed_id'] = array(
                             'gt',
-                            intval($var ['maxId'])
+                            intval($var ['maxId']),
                     );
                 }
                 $map ['is_del'] = 0;
                 $map ['is_audit'] = 1;
                 $map ['uid'] = array(
                         'neq',
-                        $GLOBALS ['ts'] ['uid']
+                        $GLOBALS ['ts'] ['uid'],
                 );
                 $list = model('Feed')->getList($map);
                 $content ['count'] = $list ['count'];
-                
+
                 break;
             case 'space' : // 用户个人空间
                 if ($var ['feed_key'] !== '') {
@@ -313,7 +313,7 @@ class FeedListWidget extends Widget
                     if ($var ['loadId'] > 0) {
                         $map ['feed_id'] = array(
                                 'lt',
-                                intval($var ['loadId'])
+                                intval($var ['loadId']),
                         );
                     }
                     $map ['is_del'] = 0;
@@ -326,30 +326,30 @@ class FeedListWidget extends Widget
             case 'channel' :
                 $where = ' (c.is_audit=1 OR c.is_audit=0) AND c.is_del = 0 ';
                 if ($var ['loadId'] > 0) { // 非第一次
-                    $where .= " AND c.feed_id < '" . intval($var ['loadId']) . "'";
+                    $where .= " AND c.feed_id < '".intval($var ['loadId'])."'";
                 }
                 if (! empty($var ['feed_type'])) {
                     if ($var ['feed_type'] == 'repost') {
                         $where .= " AND c.type LIKE '%repost'";
                     } else {
-                        $where .= " AND c.type = '" . t($var ['feed_type']) . "'";
+                        $where .= " AND c.type = '".t($var ['feed_type'])."'";
                     }
                 }
-                
+
                 $list = D('ChannelFollow', 'channel')->getFollowingFeed($where, $this->limitnums, '', $var ['fgid']);
                 $content ['count'] = $list ['count'];
                 break;
             case 'one' :
-                $where = ' (is_audit=1 OR is_audit=0 AND uid=' . $GLOBALS ['ts'] ['mid'] . ') AND is_del = 0 AND feed_id = ' . $var ['feed_id'];
+                $where = ' (is_audit=1 OR is_audit=0 AND uid='.$GLOBALS ['ts'] ['mid'].') AND is_del = 0 AND feed_id = '.$var ['feed_id'];
                 // 设定可查看的全站分享总数，可以提高大数据量下的查询效率
                 $max = null;//10000;
                 $list = model('Feed')->getList($where, $this->limitnums, '', $max);
                 break;
             case 'love' :
-                $ids = M('Collection')->where('uid=' . $GLOBALS ['ts'] ['mid'] . ' and source_table_name="feed"')->findAll();
+                $ids = M('Collection')->where('uid='.$GLOBALS ['ts'] ['mid'].' and source_table_name="feed"')->findAll();
                 $map ['feed_id'] = array(
                         'in',
-                        getSubByKey($ids, 'source_id')
+                        getSubByKey($ids, 'source_id'),
                 );
                 $map ['is_del'] = 0;
                 if ($GLOBALS ['ts'] ['mid'] != $GLOBALS ['ts'] ['uid']) {
@@ -369,7 +369,7 @@ class FeedListWidget extends Widget
                     // 						$where .= " AND feed_id < '" . intval ( $var ['loadId'] ) . "'";
                     $map ['feed_id'] = array(
                             'lt',
-                            intval($var ['loadId'])
+                            intval($var ['loadId']),
                     );
                 }
                 $map ['is_del'] = 0;
@@ -394,7 +394,7 @@ class FeedListWidget extends Widget
 // 						$where .= " AND feed_id < '" . intval ( $var ['loadId'] ) . "'";
                         $map ['feed_id'] = array(
                                 'lt',
-                                intval($var ['loadId'])
+                                intval($var ['loadId']),
                         );
                     }
                     $map ['is_del'] = 0;
@@ -414,11 +414,11 @@ class FeedListWidget extends Widget
             $content ['firstId'] = $var ['firstId'] = $list ['data'] [0] ['feed_id'];
             $content ['lastId'] = $var ['lastId'] = $list ['data'] [(count($list ['data']) - 1)] ['feed_id'];
             $var ['data'] = $list ['data'];
-            
+
             // 赞功能
             $feed_ids = getSubByKey($var ['data'], 'feed_id');
             $var ['diggArr'] = model('FeedDigg')->checkIsDigg($feed_ids, $GLOBALS ['ts'] ['mid']);
-            
+
             $uids = array();
             foreach ($var ['data'] as &$v) {
                 switch ($v ['app']) {
@@ -442,7 +442,7 @@ class FeedListWidget extends Widget
                 $map ['uid'] = $GLOBALS ['ts'] ['mid'];
                 $map ['fid'] = array(
                         'in',
-                        $uids
+                        $uids,
                 );
                 $var ['followUids'] = model('Follow')->where($map)->getAsFieldArray('fid');
             } else {
@@ -451,19 +451,19 @@ class FeedListWidget extends Widget
         }
         $content ['pageHtml'] = $list['html'];
         // 渲染模版
-        $content ['html'] = $this->renderFile(dirname(__FILE__) . "/" . $tpl, $var);
-        
+        $content ['html'] = $this->renderFile(dirname(__FILE__)."/".$tpl, $var);
+
         return $content;
     }
-    
+
     /**
      * 获取话题分享数据，渲染分享显示页面
      *
-     * @param array $var
-     *        	分享数据相关参数
-     * @param string $tpl
-     *        	渲染的模板
-     * @return array 获取分享相关模板数据
+     * @param  array  $var
+     *                     分享数据相关参数
+     * @param  string $tpl
+     *                     渲染的模板
+     * @return array  获取分享相关模板数据
      */
     private function getTopicData(array $var, $tpl = 'FeedList.html')
     {
@@ -477,7 +477,7 @@ class FeedListWidget extends Widget
             'postimage',    /* 分享图片 */
             'postfile',     /* 分享文件 */
             'weiba_post',   /* 微吧发表 */
-            'weiba_repost'  /* 微吧回复 */
+            'weiba_repost',  /* 微吧回复 */
         );
 
         /* # 合并后台分享设置 */
@@ -489,17 +489,17 @@ class FeedListWidget extends Widget
         $var['remarkHash'] = model('Follow')->getRemarkHash($this->mid);
 
         /* # 初始where条件 */
-        $where = '`topic_id` = ' . intval($var['topic_id']);
+        $where = '`topic_id` = '.intval($var['topic_id']);
 
         /* # load id */
-        ($var['loadId'] > 0) and $where .= ' AND `feed_id` < ' . intval($var['loadId']);
+        ($var['loadId'] > 0) and $where .= ' AND `feed_id` < '.intval($var['loadId']);
 
         /* # 分享条件 */
         $map = array(
             'feed_id' => array(
                 'IN',
-                getSubByKey(D('feed_topic_link')->where($where)->field('`feed_id`')->select(), 'feed_id')
-            )
+                getSubByKey(D('feed_topic_link')->where($where)->field('`feed_id`')->select(), 'feed_id'),
+            ),
         );
         unset($where);
 
@@ -507,7 +507,7 @@ class FeedListWidget extends Widget
         empty($var['feed_type']) or $map['feed_type'] = t($var['feed_type']);
 
         /* # string where */
-        $map['_string'] = ' (`is_audit` = 1 OR (is_audit = 0 AND `uid` = ' . $this->mid . ')) AND `is_del` = 0';
+        $map['_string'] = ' (`is_audit` = 1 OR (is_audit = 0 AND `uid` = '.$this->mid.')) AND `is_del` = 0';
         /*$map ['_string'] = ' (is_audit=1 OR is_audit=0 AND uid=' . $GLOBALS ['ts'] ['mid'] . ') AND is_del = 0 ';*/
 
         /* # 获取分享列表 */
@@ -556,7 +556,7 @@ class FeedListWidget extends Widget
                     case 'weiba':
                         $var['data'][$key]['from'] = getFromClient(0, $value['app'], '微吧');
                         break;
-                    
+
                     /* # 其他 */
                     default:
                         $var['data'][$key]['from'] = getFromClient($value['from'], $value['app']);
@@ -580,7 +580,7 @@ class FeedListWidget extends Widget
                 /* # 创建where条件 */
                 $map = array(
                     'uid' => $this->mid,
-                    'fid' => array('IN', $uids)
+                    'fid' => array('IN', $uids),
                 );
 
                 /* # 取得数据 */
@@ -596,15 +596,15 @@ class FeedListWidget extends Widget
         $content['pageHtml'] = $list['html'];
 
         /* # 渲染的模板数据 */
-        $content['html'] = $this->renderFile(__DIR__ . '/' . $tpl, $var);
-        
+        $content['html'] = $this->renderFile(__DIR__.'/'.$tpl, $var);
+
         /* # 注销变量 */
         unset($var, $list);
-        
+
         /* # 返回数据 */
         return $content;
     }
-    
+
     /**
      * 获取微吧帖子数据
      *
@@ -614,18 +614,19 @@ class FeedListWidget extends Widget
     public function getPostDetail()
     {
         $post_id = intval($_POST ['post_id']);
-        $post_detail = D('weiba_post')->where('is_del=0 and post_id=' . $post_id)->find();
-        if ($post_detail && D('weiba')->where('is_del=0 and weiba_id=' . $post_detail ['weiba_id'])->find()) {
+        $post_detail = D('weiba_post')->where('is_del=0 and post_id='.$post_id)->find();
+        if ($post_detail && D('weiba')->where('is_del=0 and weiba_id='.$post_detail ['weiba_id'])->find()) {
             $post_detail ['post_url'] = U('weiba/Index/postDetail', array(
-                    'post_id' => $post_id
+                    'post_id' => $post_id,
             ));
             $author = model('User')->getUserInfo($post_detail ['post_uid']);
             $post_detail ['author'] = $author ['space_link'];
             $post_detail ['post_time'] = friendlyDate($post_detail ['post_time']);
-            $post_detail ['from_weiba'] = D('weiba')->where('weiba_id=' . $post_detail ['weiba_id'])->getField('weiba_name');
+            $post_detail ['from_weiba'] = D('weiba')->where('weiba_id='.$post_detail ['weiba_id'])->getField('weiba_name');
             $post_detail ['weiba_url'] = U('weiba/Index/detail', array(
-                    'weiba_id' => $post_detail ['weiba_id']
+                    'weiba_id' => $post_detail ['weiba_id'],
             ));
+
             return json_encode($post_detail);
         } else {
             echo 0;
@@ -634,18 +635,19 @@ class FeedListWidget extends Widget
     public function getTipoffDetail()
     {
         $tipoff_id = intval($_POST ['tipoff_id']);
-        $tipoff_detail = D('tipoff')->where('deleted=0 and archived=0 and tipoff_id=' . $tipoff_id)->find();
+        $tipoff_detail = D('tipoff')->where('deleted=0 and archived=0 and tipoff_id='.$tipoff_id)->find();
         if ($tipoff_detail) {
             $tipoff_detail ['tipoff_url'] = U('tipoff/Index/detail', array(
-                    'id' => $tipoff_id
+                    'id' => $tipoff_id,
             ));
             $author = model('User')->getUserInfo($tipoff_detail ['uid']);
             $tipoff_detail ['author'] = $author ['space_link'];
             $tipoff_detail ['publish_time'] = friendlyDate($tipoff_detail ['publish_time']);
-            $tipoff_detail ['from_category'] = D('tipoff_category')->where('tipoff_category_id=' . $tipoff_detail ['category_id'])->getField('title');
+            $tipoff_detail ['from_category'] = D('tipoff_category')->where('tipoff_category_id='.$tipoff_detail ['category_id'])->getField('title');
             $tipoff_detail ['category_url'] = U('tipoff/Index/index', array(
-                    'cid' => $tipoff_detail ['category_id']
+                    'cid' => $tipoff_detail ['category_id'],
             ));
+
             return json_encode($tipoff_detail);
         } else {
             echo 0;
@@ -657,7 +659,7 @@ class FeedListWidget extends Widget
         $var ['type'] = 'one';
         $var ['feed_id'] = $feedId;
         $content = $this->getData($var, '_FeedList.html');
-        
+
         $result = array();
         if (empty($content ['html'])) {
             $result ['status'] = 0;
@@ -666,7 +668,7 @@ class FeedListWidget extends Widget
             $result ['status'] = 1;
             $result ['html'] = $content ['html'];
         }
-        
+
         exit(json_encode($result));
     }
 }

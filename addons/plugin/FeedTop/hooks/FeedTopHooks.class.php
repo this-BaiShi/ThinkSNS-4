@@ -1,7 +1,7 @@
 <?php
+
 class FeedTopHooks extends Hooks
 {
-
     private $isRefresh = 1;
 
     /**
@@ -18,7 +18,7 @@ class FeedTopHooks extends Hooks
                 unset($list[$k]);
             }
         }
- 
+
         foreach ($list as $k => &$v) {
             if ($v['feed_info']['is_del'] == 1) {
                 $this->model('FeedTop')->doDel($v['id']);
@@ -46,7 +46,7 @@ class FeedTopHooks extends Hooks
             'blog_post', 'blog_repost',
             'event_post', 'event_repost',
             'vote_post', 'vote_repost',
-            'photo_post', 'photo_repost');
+            'photo_post', 'photo_repost', );
         $this->assign('cancomment_old_type', $cancomment_old_type);
 
         $uids = array();
@@ -103,10 +103,9 @@ class FeedTopHooks extends Hooks
         $this->assign('list', $list);
         $this->display('config');
     }
-     
-     /**
+
+    /**
      * 添加置顶页面
-     * @return void
      */
     public function addFeedTop()
     {
@@ -114,7 +113,6 @@ class FeedTopHooks extends Hooks
     }
     /**
      * 添加置顶操作
-     * @return void
      */
     public function doAddFeedTop()
     {
@@ -123,11 +121,11 @@ class FeedTopHooks extends Hooks
         $data['status'] = intval($_POST['status']);
         $data['ctime'] = time();
         $res = $this->model('FeedTop')->doAddFeedTop($data);
+
         return false;
     }
     /**
      * 编辑广告位页面
-     * @return void
      */
     public function editFeedTop()
     {
@@ -140,7 +138,6 @@ class FeedTopHooks extends Hooks
     }
     /**
      * 编辑广告位操作
-     * @return void
      */
     public function doEditFeedTop()
     {
@@ -150,6 +147,7 @@ class FeedTopHooks extends Hooks
         $data['status'] = intval($_POST['status']);
         $data['ctime'] = time();
         $res = $this->model('FeedTop')->doEditFeedTop($id, $data);
+
         return false;
     }
     /**

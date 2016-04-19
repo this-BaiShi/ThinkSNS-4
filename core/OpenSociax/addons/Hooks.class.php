@@ -25,8 +25,7 @@ abstract class Hooks
     /**
      * 设置该插件的路径，不能进行重写
      * @param string $path 路径地址
-     * @param boolean $html 是否为HTML路径，默认为false
-     * @return void
+     * @param bool   $html 是否为HTML路径，默认为false
      */
     final public function setPath($path, $html = false)
     {
@@ -39,9 +38,8 @@ abstract class Hooks
 
     /**
      * 将数据渲染到HTML页面，设置模板变量的值
-     * @param string $name Key值
+     * @param string $name  Key值
      * @param string $value Value值
-     * @return void
      */
     protected function assign($name, $value = '')
     {
@@ -50,9 +48,9 @@ abstract class Hooks
 
     /**
      * 渲染HTML页面
-     * @param string $templateFile 模板文件路径
-     * @param string $charset 字符集，默认为UTF8
-     * @param string $contentType 内容类型，默认为text/html
+     * @param  string $templateFile 模板文件路径
+     * @param  string $charset      字符集，默认为UTF8
+     * @param  string $contentType  内容类型，默认为text/html
      * @return string HTML页面数据
      */
     public function fetch($templateFile = '', $charset = 'utf-8', $contentType = 'text/html')
@@ -70,9 +68,9 @@ abstract class Hooks
 
     /**
      * 显示指定HTML页面
-     * @param string $templateFile 模板文件路径
-     * @param string $charset 字符集，默认为UTF8
-     * @param string $contentType 内容类型，默认为text/html
+     * @param  string $templateFile 模板文件路径
+     * @param  string $charset      字符集，默认为UTF8
+     * @param  string $contentType  内容类型，默认为text/html
      * @return string HTML页面数据
      */
     public function display($templateFile = '', $charset = 'utf-8', $contentType = 'text/html')
@@ -83,7 +81,6 @@ abstract class Hooks
     /**
      * 错误提示方法
      * @param string $message 提示信息
-     * @return void
      */
     protected function error($message)
     {
@@ -94,7 +91,6 @@ abstract class Hooks
     /**
      * 成功提示方法
      * @param string $message 提示信息
-     * @return void
      */
     protected function success($message)
     {
@@ -105,8 +101,7 @@ abstract class Hooks
     /**
      * 跳转操作
      * @param string $message 提示信息
-     * @param integer $status 状态。1表示成功，0表示失败
-     * @return void
+     * @param int    $status  状态。1表示成功，0表示失败
      */
     private function _dispatch_jump($message, $status = 1)
     {
@@ -125,7 +120,7 @@ abstract class Hooks
             // 默认操作成功自动返回操作前页面            
             //if(!$this->get('jumpUrl')) 
                 $this->assign("jumpUrl", $_SERVER["HTTP_REFERER"]);
-             
+
             echo $this->fetch(THEME_PATH.'/success.html');
         } else {
             //发生错误时候默认停留3秒
@@ -145,14 +140,15 @@ abstract class Hooks
 
     /**
      * 获取插件目录下的Model模型文件
-     * @param string $name Model名称
-     * @param string $class 类名后缀，默认为Model
+     * @param  string $name  Model名称
+     * @param  string $class 类名后缀，默认为Model
      * @return object 返回一个模型对象
      */
     protected function model($name, $class = "Model")
     {
         $className = ucfirst($name).$class;
         tsload($this->path.DIRECTORY_SEPARATOR.$className.'.class.php');
+
         return new $className();
     }
 }

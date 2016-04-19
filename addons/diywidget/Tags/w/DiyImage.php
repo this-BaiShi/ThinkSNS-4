@@ -11,9 +11,9 @@ class DiyImage extends TagsAbstract
      * @var unknown_type
      */
     public static $TAG_CLOSED = false;
-    
+
     public $config = array();
-    
+
     public function __construct()
     {
     }
@@ -31,9 +31,10 @@ class DiyImage extends TagsAbstract
         if (!empty($tpl)) {
             $file = $tpl;
         }
+
         return dirname(__FILE__).'/DiyImage/'.$file.'.html';
     }
-    
+
     /**
      * 这里返回的是模板中需要渲染的变量
      */
@@ -46,7 +47,7 @@ class DiyImage extends TagsAbstract
         $var['autoPlayInterval'] = $this->attr['autoPlayInterval']; //自动播放间隔时间
         $var['width'] = $this->attr['width'];
         $var['height'] = $this->attr['height'];
-        
+
         foreach ($var['image'] as &$value) {
             $value->path = getImageUrl($value->path);
             $value->url = str_replace('[@]', '&', $value->url);
@@ -54,6 +55,7 @@ class DiyImage extends TagsAbstract
         $var['imgId'] = "i".substr($this->sign, 0, 5).$time;
         $var['imgPanel'] = "i".substr($this->sign, 0, 6).$time;
         $var['imgNav']   = "i".substr($this->sign, 0, 7).$time;
+
         return $var;
     }
 }

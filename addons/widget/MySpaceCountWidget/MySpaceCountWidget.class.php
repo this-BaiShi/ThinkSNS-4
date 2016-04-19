@@ -6,7 +6,6 @@
  */
 class MySpaceCountWidget extends Widget
 {
-
     /**
      * 渲染空间数据统计模板
      */

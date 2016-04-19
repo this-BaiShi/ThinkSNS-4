@@ -35,8 +35,8 @@ class Google_P12Signer extends Google_Signer
     // This throws on error
     $certs = array();
       if (!openssl_pkcs12_read($p12, $certs, $password)) {
-          throw new Google_AuthException("Unable to parse the p12 file.  " .
-          "Is this a .p12 file?  Is the password correct?  OpenSSL error: " .
+          throw new Google_AuthException("Unable to parse the p12 file.  ".
+          "Is this a .p12 file?  Is the password correct?  OpenSSL error: ".
           openssl_error_string());
       }
     // TODO(beaton): is this part of the contract for the openssl_pkcs12_read
@@ -64,6 +64,7 @@ class Google_P12Signer extends Google_Signer
         if (!openssl_sign($data, $signature, $this->privateKey, "sha256")) {
             throw new Google_AuthException("Unable to sign data");
         }
+
         return $signature;
     }
 }

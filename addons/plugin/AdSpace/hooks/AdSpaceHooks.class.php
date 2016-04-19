@@ -9,7 +9,6 @@ class AdSpaceHooks extends Hooks
     /**
      * 显示广告位钩子
      * @param array $param 钩子相关参数
-     * @return void
      */
     public function show_ad_space($param)
     {
@@ -50,7 +49,6 @@ class AdSpaceHooks extends Hooks
 
     /**
      * 广告位插件
-     * @return void
      */
     public function config()
     {
@@ -70,7 +68,6 @@ class AdSpaceHooks extends Hooks
 
     /**
      * 添加广告位页面
-     * @return void
      */
     public function addAdSpace()
     {
@@ -88,7 +85,6 @@ class AdSpaceHooks extends Hooks
 
     /**
      * 添加广告位操作
-     * @return void
      */
     public function doAddAdSpace()
     {
@@ -144,7 +140,6 @@ class AdSpaceHooks extends Hooks
 
     /**
      * 编辑广告位页面
-     * @return void
      */
     public function editAdSpace()
     {
@@ -174,7 +169,6 @@ class AdSpaceHooks extends Hooks
 
     /**
      * 编辑广告位操作
-     * @return void
      */
     public function doEditAdSpace()
     {
@@ -207,7 +201,6 @@ class AdSpaceHooks extends Hooks
 
     /**
      * 移动广告位操作
-     * @return void
      */
     public function doMvAdSpace()
     {
@@ -238,16 +231,18 @@ class AdSpaceHooks extends Hooks
     private function _getPlaceData()
     {
         $data = include(ADDON_PATH.'/plugin/AdSpace/config/config.php');
+
         return $data;
     }
 
     /**
      * 通过键值获取相应的ID
-     * @return integer 对应键值的ID
+     * @return int 对应键值的ID
      */
     private function _getPlaceKey($key)
     {
         $data = $this->_getPlaceData();
+
         return $data[$key];
     }
 
@@ -262,8 +257,10 @@ class AdSpaceHooks extends Hooks
             if ($v['id'] != $id) {
                 continue;
             }
+
             return $v;
         }
+
         return array();
     }
 

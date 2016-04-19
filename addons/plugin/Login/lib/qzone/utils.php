@@ -20,6 +20,7 @@ function get_normalized_string($params)
     foreach ($params as $key => $val) {
         $normalized[] = $key."=".$val;
     }
+
     return implode("&", $normalized);
 }
 /**
@@ -53,6 +54,7 @@ function get_signature($str, $key)
         );
         $signature = base64_encode($hmac);
     }
+
     return $signature;
 }
 /**
@@ -69,6 +71,7 @@ function get_urlencode_string($params)
     foreach ($params as $key => $val) {
         $normalized[] = $key."=".rawurlencode($val);
     }
+
     return implode("&", $normalized);
 }
 /**
@@ -85,6 +88,7 @@ function is_valid_openid($openid, $timestamp, $sig)
     $key = QZONE_SECRET;
     $str = $openid.$timestamp;
     $signature = get_signature($str, $key);
+
     return $sig == $signature;
 }
 /**
@@ -182,6 +186,7 @@ function do_multi_post($url, $appid, $appkey, $access_token, $access_token_secre
     curl_close($ch);
     //删除上传临时文件
     unlink($tmpfile);
+
     return $ret;
 }
 function do_post($url, $appid, $appkey, $access_token, $access_token_secret, $openid)
@@ -214,6 +219,7 @@ function do_post($url, $appid, $appkey, $access_token, $access_token_secret, $op
     curl_setopt($ch, CURLOPT_URL, $url);
     $ret = curl_exec($ch);
     curl_close($ch);
+
     return $ret;
 }
 /**
@@ -223,7 +229,7 @@ function do_post($url, $appid, $appkey, $access_token, $access_token_secret, $op
  * @param $appkey
  *
  * @return a string, the format as follow:
- *      oauth_token=xxx&oauth_token_secret=xxx
+ *           oauth_token=xxx&oauth_token_secret=xxx
  */
 function get_request_token($appid, $appkey)
 {
@@ -260,7 +266,7 @@ function get_request_token($appid, $appkey)
  * @param $vericode
  *
  * @return a string, as follows:
- *      oauth_token=xxx&oauth_token_secret=xxx&openid=xxx&oauth_signature=xxx&oauth_vericode=xxx&timestamp=xxx
+ *           oauth_token=xxx&oauth_token_secret=xxx&openid=xxx&oauth_signature=xxx&oauth_vericode=xxx&timestamp=xxx
  */
 function get_access_token($appid, $appkey, $request_token, $request_token_secret, $vericode)
 {
@@ -286,5 +292,6 @@ function get_access_token($appid, $appkey, $request_token, $request_token_secret
     $signature = get_signature($sigstr, $key);
     //构造请求url
     $url      .= $normalized_str."&"."oauth_signature=".rawurlencode($signature);
+
     return file_get_contents($url);
 }

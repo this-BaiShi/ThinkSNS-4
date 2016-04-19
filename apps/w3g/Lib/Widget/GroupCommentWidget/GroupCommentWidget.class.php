@@ -11,13 +11,13 @@ class GroupCommentWidget extends Widget
 
     /**
      * @param string tpl 显示模版 默认为comment，一般使用detail表示详细资源页面的评论
-     * @param integer row_id 评论对象所在的表的ID
+     * @param int row_id 评论对象所在的表的ID
      * @param string order 评论的排序，默认为ASC 表示从早到晚,应用中一般是DESC
-     * @param integer app_uid 评论的对象的作者ID
-     * @param integer cancomment 是否可以评论  默认为1,由应用中判断好权限之后传入给wigdet
-     * @param integer cancomment_old 是否可以评论给原作者 默认为1,应用开发时统一使用0
-     * @param integer showlist 是否显示评论列表 默认为1
-     * @param integer canrepost 是否允许转发  默认为1,应用开发的时候根据应用需求设置1、0
+     * @param int app_uid 评论的对象的作者ID
+     * @param int cancomment 是否可以评论  默认为1,由应用中判断好权限之后传入给wigdet
+     * @param int cancomment_old 是否可以评论给原作者 默认为1,应用开发时统一使用0
+     * @param int showlist 是否显示评论列表 默认为1
+     * @param int canrepost 是否允许转发  默认为1,应用开发的时候根据应用需求设置1、0
      */
     public function render($data)
     {
@@ -41,6 +41,7 @@ class GroupCommentWidget extends Widget
 
             if ($userPrivacy['comment_weibo'] == 1) {
                 $return = array('status'=>0,'data'=>L('PUBLIC_CONCENT_TIPES'));
+
                 return $var['isAjax'] == 1 ?  json_encode($return) : $return['data'];
             }
         }
@@ -79,6 +80,7 @@ class GroupCommentWidget extends Widget
         unset($var, $data);
         //输出数据
         $return = array('status'=>1,'data'=>$content);
+
         return $ajax==1 ? json_encode($return) : $return['data'];
     }
 
@@ -126,7 +128,7 @@ class GroupCommentWidget extends Widget
         $map['feed_id'] = $data['row_id'];
         $map['is_del'] = 0;
         $isExist = D('GroupFeed')->where($map)->count();
-        
+
         // dump(model(ucfirst($data['table']))->getlastsql());exit();
         if ($isExist == 0) {
             $return['status'] = 0;
@@ -230,7 +232,7 @@ class GroupCommentWidget extends Widget
 
         exit(json_encode($return));
     }
-    
+
     /**
      * 删除评论
      * @return bool true or false
@@ -263,9 +265,10 @@ class GroupCommentWidget extends Widget
         if (!empty($comment_id)) {
             return D('GroupComment')->deleteComment($comment_id, $this->mid);
         }
+
         return false;
     }
-    
+
     /**
      * 渲染评论页面 在addcomment方法中调用
      */
@@ -278,6 +281,7 @@ class GroupCommentWidget extends Widget
         $data['content'] = parse_html($data['content']);
         $data['storey'] = D('GroupComment')->where('comment_id='.$data['comment_id'])->getField('storey');
         $data['iscommentdel'] = CheckPermission('core_normal', 'comment_del');
+
         return $this->renderFile(dirname(__FILE__)."/_parseComment.html", $data);
     }
 }

@@ -25,10 +25,10 @@
       /**
      * Record a user activity (e.g Bill watched a video on Youtube) (moments.insert)
      *
-     * @param string $userId The ID of the user to get activities for. The special value "me" can be used to indicate the authenticated user.
-     * @param string $collection The collection to which to write moments.
+     * @param string        $userId     The ID of the user to get activities for. The special value "me" can be used to indicate the authenticated user.
+     * @param string        $collection The collection to which to write moments.
      * @param Google_Moment $postBody
-     * @param array $optParams Optional parameters.
+     * @param array         $optParams  Optional parameters.
      *
      * @opt_param bool debug Return the moment as written. Should be used only for debugging.
      * @return Google_Moment

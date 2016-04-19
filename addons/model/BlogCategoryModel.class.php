@@ -11,13 +11,11 @@
  */
 class BlogCategoryModel extends BaseModel
 {
-
     /**
- * getCategory
- * 获取所有分类
- * @access public
- * @return void
- */
+     * getCategory
+     * 获取所有分类
+     * @access public
+     */
     public function getCategory($uid = 0)
     {
         //先从缓存里面获取
@@ -39,6 +37,7 @@ class BlogCategoryModel extends BaseModel
         $map['name'] = $name;
         $map['uid']     = array('in', "$uid,0");
         $map['id']   = array('neq', $gid);
+
         return $this->where($map)->find() ? true : false;
     }
 
@@ -52,7 +51,6 @@ class BlogCategoryModel extends BaseModel
      * 增加分类
      * @param mixed $map
      * @access public
-     * @return void
      */
     public function addCategory($map, $dao = null)
     {
@@ -96,7 +94,6 @@ class BlogCategoryModel extends BaseModel
      * 删除分类
      * @param mixed $map
      * @access public
-     * @return void
      */
     public function deleteCategory($map, $formCate = null, $obj = null)
     {
@@ -143,7 +140,6 @@ class BlogCategoryModel extends BaseModel
      * 编辑分类
      * @param mixed $map
      * @access public
-     * @return void
      */
     public function editCategory($data)
     {
@@ -159,6 +155,7 @@ class BlogCategoryModel extends BaseModel
                     SET `name` = (case {$case} end)
                     WHERE {$where} ";
         $query = $this->execute($sql);
+
         return $query;
     }
 
@@ -167,12 +164,12 @@ class BlogCategoryModel extends BaseModel
      * 通过id获得名字
      * @param mixed $id
      * @access public
-     * @return void
      */
     public function getCategoryName($id)
     {
         $map['id'] = $id;
         $result = $this->where($map)->field('name')->find();
+
         return $result['name'];
     }
 
@@ -182,12 +179,12 @@ class BlogCategoryModel extends BaseModel
      * 获得用户的分类
      * @param mixed $uid
      * @access public
-     * @return void
      */
     public function getUserCategory($uid)
     {
         $map['uid'] = array( 'in',"$uid,0" );
         $result     = $this->where($map)->field('name,id,uid')->order('`uid` ASC, id ASC')->findAll();
+
         return $result;
     }
 }

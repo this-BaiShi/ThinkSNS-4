@@ -11,9 +11,9 @@ class DiyVideo extends TagsAbstract
      * @var unknown_type
      */
     public static $TAG_CLOSED = false;
-    
+
     public $config = array();
-    
+
     public function __construct()
     {
     }
@@ -31,18 +31,20 @@ class DiyVideo extends TagsAbstract
         if (!empty($tpl)) {
             $file = $tpl;
         }
+
         return dirname(__FILE__).'/DiyVideo/'.$file.'.html';
     }
-    
+
     /**
      * 这里返回的是模板中需要渲染的变量
      */
     public function replace()
     {
         $var['video'] = str_replace('[@]', '&', $this->attr['video']);
-        
+
         $var['width'] = $this->attr['width'];
         $var['height'] = $this->attr['height'];
+
         return $var;
     }
 }

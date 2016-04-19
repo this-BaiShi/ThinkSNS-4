@@ -15,5 +15,4 @@ class Feed extends Model
     protected $table = 'feed';
 
     protected $primaryKey = 'feed_id';
-
 } // END class Feed extends Model

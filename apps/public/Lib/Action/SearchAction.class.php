@@ -14,7 +14,6 @@ class SearchAction extends Action
 
     /**
      * 模块初始化
-     * @return void
      */
     public function _initialize()
     {
@@ -35,7 +34,6 @@ class SearchAction extends Action
 
     /**
      * 根据关键字进行搜索
-     * @return void
      */
     public function index()
     {
@@ -45,7 +43,7 @@ class SearchAction extends Action
         $this->setTitle('搜索'.$this->key);
         $this->setKeywords('搜索'.$this->key);
         $this->setDescription('搜索'.$this->key);
-        
+
         if ($this->curType == 1) {     //搜索用户
             if ($this->key != "") {
                 if (t($_GET['Stime']) && t($_GET['Etime'])) {
@@ -57,10 +55,10 @@ class SearchAction extends Action
                 //关键字匹配 采用搜索引擎兼容函数搜索 后期可能会扩展为搜索引擎
                 $map['uname'] = array(
                         'like',
-                        '%'.$this->key.'%'
+                        '%'.$this->key.'%',
                 );
                 $list = model('user')->where($map)->findPage(20);
-                
+
                 $fids = getSubByKey($list['data'], 'uid');
                 // 获取用户信息
                 $followUserInfo = model('User')->getUserInfoByUids($fids);
@@ -102,12 +100,12 @@ class SearchAction extends Action
                 //关键字匹配 采用搜索引擎兼容函数搜索 后期可能会扩展为搜索引擎
                 $feed_type = !empty($_GET['feed_type']) ? t($_GET['feed_type']) : '';
                 $list = model('Feed')->searchFeeds($this->key, $feed_type, 20, $Stime, $Etime);
-        
+
                 //赞功能
                 $feed_ids = getSubByKey($list['data'], 'feed_id');
                 $diggArr = model('FeedDigg')->checkIsDigg($feed_ids, $GLOBALS['ts']['mid']);
                 $this->assign('diggArr', $diggArr);
-        
+
                 $this->assign('feed_type', $feed_type);
                 $this->assign('searchResult', $list);                 //搜索分享
                 $weiboSet = model('Xdata')->get('admin_Config:feed');
@@ -124,7 +122,7 @@ class SearchAction extends Action
                 }
                 $map['weiba_name'] = array(
                         'like',
-                        '%'.$this->key.'%'
+                        '%'.$this->key.'%',
                 );
                 $map['status'] = 1;
                 $map['is_del'] = 0;
@@ -149,7 +147,7 @@ class SearchAction extends Action
                 }
                 $map['title'] = array(
                         'like',
-                        '%'.$this->key.'%'
+                        '%'.$this->key.'%',
                 );
                 $list = M('blog')->where($map)->findPage(20);
                 foreach ($list ['data'] as $k => $v) {
@@ -160,7 +158,7 @@ class SearchAction extends Action
                             $list ['data'] [$k] ['img'] [] = $imgurl;
                         }
                     }
-                    $is_digg = M('blog_digg')->where('post_id=' . $v ['id'] . ' and uid=' . $this->mid)->find();
+                    $is_digg = M('blog_digg')->where('post_id='.$v ['id'].' and uid='.$this->mid)->find();
                     $list ['data'] [$k] ['digg'] = $is_digg ? 'digg' : 'undigg';
                     if (count($list [$k] ['img']) == '0') {
                         $list ['data'] [$k] ['img'] [] = ''; // 默认图
@@ -181,7 +179,7 @@ class SearchAction extends Action
                 }
                 $map['title'] = array(
                         'like',
-                        '%'.$this->key.'%'
+                        '%'.$this->key.'%',
                 );
                 $map['is_del'] = 0;
                 $list = M('weiba_post')->where($map)->findPage(20);
@@ -275,7 +273,7 @@ class SearchAction extends Action
         $user_tag = model('Tag')->setAppName('User')->setAppTable('user')->getAppTags($uids);
         $this->assign('user_tag', $user_tag);
     }
-    
+
     public function setNewcount($weiba_id, $num=1)
     {
         $map['weiba_id'] = $weiba_id;
@@ -289,8 +287,9 @@ class SearchAction extends Action
             M('weiba')->where($map)->setField('new_count', 0);
         }
         if ($num > 0) {
-            M('weiba')->where($map)->setField('new_count', (int)$num+(int)$weiba['new_count']);
+            M('weiba')->where($map)->setField('new_count', (int) $num+(int) $weiba['new_count']);
         }
+
         return true;
     }
     private function _getWeibaName($weiba_ids)
@@ -304,12 +303,12 @@ class SearchAction extends Action
         foreach ($names as $n) {
             $nameArr[$n['weiba_id']] = $n['weiba_name'];
         }
+
         return $nameArr;
     }
-    
+
     /**
      * 选择筛选时间
-     * @return void
      */
     public function selectDate()
     {
@@ -321,7 +320,7 @@ class SearchAction extends Action
         $this->assign('feed_type', t($_GET['feed_type']));
         $this->display();
     }
-    
+
     /**
      * 模糊搜索标签
      * @return mix 标签列表
@@ -355,7 +354,7 @@ class SearchAction extends Action
                 //关键字匹配 采用搜索引擎兼容函数搜索 后期可能会扩展为搜索引擎
                 $map['uname'] = array(
                         'like',
-                        '%'.$this->key.'%'
+                        '%'.$this->key.'%',
                 );
             $list = model('user')->where($map)->findPage(20);
             foreach ($list['data'] as $k=>$vo) {
@@ -365,7 +364,7 @@ class SearchAction extends Action
         }
         $this->display();
     }
-    
+
     public function search_feed()
     {
         if ($this->key != "") {
@@ -378,12 +377,12 @@ class SearchAction extends Action
                 //关键字匹配 采用搜索引擎兼容函数搜索 后期可能会扩展为搜索引擎
                 $feed_type = !empty($_GET['feed_type']) ? t($_GET['feed_type']) : '';
             $list = model('Feed')->searchFeeds($this->key, $feed_type, 20, $Stime, $Etime);
-        
+
                 //赞功能
                 $feed_ids = getSubByKey($list['data'], 'feed_id');
             $diggArr = model('FeedDigg')->checkIsDigg($feed_ids, $GLOBALS['ts']['mid']);
             $this->assign('diggArr', $diggArr);
-        
+
             $this->assign('feed_type', $feed_type);
             $this->assign('searchResult', $list);                 //搜索分享
                 $weiboSet = model('Xdata')->get('admin_Config:feed');
@@ -391,8 +390,8 @@ class SearchAction extends Action
         }
         $this->display();
     }
-    
-    
+
+
     public function weiba()
     {
         if ($this->key != "") {
@@ -404,7 +403,7 @@ class SearchAction extends Action
             }
             $map['weiba_name'] = array(
                         'like',
-                        '%'.$this->key.'%'
+                        '%'.$this->key.'%',
                 );
             $map['status'] = 1;
             $map['is_del'] = 0;
@@ -420,7 +419,7 @@ class SearchAction extends Action
         }
         $this->display();
     }
-    
+
     public function blog()
     {
         if ($this->key != "") {
@@ -432,7 +431,7 @@ class SearchAction extends Action
             }
             $map['title'] = array(
                         'like',
-                        '%'.$this->key.'%'
+                        '%'.$this->key.'%',
                 );
             $list = M('blog')->where($map)->findPage(20);
             foreach ($list ['data'] as $k => $v) {
@@ -443,7 +442,7 @@ class SearchAction extends Action
                         $list ['data'] [$k] ['img'] [] = $imgurl;
                     }
                 }
-                $is_digg = M('blog_digg')->where('post_id=' . $v ['id'] . ' and uid=' . $this->mid)->find();
+                $is_digg = M('blog_digg')->where('post_id='.$v ['id'].' and uid='.$this->mid)->find();
                 $list ['data'] [$k] ['digg'] = $is_digg ? 'digg' : 'undigg';
                 if (count($list [$k] ['img']) == '0') {
                     $list ['data'] [$k] ['img'] [] = ''; // 默认图
@@ -455,7 +454,7 @@ class SearchAction extends Action
         }
         $this->display();
     }
-    
+
     public function post()
     {
         if ($this->key != "") {
@@ -467,7 +466,7 @@ class SearchAction extends Action
             }
             $map['title'] = array(
                         'like',
-                        '%'.$this->key.'%'
+                        '%'.$this->key.'%',
                 );
             $map['is_del'] = 0;
             $list = M('weiba_post')->where($map)->findPage(20);
@@ -504,8 +503,8 @@ class SearchAction extends Action
         }
         $this->display();
     }
-    
-    
+
+
     /**
      * 获取标签
      * @return mix 标签信息

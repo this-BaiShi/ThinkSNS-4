@@ -25,10 +25,10 @@
       /**
      * Assign License. (licenseAssignments.insert)
      *
-     * @param string $productId Name for product
-     * @param string $skuId Name for sku
-     * @param Google_LicenseAssignmentInsert $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string                         $productId Name for product
+     * @param  string                         $skuId     Name for sku
+     * @param  Google_LicenseAssignmentInsert $postBody
+     * @param  array                          $optParams Optional parameters.
      * @return Google_LicenseAssignment
      */
     public function insert($productId, $skuId, Google_LicenseAssignmentInsert $postBody, $optParams = array())
@@ -45,10 +45,10 @@
     /**
      * Get license assignment of a particular product and sku for a user (licenseAssignments.get)
      *
-     * @param string $productId Name for product
-     * @param string $skuId Name for sku
-     * @param string $userId email id or unique Id of the user
-     * @param array $optParams Optional parameters.
+     * @param  string                   $productId Name for product
+     * @param  string                   $skuId     Name for sku
+     * @param  string                   $userId    email id or unique Id of the user
+     * @param  array                    $optParams Optional parameters.
      * @return Google_LicenseAssignment
      */
     public function get($productId, $skuId, $userId, $optParams = array())
@@ -66,10 +66,10 @@
      * List license assignments for given product and sku of the customer.
      * (licenseAssignments.listForProductAndSku)
      *
-     * @param string $productId Name for product
-     * @param string $skuId Name for sku
+     * @param string $productId  Name for product
+     * @param string $skuId      Name for sku
      * @param string $customerId CustomerId represents the customer for whom licenseassignments are queried
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams  Optional parameters.
      *
      * @opt_param string pageToken Token to fetch the next page.Optional. By default server will return first page
      * @opt_param string maxResults Maximum number of campaigns to return at one time. Must be positive. Optional. Default value is 100.
@@ -89,9 +89,9 @@
     /**
      * List license assignments for given product of the customer. (licenseAssignments.listForProduct)
      *
-     * @param string $productId Name for product
+     * @param string $productId  Name for product
      * @param string $customerId CustomerId represents the customer for whom licenseassignments are queried
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams  Optional parameters.
      *
      * @opt_param string pageToken Token to fetch the next page.Optional. By default server will return first page
      * @opt_param string maxResults Maximum number of campaigns to return at one time. Must be positive. Optional. Default value is 100.
@@ -111,11 +111,11 @@
     /**
      * Assign License. (licenseAssignments.update)
      *
-     * @param string $productId Name for product
-     * @param string $skuId Name for sku for which license would be revoked
-     * @param string $userId email id or unique Id of the user
-     * @param Google_LicenseAssignment $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string                   $productId Name for product
+     * @param  string                   $skuId     Name for sku for which license would be revoked
+     * @param  string                   $userId    email id or unique Id of the user
+     * @param  Google_LicenseAssignment $postBody
+     * @param  array                    $optParams Optional parameters.
      * @return Google_LicenseAssignment
      */
     public function update($productId, $skuId, $userId, Google_LicenseAssignment $postBody, $optParams = array())
@@ -132,11 +132,11 @@
     /**
      * Assign License. This method supports patch semantics. (licenseAssignments.patch)
      *
-     * @param string $productId Name for product
-     * @param string $skuId Name for sku for which license would be revoked
-     * @param string $userId email id or unique Id of the user
-     * @param Google_LicenseAssignment $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string                   $productId Name for product
+     * @param  string                   $skuId     Name for sku for which license would be revoked
+     * @param  string                   $userId    email id or unique Id of the user
+     * @param  Google_LicenseAssignment $postBody
+     * @param  array                    $optParams Optional parameters.
      * @return Google_LicenseAssignment
      */
     public function patch($productId, $skuId, $userId, Google_LicenseAssignment $postBody, $optParams = array())
@@ -154,15 +154,16 @@
      * Revoke License. (licenseAssignments.delete)
      *
      * @param string $productId Name for product
-     * @param string $skuId Name for sku
-     * @param string $userId email id or unique Id of the user
-     * @param array $optParams Optional parameters.
+     * @param string $skuId     Name for sku
+     * @param string $userId    email id or unique Id of the user
+     * @param array  $optParams Optional parameters.
      */
     public function delete($productId, $skuId, $userId, $optParams = array())
     {
         $params = array('productId' => $productId, 'skuId' => $skuId, 'userId' => $userId);
         $params = array_merge($params, $optParams);
         $data = $this->__call('delete', array($params));
+
         return $data;
     }
   }

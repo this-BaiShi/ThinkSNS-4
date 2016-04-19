@@ -2,7 +2,6 @@
 
 class FeedTopHomeHooks extends Hooks
 {
-
     private $isRefresh = 1;
 
     public function __construct()
@@ -108,7 +107,7 @@ class FeedTopHomeHooks extends Hooks
             'blog_post', 'blog_repost',
             'event_post', 'event_repost',
             'vote_post', 'vote_repost',
-            'photo_post', 'photo_repost');
+            'photo_post', 'photo_repost', );
         $this->assign('cancomment_old_type', $cancomment_old_type);
 
         $uids = array();
