@@ -195,6 +195,7 @@ a:hover .contribute{background-position:0 -207px;}
 .feed_list .comment span.downline{color:#F9FAFA;margin:-9px 0 0;}
 .feed_list .contents{margin:0 0 5px 0; overflow:hidden; width:100%; position:relative}
 .feed_list .contents a{color:#0096e6}
+.feed_list .contents img.emot{margin-right: .25rem;}
 .feed_list .contents .feed_txt,.feed_list .comment dd.com-info .feed_txt{width:444px;float:left;font-size:14px;color:#6E6E6E;}
 .feed_list .contents .feed_txt_default,.feed_list .comment dd.com-info .feed_txt_default{ padding:5px 14px 5px 14px; width:552px;}
 .feed_list .contents .feed_txt_video,.feed_list .comment dd.com-info .feed_txt_video{width:444px;}

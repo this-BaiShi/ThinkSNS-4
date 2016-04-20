@@ -1657,7 +1657,7 @@ function _parse_expression($data)
     $info = $allexpression[$data[0]];
     global $ts;
     $pkg = $ts['site']['expression'];
-    $pkg = $pkg ? $pkg : 'default';
+    $pkg = $pkg ? $pkg : 'new';
     if ($info) {
         return preg_replace("/\[.+?\]/i", "<img class=\"emot\" style=\"width:20px;\" src='".__THEME__."/image/expression/{$pkg}/".$info['filename']."' />", $data[0]);
     } else {

@@ -216,7 +216,7 @@ class RegisterModel extends Model
                 return false;
             }
         } else {
-            $this->_error = '仅支持中英文，数字，下划线';
+            $this->_error = '昵称仅支持中英文，数字，下划线';
 
             return false;
         }
