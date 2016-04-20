@@ -1,4 +1,5 @@
 <?php
+
 class ChannelAction extends BaseAction
 {
     public function index()
@@ -36,7 +37,7 @@ class ChannelAction extends BaseAction
         $this->assign('cate', $cate);
         $this->display();
     }
-    
+
     private function _usergroup($uid)
     {
         $var['uid'] = $uid;
@@ -56,9 +57,10 @@ class ChannelAction extends BaseAction
         } else {
             $userGroupData = array();
         }
+
         return $userGroupData;
     }
-    
+
     /**
      * 隐私设置
      */
@@ -66,6 +68,7 @@ class ChannelAction extends BaseAction
     {
         if ($this->mid != $uid) {
             $privacy = model('UserPrivacy')->getPrivacy($this->mid, $uid);
+
             return $privacy;
         } else {
             return true;
@@ -148,21 +151,21 @@ class ChannelAction extends BaseAction
                         if ($v ['type'] == 'postvideo') {
                             // $weibolist[$k]['content'] = $v['source_body'];
                             $weibolist [$k] ['content'] = $v ['feed_content'] ? $v ['feed_content'] : $v ['source_body'];
-                            $weibolist [$k] ['content'] = wapFormatContent($weibolist [$k] ['content'], true, $self_url, "视频");
+                            $weibolist [$k] ['content'] = wapFormatContent($weibolist [$k] ['content'], true, $self_url, '视频');
                         } else {
                             $weibolist [$k] ['content'] = wapFormatContent($weibolist [$k] ['content'], true, $self_url);
                         }
                         // 非视频分享
                         if ($v ['transpond_data'] ['content']) {
                             if (strpos($weibolist [$k] ['type'], 'video')) {
-                                $weibolist [$k] ['transpond_data'] ['content'] = wapFormatContent($v ['transpond_data'] ['content'], true, $self_url, "视频");
+                                $weibolist [$k] ['transpond_data'] ['content'] = wapFormatContent($v ['transpond_data'] ['content'], true, $self_url, '视频');
                             } else {
                                 $weibolist [$k] ['transpond_data'] ['content'] = wapFormatContent($v ['transpond_data'] ['content'], true, $self_url);
                             }
                             $weibolist [$k] ['transpond_data'] ['weibo_id'] = $weibolist [$k] ['transpond_data'] ['feed_id'];
                         } else {
-                            $row_id = model('Feed')->where('feed_id=' . $v ['feed_id'])->getField('app_row_id');
-                            $uid = model('Feed')->where('feed_id=' . $row_id)->getField('uid');
+                            $row_id = model('Feed')->where('feed_id='.$v ['feed_id'])->getField('app_row_id');
+                            $uid = model('Feed')->where('feed_id='.$row_id)->getField('uid');
                             $weibolist [$k] ['transpond_data'] = model('User')->getUserInfo($this->uid);
                         }
                         $weibolist [$k] ['ctime'] = date('Y-m-d H:i', $v ['publish_time']);
@@ -175,16 +178,16 @@ class ChannelAction extends BaseAction
                     }
                     break;
                 case 'weiba' :
-                    $weiba_post = D('WeibaPost', 'weiba')->where('post_id=' . $v ['app_row_id'])->find();
+                    $weiba_post = D('WeibaPost', 'weiba')->where('post_id='.$v ['app_row_id'])->find();
                     $weibolist [$k] ['weibo_id'] = $weibolist [$k] ['feed_id'];
                     $weibolist [$k] ['transpond_data'] = $weiba_post;
                     $weibolist [$k] ['transpond_data'] ['weibo_id'] = $weibolist [$k] ['feed_id'];
-                    $weibolist [$k] ['transpond_data'] ['uname'] = model('User')->where('uid=' . $weiba_post ['post_uid'])->getField('uname');
+                    $weibolist [$k] ['transpond_data'] ['uname'] = model('User')->where('uid='.$weiba_post ['post_uid'])->getField('uname');
                     $weibolist [$k] ['transpond_data'] ['uid'] = $weiba_post ['post_uid'];
                     break;
-    
+
                 default :
-                        
+
                     // code...
                     break;
             }
@@ -205,9 +208,10 @@ class ChannelAction extends BaseAction
                 $weibolist [$k] ['favorited'] = 0;
             }
         }
+
         return $weibolist;
     }
-    
+
 //     private function __formatByContent($weibolist)
 //     {
 //             $self_url = urlencode($this->_self_url);
@@ -279,8 +283,6 @@ class ChannelAction extends BaseAction
 //                     }else{
 //                             $weibolist[$k]['favorited'] = 0;
 //                     }
-
-
 
 //             }
 //             return $weibolist;

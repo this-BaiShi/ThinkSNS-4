@@ -7,7 +7,6 @@
     $Id: db.class.php 1059 2011-03-01 07:25:09Z monkey $
 */
 
-
 class ucclient_db
 {
     public $querynum = 0;
@@ -24,7 +23,7 @@ class ucclient_db
 
     public $goneaway = 5;
 
-    public function connect($dbhost, $dbuser, $dbpw, $dbname = '', $dbcharset = '', $pconnect = 0, $tablepre='', $time = 0)
+    public function connect($dbhost, $dbuser, $dbpw, $dbname = '', $dbcharset = '', $pconnect = 0, $tablepre = '', $time = 0)
     {
         $this->dbhost = $dbhost;
         $this->dbuser = $dbuser;
@@ -47,7 +46,7 @@ class ucclient_db
 
         if ($this->version() > '4.1') {
             if ($dbcharset) {
-                mysql_query("SET character_set_connection=".$dbcharset.", character_set_results=".$dbcharset.", character_set_client=binary", $this->link);
+                mysql_query('SET character_set_connection='.$dbcharset.', character_set_results='.$dbcharset.', character_set_client=binary', $this->link);
             }
 
             if ($this->version() > '5.0.1') {
@@ -68,12 +67,14 @@ class ucclient_db
     public function result_first($sql)
     {
         $query = $this->query($sql);
+
         return $this->result($query, 0);
     }
 
     public function fetch_first($sql)
     {
         $query = $this->query($sql);
+
         return $this->fetch_array($query);
     }
 
@@ -84,6 +85,7 @@ class ucclient_db
         while ($data = $this->fetch_array($query)) {
             $id ? $arr[$data[$id]] = $data : $arr[] = $data;
         }
+
         return $arr;
     }
 
@@ -100,6 +102,7 @@ class ucclient_db
         }
         $this->querynum++;
         $this->histories[] = $sql;
+
         return $query;
     }
 
@@ -110,7 +113,7 @@ class ucclient_db
 
     public function error()
     {
-        return (($this->link) ? mysql_error($this->link) : mysql_error());
+        return ($this->link) ? mysql_error($this->link) : mysql_error();
     }
 
     public function errno()
@@ -121,12 +124,14 @@ class ucclient_db
     public function result($query, $row)
     {
         $query = @mysql_result($query, $row);
+
         return $query;
     }
 
     public function num_rows($query)
     {
         $query = mysql_num_rows($query);
+
         return $query;
     }
 
@@ -142,12 +147,13 @@ class ucclient_db
 
     public function insert_id()
     {
-        return ($id = mysql_insert_id($this->link)) >= 0 ? $id : $this->result($this->query("SELECT last_insert_id()"), 0);
+        return ($id = mysql_insert_id($this->link)) >= 0 ? $id : $this->result($this->query('SELECT last_insert_id()'), 0);
     }
 
     public function fetch_row($query)
     {
         $query = mysql_fetch_row($query);
+
         return $query;
     }
 

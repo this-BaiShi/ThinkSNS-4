@@ -6,25 +6,23 @@
  */
 class GroupUserCountModel extends Model
 {
-    
     protected $tableName = 'group_user_count';
 
     /**
      * 添加统计数据
      * 
      * @param int|array $uid    用户ID
-     * @param string 	$type	统计的项目
-     * @param int		$IncNum 变化值  默认1
-     * @return void
+     * @param string    $type   统计的项目
+     * @param int       $IncNum 变化值  默认1
      */
-    public function addCount($uid, $type, $gid=0, $IncNum=1)
+    public function addCount($uid, $type, $gid = 0, $IncNum = 1)
     {
         global $ts;
-        if ($uid==$ts['user']['uid']) {
+        if ($uid == $ts['user']['uid']) {
             return false;
         }
         if (is_array($uid)) {
-            foreach ($uid as $k=>$v) {
+            foreach ($uid as $k => $v) {
                 $this->addCount($v, $type, $gid, $IncNum);
             }
         } else {
@@ -47,38 +45,38 @@ class GroupUserCountModel extends Model
     /**
      * 归0
      * 
-     * @param int|array $uid    用户ID
-     * @param string 	$type	统计的项目
-     * @return void
+     * @param int|array $uid  用户ID
+     * @param string    $type 统计的项目
      */
-    public function setZero($uid=0, $type)
+    public function setZero($uid = 0, $type)
     {
         $map['uid'] = $uid;
+
         return $this->where($map)->setField($type, 0);
     }
 
     /**
      * 归0
      * 
-     * @param int|array $uid    用户ID
-     * @param string 	$type	统计的项目
-     * @return void
+     * @param int|array $uid  用户ID
+     * @param string    $type 统计的项目
      */
-    public function setGroupZero($uid=0, $gid=0, $type)
+    public function setGroupZero($uid = 0, $gid = 0, $type)
     {
         $map['uid'] = $uid;
         $map['gid'] = $gid;
+
         return $this->where($map)->setField($type, 0);
     }
 
     /**
      * 获取统计值
      * 
-     * @param int|array $uid    用户ID
-     * @param string 	$type	统计的项目，为空将返回所有统计项目结果
+     * @param  int|array $uid  用户ID
+     * @param  string    $type 统计的项目，为空将返回所有统计项目结果
      * @return mixed
      */
-    public function getUnreadCount($uid=0, $type = '')
+    public function getUnreadCount($uid = 0, $type = '')
     {
         $map['uid'] = $uid;
         $res = $this->where($map)->findAll();
@@ -88,21 +86,23 @@ class GroupUserCountModel extends Model
             $count['atme'] += $r['atme'];
             $count['bbs'] += $r['bbs'];
         }
+
         return empty($type) ? $count : $count[$type];
     }
 
     /**
      * 获取某群内统计值
      * 
-     * @param int|array $uid    用户ID
-     * @param string 	$type	统计的项目，为空将返回所有统计项目结果
+     * @param  int|array $uid  用户ID
+     * @param  string    $type 统计的项目，为空将返回所有统计项目结果
      * @return mixed
      */
-    public function getGroupUnreadCount($uid=0, $gid=0, $type = '')
+    public function getGroupUnreadCount($uid = 0, $gid = 0, $type = '')
     {
         $map['uid'] = $uid;
         $map['gid'] = $gid;
         $res = $this->field($type)->where($map)->find();
+
         return empty($type) ? $res : $res[$type];
     }
 }

@@ -6,22 +6,21 @@
  */
 class W3gPageModel
 {
-
     /**
      * 获取登录用户所关注人的最新分享
-     * @param string $type 分享类型,原创post,转发repost,图片postimage,附件postfile,视频postvideo
-     * @param integer $mid 用户ID
-     * @param integer $since_id 分享ID，从此分享ID开始，默认为0
-     * @param integer $max_id 最大分享ID，默认为0
-     * @param integer $limit 结果集数目，默认为20
-     * @param integer $page 分页数，默认为1
-     * @return array 登录用户所关注人的最新分享
+     * @param  string $type     分享类型,原创post,转发repost,图片postimage,附件postfile,视频postvideo
+     * @param  int    $mid      用户ID
+     * @param  int    $since_id 分享ID，从此分享ID开始，默认为0
+     * @param  int    $max_id   最大分享ID，默认为0
+     * @param  int    $limit    结果集数目，默认为20
+     * @param  int    $page     分页数，默认为1
+     * @return array  登录用户所关注人的最新分享
      */
     public function friends_timeline_page($type, $mid, $since_id = 0, $max_id = 0, $limit = 20, $page = 1)
     {
         $limit = intval($limit);
         $page = intval($page);
-        $where = " a.is_del = 0 ";
+        $where = ' a.is_del = 0 ';
         $table = "{$this->tablePrefix}feed AS a LEFT JOIN {$this->tablePrefix}user_follow AS b ON a.uid=b.fid AND b.uid = {$mid}";
         // 加上自己的信息，若不需要此数据，请屏蔽下面语句
         $where = "(a.uid = '{$mid}' OR b.uid = '{$mid}') AND ($where)";
@@ -44,6 +43,7 @@ class W3gPageModel
     {
         $data['is_del'] = 0;
         $count = M('Feed')->where($data)->count();
+
         return $count;
     }
 
@@ -52,12 +52,13 @@ class W3gPageModel
     {
         $map['a.is_del'] = 0;
         // 动态类型
-        $weiboType = array('post','repost','postimage','postfile','postvideo');
+        $weiboType = array('post', 'repost', 'postimage', 'postfile', 'postvideo');
         in_array($type, $weiboType) && $map['a.type'] = $type;
         // 加上自己的信息，若不需要此数据，请屏蔽下面语句
         $map['_string'] = 'a.uid = '.$mid.' OR b.uid = '.$mid;
         // 获取分享总数
         $count = D()->table(C('DB_PREFIX').'feed AS a LEFT JOIN '.C('DB_PREFIX').'user_follow AS b ON a.uid=b.fid AND b.uid = '.$mid)->field('a.feed_id')->where($map)->count();
+
         return $count;
     }
     //获得自己关注人的分享列表最新一条id
@@ -65,14 +66,14 @@ class W3gPageModel
     {
         $map['a.is_del'] = 0;
         // 动态类型
-        $weiboType = array('post','repost','postimage','postfile','postvideo');
+        $weiboType = array('post', 'repost', 'postimage', 'postfile', 'postvideo');
         in_array($type, $weiboType) && $map['a.type'] = $type;
         // 加上自己的信息，若不需要此数据，请屏蔽下面语句
         $map['_string'] = 'a.uid = '.$mid.' OR b.uid = '.$mid;
         // 获取分享总数
         $id = D()->table(C('DB_PREFIX').'feed AS a LEFT JOIN '.C('DB_PREFIX').'user_follow AS b ON a.uid=b.fid AND b.uid = '.$mid)
             ->field('a.feed_id')
-            ->limit("0,1")
+            ->limit('0,1')
             ->order('a.feed_id DESC')
             ->where($map)
             ->select();
@@ -87,13 +88,13 @@ class W3gPageModel
         $map['uid'] = $mid;
         $map['is_del'] = 0;
         // 动态类型
-        $weiboType = array('post','repost','postimage','postfile','postvideo');
+        $weiboType = array('post', 'repost', 'postimage', 'postfile', 'postvideo');
         in_array($type, $weiboType) && $map['a.type'] = $type;
         // 加上自己的信息，若不需要此数据，请屏蔽下面语句
         // $map['_string'] = 'a.uid = '.$mid.' OR b.uid = '.$mid;
         // 获取分享总数
         $count = M('Feed')->where($map)->count();
-        
+
         return $count;
     }
 
@@ -103,7 +104,7 @@ class W3gPageModel
         $data['fid'] = $mid;
         // 获取粉丝总数
         $count = M('UserFollow')->where($data)->count();
-        
+
         return $count;
     }
 
@@ -113,7 +114,7 @@ class W3gPageModel
         $data['uid'] = $mid;
         // 获取粉丝总数
         $count = M('UserFollow')->where($data)->count();
-        
+
         return $count;
     }
 
@@ -123,7 +124,7 @@ class W3gPageModel
         $data['uid'] = $mid;
         // 获取粉丝总数
         $count = M('Atme')->where($data)->count();
-        
+
         return $count;
     }
 
@@ -135,7 +136,7 @@ class W3gPageModel
         $data['_logic'] = 'or';
         // 获取粉丝总数
         $count = M('Comment')->where($data)->count();
-        
+
         return $count;
     }
 }

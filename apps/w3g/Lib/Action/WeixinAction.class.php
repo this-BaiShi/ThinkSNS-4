@@ -1,4 +1,5 @@
 <?php
+
 class WeixinAction extends BaseAction
 {
     public $data;
@@ -7,13 +8,13 @@ class WeixinAction extends BaseAction
         if (IS_GET) {
             $url = GetCurUrl();
             weixin_log($url, 'auth');
-            
+
             if ($this->auth(TOKEN)) {
                 echo $_GET ['echostr'];
             }
             die();
         }
-        
+
         $content = file_get_contents('php://input');
         $content = new \SimpleXMLElement($content);
         foreach ($content as $key => $value) {
@@ -21,14 +22,14 @@ class WeixinAction extends BaseAction
         }
         $this->data = $data;
         weixin_log($data, $GLOBALS ['HTTP_RAW_POST_DATA']);
-        
+
         if (! empty($data ['FromUserName'])) {
             session('openid', $data ['FromUserName']);
         }
-        
+
         $key = $data ['Content'];
         $keywordArr = array();
-        
+
         $list = D('addons')->where('is_weixin=1')->findAll();
         foreach ($list as $vo) {
             if ($vo ['status']) {
@@ -37,7 +38,7 @@ class WeixinAction extends BaseAction
                 $forbit_list [] = $vo;
             }
         }
-        
+
         if ($data ['MsgType'] == 'event') {
             $event = strtolower($data ['Event']);
             foreach ($addon_list as $vo) {
@@ -47,41 +48,41 @@ class WeixinAction extends BaseAction
             if (! ($event == 'click' && ! empty($data ['EventKey']))) {
                 return true;
             }
-            
+
             $key = $data['Content'] = $data ['EventKey'];
         }
-        
+
         $uid = intval($this->mid);
-        $user_status = S('user_status_' . $uid);
+        $user_status = S('user_status_'.$uid);
         if (! isset($plugins [$key]) && $user_status) {
             $plugins [$key] = $user_status ['module'];
             $keywordArr = $user_status ['keywordArr'];
-            S('user_status_' . $uid, null);
+            S('user_status_'.$uid, null);
         }
-        
+
         if (! isset($plugins [$key])) {
             foreach ($addon_list as $k => $vo) {
                 $plugins [$vo ['name']] = $k;
                 $plugins [$vo ['pluginName']] = $k;
             }
         }
-        
+
         if (! isset($plugins [$key])) {
             $like ['keyword'] = array(
                     'like',
-                    "%$key%"
+                    "%$key%",
             );
             if (! empty($forbit_list)) {
                 $like ['module'] = array(
                         'not in',
-                        $forbit_list
+                        $forbit_list,
                 );
             }
-            
+
             $keywordArr = M('keyword')->where($like)->order('id desc')->find();
             $plugins [$key] = $keywordArr ['module'];
         }
-        
+
         // 回答不上
         if (! isset($plugins [$key])) {
             $plugins [$key] = 'Base';
@@ -90,24 +91,24 @@ class WeixinAction extends BaseAction
     }
     public function plugin_deal($plugin, $action, $data, $keywordArr = array())
     {
-        $path = ADDON_PATH . '/plugin/' . $plugin . '/' . $plugin . 'Addons.class.php';
+        $path = ADDON_PATH.'/plugin/'.$plugin.'/'.$plugin.'Addons.class.php';
         if (! file_exists($path)) {
             return false;
         }
-        
+
         require_once $path;
-        $class = $plugin . 'Addons';
+        $class = $plugin.'Addons';
         $model = new $class ();
         if (! method_exists($model, $action)) {
             return false;
         }
-        
+
         list($content, $type) = $model->$action ($data, $keywordArr);
         empty($type) && $type = 'text';
-        
+
         $this->$type ($content);
     }
-    
+
     /* 回复文本消息 */
     public function text($content)
     {
@@ -118,7 +119,7 @@ class WeixinAction extends BaseAction
     {
         $msg ['ArticleCount'] = count($articles);
         $msg ['Articles'] = $articles;
-        
+
         $this->_sendData($msg, 'news');
     }
     /* 发送回复消息到微信平台 */
@@ -128,13 +129,13 @@ class WeixinAction extends BaseAction
         $msg ['FromUserName'] = $this->data ['ToUserName'];
         $msg ['CreateTime'] = time();
         $msg ['MsgType'] = $msgType;
-        
+
         $xml = new \SimpleXMLElement('<xml></xml>');
         $this->_data2xml($xml, $msg);
         $str = $xml->asXML();
-        
+
         weixin_log($str, '_sendData');
-        echo($str);
+        echo $str;
     }
     /* 组装xml数据 */
     public function _data2xml($xml, $data, $item = 'item')
@@ -160,14 +161,14 @@ class WeixinAction extends BaseAction
         $data = array(
                 $_GET ['timestamp'],
                 $_GET ['nonce'],
-                $token
+                $token,
         );
         $sign = $_GET ['signature'];
         sort($data, SORT_STRING);
         $signature = sha1(implode($data));
-        
-        weixin_log($signature, $sign . '___' . $token);
-        
+
+        weixin_log($signature, $sign.'___'.$token);
+
         return $signature === $sign;
     }
 }

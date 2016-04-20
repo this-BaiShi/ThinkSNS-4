@@ -25,9 +25,9 @@
       /**
      * Add a new URL channel to the host AdSense account. (urlchannels.insert)
      *
-     * @param string $adClientId Ad client to which the new URL channel will be added.
-     * @param Google_UrlChannel $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string            $adClientId Ad client to which the new URL channel will be added.
+     * @param  Google_UrlChannel $postBody
+     * @param  array             $optParams  Optional parameters.
      * @return Google_UrlChannel
      */
     public function insert($adClientId, Google_UrlChannel $postBody, $optParams = array())
@@ -45,7 +45,7 @@
      * List all host URL channels in the host AdSense account. (urlchannels.list)
      *
      * @param string $adClientId Ad client for which to list URL channels.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams  Optional parameters.
      *
      * @opt_param string pageToken A continuation token, used to page through URL channels. To retrieve the next page, set this parameter to the value of "nextPageToken" from the previous response.
      * @opt_param string maxResults The maximum number of URL channels to include in the response, used for paging.
@@ -65,9 +65,9 @@
     /**
      * Delete a URL channel from the host AdSense account. (urlchannels.delete)
      *
-     * @param string $adClientId Ad client from which to delete the URL channel.
-     * @param string $urlChannelId URL channel to delete.
-     * @param array $optParams Optional parameters.
+     * @param  string            $adClientId   Ad client from which to delete the URL channel.
+     * @param  string            $urlChannelId URL channel to delete.
+     * @param  array             $optParams    Optional parameters.
      * @return Google_UrlChannel
      */
     public function delete($adClientId, $urlChannelId, $optParams = array())
@@ -115,8 +115,8 @@
     /**
      * Get information about one of the ad clients in the Host AdSense account. (adclients.get)
      *
-     * @param string $adClientId Ad client to get.
-     * @param array $optParams Optional parameters.
+     * @param  string          $adClientId Ad client to get.
+     * @param  array           $optParams  Optional parameters.
      * @return Google_AdClient
      */
     public function get($adClientId, $optParams = array())
@@ -146,8 +146,8 @@
      * (associationsessions.start)
      *
      * @param string $productCode Products to associate with the user.
-     * @param string $websiteUrl The URL of the user's hosted website.
-     * @param array $optParams Optional parameters.
+     * @param string $websiteUrl  The URL of the user's hosted website.
+     * @param array  $optParams   Optional parameters.
      *
      * @opt_param string websiteLocale The locale of the user's hosted website.
      * @opt_param string userLocale The preferred locale of the user.
@@ -168,8 +168,8 @@
      * Verify an association session after the association callback returns from AdSense signup.
      * (associationsessions.verify)
      *
-     * @param string $token The token returned to the association callback URL.
-     * @param array $optParams Optional parameters.
+     * @param  string                    $token     The token returned to the association callback URL.
+     * @param  array                     $optParams Optional parameters.
      * @return Google_AssociationSession
      */
     public function verify($token, $optParams = array())
@@ -199,9 +199,9 @@
      * result as JSON; to retrieve output in CSV format specify "alt=csv" as a query parameter.
      * (reports.generate)
      *
-     * @param string $endDate End of the date range to report on in "YYYY-MM-DD" format, inclusive.
+     * @param string $endDate   End of the date range to report on in "YYYY-MM-DD" format, inclusive.
      * @param string $startDate Start of the date range to report on in "YYYY-MM-DD" format, inclusive.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string sort The name of a dimension or metric to sort the resulting report on, optionally prefixed with "+" to sort ascending or "-" to sort descending. If no prefix is specified, the column is sorted ascending.
      * @opt_param string locale Optional locale to use for translating report output to a local language. Defaults to "en_US" if not specified.
@@ -237,8 +237,8 @@
       /**
      * List hosted accounts associated with this AdSense account by ad client id. (accounts.list)
      *
-     * @param string $filterAdClientId Ad clients to list accounts for.
-     * @param array $optParams Optional parameters.
+     * @param  string          $filterAdClientId Ad clients to list accounts for.
+     * @param  array           $optParams        Optional parameters.
      * @return Google_Accounts
      */
     public function listAccounts($filterAdClientId, $optParams = array())
@@ -255,8 +255,8 @@
     /**
      * Get information about the selected associated AdSense account. (accounts.get)
      *
-     * @param string $accountId Account to get information about.
-     * @param array $optParams Optional parameters.
+     * @param  string         $accountId Account to get information about.
+     * @param  array          $optParams Optional parameters.
      * @return Google_Account
      */
     public function get($accountId, $optParams = array())
@@ -284,10 +284,10 @@
       /**
      * Insert the supplied ad unit into the specified publisher AdSense account. (adunits.insert)
      *
-     * @param string $accountId Account which will contain the ad unit.
-     * @param string $adClientId Ad client into which to insert the ad unit.
-     * @param Google_AdUnit $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string        $accountId  Account which will contain the ad unit.
+     * @param  string        $adClientId Ad client into which to insert the ad unit.
+     * @param  Google_AdUnit $postBody
+     * @param  array         $optParams  Optional parameters.
      * @return Google_AdUnit
      */
     public function insert($accountId, $adClientId, Google_AdUnit $postBody, $optParams = array())
@@ -304,10 +304,10 @@
     /**
      * Get the specified host ad unit in this AdSense account. (adunits.get)
      *
-     * @param string $accountId Account which contains the ad unit.
-     * @param string $adClientId Ad client for which to get ad unit.
-     * @param string $adUnitId Ad unit to get.
-     * @param array $optParams Optional parameters.
+     * @param  string        $accountId  Account which contains the ad unit.
+     * @param  string        $adClientId Ad client for which to get ad unit.
+     * @param  string        $adUnitId   Ad unit to get.
+     * @param  array         $optParams  Optional parameters.
      * @return Google_AdUnit
      */
     public function get($accountId, $adClientId, $adUnitId, $optParams = array())
@@ -325,10 +325,10 @@
      * Get ad code for the specified ad unit, attaching the specified host custom channels.
      * (adunits.getAdCode)
      *
-     * @param string $accountId Account which contains the ad client.
+     * @param string $accountId  Account which contains the ad client.
      * @param string $adClientId Ad client with contains the ad unit.
-     * @param string $adUnitId Ad unit to get the code for.
-     * @param array $optParams Optional parameters.
+     * @param string $adUnitId   Ad unit to get the code for.
+     * @param array  $optParams  Optional parameters.
      *
      * @opt_param string hostCustomChannelId Host custom channel to attach to the ad code.
      * @return Google_AdCode
@@ -347,9 +347,9 @@
     /**
      * List all ad units in the specified publisher's AdSense account. (adunits.list)
      *
-     * @param string $accountId Account which contains the ad client.
+     * @param string $accountId  Account which contains the ad client.
      * @param string $adClientId Ad client for which to list ad units.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams  Optional parameters.
      *
      * @opt_param bool includeInactive Whether to include inactive ad units. Default: true.
      * @opt_param string pageToken A continuation token, used to page through ad units. To retrieve the next page, set this parameter to the value of "nextPageToken" from the previous response.
@@ -370,10 +370,10 @@
     /**
      * Update the supplied ad unit in the specified publisher AdSense account. (adunits.update)
      *
-     * @param string $accountId Account which contains the ad client.
-     * @param string $adClientId Ad client which contains the ad unit.
-     * @param Google_AdUnit $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string        $accountId  Account which contains the ad client.
+     * @param  string        $adClientId Ad client which contains the ad unit.
+     * @param  Google_AdUnit $postBody
+     * @param  array         $optParams  Optional parameters.
      * @return Google_AdUnit
      */
     public function update($accountId, $adClientId, Google_AdUnit $postBody, $optParams = array())
@@ -391,11 +391,11 @@
      * Update the supplied ad unit in the specified publisher AdSense account. This method supports
      * patch semantics. (adunits.patch)
      *
-     * @param string $accountId Account which contains the ad client.
-     * @param string $adClientId Ad client which contains the ad unit.
-     * @param string $adUnitId Ad unit to get.
-     * @param Google_AdUnit $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string        $accountId  Account which contains the ad client.
+     * @param  string        $adClientId Ad client which contains the ad unit.
+     * @param  string        $adUnitId   Ad unit to get.
+     * @param  Google_AdUnit $postBody
+     * @param  array         $optParams  Optional parameters.
      * @return Google_AdUnit
      */
     public function patch($accountId, $adClientId, $adUnitId, Google_AdUnit $postBody, $optParams = array())
@@ -412,10 +412,10 @@
     /**
      * Delete the specified ad unit from the specified publisher AdSense account. (adunits.delete)
      *
-     * @param string $accountId Account which contains the ad unit.
-     * @param string $adClientId Ad client for which to get ad unit.
-     * @param string $adUnitId Ad unit to delete.
-     * @param array $optParams Optional parameters.
+     * @param  string        $accountId  Account which contains the ad unit.
+     * @param  string        $adClientId Ad client for which to get ad unit.
+     * @param  string        $adUnitId   Ad unit to delete.
+     * @param  array         $optParams  Optional parameters.
      * @return Google_AdUnit
      */
     public function delete($accountId, $adClientId, $adUnitId, $optParams = array())
@@ -444,7 +444,7 @@
      * List all hosted ad clients in the specified hosted account. (adclients.list)
      *
      * @param string $accountId Account for which to list ad clients.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string pageToken A continuation token, used to page through ad clients. To retrieve the next page, set this parameter to the value of "nextPageToken" from the previous response.
      * @opt_param string maxResults The maximum number of ad clients to include in the response, used for paging.
@@ -465,9 +465,9 @@
      * Get information about one of the ad clients in the specified publisher's AdSense account.
      * (adclients.get)
      *
-     * @param string $accountId Account which contains the ad client.
-     * @param string $adClientId Ad client to get.
-     * @param array $optParams Optional parameters.
+     * @param  string          $accountId  Account which contains the ad client.
+     * @param  string          $adClientId Ad client to get.
+     * @param  array           $optParams  Optional parameters.
      * @return Google_AdClient
      */
     public function get($accountId, $adClientId, $optParams = array())
@@ -499,8 +499,8 @@
      *
      * @param string $accountId Hosted account upon which to report.
      * @param string $startDate Start of the date range to report on in "YYYY-MM-DD" format, inclusive.
-     * @param string $endDate End of the date range to report on in "YYYY-MM-DD" format, inclusive.
-     * @param array $optParams Optional parameters.
+     * @param string $endDate   End of the date range to report on in "YYYY-MM-DD" format, inclusive.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string sort The name of a dimension or metric to sort the resulting report on, optionally prefixed with "+" to sort ascending or "-" to sort descending. If no prefix is specified, the column is sorted ascending.
      * @opt_param string locale Optional locale to use for translating report output to a local language. Defaults to "en_US" if not specified.
@@ -536,9 +536,9 @@
       /**
      * Add a new custom channel to the host AdSense account. (customchannels.insert)
      *
-     * @param string $adClientId Ad client to which the new custom channel will be added.
-     * @param Google_CustomChannel $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string               $adClientId Ad client to which the new custom channel will be added.
+     * @param  Google_CustomChannel $postBody
+     * @param  array                $optParams  Optional parameters.
      * @return Google_CustomChannel
      */
     public function insert($adClientId, Google_CustomChannel $postBody, $optParams = array())
@@ -555,9 +555,9 @@
     /**
      * Get a specific custom channel from the host AdSense account. (customchannels.get)
      *
-     * @param string $adClientId Ad client from which to get the custom channel.
-     * @param string $customChannelId Custom channel to get.
-     * @param array $optParams Optional parameters.
+     * @param  string               $adClientId      Ad client from which to get the custom channel.
+     * @param  string               $customChannelId Custom channel to get.
+     * @param  array                $optParams       Optional parameters.
      * @return Google_CustomChannel
      */
     public function get($adClientId, $customChannelId, $optParams = array())
@@ -575,7 +575,7 @@
      * List all host custom channels in this AdSense account. (customchannels.list)
      *
      * @param string $adClientId Ad client for which to list custom channels.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams  Optional parameters.
      *
      * @opt_param string pageToken A continuation token, used to page through custom channels. To retrieve the next page, set this parameter to the value of "nextPageToken" from the previous response.
      * @opt_param string maxResults The maximum number of custom channels to include in the response, used for paging.
@@ -595,9 +595,9 @@
     /**
      * Update a custom channel in the host AdSense account. (customchannels.update)
      *
-     * @param string $adClientId Ad client in which the custom channel will be updated.
-     * @param Google_CustomChannel $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string               $adClientId Ad client in which the custom channel will be updated.
+     * @param  Google_CustomChannel $postBody
+     * @param  array                $optParams  Optional parameters.
      * @return Google_CustomChannel
      */
     public function update($adClientId, Google_CustomChannel $postBody, $optParams = array())
@@ -615,10 +615,10 @@
      * Update a custom channel in the host AdSense account. This method supports patch semantics.
      * (customchannels.patch)
      *
-     * @param string $adClientId Ad client in which the custom channel will be updated.
-     * @param string $customChannelId Custom channel to get.
-     * @param Google_CustomChannel $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string               $adClientId      Ad client in which the custom channel will be updated.
+     * @param  string               $customChannelId Custom channel to get.
+     * @param  Google_CustomChannel $postBody
+     * @param  array                $optParams       Optional parameters.
      * @return Google_CustomChannel
      */
     public function patch($adClientId, $customChannelId, Google_CustomChannel $postBody, $optParams = array())
@@ -635,9 +635,9 @@
     /**
      * Delete a specific custom channel from the host AdSense account. (customchannels.delete)
      *
-     * @param string $adClientId Ad client from which to delete the custom channel.
-     * @param string $customChannelId Custom channel to delete.
-     * @param array $optParams Optional parameters.
+     * @param  string               $adClientId      Ad client from which to delete the custom channel.
+     * @param  string               $customChannelId Custom channel to delete.
+     * @param  array                $optParams       Optional parameters.
      * @return Google_CustomChannel
      */
     public function delete($adClientId, $customChannelId, $optParams = array())

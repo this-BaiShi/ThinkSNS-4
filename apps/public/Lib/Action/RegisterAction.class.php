@@ -15,15 +15,14 @@ class RegisterAction extends Action
 
     /**
      * 模块初始化，获取注册配置信息、用户模型对象、注册模型对象、邀请注册与站点头部信息设置
-     * @return void
      */
     protected function _initialize()
     {
         $this->_invite = false;
         // 未激活与未审核用户
         if ($this->mid > 0 && !in_array(ACTION_NAME, $this->_default_method)) {
-            $GLOBALS['ts']['user']['is_audit'] == 0 && ACTION_NAME != 'waitForAudit' && U('public/Register/waitForAudit', array('uid'=>$this->mid), true);
-            $GLOBALS['ts']['user']['is_audit'] == 1 && $GLOBALS['ts']['user']['is_active'] == 0 && ACTION_NAME != 'waitForActivation' && U('public/Register/waitForActivation', array('uid'=>$this->mid), true);
+            $GLOBALS['ts']['user']['is_audit'] == 0 && ACTION_NAME != 'waitForAudit' && U('public/Register/waitForAudit', array('uid' => $this->mid), true);
+            $GLOBALS['ts']['user']['is_audit'] == 1 && $GLOBALS['ts']['user']['is_active'] == 0 && ACTION_NAME != 'waitForActivation' && U('public/Register/waitForActivation', array('uid' => $this->mid), true);
             // 激活，审核，初始化过的用户进登录页面跳转到首页
             $GLOBALS['ts']['user']['is_audit'] == 1 && $GLOBALS['ts']['user']['is_active'] == 1 && $GLOBALS['ts']['user']['is_init'] == 1 && U('public/Index/index', '', true);
         }
@@ -45,7 +44,6 @@ class RegisterAction extends Action
     }
     /**
      * 默认注册页面 - 注册表单页面
-     * @return void
      */
     public function index()
     {
@@ -69,7 +67,7 @@ class RegisterAction extends Action
         if (empty($this->mid)) {
             if ((isset($_GET['invite']) || $this->_config['register_type'] != 'open') && !in_array(ACTION_NAME, array('isEmailAvailable', 'isUnameAvailable', 'doStep1'))) {
                 // 提示信息语言
-                $messageHash = array('invite'=>'抱歉，本站目前仅支持邀请注册。', 'admin'=>'抱歉，本站目前仅支持管理员邀请注册。', 'other'=>'抱歉，本站目前仅支持第三方帐号绑定。');
+                $messageHash = array('invite' => '抱歉，本站目前仅支持邀请注册。', 'admin' => '抱歉，本站目前仅支持管理员邀请注册。', 'other' => '抱歉，本站目前仅支持第三方帐号绑定。');
                 $message = $messageHash[$this->_config['register_type']];
                 if (!isset($_GET['invite'])) {
                     $this->error($message);
@@ -104,7 +102,6 @@ class RegisterAction extends Action
 
     /**
      * 第三方帐号集成 - 绑定本地帐号
-     * @return void
      */
     /*public function doBindStep1(){
 
@@ -138,9 +135,9 @@ class RegisterAction extends Action
     {
         $email = t($_POST['email']);
         $password = trim($_POST['password']);
-        
+
         $user = model('Passport')->getLocalUser($email, $password);
-        if (isset($user['uid']) && $user['uid']>0) {
+        if (isset($user['uid']) && $user['uid'] > 0) {
 
             //注册来源-第三方帐号绑定
             if (isset($_POST['other_type'])) {
@@ -171,10 +168,9 @@ class RegisterAction extends Action
         }
     }
 
-    /**
-     * 第三方帐号集成 - 注册新账号
-     * @return void
-     */
+        /**
+         * 第三方帐号集成 - 注册新账号
+         */
 /*	public function doOtherStep1(){	
 
         $email = t($_POST['email']);
@@ -305,9 +301,9 @@ class RegisterAction extends Action
             $sex = isset($_POST['sex']) ? intval($_POST['sex']) : 1;
 
             $bindemail = model('AddonData')->get('login:bindemail');
-        
+
         //直接绑定
-        if (!$bindemail && $_POST['direct']==1) {
+        if (!$bindemail && $_POST['direct'] == 1) {
             //邮箱是空的，需要完善邮箱
             $email = null;
             //密码随机的，需要找回密码
@@ -325,7 +321,7 @@ class RegisterAction extends Action
             if (!$this->_register_model->isValidName($uname)) {
                 $this->error($this->_register_model->getLastError());
             }
-            
+
             if (isset($_POST['email'])) {
                 if (!$this->_register_model->isValidEmail($email)) {
                     $this->error($this->_register_model->getLastError());
@@ -347,7 +343,7 @@ class RegisterAction extends Action
             $map['login'] = $email;
             $map['reg_ip'] = get_client_ip();
             $map['ctime'] = time();
-        
+
         // 添加地区信息
         $map['location'] = t($_POST['city_names']);
             $cityIds = t($_POST['city_ids']);
@@ -366,7 +362,7 @@ class RegisterAction extends Action
             $map['is_active'] = 1;
         }
             $map['first_letter'] = getFirstLetter($uname);
-        
+
         //如果包含中文将中文翻译成拼音
         if (preg_match('/[\x7f-\xff]+/', $map['uname'])) {
             //昵称和呢称拼音保存到搜索字段
@@ -374,12 +370,12 @@ class RegisterAction extends Action
         } else {
             $map['search_key'] = $map['uname'];
         }
-        
+
             $uid = $this->_user_model->add($map);
             if ($uid) {
 
             //保存头像
-            if ($_POST['avatar']==1) {
+            if ($_POST['avatar'] == 1) {
                 model('Avatar')->saveRemoteAvatar(t($_POST['other_face']), $uid);
             }
 
@@ -433,7 +429,6 @@ class RegisterAction extends Action
 
     /**
      * 注册流程 - 执行第一步骤
-     * @return void
      */
     public function doStep1()
     {
@@ -459,7 +454,7 @@ class RegisterAction extends Action
             if (md5(strtoupper($_POST['verify'])) != $_SESSION['verify'] && false) {    //已关闭
                 $this->error('验证码错误');
             }
-                
+
             if (!$this->_register_model->isValidName($uname)) {
                 $this->error($this->_register_model->getLastError());
             }
@@ -502,13 +497,13 @@ class RegisterAction extends Action
         if ($regType === 'email') {
             // $map['login'] = $map['email'] = $email;
             $map['email'] = $email;
-            $login        = $email;
+            $login = $email;
         } elseif ($regType === 'phone') {
             // $map['login'] = $phone;
             $map['phone'] = $phone;
-            $login        = $phone;
+            $login = $phone;
         } else {
-            $login        = $uname;
+            $login = $uname;
         }
         $map['reg_ip'] = get_client_ip();
         $map['ctime'] = time();
@@ -617,17 +612,16 @@ class RegisterAction extends Action
 
     /**
      * 等待审核页面
-     * @return void
      */
     public function waitForAudit()
     {
         $user_info = $this->_user_model->where("uid={$this->uid}")->find();
-        $email    =    model('Xdata')->getConfig('sys_email', 'site');
+        $email = model('Xdata')->getConfig('sys_email', 'site');
         if (!$user_info || $user_info['is_audit']) {
             $this->redirect('public/Passport/login');
         }
         $touid = D('user_group_link')->where('user_group_id=1')->field('uid')->findAll();
-        foreach ($touid as $k=>$v) {
+        foreach ($touid as $k => $v) {
             model('Notify')->sendNotify($v['uid'], 'register_audit');
         }
         $this->assign('email', $email);
@@ -647,7 +641,7 @@ class RegisterAction extends Action
         if ($user_info) {
             if ($user_info['is_audit'] == '0') {
                 // 审核
-                exit(U('public/Register/waitForAudit', array('uid'=>$this->uid), true));
+                exit(U('public/Register/waitForAudit', array('uid' => $this->uid), true));
             } elseif ($user_info['is_active'] == '1') {
                 // 激活
                 exit(U('public/Register/step2', array(), true));
@@ -669,7 +663,6 @@ class RegisterAction extends Action
 
     /**
      * 发送激活邮件
-     * @return void
      */
     public function resendActivationEmail()
     {
@@ -699,14 +692,13 @@ class RegisterAction extends Action
 
     /**
      * 通过链接激活帐号
-     * @return void
      */
     public function activate()
     {
         $user_info = $this->_user_model->getUserInfo($this->uid);
 
         $this->assign('user', $user_info);
-        
+
         if (!$user_info || $user_info['is_active']) {
             $this->redirect('public/Passport/login');
         }
@@ -729,7 +721,6 @@ class RegisterAction extends Action
 
     /**
      * 第二步注册
-     * @return void
      */
     public function step2()
     {
@@ -770,9 +761,9 @@ class RegisterAction extends Action
     {
         $required = $this->_config['personal_required'];
         if (in_array('face', $required) && !model('Avatar')->hasAvatar()) {
-            $this->ajaxReturn(null, "想跳过，没门！请上传头像", 0);
+            $this->ajaxReturn(null, '想跳过，没门！请上传头像', 0);
         } else {
-            $this->ajaxReturn(null, "", 1);
+            $this->ajaxReturn(null, '', 1);
         }
         //$this->assign('jumpUrl',U('public/Register/step3'));
         //$this->success('头像设置成功，进入下一步设置！' );
@@ -809,21 +800,21 @@ class RegisterAction extends Action
     {
         $required = $this->_config['personal_required'];
         if (in_array('location', $required) && empty($_POST['city_names'])) {
-            $this->ajaxReturn(null, "想跳过，没门！请选择地区", 0);
+            $this->ajaxReturn(null, '想跳过，没门！请选择地区', 0);
         }
         if (in_array('tag', $required) && empty($_POST['user_tags'])) {
-            $this->ajaxReturn(null, "想跳过，没门！请选择标签", 0);
+            $this->ajaxReturn(null, '想跳过，没门！请选择标签', 0);
         }
         if (in_array('intro', $required) && empty($_POST['intro'])) {
-            $this->ajaxReturn(null, "想跳过，没门！请填写简介", 0);
+            $this->ajaxReturn(null, '想跳过，没门！请填写简介', 0);
         }
-        
+
         $data['sex'] = intval($_POST['sex']);
-        
+
         $data['location'] = t($_POST['city_names']);
         $cityIds = t($_POST['city_ids']);
         $cityIds = explode(',', $cityIds);
-        if ($_POST['input_city']!='') {
+        if ($_POST['input_city'] != '') {
             isset($cityIds[0]) && $data['province'] = intval($cityIds[0]);
             $data['input_city'] = t($_POST['input_city']);
             $data['city'] = 0;
@@ -836,14 +827,14 @@ class RegisterAction extends Action
         $data['intro'] = t($_POST['intro']);
         $map['uid'] = $this->mid;
         model('User')->where($map)->save($data);
-        
+
         // 保存用户标签信息 - 前期用user_category_link现在修改为app_tag,此user_tag是选中的user_category_id
         $tagIds = t($_POST['user_tags']);
         !empty($tagIds) && $tagIds = explode(',', $tagIds);
         $rowId = intval($this->mid);
         if (!empty($rowId)) {
             if (count($tagIds) > $this->_config['tag_num']) {
-                $this->ajaxReturn(null, "最多只能设置".$this->_config['tag_num']."个标签", 0);
+                $this->ajaxReturn(null, '最多只能设置'.$this->_config['tag_num'].'个标签', 0);
             }
             // tag_id
             $categoryHash = model('CategoryTree')->setTable('user_category')->getCategoryHash();
@@ -855,7 +846,6 @@ class RegisterAction extends Action
             }
             model('Tag')->setAppName('public')->setAppTable('user')->updateTagData($rowId, $tagIdArr);
         }
-        
 
        /*
         $tagIds = t($_REQUEST['user_tags']);
@@ -869,7 +859,7 @@ class RegisterAction extends Action
         } */
         //$this->assign('jumpUrl',U('public/Register/step4'));
         //$this->success('您离成功只差一步了！' );
-        $this->ajaxReturn(null, "", 1);
+        $this->ajaxReturn(null, '', 1);
     }
 
     /**
@@ -886,7 +876,7 @@ class RegisterAction extends Action
         $this->assign('mid', $this->mid);
 
         //按推荐用户
-        $sql = "SELECT uid FROM `ts_user_verified` WHERE usergroup_id=5 AND verified=1 order by rand() limit 8";
+        $sql = 'SELECT uid FROM `ts_user_verified` WHERE usergroup_id=5 AND verified=1 order by rand() limit 8';
         $list = M()->query($sql);
         $uids = getSubByKey($list, 'uid');
         $userInfos = model('User')->getUserInfoByUids($uids);
@@ -913,16 +903,16 @@ class RegisterAction extends Action
         $this->setKeywords('选择感兴趣的人');
         $this->display();
     }
-    
+
     /**
      * 注册流程 - 第四步骤
      */
     public function getNRelatedUser()
     {
         $type = intval($_POST['type']);
-        if ($type=='5') {
+        if ($type == '5') {
             //按推荐用户
-            $sql = "SELECT uid FROM `ts_user_verified` WHERE usergroup_id=5 AND verified=1 order by rand() limit 8";
+            $sql = 'SELECT uid FROM `ts_user_verified` WHERE usergroup_id=5 AND verified=1 order by rand() limit 8';
             $list = M()->query($sql);
             $uids = getSubByKey($list, 'uid');
             $userInfos = model('User')->getUserInfoByUids($uids);
@@ -934,7 +924,7 @@ class RegisterAction extends Action
             $arr = model('RelatedUser')->getRelatedUserByType($type, 18);
         }
         $html = '';
-        $i=18*$type;
+        $i = 18 * $type;
         foreach ($arr as $vo) {
             $html .= '<li>';
             $html .= '<div class="person-pic"><img src="'.$vo['userInfo']['avatar_middle'].'" height="80px" width="80px"/></div>';
@@ -957,13 +947,13 @@ class RegisterAction extends Action
         $map['is_del'] = 0;
         $list = D('Group')->where($map)->order('rand()')->limit('4')->select();
         $cids = getSubByKey($list, 'cid0');
-        $cmap['id'] = array('in' , $cids );
+        $cmap['id'] = array('in', $cids);
         $cateinfos = D('Category')->where($cmap)->field('id,title')->findAll();
         $cnames = array();
         foreach ($cateinfos as $cate) {
             $cnames[$cate['id']] = $cate['title'];
         }
-        foreach ($list as $k=>$v) {
+        foreach ($list as $k => $v) {
             $list[$k]['logo'] = getImageUrl($v['logo'], 100, 100, true);
             $list[$k]['catename'] = $cnames[$v['cid0']];
         }
@@ -981,14 +971,13 @@ class RegisterAction extends Action
 
     /**
      * 获取推荐用户
-     * @return void
      */
     public function getRelatedUser()
     {
         $type = intval($_POST['type']);
         $related_user = model('RelatedUser')->getRelatedUserByType($type, 8);
         $html = '';
-        foreach ($related_user as $k=>$v) {
+        foreach ($related_user as $k => $v) {
             $html .= '<li><div style="position:relative;width:80px;height:80px"><div class="selected"><i class="ico-ok-mark"></i></div>
 					  <a event-node="bulkDoFollowData" value="'.$v['userInfo']['uid'].'" class="face_part" href="javascript:void(0);">
 					  <img src="'.$v['userInfo']['avatar_big'].'" /></a></div><span class="name">'.$v['userInfo']['uname'].'</span></li>';
@@ -1017,7 +1006,7 @@ class RegisterAction extends Action
         if (!empty($defaultFollow)) {
             model('Follow')->bulkDoFollow($this->mid, $defaultFollow);
         }
-        
+
         //添加关注人员$defaultFollow = $_POST['fids']
         if ($_POST['fids']) {
             model('Follow')->bulkDoFollow($this->mid, $_POST['fids']);
@@ -1027,14 +1016,14 @@ class RegisterAction extends Action
         //$this->success('注册成功！');
         //redirect($GLOBALS['ts']['site']['home_url']);
     }
-    
+
     /**
      * 注册流程 - 执行第四步骤
      */
     public function setStep4()
     {
         set_time_limit(0);
-    
+
         // 添加默认关注用户
         $defaultFollow = $this->_config['default_follow'];
         $defaultFollow = array_diff(explode(',', $defaultFollow), explode(',', $eachFollow));
@@ -1045,11 +1034,11 @@ class RegisterAction extends Action
         if (!empty($eachFollow)) {
             model('Follow')->eachDoFollow($this->mid, $eachFollow);
         }
-    
+
         if (!empty($defaultFollow)) {
             model('Follow')->bulkDoFollow($this->mid, $defaultFollow);
         }
-        
+
         redirect($GLOBALS['ts']['site']['home_url']);
     }
 
@@ -1074,20 +1063,20 @@ class RegisterAction extends Action
     public function isRegCodeAvailable()
     {
         $code = intval($_POST['regCode']);
-        $phone= floatval($_POST['phone']);
-        $sms  = model('Sms');
+        $phone = floatval($_POST['phone']);
+        $sms = model('Sms');
 
         if ($sms->CheckCaptcha($phone, $code)) {
             echo json_encode(array(
                 'status' => true,
-                'info'   => '验证通过'
+                'info' => '验证通过',
             ));
             exit;
         }
 
         echo json_encode(array(
             'status' => false,
-            'info'   => $sms->getMessage()
+            'info' => $sms->getMessage(),
         ));
         exit;
 
@@ -1141,26 +1130,26 @@ class RegisterAction extends Action
 
     /**
      * 判断验证码是否正确
-     * @return boolean 若正确返回true，否则返回false
+     * @return bool 若正确返回true，否则返回false
      */
     public function isValidVerify()
     {
         $code = intval($_POST['verify']);
-        $sms  = model('Sms');
-        $phone= $_SESSION['phone'];
+        $sms = model('Sms');
+        $phone = $_SESSION['phone'];
 
         /* # 检查验证码是否正确 */
         if ($sms->CheckCaptcha($phone, $code)) {
             echo json_encode(array(
                 'status' => 1,
-                'info'   => '验证通过！'
+                'info' => '验证通过！',
             ));
             exit;
         }
 
         echo json_encode(array(
             'status' => 0,
-            'info'   => $sms->getMessage()
+            'info' => $sms->getMessage(),
         ));
         unset($sms);
         exit;
@@ -1180,7 +1169,7 @@ class RegisterAction extends Action
         if (md5(strtoupper($_POST['verify'])) != $_SESSION['verify']) {
             echo json_encode(array(
                 'status' => 0,
-                'data'   => '图像验证码错误！'
+                'data' => '图像验证码错误！',
             ));
             exit;
         }
@@ -1194,26 +1183,26 @@ class RegisterAction extends Action
         if (0 >= preg_match('/^\+?[0\s]*[\d]{0,4}[\-\s]?\d{4,12}$/', $phone)) {
             echo json_encode(array(
                 'status' => 0,
-                'data'   => '不是正确的手机号码！'
+                'data' => '不是正确的手机号码！',
             ));
 
         /* # 验证该手机号码是否已经注册 */
         } elseif (!model('User')->isChangePhone($phone)) {
             echo json_encode(array(
                 'status' => 0,
-                'data'   => '该手机已经被注册成用户，您无法发送验证码！'
+                'data' => '该手机已经被注册成用户，您无法发送验证码！',
             ));
 
         /* # 检查是否发送成功 */
         } elseif (($sms = model('Sms')) and !$sms->sendCaptcha($phone, true)) {
             echo json_encode(array(
                 'status' => 0,
-                'data'   => $sms->getMessage()
+                'data' => $sms->getMessage(),
             ));
         } else {
             echo json_encode(array(
                 'status' => 1,
-                'data'   => '发送成功，请注意查收！'
+                'data' => '发送成功，请注意查收！',
             ));
         }
         exit;

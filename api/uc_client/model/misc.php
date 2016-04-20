@@ -14,7 +14,6 @@ define('UC_ARRAY_SEP_2', 'UC_ARRAY_SEP_2');
 
 class miscmodel
 {
-
     public $db;
     public $base;
 
@@ -31,7 +30,8 @@ class miscmodel
 
     public function get_apps($col = '*', $where = '')
     {
-        $arr = $this->db->fetch_all("SELECT $col FROM ".UC_DBTABLEPRE."applications".($where ? ' WHERE '.$where : ''));
+        $arr = $this->db->fetch_all("SELECT $col FROM ".UC_DBTABLEPRE.'applications'.($where ? ' WHERE '.$where : ''));
+
         return $arr;
     }
 
@@ -64,17 +64,18 @@ class miscmodel
     {
     }
 
-    public function dfopen2($url, $limit = 0, $post = '', $cookie = '', $bysocket = false, $ip = '', $timeout = 15, $block = true, $encodetype  = 'URLENCODE')
+    public function dfopen2($url, $limit = 0, $post = '', $cookie = '', $bysocket = false, $ip = '', $timeout = 15, $block = true, $encodetype = 'URLENCODE')
     {
         $__times__ = isset($_GET['__times__']) ? intval($_GET['__times__']) + 1 : 1;
         if ($__times__ > 2) {
             return '';
         }
         $url .= (strpos($url, '?') === false ? '?' : '&')."__times__=$__times__";
+
         return $this->dfopen($url, $limit, $post, $cookie, $bysocket, $ip, $timeout, $block, $encodetype);
     }
 
-    public function dfopen($url, $limit = 0, $post = '', $cookie = '', $bysocket = false, $ip = '', $timeout = 15, $block = true, $encodetype  = 'URLENCODE')
+    public function dfopen($url, $limit = 0, $post = '', $cookie = '', $bysocket = false, $ip = '', $timeout = 15, $block = true, $encodetype = 'URLENCODE')
     {
         //error_log("[uc_client]\r\nurl: $url\r\npost: $post\r\n\r\n", 3, 'c:/log/php_fopen.txt');
         $return = '';
@@ -141,6 +142,7 @@ class miscmodel
                 }
             }
             @fclose($fp);
+
             return $return;
         }
     }
@@ -154,6 +156,7 @@ class miscmodel
                 $sep = UC_ARRAY_SEP_2;
             }
         }
+
         return $s;
     }
 
@@ -165,6 +168,7 @@ class miscmodel
             list($key, $val) = explode(UC_ARRAY_SEP_1, $v);
             $arr2[$key] = $val;
         }
+
         return $arr2;
     }
 }

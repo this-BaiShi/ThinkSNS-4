@@ -44,10 +44,10 @@ class ThinkException extends Exception
      +----------------------------------------------------------
      * @access public
      +----------------------------------------------------------
-     * @param string $message  异常信息
+     * @param string $message 异常信息
      +----------------------------------------------------------
      */
-    public function __construct($message, $code=0, $extra=false)
+    public function __construct($message, $code = 0, $extra = false)
     {
         parent::__construct($message, $code);
         $this->type = get_class($this);
@@ -76,28 +76,28 @@ class ThinkException extends Exception
         $this->function = $trace[0]['function'];
         $this->file = $trace[0]['file'];
         $this->line = $trace[0]['line'];
-        $file   =   file($this->file);
-        $traceInfo='';
-        $time = date("y-m-d H:i:m");
+        $file = file($this->file);
+        $traceInfo = '';
+        $time = date('y-m-d H:i:m');
         foreach ($trace as $t) {
             $traceInfo .= '['.$time.'] '.$t['file'].' ('.$t['line'].') ';
             $traceInfo .= $t['class'].$t['type'].$t['function'].'(';
             $traceInfo .= implode(', ', $t['args']);
-            $traceInfo .=")\n";
+            $traceInfo .= ")\n";
         }
-        $error['message']   = $this->message;
-        $error['type']      = $this->type;
-        $error['detail']    = L('_MODULE_').'['.MODULE_NAME.'] '.L('_ACTION_').'['.ACTION_NAME.']'."\n";
-        $error['detail']   .=   ($this->line-2).': '.$file[$this->line-3];
-        $error['detail']   .=   ($this->line-1).': '.$file[$this->line-2];
-        $error['detail']   .=   '<font color="#FF6600" >'.($this->line).': <b>'.$file[$this->line-1].'</b></font>';
-        $error['detail']   .=   ($this->line+1).': '.$file[$this->line];
-        $error['detail']   .=   ($this->line+2).': '.$file[$this->line+1];
-        $error['class']     =   $this->class;
-        $error['function']  =   $this->function;
-        $error['file']      = $this->file;
-        $error['line']      = $this->line;
-        $error['trace']     = $traceInfo;
+        $error['message'] = $this->message;
+        $error['type'] = $this->type;
+        $error['detail'] = L('_MODULE_').'['.MODULE_NAME.'] '.L('_ACTION_').'['.ACTION_NAME.']'."\n";
+        $error['detail']   .=   ($this->line - 2).': '.$file[$this->line - 3];
+        $error['detail']   .=   ($this->line - 1).': '.$file[$this->line - 2];
+        $error['detail']   .=   '<font color="#FF6600" >'.($this->line).': <b>'.$file[$this->line - 1].'</b></font>';
+        $error['detail']   .=   ($this->line + 1).': '.$file[$this->line];
+        $error['detail']   .=   ($this->line + 2).': '.$file[$this->line + 1];
+        $error['class'] = $this->class;
+        $error['function'] = $this->function;
+        $error['file'] = $this->file;
+        $error['line'] = $this->line;
+        $error['trace'] = $traceInfo;
 
         //记录系统知识
         Log::Write('('.$this->type.') '.$this->message);

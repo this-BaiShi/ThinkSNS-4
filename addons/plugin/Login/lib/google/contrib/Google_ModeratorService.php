@@ -26,10 +26,10 @@
      * Inserts a new vote by the authenticated user for the specified submission within the specified
      * series. (votes.insert)
      *
-     * @param string $seriesId The decimal ID of the Series.
-     * @param string $submissionId The decimal ID of the Submission within the Series.
+     * @param string      $seriesId     The decimal ID of the Series.
+     * @param string      $submissionId The decimal ID of the Submission within the Series.
      * @param Google_Vote $postBody
-     * @param array $optParams Optional parameters.
+     * @param array       $optParams    Optional parameters.
      *
      * @opt_param string unauthToken User identifier for unauthenticated usage mode
      * @return Google_Vote
@@ -49,10 +49,10 @@
      * Updates the votes by the authenticated user for the specified submission within the specified
      * series. This method supports patch semantics. (votes.patch)
      *
-     * @param string $seriesId The decimal ID of the Series.
-     * @param string $submissionId The decimal ID of the Submission within the Series.
+     * @param string      $seriesId     The decimal ID of the Series.
+     * @param string      $submissionId The decimal ID of the Submission within the Series.
      * @param Google_Vote $postBody
-     * @param array $optParams Optional parameters.
+     * @param array       $optParams    Optional parameters.
      *
      * @opt_param string userId
      * @opt_param string unauthToken User identifier for unauthenticated usage mode
@@ -72,8 +72,8 @@
     /**
      * Lists the votes by the authenticated user for the given series. (votes.list)
      *
-     * @param string $seriesId The decimal ID of the Series.
-     * @param array $optParams Optional parameters.
+     * @param string $seriesId  The decimal ID of the Series.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string max-results Maximum number of results to return.
      * @opt_param string start-index Index of the first result to be retrieved.
@@ -94,10 +94,10 @@
      * Updates the votes by the authenticated user for the specified submission within the specified
      * series. (votes.update)
      *
-     * @param string $seriesId The decimal ID of the Series.
-     * @param string $submissionId The decimal ID of the Submission within the Series.
+     * @param string      $seriesId     The decimal ID of the Series.
+     * @param string      $submissionId The decimal ID of the Submission within the Series.
      * @param Google_Vote $postBody
-     * @param array $optParams Optional parameters.
+     * @param array       $optParams    Optional parameters.
      *
      * @opt_param string userId
      * @opt_param string unauthToken User identifier for unauthenticated usage mode
@@ -118,9 +118,9 @@
      * Returns the votes by the authenticated user for the specified submission within the specified
      * series. (votes.get)
      *
-     * @param string $seriesId The decimal ID of the Series.
+     * @param string $seriesId     The decimal ID of the Series.
      * @param string $submissionId The decimal ID of the Submission within the Series.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams    Optional parameters.
      *
      * @opt_param string userId
      * @opt_param string unauthToken User identifier for unauthenticated usage mode
@@ -152,11 +152,11 @@
      * Inserts a response for the specified submission in the specified topic within the specified
      * series. (responses.insert)
      *
-     * @param string $seriesId The decimal ID of the Series.
-     * @param string $topicId The decimal ID of the Topic within the Series.
-     * @param string $parentSubmissionId The decimal ID of the parent Submission within the Series.
+     * @param string            $seriesId           The decimal ID of the Series.
+     * @param string            $topicId            The decimal ID of the Topic within the Series.
+     * @param string            $parentSubmissionId The decimal ID of the parent Submission within the Series.
      * @param Google_Submission $postBody
-     * @param array $optParams Optional parameters.
+     * @param array             $optParams          Optional parameters.
      *
      * @opt_param string unauthToken User identifier for unauthenticated usage mode
      * @opt_param bool anonymous Set to true to mark the new submission as anonymous.
@@ -177,9 +177,9 @@
      * Lists or searches the responses for the specified submission within the specified series and
      * returns the search results. (responses.list)
      *
-     * @param string $seriesId The decimal ID of the Series.
+     * @param string $seriesId     The decimal ID of the Series.
      * @param string $submissionId The decimal ID of the Submission within the Series.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams    Optional parameters.
      *
      * @opt_param string max-results Maximum number of results to return.
      * @opt_param string sort Sort order.
@@ -214,10 +214,10 @@
       /**
      * Inserts a new tag for the specified submission within the specified series. (tags.insert)
      *
-     * @param string $seriesId The decimal ID of the Series.
-     * @param string $submissionId The decimal ID of the Submission within the Series.
-     * @param Google_Tag $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string     $seriesId     The decimal ID of the Series.
+     * @param  string     $submissionId The decimal ID of the Submission within the Series.
+     * @param  Google_Tag $postBody
+     * @param  array      $optParams    Optional parameters.
      * @return Google_Tag
      */
     public function insert($seriesId, $submissionId, Google_Tag $postBody, $optParams = array())
@@ -234,9 +234,9 @@
     /**
      * Lists all tags for the specified submission within the specified series. (tags.list)
      *
-     * @param string $seriesId The decimal ID of the Series.
-     * @param string $submissionId The decimal ID of the Submission within the Series.
-     * @param array $optParams Optional parameters.
+     * @param  string         $seriesId     The decimal ID of the Series.
+     * @param  string         $submissionId The decimal ID of the Submission within the Series.
+     * @param  array          $optParams    Optional parameters.
      * @return Google_TagList
      */
     public function listTags($seriesId, $submissionId, $optParams = array())
@@ -254,16 +254,17 @@
      * Deletes the specified tag from the specified submission within the specified series.
      * (tags.delete)
      *
-     * @param string $seriesId The decimal ID of the Series.
+     * @param string $seriesId     The decimal ID of the Series.
      * @param string $submissionId The decimal ID of the Submission within the Series.
      * @param string $tagId
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams    Optional parameters.
      */
     public function delete($seriesId, $submissionId, $tagId, $optParams = array())
     {
         $params = array('seriesId' => $seriesId, 'submissionId' => $submissionId, 'tagId' => $tagId);
         $params = array_merge($params, $optParams);
         $data = $this->__call('delete', array($params));
+
         return $data;
     }
   }
@@ -280,8 +281,8 @@
       /**
      * Inserts a new series. (series.insert)
      *
-     * @param Google_Series $postBody
-     * @param array $optParams Optional parameters.
+     * @param  Google_Series $postBody
+     * @param  array         $optParams Optional parameters.
      * @return Google_Series
      */
     public function insert(Google_Series $postBody, $optParams = array())
@@ -298,9 +299,9 @@
     /**
      * Updates the specified series. This method supports patch semantics. (series.patch)
      *
-     * @param string $seriesId The decimal ID of the Series.
-     * @param Google_Series $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string        $seriesId  The decimal ID of the Series.
+     * @param  Google_Series $postBody
+     * @param  array         $optParams Optional parameters.
      * @return Google_Series
      */
     public function patch($seriesId, Google_Series $postBody, $optParams = array())
@@ -338,9 +339,9 @@
     /**
      * Updates the specified series. (series.update)
      *
-     * @param string $seriesId The decimal ID of the Series.
-     * @param Google_Series $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string        $seriesId  The decimal ID of the Series.
+     * @param  Google_Series $postBody
+     * @param  array         $optParams Optional parameters.
      * @return Google_Series
      */
     public function update($seriesId, Google_Series $postBody, $optParams = array())
@@ -357,8 +358,8 @@
     /**
      * Returns the specified series. (series.get)
      *
-     * @param string $seriesId The decimal ID of the Series.
-     * @param array $optParams Optional parameters.
+     * @param  string        $seriesId  The decimal ID of the Series.
+     * @param  array         $optParams Optional parameters.
      * @return Google_Series
      */
     public function get($seriesId, $optParams = array())
@@ -387,8 +388,8 @@
      * Searches the submissions for the specified series and returns the search results.
      * (submissions.list)
      *
-     * @param string $seriesId The decimal ID of the Series.
-     * @param array $optParams Optional parameters.
+     * @param string $seriesId  The decimal ID of the Series.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string lang The language code for the language the client prefers resuls in.
      * @opt_param string max-results Maximum number of results to return.
@@ -425,8 +426,8 @@
       /**
      * Searches the responses for the specified series and returns the search results. (responses.list)
      *
-     * @param string $seriesId The decimal ID of the Series.
-     * @param array $optParams Optional parameters.
+     * @param string $seriesId  The decimal ID of the Series.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string max-results Maximum number of results to return.
      * @opt_param string sort Sort order.
@@ -461,9 +462,9 @@
       /**
      * Inserts a new topic into the specified series. (topics.insert)
      *
-     * @param string $seriesId The decimal ID of the Series.
-     * @param Google_Topic $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string       $seriesId  The decimal ID of the Series.
+     * @param  Google_Topic $postBody
+     * @param  array        $optParams Optional parameters.
      * @return Google_Topic
      */
     public function insert($seriesId, Google_Topic $postBody, $optParams = array())
@@ -480,8 +481,8 @@
     /**
      * Searches the topics within the specified series and returns the search results. (topics.list)
      *
-     * @param string $seriesId The decimal ID of the Series.
-     * @param array $optParams Optional parameters.
+     * @param string $seriesId  The decimal ID of the Series.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string max-results Maximum number of results to return.
      * @opt_param string q Search query.
@@ -503,10 +504,10 @@
     /**
      * Updates the specified topic within the specified series. (topics.update)
      *
-     * @param string $seriesId The decimal ID of the Series.
-     * @param string $topicId The decimal ID of the Topic within the Series.
-     * @param Google_Topic $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string       $seriesId  The decimal ID of the Series.
+     * @param  string       $topicId   The decimal ID of the Topic within the Series.
+     * @param  Google_Topic $postBody
+     * @param  array        $optParams Optional parameters.
      * @return Google_Topic
      */
     public function update($seriesId, $topicId, Google_Topic $postBody, $optParams = array())
@@ -523,9 +524,9 @@
     /**
      * Returns the specified topic from the specified series. (topics.get)
      *
-     * @param string $seriesId The decimal ID of the Series.
-     * @param string $topicId The decimal ID of the Topic within the Series.
-     * @param array $optParams Optional parameters.
+     * @param  string       $seriesId  The decimal ID of the Series.
+     * @param  string       $topicId   The decimal ID of the Topic within the Series.
+     * @param  array        $optParams Optional parameters.
      * @return Google_Topic
      */
     public function get($seriesId, $topicId, $optParams = array())
@@ -554,9 +555,9 @@
      * Searches the submissions for the specified topic within the specified series and returns the
      * search results. (submissions.list)
      *
-     * @param string $seriesId The decimal ID of the Series.
-     * @param string $topicId The decimal ID of the Topic within the Series.
-     * @param array $optParams Optional parameters.
+     * @param string $seriesId  The decimal ID of the Series.
+     * @param string $topicId   The decimal ID of the Topic within the Series.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string max-results Maximum number of results to return.
      * @opt_param bool includeVotes Specifies whether to include the current user's vote
@@ -636,8 +637,8 @@
      * Updates the profile information for the authenticated user. This method supports patch semantics.
      * (profiles.patch)
      *
-     * @param Google_Profile $postBody
-     * @param array $optParams Optional parameters.
+     * @param  Google_Profile $postBody
+     * @param  array          $optParams Optional parameters.
      * @return Google_Profile
      */
     public function patch(Google_Profile $postBody, $optParams = array())
@@ -654,8 +655,8 @@
     /**
      * Updates the profile information for the authenticated user. (profiles.update)
      *
-     * @param Google_Profile $postBody
-     * @param array $optParams Optional parameters.
+     * @param  Google_Profile $postBody
+     * @param  array          $optParams Optional parameters.
      * @return Google_Profile
      */
     public function update(Google_Profile $postBody, $optParams = array())
@@ -672,7 +673,7 @@
     /**
      * Returns the profile information for the authenticated user. (profiles.get)
      *
-     * @param array $optParams Optional parameters.
+     * @param  array          $optParams Optional parameters.
      * @return Google_Profile
      */
     public function get($optParams = array())
@@ -711,7 +712,7 @@
       /**
      * Lists the featured series. (series.list)
      *
-     * @param array $optParams Optional parameters.
+     * @param  array             $optParams Optional parameters.
      * @return Google_SeriesList
      */
     public function listFeaturedSeries($optParams = array())
@@ -750,7 +751,7 @@
       /**
      * Lists the series the authenticated user has visited. (series.list)
      *
-     * @param array $optParams Optional parameters.
+     * @param  array             $optParams Optional parameters.
      * @return Google_SeriesList
      */
     public function listMyrecentSeries($optParams = array())
@@ -789,7 +790,7 @@
       /**
      * Lists all series created by the authenticated user. (series.list)
      *
-     * @param array $optParams Optional parameters.
+     * @param  array             $optParams Optional parameters.
      * @return Google_SeriesList
      */
     public function listMySeries($optParams = array())
@@ -817,10 +818,10 @@
       /**
      * Inserts a new submission in the specified topic within the specified series. (submissions.insert)
      *
-     * @param string $seriesId The decimal ID of the Series.
-     * @param string $topicId The decimal ID of the Topic within the Series.
+     * @param string            $seriesId  The decimal ID of the Series.
+     * @param string            $topicId   The decimal ID of the Topic within the Series.
      * @param Google_Submission $postBody
-     * @param array $optParams Optional parameters.
+     * @param array             $optParams Optional parameters.
      *
      * @opt_param string unauthToken User identifier for unauthenticated usage mode
      * @opt_param bool anonymous Set to true to mark the new submission as anonymous.
@@ -840,9 +841,9 @@
     /**
      * Returns the specified submission within the specified series. (submissions.get)
      *
-     * @param string $seriesId The decimal ID of the Series.
+     * @param string $seriesId     The decimal ID of the Series.
      * @param string $submissionId The decimal ID of the Submission within the Series.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams    Optional parameters.
      *
      * @opt_param string lang The language code for the language the client prefers resuls in.
      * @opt_param bool includeVotes Specifies whether to include the current user's vote

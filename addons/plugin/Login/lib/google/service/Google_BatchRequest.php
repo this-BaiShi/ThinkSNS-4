@@ -41,18 +41,19 @@ class Google_BatchRequest
     /** @var Google_HttpRequest $req */
     foreach ($this->requests as $key => $req) {
         $body .= "--{$this->boundary}\n";
-        $body .= $req->toBatchString($key) . "\n";
+        $body .= $req->toBatchString($key)."\n";
     }
         $body = rtrim($body);
         $body .= "\n--{$this->boundary}--";
         global $apiConfig;
-        $url = $apiConfig['basePath'] . '/batch';
+        $url = $apiConfig['basePath'].'/batch';
         $httpRequest = new Google_HttpRequest($url, 'POST');
         $httpRequest->setRequestHeaders(array(
-        'Content-Type' => 'multipart/mixed; boundary=' . $this->boundary));
+        'Content-Type' => 'multipart/mixed; boundary='.$this->boundary, ));
         $httpRequest->setPostBody($body);
         $response = Google_Client::$io->makeRequest($httpRequest);
         $response = $this->parseResponse($response);
+
         return $response;
     }
     public function parseResponse(Google_HttpRequest $response)
@@ -77,10 +78,10 @@ class Google_BatchRequest
                     list($metaHeaders, $part) = explode("\r\n\r\n", $part, 2);
                     $metaHeaders = Google_CurlIO::parseResponseHeaders($metaHeaders);
                     $status = substr($part, 0, strpos($part, "\n"));
-                    $status = explode(" ", $status);
+                    $status = explode(' ', $status);
                     $status = $status[1];
                     list($partHeaders, $partBody) = Google_CurlIO::parseHttpResponse($part, false);
-                    $response = new Google_HttpRequest("");
+                    $response = new Google_HttpRequest('');
                     $response->setResponseHttpCode($status);
                     $response->setResponseHeaders($partHeaders);
                     $response->setResponseBody($partBody);
@@ -89,8 +90,10 @@ class Google_BatchRequest
           $responses[$metaHeaders['content-id']] = $response;
                 }
             }
+
             return $responses;
         }
+
         return null;
     }
 }

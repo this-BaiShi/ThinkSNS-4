@@ -4,7 +4,6 @@
  */
 class SelectFriendsWidget extends Widget
 {
-
     /**
      * 选择好友Widget
      * 
@@ -17,9 +16,9 @@ class SelectFriendsWidget extends Widget
      */
     public function render($data)
     {
-        $data['name'] || $data['name']= 'fri_ids';
+        $data['name'] || $data['name'] = 'fri_ids';
 
-        $content = $this->renderFile(dirname(__FILE__) . '/SelectFriends.html', $data);
+        $content = $this->renderFile(dirname(__FILE__).'/SelectFriends.html', $data);
 
         return $content;
     }

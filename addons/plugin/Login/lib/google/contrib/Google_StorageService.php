@@ -25,10 +25,10 @@
       /**
      * Creates a new ACL entry on the specified object. (objectAccessControls.insert)
      *
-     * @param string $bucket Name of a bucket.
-     * @param string $object Name of the object.
-     * @param Google_ObjectAccessControl $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string                     $bucket    Name of a bucket.
+     * @param  string                     $object    Name of the object.
+     * @param  Google_ObjectAccessControl $postBody
+     * @param  array                      $optParams Optional parameters.
      * @return Google_ObjectAccessControl
      */
     public function insert($bucket, $object, Google_ObjectAccessControl $postBody, $optParams = array())
@@ -46,10 +46,10 @@
      * Returns the ACL entry for the specified entity on the specified object.
      * (objectAccessControls.get)
      *
-     * @param string $bucket Name of a bucket.
-     * @param string $object Name of the object.
-     * @param string $entity The entity holding the permission. Can be user-userId, group-groupId, allUsers, or allAuthenticatedUsers.
-     * @param array $optParams Optional parameters.
+     * @param  string                     $bucket    Name of a bucket.
+     * @param  string                     $object    Name of the object.
+     * @param  string                     $entity    The entity holding the permission. Can be user-userId, group-groupId, allUsers, or allAuthenticatedUsers.
+     * @param  array                      $optParams Optional parameters.
      * @return Google_ObjectAccessControl
      */
     public function get($bucket, $object, $entity, $optParams = array())
@@ -66,9 +66,9 @@
     /**
      * Retrieves ACL entries on the specified object. (objectAccessControls.list)
      *
-     * @param string $bucket Name of a bucket.
-     * @param string $object Name of the object.
-     * @param array $optParams Optional parameters.
+     * @param  string                      $bucket    Name of a bucket.
+     * @param  string                      $object    Name of the object.
+     * @param  array                       $optParams Optional parameters.
      * @return Google_ObjectAccessControls
      */
     public function listObjectAccessControls($bucket, $object, $optParams = array())
@@ -85,11 +85,11 @@
     /**
      * Updates an ACL entry on the specified object. (objectAccessControls.update)
      *
-     * @param string $bucket Name of a bucket.
-     * @param string $object Name of the object.
-     * @param string $entity The entity holding the permission. Can be user-userId, group-groupId, allUsers, or allAuthenticatedUsers.
-     * @param Google_ObjectAccessControl $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string                     $bucket    Name of a bucket.
+     * @param  string                     $object    Name of the object.
+     * @param  string                     $entity    The entity holding the permission. Can be user-userId, group-groupId, allUsers, or allAuthenticatedUsers.
+     * @param  Google_ObjectAccessControl $postBody
+     * @param  array                      $optParams Optional parameters.
      * @return Google_ObjectAccessControl
      */
     public function update($bucket, $object, $entity, Google_ObjectAccessControl $postBody, $optParams = array())
@@ -107,11 +107,11 @@
      * Updates an ACL entry on the specified object. This method supports patch semantics.
      * (objectAccessControls.patch)
      *
-     * @param string $bucket Name of a bucket.
-     * @param string $object Name of the object.
-     * @param string $entity The entity holding the permission. Can be user-userId, group-groupId, allUsers, or allAuthenticatedUsers.
-     * @param Google_ObjectAccessControl $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string                     $bucket    Name of a bucket.
+     * @param  string                     $object    Name of the object.
+     * @param  string                     $entity    The entity holding the permission. Can be user-userId, group-groupId, allUsers, or allAuthenticatedUsers.
+     * @param  Google_ObjectAccessControl $postBody
+     * @param  array                      $optParams Optional parameters.
      * @return Google_ObjectAccessControl
      */
     public function patch($bucket, $object, $entity, Google_ObjectAccessControl $postBody, $optParams = array())
@@ -129,16 +129,17 @@
      * Deletes the ACL entry for the specified entity on the specified object.
      * (objectAccessControls.delete)
      *
-     * @param string $bucket Name of a bucket.
-     * @param string $object Name of the object.
-     * @param string $entity The entity holding the permission. Can be user-userId, group-groupId, allUsers, or allAuthenticatedUsers.
-     * @param array $optParams Optional parameters.
+     * @param string $bucket    Name of a bucket.
+     * @param string $object    Name of the object.
+     * @param string $entity    The entity holding the permission. Can be user-userId, group-groupId, allUsers, or allAuthenticatedUsers.
+     * @param array  $optParams Optional parameters.
      */
     public function delete($bucket, $object, $entity, $optParams = array())
     {
         $params = array('bucket' => $bucket, 'object' => $object, 'entity' => $entity);
         $params = array_merge($params, $optParams);
         $data = $this->__call('delete', array($params));
+
         return $data;
     }
   }
@@ -155,9 +156,9 @@
       /**
      * Creates a new ACL entry on the specified bucket. (bucketAccessControls.insert)
      *
-     * @param string $bucket Name of a bucket.
-     * @param Google_BucketAccessControl $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string                     $bucket    Name of a bucket.
+     * @param  Google_BucketAccessControl $postBody
+     * @param  array                      $optParams Optional parameters.
      * @return Google_BucketAccessControl
      */
     public function insert($bucket, Google_BucketAccessControl $postBody, $optParams = array())
@@ -175,9 +176,9 @@
      * Returns the ACL entry for the specified entity on the specified bucket.
      * (bucketAccessControls.get)
      *
-     * @param string $bucket Name of a bucket.
-     * @param string $entity The entity holding the permission. Can be user-userId, group-groupId, allUsers, or allAuthenticatedUsers.
-     * @param array $optParams Optional parameters.
+     * @param  string                     $bucket    Name of a bucket.
+     * @param  string                     $entity    The entity holding the permission. Can be user-userId, group-groupId, allUsers, or allAuthenticatedUsers.
+     * @param  array                      $optParams Optional parameters.
      * @return Google_BucketAccessControl
      */
     public function get($bucket, $entity, $optParams = array())
@@ -194,8 +195,8 @@
     /**
      * Retrieves ACL entries on the specified bucket. (bucketAccessControls.list)
      *
-     * @param string $bucket Name of a bucket.
-     * @param array $optParams Optional parameters.
+     * @param  string                      $bucket    Name of a bucket.
+     * @param  array                       $optParams Optional parameters.
      * @return Google_BucketAccessControls
      */
     public function listBucketAccessControls($bucket, $optParams = array())
@@ -212,10 +213,10 @@
     /**
      * Updates an ACL entry on the specified bucket. (bucketAccessControls.update)
      *
-     * @param string $bucket Name of a bucket.
-     * @param string $entity The entity holding the permission. Can be user-userId, group-groupId, allUsers, or allAuthenticatedUsers.
-     * @param Google_BucketAccessControl $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string                     $bucket    Name of a bucket.
+     * @param  string                     $entity    The entity holding the permission. Can be user-userId, group-groupId, allUsers, or allAuthenticatedUsers.
+     * @param  Google_BucketAccessControl $postBody
+     * @param  array                      $optParams Optional parameters.
      * @return Google_BucketAccessControl
      */
     public function update($bucket, $entity, Google_BucketAccessControl $postBody, $optParams = array())
@@ -233,10 +234,10 @@
      * Updates an ACL entry on the specified bucket. This method supports patch semantics.
      * (bucketAccessControls.patch)
      *
-     * @param string $bucket Name of a bucket.
-     * @param string $entity The entity holding the permission. Can be user-userId, group-groupId, allUsers, or allAuthenticatedUsers.
-     * @param Google_BucketAccessControl $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string                     $bucket    Name of a bucket.
+     * @param  string                     $entity    The entity holding the permission. Can be user-userId, group-groupId, allUsers, or allAuthenticatedUsers.
+     * @param  Google_BucketAccessControl $postBody
+     * @param  array                      $optParams Optional parameters.
      * @return Google_BucketAccessControl
      */
     public function patch($bucket, $entity, Google_BucketAccessControl $postBody, $optParams = array())
@@ -254,15 +255,16 @@
      * Deletes the ACL entry for the specified entity on the specified bucket.
      * (bucketAccessControls.delete)
      *
-     * @param string $bucket Name of a bucket.
-     * @param string $entity The entity holding the permission. Can be user-userId, group-groupId, allUsers, or allAuthenticatedUsers.
-     * @param array $optParams Optional parameters.
+     * @param string $bucket    Name of a bucket.
+     * @param string $entity    The entity holding the permission. Can be user-userId, group-groupId, allUsers, or allAuthenticatedUsers.
+     * @param array  $optParams Optional parameters.
      */
     public function delete($bucket, $entity, $optParams = array())
     {
         $params = array('bucket' => $bucket, 'entity' => $entity);
         $params = array_merge($params, $optParams);
         $data = $this->__call('delete', array($params));
+
         return $data;
     }
   }
@@ -279,9 +281,9 @@
       /**
      * Stores new data blobs and associated metadata. (objects.insert)
      *
-     * @param string $bucket Name of the bucket in which to store the new object. Overrides the provided object metadata's bucket value, if any.
+     * @param string               $bucket    Name of the bucket in which to store the new object. Overrides the provided object metadata's bucket value, if any.
      * @param Google_StorageObject $postBody
-     * @param array $optParams Optional parameters.
+     * @param array                $optParams Optional parameters.
      *
      * @opt_param string name Name of the object. Required when the object metadata is not otherwise provided. Overrides the object metadata's name value, if any.
      * @opt_param string projection Set of properties to return. Defaults to no_acl, unless the object resource specifies the acl property, when it defaults to full.
@@ -301,9 +303,9 @@
     /**
      * Retrieves objects or their associated metadata. (objects.get)
      *
-     * @param string $bucket Name of the bucket in which the object resides.
-     * @param string $object Name of the object.
-     * @param array $optParams Optional parameters.
+     * @param string $bucket    Name of the bucket in which the object resides.
+     * @param string $object    Name of the object.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string projection Set of properties to return. Defaults to no_acl.
      * @return Google_StorageObject
@@ -322,8 +324,8 @@
     /**
      * Retrieves a list of objects matching the criteria. (objects.list)
      *
-     * @param string $bucket Name of the bucket in which to look for objects.
-     * @param array $optParams Optional parameters.
+     * @param string $bucket    Name of the bucket in which to look for objects.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string max-results Maximum number of items plus prefixes to return. As duplicate prefixes are omitted, fewer total results may be returned than requested.
      * @opt_param string projection Set of properties to return. Defaults to no_acl.
@@ -346,10 +348,10 @@
     /**
      * Updates a data blob's associated metadata. (objects.update)
      *
-     * @param string $bucket Name of the bucket in which the object resides.
-     * @param string $object Name of the object.
+     * @param string               $bucket    Name of the bucket in which the object resides.
+     * @param string               $object    Name of the object.
      * @param Google_StorageObject $postBody
-     * @param array $optParams Optional parameters.
+     * @param array                $optParams Optional parameters.
      *
      * @opt_param string projection Set of properties to return. Defaults to full.
      * @return Google_StorageObject
@@ -368,10 +370,10 @@
     /**
      * Updates a data blob's associated metadata. This method supports patch semantics. (objects.patch)
      *
-     * @param string $bucket Name of the bucket in which the object resides.
-     * @param string $object Name of the object.
+     * @param string               $bucket    Name of the bucket in which the object resides.
+     * @param string               $object    Name of the object.
      * @param Google_StorageObject $postBody
-     * @param array $optParams Optional parameters.
+     * @param array                $optParams Optional parameters.
      *
      * @opt_param string projection Set of properties to return. Defaults to full.
      * @return Google_StorageObject
@@ -390,15 +392,16 @@
     /**
      * Deletes data blobs and associated metadata. (objects.delete)
      *
-     * @param string $bucket Name of the bucket in which the object resides.
-     * @param string $object Name of the object.
-     * @param array $optParams Optional parameters.
+     * @param string $bucket    Name of the bucket in which the object resides.
+     * @param string $object    Name of the object.
+     * @param array  $optParams Optional parameters.
      */
     public function delete($bucket, $object, $optParams = array())
     {
         $params = array('bucket' => $bucket, 'object' => $object);
         $params = array_merge($params, $optParams);
         $data = $this->__call('delete', array($params));
+
         return $data;
     }
   }
@@ -416,7 +419,7 @@
      * Creates a new bucket. (buckets.insert)
      *
      * @param Google_Bucket $postBody
-     * @param array $optParams Optional parameters.
+     * @param array         $optParams Optional parameters.
      *
      * @opt_param string projection Set of properties to return. Defaults to no_acl, unless the bucket resource specifies acl or defaultObjectAcl properties, when it defaults to full.
      * @return Google_Bucket
@@ -435,8 +438,8 @@
     /**
      * Returns metadata for the specified bucket. (buckets.get)
      *
-     * @param string $bucket Name of a bucket.
-     * @param array $optParams Optional parameters.
+     * @param string $bucket    Name of a bucket.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string projection Set of properties to return. Defaults to no_acl.
      * @return Google_Bucket
@@ -456,7 +459,7 @@
      * Retrieves a list of buckets for a given project. (buckets.list)
      *
      * @param string $projectId A valid API project identifier.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string max-results Maximum number of buckets to return.
      * @opt_param string pageToken A previously-returned page token representing part of the larger set of results to view.
@@ -477,9 +480,9 @@
     /**
      * Updates a bucket. (buckets.update)
      *
-     * @param string $bucket Name of a bucket.
+     * @param string        $bucket    Name of a bucket.
      * @param Google_Bucket $postBody
-     * @param array $optParams Optional parameters.
+     * @param array         $optParams Optional parameters.
      *
      * @opt_param string projection Set of properties to return. Defaults to full.
      * @return Google_Bucket
@@ -498,9 +501,9 @@
     /**
      * Updates a bucket. This method supports patch semantics. (buckets.patch)
      *
-     * @param string $bucket Name of a bucket.
+     * @param string        $bucket    Name of a bucket.
      * @param Google_Bucket $postBody
-     * @param array $optParams Optional parameters.
+     * @param array         $optParams Optional parameters.
      *
      * @opt_param string projection Set of properties to return. Defaults to full.
      * @return Google_Bucket
@@ -519,14 +522,15 @@
     /**
      * Deletes an empty bucket. (buckets.delete)
      *
-     * @param string $bucket Name of a bucket.
-     * @param array $optParams Optional parameters.
+     * @param string $bucket    Name of a bucket.
+     * @param array  $optParams Optional parameters.
      */
     public function delete($bucket, $optParams = array())
     {
         $params = array('bucket' => $bucket);
         $params = array_merge($params, $optParams);
         $data = $this->__call('delete', array($params));
+
         return $data;
     }
   }

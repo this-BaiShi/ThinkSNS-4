@@ -3,7 +3,6 @@
 
 class WeiboStatusesApi extends Api
 {
-
     //获取最新更新的公共分享消息
     public function public_timeline()
     {
@@ -18,9 +17,9 @@ class WeiboStatusesApi extends Api
 
     /**
      * 获取当前用户所关注频道分类下的分享
-     * @param integer page 第几页
-     * @param integer count 分享条数
-     * @param integer type 分享类型 'post','repost','postimage','postfile','postvideo'
+     * @param int page 第几页
+     * @param int count 分享条数
+     * @param int type 分享类型 'post','repost','postimage','postfile','postvideo'
      * @return json 指定分类下的分享
      */
     public function channels_timeline()
@@ -34,6 +33,7 @@ class WeiboStatusesApi extends Api
         $page = $this->data['page'] ? intval($this->data['page']) : 1;
         $count = $this->data['count'] ? intval($this->data['count']) : 20;
         $data = D('ChannelApi', 'channel')->getChannelFeed($cid, $type, $count, $page, $order, $sql);
+
         return $data;
     }
 
@@ -53,9 +53,10 @@ class WeiboStatusesApi extends Api
     public function mentions_feed()
     {
         model('UserData')->setKeyValue($this->mid, 'unread_atme', 0);
+
         return model('Atme')->mentions_feed($this->mid, $this->since_id, $this->max_id, $this->count, $this->page);
     }
-    
+
     //收藏的feed列表
     public function favorite_feed()
     {
@@ -95,9 +96,10 @@ class WeiboStatusesApi extends Api
         $feed['content'] = $content;
         $diggarr = model('FeedDigg')->checkIsDigg($this->id, $this->mid);
         $feed['is_digg'] = $diggarr[$this->id] ? 1 : 0;
+
         return $feed;
     }
-    
+
     //发布一条微薄
     public function update($data)
     {
@@ -118,10 +120,10 @@ class WeiboStatusesApi extends Api
         $data['body'] = $this->data['content'];
         $data['from'] = $this->data['from'] ? intval($this->data['from']) : '0';
         $data['app'] = $this->data['app_name'] ? $this->data['app_name'] : 'public';
-        $data['type'] = isset($this->data['type']) ?$this->data['type'] : 'post';
-        $data['app_row_id'] = $this->data['app_id'] ? $this->data['app_id']:'0';
+        $data['type'] = isset($this->data['type']) ? $this->data['type'] : 'post';
+        $data['app_row_id'] = $this->data['app_id'] ? $this->data['app_id'] : '0';
         $data['publish_time'] = time();
-        
+
         $feed_id = model('Feed')->data($data)->add();
 
         if ($data['video_id']) {
@@ -131,18 +133,18 @@ class WeiboStatusesApi extends Api
                 D('video_transfer')->where('video_id='.$data['video_id'])->setField('feed_id', $feed_id);
             }
         }
-        
+
         //更新最近@的人
         model('Atme')->updateRecentAtForApi($data['body'], $feed_id);
         // 添加关联数据
         $attach_id = $this->data['attach_id'];
-        $attach_id = trim(t($attach_id), "|");
+        $attach_id = trim(t($attach_id), '|');
         if (!empty($attach_id)) {
             $attach_id = explode('|', $attach_id);
             array_map('intval', $attach_id);
         }
         $data['attach_id'] = $attach_id;
-        $feed_data = D('FeedData')->data(array('feed_id'=>$feed_id, 'feed_data'=>serialize($data), 'client_ip'=>get_client_ip(), 'feed_content'=>$data['body']))->add();
+        $feed_data = D('FeedData')->data(array('feed_id' => $feed_id, 'feed_data' => serialize($data), 'client_ip' => get_client_ip(), 'feed_content' => $data['body']))->add();
 
         if ($feed_id && $feed_data) {
             //加积分
@@ -154,14 +156,14 @@ class WeiboStatusesApi extends Api
             //}
 
             model('FeedTopic')->addTopic(html_entity_decode($data ['body'], ENT_QUOTES, 'UTF-8'), $feed_id, $data['type']);
-            
+
             $isOpenChannel = model('App')->isAppNameOpen('channel');
             if (! $isOpenChannel) {
                 return $feed_id;
             }
             // 添加分享到投稿数据中
             $channelId = t($this->data['channel_id']);
-            
+
             // 绑定用户
             $bindUserChannel = D('Channel', 'channel')->getCategoryByUserBind($this->mid);
             // dump($bindUserChannel);exit;
@@ -173,11 +175,11 @@ class WeiboStatusesApi extends Api
             }
             // 绑定话题
             $content = html_entity_decode($this->data['content'], ENT_QUOTES, 'UTF-8');
-            $content = str_replace("＃", "#", $content);
+            $content = str_replace('＃', '#', $content);
             preg_match_all("/#([^#]*[^#^\s][^#]*)#/is", $content, $topics);
             $topics = array_unique($topics [1]);
             foreach ($topics as &$topic) {
-                $topic = trim(preg_replace("/#/", '', t($topic)));
+                $topic = trim(preg_replace('/#/', '', t($topic)));
             }
             $bindTopicChannel = D('Channel', 'channel')->getCategoryByTopicBind($topics);
             if (! empty($bindTopicChannel)) {
@@ -213,6 +215,7 @@ class WeiboStatusesApi extends Api
             $data['type'] = 'postimage';//图片类型分享
             //$data['attach_id'] = array($info['info'][0]['attach_id']);
         $data['attach_id'] = getSubByKey($info['info'], 'attach_id');
+
             return $this->update($data);
         } else {
             return 0;//上传失败
@@ -233,6 +236,7 @@ class WeiboStatusesApi extends Api
             $data['image_height'] = intval($info['image_height']);
             $data['video_id'] = intval($info['video_id']);
             $data['from'] = intval($this->data['from']);
+
             return $this->update($data);
         } else {
             return 0;//上传失败
@@ -242,7 +246,7 @@ class WeiboStatusesApi extends Api
     //删除一条分享
     public function destroy()
     {
-        $return  = model('Feed')->doEditFeed($this->id, 'delFeed', '', $this->mid);
+        $return = model('Feed')->doEditFeed($this->id, 'delFeed', '', $this->mid);
         // 删除话题相关信息
         $return['status'] == 1 && model('FeedTopic')->deleteWeiboJoinTopic($this->id);
         // 删除频道关联信息
@@ -251,6 +255,7 @@ class WeiboStatusesApi extends Api
         model('Atme')->setAppName('Public')->setAppTable('feed')->deleteAtme(null, $this->id, null);
         // 删除收藏信息
         model('Collection')->delCollection($this->id, 'feed');
+
         return (int) $return['status'];
     }
 
@@ -261,12 +266,12 @@ class WeiboStatusesApi extends Api
             return -1;
         }
         $p['app_name'] = $this->data['app_name'] ? $this->data['app_name'] : 'public';
-        $p['comment']  = $this->data['comment'];
-        $p['body']     = $this->data['content'];
-        $p['sid']      = isset($this->data['sid'])?$this->data['sid']:$this->id;
-        $p['type']       = isset($this->data['type']) ? $this->data['type'] : 'feed';
-        $p['from']     = $this->data['from'] ? intval($this->data['from']) : '0';
-        $p['forApi']   = true;
+        $p['comment'] = $this->data['comment'];
+        $p['body'] = $this->data['content'];
+        $p['sid'] = isset($this->data['sid']) ? $this->data['sid'] : $this->id;
+        $p['type'] = isset($this->data['type']) ? $this->data['type'] : 'feed';
+        $p['from'] = $this->data['from'] ? intval($this->data['from']) : '0';
+        $p['forApi'] = true;
         $p['curid'] = $this->data['curid'];
         $p['curtable'] = $this->data['curtable'];
         $p['content'] = '';
@@ -275,6 +280,7 @@ class WeiboStatusesApi extends Api
             //添加积分
             model('Credit')->setUserCredit($this->mid, 'forward_weibo');
         }
+
         return (int) $return['status'];
     }
 
@@ -282,6 +288,7 @@ class WeiboStatusesApi extends Api
     public function comments()
     {
         $where = "row_id ='{$this->id}' AND `table`='feed'";
+
         return model('Comment')->getCommentListForApi($where, $this->since_id, $this->max_id, $this->count, $this->page);
     }
 
@@ -297,6 +304,7 @@ class WeiboStatusesApi extends Api
         $this->user_id && $map['fid'] = $this->user_id;
         $list = model('FeedDigg')->getDiggListPage($map);
         model('UserData')->setKeyValue($this->user_id, 'unread_digg', 0);
+
         return $list;
     }
     //获取当前用户收到的评论
@@ -312,6 +320,7 @@ class WeiboStatusesApi extends Api
     public function comments_to_me_true()
     {
         $where = " ( (app_uid = '{$this->mid}' or to_uid = '{$this->mid}') and uid != '{$this->mid}' )";
+
         return model('Comment')->getCommentListForApi($where, $this->since_id, $this->max_id, $this->count, $this->page, true);
     }
 
@@ -319,6 +328,7 @@ class WeiboStatusesApi extends Api
     public function comments_by_me()
     {
         $where = " uid = '{$this->mid}' ";
+
         return model('Comment')->getCommentListForApi($where, $this->since_id, $this->max_id, $this->count, $this->page, true);
     }
 
@@ -332,6 +342,7 @@ class WeiboStatusesApi extends Api
         }
         $res = model('Comment')->deleteComment($comment_id, $uid);
         $result = $res ? 1 : 0;
+
         return $result;
     }
 
@@ -352,22 +363,22 @@ class WeiboStatusesApi extends Api
         } else {
             $data['app'] = 'public';
         }
-        $data['table']  = isset($this->data['table_name']) ? $this->data['table_name'] : 'feed';
-        $data['app_row_id']  = isset($this->data['app_row_id']) ? $this->data['app_row_id'] : '0';
-        $data['app_row_table']  = isset($this->data['app_row_table']) ? $this->data['app_row_table'] : 'feed';
-        $data['app_uid']     = isset($this->data['app_uid']) ? $this->data['app_uid'] : '0';
+        $data['table'] = isset($this->data['table_name']) ? $this->data['table_name'] : 'feed';
+        $data['app_row_id'] = isset($this->data['app_row_id']) ? $this->data['app_row_id'] : '0';
+        $data['app_row_table'] = isset($this->data['app_row_table']) ? $this->data['app_row_table'] : 'feed';
+        $data['app_uid'] = isset($this->data['app_uid']) ? $this->data['app_uid'] : '0';
         $data['comment_old'] = isset($this->data['comment_old']) ? $this->data['comment_old'] : '0';
-        $data['content']     = isset($this->data['content']) ? $this->data['content'] : '';    //评论内容
-        $data['row_id']     = isset($this->data['row_id']) ? $this->data['row_id'] : '0';
+        $data['content'] = isset($this->data['content']) ? $this->data['content'] : '';    //评论内容
+        $data['row_id'] = isset($this->data['row_id']) ? $this->data['row_id'] : '0';
         $data['to_comment_id'] = isset($this->data['to_comment_id']) ? $this->data['to_comment_id'] : '0';
-        $data['to_uid']        = isset($this->data['to_uid']) ? $this->data['to_uid'] : '0';
+        $data['to_uid'] = isset($this->data['to_uid']) ? $this->data['to_uid'] : '0';
         $data['at'] = $this->data['at'];
         if ($data['comment_id'] = model('Comment')->addComment($data, true)) {
             //转发到我的分享
             if ($ifShareFeed == 1) {
                 //根据评论的对象获取原来的内容
                 $s['sid'] = $data['row_id'];
-                $s['app_name']    = $data['app'];
+                $s['app_name'] = $data['app'];
                 // w3g版本用到
                 if (APP_NAME == 'w3g' && ($data['comment_old'] != '')) {
                     $s['body'] = $data['content'].'//@'.$data['at'].'：'.$data['comment_old'];
@@ -408,9 +419,10 @@ class WeiboStatusesApi extends Api
                 $wdata['comment_id'] = $data['comment_id'];
                 $this->_upateToweiba($wdata);
             }
-            return array('status'=>1, 'info'=>'评论成功');
+
+            return array('status' => 1, 'info' => '评论成功');
         } else {
-            return array('status'=>0, 'info'=>'评论失败');
+            return array('status' => 0, 'info' => '评论失败');
         }
     }
 
@@ -433,7 +445,7 @@ class WeiboStatusesApi extends Api
         if (D('weiba_reply')->add($datas)) {
             $map['last_reply_uid'] = $this->mid;
             $map['last_reply_time'] = $datas['ctime'];
-            $map['reply_count'] = array('exp', "reply_count+1");
+            $map['reply_count'] = array('exp', 'reply_count+1');
             D('weiba_post')->where('post_id='.$datas['post_id'])->save($map);
         }
     }
@@ -448,7 +460,7 @@ class WeiboStatusesApi extends Api
     public function favorite_create()
     {
         $data['source_table_name'] = $this->data['source_table_name']; // feed
-        $data['source_id']    = $this->data['source_id'];     //140
+        $data['source_id'] = $this->data['source_id'];     //140
         $data['source_app'] = $this->data['source_app']; //public
 
         if (model('Collection')->addCollection($data)) {
@@ -464,6 +476,7 @@ class WeiboStatusesApi extends Api
         if (model('Collection')->delCollection($this->data['source_id'], $this->data['source_table_name'])) {
             return 1;
         }
+
         return 0;
     }
 
@@ -471,15 +484,15 @@ class WeiboStatusesApi extends Api
     public function weibo_search_weibo()
     {
         $_REQUEST['p'] = $_REQUEST['page'] = $this->page;
-        $this->count?$this->count:100;
+        $this->count ? $this->count : 100;
         $this->data['key'] = t(trim($this->data['key']));
-        $this->data['key'] = str_ireplace(array("%", "'", '"'), '', $this->data['key']);
+        $this->data['key'] = str_ireplace(array('%', "'", '"'), '', $this->data['key']);
         if (empty($this->data['key'])) {
             return 0;
         }
 
         $GLOBALS['ts']['uid'] = $GLOBALS['ts']['mid'] = $this->mid;
-        
+
         return model('Feed')->searchFeed($this->data['key'], 'all', '', $this->count, true);
     }
 
@@ -487,10 +500,10 @@ class WeiboStatusesApi extends Api
     public function weibo_search_topic()
     {
         $_REQUEST['p'] = $_REQUEST['page'] = $this->page;
-        $this->count?$this->count:100;
+        $this->count ? $this->count : 100;
         $this->data['key'] = t(trim($this->data['key']));
         $this->data['key'] = trim($this->data['key'], '#');
-        $this->data['key'] = str_ireplace(array("%", "'", '"'), '', $this->data['key']);
+        $this->data['key'] = str_ireplace(array('%', "'", '"'), '', $this->data['key']);
         if (empty($this->data['key'])) {
             return 0;
         }
@@ -506,18 +519,19 @@ class WeiboStatusesApi extends Api
         $_REQUEST['p'] = $_REQUEST['page'] = $this->page;
         $this->count = empty($this->count) ? $this->count : 100;
         $this->data['key'] = t(trim($this->data['key']));
-        $this->data['key'] = str_ireplace(array("%", "'", '"'), '', $this->data['key']);
+        $this->data['key'] = str_ireplace(array('%', "'", '"'), '', $this->data['key']);
         if (empty($this->data['key'])) {
             return 0;
         }
         $data = model('User')->searchUser($this->data['key'], 0, $this->count, '', '', 0, 10);
-        $return  = array();
+        $return = array();
         if (intval($data['totalPages']) < $this->page) {
             return $return;
         }
         foreach ($data['data'] as $v) {
             $return[] = model('User')->formatForApi($v, $v['uid'], $this->mid);
         }
+
         return  $return;
     }
 
@@ -555,15 +569,17 @@ class WeiboStatusesApi extends Api
     {
         $_REQUEST['p'] = $_REQUEST['page'] = $this->page;
         $GLOBALS['ts']['uid'] = $GLOBALS['ts']['mid'] = $this->mid;
+
         return model('Feed')->searchFeed(t($this->data['key']), 'topic', $this->max_id, $this->count, true);
     }
-    
+
     // 搜索话题
     public function wap_search_user()
     {
         $key = trim(t($_REQUEST['key']));
         $feedtopicDao = model('FeedTopic');
         $data = $feedtopicDao->where("topic_name like '%".$key."%' and recommend=1")->field('topic_id,topic_name')->limit(10)->findAll();
+
         return $data;
     }
 
@@ -580,6 +596,7 @@ class WeiboStatusesApi extends Api
             $v['imageinfo'] = getImageInfo($v['savepath']);
             $v['savepath'] = getImageUrl($v['savepath']);
         }
+
         return $feedImages;
     }
 
@@ -588,7 +605,7 @@ class WeiboStatusesApi extends Api
         $map['a.uid'] = $uid;
         $map['a.type'] = 'postimage';
         $map['a.is_del'] = 0;
-        $limit_start = ($page-1)*$limit;
+        $limit_start = ($page - 1) * $limit;
         $list = D()->table('`'.C('DB_PREFIX').'feed` AS a LEFT JOIN `'.C('DB_PREFIX').'feed_data` AS b ON a.`feed_id` = b.`feed_id`')
                    ->field('a.`feed_id`, a.`publish_time`, b.`feed_data`')
                    ->where($map)
@@ -614,6 +631,7 @@ class WeiboStatusesApi extends Api
         $feed_id = intval($this->id);
         $this->user_id = empty($this->user_id) ? $this->mid : $this->user_id;
         model('Video')->update_viewrecord(intval($_POST['id']), $this->mid);
+
         return 1;
     }
 }

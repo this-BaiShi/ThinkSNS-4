@@ -26,12 +26,12 @@ if (! function_exists('http_build_query')) {
     throw new Exception('Google PHP API Client requires http_build_query()');
 }
 // hack around with the include paths a bit so the library 'just works'
-set_include_path(dirname(__FILE__) . PATH_SEPARATOR . get_include_path());
-require_once "config.php";
+set_include_path(dirname(__FILE__).PATH_SEPARATOR.get_include_path());
+require_once 'config.php';
 // If a local configuration file is found, merge it's values with the default configuration
-if (file_exists(dirname(__FILE__)  . '/local_config.php')) {
+if (file_exists(dirname(__FILE__).'/local_config.php')) {
     $defaultConfig = $apiConfig;
-    require_once(dirname(__FILE__)  . '/local_config.php');
+    require_once dirname(__FILE__).'/local_config.php';
     $apiConfig = array_merge($defaultConfig, $apiConfig);
 }
 // Include the top level classes, they each include their own dependencies
@@ -46,7 +46,7 @@ require_once 'external/URITemplateParser.php';
 require_once 'auth/Google_Auth.php';
 require_once 'cache/Google_Cache.php';
 require_once 'io/Google_IO.php';
-require_once('service/Google_MediaFileUpload.php');
+require_once 'service/Google_MediaFileUpload.php';
 /**
  * The Google API Client
  * http://code.google.com/p/google-api-php-client/
@@ -73,7 +73,7 @@ class Google_Client
   public static $cache;
   /**
    * @static
-   * @var boolean $useBatch
+   * @var bool $useBatch
    */
   public static $useBatch = false;
   /** @var array $scopes */
@@ -111,6 +111,7 @@ class Google_Client
     {
         $service = $this->prepareService();
         $this->authenticated = true;
+
         return self::$auth->authenticate($service, $code);
     }
   /**
@@ -132,7 +133,7 @@ class Google_Client
                       $scopes[] = $val['scope'];
                   }
               } else {
-                  $scopes[] = 'https://www.googleapis.com/auth/' . $key;
+                  $scopes[] = 'https://www.googleapis.com/auth/'.$key;
               }
               unset($val['discoveryURI']);
               unset($val['scope']);
@@ -140,6 +141,7 @@ class Google_Client
           }
       }
       $service['scope'] = implode(' ', $scopes);
+
       return $service;
   }
   /**
@@ -171,6 +173,7 @@ class Google_Client
   public function createAuthUrl()
   {
       $service = $this->prepareService();
+
       return self::$auth->createAuthUrl($service['scope']);
   }
   /**
@@ -182,6 +185,7 @@ class Google_Client
   public function getAccessToken()
   {
       $token = self::$auth->getAccessToken();
+
       return (null == $token || 'null' == $token) ? null : $token;
   }
   /**
@@ -254,7 +258,7 @@ class Google_Client
   {
       return self::$auth->clientId;
   }
-  
+
   /**
    * Set the OAuth 2.0 Client Secret.
    * @param string $clientSecret
@@ -292,7 +296,6 @@ class Google_Client
   /**
    * Fetches a fresh OAuth 2.0 access token with the given refresh token.
    * @param string $refreshToken
-   * @return void
    */
   public function refreshToken($refreshToken)
   {
@@ -303,7 +306,7 @@ class Google_Client
    * token, if a token isn't provided.
    * @throws Google_AuthException
    * @param string|null $token The token (access token or a refresh token) that should be revoked.
-   * @return boolean Returns True if the revocation was successful, otherwise False.
+   * @return bool Returns True if the revocation was successful, otherwise False.
    */
   public function revokeToken($token = null)
   {
@@ -323,7 +326,6 @@ class Google_Client
   }
   /**
    * @param Google_AssertionCredentials $creds
-   * @return void
    */
   public function setAssertionCredentials(Google_AssertionCredentials $creds)
   {
@@ -337,12 +339,12 @@ class Google_Client
    */
   public function setScopes($scopes)
   {
-      $this->scopes = is_string($scopes) ? explode(" ", $scopes) : $scopes;
+      $this->scopes = is_string($scopes) ? explode(' ', $scopes) : $scopes;
   }
   /**
    * Declare if objects should be returned by the api service classes.
    *
-   * @param boolean $useObjects True if objects should be returned by the service classes.
+   * @param bool $useObjects True if objects should be returned by the service classes.
    * False if associative arrays should be returned (default behavior).
    * @experimental
    */
@@ -354,7 +356,7 @@ class Google_Client
   /**
    * Declare if objects should be returned by the api service classes.
    *
-   * @param boolean $useBatch True if the experimental batch support should
+   * @param bool $useBatch True if the experimental batch support should
    * be enabled. Defaults to False.
    * @experimental
    */
@@ -422,7 +424,7 @@ class Google_ServiceException extends Google_Exception
       } else {
           parent::__construct($message, $code);
       }
-    
+
       $this->errors = $errors;
   }
   /**

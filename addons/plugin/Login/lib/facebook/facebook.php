@@ -14,7 +14,7 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-require_once "base_facebook.php";
+require_once 'base_facebook.php';
 /**
  * Extends the BaseFacebook class with the intent of using
  * PHP sessions to store user ids and access tokens.
@@ -60,6 +60,7 @@ class FacebookAPI extends BaseFacebook
           self::isAllowedDomain($this->getHttpHost(), $data['domain'])) {
                 // good case
         $this->sharedSessionID = $data['id'];
+
                 return;
             }
       // ignoring potentially unreachable data
@@ -97,6 +98,7 @@ class FacebookAPI extends BaseFacebook
   {
       if (!in_array($key, self::$kSupportedKeys)) {
           self::errorLog('Unsupported key passed to setPersistentData.');
+
           return;
       }
       $session_var_name = $this->constructSessionVariableName($key);
@@ -106,9 +108,11 @@ class FacebookAPI extends BaseFacebook
     {
         if (!in_array($key, self::$kSupportedKeys)) {
             self::errorLog('Unsupported key passed to getPersistentData.');
+
             return $default;
         }
         $session_var_name = $this->constructSessionVariableName($key);
+
         return isset($_SESSION[$session_var_name]) ?
       $_SESSION[$session_var_name] : $default;
     }
@@ -116,6 +120,7 @@ class FacebookAPI extends BaseFacebook
     {
         if (!in_array($key, self::$kSupportedKeys)) {
             self::errorLog('Unsupported key passed to clearPersistentData.');
+
             return;
         }
         $session_var_name = $this->constructSessionVariableName($key);
@@ -139,7 +144,7 @@ class FacebookAPI extends BaseFacebook
     }
     protected function getSharedSessionCookieName()
     {
-        return self::FBSS_COOKIE_NAME . '_' . $this->getAppId();
+        return self::FBSS_COOKIE_NAME.'_'.$this->getAppId();
     }
     protected function constructSessionVariableName($key)
     {
@@ -147,6 +152,7 @@ class FacebookAPI extends BaseFacebook
         if ($this->sharedSessionID) {
             array_unshift($parts, $this->sharedSessionID);
         }
+
         return implode('_', $parts);
     }
 }

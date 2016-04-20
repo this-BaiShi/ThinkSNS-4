@@ -7,19 +7,19 @@
 class InviteTestAddons extends NormalAddons
 {
     protected $version = '1.0';
-    protected $author  = 'while';
-    protected $site    = 'master@xiew.net';
-    protected $info    = '邀请内测插件（官方版） - 以发放邀请码的方式邀请用户测试';
+    protected $author = 'while';
+    protected $site = 'master@xiew.net';
+    protected $info = '邀请内测插件（官方版） - 以发放邀请码的方式邀请用户测试';
     protected $pluginName = '邀请内测 - 官方版';
-    protected $tsVersion  = '4.0';
-    
+    protected $tsVersion = '4.0';
+
     /**
      * 获的改插件使用了那些钩子聚合类
-     * @return void
      */
     public function getHooksInfo()
     {
         $hooks['list'] = array('InviteTestHooks');
+
         return $hooks;
     }
 
@@ -30,10 +30,11 @@ class InviteTestAddons extends NormalAddons
     public function adminMenu()
     {
         $menu = array(
-            'invite'=>'邀请码管理',
-            'addinvite'=>'添加邀请码',
-            'config'=>'邀请配置',
+            'invite' => '邀请码管理',
+            'addinvite' => '添加邀请码',
+            'config' => '邀请配置',
         );
+
         return $menu;
     }
 
@@ -43,7 +44,7 @@ class InviteTestAddons extends NormalAddons
 
     /**
      * 插件安装入口
-     * @return boolean 是否安装成功
+     * @return bool 是否安装成功
      */
     public function install()
     {
@@ -63,18 +64,20 @@ class InviteTestAddons extends NormalAddons
         foreach ($sqls as $sql) {
             D()->execute($sql);
         }
+
         return true;
     }
 
     /**
      * 插件卸载
-     * @return boolean
+     * @return bool
      */
     public function uninstall()
     {
         $dbPrefix = C('DB_PREFIX');
         echo "DROP TABLE IF EXISTS `{$dbPrefix}invite_test`;";
         D()->execute("DROP TABLE IF EXISTS `{$dbPrefix}invite_test`;");
+
         return true;
     }
 }

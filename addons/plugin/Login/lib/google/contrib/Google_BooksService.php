@@ -25,8 +25,8 @@
       /**
      * List the layer summaries for a volume. (layers.list)
      *
-     * @param string $volumeId The volume to retrieve layers for.
-     * @param array $optParams Optional parameters.
+     * @param string $volumeId  The volume to retrieve layers for.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string pageToken The value of the nextToken from the previous page.
      * @opt_param string contentVersion The content version for the requested volume.
@@ -48,9 +48,9 @@
     /**
      * Gets the layer summary for a volume. (layers.get)
      *
-     * @param string $volumeId The volume to retrieve layers for.
+     * @param string $volumeId  The volume to retrieve layers for.
      * @param string $summaryId The ID for the layer to get the summary for.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string source String to identify the originator of this request.
      * @opt_param string contentVersion The content version for the requested volume.
@@ -81,10 +81,10 @@
       /**
      * Gets the annotation data for a volume and layer. (annotationData.list)
      *
-     * @param string $volumeId The volume to retrieve annotation data for.
-     * @param string $layerId The ID for the layer to get the annotation data.
+     * @param string $volumeId       The volume to retrieve annotation data for.
+     * @param string $layerId        The ID for the layer to get the annotation data.
      * @param string $contentVersion The content version for the requested volume.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams      Optional parameters.
      *
      * @opt_param int scale The requested scale for the image.
      * @opt_param string source String to identify the originator of this request.
@@ -112,11 +112,11 @@
     /**
      * Gets the annotation data. (annotationData.get)
      *
-     * @param string $volumeId The volume to retrieve annotations for.
-     * @param string $layerId The ID for the layer to get the annotations.
+     * @param string $volumeId         The volume to retrieve annotations for.
+     * @param string $layerId          The ID for the layer to get the annotations.
      * @param string $annotationDataId The ID of the annotation data to retrieve.
-     * @param string $contentVersion The content version for the volume you are trying to retrieve.
-     * @param array $optParams Optional parameters.
+     * @param string $contentVersion   The content version for the volume you are trying to retrieve.
+     * @param array  $optParams        Optional parameters.
      *
      * @opt_param int scale The requested scale for the image.
      * @opt_param string locale The locale information for the data. ISO-639-1 language and ISO-3166-1 country code. Ex: 'en_US'.
@@ -150,10 +150,10 @@
       /**
      * Gets the volume annotations for a volume and layer. (volumeAnnotations.list)
      *
-     * @param string $volumeId The volume to retrieve annotations for.
-     * @param string $layerId The ID for the layer to get the annotations.
+     * @param string $volumeId       The volume to retrieve annotations for.
+     * @param string $layerId        The ID for the layer to get the annotations.
      * @param string $contentVersion The content version for the requested volume.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams      Optional parameters.
      *
      * @opt_param bool showDeleted Set to true to return deleted annotations. updatedMin must be in the request to use this. Defaults to false.
      * @opt_param string endPosition The end position to end retrieving data from.
@@ -182,10 +182,10 @@
     /**
      * Gets the volume annotation. (volumeAnnotations.get)
      *
-     * @param string $volumeId The volume to retrieve annotations for.
-     * @param string $layerId The ID for the layer to get the annotations.
+     * @param string $volumeId     The volume to retrieve annotations for.
+     * @param string $layerId      The ID for the layer to get the annotations.
      * @param string $annotationId The ID of the volume annotation to retrieve.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams    Optional parameters.
      *
      * @opt_param string locale The locale information for the data. ISO-639-1 language and ISO-3166-1 country code. Ex: 'en_US'.
      * @opt_param string source String to identify the originator of this request.
@@ -216,8 +216,8 @@
       /**
      * Retrieves a list of public bookshelves for the specified user. (bookshelves.list)
      *
-     * @param string $userId ID of user for whom to retrieve bookshelves.
-     * @param array $optParams Optional parameters.
+     * @param string $userId    ID of user for whom to retrieve bookshelves.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string source String to identify the originator of this request.
      * @return Google_Bookshelves
@@ -236,9 +236,9 @@
     /**
      * Retrieves metadata for a specific bookshelf for the specified user. (bookshelves.get)
      *
-     * @param string $userId ID of user for whom to retrieve bookshelves.
-     * @param string $shelf ID of bookshelf to retrieve.
-     * @param array $optParams Optional parameters.
+     * @param string $userId    ID of user for whom to retrieve bookshelves.
+     * @param string $shelf     ID of bookshelf to retrieve.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string source String to identify the originator of this request.
      * @return Google_Bookshelf
@@ -268,9 +268,9 @@
       /**
      * Retrieves volumes in a specific bookshelf for the specified user. (volumes.list)
      *
-     * @param string $userId ID of user for whom to retrieve bookshelf volumes.
-     * @param string $shelf ID of bookshelf to retrieve volumes.
-     * @param array $optParams Optional parameters.
+     * @param string $userId    ID of user for whom to retrieve bookshelf volumes.
+     * @param string $shelf     ID of bookshelf to retrieve volumes.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param bool showPreorders Set to true to show pre-ordered books. Defaults to false.
      * @opt_param string maxResults Maximum number of results to return
@@ -304,8 +304,8 @@
      * Release downloaded content access restriction. (myconfig.releaseDownloadAccess)
      *
      * @param string $volumeIds The volume(s) to release restrictions for.
-     * @param string $cpksver The device/version ID from which to release the restriction.
-     * @param array $optParams Optional parameters.
+     * @param string $cpksver   The device/version ID from which to release the restriction.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string locale ISO-639-1, ISO-3166-1 codes for message localization, i.e. en_US.
      * @opt_param string source String to identify the originator of this request.
@@ -325,11 +325,11 @@
     /**
      * Request concurrent and download access restrictions. (myconfig.requestAccess)
      *
-     * @param string $source String to identify the originator of this request.
-     * @param string $volumeId The volume to request concurrent/download restrictions for.
-     * @param string $nonce The client nonce value.
-     * @param string $cpksver The device/version ID from which to request the restrictions.
-     * @param array $optParams Optional parameters.
+     * @param string $source    String to identify the originator of this request.
+     * @param string $volumeId  The volume to request concurrent/download restrictions for.
+     * @param string $nonce     The client nonce value.
+     * @param string $cpksver   The device/version ID from which to request the restrictions.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string locale ISO-639-1, ISO-3166-1 codes for message localization, i.e. en_US.
      * @return Google_RequestAccess
@@ -349,10 +349,10 @@
      * Request downloaded content access for specified volumes on the My eBooks shelf.
      * (myconfig.syncVolumeLicenses)
      *
-     * @param string $source String to identify the originator of this request.
-     * @param string $nonce The client nonce value.
-     * @param string $cpksver The device/version ID from which to release the restriction.
-     * @param array $optParams Optional parameters.
+     * @param string $source    String to identify the originator of this request.
+     * @param string $nonce     The client nonce value.
+     * @param string $cpksver   The device/version ID from which to release the restriction.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string locale ISO-639-1, ISO-3166-1 codes for message localization, i.e. en_US.
      * @opt_param bool showPreorders Set to true to show pre-ordered books. Defaults to false.
@@ -384,8 +384,8 @@
       /**
      * Performs a book search. (volumes.list)
      *
-     * @param string $q Full-text search query string.
-     * @param array $optParams Optional parameters.
+     * @param string $q         Full-text search query string.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string orderBy Sort search results.
      * @opt_param string projection Restrict information returned to a set of selected fields.
@@ -415,8 +415,8 @@
     /**
      * Gets volume information for a single volume. (volumes.get)
      *
-     * @param string $volumeId ID of volume to retrieve.
-     * @param array $optParams Optional parameters.
+     * @param string $volumeId  ID of volume to retrieve.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string source String to identify the originator of this request.
      * @opt_param string country ISO-3166-1 code to override the IP-based location.
@@ -449,8 +449,8 @@
       /**
      * Return a list of associated books. (associated.list)
      *
-     * @param string $volumeId ID of the source volume.
-     * @param array $optParams Optional parameters.
+     * @param string $volumeId  ID of the source volume.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string projection Restrict information returned to a set of selected fields.
      * @opt_param string maxResults Maximum number of results to return.
@@ -496,9 +496,9 @@
       /**
      * Removes a volume from a bookshelf. (bookshelves.removeVolume)
      *
-     * @param string $shelf ID of bookshelf from which to remove a volume.
-     * @param string $volumeId ID of volume to remove.
-     * @param array $optParams Optional parameters.
+     * @param string $shelf     ID of bookshelf from which to remove a volume.
+     * @param string $volumeId  ID of volume to remove.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string source String to identify the originator of this request.
      */
@@ -507,14 +507,15 @@
         $params = array('shelf' => $shelf, 'volumeId' => $volumeId);
         $params = array_merge($params, $optParams);
         $data = $this->__call('removeVolume', array($params));
+
         return $data;
     }
     /**
      * Retrieves metadata for a specific bookshelf belonging to the authenticated user.
      * (bookshelves.get)
      *
-     * @param string $shelf ID of bookshelf to retrieve.
-     * @param array $optParams Optional parameters.
+     * @param string $shelf     ID of bookshelf to retrieve.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string source String to identify the originator of this request.
      * @return Google_Bookshelf
@@ -533,8 +534,8 @@
     /**
      * Clears all volumes from a bookshelf. (bookshelves.clearVolumes)
      *
-     * @param string $shelf ID of bookshelf from which to remove a volume.
-     * @param array $optParams Optional parameters.
+     * @param string $shelf     ID of bookshelf from which to remove a volume.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string source String to identify the originator of this request.
      */
@@ -543,6 +544,7 @@
         $params = array('shelf' => $shelf);
         $params = array_merge($params, $optParams);
         $data = $this->__call('clearVolumes', array($params));
+
         return $data;
     }
     /**
@@ -567,9 +569,9 @@
     /**
      * Adds a volume to a bookshelf. (bookshelves.addVolume)
      *
-     * @param string $shelf ID of bookshelf to which to add a volume.
-     * @param string $volumeId ID of volume to add.
-     * @param array $optParams Optional parameters.
+     * @param string $shelf     ID of bookshelf to which to add a volume.
+     * @param string $volumeId  ID of volume to add.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string source String to identify the originator of this request.
      */
@@ -578,15 +580,16 @@
         $params = array('shelf' => $shelf, 'volumeId' => $volumeId);
         $params = array_merge($params, $optParams);
         $data = $this->__call('addVolume', array($params));
+
         return $data;
     }
     /**
      * Moves a volume within a bookshelf. (bookshelves.moveVolume)
      *
-     * @param string $shelf ID of bookshelf with the volume.
-     * @param string $volumeId ID of volume to move.
-     * @param int $volumePosition Position on shelf to move the item (0 puts the item before the current first item, 1 puts it between the first and the second and so on.)
-     * @param array $optParams Optional parameters.
+     * @param string $shelf          ID of bookshelf with the volume.
+     * @param string $volumeId       ID of volume to move.
+     * @param int    $volumePosition Position on shelf to move the item (0 puts the item before the current first item, 1 puts it between the first and the second and so on.)
+     * @param array  $optParams      Optional parameters.
      *
      * @opt_param string source String to identify the originator of this request.
      */
@@ -595,6 +598,7 @@
         $params = array('shelf' => $shelf, 'volumeId' => $volumeId, 'volumePosition' => $volumePosition);
         $params = array_merge($params, $optParams);
         $data = $this->__call('moveVolume', array($params));
+
         return $data;
     }
   }
@@ -611,8 +615,8 @@
       /**
      * Gets volume information for volumes on a bookshelf. (volumes.list)
      *
-     * @param string $shelf The bookshelf ID or name retrieve volumes for.
-     * @param array $optParams Optional parameters.
+     * @param string $shelf     The bookshelf ID or name retrieve volumes for.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string projection Restrict information returned to a set of selected fields.
      * @opt_param string country ISO-3166-1 code to override the IP-based location.
@@ -648,10 +652,10 @@
       /**
      * Sets my reading position information for a volume. (readingpositions.setPosition)
      *
-     * @param string $volumeId ID of volume for which to update the reading position.
+     * @param string $volumeId  ID of volume for which to update the reading position.
      * @param string $timestamp RFC 3339 UTC format timestamp associated with this reading position.
-     * @param string $position Position string for the new volume reading position.
-     * @param array $optParams Optional parameters.
+     * @param string $position  Position string for the new volume reading position.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string source String to identify the originator of this request.
      * @opt_param string contentVersion Volume content version for which this reading position applies.
@@ -662,13 +666,14 @@
         $params = array('volumeId' => $volumeId, 'timestamp' => $timestamp, 'position' => $position);
         $params = array_merge($params, $optParams);
         $data = $this->__call('setPosition', array($params));
+
         return $data;
     }
     /**
      * Retrieves my reading position information for a volume. (readingpositions.get)
      *
-     * @param string $volumeId ID of volume for which to retrieve a reading position.
-     * @param array $optParams Optional parameters.
+     * @param string $volumeId  ID of volume for which to retrieve a reading position.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string source String to identify the originator of this request.
      * @opt_param string contentVersion Volume content version for which this reading position is requested.
@@ -700,7 +705,7 @@
      * Inserts a new annotation. (annotations.insert)
      *
      * @param Google_Annotation $postBody
-     * @param array $optParams Optional parameters.
+     * @param array             $optParams Optional parameters.
      *
      * @opt_param string source String to identify the originator of this request.
      * @return Google_Annotation
@@ -720,7 +725,7 @@
      * Gets an annotation by its ID. (annotations.get)
      *
      * @param string $annotationId The ID for the annotation to retrieve.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams    Optional parameters.
      *
      * @opt_param string source String to identify the originator of this request.
      * @return Google_Annotation
@@ -767,9 +772,9 @@
     /**
      * Updates an existing annotation. (annotations.update)
      *
-     * @param string $annotationId The ID for the annotation to update.
+     * @param string            $annotationId The ID for the annotation to update.
      * @param Google_Annotation $postBody
-     * @param array $optParams Optional parameters.
+     * @param array             $optParams    Optional parameters.
      *
      * @opt_param string source String to identify the originator of this request.
      * @return Google_Annotation
@@ -789,7 +794,7 @@
      * Deletes an annotation. (annotations.delete)
      *
      * @param string $annotationId The ID for the annotation to delete.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams    Optional parameters.
      *
      * @opt_param string source String to identify the originator of this request.
      */
@@ -798,6 +803,7 @@
         $params = array('annotationId' => $annotationId);
         $params = array_merge($params, $optParams);
         $data = $this->__call('delete', array($params));
+
         return $data;
     }
   }

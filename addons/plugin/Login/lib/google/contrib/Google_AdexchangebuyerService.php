@@ -25,7 +25,7 @@
       /**
      * Retrieves the authenticated user's list of direct deals. (directDeals.list)
      *
-     * @param array $optParams Optional parameters.
+     * @param  array                  $optParams Optional parameters.
      * @return Google_DirectDealsList
      */
     public function listDirectDeals($optParams = array())
@@ -42,8 +42,8 @@
     /**
      * Gets one direct deal by ID. (directDeals.get)
      *
-     * @param string $id The direct deal id
-     * @param array $optParams Optional parameters.
+     * @param  string            $id        The direct deal id
+     * @param  array             $optParams Optional parameters.
      * @return Google_DirectDeal
      */
     public function get($id, $optParams = array())
@@ -71,9 +71,9 @@
       /**
      * Updates an existing account. This method supports patch semantics. (accounts.patch)
      *
-     * @param int $id The account id
-     * @param Google_Account $postBody
-     * @param array $optParams Optional parameters.
+     * @param  int            $id        The account id
+     * @param  Google_Account $postBody
+     * @param  array          $optParams Optional parameters.
      * @return Google_Account
      */
     public function patch($id, Google_Account $postBody, $optParams = array())
@@ -90,7 +90,7 @@
     /**
      * Retrieves the authenticated user's list of accounts. (accounts.list)
      *
-     * @param array $optParams Optional parameters.
+     * @param  array               $optParams Optional parameters.
      * @return Google_AccountsList
      */
     public function listAccounts($optParams = array())
@@ -107,9 +107,9 @@
     /**
      * Updates an existing account. (accounts.update)
      *
-     * @param int $id The account id
-     * @param Google_Account $postBody
-     * @param array $optParams Optional parameters.
+     * @param  int            $id        The account id
+     * @param  Google_Account $postBody
+     * @param  array          $optParams Optional parameters.
      * @return Google_Account
      */
     public function update($id, Google_Account $postBody, $optParams = array())
@@ -126,8 +126,8 @@
     /**
      * Gets one account by ID. (accounts.get)
      *
-     * @param int $id The account id
-     * @param array $optParams Optional parameters.
+     * @param  int            $id        The account id
+     * @param  array          $optParams Optional parameters.
      * @return Google_Account
      */
     public function get($id, $optParams = array())
@@ -155,8 +155,8 @@
       /**
      * Submit a new creative. (creatives.insert)
      *
-     * @param Google_Creative $postBody
-     * @param array $optParams Optional parameters.
+     * @param  Google_Creative $postBody
+     * @param  array           $optParams Optional parameters.
      * @return Google_Creative
      */
     public function insert(Google_Creative $postBody, $optParams = array())
@@ -193,10 +193,10 @@
     /**
      * Gets the status for a single creative. (creatives.get)
      *
-     * @param int $accountId The id for the account that will serve this creative.
-     * @param string $buyerCreativeId The buyer-specific id for this creative.
-     * @param string $adgroupId The adgroup this creative belongs to.
-     * @param array $optParams Optional parameters.
+     * @param  int             $accountId       The id for the account that will serve this creative.
+     * @param  string          $buyerCreativeId The buyer-specific id for this creative.
+     * @param  string          $adgroupId       The adgroup this creative belongs to.
+     * @param  array           $optParams       Optional parameters.
      * @return Google_Creative
      */
     public function get($accountId, $buyerCreativeId, $adgroupId, $optParams = array())

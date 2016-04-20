@@ -1,7 +1,7 @@
 <?php
+
 class PublicAction extends Action
 {
-
     private $_config;                    // 注册配置信息字段
     private $_register_model;            // 注册模型字段
     private $_user_model;                // 用户模型字段
@@ -10,7 +10,6 @@ class PublicAction extends Action
 
     /**
      * 模块初始化，获取注册配置信息、用户模型对象、注册模型对象、邀请注册与站点头部信息设置
-     * @return void
      */
     protected function _initialize()
     {
@@ -21,8 +20,8 @@ class PublicAction extends Action
         $this->_invite = false;
         // 未激活与未审核用户
         if ($this->mid > 0 && !in_array(ACTION_NAME, array('changeActivationEmail', 'activate', 'isEmailAvailable', 'isValidVerify'))) {
-            $GLOBALS['ts']['user']['is_audit'] == 0 && ACTION_NAME != 'waitForAudit' && U('public/Register/waitForAudit', array('uid'=>$this->mid), true);
-            $GLOBALS['ts']['user']['is_audit'] == 1 && $GLOBALS['ts']['user']['is_active'] == 0 && ACTION_NAME != 'waitForActivation' && U('public/Register/waitForActivation', array('uid'=>$this->mid), true);
+            $GLOBALS['ts']['user']['is_audit'] == 0 && ACTION_NAME != 'waitForAudit' && U('public/Register/waitForAudit', array('uid' => $this->mid), true);
+            $GLOBALS['ts']['user']['is_audit'] == 1 && $GLOBALS['ts']['user']['is_active'] == 0 && ACTION_NAME != 'waitForActivation' && U('public/Register/waitForActivation', array('uid' => $this->mid), true);
         }
         // 登录后，将不显示注册页面
         // $this->mid > 0 && $GLOBALS['ts']['user']['is_init'] == 1 && redirect($GLOBALS['ts']['site']['home_url']);
@@ -87,51 +86,49 @@ class PublicAction extends Action
             $this->redirect(U('w3g/Public/home'));
         }
 
-
         $this->assign('is_register_open', $this->isRegisterOpen() ? '1' : '0');
         $this->display();
     }
 
-    
     public function doLogin()
     {
         $email = safe($_POST['email']);
         $password = safe($_POST['password']);
-        $remember    = 1;
-        $r=array();
+        $remember = 1;
+        $r = array();
         if (empty($email) || empty($password)) {
             // $this->redirect(U('w3g/Public/login'), 3, '用户名和密码不能为空');
-            $r['success']=0;
-            $r['des']= '用户名或密码不能为空';
+            $r['success'] = 0;
+            $r['des'] = '用户名或密码不能为空';
         }
         if (!isValidEmail($email)) {
             // $this->redirect(U('w3g/Public/login'), 3, 'Email格式错误，请重新输入');
-            $r['success']=0;
-            $r['des']= 'Email格式错误，请重新输入';
+            $r['success'] = 0;
+            $r['des'] = 'Email格式错误，请重新输入';
         }
         if ($user = model('Passport')->getLocalUser($email, $password)) {
             // dump($user);
             if ($user['is_active'] == 0) {
                 // $this->redirect(U('w3g/Public/login'), 3, '帐号尚未激活，请激活后重新登录');
-                $r['success']=0;
-                $r['des']= '帐号尚未激活，请激活后重新登录';
+                $r['success'] = 0;
+                $r['des'] = '帐号尚未激活，请激活后重新登录';
             }
             model('Passport')->loginLocal($email, $password, $remember);
             $this->setSessionAndCookie($user['uid'], $user['uname'], $user['email'], intval($_POST['remember']) === 1);
-            
+
             $openid = session('openid');
             if (empty($user ['openid']) && ! empty($openid)) {
-                M('user')->where('uid=' . $user ['uid'])->setField('openid', $openid);
+                M('user')->where('uid='.$user ['uid'])->setField('openid', $openid);
             }
             // $this->recordLogin($user['uid']);
             // model('Passport')->registerLogin($user, intval($_POST['remember']) === 1);
-            $r['success']=1;
+            $r['success'] = 1;
             $r['back_url'] = session('__BACK_URL__');
-            $r['des']= 'success';
+            $r['des'] = 'success';
         } else {
             // $this->redirect(U('w3g/Public/login'), 3, '帐号或密码错误，请重新输入');
-            $r['success']=0;
-            $r['des']= '帐号或密码错误，请重新输入';
+            $r['success'] = 0;
+            $r['des'] = '帐号或密码错误，请重新输入';
         }
         echo json_encode($r);
         exit;
@@ -146,35 +143,35 @@ class PublicAction extends Action
 
     public function setSessionAndCookie($uid, $uname, $email, $remember = false)
     {
-        $_SESSION['mid']    = $uid;
-        $_SESSION['uname']  = $uname;
+        $_SESSION['mid'] = $uid;
+        $_SESSION['uname'] = $uname;
         $remember ?
-            cookie('LOGGED_USER', jiami('thinksns.'.$uid), (3600*24*365)) :
-            cookie('LOGGED_USER', jiami('thinksns.'.$uid), (3600*2));
+            cookie('LOGGED_USER', jiami('thinksns.'.$uid), (3600 * 24 * 365)) :
+            cookie('LOGGED_USER', jiami('thinksns.'.$uid), (3600 * 2));
     }
 
     //登录记录
     public function recordLogin($uid)
     {
-        $data['uid']    = $uid;
-        $data['ip']     = get_client_ip();
-        $data['place']  = convert_ip($data['ip']);
-        $data['ctime']  = time();
+        $data['uid'] = $uid;
+        $data['ip'] = get_client_ip();
+        $data['place'] = convert_ip($data['ip']);
+        $data['ctime'] = time();
         M('login_record')->add($data);
     }
 
     // URL重定向
-    public function redirect($url, $time=0, $msg='')
+    public function redirect($url, $time = 0, $msg = '')
     {
         //多行URL地址支持
         $url = str_replace(array("\n", "\r"), '', $url);
         if (empty($msg)) {
-            $msg    =   "系统将在{$time}秒之后自动跳转到{$url}！";
+            $msg = "系统将在{$time}秒之后自动跳转到{$url}！";
         }
         if (!headers_sent()) {
             // redirect
-            if (0===$time) {
-                header("Location: ".$url);
+            if (0 === $time) {
+                header('Location: '.$url);
             } else {
                 header("refresh:{$time};url={$url}");
                 // 防止手机浏览器下的乱码
@@ -182,8 +179,8 @@ class PublicAction extends Action
                 $str .= $msg;
             }
         } else {
-            $str    = "<meta http-equiv='Refresh' content='{$time};URL={$url}'>";
-            if ($time!=0) {
+            $str = "<meta http-equiv='Refresh' content='{$time};URL={$url}'>";
+            if ($time != 0) {
                 $str   .=   $msg;
             }
         }
@@ -192,12 +189,11 @@ class PublicAction extends Action
         $this->display('redirect');
     }
 
-
     // 访问正常版
     public function w3gToNormal()
     {
         $_SESSION['wap_to_normal'] = '1';
-        cookie('wap_to_normal', '1', 3600*24*365);
+        cookie('wap_to_normal', '1', 3600 * 24 * 365);
         redirect(U('public'));
     }
 
@@ -218,7 +214,6 @@ class PublicAction extends Action
         $this->display('forgot');
     }
 
-
     //用来传递头像地址
     public function ava()
     {
@@ -231,7 +226,6 @@ class PublicAction extends Action
         $this->assign('profile', $profile['avatar_small']);
         $this->display();
     }
-
 
     public function doRegister()
     {
@@ -304,7 +298,6 @@ class PublicAction extends Action
         $map['is_init'] = 1;
         $openid = session('openid');
         empty($openid) || $map['openid'] = $openid;
-
 
         // 审核状态： 0-需要审核；1-通过审核
         $map['is_audit'] = $this->_config['register_audit'] ? 0 : 1;
@@ -402,7 +395,7 @@ class PublicAction extends Action
      */
     public function doFindPassByEmail()
     {
-        $email    = t($_POST["email"]);
+        $email = t($_POST['email']);
         $re['flag'] = 0;
         if (!$this->_isEmailString($email)) {
             $re['msg'] = L('PUBLIC_EMAIL_TYPE_WRONG');
@@ -410,9 +403,9 @@ class PublicAction extends Action
             exit;
         }
 
-        $user =    model("User")->where('`email`="'.$email.'"')->find();
+        $user = model('User')->where('`email`="'.$email.'"')->find();
         if (!$user) {
-            $re['msg'] = "找不到该邮箱注册信息";
+            $re['msg'] = '找不到该邮箱注册信息';
             echo json_encode($re);
             exit;
         }
@@ -420,16 +413,16 @@ class PublicAction extends Action
         $result = $this->_sendPasswordEmail($user);
         if ($result) {
             $re['flag'] = 1;
-            $re['msg'] = "邮件发送成功";
+            $re['msg'] = '邮件发送成功';
             echo json_encode($re);
             exit;
         }
-        $re['msg'] = "操作失败，请重试";
+        $re['msg'] = '操作失败，请重试';
         echo json_encode($re);
         exit;
     }
-        
-        /**
+
+    /**
      * 手机号是否有效
      * @return json
      */
@@ -448,7 +441,7 @@ class PublicAction extends Action
         $this->ajaxReturn(null, '验证通过', 1);
     }
 
-        /**
+    /**
      * 验证码是否有效
      * @return json
      */
@@ -466,19 +459,18 @@ class PublicAction extends Action
     /**
      * 验证验证码是否有效
      *
-     * @return void
      * @author Medz Seven <lovevipdsw@vip.qq.com>
      **/
     public function isRegCodeAvailable()
     {
         $phone = floatval($_POST['phone']);
-        $code  = intval($_POST['regCode']);
-        $sms   = model('Sms');
+        $code = intval($_POST['regCode']);
+        $sms = model('Sms');
         $sms->CheckCaptcha($phone, $code) or $this->ajaxReturn(null, $sms->getMessage(), 0);
         $this->ajaxReturn(null, '验证通过', 1);
     }
 
-        /**
+    /**
      * 发送手机验证码
      * @return json
      */
@@ -503,7 +495,6 @@ class PublicAction extends Action
     /**
      * 发送手机验证码
      *
-     * @return void
      * @author Medz Seven <lovevipdsw@vip.qq.com>
      **/
     public function sendPasswordCode()
@@ -526,7 +517,7 @@ class PublicAction extends Action
         $this->ajaxReturn(null, $sms->getMessage(), 0);
     }
 
-        /**
+    /**
      * 通过手机找回密码
      * @return json
      */
@@ -556,14 +547,13 @@ class PublicAction extends Action
     /**
      * 通过手机找回密码
      *
-     * @return void
      * @author Medz Seven <lovevipdsw@vip.qq.com>
      **/
     public function doFindPasswordByMobile()
     {
         $phone = floatval($_POST['phone']);
-        $code  = intval($_POST['regCode']);
-        $sms   = model('Sms');
+        $code = intval($_POST['regCode']);
+        $sms = model('Sms');
 
         /* # 检查验证码 */
         $sms->CheckCaptcha($phone, $code) or $this->ajaxReturn(null, $sms->getMessage(), 0);
@@ -571,27 +561,26 @@ class PublicAction extends Action
         unset($sms);
 
         /* # 生成找回密码代码 */
-        $user = model('User')->where('`phone` = ' . $phone)->field('`uid`, `phone`, `password`')->find();
-        $code = md5($user['uid'] . '+' . $user['password'] . '+' . rand(1111, 9999));
+        $user = model('User')->where('`phone` = '.$phone)->field('`uid`, `phone`, `password`')->find();
+        $code = md5($user['uid'].'+'.$user['password'].'+'.rand(1111, 9999));
 
         /* # 设置旧的code过期 */
-        D('find_password')->where('`uid` = ' . $user['uid'])->setField('is_used', 1);
+        D('find_password')->where('`uid` = '.$user['uid'])->setField('is_used', 1);
 
         /* # 添加新的代码 */
         D('find_password')->add(array(
-            'uid'   => $user['uid'],
+            'uid' => $user['uid'],
             'email' => $user['phone'],
-            'code'  => $code,
-            'is_used' => 0
+            'code' => $code,
+            'is_used' => 0,
         ));
         $this->ajaxReturn(array(
-            'url' => U('w3g/Public/resetPassword', array('code' => $code))
+            'url' => U('w3g/Public/resetPassword', array('code' => $code)),
         ), '发送成功', 1);
     }
 
     /**
      * 重置密码页面
-     * @return void
      */
     public function resetPassword()
     {
@@ -600,22 +589,20 @@ class PublicAction extends Action
         $this->assign('code', $code);
         $this->display();
     }
-        
-        /**
+
+    /**
      * 签到
-     * @return void
      */
     public function sign_in()
     {
         if (!$this->mid) {
-            header("Location:".U('w3g/Public/login'));
+            header('Location:'.U('w3g/Public/login'));
         }
         $this->display();
     }
-        
+
     /**
      * 执行重置密码操作
-     * @return void
      */
     public function doResetPassword()
     {
@@ -634,7 +621,7 @@ class PublicAction extends Action
 
         $map['uid'] = $user_info['uid'];
         $data['login_salt'] = rand(10000, 99999);
-        $data['password']   = md5(md5($password) . $data['login_salt']);
+        $data['password'] = md5(md5($password).$data['login_salt']);
         $res = model('User')->where($map)->save($data);
         if ($res) {
             D('find_password')->where('uid='.$user_info['uid'])->setField('is_used', 1);
@@ -658,7 +645,6 @@ class PublicAction extends Action
 
     /**
      * 检查重置密码的验证码操作
-     * @return void
      */
     private function _checkResetPasswordCode($code)
     {
@@ -685,10 +671,10 @@ class PublicAction extends Action
     {
         if ($user['uid']) {
             //$this->appCssList[] = 'login.css';		// 添加样式
-            $code = md5($user["uid"].'+'.$user["password"].'+'.rand(1111, 9999));
-            $config['reseturl'] = U('w3g/Public/resetPassword', array('code'=>$code));
+            $code = md5($user['uid'].'+'.$user['password'].'+'.rand(1111, 9999));
+            $config['reseturl'] = U('w3g/Public/resetPassword', array('code' => $code));
             //设置旧的code过期
-            D('FindPassword')->where('uid='.$user["uid"])->setField('is_used', 1);
+            D('FindPassword')->where('uid='.$user['uid'])->setField('is_used', 1);
             //添加新的修改密码code
             $add['uid'] = $user['uid'];
             $add['email'] = $user['email'];
@@ -697,6 +683,7 @@ class PublicAction extends Action
             $result = D('FindPassword')->add($add);
             if ($result) {
                 model('Notify')->sendNotify($user['uid'], 'password_reset', $config);
+
                 return true;
             } else {
                 return false;
@@ -733,7 +720,8 @@ class PublicAction extends Action
      */
     private function _markPassword($str)
     {
-        $c = strlen($str)/2;
-        return preg_replace('|(?<=.{'.(ceil($c/2)).'})(.{'.floor($c).'}).*?|', str_pad('', floor($c), '*'), $str, 1);
+        $c = strlen($str) / 2;
+
+        return preg_replace('|(?<=.{'.(ceil($c / 2)).'})(.{'.floor($c).'}).*?|', str_pad('', floor($c), '*'), $str, 1);
     }
 }

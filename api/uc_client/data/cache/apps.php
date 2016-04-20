@@ -1,7 +1,7 @@
 <?php
+
 $_CACHE['apps'] = array(
-  2 =>
-  array(
+  2 => array(
     'appid' => '2',
     'type' => 'OTHER',
     'name' => 'ts',

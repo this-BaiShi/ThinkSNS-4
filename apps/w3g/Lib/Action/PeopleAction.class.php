@@ -14,8 +14,8 @@ class PeopleAction extends BaseAction
         }
         $interest = model('RelatedUser')->getRelatedUser(8);
         $this->assign('interest', $interest);
-        $this->setTitle("找伙伴");
-        $this->setKeywords("找伙伴");
+        $this->setTitle('找伙伴');
+        $this->setKeywords('找伙伴');
         $this->setDescription(implode(',', $cate));
 
         $this->display();
@@ -34,7 +34,6 @@ class PeopleAction extends BaseAction
         $this->assign('interest', $interest);
         $this->display();
     }
-
 
     /**
      * 找人结果页控制器
@@ -56,10 +55,10 @@ class PeopleAction extends BaseAction
                 $this->error('参数错误！');
             }
         }
-        $_GET        = array_merge($_GET, $_POST);
-        $curType    = intval($_GET['t']) ? intval($_GET['t']) : 1;
-        $limit    = intval($_GET['limit']) ? intval($_GET['limit']) : 20;
-        $searchKey    = t($_GET['k']);
+        $_GET = array_merge($_GET, $_POST);
+        $curType = intval($_GET['t']) ? intval($_GET['t']) : 1;
+        $limit = intval($_GET['limit']) ? intval($_GET['limit']) : 20;
+        $searchKey = t($_GET['k']);
         $lastUid = intval($_GET['lastUid']) ? intval($_GET['lastUid']) : 0;
         $page = $_GET['page'] ? intval($_GET['page']) : 1;
         $this->assign('page', $page);
@@ -75,7 +74,6 @@ class PeopleAction extends BaseAction
         $this->display();
     }
 
-    
     /**
      * 添加关注操作
      * @return json 返回操作后的JSON信息数据
@@ -197,7 +195,7 @@ class PeopleAction extends BaseAction
 
     /**
      * 获取指定父分类的树形结构
-     * @return integer $pid 父分类ID
+     * @return int   $pid 父分类ID
      * @return array 指定父分类的树形结构
      */
     public function getNetworkList()
@@ -276,7 +274,7 @@ class PeopleAction extends BaseAction
                 if ($area) {
                     //$pid = model('Area')->where('area_id='.$area)->find();
                     //if($pid){
-                        $pInfo =  model('Area')->where('area_id='.$area)->find();
+                        $pInfo = model('Area')->where('area_id='.$area)->find();
                     $_title = $pInfo['title'];
                     //}
                 }

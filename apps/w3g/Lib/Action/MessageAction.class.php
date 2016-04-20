@@ -7,7 +7,6 @@ class MessageAction extends BaseAction
 {
     /**
      * 模块初始化
-     * @return void
      */
     public function _initialize()
     {
@@ -15,7 +14,6 @@ class MessageAction extends BaseAction
 
     /**
      * 私信列表
-     * @return void
      */
     public function index()
     {
@@ -23,9 +21,9 @@ class MessageAction extends BaseAction
         $list = $dao->getMessageListByUid($this->mid, array(MessageModel::ONE_ON_ONE_CHAT, MessageModel::MULTIPLAYER_CHAT));
         // 设置信息已读(在右上角提示去掉),
         model('Message')->setMessageIsRead(t($POST['id']), $this->mid, 1);
-        if ($list['nowPage']<=1&&is_array($list['data'])&&isset($list['data'][0])) {
-            $only = !isset($list['data'][1])||$list['data'][1]['new']<=0;
-            if ($list['data'][0]['new']>0 && $only) {
+        if ($list['nowPage'] <= 1 && is_array($list['data']) && isset($list['data'][0])) {
+            $only = !isset($list['data'][1]) || $list['data'][1]['new'] <= 0;
+            if ($list['data'][0]['new'] > 0 && $only) {
                 $url = U('w3g/Message/detail', array(
                     'id' => $list['data'][0]['list_id'],
                 ));
@@ -59,7 +57,6 @@ class MessageAction extends BaseAction
 
     /**
      * 系统通知
-     * @return void
      */
     public function notify()
     {
@@ -70,11 +67,11 @@ class MessageAction extends BaseAction
         $count = $list['count'];
         $this->assign('count', $count);
         $page = $_GET['page'] ? intval($_GET['page']) : 1;
-        $start = ($page-1) * $limit;
+        $start = ($page - 1) * $limit;
         $list = D('notify_message')->where('uid='.$this->mid)->order('ctime desc')->limit("$start,$limit")->select();
-        foreach ($list as $k=>$v) {
+        foreach ($list as $k => $v) {
             $list[$k]['body'] = parse_html($v['body']);
-            if ($appname !='public') {
+            if ($appname != 'public') {
                 $list[$k]['app'] = model('App')->getAppByName($v['appname']);
             }
         }
@@ -89,7 +86,6 @@ class MessageAction extends BaseAction
 
     /**
      * 获取指定应用指定用户下的消息列表
-     * @return void
      */
     public function notifyDetail()
     {
@@ -97,7 +93,7 @@ class MessageAction extends BaseAction
         //设置为已读
         //model('Notify')->setRead($this->mid,$appname);
         $this->assign('appname', $appname);
-        if ($appname !='public') {
+        if ($appname != 'public') {
             $appinfo = model('App')->getAppByName($appname);
             $this->assign('appinfo', $appinfo);
         }
@@ -108,7 +104,6 @@ class MessageAction extends BaseAction
 
     /**
      * 删除私信
-     * @return void
      */
     public function delnotify()
     {
@@ -117,7 +112,6 @@ class MessageAction extends BaseAction
 
     /**
      * 私信详情
-     * @return void
      */
     public function detail()
     {
@@ -131,8 +125,8 @@ class MessageAction extends BaseAction
         $message['to'] = array();
         // 添加发送用户ID
         foreach ($message['member'] as $index => $v) {
-            $message['member'][$index]['user_info']['space_link']='';//TODO:change link
-            $message['member'][$index]['user_info']['space_link_no']='';//TODO:change link
+            $message['member'][$index]['user_info']['space_link'] = '';//TODO:change link
+            $message['member'][$index]['user_info']['space_link_no'] = '';//TODO:change link
             $this->mid != $v['member_uid'] && $message['to'][] = $message['member'][$index];
         }
         $r['to'] = $message['to'];
@@ -151,7 +145,7 @@ class MessageAction extends BaseAction
         $list_id = t($_GET['id']);
         $where = "`list_id`={$list_id} AND `is_del`=0";
         $limit = 20;
-        $r['data']  = array_reverse(D('message_content')->where($where)->order('message_id DESC')->limit($limit)->findAll());
+        $r['data'] = array_reverse(D('message_content')->where($where)->order('message_id DESC')->limit($limit)->findAll());
         //dump($r);exit;
         $this->assign('message', $message);
         $this->assign('r', $r);
@@ -163,7 +157,6 @@ class MessageAction extends BaseAction
 
     /**
      * 获取指定私信列表中的私信内容
-     * @return void
      */
     public function loadMessage()
     {
@@ -182,7 +175,6 @@ class MessageAction extends BaseAction
 
     /**
      * 发送私信弹窗
-     * @return void
      */
     public function post()
     {
@@ -196,16 +188,15 @@ class MessageAction extends BaseAction
 
         $this->display();
     }
-    
+
     /**
      * 发送私信
-     * @return void
      */
     public function doPost()
     {
-        $return = array('data'=>L('PUBLIC_SEND_SUCCESS'),'status'=>1);
+        $return = array('data' => L('PUBLIC_SEND_SUCCESS'), 'status' => 1);
         if (empty($_POST['to']) || !CheckPermission('core_normal', 'send_message')) {
-            $return['data']=L('PUBLIC_SYSTEM_MAIL_ISNOT');
+            $return['data'] = L('PUBLIC_SYSTEM_MAIL_ISNOT');
             $return['status'] = 0;
             echo json_encode($return);
             exit();
@@ -218,7 +209,7 @@ class MessageAction extends BaseAction
         }
         $_POST['to'] = trim(t($_POST['to']), ',');
         $to_num = explode(',', $_POST['to']);
-        if (sizeof($to_num)>10) {
+        if (sizeof($to_num) > 10) {
             $return['data'] = '';
             $return['status'] = 0;
             echo json_encode($return);
@@ -238,8 +229,7 @@ class MessageAction extends BaseAction
             exit();
         } else {
             $return['status'] = 0;
-            $return['data']   = model('Message')->getError();
-            ;
+            $return['data'] = model('Message')->getError();
             echo json_encode($return);
             exit();
         }
@@ -247,20 +237,19 @@ class MessageAction extends BaseAction
 
     /**
      * 回复私信
-     * @return void
      */
     public function doReply()
     {
         $UserPrivacy = model('UserPrivacy')->getPrivacy($this->mid, intval($_POST['to']));
         if ($UserPrivacy['message'] != 0) {
-            echo json_encode(array('status'=>0, 'data'=>'根据对方的隐私设置，您无法给TA发送私信'));
+            echo json_encode(array('status' => 0, 'data' => '根据对方的隐私设置，您无法给TA发送私信'));
             exit;
         }
         $_POST['reply_content'] = t($_POST['reply_content']);
-        $_POST['id']  = intval($_POST['id']);
+        $_POST['id'] = intval($_POST['id']);
 
         if (!$_POST['id'] || empty($_POST['reply_content'])) {
-            echo json_encode(array('status'=>0, 'data'=>L('PUBLIC_COMMENT_MAIL_REQUIRED')));
+            echo json_encode(array('status' => 0, 'data' => L('PUBLIC_COMMENT_MAIL_REQUIRED')));
             exit;
         }
 
@@ -273,16 +262,16 @@ class MessageAction extends BaseAction
 
         $res = model('Message')->replyMessage($_POST['id'], $_POST['reply_content'], $this->mid, $_POST['attach_ids']);
         if ($res) {
-            echo json_encode(array('status'=>1, 'data'=>L('PUBLIC_PRIVATE_MESSAGE_SEND_SUCCESS')));
+            echo json_encode(array('status' => 1, 'data' => L('PUBLIC_PRIVATE_MESSAGE_SEND_SUCCESS')));
         } else {
-            echo json_encode(array('status'=>0, 'data'=>L('PUBLIC_PRIVATE_MESSAGE_SEND_FAIL')));
+            echo json_encode(array('status' => 0, 'data' => L('PUBLIC_PRIVATE_MESSAGE_SEND_FAIL')));
         }
         exit();
     }
 
     /**
      * 设置指定私信为已读
-     * @return integer 1=成功 0=失败
+     * @return int 1=成功 0=失败
      */
     public function doSetIsRead()
     {
@@ -296,7 +285,7 @@ class MessageAction extends BaseAction
 
     /**
      * 删除私信
-     * @return integer 1=成功 0=失败
+     * @return int 1=成功 0=失败
      */
     public function doDelete()
     {
@@ -310,7 +299,7 @@ class MessageAction extends BaseAction
 
     /**
      * 删除用户指定私信会话
-     * @return integer 1=成功 0=失败
+     * @return int 1=成功 0=失败
      */
     public function doDeleteSession()
     {

@@ -14,8 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-require_once "Google_FileCache.php";
-require_once "Google_MemcacheCache.php";
+require_once 'Google_FileCache.php';
+require_once 'Google_MemcacheCache.php';
 /**
  * Abstract storage class
  *
@@ -28,7 +28,7 @@ abstract class Google_Cache
    * key is unknown or expired
    *
    * @param String $key The key who's data to retrieve
-   * @param boolean|int $expiration Expiration time in seconds
+   * @param bool|int $expiration Expiration time in seconds
    *
    */
   abstract public function get($key, $expiration = false);

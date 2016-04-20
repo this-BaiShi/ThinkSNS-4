@@ -25,9 +25,9 @@
       /**
      * Attempt verification of a website or domain. (webResource.insert)
      *
-     * @param string $verificationMethod The method to use for verifying a site or domain.
-     * @param Google_SiteVerificationWebResourceResource $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string                                     $verificationMethod The method to use for verifying a site or domain.
+     * @param  Google_SiteVerificationWebResourceResource $postBody
+     * @param  array                                      $optParams          Optional parameters.
      * @return Google_SiteVerificationWebResourceResource
      */
     public function insert($verificationMethod, Google_SiteVerificationWebResourceResource $postBody, $optParams = array())
@@ -44,8 +44,8 @@
     /**
      * Get the most current data for a website or domain. (webResource.get)
      *
-     * @param string $id The id of a verified site or domain.
-     * @param array $optParams Optional parameters.
+     * @param  string                                     $id        The id of a verified site or domain.
+     * @param  array                                      $optParams Optional parameters.
      * @return Google_SiteVerificationWebResourceResource
      */
     public function get($id, $optParams = array())
@@ -62,7 +62,7 @@
     /**
      * Get the list of your verified websites and domains. (webResource.list)
      *
-     * @param array $optParams Optional parameters.
+     * @param  array                                          $optParams Optional parameters.
      * @return Google_SiteVerificationWebResourceListResponse
      */
     public function listWebResource($optParams = array())
@@ -79,9 +79,9 @@
     /**
      * Modify the list of owners for your website or domain. (webResource.update)
      *
-     * @param string $id The id of a verified site or domain.
-     * @param Google_SiteVerificationWebResourceResource $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string                                     $id        The id of a verified site or domain.
+     * @param  Google_SiteVerificationWebResourceResource $postBody
+     * @param  array                                      $optParams Optional parameters.
      * @return Google_SiteVerificationWebResourceResource
      */
     public function update($id, Google_SiteVerificationWebResourceResource $postBody, $optParams = array())
@@ -99,9 +99,9 @@
      * Modify the list of owners for your website or domain. This method supports patch semantics.
      * (webResource.patch)
      *
-     * @param string $id The id of a verified site or domain.
-     * @param Google_SiteVerificationWebResourceResource $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string                                     $id        The id of a verified site or domain.
+     * @param  Google_SiteVerificationWebResourceResource $postBody
+     * @param  array                                      $optParams Optional parameters.
      * @return Google_SiteVerificationWebResourceResource
      */
     public function patch($id, Google_SiteVerificationWebResourceResource $postBody, $optParams = array())
@@ -118,8 +118,8 @@
     /**
      * Get a verification token for placing on a website or domain. (webResource.getToken)
      *
-     * @param Google_SiteVerificationWebResourceGettokenRequest $postBody
-     * @param array $optParams Optional parameters.
+     * @param  Google_SiteVerificationWebResourceGettokenRequest  $postBody
+     * @param  array                                              $optParams Optional parameters.
      * @return Google_SiteVerificationWebResourceGettokenResponse
      */
     public function getToken(Google_SiteVerificationWebResourceGettokenRequest $postBody, $optParams = array())
@@ -136,14 +136,15 @@
     /**
      * Relinquish ownership of a website or domain. (webResource.delete)
      *
-     * @param string $id The id of a verified site or domain.
-     * @param array $optParams Optional parameters.
+     * @param string $id        The id of a verified site or domain.
+     * @param array  $optParams Optional parameters.
      */
     public function delete($id, $optParams = array())
     {
         $params = array('id' => $id);
         $params = array_merge($params, $optParams);
         $data = $this->__call('delete', array($params));
+
         return $data;
     }
   }

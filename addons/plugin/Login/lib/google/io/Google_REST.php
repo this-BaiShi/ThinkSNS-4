@@ -37,9 +37,10 @@ class Google_REST
       $decodedResponse = self::decodeHttpResponse($httpRequest);
       $ret = isset($decodedResponse['data'])
         ? $decodedResponse['data'] : $decodedResponse;
+
       return $ret;
   }
-  
+
   /**
    * Decode an HTTP Response.
    * @static
@@ -52,10 +53,10 @@ class Google_REST
       $code = $response->getResponseHttpCode();
       $body = $response->getResponseBody();
       $decoded = null;
-    
+
       if ($code != '200' && $code != '201' && $code != '204') {
           $decoded = json_decode($body, true);
-          $err = 'Error calling ' . $response->getRequestMethod() . ' ' . $response->getUrl();
+          $err = 'Error calling '.$response->getRequestMethod().' '.$response->getUrl();
           if ($decoded != null && isset($decoded['error']['message'])  && isset($decoded['error']['code'])) {
               // if we're getting a json encoded error definition, use that instead of the raw response
         // body for improved readability
@@ -65,14 +66,15 @@ class Google_REST
           }
           throw new Google_ServiceException($err, $code, null, $decoded['error']['errors']);
       }
-    
+
     // Only attempt to decode the response, if the response code wasn't (204) 'no content'
     if ($code != '204') {
         $decoded = json_decode($body, true);
-        if ($decoded === null || $decoded === "") {
+        if ($decoded === null || $decoded === '') {
             throw new Google_ServiceException("Invalid json in service response: $body");
         }
     }
+
       return $decoded;
   }
   /**
@@ -86,7 +88,7 @@ class Google_REST
    */
   public static function createRequestUri($servicePath, $restPath, $params)
   {
-      $requestUrl = $servicePath . $restPath;
+      $requestUrl = $servicePath.$restPath;
       $uriTemplateVars = array();
       $queryVars = array();
       foreach ($params as $paramName => $paramSpec) {
@@ -102,10 +104,10 @@ class Google_REST
           } else {
               if (isset($paramSpec['repeated']) && is_array($paramSpec['value'])) {
                   foreach ($paramSpec['value'] as $value) {
-                      $queryVars[] = $paramName . '=' . rawurlencode($value);
+                      $queryVars[] = $paramName.'='.rawurlencode($value);
                   }
               } else {
-                  $queryVars[] = $paramName . '=' . rawurlencode($paramSpec['value']);
+                  $queryVars[] = $paramName.'='.rawurlencode($paramSpec['value']);
               }
           }
       }
@@ -117,8 +119,9 @@ class Google_REST
     // the @'s & confuses our servers.
     $requestUrl = str_replace('%40', '@', $requestUrl);
       if (count($queryVars)) {
-          $requestUrl .= '?' . implode($queryVars, '&');
+          $requestUrl .= '?'.implode($queryVars, '&');
       }
+
       return $requestUrl;
   }
 }

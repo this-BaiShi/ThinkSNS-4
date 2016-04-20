@@ -25,8 +25,8 @@
       /**
      * Returns blob attached to node at specified id as HTML (text.get)
      *
-     * @param string $id The id of the item that you want data about
-     * @param array $optParams Optional parameters.
+     * @param string $id        The id of the item that you want data about
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string maxlength The max number of characters to return. Valid only for 'plain' format.
      * @opt_param string format Sanitizing transformation.

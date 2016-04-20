@@ -25,10 +25,10 @@
       /**
      * Creates a new, empty table in the dataset. (tables.insert)
      *
-     * @param string $projectId Project ID of the new table
-     * @param string $datasetId Dataset ID of the new table
-     * @param Google_Table $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string       $projectId Project ID of the new table
+     * @param  string       $datasetId Dataset ID of the new table
+     * @param  Google_Table $postBody
+     * @param  array        $optParams Optional parameters.
      * @return Google_Table
      */
     public function insert($projectId, $datasetId, Google_Table $postBody, $optParams = array())
@@ -46,10 +46,10 @@
      * Gets the specified table resource by table ID. This method does not return the data in the table,
      * it only returns the table resource, which describes the structure of this table. (tables.get)
      *
-     * @param string $projectId Project ID of the requested table
-     * @param string $datasetId Dataset ID of the requested table
-     * @param string $tableId Table ID of the requested table
-     * @param array $optParams Optional parameters.
+     * @param  string       $projectId Project ID of the requested table
+     * @param  string       $datasetId Dataset ID of the requested table
+     * @param  string       $tableId   Table ID of the requested table
+     * @param  array        $optParams Optional parameters.
      * @return Google_Table
      */
     public function get($projectId, $datasetId, $tableId, $optParams = array())
@@ -68,7 +68,7 @@
      *
      * @param string $projectId Project ID of the tables to list
      * @param string $datasetId Dataset ID of the tables to list
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string pageToken Page token, returned by a previous call, to request the next page of results
      * @opt_param string maxResults Maximum number of results to return
@@ -88,11 +88,11 @@
     /**
      * Updates information in an existing table, specified by tableId. (tables.update)
      *
-     * @param string $projectId Project ID of the table to update
-     * @param string $datasetId Dataset ID of the table to update
-     * @param string $tableId Table ID of the table to update
-     * @param Google_Table $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string       $projectId Project ID of the table to update
+     * @param  string       $datasetId Dataset ID of the table to update
+     * @param  string       $tableId   Table ID of the table to update
+     * @param  Google_Table $postBody
+     * @param  array        $optParams Optional parameters.
      * @return Google_Table
      */
     public function update($projectId, $datasetId, $tableId, Google_Table $postBody, $optParams = array())
@@ -110,11 +110,11 @@
      * Updates information in an existing table, specified by tableId. This method supports patch
      * semantics. (tables.patch)
      *
-     * @param string $projectId Project ID of the table to update
-     * @param string $datasetId Dataset ID of the table to update
-     * @param string $tableId Table ID of the table to update
-     * @param Google_Table $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string       $projectId Project ID of the table to update
+     * @param  string       $datasetId Dataset ID of the table to update
+     * @param  string       $tableId   Table ID of the table to update
+     * @param  Google_Table $postBody
+     * @param  array        $optParams Optional parameters.
      * @return Google_Table
      */
     public function patch($projectId, $datasetId, $tableId, Google_Table $postBody, $optParams = array())
@@ -134,14 +134,15 @@
      *
      * @param string $projectId Project ID of the table to delete
      * @param string $datasetId Dataset ID of the table to delete
-     * @param string $tableId Table ID of the table to delete
-     * @param array $optParams Optional parameters.
+     * @param string $tableId   Table ID of the table to delete
+     * @param array  $optParams Optional parameters.
      */
     public function delete($projectId, $datasetId, $tableId, $optParams = array())
     {
         $params = array('projectId' => $projectId, 'datasetId' => $datasetId, 'tableId' => $tableId);
         $params = array_merge($params, $optParams);
         $data = $this->__call('delete', array($params));
+
         return $data;
     }
   }
@@ -158,9 +159,9 @@
       /**
      * Creates a new empty dataset. (datasets.insert)
      *
-     * @param string $projectId Project ID of the new dataset
-     * @param Google_Dataset $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string         $projectId Project ID of the new dataset
+     * @param  Google_Dataset $postBody
+     * @param  array          $optParams Optional parameters.
      * @return Google_Dataset
      */
     public function insert($projectId, Google_Dataset $postBody, $optParams = array())
@@ -177,9 +178,9 @@
     /**
      * Returns the dataset specified by datasetID. (datasets.get)
      *
-     * @param string $projectId Project ID of the requested dataset
-     * @param string $datasetId Dataset ID of the requested dataset
-     * @param array $optParams Optional parameters.
+     * @param  string         $projectId Project ID of the requested dataset
+     * @param  string         $datasetId Dataset ID of the requested dataset
+     * @param  array          $optParams Optional parameters.
      * @return Google_Dataset
      */
     public function get($projectId, $datasetId, $optParams = array())
@@ -198,7 +199,7 @@
      * project owner can list (but not necessarily get) all datasets in his project. (datasets.list)
      *
      * @param string $projectId Project ID of the datasets to be listed
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string pageToken Page token, returned by a previous call, to request the next page of results
      * @opt_param string maxResults The maximum number of results to return
@@ -221,10 +222,10 @@
      * assigned, the request will fail as you must specify at least one owner for a dataset.
      * (datasets.update)
      *
-     * @param string $projectId Project ID of the dataset being updated
-     * @param string $datasetId Dataset ID of the dataset being updated
-     * @param Google_Dataset $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string         $projectId Project ID of the dataset being updated
+     * @param  string         $datasetId Dataset ID of the dataset being updated
+     * @param  Google_Dataset $postBody
+     * @param  array          $optParams Optional parameters.
      * @return Google_Dataset
      */
     public function update($projectId, $datasetId, Google_Dataset $postBody, $optParams = array())
@@ -244,10 +245,10 @@
      * assigned, the request will fail as you must specify at least one owner for a dataset. This method
      * supports patch semantics. (datasets.patch)
      *
-     * @param string $projectId Project ID of the dataset being updated
-     * @param string $datasetId Dataset ID of the dataset being updated
-     * @param Google_Dataset $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string         $projectId Project ID of the dataset being updated
+     * @param  string         $datasetId Dataset ID of the dataset being updated
+     * @param  Google_Dataset $postBody
+     * @param  array          $optParams Optional parameters.
      * @return Google_Dataset
      */
     public function patch($projectId, $datasetId, Google_Dataset $postBody, $optParams = array())
@@ -268,7 +269,7 @@
      *
      * @param string $projectId Project ID of the dataset being deleted
      * @param string $datasetId Dataset ID of dataset being deleted
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param bool deleteContents If True, delete all the tables in the dataset. If False and the dataset contains tables, the request will fail. Default is False
      */
@@ -277,6 +278,7 @@
         $params = array('projectId' => $projectId, 'datasetId' => $datasetId);
         $params = array_merge($params, $optParams);
         $data = $this->__call('delete', array($params));
+
         return $data;
     }
   }
@@ -293,9 +295,9 @@
       /**
      * Starts a new asynchronous job. (jobs.insert)
      *
-     * @param string $projectId Project ID of the project that will be billed for the job
-     * @param Google_Job $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string     $projectId Project ID of the project that will be billed for the job
+     * @param  Google_Job $postBody
+     * @param  array      $optParams Optional parameters.
      * @return Google_Job
      */
     public function insert($projectId, Google_Job $postBody, $optParams = array())
@@ -313,9 +315,9 @@
      * Runs a BigQuery SQL query synchronously and returns query results if the query completes within a
      * specified timeout. (jobs.query)
      *
-     * @param string $projectId Project ID of the project billed for the query
-     * @param Google_QueryRequest $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string               $projectId Project ID of the project billed for the query
+     * @param  Google_QueryRequest  $postBody
+     * @param  array                $optParams Optional parameters.
      * @return Google_QueryResponse
      */
     public function query($projectId, Google_QueryRequest $postBody, $optParams = array())
@@ -333,7 +335,7 @@
      * Lists all the Jobs in the specified project that were started by the user. (jobs.list)
      *
      * @param string $projectId Project ID of the jobs to list
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string projection Restrict information returned to a set of selected fields
      * @opt_param string stateFilter Filter for job state
@@ -357,8 +359,8 @@
      * Retrieves the results of a query job. (jobs.getQueryResults)
      *
      * @param string $projectId Project ID of the query job
-     * @param string $jobId Job ID of the query job
-     * @param array $optParams Optional parameters.
+     * @param string $jobId     Job ID of the query job
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string timeoutMs How long to wait for the query to complete, in milliseconds, before returning. Default is to return immediately. If the timeout passes before the job completes, the request will fail with a TIMEOUT error
      * @opt_param string startIndex Zero-based index of the starting row
@@ -379,9 +381,9 @@
     /**
      * Retrieves the specified job by ID. (jobs.get)
      *
-     * @param string $projectId Project ID of the requested job
-     * @param string $jobId Job ID of the requested job
-     * @param array $optParams Optional parameters.
+     * @param  string     $projectId Project ID of the requested job
+     * @param  string     $jobId     Job ID of the requested job
+     * @param  array      $optParams Optional parameters.
      * @return Google_Job
      */
     public function get($projectId, $jobId, $optParams = array())
@@ -411,8 +413,8 @@
      *
      * @param string $projectId Project ID of the table to read
      * @param string $datasetId Dataset ID of the table to read
-     * @param string $tableId Table ID of the table to read
-     * @param array $optParams Optional parameters.
+     * @param string $tableId   Table ID of the table to read
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string maxResults Maximum number of results to return
      * @opt_param string pageToken Page token, returned by a previous call, identifying the result set

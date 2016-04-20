@@ -57,10 +57,11 @@ class Google_PemVerifier extends Google_Verifier
    */
   public function verify($data, $signature)
   {
-      $status = openssl_verify($data, $signature, $this->publicKey, "sha256");
+      $status = openssl_verify($data, $signature, $this->publicKey, 'sha256');
       if ($status === -1) {
-          throw new Google_AuthException('Signature verification error: ' . openssl_error_string());
+          throw new Google_AuthException('Signature verification error: '.openssl_error_string());
       }
+
       return $status === 1;
   }
 }

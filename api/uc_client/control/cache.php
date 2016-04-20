@@ -11,7 +11,6 @@
 
 class cachecontrol extends base
 {
-
     public function __construct()
     {
         $this->_cachecontrol();
@@ -24,7 +23,7 @@ class cachecontrol extends base
 
     public function onupdate($arr)
     {
-        $this->load("cache");
+        $this->load('cache');
         $_ENV['cache']->updatedata();
     }
 }

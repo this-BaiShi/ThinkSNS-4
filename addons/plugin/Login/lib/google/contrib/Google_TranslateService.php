@@ -55,8 +55,8 @@
       /**
      * Detect the language of text. (detections.list)
      *
-     * @param string $q The text to detect
-     * @param array $optParams Optional parameters.
+     * @param  string                        $q         The text to detect
+     * @param  array                         $optParams Optional parameters.
      * @return Google_DetectionsListResponse
      */
     public function listDetections($q, $optParams = array())
@@ -84,9 +84,9 @@
       /**
      * Returns text translations from one language to another. (translations.list)
      *
-     * @param string $q The text to translate
-     * @param string $target The target language into which the text should be translated
-     * @param array $optParams Optional parameters.
+     * @param string $q         The text to translate
+     * @param string $target    The target language into which the text should be translated
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string source The source language of the text
      * @opt_param string format The format of the text

@@ -25,8 +25,8 @@
       /**
      * Retrieves a list of blogs, possibly filtered. (blogs.listByUser)
      *
-     * @param string $userId ID of the user whose blogs are to be fetched. Either the word 'self' (sans quote marks) or the user's profile identifier.
-     * @param array $optParams Optional parameters.
+     * @param  string          $userId    ID of the user whose blogs are to be fetched. Either the word 'self' (sans quote marks) or the user's profile identifier.
+     * @param  array           $optParams Optional parameters.
      * @return Google_BlogList
      */
     public function listByUser($userId, $optParams = array())
@@ -62,8 +62,8 @@
     /**
      * Gets one blog by id. (blogs.get)
      *
-     * @param string $blogId The ID of the blog to get.
-     * @param array $optParams Optional parameters.
+     * @param string $blogId    The ID of the blog to get.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string maxPosts Maximum number of posts to pull back with the blog.
      * @return Google_Blog
@@ -93,9 +93,9 @@
       /**
      * Add a post. (posts.insert)
      *
-     * @param string $blogId ID of the blog to fetch the post from.
-     * @param Google_Post $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string      $blogId    ID of the blog to fetch the post from.
+     * @param  Google_Post $postBody
+     * @param  array       $optParams Optional parameters.
      * @return Google_Post
      */
     public function insert($blogId, Google_Post $postBody, $optParams = array())
@@ -112,8 +112,8 @@
     /**
      * Search for a post. (posts.search)
      *
-     * @param string $blogId ID of the blog to fetch the post from.
-     * @param array $optParams Optional parameters.
+     * @param string $blogId    ID of the blog to fetch the post from.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string q Query terms to search this blog for matching posts.
      * @return Google_PostList
@@ -132,9 +132,9 @@
     /**
      * Get a post by id. (posts.get)
      *
-     * @param string $blogId ID of the blog to fetch the post from.
-     * @param string $postId The ID of the post
-     * @param array $optParams Optional parameters.
+     * @param string $blogId    ID of the blog to fetch the post from.
+     * @param string $postId    The ID of the post
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string maxComments Maximum number of comments to pull back on a post.
      * @return Google_Post
@@ -153,8 +153,8 @@
     /**
      * Retrieves a list of posts, possibly filtered. (posts.list)
      *
-     * @param string $blogId ID of the blog to fetch posts from.
-     * @param array $optParams Optional parameters.
+     * @param string $blogId    ID of the blog to fetch posts from.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string startDate Earliest post date to fetch, a date-time with RFC 3339 formatting.
      * @opt_param string endDate Latest post date to fetch, a date-time with RFC 3339 formatting.
@@ -178,10 +178,10 @@
     /**
      * Update a post. (posts.update)
      *
-     * @param string $blogId The ID of the Blog.
-     * @param string $postId The ID of the Post.
-     * @param Google_Post $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string      $blogId    The ID of the Blog.
+     * @param  string      $postId    The ID of the Post.
+     * @param  Google_Post $postBody
+     * @param  array       $optParams Optional parameters.
      * @return Google_Post
      */
     public function update($blogId, $postId, Google_Post $postBody, $optParams = array())
@@ -198,8 +198,8 @@
     /**
      * Retrieve a Post by Path. (posts.getByPath)
      *
-     * @param string $blogId ID of the blog to fetch the post from.
-     * @param array $optParams Optional parameters.
+     * @param string $blogId    ID of the blog to fetch the post from.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string path Path of the Post to retrieve.
      * @opt_param string maxComments Maximum number of comments to pull back on a post.
@@ -219,10 +219,10 @@
     /**
      * Update a post. This method supports patch semantics. (posts.patch)
      *
-     * @param string $blogId The ID of the Blog.
-     * @param string $postId The ID of the Post.
-     * @param Google_Post $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string      $blogId    The ID of the Blog.
+     * @param  string      $postId    The ID of the Post.
+     * @param  Google_Post $postBody
+     * @param  array       $optParams Optional parameters.
      * @return Google_Post
      */
     public function patch($blogId, $postId, Google_Post $postBody, $optParams = array())
@@ -239,15 +239,16 @@
     /**
      * Delete a post by id. (posts.delete)
      *
-     * @param string $blogId The Id of the Blog.
-     * @param string $postId The ID of the Post.
-     * @param array $optParams Optional parameters.
+     * @param string $blogId    The Id of the Blog.
+     * @param string $postId    The ID of the Post.
+     * @param array  $optParams Optional parameters.
      */
     public function delete($blogId, $postId, $optParams = array())
     {
         $params = array('blogId' => $blogId, 'postId' => $postId);
         $params = array_merge($params, $optParams);
         $data = $this->__call('delete', array($params));
+
         return $data;
     }
   }
@@ -264,8 +265,8 @@
       /**
      * Retrieves pages for a blog, possibly filtered. (pages.list)
      *
-     * @param string $blogId ID of the blog to fetch pages from.
-     * @param array $optParams Optional parameters.
+     * @param string $blogId    ID of the blog to fetch pages from.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param bool fetchBodies Whether to retrieve the Page bodies.
      * @return Google_PageList
@@ -284,9 +285,9 @@
     /**
      * Gets one blog page by id. (pages.get)
      *
-     * @param string $blogId ID of the blog containing the page.
-     * @param string $pageId The ID of the page to get.
-     * @param array $optParams Optional parameters.
+     * @param  string      $blogId    ID of the blog containing the page.
+     * @param  string      $pageId    The ID of the page to get.
+     * @param  array       $optParams Optional parameters.
      * @return Google_Page
      */
     public function get($blogId, $pageId, $optParams = array())
@@ -314,9 +315,9 @@
       /**
      * Retrieves the comments for a blog, possibly filtered. (comments.list)
      *
-     * @param string $blogId ID of the blog to fetch comments from.
-     * @param string $postId ID of the post to fetch posts from.
-     * @param array $optParams Optional parameters.
+     * @param string $blogId    ID of the blog to fetch comments from.
+     * @param string $postId    ID of the post to fetch posts from.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string startDate Earliest date of comment to fetch, a date-time with RFC 3339 formatting.
      * @opt_param string endDate Latest date of comment to fetch, a date-time with RFC 3339 formatting.
@@ -339,10 +340,10 @@
     /**
      * Gets one comment by id. (comments.get)
      *
-     * @param string $blogId ID of the blog to containing the comment.
-     * @param string $postId ID of the post to fetch posts from.
-     * @param string $commentId The ID of the comment to get.
-     * @param array $optParams Optional parameters.
+     * @param  string         $blogId    ID of the blog to containing the comment.
+     * @param  string         $postId    ID of the post to fetch posts from.
+     * @param  string         $commentId The ID of the comment to get.
+     * @param  array          $optParams Optional parameters.
      * @return Google_Comment
      */
     public function get($blogId, $postId, $commentId, $optParams = array())
@@ -370,8 +371,8 @@
       /**
      * Gets one user by id. (users.get)
      *
-     * @param string $userId The ID of the user to get.
-     * @param array $optParams Optional parameters.
+     * @param  string      $userId    The ID of the user to get.
+     * @param  array       $optParams Optional parameters.
      * @return Google_User
      */
     public function get($userId, $optParams = array())

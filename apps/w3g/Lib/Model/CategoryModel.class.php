@@ -1,32 +1,33 @@
 <?php
+
 class CategoryModel extends Model
 {
     public $tableName = 'group_category';
     //生成分类Tree
     public function _makeTree($pid)
     {
-        if ($pid==0 && $cache = S('Cache_Group_Cate_'.$pid)) { // pid=0 才缓存
+        if ($pid == 0 && $cache = S('Cache_Group_Cate_'.$pid)) { // pid=0 才缓存
             return $cache;
         }
-            
+
         if ($c = $this->where("pid='$pid'")->findAll()) {
             if ($pid == 0) {
                 foreach ($c as $v) {
-                    $cTree['t']    =    $v['title'];
-                    $cTree['a']    =    $v['id'];
-                    $cTree['d']    =    $this->_makeTree($v['id']);
-                    $cTrees[]    =    $cTree;
+                    $cTree['t'] = $v['title'];
+                    $cTree['a'] = $v['id'];
+                    $cTree['d'] = $this->_makeTree($v['id']);
+                    $cTrees[] = $cTree;
                 }
             } else {
                 foreach ($c as $v) {
-                    $cTree['t']    =    $v['title'];
-                    $cTree['a']    =    $v['id'];
-                    $cTree['d'] =   '';//$v['id'];
-                    $cTrees[]    =    $cTree;
+                    $cTree['t'] = $v['title'];
+                    $cTree['a'] = $v['id'];
+                    $cTree['d'] = '';//$v['id'];
+                    $cTrees[] = $cTree;
                 }
             }
         }
-        $pid==0 && S('Cache_Group_Cate_'.$pid, $cTrees);    // pid=0 才缓存
+        $pid == 0 && S('Cache_Group_Cate_'.$pid, $cTrees);    // pid=0 才缓存
         return $cTrees;
     }
 
@@ -48,9 +49,10 @@ class CategoryModel extends Model
     }
 
     //获取LI列表
-    public function getCategoryList($pid='0')
+    public function getCategoryList($pid = '0')
     {
-        $list    =    $this->_makeLiTree($pid);
+        $list = $this->_makeLiTree($pid);
+
         return $list;
     }
     public function _makeLiTree($pid)
@@ -60,8 +62,8 @@ class CategoryModel extends Model
             foreach ($c as $p) {
                 @extract($p);
 
-                $ptitle    =    "<span id='category_".$id."' title='".$title."'><a href='javascript:void(0)' onclick=\"edit('".$id."')\">".$title."</a></span>";
-                $title    =    '['.$id.'] '.$ptitle;
+                $ptitle = "<span id='category_".$id."' title='".$title."'><a href='javascript:void(0)' onclick=\"edit('".$id."')\">".$title.'</a></span>';
+                $title = '['.$id.'] '.$ptitle;
 
                 $list    .=    '
 					<li id="li_'.$id.'">
@@ -76,45 +78,48 @@ class CategoryModel extends Model
             }
             $list    .=    '</ul>';
         }
+
         return $list;
     }
     //解析分类
     public function _digCate($array)
     {
-        foreach ($array as $k=>$v) {
-            $nk    =    str_replace('pid', '', $k);
+        foreach ($array as $k => $v) {
+            $nk = str_replace('pid', '', $k);
             if (is_numeric($nk) && !empty($v)) {
-                $cates[$nk]    =    intval($v);
+                $cates[$nk] = intval($v);
             }
         }
-        $pid    =    is_array($cates)?end($cates):0;
+        $pid = is_array($cates) ? end($cates) : 0;
 
         unset($cates);
+
         return intval($pid);
     }
 
     //解析分类 - new 
     public function _digCateNew($array)
     {
-        foreach ($array as $k=>$v) {
-            $nk    =    str_replace('cid', '', $k);
+        foreach ($array as $k => $v) {
+            $nk = str_replace('cid', '', $k);
             if (is_numeric($nk) && !empty($v)) {
-                $cates[$nk]    =    intval($v);
+                $cates[$nk] = intval($v);
             }
         }
-        $pid = is_array($cates)?end($cates):0;
+        $pid = is_array($cates) ? end($cates) : 0;
 
         unset($cates);
+
         return intval($pid);
     }
 
     //解析分类树
     public function _digCateTree($array)
     {
-        foreach ($array as $k=>$v) {
-            $nk    =    str_replace('pid', '', $k);
+        foreach ($array as $k => $v) {
+            $nk = str_replace('pid', '', $k);
             if (is_numeric($nk) && !empty($v)) {
-                $cates[$nk]    =    intval($v);
+                $cates[$nk] = intval($v);
             }
         }
         if (is_array($cates)) {
@@ -124,12 +129,13 @@ class CategoryModel extends Model
         }
     }
     //生成分类树
-    public function _makeParentTree($id, $onlyShowPid=false)
+    public function _makeParentTree($id, $onlyShowPid = false)
     {
-        $tree    =    $this->_makeCateTree($id);
+        $tree = $this->_makeCateTree($id);
         if ($onlyShowPid) {
-            $tree    =    preg_replace('/^' . $id . '|,'.$id.'$/', '', $tree);
+            $tree = preg_replace('/^'.$id.'|,'.$id.'$/', '', $tree);
         }
+
         return $tree;
     }
     public function _makeCateTree($id)
@@ -137,11 +143,12 @@ class CategoryModel extends Model
         //$pid	=	$this->find($id,'pid')->pid;
 
         $pid = $this->getField('pid', 'id='.$id);
-        if ($pid>0) {
-            $tree    =    $this->_makeCateTree($pid).','.$id;
+        if ($pid > 0) {
+            $tree = $this->_makeCateTree($pid).','.$id;
         } else {
-            $tree    =    $id;
+            $tree = $id;
         }
+
         return $tree;
     }
 

@@ -29,14 +29,13 @@ class Think
      */
     public function __get($name)
     {
-        return isset($this->$name)?$this->$name:null;
+        return isset($this->$name) ? $this->$name : null;
     }
 
     /**
      * 系统自动加载ThinkPHP类库
      * 并且支持配置自动加载路径
      * @param string $classname 对象类名
-     * @return void
      */
     public static function autoload($classname)
     {
@@ -45,14 +44,14 @@ class Think
             return ;
         }
         // 自动加载当前项目的Actioon类和Model类
-        if (substr($classname, -5)=="Model") {
+        if (substr($classname, -5) == 'Model') {
             tsload(APP_MODEL_PATH.'/'.$classname.'.class.php');
-        } elseif (substr($classname, -6)=="Action") {
+        } elseif (substr($classname, -6) == 'Action') {
             tsload(APP_ACTION_PATH.'/'.$classname.'.class.php');
         } else {
             // 根据自动加载路径设置进行尝试搜索
             if (tsconfig('APP_AUTOLOAD_PATH')) {
-                $paths  =   explode(',', tsconfig('APP_AUTOLOAD_PATH'));
+                $paths = explode(',', tsconfig('APP_AUTOLOAD_PATH'));
                 foreach ($paths as $path) {
                     if (tsload($path.'/'.$classname.'.class.php')) {
                         // 如果加载类成功则返回
@@ -61,18 +60,19 @@ class Think
                 }
             }
         }
+
         return ;
     }
 
     /**
      * 取得对象实例 支持调用类的静态方法
-     * @param string $class 对象类名
-     * @param string $method 类的静态方法名
+     * @param  string $class  对象类名
+     * @param  string $method 类的静态方法名
      * @return object
      */
-    public static function instance($class, $method='')
+    public static function instance($class, $method = '')
     {
-        $identify   =   $class.$method;
+        $identify = $class.$method;
         if (!isset(self::$_instance[$identify])) {
             if (class_exists($class)) {
                 $o = new $class();
@@ -85,6 +85,7 @@ class Think
                 halt(L('_CLASS_NOT_EXIST_').' = '.$class.' = '.$method);
             }
         }
+
         return self::$_instance[$identify];
     }
 }//类定义结束

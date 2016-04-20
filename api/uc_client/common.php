@@ -1,9 +1,10 @@
 <?php
+
 /* 字符、数组串编码转换 */
-function ts_change_charset($fContents, $from='UTF8', $to='GBK')
+function ts_change_charset($fContents, $from = 'UTF8', $to = 'GBK')
 {
-    $from   =  strtoupper($from)=='UTF8'? 'utf-8':$from;
-    $to     =  strtoupper($to)=='UTF8'? 'utf-8':$to;
+    $from = strtoupper($from) == 'UTF8' ? 'utf-8' : $from;
+    $to = strtoupper($to) == 'UTF8' ? 'utf-8' : $to;
     if (strtoupper($from) === strtoupper($to) || empty($fContents) || (is_scalar($fContents) && !is_string($fContents))) {
         //如果编码相同或者非字符串标量则不转换
         return $fContents;
@@ -32,16 +33,16 @@ function uc_auto_charset($content)
 }
 
 //添加ThinkSNS与UCenter的用户映射
-function ts_add_ucenter_user_ref($uid, $uc_uid, $uc_username='', $uc_email='')
+function ts_add_ucenter_user_ref($uid, $uc_uid, $uc_username = '', $uc_email = '')
 {
     $uc_ref_data = array(
                        'uid' => $uid,
                        'uc_uid' => $uc_uid,
-                       'uc_username'  => $uc_username,
-                       'uc_email'  => $uc_email,
+                       'uc_username' => $uc_username,
+                       'uc_email' => $uc_email,
                    );
     // M('ucenter_user_link')->add($uc_ref_data);
-    $result = $GLOBALS['tsdb']->query("INSERT INTO ".TS_DBTABLEPRE."ucenter_user_link (uid,uc_uid,uc_username,uc_email) VALUES ('{$uid}','{$uc_uid}','{$uc_username}','{$uc_email}');");
+    $result = $GLOBALS['tsdb']->query('INSERT INTO '.TS_DBTABLEPRE."ucenter_user_link (uid,uc_uid,uc_username,uc_email) VALUES ('{$uid}','{$uc_uid}','{$uc_username}','{$uc_email}');");
     if ($result) {
         return $uc_ref_data;
     } else {
@@ -50,34 +51,36 @@ function ts_add_ucenter_user_ref($uid, $uc_uid, $uc_username='', $uc_email='')
 }
 
 //更新ThinkSNS与UCenter的用户映射
-function ts_update_ucenter_user_ref($uid, $uc_uid, $uc_username='')
+function ts_update_ucenter_user_ref($uid, $uc_uid, $uc_username = '')
 {
-    $uid         &&    $map['uid']                    = intval($uid);
-    $uc_uid     && $map['uc_uid']                = intval($uc_uid);
+    $uid         &&    $map['uid'] = intval($uid);
+    $uc_uid     && $map['uc_uid'] = intval($uc_uid);
     if (empty($uc_username)) {
         return;
     }
-    foreach ($map as $k=>$v) {
+    foreach ($map as $k => $v) {
         $where .= "AND {$k}='{$v}'";
     }
-    $result = $GLOBALS['tsdb']->query("UPDATE ".TS_DBTABLEPRE."ucenter_user_link SET  uc_username='{$uc_username}' WHERE 1=1 ".$where);
+    $result = $GLOBALS['tsdb']->query('UPDATE '.TS_DBTABLEPRE."ucenter_user_link SET  uc_username='{$uc_username}' WHERE 1=1 ".$where);
+
     return $result;
     // M('ucenter_user_link')->where($map)->save($uc_ref_data);
 }
 
 //获取ThinkSNS与UCenter的用户映射
-function ts_get_ucenter_user_ref($uid='', $uc_uid='', $uc_username='')
+function ts_get_ucenter_user_ref($uid = '', $uc_uid = '', $uc_username = '')
 {
-    $uid && $map['uid']                = intval($uid);
-    $uc_uid && $map['uc_uid']            = intval($uc_uid);
+    $uid && $map['uid'] = intval($uid);
+    $uc_uid && $map['uc_uid'] = intval($uc_uid);
     $uc_username && $map['uc_username'] = $uc_username;
     if (!$map) {
         return;
     }
-    foreach ($map as $k=>$v) {
+    foreach ($map as $k => $v) {
         $where .= "AND {$k}='{$v}'";
     }
-    $result = $GLOBALS['tsdb']->fetch_first("SELECT * FROM ".TS_DBTABLEPRE."ucenter_user_link WHERE 1=1 ".$where);
+    $result = $GLOBALS['tsdb']->fetch_first('SELECT * FROM '.TS_DBTABLEPRE.'ucenter_user_link WHERE 1=1 '.$where);
+
     return $result;
     // return M('ucenter_user_link')->where($map)->find();
 }
@@ -86,7 +89,8 @@ function ts_get_ucenter_user_ref($uid='', $uc_uid='', $uc_username='')
 function ts_get_user($uid)
 {
     $uid = intval($uid);
-    $result = $GLOBALS['tsdb']->fetch_first("SELECT uid,uname,email,login,is_active FROM ".TS_DBTABLEPRE."user WHERE uid='{$uid}'");
+    $result = $GLOBALS['tsdb']->fetch_first('SELECT uid,uname,email,login,is_active FROM '.TS_DBTABLEPRE."user WHERE uid='{$uid}'");
+
     return $result;
 }
 
@@ -94,6 +98,7 @@ function ts_get_user($uid)
 function ts_get_site_key()
 {
     global $tsconfig;
+
     return md5($tsconfig['SECURE_KEY'].$tsconfig['SECURE_CODE'].$tsconfig['COOKIE_PREFIX']);
 }
 
@@ -203,7 +208,7 @@ function _authcode($string, $operation = 'DECODE', $key = '', $expiry = 0)
     $key = md5($key ? $key : UC_KEY);
     $keya = md5(substr($key, 0, 16));
     $keyb = md5(substr($key, 16, 16));
-    $keyc = $ckey_length ? ($operation == 'DECODE' ? substr($string, 0, $ckey_length): substr(md5(microtime()), -$ckey_length)) : '';
+    $keyc = $ckey_length ? ($operation == 'DECODE' ? substr($string, 0, $ckey_length) : substr(md5(microtime()), -$ckey_length)) : '';
 
     $cryptkey = $keya.md5($keya.$keyc);
     $key_length = strlen($cryptkey);
@@ -255,12 +260,12 @@ function _stripslashes($string)
     } else {
         $string = stripslashes($string);
     }
+
     return $string;
 }
 
 class uc_note
 {
-
     public $dbconfig = '';
     public $db = '';
     public $tablepre = '';
@@ -271,6 +276,7 @@ class uc_note
         if (!function_exists('xml_serialize')) {
             include_once DISCUZ_ROOT.'./uc_client/lib/xml.class.php';
         }
+
         return xml_serialize($arr, $htmlon);
     }
 
@@ -291,7 +297,7 @@ class uc_note
     //UC同步更新头像到TS - 尚未同步
     public function face($get)
     {
-        if ($get['type'] !== "face") {
+        if ($get['type'] !== 'face') {
             $uc_uid = $get['uid'];
             $uc_user_ref = ts_get_ucenter_user_ref('', $uc_uid);
             $user = M('user')->where("uid={$uc_user_ref['uid']}")->find();
@@ -301,9 +307,9 @@ class uc_note
             }
         } else {
             $data = 'http://dev.thinksns.com/ts/2.0/public/themes/classic2';
-            $face = str_replace("THEME_URL", $data, getUserFace($get['uid']));
+            $face = str_replace('THEME_URL', $data, getUserFace($get['uid']));
             $data = 'http://dev.thinksns.com/ts/2.0';
-            $face = str_replace("SITE_URL", $data, $face);
+            $face = str_replace('SITE_URL', $data, $face);
             echo $face;
         }
     }
@@ -313,6 +319,7 @@ class uc_note
     {
         $uids = $get['ids'];
         !API_DELETEUSER && exit(API_RETURN_FORBIDDEN);
+
         return API_RETURN_SUCCEED;
     }
 
@@ -326,6 +333,7 @@ class uc_note
         //$usernameold = $get['oldusername'];
         $usernamenew = uc_auto_charset($get['newusername']);
         ts_update_ucenter_user_ref('', $uc_uid, $usernamenew);
+
         return API_RETURN_SUCCEED;
     }
 
@@ -338,6 +346,7 @@ class uc_note
         }
 
         $return = array();
+
         return $this->_serialize($return, 1);
     }
 
@@ -349,8 +358,8 @@ class uc_note
         }
         header('P3P: CP="CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR"');
 
-        $uc_uid         = $get['uid'];
-        $uc_uname     = uc_auto_charset($get['username']);
+        $uc_uid = $get['uid'];
+        $uc_uname = uc_auto_charset($get['username']);
         $uc_password = $get['password'];
         $uc_user_ref = ts_get_ucenter_user_ref('', $uc_uid);
         $user = ts_get_user($uc_user_ref['uid']);
@@ -411,6 +420,7 @@ class uc_note
         $s .= '$_CACHE[\'badwords\'] = '.var_export($data, true).";\r\n";
         fwrite($fp, $s);
         fclose($fp);
+
         return API_RETURN_SUCCEED;
     }
 
@@ -426,6 +436,7 @@ class uc_note
         $s .= '$_CACHE[\'hosts\'] = '.var_export($post, true).";\r\n";
         fwrite($fp, $s);
         fclose($fp);
+
         return API_RETURN_SUCCEED;
     }
 
@@ -471,6 +482,7 @@ class uc_note
         $s .= '$_CACHE[\'settings\'] = '.var_export($post, true).";\r\n";
         fwrite($fp, $s);
         fclose($fp);
+
         return API_RETURN_SUCCEED;
     }
 
@@ -483,6 +495,7 @@ class uc_note
         $credit = $get['credit'];
         $amount = $get['amount'];
         $uid = $get['uid'];
+
         return API_RETURN_SUCCEED;
     }
 
@@ -501,6 +514,7 @@ class uc_note
             return API_RETURN_FORBIDDEN;
         }
         $credits = array();
+
         return $this->_serialize($credits);
     }
 
@@ -510,6 +524,7 @@ class uc_note
         if (!API_UPDATECREDITSETTINGS) {
             return API_RETURN_FORBIDDEN;
         }
+
         return API_RETURN_SUCCEED;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 error_reporting(0);
 
 // ThinkSNS系统根目录路径
@@ -75,7 +76,7 @@ $post = xml_unserialize(file_get_contents('php://input'));
 // $log_file = DISCUZ_ROOT."/uc_log.txt";
 // $result = error_log($log_message,3,$log_file);
 
-if (UC_SYNC==0) {
+if (UC_SYNC == 0) {
     exit(API_RETURN_FAILED);
 }
 

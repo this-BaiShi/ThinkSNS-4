@@ -25,8 +25,8 @@
       /**
      * Updates or creates the user's current location. (currentLocation.insert)
      *
-     * @param Google_Location $postBody
-     * @param array $optParams Optional parameters.
+     * @param  Google_Location $postBody
+     * @param  array           $optParams Optional parameters.
      * @return Google_Location
      */
     public function insert(Google_Location $postBody, $optParams = array())
@@ -69,6 +69,7 @@
         $params = array();
         $params = array_merge($params, $optParams);
         $data = $this->__call('delete', array($params));
+
         return $data;
     }
   }
@@ -85,8 +86,8 @@
       /**
      * Inserts or updates a location in the user's location history. (location.insert)
      *
-     * @param Google_Location $postBody
-     * @param array $optParams Optional parameters.
+     * @param  Google_Location $postBody
+     * @param  array           $optParams Optional parameters.
      * @return Google_Location
      */
     public function insert(Google_Location $postBody, $optParams = array())
@@ -104,7 +105,7 @@
      * Reads a location from the user's location history. (location.get)
      *
      * @param string $locationId Timestamp of the location to read (ms since epoch).
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams  Optional parameters.
      *
      * @opt_param string granularity Granularity of the location to return.
      * @return Google_Location
@@ -146,13 +147,14 @@
      * Deletes a location from the user's location history. (location.delete)
      *
      * @param string $locationId Timestamp of the location to delete (ms since epoch).
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams  Optional parameters.
      */
     public function delete($locationId, $optParams = array())
     {
         $params = array('locationId' => $locationId);
         $params = array_merge($params, $optParams);
         $data = $this->__call('delete', array($params));
+
         return $data;
     }
   }

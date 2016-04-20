@@ -10,7 +10,7 @@
 !defined('IN_UC') && exit('Access Denied');
 
 if (!function_exists('getgpc')) {
-    function getgpc($k, $var='G')
+    function getgpc($k, $var = 'G')
     {
         switch ($var) {
             case 'G': $var = &$_GET; break;
@@ -18,13 +18,13 @@ if (!function_exists('getgpc')) {
             case 'C': $var = &$_COOKIE; break;
             case 'R': $var = &$_REQUEST; break;
         }
+
         return isset($var[$k]) ? $var[$k] : null;
     }
 }
 
 class base
 {
-
     public $time;
     public $onlineip;
     public $db;
@@ -83,17 +83,18 @@ class base
     public function load($model, $base = null)
     {
         $base = $base ? $base : $this;
-        
+
         if (empty($_ENV[$model])) {
             require_once UC_ROOT."./model/$model.php";
-            $temp = array("app","user");
-            
+            $temp = array('app', 'user');
+
             if (in_array($model, $temp)) {
                 eval('$_ENV[$model] = new '.$model.'models($base);');
             } else {
                 eval('$_ENV[$model] = new '.$model.'model($base);');
             }
         }
+
         return $_ENV[$model];
     }
 
@@ -104,19 +105,21 @@ class base
         }
         $format[] = $type & 2 ? (!empty($this->settings['dateformat']) ? $this->settings['dateformat'] : 'Y-n-j') : '';
         $format[] = $type & 1 ? (!empty($this->settings['timeformat']) ? $this->settings['timeformat'] : 'H:i') : '';
+
         return gmdate(implode(' ', $format), $time + $this->settings['timeoffset']);
     }
 
     public function page_get_start($page, $ppp, $totalnum)
     {
         $totalpage = ceil($totalnum / $ppp);
-        $page =  max(1, min($totalpage, intval($page)));
+        $page = max(1, min($totalpage, intval($page)));
+
         return ($page - 1) * $ppp;
     }
 
     public function implode($arr)
     {
-        return "'".implode("','", (array)$arr)."'";
+        return "'".implode("','", (array) $arr)."'";
     }
 
     public function &cache($cachefile)
@@ -131,19 +134,21 @@ class base
                 include_once $cachepath;
             }
         }
+
         return $_CACHE[$cachefile];
     }
 
     public function get_setting($k = array(), $decode = false)
     {
         $return = array();
-        $sqladd = $k ? "WHERE k IN (".$this->implode($k).")" : '';
-        $settings = $this->db->fetch_all("SELECT * FROM ".UC_DBTABLEPRE."settings $sqladd");
+        $sqladd = $k ? 'WHERE k IN ('.$this->implode($k).')' : '';
+        $settings = $this->db->fetch_all('SELECT * FROM '.UC_DBTABLEPRE."settings $sqladd");
         if (is_array($settings)) {
             foreach ($settings as $arr) {
                 $return[$arr['k']] = $decode ? unserialize($arr['v']) : $arr['v'];
             }
         }
+
         return $return;
     }
 
@@ -224,7 +229,7 @@ class base
 
     public function note_exists()
     {
-        $noteexists = $this->db->fetch_first("SELECT value FROM ".UC_DBTABLEPRE."vars WHERE name='noteexists".UC_APPID."'");
+        $noteexists = $this->db->fetch_first('SELECT value FROM '.UC_DBTABLEPRE."vars WHERE name='noteexists".UC_APPID."'");
         if (empty($noteexists)) {
             return false;
         } else {
@@ -261,7 +266,7 @@ class base
 
     public function mail_exists()
     {
-        $mailexists = $this->db->fetch_first("SELECT value FROM ".UC_DBTABLEPRE."vars WHERE name='mailexists'");
+        $mailexists = $this->db->fetch_first('SELECT value FROM '.UC_DBTABLEPRE."vars WHERE name='mailexists'");
         if (empty($mailexists)) {
             return false;
         } else {
@@ -278,6 +283,7 @@ class base
         } else {
             $string = stripslashes($string);
         }
+
         return $string;
     }
 }

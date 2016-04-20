@@ -56,9 +56,10 @@ class Google_AuthNone extends Google_Auth
     public function sign(Google_HttpRequest $request)
     {
         if ($this->key) {
-            $request->setUrl($request->getUrl() . ((strpos($request->getUrl(), '?') === false) ? '?' : '&')
-          . 'key='.urlencode($this->key));
+            $request->setUrl($request->getUrl().((strpos($request->getUrl(), '?') === false) ? '?' : '&')
+          .'key='.urlencode($this->key));
         }
+
         return $request;
     }
 }

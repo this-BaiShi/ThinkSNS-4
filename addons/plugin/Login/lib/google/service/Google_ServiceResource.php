@@ -94,7 +94,7 @@ class Google_ServiceResource
       if (!isset($method['parameters'])) {
           $method['parameters'] = array();
       }
-    
+
       $method['parameters'] = array_merge($method['parameters'], $this->stackParameters);
       foreach ($parameters as $key => $val) {
           if ($key != 'postBody' && ! isset($method['parameters'][$key])) {
@@ -130,7 +130,7 @@ class Google_ServiceResource
       if (isset($method['mediaUpload'])) {
           $media = Google_MediaFileUpload::process($postBody, $parameters);
           if ($media) {
-              $contentType = isset($media['content-type']) ? $media['content-type']: null;
+              $contentType = isset($media['content-type']) ? $media['content-type'] : null;
               $postBody = isset($media['postBody']) ? $media['postBody'] : null;
               $servicePath = $method['mediaUpload']['protocols']['simple']['path'];
               $method['path'] = '';
@@ -157,12 +157,14 @@ class Google_ServiceResource
         && 'resumable' == $parameters['uploadType']['value']) {
         return $httpRequest;
     }
+
       return Google_REST::execute($httpRequest);
   }
     public function useObjects()
     {
         global $apiConfig;
-        return (isset($apiConfig['use_objects']) && $apiConfig['use_objects']);
+
+        return isset($apiConfig['use_objects']) && $apiConfig['use_objects'];
     }
     protected function stripNull(&$o)
     {

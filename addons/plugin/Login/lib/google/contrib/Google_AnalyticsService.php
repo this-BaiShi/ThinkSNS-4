@@ -37,7 +37,7 @@
      * Lists web properties to which the user has access. (webproperties.list)
      *
      * @param string $accountId Account ID to retrieve web properties for. Can either be a specific account ID or '~all', which refers to all the accounts that user has access to.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param int max-results The maximum number of web properties to include in this response.
      * @opt_param int start-index An index of the first entity to retrieve. Use this parameter as a pagination mechanism along with the max-results parameter.
@@ -130,10 +130,10 @@
       /**
      * Lists goals to which the user has access. (goals.list)
      *
-     * @param string $accountId Account ID to retrieve goals for. Can either be a specific account ID or '~all', which refers to all the accounts that user has access to.
+     * @param string $accountId     Account ID to retrieve goals for. Can either be a specific account ID or '~all', which refers to all the accounts that user has access to.
      * @param string $webPropertyId Web property ID to retrieve goals for. Can either be a specific web property ID or '~all', which refers to all the web properties that user has access to.
-     * @param string $profileId Profile ID to retrieve goals for. Can either be a specific profile ID or '~all', which refers to all the profiles that user has access to.
-     * @param array $optParams Optional parameters.
+     * @param string $profileId     Profile ID to retrieve goals for. Can either be a specific profile ID or '~all', which refers to all the profiles that user has access to.
+     * @param array  $optParams     Optional parameters.
      *
      * @opt_param int max-results The maximum number of goals to include in this response.
      * @opt_param int start-index An index of the first goal to retrieve. Use this parameter as a pagination mechanism along with the max-results parameter.
@@ -164,9 +164,9 @@
       /**
      * Lists profiles to which the user has access. (profiles.list)
      *
-     * @param string $accountId Account ID for the profiles to retrieve. Can either be a specific account ID or '~all', which refers to all the accounts to which the user has access.
+     * @param string $accountId     Account ID for the profiles to retrieve. Can either be a specific account ID or '~all', which refers to all the accounts to which the user has access.
      * @param string $webPropertyId Web property ID for the profiles to retrieve. Can either be a specific web property ID or '~all', which refers to all the web properties to which the user has access.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams     Optional parameters.
      *
      * @opt_param int max-results The maximum number of profiles to include in this response.
      * @opt_param int start-index An index of the first entity to retrieve. Use this parameter as a pagination mechanism along with the max-results parameter.
@@ -208,11 +208,11 @@
       /**
      * Returns Analytics Multi-Channel Funnels data for a profile. (mcf.get)
      *
-     * @param string $ids Unique table ID for retrieving Analytics data. Table ID is of the form ga:XXXX, where XXXX is the Analytics profile ID.
+     * @param string $ids        Unique table ID for retrieving Analytics data. Table ID is of the form ga:XXXX, where XXXX is the Analytics profile ID.
      * @param string $start_date Start date for fetching Analytics data. All requests should specify a start date formatted as YYYY-MM-DD.
-     * @param string $end_date End date for fetching Analytics data. All requests should specify an end date formatted as YYYY-MM-DD.
-     * @param string $metrics A comma-separated list of Multi-Channel Funnels metrics. E.g., 'mcf:totalConversions,mcf:totalConversionValue'. At least one metric must be specified.
-     * @param array $optParams Optional parameters.
+     * @param string $end_date   End date for fetching Analytics data. All requests should specify an end date formatted as YYYY-MM-DD.
+     * @param string $metrics    A comma-separated list of Multi-Channel Funnels metrics. E.g., 'mcf:totalConversions,mcf:totalConversionValue'. At least one metric must be specified.
+     * @param array  $optParams  Optional parameters.
      *
      * @opt_param int max-results The maximum number of entries to include in this feed.
      * @opt_param string sort A comma-separated list of dimensions or metrics that determine the sort order for the Analytics data.
@@ -246,11 +246,11 @@
       /**
      * Returns Analytics data for a profile. (ga.get)
      *
-     * @param string $ids Unique table ID for retrieving Analytics data. Table ID is of the form ga:XXXX, where XXXX is the Analytics profile ID.
+     * @param string $ids        Unique table ID for retrieving Analytics data. Table ID is of the form ga:XXXX, where XXXX is the Analytics profile ID.
      * @param string $start_date Start date for fetching Analytics data. All requests should specify a start date formatted as YYYY-MM-DD.
-     * @param string $end_date End date for fetching Analytics data. All requests should specify an end date formatted as YYYY-MM-DD.
-     * @param string $metrics A comma-separated list of Analytics metrics. E.g., 'ga:visits,ga:pageviews'. At least one metric must be specified.
-     * @param array $optParams Optional parameters.
+     * @param string $end_date   End date for fetching Analytics data. All requests should specify an end date formatted as YYYY-MM-DD.
+     * @param string $metrics    A comma-separated list of Analytics metrics. E.g., 'ga:visits,ga:pageviews'. At least one metric must be specified.
+     * @param array  $optParams  Optional parameters.
      *
      * @opt_param int max-results The maximum number of entries to include in this feed.
      * @opt_param string sort A comma-separated list of dimensions or metrics that determine the sort order for Analytics data.

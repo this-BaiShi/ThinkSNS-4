@@ -1,12 +1,13 @@
 <?php
-require_once('google/Google_Client.php');
-require_once('google/contrib/Google_Oauth2Service.php');
+
+require_once 'google/Google_Client.php';
+require_once 'google/contrib/Google_Oauth2Service.php';
 class google
 {
     public $error_code;
     public $obj;
     public $client;
-    
+
     public function __construct()
     {
         $client = new Google_Client();
@@ -21,16 +22,17 @@ class google
         }
         $this->obj = new Google_Oauth2Service($this->client);
     }
-    
+
     public function getUrl($callback = null)
     {
         if (is_null($callback)) {
             $callback = U('home/Pubic/gmailcallback');
         }
         $this->client->setRedirectUri($callback);
+
         return $this->client->createAuthUrl();
     }
-    
+
     public function checkUser()
     {
         if (isset($_GET['code'])) {
@@ -39,16 +41,18 @@ class google
                 $_SESSION['google']['access_token']['oauth_token'] = $this->client->getAccessToken();
                 $_SESSION['google']['access_token']['oauth_token_secret'] = $this->client->getAccessToken();
                 $_SESSION['open_platform_type'] = 'google';
+
                 return true;
             }
         }
-        
+
         return false;
     }
-    
+
     public function userInfo()
     {
         $user = $this->obj->userinfo->get();
-        return array('id'=>$user['id'],'uname'=>$user['name']);
+
+        return array('id' => $user['id'], 'uname' => $user['name']);
     }
 }

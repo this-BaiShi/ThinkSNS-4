@@ -18,7 +18,6 @@ define('CHATPMMEMBERLIMIT_ERROR', -7);
 
 class pmcontrol extends base
 {
-
     public function __construct()
     {
         $this->_pmcontrol();
@@ -54,6 +53,7 @@ class pmcontrol extends base
                 require_once UC_ROOT.'lib/uccode.class.php';
                 $this->uccode = new uccode();
                 $lastpm['lastsummary'] = $this->uccode->complie($lastpm['lastsummary']);
+
                 return array('newpm' => $newpm, 'newprivatepm' => $newprvpm, 'newchatpm' => $newchatpm, 'lastdate' => $lastpm['lastdateline'], 'lastmsgfromid' => $lastpm['lastauthorid'], 'lastmsgfrom' => $lastpm['lastauthorusername'], 'lastmsg' => $lastpm['lastsummary']);
             }
         } elseif ($more == 4) {
@@ -134,6 +134,7 @@ class pmcontrol extends base
         } else {
             $lastpmid = $_ENV['pm']->sendpm($this->user['uid'], $this->user['username'], $msgto, $subject, $message, $type);
         }
+
         return $lastpmid;
     }
 
@@ -155,6 +156,7 @@ class pmcontrol extends base
         } else {
             $id = $_ENV['pm']->deletepmbypmid($this->user['uid'], $this->input('pmids'));
         }
+
         return $id;
     }
 
@@ -176,6 +178,7 @@ class pmcontrol extends base
         $this->init_input();
         $this->user['uid'] = intval($this->input('uid'));
         $id = $_ENV['pm']->deletepmbyplids($this->user['uid'], $this->input('touids'), 1);
+
         return $id;
     }
 
@@ -190,6 +193,7 @@ class pmcontrol extends base
     {
         $this->init_input();
         $this->user['uid'] = intval($this->input('uid'));
+
         return $_ENV['pm']->set_ignore($this->user['uid']);
     }
 
@@ -237,6 +241,7 @@ class pmcontrol extends base
             $result['data'] = $pms;
         }
         $result['count'] = $pmnum;
+
         return $result;
     }
 
@@ -295,6 +300,7 @@ class pmcontrol extends base
                 $pms[$key]['message'] = $this->uccode->complie($pms[$key]['message']);
             }
         }
+
         return $pms;
     }
 
@@ -310,6 +316,7 @@ class pmcontrol extends base
             $plid = $touid;
         }
         $pmnum = $_ENV['pm']->getpmnumbyplid($this->user['uid'], $plid);
+
         return $pmnum;
     }
 
@@ -330,6 +337,7 @@ class pmcontrol extends base
             }
         }
         $pms = $pms[0];
+
         return $pms;
     }
 
@@ -338,6 +346,7 @@ class pmcontrol extends base
         $this->init_input();
         $this->user['uid'] = intval($this->input('uid'));
         $plid = intval($this->input('plid'));
+
         return $_ENV['pm']->chatpmmemberlist($this->user['uid'], $plid);
     }
 
@@ -347,6 +356,7 @@ class pmcontrol extends base
         $this->user['uid'] = intval($this->input('uid'));
         $plid = intval($this->input('plid'));
         $touid = intval($this->input('touid'));
+
         return $_ENV['pm']->kickchatpm($plid, $this->user['uid'], $touid);
     }
 
@@ -356,6 +366,7 @@ class pmcontrol extends base
         $this->user['uid'] = intval($this->input('uid'));
         $plid = intval($this->input('plid'));
         $touid = intval($this->input('touid'));
+
         return $_ENV['pm']->appendchatpm($plid, $this->user['uid'], $touid);
     }
 
@@ -363,6 +374,7 @@ class pmcontrol extends base
     {
         $this->init_input();
         $this->user['uid'] = intval($this->input('uid'));
+
         return $_ENV['pm']->get_blackls($this->user['uid']);
     }
 
@@ -371,6 +383,7 @@ class pmcontrol extends base
         $this->init_input();
         $this->user['uid'] = intval($this->input('uid'));
         $blackls = $this->input('blackls');
+
         return $_ENV['pm']->set_blackls($this->user['uid'], $blackls);
     }
 
@@ -379,6 +392,7 @@ class pmcontrol extends base
         $this->init_input();
         $this->user['uid'] = intval($this->input('uid'));
         $username = $this->input('username');
+
         return $_ENV['pm']->update_blackls($this->user['uid'], $username, 1);
     }
 
@@ -387,6 +401,7 @@ class pmcontrol extends base
         $this->init_input();
         $this->user['uid'] = intval($this->input('uid'));
         $username = $this->input('username');
+
         return $_ENV['pm']->update_blackls($this->user['uid'], $username, 2);
     }
 }

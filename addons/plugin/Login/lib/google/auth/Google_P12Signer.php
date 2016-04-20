@@ -35,18 +35,18 @@ class Google_P12Signer extends Google_Signer
     // This throws on error
     $certs = array();
       if (!openssl_pkcs12_read($p12, $certs, $password)) {
-          throw new Google_AuthException("Unable to parse the p12 file.  " .
-          "Is this a .p12 file?  Is the password correct?  OpenSSL error: " .
+          throw new Google_AuthException('Unable to parse the p12 file.  '.
+          'Is this a .p12 file?  Is the password correct?  OpenSSL error: '.
           openssl_error_string());
       }
     // TODO(beaton): is this part of the contract for the openssl_pkcs12_read
     // method?  What happens if there are multiple private keys?  Do we care?
-    if (!array_key_exists("pkey", $certs) || !$certs["pkey"]) {
-        throw new Google_AuthException("No private key found in p12 file.");
+    if (!array_key_exists('pkey', $certs) || !$certs['pkey']) {
+        throw new Google_AuthException('No private key found in p12 file.');
     }
-      $this->privateKey = openssl_pkey_get_private($certs["pkey"]);
+      $this->privateKey = openssl_pkey_get_private($certs['pkey']);
       if (!$this->privateKey) {
-          throw new Google_AuthException("Unable to load private key in ");
+          throw new Google_AuthException('Unable to load private key in ');
       }
   }
     public function __destruct()
@@ -59,11 +59,12 @@ class Google_P12Signer extends Google_Signer
     {
         if (version_compare(PHP_VERSION, '5.3.0') < 0) {
             throw new Google_AuthException(
-        "PHP 5.3.0 or higher is required to use service accounts.");
+        'PHP 5.3.0 or higher is required to use service accounts.');
         }
-        if (!openssl_sign($data, $signature, $this->privateKey, "sha256")) {
-            throw new Google_AuthException("Unable to sign data");
+        if (!openssl_sign($data, $signature, $this->privateKey, 'sha256')) {
+            throw new Google_AuthException('Unable to sign data');
         }
+
         return $signature;
     }
 }

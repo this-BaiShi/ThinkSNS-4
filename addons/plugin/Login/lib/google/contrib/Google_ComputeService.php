@@ -25,9 +25,9 @@
       /**
      * Retrieves the specified operation resource. (operations.get)
      *
-     * @param string $project Name of the project scoping this request.
-     * @param string $operation Name of the operation resource to return.
-     * @param array $optParams Optional parameters.
+     * @param  string           $project   Name of the project scoping this request.
+     * @param  string           $operation Name of the operation resource to return.
+     * @param  array            $optParams Optional parameters.
      * @return Google_Operation
      */
     public function get($project, $operation, $optParams = array())
@@ -45,8 +45,8 @@
      * Retrieves the list of operation resources contained within the specified project.
      * (operations.list)
      *
-     * @param string $project Name of the project scoping this request.
-     * @param array $optParams Optional parameters.
+     * @param string $project   Name of the project scoping this request.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string filter Optional. Filter expression for filtering listed resources.
      * @opt_param string pageToken Optional. Tag returned by a previous list request truncated by maxResults. Used to continue a previous list request.
@@ -67,15 +67,16 @@
     /**
      * Deletes the specified operation resource. (operations.delete)
      *
-     * @param string $project Name of the project scoping this request.
+     * @param string $project   Name of the project scoping this request.
      * @param string $operation Name of the operation resource to delete.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams Optional parameters.
      */
     public function delete($project, $operation, $optParams = array())
     {
         $params = array('project' => $project, 'operation' => $operation);
         $params = array_merge($params, $optParams);
         $data = $this->__call('delete', array($params));
+
         return $data;
     }
   }
@@ -92,8 +93,8 @@
       /**
      * Retrieves the list of kernel resources available to the specified project. (kernels.list)
      *
-     * @param string $project Name of the project scoping this request.
-     * @param array $optParams Optional parameters.
+     * @param string $project   Name of the project scoping this request.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string filter Optional. Filter expression for filtering listed resources.
      * @opt_param string pageToken Optional. Tag returned by a previous list request truncated by maxResults. Used to continue a previous list request.
@@ -114,9 +115,9 @@
     /**
      * Returns the specified kernel resource. (kernels.get)
      *
-     * @param string $project Name of the project scoping this request.
-     * @param string $kernel Name of the kernel resource to return.
-     * @param array $optParams Optional parameters.
+     * @param  string        $project   Name of the project scoping this request.
+     * @param  string        $kernel    Name of the kernel resource to return.
+     * @param  array         $optParams Optional parameters.
      * @return Google_Kernel
      */
     public function get($project, $kernel, $optParams = array())
@@ -145,9 +146,9 @@
      * Creates a persistent disk resource in the specified project using the data included in the
      * request. (disks.insert)
      *
-     * @param string $project Name of the project scoping this request.
-     * @param Google_Disk $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string           $project   Name of the project scoping this request.
+     * @param  Google_Disk      $postBody
+     * @param  array            $optParams Optional parameters.
      * @return Google_Operation
      */
     public function insert($project, Google_Disk $postBody, $optParams = array())
@@ -164,9 +165,9 @@
     /**
      * Returns the specified persistent disk resource. (disks.get)
      *
-     * @param string $project Name of the project scoping this request.
-     * @param string $disk Name of the persistent disk resource to return.
-     * @param array $optParams Optional parameters.
+     * @param  string      $project   Name of the project scoping this request.
+     * @param  string      $disk      Name of the persistent disk resource to return.
+     * @param  array       $optParams Optional parameters.
      * @return Google_Disk
      */
     public function get($project, $disk, $optParams = array())
@@ -184,8 +185,8 @@
      * Retrieves the list of persistent disk resources contained within the specified project.
      * (disks.list)
      *
-     * @param string $project Name of the project scoping this request.
-     * @param array $optParams Optional parameters.
+     * @param string $project   Name of the project scoping this request.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string filter Optional. Filter expression for filtering listed resources.
      * @opt_param string pageToken Optional. Tag returned by a previous list request truncated by maxResults. Used to continue a previous list request.
@@ -206,9 +207,9 @@
     /**
      * Deletes the specified persistent disk resource. (disks.delete)
      *
-     * @param string $project Name of the project scoping this request.
-     * @param string $disk Name of the persistent disk resource to delete.
-     * @param array $optParams Optional parameters.
+     * @param  string           $project   Name of the project scoping this request.
+     * @param  string           $disk      Name of the persistent disk resource to delete.
+     * @param  array            $optParams Optional parameters.
      * @return Google_Operation
      */
     public function delete($project, $disk, $optParams = array())
@@ -237,9 +238,9 @@
      * Creates a persistent disk snapshot resource in the specified project using the data included in
      * the request. (snapshots.insert)
      *
-     * @param string $project Name of the project scoping this request.
-     * @param Google_Snapshot $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string           $project   Name of the project scoping this request.
+     * @param  Google_Snapshot  $postBody
+     * @param  array            $optParams Optional parameters.
      * @return Google_Operation
      */
     public function insert($project, Google_Snapshot $postBody, $optParams = array())
@@ -256,9 +257,9 @@
     /**
      * Returns the specified persistent disk snapshot resource. (snapshots.get)
      *
-     * @param string $project Name of the project scoping this request.
-     * @param string $snapshot Name of the persistent disk snapshot resource to return.
-     * @param array $optParams Optional parameters.
+     * @param  string          $project   Name of the project scoping this request.
+     * @param  string          $snapshot  Name of the persistent disk snapshot resource to return.
+     * @param  array           $optParams Optional parameters.
      * @return Google_Snapshot
      */
     public function get($project, $snapshot, $optParams = array())
@@ -276,8 +277,8 @@
      * Retrieves the list of persistent disk snapshot resources contained within the specified project.
      * (snapshots.list)
      *
-     * @param string $project Name of the project scoping this request.
-     * @param array $optParams Optional parameters.
+     * @param string $project   Name of the project scoping this request.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string filter Optional. Filter expression for filtering listed resources.
      * @opt_param string pageToken Optional. Tag returned by a previous list request truncated by maxResults. Used to continue a previous list request.
@@ -298,9 +299,9 @@
     /**
      * Deletes the specified persistent disk snapshot resource. (snapshots.delete)
      *
-     * @param string $project Name of the project scoping this request.
-     * @param string $snapshot Name of the persistent disk snapshot resource to delete.
-     * @param array $optParams Optional parameters.
+     * @param  string           $project   Name of the project scoping this request.
+     * @param  string           $snapshot  Name of the persistent disk snapshot resource to delete.
+     * @param  array            $optParams Optional parameters.
      * @return Google_Operation
      */
     public function delete($project, $snapshot, $optParams = array())
@@ -328,8 +329,8 @@
       /**
      * Retrieves the list of zone resources available to the specified project. (zones.list)
      *
-     * @param string $project Name of the project scoping this request.
-     * @param array $optParams Optional parameters.
+     * @param string $project   Name of the project scoping this request.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string filter Optional. Filter expression for filtering listed resources.
      * @opt_param string pageToken Optional. Tag returned by a previous list request truncated by maxResults. Used to continue a previous list request.
@@ -350,9 +351,9 @@
     /**
      * Returns the specified zone resource. (zones.get)
      *
-     * @param string $project Name of the project scoping this request.
-     * @param string $zone Name of the zone resource to return.
-     * @param array $optParams Optional parameters.
+     * @param  string      $project   Name of the project scoping this request.
+     * @param  string      $zone      Name of the zone resource to return.
+     * @param  array       $optParams Optional parameters.
      * @return Google_Zone
      */
     public function get($project, $zone, $optParams = array())
@@ -381,9 +382,9 @@
      * Creates an instance resource in the specified project using the data included in the request.
      * (instances.insert)
      *
-     * @param string $project Name of the project scoping this request.
-     * @param Google_Instance $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string           $project   Name of the project scoping this request.
+     * @param  Google_Instance  $postBody
+     * @param  array            $optParams Optional parameters.
      * @return Google_Operation
      */
     public function insert($project, Google_Instance $postBody, $optParams = array())
@@ -400,11 +401,11 @@
     /**
      * Deletes an access config from an instance's network interface. (instances.deleteAccessConfig)
      *
-     * @param string $project Project name.
-     * @param string $instance Instance name.
-     * @param string $access_config Access config name.
-     * @param string $network_interface Network interface name.
-     * @param array $optParams Optional parameters.
+     * @param  string           $project           Project name.
+     * @param  string           $instance          Instance name.
+     * @param  string           $access_config     Access config name.
+     * @param  string           $network_interface Network interface name.
+     * @param  array            $optParams         Optional parameters.
      * @return Google_Operation
      */
     public function deleteAccessConfig($project, $instance, $access_config, $network_interface, $optParams = array())
@@ -421,9 +422,9 @@
     /**
      * Returns the specified instance resource. (instances.get)
      *
-     * @param string $project Name of the project scoping this request.
-     * @param string $instance Name of the instance resource to return.
-     * @param array $optParams Optional parameters.
+     * @param  string          $project   Name of the project scoping this request.
+     * @param  string          $instance  Name of the instance resource to return.
+     * @param  array           $optParams Optional parameters.
      * @return Google_Instance
      */
     public function get($project, $instance, $optParams = array())
@@ -440,8 +441,8 @@
     /**
      * Retrieves the list of instance resources contained within the specified project. (instances.list)
      *
-     * @param string $project Name of the project scoping this request.
-     * @param array $optParams Optional parameters.
+     * @param string $project   Name of the project scoping this request.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string filter Optional. Filter expression for filtering listed resources.
      * @opt_param string pageToken Optional. Tag returned by a previous list request truncated by maxResults. Used to continue a previous list request.
@@ -462,11 +463,11 @@
     /**
      * Adds an access config to an instance's network interface. (instances.addAccessConfig)
      *
-     * @param string $project Project name.
-     * @param string $instance Instance name.
-     * @param string $network_interface Network interface name.
-     * @param Google_AccessConfig $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string              $project           Project name.
+     * @param  string              $instance          Instance name.
+     * @param  string              $network_interface Network interface name.
+     * @param  Google_AccessConfig $postBody
+     * @param  array               $optParams         Optional parameters.
      * @return Google_Operation
      */
     public function addAccessConfig($project, $instance, $network_interface, Google_AccessConfig $postBody, $optParams = array())
@@ -483,9 +484,9 @@
     /**
      * Deletes the specified instance resource. (instances.delete)
      *
-     * @param string $project Name of the project scoping this request.
-     * @param string $instance Name of the instance resource to delete.
-     * @param array $optParams Optional parameters.
+     * @param  string           $project   Name of the project scoping this request.
+     * @param  string           $instance  Name of the instance resource to delete.
+     * @param  array            $optParams Optional parameters.
      * @return Google_Operation
      */
     public function delete($project, $instance, $optParams = array())
@@ -514,8 +515,8 @@
      * Retrieves the list of machine type resources available to the specified project.
      * (machineTypes.list)
      *
-     * @param string $project Name of the project scoping this request.
-     * @param array $optParams Optional parameters.
+     * @param string $project   Name of the project scoping this request.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string filter Optional. Filter expression for filtering listed resources.
      * @opt_param string pageToken Optional. Tag returned by a previous list request truncated by maxResults. Used to continue a previous list request.
@@ -536,9 +537,9 @@
     /**
      * Returns the specified machine type resource. (machineTypes.get)
      *
-     * @param string $project Name of the project scoping this request.
-     * @param string $machineType Name of the machine type resource to return.
-     * @param array $optParams Optional parameters.
+     * @param  string             $project     Name of the project scoping this request.
+     * @param  string             $machineType Name of the machine type resource to return.
+     * @param  array              $optParams   Optional parameters.
      * @return Google_MachineType
      */
     public function get($project, $machineType, $optParams = array())
@@ -567,9 +568,9 @@
      * Creates an image resource in the specified project using the data included in the request.
      * (images.insert)
      *
-     * @param string $project Name of the project scoping this request.
-     * @param Google_Image $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string           $project   Name of the project scoping this request.
+     * @param  Google_Image     $postBody
+     * @param  array            $optParams Optional parameters.
      * @return Google_Operation
      */
     public function insert($project, Google_Image $postBody, $optParams = array())
@@ -586,9 +587,9 @@
     /**
      * Returns the specified image resource. (images.get)
      *
-     * @param string $project Name of the project scoping this request.
-     * @param string $image Name of the image resource to return.
-     * @param array $optParams Optional parameters.
+     * @param  string       $project   Name of the project scoping this request.
+     * @param  string       $image     Name of the image resource to return.
+     * @param  array        $optParams Optional parameters.
      * @return Google_Image
      */
     public function get($project, $image, $optParams = array())
@@ -605,8 +606,8 @@
     /**
      * Retrieves the list of image resources available to the specified project. (images.list)
      *
-     * @param string $project Name of the project scoping this request.
-     * @param array $optParams Optional parameters.
+     * @param string $project   Name of the project scoping this request.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string filter Optional. Filter expression for filtering listed resources.
      * @opt_param string pageToken Optional. Tag returned by a previous list request truncated by maxResults. Used to continue a previous list request.
@@ -627,9 +628,9 @@
     /**
      * Deletes the specified image resource. (images.delete)
      *
-     * @param string $project Name of the project scoping this request.
-     * @param string $image Name of the image resource to delete.
-     * @param array $optParams Optional parameters.
+     * @param  string           $project   Name of the project scoping this request.
+     * @param  string           $image     Name of the image resource to delete.
+     * @param  array            $optParams Optional parameters.
      * @return Google_Operation
      */
     public function delete($project, $image, $optParams = array())
@@ -658,9 +659,9 @@
      * Creates a firewall resource in the specified project using the data included in the request.
      * (firewalls.insert)
      *
-     * @param string $project Name of the project scoping this request.
-     * @param Google_Firewall $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string           $project   Name of the project scoping this request.
+     * @param  Google_Firewall  $postBody
+     * @param  array            $optParams Optional parameters.
      * @return Google_Operation
      */
     public function insert($project, Google_Firewall $postBody, $optParams = array())
@@ -677,9 +678,9 @@
     /**
      * Returns the specified firewall resource. (firewalls.get)
      *
-     * @param string $project Name of the project scoping this request.
-     * @param string $firewall Name of the firewall resource to return.
-     * @param array $optParams Optional parameters.
+     * @param  string          $project   Name of the project scoping this request.
+     * @param  string          $firewall  Name of the firewall resource to return.
+     * @param  array           $optParams Optional parameters.
      * @return Google_Firewall
      */
     public function get($project, $firewall, $optParams = array())
@@ -696,8 +697,8 @@
     /**
      * Retrieves the list of firewall resources available to the specified project. (firewalls.list)
      *
-     * @param string $project Name of the project scoping this request.
-     * @param array $optParams Optional parameters.
+     * @param string $project   Name of the project scoping this request.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string filter Optional. Filter expression for filtering listed resources.
      * @opt_param string pageToken Optional. Tag returned by a previous list request truncated by maxResults. Used to continue a previous list request.
@@ -718,10 +719,10 @@
     /**
      * Updates the specified firewall resource with the data included in the request. (firewalls.update)
      *
-     * @param string $project Name of the project scoping this request.
-     * @param string $firewall Name of the firewall resource to update.
-     * @param Google_Firewall $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string           $project   Name of the project scoping this request.
+     * @param  string           $firewall  Name of the firewall resource to update.
+     * @param  Google_Firewall  $postBody
+     * @param  array            $optParams Optional parameters.
      * @return Google_Operation
      */
     public function update($project, $firewall, Google_Firewall $postBody, $optParams = array())
@@ -739,10 +740,10 @@
      * Updates the specified firewall resource with the data included in the request. This method
      * supports patch semantics. (firewalls.patch)
      *
-     * @param string $project Name of the project scoping this request.
-     * @param string $firewall Name of the firewall resource to update.
-     * @param Google_Firewall $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string           $project   Name of the project scoping this request.
+     * @param  string           $firewall  Name of the firewall resource to update.
+     * @param  Google_Firewall  $postBody
+     * @param  array            $optParams Optional parameters.
      * @return Google_Operation
      */
     public function patch($project, $firewall, Google_Firewall $postBody, $optParams = array())
@@ -759,9 +760,9 @@
     /**
      * Deletes the specified firewall resource. (firewalls.delete)
      *
-     * @param string $project Name of the project scoping this request.
-     * @param string $firewall Name of the firewall resource to delete.
-     * @param array $optParams Optional parameters.
+     * @param  string           $project   Name of the project scoping this request.
+     * @param  string           $firewall  Name of the firewall resource to delete.
+     * @param  array            $optParams Optional parameters.
      * @return Google_Operation
      */
     public function delete($project, $firewall, $optParams = array())
@@ -790,9 +791,9 @@
      * Creates a network resource in the specified project using the data included in the request.
      * (networks.insert)
      *
-     * @param string $project Name of the project scoping this request.
-     * @param Google_Network $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string           $project   Name of the project scoping this request.
+     * @param  Google_Network   $postBody
+     * @param  array            $optParams Optional parameters.
      * @return Google_Operation
      */
     public function insert($project, Google_Network $postBody, $optParams = array())
@@ -809,9 +810,9 @@
     /**
      * Returns the specified network resource. (networks.get)
      *
-     * @param string $project Name of the project scoping this request.
-     * @param string $network Name of the network resource to return.
-     * @param array $optParams Optional parameters.
+     * @param  string         $project   Name of the project scoping this request.
+     * @param  string         $network   Name of the network resource to return.
+     * @param  array          $optParams Optional parameters.
      * @return Google_Network
      */
     public function get($project, $network, $optParams = array())
@@ -828,8 +829,8 @@
     /**
      * Retrieves the list of network resources available to the specified project. (networks.list)
      *
-     * @param string $project Name of the project scoping this request.
-     * @param array $optParams Optional parameters.
+     * @param string $project   Name of the project scoping this request.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string filter Optional. Filter expression for filtering listed resources.
      * @opt_param string pageToken Optional. Tag returned by a previous list request truncated by maxResults. Used to continue a previous list request.
@@ -850,9 +851,9 @@
     /**
      * Deletes the specified network resource. (networks.delete)
      *
-     * @param string $project Name of the project scoping this request.
-     * @param string $network Name of the network resource to delete.
-     * @param array $optParams Optional parameters.
+     * @param  string           $project   Name of the project scoping this request.
+     * @param  string           $network   Name of the network resource to delete.
+     * @param  array            $optParams Optional parameters.
      * @return Google_Operation
      */
     public function delete($project, $network, $optParams = array())
@@ -881,22 +882,23 @@
      * Sets metadata common to all instances within the specified project using the data included in the
      * request. (projects.setCommonInstanceMetadata)
      *
-     * @param string $project Name of the project scoping this request.
+     * @param string          $project   Name of the project scoping this request.
      * @param Google_Metadata $postBody
-     * @param array $optParams Optional parameters.
+     * @param array           $optParams Optional parameters.
      */
     public function setCommonInstanceMetadata($project, Google_Metadata $postBody, $optParams = array())
     {
         $params = array('project' => $project, 'postBody' => $postBody);
         $params = array_merge($params, $optParams);
         $data = $this->__call('setCommonInstanceMetadata', array($params));
+
         return $data;
     }
     /**
      * Returns the specified project resource. (projects.get)
      *
-     * @param string $project Name of the project resource to retrieve.
-     * @param array $optParams Optional parameters.
+     * @param  string         $project   Name of the project resource to retrieve.
+     * @param  array          $optParams Optional parameters.
      * @return Google_Project
      */
     public function get($project, $optParams = array())

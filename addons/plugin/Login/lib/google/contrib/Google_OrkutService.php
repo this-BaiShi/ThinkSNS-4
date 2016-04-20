@@ -25,9 +25,9 @@
       /**
      * Makes the user join a community. (communityMembers.insert)
      *
-     * @param int $communityId ID of the community.
-     * @param string $userId ID of the user.
-     * @param array $optParams Optional parameters.
+     * @param  int                     $communityId ID of the community.
+     * @param  string                  $userId      ID of the user.
+     * @param  array                   $optParams   Optional parameters.
      * @return Google_CommunityMembers
      */
     public function insert($communityId, $userId, $optParams = array())
@@ -44,9 +44,9 @@
     /**
      * Retrieves the relationship between a user and a community. (communityMembers.get)
      *
-     * @param int $communityId ID of the community.
-     * @param string $userId ID of the user.
-     * @param array $optParams Optional parameters.
+     * @param int    $communityId ID of the community.
+     * @param string $userId      ID of the user.
+     * @param array  $optParams   Optional parameters.
      *
      * @opt_param string hl Specifies the interface language (host language) of your user interface.
      * @return Google_CommunityMembers
@@ -67,8 +67,8 @@
      * the member count available in the community profile information to know when to stop iterating,
      * as that count may be approximate. (communityMembers.list)
      *
-     * @param int $communityId The ID of the community whose members will be listed.
-     * @param array $optParams Optional parameters.
+     * @param int   $communityId The ID of the community whose members will be listed.
+     * @param array $optParams   Optional parameters.
      *
      * @opt_param string pageToken A continuation token that allows pagination.
      * @opt_param bool friendsOnly Whether to list only community members who are friends of the user.
@@ -90,15 +90,16 @@
     /**
      * Makes the user leave a community. (communityMembers.delete)
      *
-     * @param int $communityId ID of the community.
-     * @param string $userId ID of the user.
-     * @param array $optParams Optional parameters.
+     * @param int    $communityId ID of the community.
+     * @param string $userId      ID of the user.
+     * @param array  $optParams   Optional parameters.
      */
     public function delete($communityId, $userId, $optParams = array())
     {
         $params = array('communityId' => $communityId, 'userId' => $userId);
         $params = array_merge($params, $optParams);
         $data = $this->__call('delete', array($params));
+
         return $data;
     }
   }
@@ -115,9 +116,9 @@
       /**
      * Retrieves a list of activities. (activities.list)
      *
-     * @param string $userId The ID of the user whose activities will be listed. Can be me to refer to the viewer (i.e. the authenticated user).
+     * @param string $userId     The ID of the user whose activities will be listed. Can be me to refer to the viewer (i.e. the authenticated user).
      * @param string $collection The collection of activities to list.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams  Optional parameters.
      *
      * @opt_param string pageToken A continuation token that allows pagination.
      * @opt_param string maxResults The maximum number of activities to include in the response.
@@ -139,13 +140,14 @@
      * Deletes an existing activity, if the access controls allow it. (activities.delete)
      *
      * @param string $activityId ID of the activity to remove.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams  Optional parameters.
      */
     public function delete($activityId, $optParams = array())
     {
         $params = array('activityId' => $activityId);
         $params = array_merge($params, $optParams);
         $data = $this->__call('delete', array($params));
+
         return $data;
     }
   }
@@ -162,10 +164,10 @@
       /**
      * Adds a comment on a community poll. (communityPollComments.insert)
      *
-     * @param int $communityId The ID of the community whose poll is being commented.
-     * @param string $pollId The ID of the poll being commented.
-     * @param Google_CommunityPollComment $postBody
-     * @param array $optParams Optional parameters.
+     * @param  int                         $communityId The ID of the community whose poll is being commented.
+     * @param  string                      $pollId      The ID of the poll being commented.
+     * @param  Google_CommunityPollComment $postBody
+     * @param  array                       $optParams   Optional parameters.
      * @return Google_CommunityPollComment
      */
     public function insert($communityId, $pollId, Google_CommunityPollComment $postBody, $optParams = array())
@@ -182,9 +184,9 @@
     /**
      * Retrieves the comments of a community poll. (communityPollComments.list)
      *
-     * @param int $communityId The ID of the community whose poll is having its comments listed.
-     * @param string $pollId The ID of the community whose polls will be listed.
-     * @param array $optParams Optional parameters.
+     * @param int    $communityId The ID of the community whose poll is having its comments listed.
+     * @param string $pollId      The ID of the community whose polls will be listed.
+     * @param array  $optParams   Optional parameters.
      *
      * @opt_param string pageToken A continuation token that allows pagination.
      * @opt_param string maxResults The maximum number of comments to include in the response.
@@ -216,8 +218,8 @@
       /**
      * Retrieves the polls of a community. (communityPolls.list)
      *
-     * @param int $communityId The ID of the community which polls will be listed.
-     * @param array $optParams Optional parameters.
+     * @param int   $communityId The ID of the community which polls will be listed.
+     * @param array $optParams   Optional parameters.
      *
      * @opt_param string pageToken A continuation token that allows pagination.
      * @opt_param string maxResults The maximum number of polls to include in the response.
@@ -238,9 +240,9 @@
     /**
      * Retrieves one specific poll of a community. (communityPolls.get)
      *
-     * @param int $communityId The ID of the community for whose poll will be retrieved.
-     * @param string $pollId The ID of the poll to get.
-     * @param array $optParams Optional parameters.
+     * @param int    $communityId The ID of the community for whose poll will be retrieved.
+     * @param string $pollId      The ID of the poll to get.
+     * @param array  $optParams   Optional parameters.
      *
      * @opt_param string hl Specifies the interface language (host language) of your user interface.
      * @return Google_CommunityPoll
@@ -270,10 +272,10 @@
       /**
      * Adds a message to a given community topic. (communityMessages.insert)
      *
-     * @param int $communityId The ID of the community the message should be added to.
-     * @param string $topicId The ID of the topic the message should be added to.
-     * @param Google_CommunityMessage $postBody
-     * @param array $optParams Optional parameters.
+     * @param  int                     $communityId The ID of the community the message should be added to.
+     * @param  string                  $topicId     The ID of the topic the message should be added to.
+     * @param  Google_CommunityMessage $postBody
+     * @param  array                   $optParams   Optional parameters.
      * @return Google_CommunityMessage
      */
     public function insert($communityId, $topicId, Google_CommunityMessage $postBody, $optParams = array())
@@ -290,9 +292,9 @@
     /**
      * Retrieves the messages of a topic of a community. (communityMessages.list)
      *
-     * @param int $communityId The ID of the community which messages will be listed.
-     * @param string $topicId The ID of the topic which messages will be listed.
-     * @param array $optParams Optional parameters.
+     * @param int    $communityId The ID of the community which messages will be listed.
+     * @param string $topicId     The ID of the topic which messages will be listed.
+     * @param array  $optParams   Optional parameters.
      *
      * @opt_param string pageToken A continuation token that allows pagination.
      * @opt_param string maxResults The maximum number of messages to include in the response.
@@ -313,16 +315,17 @@
     /**
      * Moves a message of the community to the trash folder. (communityMessages.delete)
      *
-     * @param int $communityId The ID of the community whose message will be moved to the trash folder.
-     * @param string $topicId The ID of the topic whose message will be moved to the trash folder.
-     * @param string $messageId The ID of the message to be moved to the trash folder.
-     * @param array $optParams Optional parameters.
+     * @param int    $communityId The ID of the community whose message will be moved to the trash folder.
+     * @param string $topicId     The ID of the topic whose message will be moved to the trash folder.
+     * @param string $messageId   The ID of the message to be moved to the trash folder.
+     * @param array  $optParams   Optional parameters.
      */
     public function delete($communityId, $topicId, $messageId, $optParams = array())
     {
         $params = array('communityId' => $communityId, 'topicId' => $topicId, 'messageId' => $messageId);
         $params = array_merge($params, $optParams);
         $data = $this->__call('delete', array($params));
+
         return $data;
     }
   }
@@ -339,9 +342,9 @@
       /**
      * Adds a topic to a given community. (communityTopics.insert)
      *
-     * @param int $communityId The ID of the community the topic should be added to.
+     * @param int                   $communityId The ID of the community the topic should be added to.
      * @param Google_CommunityTopic $postBody
-     * @param array $optParams Optional parameters.
+     * @param array                 $optParams   Optional parameters.
      *
      * @opt_param bool isShout Whether this topic is a shout.
      * @return Google_CommunityTopic
@@ -360,9 +363,9 @@
     /**
      * Retrieves a topic of a community. (communityTopics.get)
      *
-     * @param int $communityId The ID of the community whose topic will be retrieved.
-     * @param string $topicId The ID of the topic to get.
-     * @param array $optParams Optional parameters.
+     * @param int    $communityId The ID of the community whose topic will be retrieved.
+     * @param string $topicId     The ID of the topic to get.
+     * @param array  $optParams   Optional parameters.
      *
      * @opt_param string hl Specifies the interface language (host language) of your user interface.
      * @return Google_CommunityTopic
@@ -381,8 +384,8 @@
     /**
      * Retrieves the topics of a community. (communityTopics.list)
      *
-     * @param int $communityId The ID of the community which topics will be listed.
-     * @param array $optParams Optional parameters.
+     * @param int   $communityId The ID of the community which topics will be listed.
+     * @param array $optParams   Optional parameters.
      *
      * @opt_param string pageToken A continuation token that allows pagination.
      * @opt_param string maxResults The maximum number of topics to include in the response.
@@ -403,15 +406,16 @@
     /**
      * Moves a topic of the community to the trash folder. (communityTopics.delete)
      *
-     * @param int $communityId The ID of the community whose topic will be moved to the trash folder.
-     * @param string $topicId The ID of the topic to be moved to the trash folder.
-     * @param array $optParams Optional parameters.
+     * @param int    $communityId The ID of the community whose topic will be moved to the trash folder.
+     * @param string $topicId     The ID of the topic to be moved to the trash folder.
+     * @param array  $optParams   Optional parameters.
      */
     public function delete($communityId, $topicId, $optParams = array())
     {
         $params = array('communityId' => $communityId, 'topicId' => $topicId);
         $params = array_merge($params, $optParams);
         $data = $this->__call('delete', array($params));
+
         return $data;
     }
   }
@@ -428,9 +432,9 @@
       /**
      * Inserts a new comment to an activity. (comments.insert)
      *
-     * @param string $activityId The ID of the activity to contain the new comment.
-     * @param Google_Comment $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string         $activityId The ID of the activity to contain the new comment.
+     * @param  Google_Comment $postBody
+     * @param  array          $optParams  Optional parameters.
      * @return Google_Comment
      */
     public function insert($activityId, Google_Comment $postBody, $optParams = array())
@@ -448,7 +452,7 @@
      * Retrieves an existing comment. (comments.get)
      *
      * @param string $commentId ID of the comment to get.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string hl Specifies the interface language (host language) of your user interface.
      * @return Google_Comment
@@ -468,7 +472,7 @@
      * Retrieves a list of comments, possibly filtered. (comments.list)
      *
      * @param string $activityId The ID of the activity containing the comments.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams  Optional parameters.
      *
      * @opt_param string orderBy Sort search results.
      * @opt_param string pageToken A continuation token that allows pagination.
@@ -491,13 +495,14 @@
      * Deletes an existing comment. (comments.delete)
      *
      * @param string $commentId ID of the comment to remove.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams Optional parameters.
      */
     public function delete($commentId, $optParams = array())
     {
         $params = array('commentId' => $commentId);
         $params = array_merge($params, $optParams);
         $data = $this->__call('delete', array($params));
+
         return $data;
     }
   }
@@ -515,14 +520,15 @@
      * Excludes an element from the ACL of the activity. (acl.delete)
      *
      * @param string $activityId ID of the activity.
-     * @param string $userId ID of the user to be removed from the activity.
-     * @param array $optParams Optional parameters.
+     * @param string $userId     ID of the user to be removed from the activity.
+     * @param array  $optParams  Optional parameters.
      */
     public function delete($activityId, $userId, $optParams = array())
     {
         $params = array('activityId' => $activityId, 'userId' => $userId);
         $params = array_merge($params, $optParams);
         $data = $this->__call('delete', array($params));
+
         return $data;
     }
   }
@@ -539,8 +545,8 @@
       /**
      * Retrieves the communities related to another one. (communityRelated.list)
      *
-     * @param int $communityId The ID of the community whose related communities will be listed.
-     * @param array $optParams Optional parameters.
+     * @param int   $communityId The ID of the community whose related communities will be listed.
+     * @param array $optParams   Optional parameters.
      *
      * @opt_param string hl Specifies the interface language (host language) of your user interface.
      * @return Google_CommunityList
@@ -570,8 +576,8 @@
       /**
      * Creates a new scrap. (scraps.insert)
      *
-     * @param Google_Activity $postBody
-     * @param array $optParams Optional parameters.
+     * @param  Google_Activity $postBody
+     * @param  array           $optParams Optional parameters.
      * @return Google_Activity
      */
     public function insert(Google_Activity $postBody, $optParams = array())
@@ -599,10 +605,10 @@
       /**
      * Votes on a community poll. (communityPollVotes.insert)
      *
-     * @param int $communityId The ID of the community whose poll is being voted.
-     * @param string $pollId The ID of the poll being voted.
-     * @param Google_CommunityPollVote $postBody
-     * @param array $optParams Optional parameters.
+     * @param  int                      $communityId The ID of the community whose poll is being voted.
+     * @param  string                   $pollId      The ID of the poll being voted.
+     * @param  Google_CommunityPollVote $postBody
+     * @param  array                    $optParams   Optional parameters.
      * @return Google_CommunityPollVote
      */
     public function insert($communityId, $pollId, Google_CommunityPollVote $postBody, $optParams = array())
@@ -630,8 +636,8 @@
       /**
      * Retrieves the list of communities the current user is a member of. (communities.list)
      *
-     * @param string $userId The ID of the user whose communities will be listed. Can be me to refer to caller.
-     * @param array $optParams Optional parameters.
+     * @param string $userId    The ID of the user whose communities will be listed. Can be me to refer to caller.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string orderBy How to order the communities by.
      * @opt_param string maxResults The maximum number of communities to include in the response.
@@ -652,8 +658,8 @@
     /**
      * Retrieves the basic information (aka. profile) of a community. (communities.get)
      *
-     * @param int $communityId The ID of the community to get.
-     * @param array $optParams Optional parameters.
+     * @param int   $communityId The ID of the community to get.
+     * @param array $optParams   Optional parameters.
      *
      * @opt_param string hl Specifies the interface language (host language) of your user interface.
      * @return Google_Community
@@ -683,9 +689,9 @@
       /**
      * Adds a user as a follower of a community. (communityFollow.insert)
      *
-     * @param int $communityId ID of the community.
-     * @param string $userId ID of the user.
-     * @param array $optParams Optional parameters.
+     * @param  int                     $communityId ID of the community.
+     * @param  string                  $userId      ID of the user.
+     * @param  array                   $optParams   Optional parameters.
      * @return Google_CommunityMembers
      */
     public function insert($communityId, $userId, $optParams = array())
@@ -702,15 +708,16 @@
     /**
      * Removes a user from the followers of a community. (communityFollow.delete)
      *
-     * @param int $communityId ID of the community.
-     * @param string $userId ID of the user.
-     * @param array $optParams Optional parameters.
+     * @param int    $communityId ID of the community.
+     * @param string $userId      ID of the user.
+     * @param array  $optParams   Optional parameters.
      */
     public function delete($communityId, $userId, $optParams = array())
     {
         $params = array('communityId' => $communityId, 'userId' => $userId);
         $params = array_merge($params, $optParams);
         $data = $this->__call('delete', array($params));
+
         return $data;
     }
   }
@@ -728,9 +735,9 @@
      * Updates the visibility of an existing activity. This method supports patch semantics.
      * (activityVisibility.patch)
      *
-     * @param string $activityId ID of the activity.
-     * @param Google_Visibility $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string            $activityId ID of the activity.
+     * @param  Google_Visibility $postBody
+     * @param  array             $optParams  Optional parameters.
      * @return Google_Visibility
      */
     public function patch($activityId, Google_Visibility $postBody, $optParams = array())
@@ -747,9 +754,9 @@
     /**
      * Updates the visibility of an existing activity. (activityVisibility.update)
      *
-     * @param string $activityId ID of the activity.
-     * @param Google_Visibility $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string            $activityId ID of the activity.
+     * @param  Google_Visibility $postBody
+     * @param  array             $optParams  Optional parameters.
      * @return Google_Visibility
      */
     public function update($activityId, Google_Visibility $postBody, $optParams = array())
@@ -766,8 +773,8 @@
     /**
      * Gets the visibility of an existing activity. (activityVisibility.get)
      *
-     * @param string $activityId ID of the activity to get the visibility.
-     * @param array $optParams Optional parameters.
+     * @param  string            $activityId ID of the activity to get the visibility.
+     * @param  array             $optParams  Optional parameters.
      * @return Google_Visibility
      */
     public function get($activityId, $optParams = array())
@@ -795,8 +802,8 @@
       /**
      * Retrieves the list of visible badges of a user. (badges.list)
      *
-     * @param string $userId The id of the user whose badges will be listed. Can be me to refer to caller.
-     * @param array $optParams Optional parameters.
+     * @param  string           $userId    The id of the user whose badges will be listed. Can be me to refer to caller.
+     * @param  array            $optParams Optional parameters.
      * @return Google_BadgeList
      */
     public function listBadges($userId, $optParams = array())
@@ -813,9 +820,9 @@
     /**
      * Retrieves a badge from a user. (badges.get)
      *
-     * @param string $userId The ID of the user whose badges will be listed. Can be me to refer to caller.
-     * @param string $badgeId The ID of the badge that will be retrieved.
-     * @param array $optParams Optional parameters.
+     * @param  string       $userId    The ID of the user whose badges will be listed. Can be me to refer to caller.
+     * @param  string       $badgeId   The ID of the badge that will be retrieved.
+     * @param  array        $optParams Optional parameters.
      * @return Google_Badge
      */
     public function get($userId, $badgeId, $optParams = array())
@@ -843,8 +850,8 @@
       /**
      * Retrieves the counters of a user. (counters.list)
      *
-     * @param string $userId The ID of the user whose counters will be listed. Can be me to refer to caller.
-     * @param array $optParams Optional parameters.
+     * @param  string          $userId    The ID of the user whose counters will be listed. Can be me to refer to caller.
+     * @param  array           $optParams Optional parameters.
      * @return Google_Counters
      */
     public function listCounters($userId, $optParams = array())

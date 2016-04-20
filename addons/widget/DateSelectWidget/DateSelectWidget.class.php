@@ -7,13 +7,12 @@
  */
 class DateSelectWidget extends Widget
 {
-    
     private static $rand = 1;
 
     /**
      * @param string name 组件input的名称
      * @param string class 组件input的样式
-     * @param integer id 组件input的ID
+     * @param int id 组件input的ID
      * @param string value 默认的值
      * @param string dtype 时间类型
      */
@@ -22,12 +21,12 @@ class DateSelectWidget extends Widget
         !isset($data['width']) && $data['width'] = 200;
 
         $var = array();
-    
+
         is_array($data) && $var = array_merge($var, $data);
-        
+
         //渲染模版
-        $content = $this->renderFile(dirname(__FILE__)."/default.html", $var);
-        
+        $content = $this->renderFile(dirname(__FILE__).'/default.html', $var);
+
         return $content;
     }
 }

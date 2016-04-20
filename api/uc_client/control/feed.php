@@ -11,7 +11,6 @@
 
 class feedcontrol extends base
 {
-
     public function __construct()
     {
         $this->_feedcontrol();
@@ -49,11 +48,12 @@ class feedcontrol extends base
         $hash_template = md5($title_template.$body_template);
         $hash_data = md5($title_template.$title_data.$body_template.$body_data);
         $dateline = $this->time;
-        $this->db->query("INSERT INTO ".UC_DBTABLEPRE."feeds SET appid='$appid', icon='$icon', uid='$uid', username='$username',
+        $this->db->query('INSERT INTO '.UC_DBTABLEPRE."feeds SET appid='$appid', icon='$icon', uid='$uid', username='$username',
 			title_template='$title_template', title_data='$title_data', body_template='$body_template', body_data='$body_data', body_general='$body_general',
 			image_1='$image_1', image_1_link='$image_1_link', image_2='$image_2', image_2_link='$image_2_link',
 			image_3='$image_3', image_3_link='$image_3_link', image_4='$image_4', image_4_link='$image_4_link',
 			hash_template='$hash_template', hash_data='$hash_data', target_ids='$target_ids', dateline='$dateline'");
+
         return $this->db->insert_id();
     }
 
@@ -62,7 +62,7 @@ class feedcontrol extends base
         $start = $this->input('start');
         $limit = $this->input('limit');
         $end = $start + $limit;
-        $this->db->query("DELETE FROM ".UC_DBTABLEPRE."feeds WHERE feedid>'$start' AND feedid<'$end'");
+        $this->db->query('DELETE FROM '.UC_DBTABLEPRE."feeds WHERE feedid>'$start' AND feedid<'$end'");
     }
 
     public function onget()
@@ -70,7 +70,7 @@ class feedcontrol extends base
         $this->load('misc');
         $limit = intval($this->input('limit'));
         $delete = $this->input('delete');
-        $feedlist = $this->db->fetch_all("SELECT * FROM ".UC_DBTABLEPRE."feeds ORDER BY feedid DESC LIMIT $limit");
+        $feedlist = $this->db->fetch_all('SELECT * FROM '.UC_DBTABLEPRE."feeds ORDER BY feedid DESC LIMIT $limit");
         if ($feedlist) {
             $maxfeedid = $feedlist[0]['feedid'];
             foreach ($feedlist as $key => $feed) {
@@ -84,12 +84,13 @@ class feedcontrol extends base
                 $this->_delete(0, $maxfeedid);
             }
         }
+
         return $feedlist;
     }
 
     public function _delete($start, $end)
     {
-        $this->db->query("DELETE FROM ".UC_DBTABLEPRE."feeds WHERE feedid>='$start' AND feedid<='$end'");
+        $this->db->query('DELETE FROM '.UC_DBTABLEPRE."feeds WHERE feedid>='$start' AND feedid<='$end'");
     }
 
     public function _parsetemplate($template)
@@ -105,6 +106,7 @@ class feedcontrol extends base
         $template = htmlspecialchars($template);
         $template = nl2br($template);
         $template = str_replace(array('[B]', '[I]', '[U]', '[/B]', '[/I]', '[/U]'), array('<b>', '<i>', '<u>', '</b>', '</i>', '</u>'), $template);
+
         return $template;
     }
 }

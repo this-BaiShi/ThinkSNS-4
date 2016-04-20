@@ -32,13 +32,13 @@ class Dir implements IteratorAggregate
      +----------------------------------------------------------
      * @access public
      +----------------------------------------------------------
-     * @param string $path  目录路径
+     * @param string $path 目录路径
      +----------------------------------------------------------
      */
-    public function __construct($path, $pattern='*')
+    public function __construct($path, $pattern = '*')
     {
-        if (substr($path, -1) != "/") {
-            $path .= "/";
+        if (substr($path, -1) != '/') {
+            $path .= '/';
         }
         $this->listFile($path, $pattern);
     }
@@ -52,36 +52,36 @@ class Dir implements IteratorAggregate
      * @param mixed $pathname 路径
      +----------------------------------------------------------
      */
-    public function listFile($pathname, $pattern='*')
+    public function listFile($pathname, $pattern = '*')
     {
         static $_listDirs = array();
-        $guid    =    md5($pathname.$pattern);
+        $guid = md5($pathname.$pattern);
         if (!isset($_listDirs[$guid])) {
             $dir = array();
-            $list    =    glob($pathname.$pattern);
-            foreach ($list as $i=>$file) {
+            $list = glob($pathname.$pattern);
+            foreach ($list as $i => $file) {
                 //$dir[$i]['filename']    = basename($file);
                     //basename取中文名出问题.改用此方法
                     //编码转换.把中文的调整一下.
-                    $dir[$i]['filename']     = preg_replace('/^.+[\\\\\\/]/', '', $file);
-                $dir[$i]['pathname']     = realpath($file);
-                $dir[$i]['owner']        = fileowner($file);
-                $dir[$i]['perms']        = fileperms($file);
-                $dir[$i]['inode']        = fileinode($file);
-                $dir[$i]['group']        = filegroup($file);
-                $dir[$i]['path']         = dirname($file);
-                $dir[$i]['atime']        = fileatime($file);
-                $dir[$i]['ctime']        = filectime($file);
-                $dir[$i]['size']         = filesize($file);
-                $dir[$i]['type']         = filetype($file);
-                $dir[$i]['ext']          = is_file($file)?strtolower(substr(strrchr(basename($file), '.'), 1)):'';
-                $dir[$i]['mtime']        = filemtime($file);
-                $dir[$i]['isDir']        = is_dir($file);
-                $dir[$i]['isFile']       = is_file($file);
-                $dir[$i]['isLink']       = is_link($file);
+                    $dir[$i]['filename'] = preg_replace('/^.+[\\\\\\/]/', '', $file);
+                $dir[$i]['pathname'] = realpath($file);
+                $dir[$i]['owner'] = fileowner($file);
+                $dir[$i]['perms'] = fileperms($file);
+                $dir[$i]['inode'] = fileinode($file);
+                $dir[$i]['group'] = filegroup($file);
+                $dir[$i]['path'] = dirname($file);
+                $dir[$i]['atime'] = fileatime($file);
+                $dir[$i]['ctime'] = filectime($file);
+                $dir[$i]['size'] = filesize($file);
+                $dir[$i]['type'] = filetype($file);
+                $dir[$i]['ext'] = is_file($file) ? strtolower(substr(strrchr(basename($file), '.'), 1)) : '';
+                $dir[$i]['mtime'] = filemtime($file);
+                $dir[$i]['isDir'] = is_dir($file);
+                $dir[$i]['isFile'] = is_file($file);
+                $dir[$i]['isLink'] = is_link($file);
                     //$dir[$i]['isExecutable']= function_exists('is_executable')?is_executable($file):'';
-                    $dir[$i]['isReadable']    = is_readable($file);
-                $dir[$i]['isWritable']    = is_writable($file);
+                    $dir[$i]['isReadable'] = is_readable($file);
+                $dir[$i]['isWritable'] = is_writable($file);
             }
             $cmp_func = create_function('$a,$b', '
 			$k  =  "isDir";
@@ -103,12 +103,13 @@ class Dir implements IteratorAggregate
      +----------------------------------------------------------
      * @access public
      +----------------------------------------------------------
-     * @return integer
+     * @return int
      +----------------------------------------------------------
      */
     public function getATime()
     {
         $current = $this->current($this->_values);
+
         return $current['atime'];
     }
 
@@ -118,12 +119,13 @@ class Dir implements IteratorAggregate
      +----------------------------------------------------------
      * @access public
      +----------------------------------------------------------
-     * @return integer
+     * @return int
      +----------------------------------------------------------
      */
     public function getCTime()
     {
         $current = $this->current($this->_values);
+
         return $current['ctime'];
     }
 
@@ -142,6 +144,7 @@ class Dir implements IteratorAggregate
         if ($current['isDir']) {
             return new Dir($current['pathname']);
         }
+
         return false;
     }
 
@@ -157,6 +160,7 @@ class Dir implements IteratorAggregate
     public function getFilename()
     {
         $current = $this->current($this->_values);
+
         return $current['filename'];
     }
 
@@ -166,12 +170,13 @@ class Dir implements IteratorAggregate
      +----------------------------------------------------------
      * @access public
      +----------------------------------------------------------
-     * @return integer
+     * @return int
      +----------------------------------------------------------
      */
     public function getGroup()
     {
         $current = $this->current($this->_values);
+
         return $current['group'];
     }
 
@@ -181,12 +186,13 @@ class Dir implements IteratorAggregate
      +----------------------------------------------------------
      * @access public
      +----------------------------------------------------------
-     * @return integer
+     * @return int
      +----------------------------------------------------------
      */
     public function getInode()
     {
         $current = $this->current($this->_values);
+
         return $current['inode'];
     }
 
@@ -196,12 +202,13 @@ class Dir implements IteratorAggregate
      +----------------------------------------------------------
      * @access public
      +----------------------------------------------------------
-     * @return integer
+     * @return int
      +----------------------------------------------------------
      */
     public function getMTime()
     {
         $current = $this->current($this->_values);
+
         return $current['mtime'];
     }
 
@@ -217,6 +224,7 @@ class Dir implements IteratorAggregate
     public function getOwner()
     {
         $current = $this->current($this->_values);
+
         return $current['owner'];
     }
 
@@ -232,6 +240,7 @@ class Dir implements IteratorAggregate
     public function getPath()
     {
         $current = $this->current($this->_values);
+
         return $current['path'];
     }
 
@@ -247,6 +256,7 @@ class Dir implements IteratorAggregate
     public function getPathname()
     {
         $current = $this->current($this->_values);
+
         return $current['pathname'];
     }
 
@@ -256,12 +266,13 @@ class Dir implements IteratorAggregate
      +----------------------------------------------------------
      * @access public
      +----------------------------------------------------------
-     * @return integer
+     * @return int
      +----------------------------------------------------------
      */
     public function getPerms()
     {
         $current = $this->current($this->_values);
+
         return $current['perms'];
     }
 
@@ -271,12 +282,13 @@ class Dir implements IteratorAggregate
      +----------------------------------------------------------
      * @access public
      +----------------------------------------------------------
-     * @return integer
+     * @return int
      +----------------------------------------------------------
      */
     public function getSize()
     {
         $current = $this->current($this->_values);
+
         return $current['size'];
     }
 
@@ -292,6 +304,7 @@ class Dir implements IteratorAggregate
     public function getType()
     {
         $current = $this->current($this->_values);
+
         return $current['type'];
     }
 
@@ -307,6 +320,7 @@ class Dir implements IteratorAggregate
     public function isDir()
     {
         $current = $this->current($this->_values);
+
         return $current['isDir'];
     }
 
@@ -322,6 +336,7 @@ class Dir implements IteratorAggregate
     public function isFile()
     {
         $current = $this->current($this->_values);
+
         return $current['isFile'];
     }
 
@@ -337,9 +352,9 @@ class Dir implements IteratorAggregate
     public function isLink()
     {
         $current = $this->current($this->_values);
+
         return $current['isLink'];
     }
-
 
     /**
      +----------------------------------------------------------
@@ -353,9 +368,9 @@ class Dir implements IteratorAggregate
     public function isExecutable()
     {
         $current = $this->current($this->_values);
+
         return $current['isExecutable'];
     }
-
 
     /**
      +----------------------------------------------------------
@@ -369,6 +384,7 @@ class Dir implements IteratorAggregate
     public function isReadable()
     {
         $current = $this->current($this->_values);
+
         return $current['isReadable'];
     }
 
@@ -400,19 +416,20 @@ class Dir implements IteratorAggregate
      +----------------------------------------------------------
      * @access static
      +----------------------------------------------------------
-     * @return void
      +----------------------------------------------------------
      */
     public function isEmpty($directory)
     {
         $handle = opendir($directory);
         while (($file = readdir($handle)) !== false) {
-            if ($file != "." && $file != "..") {
+            if ($file != '.' && $file != '..') {
                 closedir($handle);
+
                 return false;
             }
         }
         closedir($handle);
+
         return true;
     }
 
@@ -422,7 +439,6 @@ class Dir implements IteratorAggregate
      +----------------------------------------------------------
      * @access static
      +----------------------------------------------------------
-     * @return void
      +----------------------------------------------------------
      */
     public function getList($directory)
@@ -436,19 +452,18 @@ class Dir implements IteratorAggregate
      +----------------------------------------------------------
      * @access static
      +----------------------------------------------------------
-     * @return void
      +----------------------------------------------------------
      */
-    public function delDir($directory, $subdir=true)
+    public function delDir($directory, $subdir = true)
     {
         if (is_dir($directory) == false) {
-            exit("The Directory Is Not Exist!");
+            exit('The Directory Is Not Exist!');
         }
         $handle = opendir($directory);
         while (($file = readdir($handle)) !== false) {
-            if ($file != "." && $file != "..") {
-                is_dir("$directory/$file")?
-                Dir::delDir("$directory/$file"):
+            if ($file != '.' && $file != '..') {
+                is_dir("$directory/$file") ?
+                Dir::delDir("$directory/$file") :
                 unlink("$directory/$file");
             }
         }
@@ -464,17 +479,16 @@ class Dir implements IteratorAggregate
      +----------------------------------------------------------
      * @access static
      +----------------------------------------------------------
-     * @return void
      +----------------------------------------------------------
      */
     public function del($directory)
     {
         if (is_dir($directory) == false) {
-            exit("The Directory Is Not Exist!");
+            exit('The Directory Is Not Exist!');
         }
         $handle = opendir($directory);
         while (($file = readdir($handle)) !== false) {
-            if ($file != "." && $file != ".." && is_file("$directory/$file")) {
+            if ($file != '.' && $file != '..' && is_file("$directory/$file")) {
                 unlink("$directory/$file");
             }
         }
@@ -487,22 +501,21 @@ class Dir implements IteratorAggregate
      +----------------------------------------------------------
      * @access static
      +----------------------------------------------------------
-     * @return void
      +----------------------------------------------------------
      */
     public function copyDir($source, $destination)
     {
         if (is_dir($source) == false) {
-            exit("The Source Directory Is Not Exist!");
+            exit('The Source Directory Is Not Exist!');
         }
         if (is_dir($destination) == false) {
             mkdir($destination, 0700);
         }
-        $handle=opendir($source);
+        $handle = opendir($source);
         while (false !== ($file = readdir($handle))) {
-            if ($file != "." && $file != "..") {
-                is_dir("$source/$file")?
-                Dir::copyDir("$source/$file", "$destination/$file"):
+            if ($file != '.' && $file != '..') {
+                is_dir("$source/$file") ?
+                Dir::copyDir("$source/$file", "$destination/$file") :
                 copy("$source/$file", "$destination/$file");
             }
         }

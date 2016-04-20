@@ -1,8 +1,9 @@
 <?php
+
 class DirModel extends Model
 {
     public $tableName = 'group_attachment';
-    
+
     //删除文件
     public function delfile($id)
     {
@@ -14,13 +15,13 @@ class DirModel extends Model
         @unlink($fileInfo['fileurl']);        //删除文件	
         return $this->where('id='.$id)->delete();
     }
-    
+
     //获取文件
     /**
    * getGroupList 
     *
    */
-  public function getFileList($html=1, $map = null, $fields=null, $order = null, $limit = null, $isDel=0)
+  public function getFileList($html = 1, $map = null, $fields = null, $order = null, $limit = null, $isDel = 0)
   {
       //处理where条件
       if (!$isDel) {
@@ -41,6 +42,7 @@ class DirModel extends Model
       if ($html) {
           return $result;
       }
+
       return $result['data'];
   }
 
@@ -54,15 +56,17 @@ class DirModel extends Model
 
       $result = D('Dir')->where('id IN'.$id)->delete();
       if ($result) {
-          foreach ($files as $k=>$v) {
+          foreach ($files as $k => $v) {
               $attachIds[] = $v['attachId'];
             // 积分
 //         X('Credit')->setUserCredit($v['uid'], 'group_delete_file');
           }
       //处理附件			
       model('Attach')->doEditAttach($attachIds, 'delAttach');
+
           return true;
       }
+
       return false;
   }
 }

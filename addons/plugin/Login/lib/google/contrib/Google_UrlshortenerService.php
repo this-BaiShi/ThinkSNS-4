@@ -25,8 +25,8 @@
       /**
      * Creates a new short URL. (url.insert)
      *
-     * @param Google_Url $postBody
-     * @param array $optParams Optional parameters.
+     * @param  Google_Url $postBody
+     * @param  array      $optParams Optional parameters.
      * @return Google_Url
      */
     public function insert(Google_Url $postBody, $optParams = array())
@@ -63,8 +63,8 @@
     /**
      * Expands a short URL or gets creation time and analytics. (url.get)
      *
-     * @param string $shortUrl The short URL, including the protocol.
-     * @param array $optParams Optional parameters.
+     * @param string $shortUrl  The short URL, including the protocol.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string projection Additional information to return.
      * @return Google_Url

@@ -7,14 +7,13 @@
  **/
 class TipsWidget extends Widget
 {
-    
     /**
-     * @param integer source_id 资源ID
-     * @param integer source_table 资源表
-     * @param integer type 类型 0支持 1反对
+     * @param int source_id 资源ID
+     * @param int source_table 资源表
+     * @param int type 类型 0支持 1反对
      * @param string  display_text 显示的字 如“顶”或“踩”
-     * @param integer count 统计数目
-     * @param integer uid 操作用户UID 不填写为登录用户
+     * @param int count 统计数目
+     * @param int uid 操作用户UID 不填写为登录用户
      */
     public function render($data)
     {
@@ -31,8 +30,8 @@ class TipsWidget extends Widget
         $var['whetherExec'] = model('Tips')->whetherExec($var['sid'], $var['stable'], $var['uid'], $var['type']);
 
         // 渲染页面路径
-        $content = $this->renderFile(dirname(__FILE__)."/tips.html", $var);
-        
+        $content = $this->renderFile(dirname(__FILE__).'/tips.html', $var);
+
         return $content;
     }
 

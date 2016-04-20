@@ -11,7 +11,6 @@
 
 class friendmodel
 {
-
     public $db;
     public $base;
 
@@ -26,19 +25,21 @@ class friendmodel
         $this->db = $base->db;
     }
 
-    public function add($uid, $friendid, $comment='')
+    public function add($uid, $friendid, $comment = '')
     {
-        $direction = $this->db->result_first("SELECT direction FROM ".UC_DBTABLEPRE."friends WHERE uid='$friendid' AND friendid='$uid' LIMIT 1");
+        $direction = $this->db->result_first('SELECT direction FROM '.UC_DBTABLEPRE."friends WHERE uid='$friendid' AND friendid='$uid' LIMIT 1");
         if ($direction == 1) {
-            $this->db->query("INSERT INTO ".UC_DBTABLEPRE."friends SET uid='$uid', friendid='$friendid', comment='$comment', direction='3'", 'SILENT');
-            $this->db->query("UPDATE ".UC_DBTABLEPRE."friends SET direction='3' WHERE uid='$friendid' AND friendid='$uid'");
+            $this->db->query('INSERT INTO '.UC_DBTABLEPRE."friends SET uid='$uid', friendid='$friendid', comment='$comment', direction='3'", 'SILENT');
+            $this->db->query('UPDATE '.UC_DBTABLEPRE."friends SET direction='3' WHERE uid='$friendid' AND friendid='$uid'");
+
             return 1;
         } elseif ($direction == 2) {
             return 1;
         } elseif ($direction == 3) {
             return -1;
         } else {
-            $this->db->query("INSERT INTO ".UC_DBTABLEPRE."friends SET uid='$uid', friendid='$friendid', comment='$comment', direction='1'", 'SILENT');
+            $this->db->query('INSERT INTO '.UC_DBTABLEPRE."friends SET uid='$uid', friendid='$friendid', comment='$comment', direction='1'", 'SILENT');
+
             return $this->db->insert_id();
         }
     }
@@ -46,11 +47,12 @@ class friendmodel
     public function delete($uid, $friendids)
     {
         $friendids = $this->base->implode($friendids);
-        $this->db->query("DELETE FROM ".UC_DBTABLEPRE."friends WHERE uid='$uid' AND friendid IN ($friendids)");
+        $this->db->query('DELETE FROM '.UC_DBTABLEPRE."friends WHERE uid='$uid' AND friendid IN ($friendids)");
         $affectedrows = $this->db->affected_rows();
         if ($affectedrows > 0) {
-            $this->db->query("UPDATE ".UC_DBTABLEPRE."friends SET direction=1 WHERE uid IN ($friendids) AND friendid='$uid' AND direction='3'");
+            $this->db->query('UPDATE '.UC_DBTABLEPRE."friends SET direction=1 WHERE uid IN ($friendids) AND friendid='$uid' AND direction='3'");
         }
+
         return $affectedrows;
     }
 
@@ -66,7 +68,8 @@ class friendmodel
         } elseif ($direction == 3) {
             $sqladd = "uid='$uid' AND direction='3'";
         }
-        $totalnum = $this->db->result_first("SELECT COUNT(*) FROM ".UC_DBTABLEPRE."friends WHERE $sqladd");
+        $totalnum = $this->db->result_first('SELECT COUNT(*) FROM '.UC_DBTABLEPRE."friends WHERE $sqladd");
+
         return $totalnum;
     }
 
@@ -84,7 +87,8 @@ class friendmodel
             $sqladd = "f.uid='$uid' AND f.direction='3'";
         }
         if ($sqladd) {
-            $data = $this->db->fetch_all("SELECT f.*, m.username FROM ".UC_DBTABLEPRE."friends f LEFT JOIN ".UC_DBTABLEPRE."members m ON f.friendid=m.uid WHERE $sqladd LIMIT $start, $pagesize");
+            $data = $this->db->fetch_all('SELECT f.*, m.username FROM '.UC_DBTABLEPRE.'friends f LEFT JOIN '.UC_DBTABLEPRE."members m ON f.friendid=m.uid WHERE $sqladd LIMIT $start, $pagesize");
+
             return $data;
         } else {
             return array();
@@ -104,7 +108,7 @@ class friendmodel
         } elseif ($direction == 3) {
             $sqladd = "uid='$uid' AND friendid IN ('$friendid_str') AND direction='3'";
         }
-        if ($this->db->result_first("SELECT COUNT(*) FROM ".UC_DBTABLEPRE."friends WHERE $sqladd") == count($friendids)) {
+        if ($this->db->result_first('SELECT COUNT(*) FROM '.UC_DBTABLEPRE."friends WHERE $sqladd") == count($friendids)) {
             return true;
         } else {
             return false;

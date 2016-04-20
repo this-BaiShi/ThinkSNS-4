@@ -26,8 +26,8 @@
      * Browse the YouTube channel collection. Either the 'id' or 'mine' parameter must be set.
      * (channels.list)
      *
-     * @param string $part Parts of the channel resource to be returned.
-     * @param array $optParams Optional parameters.
+     * @param string $part      Parts of the channel resource to be returned.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string id YouTube IDs of the channels to be returned.
      * @opt_param string mine Flag indicating only return the channel ids of the authenticated user.
@@ -92,8 +92,8 @@
       /**
      * Browse the YouTube playlist collection. (playlistitems.list)
      *
-     * @param string $part Parts of the playlist resource to be returned.
-     * @param array $optParams Optional parameters.
+     * @param string $part      Parts of the playlist resource to be returned.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string startIndex Index of the first element to return (starts at 0)
      * @opt_param string playlistId Retrieves playlist items from the given playlist id.
@@ -126,9 +126,9 @@
       /**
      * Browse the YouTube playlist collection. (playlists.list)
      *
-     * @param string $id YouTube IDs of the playlists to be returned.
-     * @param string $part Parts of the playlist resource to be returned.
-     * @param array $optParams Optional parameters.
+     * @param  string                      $id        YouTube IDs of the playlists to be returned.
+     * @param  string                      $part      Parts of the playlist resource to be returned.
+     * @param  array                       $optParams Optional parameters.
      * @return Google_PlaylistListResponse
      */
     public function listPlaylists($id, $part, $optParams = array())
@@ -156,9 +156,9 @@
       /**
      * Browse the YouTube video collection. (videos.list)
      *
-     * @param string $id YouTube IDs of the videos to be returned.
-     * @param string $part Parts of the video resource to be returned.
-     * @param array $optParams Optional parameters.
+     * @param  string                   $id        YouTube IDs of the videos to be returned.
+     * @param  string                   $part      Parts of the video resource to be returned.
+     * @param  array                    $optParams Optional parameters.
      * @return Google_VideoListResponse
      */
     public function listVideos($id, $part, $optParams = array())

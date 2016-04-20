@@ -13,5 +13,4 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 abstract class Model extends Eloquent
 {
     public $timestamps = false;
-
 } // END abstract class Model extends Eloquent

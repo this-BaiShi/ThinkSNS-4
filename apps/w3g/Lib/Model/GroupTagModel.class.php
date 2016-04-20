@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 class GroupTagModel extends Model
 {
     public $tableName = 'group_tag';
@@ -10,31 +11,32 @@ class GroupTagModel extends Model
         $tagname = str_replace('，', ',', $tagname);
         $tagInfo = $this->__addTags($tagname, 0);
         if ($tagInfo) {
-            foreach ($tagInfo as $k=>$v) {
-                $groupTagInfo = $this->where("gid=$gid AND tag_id=" . $v['tag_id'])->find();
+            foreach ($tagInfo as $k => $v) {
+                $groupTagInfo = $this->where("gid=$gid AND tag_id=".$v['tag_id'])->find();
                 if (!$groupTagInfo) {
                     $data['gid'] = $gid;
                     $data['tag_id'] = $v['tag_id'];
                     if ($v['group_tag_id'] = $this->add($data)) {
                         $tagdata[] = $v;
-                        $tagids[]  = $v['tag_id'];
+                        $tagids[] = $v['tag_id'];
                     }
                 } else {
-                    $tagids[]  = $v['tag_id'];
+                    $tagids[] = $v['tag_id'];
                 }
             }
             if ($tagids) {
-                $delete_map['gid']    = $gid;
+                $delete_map['gid'] = $gid;
                 $delete_map['tag_id'] = array('not in', $tagids);
                 $this->where($delete_map)->delete();
-                $return['code'] =  '1' ;
+                $return['code'] = '1' ;
                 //$return['data'] =  $tagdata ;
             } else {
-                $return['code'] =  '0' ;
+                $return['code'] = '0' ;
             }
         } else {
-            $return['code'] =  '-1';
+            $return['code'] = '-1';
         }
+
         return $return['code'];
         //return json_encode($return);
     }
@@ -48,17 +50,18 @@ class GroupTagModel extends Model
         $tagname = str_replace(' ', ',', $tagname);
         $tagname = str_replace('，', ',', $tagname);
         $tagname = explode(',', $tagname);
-        foreach ($tagname as $k=>$v) {
+        foreach ($tagname as $k => $v) {
             $v = preg_replace('/\s/i', '', $v);
             if (mb_strlen($v, 'UTF-8') > '10' || $v == '') {
                 continue;
             }
             $result[] = $this->__addOneTag($v);
-            $addcount = $addcount+1;
-            if ($addcount+$nowcount >= 5) {
+            $addcount = $addcount + 1;
+            if ($addcount + $nowcount >= 5) {
                 break;
             }
         }
+
         return $result;
     }
 
@@ -69,20 +72,21 @@ class GroupTagModel extends Model
             return $info;
         } else {
             $map['tag_id'] = D('tag')->add($map);
+
             return $map;
         }
     }
-
 
     // 获取指定群组Tag列表
     public function getGroupTagList($gid)
     {
         $base_cache_id = 'group_tag_';
 
-        if (($res = model('Cache')->get($base_cache_id . $gid)) === false) {
+        if (($res = model('Cache')->get($base_cache_id.$gid)) === false) {
             $this->setGroupTagObjectCache(array($gid));
-            $res  = model('Cache')->get($base_cache_id . $gid);
+            $res = model('Cache')->get($base_cache_id.$gid);
         }
+
         return $res;
     }
 
@@ -94,7 +98,7 @@ class GroupTagModel extends Model
 
         $base_cache_id = 'group_tag_';
         $gids = implode(',', $gids);
-        $res  = $this->field('a.*,b.name')
+        $res = $this->field('a.*,b.name')
                      ->table("{$this->tablePrefix}{$this->tableName} AS a LEFT JOIN {$this->tablePrefix}tag AS b ON b.tag_id=a.tag_id")
                      ->where("a.gid IN ( {$gids} )")
                      ->order('a.group_tag_id ASC')
@@ -110,11 +114,11 @@ class GroupTagModel extends Model
                 $group_tags[$v['gid']][] = $v;
             }
         }
-        
+
         foreach ($group_tags as $k => $v) {
-            model('Cache')->set($base_cache_id . $k, $v);
+            model('Cache')->set($base_cache_id.$k, $v);
         }
-        
+
         return $res;
     }
 
@@ -124,13 +128,14 @@ class GroupTagModel extends Model
         if ('recommend' == $recommend) {
             $hot_tags = model('Xdata')->get('group:hotTags');
             $hot_tags = array_filter(array_unique(explode('|', $hot_tags)));
+
             return $hot_tags;
         } else {
             // 1小时锁缓存 
             if (!($cache = S('Cache_Hot_Tags'))) {
                 S('Cache_Hot_Tags_t', time()); //缓存未设置 先设置缓存设定时间	
             } else {
-                if (!($cacheSetTime =  S('Cache_Hot_Tags_t')) || $cacheSetTime+3600 <= time()) {
+                if (!($cacheSetTime = S('Cache_Hot_Tags_t')) || $cacheSetTime + 3600 <= time()) {
                     S('Cache_Hot_Tags_t', time()); //缓存未设置 先设置缓存设定时间	
                 } else {
                     return $cache;
@@ -144,6 +149,7 @@ class GroupTagModel extends Model
                          ->limit($limit)
                          ->findAll();
             S('Cache_Hot_Tags', $cache);
+
             return $cache;
         }
     }

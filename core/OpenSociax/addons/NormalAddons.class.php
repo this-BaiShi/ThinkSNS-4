@@ -9,8 +9,8 @@ abstract class NormalAddons extends AbstractAddons
 {
     /**
      * 获取该插件所需的钩子列表
-     * @param string $name 插件名称
-     * @return array 插件所需的钩子列表
+     * @param  string $name 插件名称
+     * @return array  插件所需的钩子列表
      */
     public function getHooksList($name)
     {
@@ -36,7 +36,7 @@ abstract class NormalAddons extends AbstractAddons
                 $list[$name][$key] = $temp;
             }
         }
-        
+
         return $list;
     }
 }

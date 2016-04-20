@@ -25,8 +25,8 @@
       /**
      * Returns a list of products and content modules (products.list)
      *
-     * @param string $source Query source
-     * @param array $optParams Optional parameters.
+     * @param string $source    Query source
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string facets.include Facets to include (applies when useGcsConfig == false)
      * @opt_param bool plusOne.enabled Whether to return +1 button code
@@ -86,11 +86,11 @@
     /**
      * Returns a single product (products.get)
      *
-     * @param string $source Query source
-     * @param string $accountId Merchant center account id
+     * @param string $source        Query source
+     * @param string $accountId     Merchant center account id
      * @param string $productIdType Type of productId
-     * @param string $productId Id of product
-     * @param array $optParams Optional parameters.
+     * @param string $productId     Id of product
+     * @param array  $optParams     Optional parameters.
      *
      * @opt_param string categories.include Category specification
      * @opt_param bool recommendations.enabled Whether to return recommendation information

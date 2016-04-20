@@ -25,10 +25,10 @@ class Google_CurlIO implements Google_IO
 {
     const CONNECTION_ESTABLISHED = "HTTP/1.0 200 Connection established\r\n\r\n";
     const FORM_URLENCODED = 'application/x-www-form-urlencoded';
-    private static $ENTITY_HTTP_METHODS = array("POST" => null, "PUT" => null);
+    private static $ENTITY_HTTP_METHODS = array('POST' => null, 'PUT' => null);
     private static $HOP_BY_HOP = array(
       'connection', 'keep-alive', 'proxy-authenticate', 'proxy-authorization',
-      'te', 'trailers', 'transfer-encoding', 'upgrade');
+      'te', 'trailers', 'transfer-encoding', 'upgrade', );
     private $curlParams = array(
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_FOLLOWLOCATION => 0,
@@ -50,6 +50,7 @@ class Google_CurlIO implements Google_IO
   public function authenticatedRequest(Google_HttpRequest $request)
   {
       $request = Google_Client::$auth->sign($request);
+
       return $this->makeRequest($request);
   }
   /**
@@ -104,8 +105,8 @@ class Google_CurlIO implements Google_IO
     // Retry if certificates are missing.
     if (curl_errno($ch) == CURLE_SSL_CACERT) {
         error_log('SSL certificate problem, verify that the CA cert is OK.'
-        . ' Retrying with the CA cert bundle from google-api-php-client.');
-        curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__) . '/cacerts.pem');
+        .' Retrying with the CA cert bundle from google-api-php-client.');
+        curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__).'/cacerts.pem');
         $respData = curl_exec($ch);
     }
       $respHeaderSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
@@ -134,6 +135,7 @@ class Google_CurlIO implements Google_IO
           }
           $cached->setResponseHeaders($endToEnd);
       }
+
           return $cached;
       }
     // Fill in the apiHttpRequest with the response values
@@ -158,8 +160,10 @@ class Google_CurlIO implements Google_IO
       // Determine if the request is cacheable.
     if (Google_CacheParser::isResponseCacheable($request)) {
         Google_Client::$cache->set($request->getCacheKey(), $request);
+
         return true;
     }
+
       return false;
   }
   /**
@@ -173,6 +177,7 @@ class Google_CurlIO implements Google_IO
       if (false == Google_CacheParser::isRequestCacheable($request)) {
           false;
       }
+
       return Google_Client::$cache->get($request->getCacheKey());
   }
   /**
@@ -192,6 +197,7 @@ class Google_CurlIO implements Google_IO
           list($responseHeaders, $responseBody) = explode("\r\n\r\n", $respData, 2);
       }
       $responseHeaders = self::parseResponseHeaders($responseHeaders);
+
       return array($responseHeaders, $responseBody);
   }
     public static function parseResponseHeaders($rawHeaders)
@@ -203,12 +209,13 @@ class Google_CurlIO implements Google_IO
                 list($header, $value) = explode(': ', $headerLine, 2);
                 $header = strtolower($header);
                 if (isset($responseHeaders[$header])) {
-                    $responseHeaders[$header] .= "\n" . $value;
+                    $responseHeaders[$header] .= "\n".$value;
                 } else {
                     $responseHeaders[$header] = $value;
                 }
             }
         }
+
         return $responseHeaders;
     }
   /**
@@ -220,7 +227,7 @@ class Google_CurlIO implements Google_IO
   public function processEntityRequest(Google_HttpRequest $request)
   {
       $postBody = $request->getPostBody();
-      $contentType = $request->getRequestHeader("content-type");
+      $contentType = $request->getRequestHeader('content-type');
     // Set the default content-type as application/x-www-form-urlencoded.
     if (false == $contentType) {
         $contentType = self::FORM_URLENCODED;
@@ -236,6 +243,7 @@ class Google_CurlIO implements Google_IO
         $postsLength = strlen($postBody);
         $request->setRequestHeaders(array('content-length' => $postsLength));
     }
+
       return $request;
   }
   /**

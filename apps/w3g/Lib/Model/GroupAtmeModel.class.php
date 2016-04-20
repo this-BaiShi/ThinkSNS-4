@@ -6,9 +6,8 @@
  */
 class GroupAtmeModel extends Model
 {
-
     protected $tableNmae = 'group_atme';
-    protected $fields = array(0=>'atme_id',1=>'app',2=>'table',3=>'row_id',4=>'uid',5=>'gid','_pk'=>'atme_id');
+    protected $fields = array(0 => 'atme_id', 1 => 'app', 2 => 'table', 3 => 'row_id', 4 => 'uid', 5 => 'gid', '_pk' => 'atme_id');
 
     private $_app = null;                       // 所属应用
     private $_app_table = null;                 // 所属资源表
@@ -18,54 +17,58 @@ class GroupAtmeModel extends Model
 
     /**
      * 设置所属应用
-     * @param string $app 应用名称
+     * @param  string $app 应用名称
      * @return object @对象
      */
     public function setAppName($app)
     {
         $this->_app = $app;
+
         return $this;
     }
 
     /**
      * 设置相关内容所存储的资源表
-     * @param string $app_table 数据表名
+     * @param  string $app_table 数据表名
      * @return object @对象
      */
     public function setAppTable($app_table)
     {
         $this->_app_table = $app_table;
+
         return $this;
     }
 
     /**
      * 设置@的相关正则规则
-     * @param string $regex 正则规则
+     * @param  string $regex 正则规则
      * @return object @对象
      */
     public function setAtRegex($regex)
     {
         $this->_at_regex = $regex;
+
         return $this;
     }
 
     /**
      * 设置@的资源字段
-     * @param string $field @的资源字段
+     * @param  string $field @的资源字段
      * @return object @对象
      */
     public function setAtField($field)
     {
         $this->_at_field = $field;
+
         return $this;
     }
 
     /**
      * 获取@Me列表 - 分页型
-     * @param array $map 查询条件
-     * @param string $order 排序条件，默认为atme_id DESC
-     * @param integer $limit 结果集显示个数，默认为20
-     * @return array @Me列表信息
+     * @param  array  $map   查询条件
+     * @param  string $order 排序条件，默认为atme_id DESC
+     * @param  int    $limit 结果集显示个数，默认为20
+     * @return array  @Me列表信息
      */
     public function getAtmeList($map = null, $order = 'atme_id DESC', $limit = 20)
     {
@@ -76,17 +79,17 @@ class GroupAtmeModel extends Model
         foreach ($data['data'] as &$v) {
             $v = model('Source')->getSourceInfo($v['table'], $v['row_id'], false, $v['app']);
         }
-        
+
         return $data;
     }
-    
+
     /**
      * 添加@Me数据
-     * @param string $content @Me的相关内容
-     * @param integer $row_id 资源ID
-     * @param array $extra_uids 额外@用户ID
-     * @param array $less_uids 去除@用户ID
-     * @return integer 添加成功后的@ID
+     * @param  string $content    @Me的相关内容
+     * @param  int    $row_id     资源ID
+     * @param  array  $extra_uids 额外@用户ID
+     * @param  array  $less_uids  去除@用户ID
+     * @return int    添加成功后的@ID
      */
     public function addAtme($content, $row_id, $extra_uids = null, $less_uids = null, $gid)
     {
@@ -101,12 +104,12 @@ class GroupAtmeModel extends Model
         // 获取@用户的UID数组
         $uids = $this->getUids($content, $extra_uids, $row_id, $less_uids);
         //过滤非团队成员
-        $map['uid'] = array('in' , $uids);
+        $map['uid'] = array('in', $uids);
         $map['gid'] = $gid;
         $map['status'] = 1;
         $ismemberuid = D('Member')->where($map)->field('uid')->findAll();
         $uids = getSubByKey($ismemberuid, 'uid');
-        
+
         // 添加@信息
         $result = $this->_saveAtme($uids, $row_id, $gid);
 
@@ -138,7 +141,7 @@ class GroupAtmeModel extends Model
                     if (!$v['uid']) {
                         continue;
                     }
-                    $udata[] = array('uid'=>$v['uid'],'uname'=>$v['uname'],'avatar_small'=>$v['avatar_small'],'search_key'=>$v['search_key']);
+                    $udata[] = array('uid' => $v['uid'], 'uname' => $v['uname'], 'avatar_small' => $v['avatar_small'], 'search_key' => $v['search_key']);
                 }
                 //更新userdata表里面的最近@的人的信息
                 $userdata->setField('at_value', serialize($udata), "`key`='user_recentat' AND uid=".$GLOBALS['ts']['mid']);
@@ -149,7 +152,7 @@ class GroupAtmeModel extends Model
                     if (!$v['uid']) {
                         continue;
                     }
-                    $udata[] = array('uid'=>$v['uid'],'uname'=>$v['uname'],'avatar_small'=>$v['avatar_small'],'search_key'=>$v['search_key']);
+                    $udata[] = array('uid' => $v['uid'], 'uname' => $v['uname'], 'avatar_small' => $v['avatar_small'], 'search_key' => $v['search_key']);
                 }
                 $data['uid'] = $GLOBALS['ts']['mid'];
                 $data['key'] = 'user_recentat';
@@ -159,14 +162,14 @@ class GroupAtmeModel extends Model
             }
         }
     }
-    
+
     /**
      * 获取@内容中的@用户
-     * @param string $content @Me的相关内容
-     * @param array $extra_uids 额外@用户UID
-     * @param integer $row_id 资源ID
-     * @param array $less_uids 去除@用户ID
-     * @return array 用户UID数组
+     * @param  string $content    @Me的相关内容
+     * @param  array  $extra_uids 额外@用户UID
+     * @param  int    $row_id     资源ID
+     * @param  array  $less_uids  去除@用户ID
+     * @return array  用户UID数组
      */
     public function getUids($content, $extra_uids = null, $row_id, $less_uids = null)
     {
@@ -186,12 +189,13 @@ class GroupAtmeModel extends Model
                     }
                 }
             }
+
             return is_array($extra_uids) ? $extra_uids : array($extra_uids);
         }
         // 如果匹配内容中存在用户
         $suid = array();
         foreach ($matchuids as $v) {
-            !in_array($v, $suid) && $suid[] = (int)$v;
+            !in_array($v, $suid) && $suid[] = (int) $v;
         }
         // 去除@用户ID
         if (!empty($less_uids)) {
@@ -229,29 +233,30 @@ class GroupAtmeModel extends Model
                 unset($isEmail);
             }
         }*/
-        
-        return array_unique(array_filter(array_merge($suid, (array)$extra_uids)));
+
+        return array_unique(array_filter(array_merge($suid, (array) $extra_uids)));
     }
 
     /**
      * 删除@Me数据
-     * @param string $content @Me的相关内容
-     * @param integer $row_id 资源ID
-     * @param array $extra_uids 额外@用户UID
-     * @return boolean 是否删除成功
+     * @param  string $content    @Me的相关内容
+     * @param  int    $row_id     资源ID
+     * @param  array  $extra_uids 额外@用户UID
+     * @return bool   是否删除成功
      */
     public function deleteAtme($content, $row_id, $extra_uids = null)
     {
         $uids = $this->getUids($content, $extra_uids);
         $result = $this->_deleteAtme($uids, $row_id);
+
         return $result;
     }
 
     /**
      * 添加@Me信息操作
-     * @param array $uids 用户UID数组
-     * @param integer $row_id 资源ID
-     * @return integer 添加成功后的@ID
+     * @param  array $uids   用户UID数组
+     * @param  int   $row_id 资源ID
+     * @return int   添加成功后的@ID
      */
     private function _saveAtme($uids, $row_id, $gid)
     {
@@ -271,9 +276,9 @@ class GroupAtmeModel extends Model
 
     /**
      * 删除@Me信息操作
-     * @param array $uids 用户UID数组
-     * @param integer $row_id 资源ID
-     * @return boolean 是否删除成功
+     * @param  array $uids   用户UID数组
+     * @param  int   $row_id 资源ID
+     * @return bool  是否删除成功
      */
     private function _deleteAtme($uids, $row_id)
     {
@@ -296,7 +301,7 @@ class GroupAtmeModel extends Model
 
     /*** API使用方法 ***/
     // 所有的@信息
-    public function mentions($mid, $since_id = 0, $max_id = 0, $limit = 20, $page = 1, $table=null)
+    public function mentions($mid, $since_id = 0, $max_id = 0, $limit = 20, $page = 1, $table = null)
     {
         $since_id = intval($since_id);
         $max_id = intval($max_id);
@@ -343,6 +348,7 @@ class GroupAtmeModel extends Model
         $end = $limit;
         $feed_ids = $this->where($where)->limit("$start, $end")->order('atme_id DESC')->field('row_id')->getAsFieldArray('row_id');
         $data = D('GroupFeed')->formatFeed($feed_ids, true);
+
         return $data;
     }
 }

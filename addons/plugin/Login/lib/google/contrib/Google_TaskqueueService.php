@@ -25,9 +25,9 @@
       /**
      * Get detailed information about a TaskQueue. (taskqueues.get)
      *
-     * @param string $project The project under which the queue lies.
+     * @param string $project   The project under which the queue lies.
      * @param string $taskqueue The id of the taskqueue to get the properties of.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param bool getStats Whether to get stats. Optional.
      * @return Google_TaskQueue
@@ -57,10 +57,10 @@
       /**
      * Insert a new task in a TaskQueue (tasks.insert)
      *
-     * @param string $project The project under which the queue lies
-     * @param string $taskqueue The taskqueue to insert the task into
-     * @param Google_Task $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string      $project   The project under which the queue lies
+     * @param  string      $taskqueue The taskqueue to insert the task into
+     * @param  Google_Task $postBody
+     * @param  array       $optParams Optional parameters.
      * @return Google_Task
      */
     public function insert($project, $taskqueue, Google_Task $postBody, $optParams = array())
@@ -77,10 +77,10 @@
     /**
      * Get a particular task from a TaskQueue. (tasks.get)
      *
-     * @param string $project The project under which the queue lies.
-     * @param string $taskqueue The taskqueue in which the task belongs.
-     * @param string $task The task to get properties of.
-     * @param array $optParams Optional parameters.
+     * @param  string      $project   The project under which the queue lies.
+     * @param  string      $taskqueue The taskqueue in which the task belongs.
+     * @param  string      $task      The task to get properties of.
+     * @param  array       $optParams Optional parameters.
      * @return Google_Task
      */
     public function get($project, $taskqueue, $task, $optParams = array())
@@ -97,9 +97,9 @@
     /**
      * List Tasks in a TaskQueue (tasks.list)
      *
-     * @param string $project The project under which the queue lies.
-     * @param string $taskqueue The id of the taskqueue to list tasks from.
-     * @param array $optParams Optional parameters.
+     * @param  string        $project   The project under which the queue lies.
+     * @param  string        $taskqueue The id of the taskqueue to list tasks from.
+     * @param  array         $optParams Optional parameters.
      * @return Google_Tasks2
      */
     public function listTasks($project, $taskqueue, $optParams = array())
@@ -116,12 +116,12 @@
     /**
      * Update tasks that are leased out of a TaskQueue. (tasks.update)
      *
-     * @param string $project The project under which the queue lies.
-     * @param string $taskqueue
-     * @param string $task
-     * @param int $newLeaseSeconds The new lease in seconds.
-     * @param Google_Task $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string      $project         The project under which the queue lies.
+     * @param  string      $taskqueue
+     * @param  string      $task
+     * @param  int         $newLeaseSeconds The new lease in seconds.
+     * @param  Google_Task $postBody
+     * @param  array       $optParams       Optional parameters.
      * @return Google_Task
      */
     public function update($project, $taskqueue, $task, $newLeaseSeconds, Google_Task $postBody, $optParams = array())
@@ -139,12 +139,12 @@
      * Update tasks that are leased out of a TaskQueue. This method supports patch semantics.
      * (tasks.patch)
      *
-     * @param string $project The project under which the queue lies.
-     * @param string $taskqueue
-     * @param string $task
-     * @param int $newLeaseSeconds The new lease in seconds.
-     * @param Google_Task $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string      $project         The project under which the queue lies.
+     * @param  string      $taskqueue
+     * @param  string      $task
+     * @param  int         $newLeaseSeconds The new lease in seconds.
+     * @param  Google_Task $postBody
+     * @param  array       $optParams       Optional parameters.
      * @return Google_Task
      */
     public function patch($project, $taskqueue, $task, $newLeaseSeconds, Google_Task $postBody, $optParams = array())
@@ -161,26 +161,27 @@
     /**
      * Delete a task from a TaskQueue. (tasks.delete)
      *
-     * @param string $project The project under which the queue lies.
+     * @param string $project   The project under which the queue lies.
      * @param string $taskqueue The taskqueue to delete a task from.
-     * @param string $task The id of the task to delete.
-     * @param array $optParams Optional parameters.
+     * @param string $task      The id of the task to delete.
+     * @param array  $optParams Optional parameters.
      */
     public function delete($project, $taskqueue, $task, $optParams = array())
     {
         $params = array('project' => $project, 'taskqueue' => $taskqueue, 'task' => $task);
         $params = array_merge($params, $optParams);
         $data = $this->__call('delete', array($params));
+
         return $data;
     }
     /**
      * Lease 1 or more tasks from a TaskQueue. (tasks.lease)
      *
-     * @param string $project The project under which the queue lies.
+     * @param string $project   The project under which the queue lies.
      * @param string $taskqueue The taskqueue to lease a task from.
-     * @param int $numTasks The number of tasks to lease.
-     * @param int $leaseSecs The lease in seconds.
-     * @param array $optParams Optional parameters.
+     * @param int    $numTasks  The number of tasks to lease.
+     * @param int    $leaseSecs The lease in seconds.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param bool groupByTag When true, all returned tasks will have the same tag
      * @opt_param string tag The tag allowed for tasks in the response. Must only be specified if group_by_tag is true. If group_by_tag is true and tag is not specified the tag will be that of the oldest task by eta, i.e. the first available tag

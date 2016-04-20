@@ -12,6 +12,7 @@ function xml_unserialize(&$xml, $isnormal = false)
     $xml_parser = new XML($isnormal);
     $data = $xml_parser->parse($xml);
     $xml_parser->destruct();
+
     return $data;
 }
 
@@ -27,12 +28,12 @@ function xml_serialize($arr, $htmlon = false, $isnormal = false, $level = 1)
         }
     }
     $s = preg_replace("/([\x01-\x08\x0b-\x0c\x0e-\x1f])+/", ' ', $s);
-    return $level == 1 ? $s."</root>" : $s;
+
+    return $level == 1 ? $s.'</root>' : $s;
 }
 
 class XML
 {
-
     public $parser;
     public $document;
     public $stack;
@@ -65,7 +66,8 @@ class XML
     public function parse(&$data)
     {
         $this->document = array();
-        $this->stack    = array();
+        $this->stack = array();
+
         return xml_parse($this->parser, $data, true) && !$this->failed ? $this->document : '';
     }
 
@@ -75,13 +77,13 @@ class XML
         $this->failed = false;
         if (!$this->isnormal) {
             if (isset($attributes['id']) && !is_string($this->document[$attributes['id']])) {
-                $this->document  = &$this->document[$attributes['id']];
+                $this->document = &$this->document[$attributes['id']];
             } else {
                 $this->failed = true;
             }
         } else {
             if (!isset($this->document[$tag]) || !is_string($this->document[$tag])) {
-                $this->document  = &$this->document[$tag];
+                $this->document = &$this->document[$tag];
             } else {
                 $this->failed = true;
             }
@@ -106,7 +108,7 @@ class XML
         }
         array_pop($this->stack);
         if ($this->stack) {
-            $this->document = &$this->stack[count($this->stack)-1];
+            $this->document = &$this->stack[count($this->stack) - 1];
         }
     }
 }

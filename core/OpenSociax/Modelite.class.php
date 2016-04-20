@@ -19,7 +19,6 @@
  */
 abstract class Modelite
 {
-
     // 最近错误信息
     protected $error = '';
 
@@ -29,7 +28,7 @@ abstract class Modelite
      * @param string $name 模型名称
      * @access public
      */
-    public function __construct($name='')
+    public function __construct($name = '')
     {
         // 模型初始化
         $this->_initialize();
@@ -39,7 +38,7 @@ abstract class Modelite
     protected function _initialize()
     {
     }
-    
+
     // 获取最近的错误信息
     public function getError()
     {

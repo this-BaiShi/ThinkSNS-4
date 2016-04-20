@@ -1,4 +1,5 @@
 <?php
+
 class GroupShareModel
 {
     /**
@@ -11,15 +12,15 @@ class GroupShareModel
      * body：转发时，自定义写入的内容
      * type：分享类型
      * comment：是否给原作者评论
-     * @param array $data 分享的相关数据
-     * @param string $from 是否发@给资源作者，默认为share
-     * @param array $lessUids 去掉@用户，默认为null
-     * @return array 分享操作后，相关反馈信息数据
+     * @param  array  $data     分享的相关数据
+     * @param  string $from     是否发@给资源作者，默认为share
+     * @param  array  $lessUids 去掉@用户，默认为null
+     * @return array  分享操作后，相关反馈信息数据
      */
     public function shareFeed($data, $from = 'share', $lessUids = null)
     {
         // 返回的数据结果集
-        $return = array('status'=>0,'data'=>L('PUBLIC_SHARE_FAILED'));            // 分享失败
+        $return = array('status' => 0, 'data' => L('PUBLIC_SHARE_FAILED'));            // 分享失败
         // 验证数据正确性
         if (empty($data['sid'])) {
             return $return;
@@ -38,12 +39,12 @@ class GroupShareModel
         // 内容数据
         $d['content'] = isset($data['content']) ? str_replace(SITE_URL, '[SITE_URL]', $data['content']) : '';
         $d['body'] = str_replace(SITE_URL, '[SITE_URL]', $data['body']);
-    
+
         $feedType = 'repost';        // 默认为普通的转发格式
         if (!empty($oldInfo['feedtype']) && !in_array($oldInfo['feedtype'], array('post', 'postimage', 'postfile'))) {
             $feedType = $oldInfo['feedtype'];
         }
-    
+
         $d['sourceInfo'] = !empty($oldInfo['sourceInfo']) ? $oldInfo['sourceInfo'] : $oldInfo;
         // 是否发送@上级节点
         $isOther = ($from == 'comment') ? false : true;
@@ -57,7 +58,7 @@ class GroupShareModel
             $appId = $oldInfo['app_row_id'];
             $appTable = $oldInfo['app_row_table'];
         }
-    
+
         $d['from'] = isset($data['from']) ? intval($data['from']) : 0;
         if ($res = D('GroupFeed')->put($GLOBALS['ts']['mid'], $app, $feedType, $d, $appId, $appTable, null, $lessUids, $isOther, 1)) {
             if ($data['comment'] != 0 && $oldInfo['uid'] != $data['comment_touid']) {
@@ -69,7 +70,7 @@ class GroupShareModel
                 $c['row_id'] = !empty($oldInfo['sourceInfo']) ? $oldInfo['sourceInfo']['source_id'] : $appId;
                 $c['client_type'] = getVisitorClient();
                 $c['gid'] = $d['gid'];
-                $notCount = $from == "share" ? true : false;
+                $notCount = $from == 'share' ? true : false;
                 $comment_id = D('GroupComment')->addComment($c, false, $notCount, $lessUids);
             }
             //添加话题
@@ -105,12 +106,12 @@ class GroupShareModel
             }
             D('GroupFeed')->cleanCache($data['sid']);
         } else {
-            $return['data']=D('GroupFeed')->getError();
+            $return['data'] = D('GroupFeed')->getError();
         }
-    
+
         return $return;
     }
-    
+
     /**
      * 分享给同事
      * @example
@@ -122,24 +123,24 @@ class GroupShareModel
      * body：转发时，自定义写入的内容
      * type：分享类型
      * comment：是否给原作者评论
-     * @param array $data 分享的相关数据
+     * @param  array $data 分享的相关数据
      * @return array 分享操作后，相关反馈信息数据
      */
     public function shareMessage($data)
     {
-        $return = array('status'=>0,'data'=>L('PUBLIC_SHARE_FAILED'));            // 分享失败
+        $return = array('status' => 0, 'data' => L('PUBLIC_SHARE_FAILED'));            // 分享失败
         $app = t($data['app_name']);
         $msg['to'] = trim($data['uids'], ',');
         if (empty($msg['to'])) {
             $return['data'] = L('PUBLIC_SHARE_TOUSE_EMPTY');                    // 分享接受人不能为空
             return $return;
         }
-        if (!$oldInfo =model('Source')->getSourceInfo($data['type'], $data['sid'], false, $app)) {
+        if (!$oldInfo = model('Source')->getSourceInfo($data['type'], $data['sid'], false, $app)) {
             $return['data'] = L('PUBLIC_INFO_SHARE_FORBIDDEN');                    // 此信息不可以被分享
             return $return;
         }
         $data['content'] = trim($data['content']);
-        $content = empty($data['content']) ? "" : "“{$data['content']}”&nbsp;//&nbsp;";
+        $content = empty($data['content']) ? '' : "“{$data['content']}”&nbsp;//&nbsp;";
         $content = parse_html($content);
         $message['to'] = $msg['to'];
         $message['content'] = $content.parse_html($oldInfo['source_content']).'&nbsp;&nbsp;<a href="'.$oldInfo['source_url'].'" target=\'_blank\'>查看</a>';
@@ -152,8 +153,9 @@ class GroupShareModel
             // 	model('Notify')->sendNotify($v, 'new_message', $config);
             // }
 
-            $return = array('status'=>1,'data'=>L('PUBLIC_SHARE_SUCCESS'));            // 分享成功
+            $return = array('status' => 1, 'data' => L('PUBLIC_SHARE_SUCCESS'));            // 分享成功
         }
+
         return $return;
     }
 }

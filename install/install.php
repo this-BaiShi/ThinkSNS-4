@@ -3,7 +3,6 @@
  * ThinkSNS安装文件，修改自pbdigg。
  */
 
-
 error_reporting(0);
 set_time_limit(600);
 
@@ -13,7 +12,7 @@ define('THINKSNS_ROOT', str_replace('\\', '/', substr(dirname(__FILE__), 0, -7))
 //session 设置
 ini_set('session.cookie_httponly', 1);
 //设置session路径到本地
-if (strtolower(ini_get("session.save_handler")) == "files") {
+if (strtolower(ini_get('session.save_handler')) == 'files') {
     $session_dir = THINKSNS_ROOT.'/data/session/';
     if (!is_dir($session_dir)) {
         mkdir($session_dir, 0777, true);
@@ -38,7 +37,7 @@ $_SESSION['thinksns_install'] = $timestamp;
 header('Content-Type: text/html; charset=utf-8');
 
 /* # 判断是否存在安装锁 */
-if (file_exists(THINKSNS_ROOT . '/data/install.lock')) {
+if (file_exists(THINKSNS_ROOT.'/data/install.lock')) {
     echo $i_message['install_lock'];
     exit;
 
@@ -133,7 +132,7 @@ echo PHP_VERSION;
 <h5><?php echo $i_message['php_memory'];
     ?>&nbsp;&nbsp;<span class="p"><?php
 echo $i_message['support'],'/',@ini_get('memory_limit');
-    if ((int)@ini_get('memory_limit') < (int)'32M') {
+    if ((int) @ini_get('memory_limit') < (int) '32M') {
         result(0, 1);
         $quit = true;
     } else {
@@ -240,7 +239,7 @@ foreach ($writeable as $value) {
 	<input type="hidden" name="v" value="3">
 	<input style="width:200px;" type="submit" class="submit" value="<?php echo $i_message['install_next'];
     ?>" <?php if ($quit) {
-    echo "disabled=\"disabled\"";
+    echo 'disabled="disabled"';
 }
     ?>>
 	</form>
@@ -286,7 +285,7 @@ foreach ($writeable as $value) {
     ?></h5>
 <p><?php echo $i_message['site_url_intro'];
     ?></p>
-<p><input type="text" name="site_url" value="<?php echo "http://".$_SERVER['HTTP_HOST'].rtrim(str_replace('\\', '/', dirname(dirname($_SERVER['SCRIPT_NAME']))), '/');
+<p><input type="text" name="site_url" value="<?php echo 'http://'.$_SERVER['HTTP_HOST'].rtrim(str_replace('\\', '/', dirname(dirname($_SERVER['SCRIPT_NAME']))), '/');
     ?>" size="40" class='input' /></p>
 
 </div>
@@ -391,7 +390,7 @@ function check(obj)
         $msg .= '<p>'.$i_message['founder_invalid_email'].'</p>';
         $quit = true;
     } else {
-        $forbiddencharacter = array("\\", "&", " ", "'", "\"", "/", "*", ",", "<", ">", "\r", "\t", "\n", "#", "$", "(", ")", "%", "@", "+", "?", ";", "^");
+        $forbiddencharacter = array('\\', '&', ' ', "'", '"', '/', '*', ',', '<', '>', "\r", "\t", "\n", '#', '$', '(', ')', '%', '@', '+', '?', ';', '^');
         foreach ($forbiddencharacter as $value) {
             if (strpos($username, $value) !== false) {
                 $msg .= '<p>'.$i_message['	'].'</p>';
@@ -407,24 +406,24 @@ function check(obj)
 		<?php
         echo $msg;
     } else {
-        $config_file_content    =    array();
-        $config_file_content['db_host']            =    $db_host;
-        $config_file_content['db_name']            =    $db_name;
-        $config_file_content['db_username']        =    $db_username;
-        $config_file_content['db_password']        =    $db_password;
-        $config_file_content['db_prefix']        =    $db_prefix;
-        $config_file_content['db_pconnect']        =    0;
-        $config_file_content['db_charset']        =    'utf8';
-        $config_file_content['dbType']            =    'MySQL';
+        $config_file_content = array();
+        $config_file_content['db_host'] = $db_host;
+        $config_file_content['db_name'] = $db_name;
+        $config_file_content['db_username'] = $db_username;
+        $config_file_content['db_password'] = $db_password;
+        $config_file_content['db_prefix'] = $db_prefix;
+        $config_file_content['db_pconnect'] = 0;
+        $config_file_content['db_charset'] = 'utf8';
+        $config_file_content['dbType'] = 'MySQL';
 
-        $default_manager_account    =    array();
-        $default_manager_account['email']        =    $email;
-        $default_manager_account['password']    =    md5(md5($password).'11111');
+        $default_manager_account = array();
+        $default_manager_account['email'] = $email;
+        $default_manager_account['password'] = md5(md5($password).'11111');
 
-        $_SESSION['config_file_content']        =    $config_file_content;
-        $_SESSION['default_manager_account']    =    $default_manager_account;
-        $_SESSION['first_user_id']                =    $first_user_id;
-        $_SESSION['site_url']                    =    $site_url;
+        $_SESSION['config_file_content'] = $config_file_content;
+        $_SESSION['default_manager_account'] = $default_manager_account;
+        $_SESSION['first_user_id'] = $first_user_id;
+        $_SESSION['site_url'] = $site_url;
         ?>
 	<div class="botBorder">
 		<p><?php echo $i_message['install_founder_name'], ': ', $email?></p>
@@ -464,7 +463,7 @@ return array_merge(array(
 EOT;
     $configfilecontent = str_replace('SECURE_TEST', 'SECURE'.rand(10000, 20000), $configfilecontent);
     chmod(THINKSNS_ROOT.'/config/'.$thinksns_config_file, 0777);
-    $result_1    =    fwrite($fp, trim($configfilecontent));
+    $result_1 = fwrite($fp, trim($configfilecontent));
     @fclose($fp);
 
     if ($result_1 && file_exists(THINKSNS_ROOT.'/config/'.$thinksns_config_file)) {
@@ -496,7 +495,7 @@ EOT;
 <?php
 
 } elseif ($v == '5') {
-    $db_config    =    $_SESSION['config_file_content'];
+    $db_config = $_SESSION['config_file_content'];
 
     if (!$db_config['db_host'] && !$db_config['db_name']) {
         $msg .= '<p>错误:'.$i_message['configure_read_failed'].'</p>';
@@ -508,7 +507,7 @@ EOT;
             $msg .= '<p>错误:'.$i_message['mysql_version_402'].'</p>';
             $quit = true;
         } else {
-            $db_charset    =    $db_config['db_charset'];
+            $db_charset = $db_config['db_charset'];
             $db_charset = (strpos($db_charset, '-') === false) ? $db_charset : str_replace('-', '', $db_charset);
 
             mysql_query(" CREATE DATABASE IF NOT EXISTS `{$db_config['db_name']}` DEFAULT CHARACTER SET $db_charset ");
@@ -522,11 +521,11 @@ EOT;
             }
 
             //判断是否有用同样的数据库前缀安装过
-            $re        =    mysql_query("SELECT COUNT(1) FROM {$db_config['db_prefix']}user");
-            $link    =    @mysql_fetch_row($re);
+            $re = mysql_query("SELECT COUNT(1) FROM {$db_config['db_prefix']}user");
+            $link = @mysql_fetch_row($re);
 
             if (intval($link[0]) > 0) {
-                $thinksns_rebuild    =    true;
+                $thinksns_rebuild = true;
                 $msg .= '<p>错误:'.$i_message['thinksns_rebuild'].'</p>';
                 $alert = ' onclick="return confirm(\''.$i_message['thinksns_rebuild'].'\');"';
             }
@@ -568,7 +567,7 @@ if ($thinksns_rebuild) {
 <?php
 
 } elseif ($v == '6') {
-    $db_config    =    $_SESSION['config_file_content'];
+    $db_config = $_SESSION['config_file_content'];
 
     mysql_connect($db_config['db_host'], $db_config['db_username'], $db_config['db_password']);
     if (mysql_get_server_info() > '5.0') {
@@ -588,14 +587,14 @@ if ($thinksns_rebuild) {
     ?></h4>
 <div style="overflow-y:scroll;height:100px;width:715px;padding:5px;border:1px solid #ccc;">
 <?php
-    $db_charset    =    $db_config['db_charset'];
-    $db_prefix    =    $db_config['db_prefix'];
+    $db_charset = $db_config['db_charset'];
+    $db_prefix = $db_config['db_prefix'];
     $sql = str_replace("\r", "\n", str_replace('`'.'ts_', '`'.$db_prefix, $sql));
     foreach (explode(";\n", trim($sql)) as $query) {
         $query = trim($query);
         if ($query) {
             if (substr($query, 0, 12) == 'CREATE TABLE') {
-                $name = preg_replace("/CREATE TABLE ([A-Z ]*)`([a-z0-9_]+)` .*/is", "\\2", $query);
+                $name = preg_replace('/CREATE TABLE ([A-Z ]*)`([a-z0-9_]+)` .*/is', '\\2', $query);
                 echo '<p>'.$i_message['create_table'].' '.$name.' ... <span class="blue">OK</span></p>';
                 @mysql_query(createtable($query, $db_charset));
                 $tablenum ++;
@@ -613,41 +612,41 @@ if ($thinksns_rebuild) {
 
 <?php
     //设置网站用户起始ID
-    if (intval($_SESSION['first_user_id'])>0) {
-        $admin_id    =    intval($_SESSION['first_user_id']);
-        $sql0    =    "ALTER TABLE `{$db_config['db_prefix']}user` AUTO_INCREMENT=".$admin_id.";";
+    if (intval($_SESSION['first_user_id']) > 0) {
+        $admin_id = intval($_SESSION['first_user_id']);
+        $sql0 = "ALTER TABLE `{$db_config['db_prefix']}user` AUTO_INCREMENT=".$admin_id.';';
         if (mysql_query($sql0)) {
             echo '<p>'.$i_message['set_auto_increment_success'].'... <span class="blue">OK..</span></p>';
         } else {
             echo '<p>'.$i_message['set_auto_increment_error'].'... <span class="red">ERROR</span></p>';
-            $admin_id    =    1;
+            $admin_id = 1;
         }
     } else {
-        $admin_id    =    1;
+        $admin_id = 1;
     }
     //添加管理员
-    $siteFounder    =    $_SESSION['default_manager_account'];
+    $siteFounder = $_SESSION['default_manager_account'];
 
     $sql1 = 'INSERT INTO `%s` (`uid`, `password`, `login_salt`, `uname`, `email`, `phone`, `sex`, `location`, `is_audit`, `is_active`, `is_init`, `ctime`, `identity`, `api_key`, `domain`, `province`, `city`, `area`, `reg_ip`, `lang`, `timezone`, `is_del`, `first_letter`, `intro`, `last_login_time`, `last_feed_id`, `last_post_time`, `search_key`, `invite_code`, `feed_email_time`, `send_email_time`, `openid`, `input_city`, `is_fixed`) VALUES (%d, "%s", "11111", "管理员", "%s", NULL, 1, "北京 北京市 海淀区", 1, 1, 1, "%s", 1, NULL, "", 1, 2, 10, "127.0.0.1", "zh-cn", "PRC", 0, "G", "", "", 0, 0, "管理员 guanliyuan", NULL, 0, 0, NULL, NULL, 1);';
-    $sql1 = sprintf($sql1, $db_config['db_prefix'] . 'user', $admin_id, $siteFounder['password'], $siteFounder['email'], time());
+    $sql1 = sprintf($sql1, $db_config['db_prefix'].'user', $admin_id, $siteFounder['password'], $siteFounder['email'], time());
     // echo $sql1;
     if (mysql_query($sql1)) {
         echo '<p>'.$i_message['create_founderpower_success'].'... <span class="blue">OK</span></p>';
     } else {
         echo '<p>'.$i_message['create_founderpower_error'].'... <span class="red">ERROR</span></p>';
-        $quit    =    true;
+        $quit = true;
     }
 
     //将管理员加入“管理员”用户组
-    $sql_user_group    = "INSERT INTO `{$db_config['db_prefix']}user_group_link` (`id`,`uid`,`user_group_id`) VALUES ('1', ".$admin_id.",'1');";
+    $sql_user_group = "INSERT INTO `{$db_config['db_prefix']}user_group_link` (`id`,`uid`,`user_group_id`) VALUES ('1', ".$admin_id.",'1');";
     if (mysql_query($sql_user_group)) {
     } else {
-        $quit    =    true;
+        $quit = true;
     }
 
     if (!$quit) {
         /* # 写入锁文件 */
-        file_put_contents(THINKSNS_ROOT . '/data/install.lock', 'ThinkSNS lock file');
+        file_put_contents(THINKSNS_ROOT.'/data/install.lock', 'ThinkSNS lock file');
     } else {
         echo '请重新安装';
     }

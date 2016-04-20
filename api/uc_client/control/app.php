@@ -11,7 +11,6 @@
 
 class appcontrol extends base
 {
-
     public function __construct()
     {
         $this->_appcontrol();
@@ -32,6 +31,7 @@ class appcontrol extends base
             $app['tagtemplates'] = $this->unserialize($app['tagtemplates']);
             $applist2[$app['appid']] = $app;
         }
+
         return $applist2;
     }
 

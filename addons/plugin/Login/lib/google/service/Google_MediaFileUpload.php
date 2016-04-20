@@ -44,7 +44,7 @@ class Google_MediaFileUpload
    * @param bool $chunkSize File will be uploaded in chunks of this many bytes.
    * only used if resumable=True
    */
-  public function __construct($mimeType, $data, $resumable=false, $chunkSize=false)
+  public function __construct($mimeType, $data, $resumable = false, $chunkSize = false)
   {
       $this->mimeType = $mimeType;
       $this->data = $data;
@@ -80,6 +80,7 @@ class Google_MediaFileUpload
           // This is a standard file upload with curl.
       $file = $params['file']['value'];
           unset($params['file']);
+
           return self::processFileUpload($file);
       }
       $mimeType = isset($params['mimeType'])
@@ -100,17 +101,18 @@ class Google_MediaFileUpload
           // This is a multipart/related upload.
       $boundary = isset($params['boundary']['value']) ? $params['boundary']['value'] : mt_rand();
           $boundary = str_replace('"', '', $boundary);
-          $payload['content-type'] = 'multipart/related; boundary=' . $boundary;
+          $payload['content-type'] = 'multipart/related; boundary='.$boundary;
           $related = "--$boundary\r\n";
           $related .= "Content-Type: application/json; charset=UTF-8\r\n";
-          $related .= "\r\n" . json_encode($meta) . "\r\n";
+          $related .= "\r\n".json_encode($meta)."\r\n";
           $related .= "--$boundary\r\n";
           $related .= "Content-Type: $mimeType\r\n";
           $related .= "Content-Transfer-Encoding: base64\r\n";
-          $related .= "\r\n" . base64_encode($data) . "\r\n";
+          $related .= "\r\n".base64_encode($data)."\r\n";
           $related .= "--$boundary--";
           $payload['postBody'] = $related;
       }
+
       return $payload;
   }
   /**
@@ -126,7 +128,7 @@ class Google_MediaFileUpload
           return array();
       }
       if (substr($file, 0, 1) != '@') {
-          $file = '@' . $file;
+          $file = '@'.$file;
       }
     // This is a standard file upload with curl.
     return array('postBody' => array('file' => $file));
@@ -169,6 +171,7 @@ class Google_MediaFileUpload
       if (false == $meta) {
           return self::UPLOAD_MEDIA_TYPE;
       }
+
       return self::UPLOAD_MULTIPART_TYPE;
   }
     public function nextChunk(Google_HttpRequest $req)
@@ -190,6 +193,7 @@ class Google_MediaFileUpload
         if (308 == $code) {
             $range = explode('-', $response->getResponseHeader('range'));
             $this->progress = $range[1] + 1;
+
             return false;
         } else {
             return Google_REST::decodeHttpResponse($response);
@@ -213,6 +217,6 @@ class Google_MediaFileUpload
         if (200 == $code && true == $location) {
             return $location;
         }
-        throw new Google_Exception("Failed to start the resumable upload");
+        throw new Google_Exception('Failed to start the resumable upload');
     }
 }

@@ -25,9 +25,9 @@
       /**
      * Creates a new task on the specified task list. (tasks.insert)
      *
-     * @param string $tasklist Task list identifier.
+     * @param string      $tasklist  Task list identifier.
      * @param Google_Task $postBody
-     * @param array $optParams Optional parameters.
+     * @param array       $optParams Optional parameters.
      *
      * @opt_param string parent Parent task identifier. If the task is created at the top level, this parameter is omitted. Optional.
      * @opt_param string previous Previous sibling task identifier. If the task is created at the first position among its siblings, this parameter is omitted. Optional.
@@ -47,9 +47,9 @@
     /**
      * Returns the specified task. (tasks.get)
      *
-     * @param string $tasklist Task list identifier.
-     * @param string $task Task identifier.
-     * @param array $optParams Optional parameters.
+     * @param  string      $tasklist  Task list identifier.
+     * @param  string      $task      Task identifier.
+     * @param  array       $optParams Optional parameters.
      * @return Google_Task
      */
     public function get($tasklist, $task, $optParams = array())
@@ -68,14 +68,15 @@
      * 'hidden' and no longer be returned by default when retrieving all tasks for a task list.
      * (tasks.clear)
      *
-     * @param string $tasklist Task list identifier.
-     * @param array $optParams Optional parameters.
+     * @param string $tasklist  Task list identifier.
+     * @param array  $optParams Optional parameters.
      */
     public function clear($tasklist, $optParams = array())
     {
         $params = array('tasklist' => $tasklist);
         $params = array_merge($params, $optParams);
         $data = $this->__call('clear', array($params));
+
         return $data;
     }
     /**
@@ -83,9 +84,9 @@
      * child task under a new parent and/or move it to a different position among its sibling tasks.
      * (tasks.move)
      *
-     * @param string $tasklist Task list identifier.
-     * @param string $task Task identifier.
-     * @param array $optParams Optional parameters.
+     * @param string $tasklist  Task list identifier.
+     * @param string $task      Task identifier.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string parent New parent task identifier. If the task is moved to the top level, this parameter is omitted. Optional.
      * @opt_param string previous New previous sibling task identifier. If the task is moved to the first position among its siblings, this parameter is omitted. Optional.
@@ -105,8 +106,8 @@
     /**
      * Returns all tasks in the specified task list. (tasks.list)
      *
-     * @param string $tasklist Task list identifier.
-     * @param array $optParams Optional parameters.
+     * @param string $tasklist  Task list identifier.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string dueMax Upper bound for a task's due date (as a RFC 3339 timestamp) to filter by. Optional. The default is not to filter by due date.
      * @opt_param bool showDeleted Flag indicating whether deleted tasks are returned in the result. Optional. The default is False.
@@ -134,10 +135,10 @@
     /**
      * Updates the specified task. (tasks.update)
      *
-     * @param string $tasklist Task list identifier.
-     * @param string $task Task identifier.
-     * @param Google_Task $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string      $tasklist  Task list identifier.
+     * @param  string      $task      Task identifier.
+     * @param  Google_Task $postBody
+     * @param  array       $optParams Optional parameters.
      * @return Google_Task
      */
     public function update($tasklist, $task, Google_Task $postBody, $optParams = array())
@@ -154,10 +155,10 @@
     /**
      * Updates the specified task. This method supports patch semantics. (tasks.patch)
      *
-     * @param string $tasklist Task list identifier.
-     * @param string $task Task identifier.
-     * @param Google_Task $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string      $tasklist  Task list identifier.
+     * @param  string      $task      Task identifier.
+     * @param  Google_Task $postBody
+     * @param  array       $optParams Optional parameters.
      * @return Google_Task
      */
     public function patch($tasklist, $task, Google_Task $postBody, $optParams = array())
@@ -174,15 +175,16 @@
     /**
      * Deletes the specified task from the task list. (tasks.delete)
      *
-     * @param string $tasklist Task list identifier.
-     * @param string $task Task identifier.
-     * @param array $optParams Optional parameters.
+     * @param string $tasklist  Task list identifier.
+     * @param string $task      Task identifier.
+     * @param array  $optParams Optional parameters.
      */
     public function delete($tasklist, $task, $optParams = array())
     {
         $params = array('tasklist' => $tasklist, 'task' => $task);
         $params = array_merge($params, $optParams);
         $data = $this->__call('delete', array($params));
+
         return $data;
     }
   }
@@ -199,8 +201,8 @@
       /**
      * Creates a new task list and adds it to the authenticated user's task lists. (tasklists.insert)
      *
-     * @param Google_TaskList $postBody
-     * @param array $optParams Optional parameters.
+     * @param  Google_TaskList $postBody
+     * @param  array           $optParams Optional parameters.
      * @return Google_TaskList
      */
     public function insert(Google_TaskList $postBody, $optParams = array())
@@ -217,8 +219,8 @@
     /**
      * Returns the authenticated user's specified task list. (tasklists.get)
      *
-     * @param string $tasklist Task list identifier.
-     * @param array $optParams Optional parameters.
+     * @param  string          $tasklist  Task list identifier.
+     * @param  array           $optParams Optional parameters.
      * @return Google_TaskList
      */
     public function get($tasklist, $optParams = array())
@@ -255,9 +257,9 @@
     /**
      * Updates the authenticated user's specified task list. (tasklists.update)
      *
-     * @param string $tasklist Task list identifier.
-     * @param Google_TaskList $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string          $tasklist  Task list identifier.
+     * @param  Google_TaskList $postBody
+     * @param  array           $optParams Optional parameters.
      * @return Google_TaskList
      */
     public function update($tasklist, Google_TaskList $postBody, $optParams = array())
@@ -275,9 +277,9 @@
      * Updates the authenticated user's specified task list. This method supports patch semantics.
      * (tasklists.patch)
      *
-     * @param string $tasklist Task list identifier.
-     * @param Google_TaskList $postBody
-     * @param array $optParams Optional parameters.
+     * @param  string          $tasklist  Task list identifier.
+     * @param  Google_TaskList $postBody
+     * @param  array           $optParams Optional parameters.
      * @return Google_TaskList
      */
     public function patch($tasklist, Google_TaskList $postBody, $optParams = array())
@@ -294,14 +296,15 @@
     /**
      * Deletes the authenticated user's specified task list. (tasklists.delete)
      *
-     * @param string $tasklist Task list identifier.
-     * @param array $optParams Optional parameters.
+     * @param string $tasklist  Task list identifier.
+     * @param array  $optParams Optional parameters.
      */
     public function delete($tasklist, $optParams = array())
     {
         $params = array('tasklist' => $tasklist);
         $params = array_merge($params, $optParams);
         $data = $this->__call('delete', array($params));
+
         return $data;
     }
   }

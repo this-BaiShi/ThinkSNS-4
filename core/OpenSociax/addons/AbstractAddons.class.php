@@ -27,7 +27,6 @@ interface AddonsInterface
      * setUp
      * 启动插件时的接口
      * @access public
-     * @return void
      */
     public function install();
 
@@ -35,7 +34,6 @@ interface AddonsInterface
      * setDown
      * 卸载插件时的接口;
      * @access public
-     * @return void
      */
     public function uninstall();
 
@@ -65,16 +63,15 @@ abstract class AbstractAddons implements AddonsInterface
 
     /**
      * 初始化相关信息
-     * @return void
      */
     public function __construct()
     {
         $this->mid = @intval($_SESSION['mid']);
-        $this->model = model("AddonData");
+        $this->model = model('AddonData');
         $this->tVar = array();
         $this->start();
     }
-    
+
     /**
      * 获取URL地址
      * @return string URL地址
@@ -104,7 +101,6 @@ abstract class AbstractAddons implements AddonsInterface
 
     /**
      * @param 设置路径地址
-     * @return void
      */
     public function setPath($path)
     {
@@ -126,49 +122,51 @@ abstract class AbstractAddons implements AddonsInterface
         $data['pluginName'] = $this->pluginName;
         $data['tsVersion'] = $this->tsVersion;
         $data['is_weixin'] = intval($this->is_weixin);
+
         return $data;
     }
 
     /**
      * 将数据渲染到HTML页面，设置模板变量的值
-     * @param string $name Key值
+     * @param string $name  Key值
      * @param string $value Value值
-     * @return void
      */
     protected function assign($name, $value = '')
     {
         $this->tVar[$name] = $value;
     }
-    
+
     /**
      * 获取指定模板变量的值
-     * @param string $name Key值
-     * @return mixed 指定模板变量的值
+     * @param  string $name Key值
+     * @return mixed  指定模板变量的值
      */
     protected function get($name)
     {
         $data = isset($this->tVar[$name]) ? $this->tVar[$name] : false;
+
         return $data;
     }
 
     /**
      * 渲染HTML页面
-     * @param string $templateFile 模板文件路径
-     * @param string $charset 字符集，默认为UTF8
-     * @param string $contentType 内容类型，默认为text/html
+     * @param  string $templateFile 模板文件路径
+     * @param  string $charset      字符集，默认为UTF8
+     * @param  string $contentType  内容类型，默认为text/html
      * @return string HTML页面数据
      */
     public function fetch($templateFile = '', $charset = 'utf-8', $contentType = 'text/html')
     {
-        $templateFile = realpath($this->path.DIRECTORY_SEPARATOR."html".DIRECTORY_SEPARATOR.$templateFile.'.html');
+        $templateFile = realpath($this->path.DIRECTORY_SEPARATOR.'html'.DIRECTORY_SEPARATOR.$templateFile.'.html');
+
         return fetch($templateFile, $this->tVar, $charset, $contentType, false);
     }
 
     /**
      * 显示指定HTML页面
-     * @param string $templateFile 模板文件路径
-     * @param string $charset 字符集，默认为UTF8
-     * @param string $contentType 内容类型，默认为text/html
+     * @param  string $templateFile 模板文件路径
+     * @param  string $charset      字符集，默认为UTF8
+     * @param  string $contentType  内容类型，默认为text/html
      * @return string HTML页面数据
      */
     public function display($templateFile = '', $charset = 'utf-8', $contentType = 'text/html')
@@ -179,7 +177,6 @@ abstract class AbstractAddons implements AddonsInterface
     /**
      * 错误提示方法
      * @param string $message 提示信息
-     * @return void
      */
     protected function error($message)
     {
@@ -190,7 +187,6 @@ abstract class AbstractAddons implements AddonsInterface
     /**
      * 成功提示方法
      * @param string $message 提示信息
-     * @return void
      */
     protected function success($message)
     {
@@ -201,8 +197,7 @@ abstract class AbstractAddons implements AddonsInterface
     /**
      * 跳转操作
      * @param string $message 提示信息
-     * @param integer $status 状态。1表示成功，0表示失败
-     * @return void
+     * @param int    $status  状态。1表示成功，0表示失败
      */
     private function _dispatch_jump($message, $status = 1)
     {
@@ -210,26 +205,26 @@ abstract class AbstractAddons implements AddonsInterface
         unset($GLOBALS['ts']['ad']);
 
         // 提示标题
-        $this->assign('msgTitle', $status? L('_OPERATION_SUCCESS_') : L('_OPERATION_FAIL_'));
+        $this->assign('msgTitle', $status ? L('_OPERATION_SUCCESS_') : L('_OPERATION_FAIL_'));
         $this->assign('status', $status);   // 状态
         $this->assign('message', $message);// 提示信息
         //保证输出不受静态缓存影响
         C('HTML_CACHE_ON', false);
         if ($status) { //发送成功信息
             // 成功操作后默认停留1秒
-            $this->assign('waitSecond', "1");
+            $this->assign('waitSecond', '1');
             // 默认操作成功自动返回操作前页面            
             if (!$this->get('jumpUrl')) {
-                $this->assign("jumpUrl", $_SERVER["HTTP_REFERER"]);
+                $this->assign('jumpUrl', $_SERVER['HTTP_REFERER']);
             }
-             
+
             echo $this->fetch(THEME_PATH.'/success.html');
         } else {
             //发生错误时候默认停留3秒
-            $this->assign('waitSecond', "5");
+            $this->assign('waitSecond', '5');
             // 默认发生错误的话自动返回上页
             if (!$this->get('jumpUrl')) {
-                $this->assign('jumpUrl', "javascript:history.back(-1);");
+                $this->assign('jumpUrl', 'javascript:history.back(-1);');
             }
 
             echo $this->fetch(THEME_PATH.'/success.html');

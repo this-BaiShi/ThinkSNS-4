@@ -18,9 +18,10 @@ function get_normalized_string($params)
     ksort($params);
     $normalized = array();
     foreach ($params as $key => $val) {
-        $normalized[] = $key."=".$val;
+        $normalized[] = $key.'='.$val;
     }
-    return implode("&", $normalized);
+
+    return implode('&', $normalized);
 }
 /**
  * @brief get the signature by hmac-sha1
@@ -30,29 +31,30 @@ function get_normalized_string($params)
  */
 function get_signature($str, $key)
 {
-    $signature = "";
+    $signature = '';
     if (function_exists('hash_hmac')) {
-        $signature = base64_encode(hash_hmac("sha1", $str, $key, true));
+        $signature = base64_encode(hash_hmac('sha1', $str, $key, true));
     } else {
-        $blocksize    = 64;
-        $hashfunc    = 'sha1';
+        $blocksize = 64;
+        $hashfunc = 'sha1';
         if (strlen($key) > $blocksize) {
             $key = pack('H*', $hashfunc($key));
         }
-        $key    = str_pad($key, $blocksize, chr(0x00));
-        $ipad    = str_repeat(chr(0x36), $blocksize);
-        $opad    = str_repeat(chr(0x5c), $blocksize);
-        $hmac    = pack(
+        $key = str_pad($key, $blocksize, chr(0x00));
+        $ipad = str_repeat(chr(0x36), $blocksize);
+        $opad = str_repeat(chr(0x5c), $blocksize);
+        $hmac = pack(
         'H*', $hashfunc(
-        ($key^$opad).pack(
+        ($key ^ $opad).pack(
         'H*', $hashfunc(
-        ($key^$ipad).$str
+        ($key ^ $ipad).$str
         )
         )
         )
         );
         $signature = base64_encode($hmac);
     }
+
     return $signature;
 }
 /**
@@ -67,9 +69,10 @@ function get_urlencode_string($params)
     ksort($params);
     $normalized = array();
     foreach ($params as $key => $val) {
-        $normalized[] = $key."=".rawurlencode($val);
+        $normalized[] = $key.'='.rawurlencode($val);
     }
-    return implode("&", $normalized);
+
+    return implode('&', $normalized);
 }
 /**
  * @brief check the openid is valid or not
@@ -85,6 +88,7 @@ function is_valid_openid($openid, $timestamp, $sig)
     $key = QZONE_SECRET;
     $str = $openid.$timestamp;
     $signature = get_signature($str, $key);
+
     return $sig == $signature;
 }
 /**
@@ -100,24 +104,24 @@ function is_valid_openid($openid, $timestamp, $sig)
  */
 function do_get($url, $appid, $appkey, $access_token, $access_token_secret, $openid)
 {
-    $sigstr = "GET"."&".rawurlencode("$url")."&";
+    $sigstr = 'GET'.'&'.rawurlencode("$url").'&';
     //必要参数, 不要随便更改!!
     $params = $_GET;
-    $params["oauth_version"]          = "1.0";
-    $params["oauth_signature_method"] = "HMAC-SHA1";
-    $params["oauth_timestamp"]        = time();
-    $params["oauth_nonce"]            = mt_rand();
-    $params["oauth_consumer_key"]     = $appid;
-    $params["oauth_token"]            = $access_token;
-    $params["openid"]                 = $openid;
-    unset($params["oauth_signature"]);
+    $params['oauth_version'] = '1.0';
+    $params['oauth_signature_method'] = 'HMAC-SHA1';
+    $params['oauth_timestamp'] = time();
+    $params['oauth_nonce'] = mt_rand();
+    $params['oauth_consumer_key'] = $appid;
+    $params['oauth_token'] = $access_token;
+    $params['openid'] = $openid;
+    unset($params['oauth_signature']);
     //参数按照字母升序做序列化
     $normalized_str = get_normalized_string($params);
     $sigstr        .= rawurlencode($normalized_str);
     //签名,确保php版本支持hash_hmac函数
-    $key = $appkey."&".$access_token_secret;
+    $key = $appkey.'&'.$access_token_secret;
     $signature = get_signature($sigstr, $key);
-    $url      .= "?".$normalized_str."&"."oauth_signature=".rawurlencode($signature);
+    $url      .= '?'.$normalized_str.'&'.'oauth_signature='.rawurlencode($signature);
     //echo "$url\n";
     return file_get_contents($url);
 }
@@ -135,35 +139,35 @@ function do_get($url, $appid, $appkey, $access_token, $access_token_secret, $ope
 function do_multi_post($url, $appid, $appkey, $access_token, $access_token_secret, $openid)
 {
     //构造签名串.源串:方法[GET|POST]&uri&参数按照字母升序排列
-    $sigstr = "POST"."&"."$url"."&";
+    $sigstr = 'POST'.'&'."$url".'&';
     //必要参数,不要随便更改!!
     $params = $_POST;
-    $params["oauth_version"]          = "1.0";
-    $params["oauth_signature_method"] = "HMAC-SHA1";
-    $params["oauth_timestamp"]        = time();
-    $params["oauth_nonce"]            = mt_rand();
-    $params["oauth_consumer_key"]     = $appid;
-    $params["oauth_token"]            = $access_token;
-    $params["openid"]                 = $openid;
-    unset($params["oauth_signature"]);
+    $params['oauth_version'] = '1.0';
+    $params['oauth_signature_method'] = 'HMAC-SHA1';
+    $params['oauth_timestamp'] = time();
+    $params['oauth_nonce'] = mt_rand();
+    $params['oauth_consumer_key'] = $appid;
+    $params['oauth_token'] = $access_token;
+    $params['openid'] = $openid;
+    unset($params['oauth_signature']);
     //获取上传图片信息
     foreach ($_FILES as $filename => $filevalue) {
-        if ($filevalue["error"] != UPLOAD_ERR_OK) {
+        if ($filevalue['error'] != UPLOAD_ERR_OK) {
             //echo "upload file error $filevalue['error']\n";
             //exit;
         }
-        $params[$filename] = file_get_contents($filevalue["tmp_name"]);
+        $params[$filename] = file_get_contents($filevalue['tmp_name']);
     }
     //对参数按照字母升序做序列化
     $sigstr .= get_normalized_string($params);
     //签名,需要确保php版本支持hash_hmac函数
-    $key = $appkey."&".$access_token_secret;
+    $key = $appkey.'&'.$access_token_secret;
     $signature = get_signature($sigstr, $key);
-    $params["oauth_signature"] = $signature;
+    $params['oauth_signature'] = $signature;
     //处理上传图片
     foreach ($_FILES as $filename => $filevalue) {
-        $tmpfile = dirname($filevalue["tmp_name"])."/".$filevalue["name"];
-        move_uploaded_file($filevalue["tmp_name"], $tmpfile);
+        $tmpfile = dirname($filevalue['tmp_name']).'/'.$filevalue['name'];
+        move_uploaded_file($filevalue['tmp_name'], $tmpfile);
         $params[$filename] = "@$tmpfile";
     }
     /*
@@ -182,28 +186,29 @@ function do_multi_post($url, $appid, $appkey, $access_token, $access_token_secre
     curl_close($ch);
     //删除上传临时文件
     unlink($tmpfile);
+
     return $ret;
 }
 function do_post($url, $appid, $appkey, $access_token, $access_token_secret, $openid)
 {
     //构造签名串.源串:方法[GET|POST]&uri&参数按照字母升序排列
-    $sigstr = "POST"."&".rawurlencode($url)."&";
+    $sigstr = 'POST'.'&'.rawurlencode($url).'&';
     //必要参数,不要随便更改!!
     $params = $_POST;
-    $params["oauth_version"]          = "1.0";
-    $params["oauth_signature_method"] = "HMAC-SHA1";
-    $params["oauth_timestamp"]        = time();
-    $params["oauth_nonce"]            = mt_rand();
-    $params["oauth_consumer_key"]     = $appid;
-    $params["oauth_token"]            = $access_token;
-    $params["openid"]                 = $openid;
-    unset($params["oauth_signature"]);
+    $params['oauth_version'] = '1.0';
+    $params['oauth_signature_method'] = 'HMAC-SHA1';
+    $params['oauth_timestamp'] = time();
+    $params['oauth_nonce'] = mt_rand();
+    $params['oauth_consumer_key'] = $appid;
+    $params['oauth_token'] = $access_token;
+    $params['openid'] = $openid;
+    unset($params['oauth_signature']);
     //对参数按照字母升序做序列化
     $sigstr .= rawurlencode(get_normalized_string($params));
     //签名,需要确保php版本支持hash_hmac函数
-    $key = $appkey."&".$access_token_secret;
+    $key = $appkey.'&'.$access_token_secret;
     $signature = get_signature($sigstr, $key);
-    $params["oauth_signature"] = $signature;
+    $params['oauth_signature'] = $signature;
     $postdata = get_urlencode_string($params);
     //echo "$sigstr******\n";
     //echo "$postdata\n";
@@ -214,6 +219,7 @@ function do_post($url, $appid, $appkey, $access_token, $access_token_secret, $op
     curl_setopt($ch, CURLOPT_URL, $url);
     $ret = curl_exec($ch);
     curl_close($ch);
+
     return $ret;
 }
 /**
@@ -223,29 +229,29 @@ function do_post($url, $appid, $appkey, $access_token, $access_token_secret, $op
  * @param $appkey
  *
  * @return a string, the format as follow:
- *      oauth_token=xxx&oauth_token_secret=xxx
+ *           oauth_token=xxx&oauth_token_secret=xxx
  */
 function get_request_token($appid, $appkey)
 {
     //获取request token接口, 不要随便更改!!
-    $url    = "http://openapi.qzone.qq.com/oauth/qzoneoauth_request_token?";
+    $url = 'http://openapi.qzone.qq.com/oauth/qzoneoauth_request_token?';
     //构造签名串.源串:方法[GET|POST]&uri&参数按照字母升序排列
-    $sigstr = "GET"."&".rawurlencode("http://openapi.qzone.qq.com/oauth/qzoneoauth_request_token")."&";
+    $sigstr = 'GET'.'&'.rawurlencode('http://openapi.qzone.qq.com/oauth/qzoneoauth_request_token').'&';
     //必要参数,不要随便更改!!
     $params = array();
-    $params["oauth_version"]          = "1.0";
-    $params["oauth_signature_method"] = "HMAC-SHA1";
-    $params["oauth_timestamp"]        = time();
-    $params["oauth_nonce"]            = mt_rand();
-    $params["oauth_consumer_key"]     = $appid;
+    $params['oauth_version'] = '1.0';
+    $params['oauth_signature_method'] = 'HMAC-SHA1';
+    $params['oauth_timestamp'] = time();
+    $params['oauth_nonce'] = mt_rand();
+    $params['oauth_consumer_key'] = $appid;
     //对参数按照字母升序做序列化
     $normalized_str = get_normalized_string($params);
     $sigstr        .= rawurlencode($normalized_str);
     //签名,需要确保php版本支持hash_hmac函数
-    $key = $appkey."&";
+    $key = $appkey.'&';
     $signature = get_signature($sigstr, $key);
     //构造请求url
-    $url      .= $normalized_str."&"."oauth_signature=".rawurlencode($signature);
+    $url      .= $normalized_str.'&'.'oauth_signature='.rawurlencode($signature);
     //echo "$sigstr\n";
     //echo "$url\n";
     return file_get_contents($url);
@@ -260,31 +266,32 @@ function get_request_token($appid, $appkey)
  * @param $vericode
  *
  * @return a string, as follows:
- *      oauth_token=xxx&oauth_token_secret=xxx&openid=xxx&oauth_signature=xxx&oauth_vericode=xxx&timestamp=xxx
+ *           oauth_token=xxx&oauth_token_secret=xxx&openid=xxx&oauth_signature=xxx&oauth_vericode=xxx&timestamp=xxx
  */
 function get_access_token($appid, $appkey, $request_token, $request_token_secret, $vericode)
 {
     //获取access token接口，不要随便更改!!
-    $url    = "http://openapi.qzone.qq.com/oauth/qzoneoauth_access_token?";
+    $url = 'http://openapi.qzone.qq.com/oauth/qzoneoauth_access_token?';
     //构造签名串.源串:方法[GET|POST]&uri&参数按照字母升序排列
-    $sigstr = "GET"."&".rawurlencode("http://openapi.qzone.qq.com/oauth/qzoneoauth_access_token")."&";
+    $sigstr = 'GET'.'&'.rawurlencode('http://openapi.qzone.qq.com/oauth/qzoneoauth_access_token').'&';
     //必要参数，不要随便更改!!
     $params = array();
-    $params["oauth_version"]          = "1.0";
-    $params["oauth_signature_method"] = "HMAC-SHA1";
-    $params["oauth_timestamp"]        = time();
-    $params["oauth_nonce"]            = mt_rand();
-    $params["oauth_consumer_key"]     = $appid;
-    $params["oauth_token"]            = $request_token;
-    $params["oauth_vericode"]         = $vericode;
+    $params['oauth_version'] = '1.0';
+    $params['oauth_signature_method'] = 'HMAC-SHA1';
+    $params['oauth_timestamp'] = time();
+    $params['oauth_nonce'] = mt_rand();
+    $params['oauth_consumer_key'] = $appid;
+    $params['oauth_token'] = $request_token;
+    $params['oauth_vericode'] = $vericode;
     //对参数按照字母升序做序列化
     $normalized_str = get_normalized_string($params);
     $sigstr        .= rawurlencode($normalized_str);
     //echo "sigstr = $sigstr";
     //签名,确保php版本支持hash_hmac函数
-    $key = $appkey."&".$request_token_secret;
+    $key = $appkey.'&'.$request_token_secret;
     $signature = get_signature($sigstr, $key);
     //构造请求url
-    $url      .= $normalized_str."&"."oauth_signature=".rawurlencode($signature);
+    $url      .= $normalized_str.'&'.'oauth_signature='.rawurlencode($signature);
+
     return file_get_contents($url);
 }

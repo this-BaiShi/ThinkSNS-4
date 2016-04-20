@@ -26,7 +26,7 @@
      * List all URL channels in the specified ad client for this AdSense account. (urlchannels.list)
      *
      * @param string $adClientId Ad client for which to list URL channels.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams  Optional parameters.
      *
      * @opt_param string pageToken A continuation token, used to page through URL channels. To retrieve the next page, set this parameter to the value of "nextPageToken" from the previous response.
      * @opt_param int maxResults The maximum number of URL channels to include in the response, used for paging.
@@ -58,7 +58,7 @@
      * List all ad units in the specified ad client for this AdSense account. (adunits.list)
      *
      * @param string $adClientId Ad client for which to list ad units.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams  Optional parameters.
      *
      * @opt_param bool includeInactive Whether to include inactive ad units. Default: true.
      * @opt_param string pageToken A continuation token, used to page through ad units. To retrieve the next page, set this parameter to the value of "nextPageToken" from the previous response.
@@ -79,9 +79,9 @@
     /**
      * Gets the specified ad unit in the specified ad client. (adunits.get)
      *
-     * @param string $adClientId Ad client for which to get the ad unit.
-     * @param string $adUnitId Ad unit to retrieve.
-     * @param array $optParams Optional parameters.
+     * @param  string        $adClientId Ad client for which to get the ad unit.
+     * @param  string        $adUnitId   Ad unit to retrieve.
+     * @param  array         $optParams  Optional parameters.
      * @return Google_AdUnit
      */
     public function get($adClientId, $adUnitId, $optParams = array())
@@ -110,8 +110,8 @@
      * List all custom channels which the specified ad unit belongs to. (customchannels.list)
      *
      * @param string $adClientId Ad client which contains the ad unit.
-     * @param string $adUnitId Ad unit for which to list custom channels.
-     * @param array $optParams Optional parameters.
+     * @param string $adUnitId   Ad unit for which to list custom channels.
+     * @param array  $optParams  Optional parameters.
      *
      * @opt_param string pageToken A continuation token, used to page through custom channels. To retrieve the next page, set this parameter to the value of "nextPageToken" from the previous response.
      * @opt_param int maxResults The maximum number of custom channels to include in the response, used for paging.
@@ -176,8 +176,8 @@
      * (reports.generate)
      *
      * @param string $startDate Start of the date range to report on in "YYYY-MM-DD" format, inclusive.
-     * @param string $endDate End of the date range to report on in "YYYY-MM-DD" format, inclusive.
-     * @param array $optParams Optional parameters.
+     * @param string $endDate   End of the date range to report on in "YYYY-MM-DD" format, inclusive.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string sort The name of a dimension or metric to sort the resulting report on, optionally prefixed with "+" to sort ascending or "-" to sort descending. If no prefix is specified, the column is sorted ascending.
      * @opt_param string locale Optional locale to use for translating report output to a local language. Defaults to "en_US" if not specified.
@@ -236,7 +236,7 @@
      * Get information about the selected AdSense account. (accounts.get)
      *
      * @param string $accountId Account to get information about.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param bool tree Whether the tree of sub accounts should be returned.
      * @return Google_Account
@@ -266,9 +266,9 @@
       /**
      * List all URL channels in the specified ad client for the specified account. (urlchannels.list)
      *
-     * @param string $accountId Account to which the ad client belongs.
+     * @param string $accountId  Account to which the ad client belongs.
      * @param string $adClientId Ad client for which to list URL channels.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams  Optional parameters.
      *
      * @opt_param string pageToken A continuation token, used to page through URL channels. To retrieve the next page, set this parameter to the value of "nextPageToken" from the previous response.
      * @opt_param int maxResults The maximum number of URL channels to include in the response, used for paging.
@@ -299,9 +299,9 @@
       /**
      * List all ad units in the specified ad client for the specified account. (adunits.list)
      *
-     * @param string $accountId Account to which the ad client belongs.
+     * @param string $accountId  Account to which the ad client belongs.
      * @param string $adClientId Ad client for which to list ad units.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams  Optional parameters.
      *
      * @opt_param bool includeInactive Whether to include inactive ad units. Default: true.
      * @opt_param string pageToken A continuation token, used to page through ad units. To retrieve the next page, set this parameter to the value of "nextPageToken" from the previous response.
@@ -322,10 +322,10 @@
     /**
      * Gets the specified ad unit in the specified ad client for the specified account. (adunits.get)
      *
-     * @param string $accountId Account to which the ad client belongs.
-     * @param string $adClientId Ad client for which to get the ad unit.
-     * @param string $adUnitId Ad unit to retrieve.
-     * @param array $optParams Optional parameters.
+     * @param  string        $accountId  Account to which the ad client belongs.
+     * @param  string        $adClientId Ad client for which to get the ad unit.
+     * @param  string        $adUnitId   Ad unit to retrieve.
+     * @param  array         $optParams  Optional parameters.
      * @return Google_AdUnit
      */
     public function get($accountId, $adClientId, $adUnitId, $optParams = array())
@@ -353,10 +353,10 @@
       /**
      * List all custom channels which the specified ad unit belongs to. (customchannels.list)
      *
-     * @param string $accountId Account to which the ad client belongs.
+     * @param string $accountId  Account to which the ad client belongs.
      * @param string $adClientId Ad client which contains the ad unit.
-     * @param string $adUnitId Ad unit for which to list custom channels.
-     * @param array $optParams Optional parameters.
+     * @param string $adUnitId   Ad unit for which to list custom channels.
+     * @param array  $optParams  Optional parameters.
      *
      * @opt_param string pageToken A continuation token, used to page through custom channels. To retrieve the next page, set this parameter to the value of "nextPageToken" from the previous response.
      * @opt_param int maxResults The maximum number of custom channels to include in the response, used for paging.
@@ -388,7 +388,7 @@
      * List all ad clients in the specified account. (adclients.list)
      *
      * @param string $accountId Account for which to list ad clients.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string pageToken A continuation token, used to page through ad clients. To retrieve the next page, set this parameter to the value of "nextPageToken" from the previous response.
      * @opt_param int maxResults The maximum number of ad clients to include in the response, used for paging.
@@ -423,8 +423,8 @@
      *
      * @param string $accountId Account upon which to report.
      * @param string $startDate Start of the date range to report on in "YYYY-MM-DD" format, inclusive.
-     * @param string $endDate End of the date range to report on in "YYYY-MM-DD" format, inclusive.
-     * @param array $optParams Optional parameters.
+     * @param string $endDate   End of the date range to report on in "YYYY-MM-DD" format, inclusive.
+     * @param array  $optParams Optional parameters.
      *
      * @opt_param string sort The name of a dimension or metric to sort the resulting report on, optionally prefixed with "+" to sort ascending or "-" to sort descending. If no prefix is specified, the column is sorted ascending.
      * @opt_param string locale Optional locale to use for translating report output to a local language. Defaults to "en_US" if not specified.
@@ -462,9 +462,9 @@
      * List all custom channels in the specified ad client for the specified account.
      * (customchannels.list)
      *
-     * @param string $accountId Account to which the ad client belongs.
+     * @param string $accountId  Account to which the ad client belongs.
      * @param string $adClientId Ad client for which to list custom channels.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams  Optional parameters.
      *
      * @opt_param string pageToken A continuation token, used to page through custom channels. To retrieve the next page, set this parameter to the value of "nextPageToken" from the previous response.
      * @opt_param int maxResults The maximum number of custom channels to include in the response, used for paging.
@@ -485,10 +485,10 @@
      * Get the specified custom channel from the specified ad client for the specified account.
      * (customchannels.get)
      *
-     * @param string $accountId Account to which the ad client belongs.
-     * @param string $adClientId Ad client which contains the custom channel.
-     * @param string $customChannelId Custom channel to retrieve.
-     * @param array $optParams Optional parameters.
+     * @param  string               $accountId       Account to which the ad client belongs.
+     * @param  string               $adClientId      Ad client which contains the custom channel.
+     * @param  string               $customChannelId Custom channel to retrieve.
+     * @param  array                $optParams       Optional parameters.
      * @return Google_CustomChannel
      */
     public function get($accountId, $adClientId, $customChannelId, $optParams = array())
@@ -516,10 +516,10 @@
       /**
      * List all ad units in the specified custom channel. (adunits.list)
      *
-     * @param string $accountId Account to which the ad client belongs.
-     * @param string $adClientId Ad client which contains the custom channel.
+     * @param string $accountId       Account to which the ad client belongs.
+     * @param string $adClientId      Ad client which contains the custom channel.
      * @param string $customChannelId Custom channel for which to list ad units.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams       Optional parameters.
      *
      * @opt_param bool includeInactive Whether to include inactive ad units. Default: true.
      * @opt_param int maxResults The maximum number of ad units to include in the response, used for paging.
@@ -553,7 +553,7 @@
      * (customchannels.list)
      *
      * @param string $adClientId Ad client for which to list custom channels.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams  Optional parameters.
      *
      * @opt_param string pageToken A continuation token, used to page through custom channels. To retrieve the next page, set this parameter to the value of "nextPageToken" from the previous response.
      * @opt_param int maxResults The maximum number of custom channels to include in the response, used for paging.
@@ -573,9 +573,9 @@
     /**
      * Get the specified custom channel from the specified ad client. (customchannels.get)
      *
-     * @param string $adClientId Ad client which contains the custom channel.
-     * @param string $customChannelId Custom channel to retrieve.
-     * @param array $optParams Optional parameters.
+     * @param  string               $adClientId      Ad client which contains the custom channel.
+     * @param  string               $customChannelId Custom channel to retrieve.
+     * @param  array                $optParams       Optional parameters.
      * @return Google_CustomChannel
      */
     public function get($adClientId, $customChannelId, $optParams = array())
@@ -603,9 +603,9 @@
       /**
      * List all ad units in the specified custom channel. (adunits.list)
      *
-     * @param string $adClientId Ad client which contains the custom channel.
+     * @param string $adClientId      Ad client which contains the custom channel.
      * @param string $customChannelId Custom channel for which to list ad units.
-     * @param array $optParams Optional parameters.
+     * @param array  $optParams       Optional parameters.
      *
      * @opt_param bool includeInactive Whether to include inactive ad units. Default: true.
      * @opt_param string pageToken A continuation token, used to page through ad units. To retrieve the next page, set this parameter to the value of "nextPageToken" from the previous response.
