@@ -7,7 +7,7 @@
 class UserCategoryModel extends Model
 {
     protected $tableName = 'user_category';
-    protected $fields = array(0 => 'user_category_id',1 => 'title',2 => 'pid');
+    protected $fields = array(0 => 'user_category_id', 1 => 'title', 2 => 'pid');
 
     /**
      * 当指定pid时，查询该父用户身份的所有子用户身份；否则查询所有用户身份
@@ -213,28 +213,28 @@ class UserCategoryModel extends Model
                     $title = M('UserCategory')->where($cmap)->findAll();
 
                     foreach ($title as $key => $value) {
-                        $amap['name'] = array('LIKE',$value['title']);
+                        $amap['name'] = array('LIKE', $value['title']);
                         $tag = M('tag')->where($amap)->getField('tag_id');
                         if ($tag) {
                             $tag_id[] = $tag;
                         }
                     }
-                    $tmap['tag_id'] = array('IN',$tag_id);
+                    $tmap['tag_id'] = array('IN', $tag_id);
                 } else {
                     $cmap['user_category_id'] = intval($cid);
                     $title = M('UserCategory')->where($cmap)->find();
-                    $amap['name'] = array('LIKE',$title['title']);
+                    $amap['name'] = array('LIKE', $title['title']);
                     $tag_id[] = M('tag')->where($amap)->getField('tag_id');
-                    $tmap['tag_id'] = array('IN',$tag_id);
+                    $tmap['tag_id'] = array('IN', $tag_id);
                 }
                 $uids = M('app_tag')->field('`row_id`')->where($tmap)->findAll();
-                $umap['uid'] = array( 'in' , getSubByKey($uids, 'row_id') );
+                $umap['uid'] = array('in', getSubByKey($uids, 'row_id'));
                 $data = model('User')->where($umap)->field('uid')->order('last_post_time DESC,last_login_time DESC')->findPage($limit);
 
                 return $data;
             }
         }
-        $ordermap['uid'] = array( 'in' , getSubByKey($data['data'], 'uid') );
+        $ordermap['uid'] = array('in', getSubByKey($data['data'], 'uid'));
         $uiddata = model('User')->where($ordermap)->field('uid')->order('last_post_time DESC,last_login_time DESC')->findAll();
         $data['data'] = $uiddata;
 
@@ -303,23 +303,23 @@ class UserCategoryModel extends Model
                     $title = M('UserCategory')->where($cmap)->findAll();
 
                     foreach ($title as $key => $value) {
-                        $amap['name'] = array('LIKE',$value['title']);
+                        $amap['name'] = array('LIKE', $value['title']);
                         $tag = M('tag')->where($amap)->getField('tag_id');
                         if ($tag) {
                             $tag_id[] = $tag;
                         }
                     }
-                    $tmap['tag_id'] = array('IN',$tag_id);
+                    $tmap['tag_id'] = array('IN', $tag_id);
                 } else {
                     $cmap['user_category_id'] = intval($cid);
                     $title = M('UserCategory')->where($cmap)->find();
-                    $amap['name'] = array('LIKE',$title['title']);
+                    $amap['name'] = array('LIKE', $title['title']);
                     $tag_id[] = M('tag')->where($amap)->getField('tag_id');
-                    $tmap['tag_id'] = array('IN',$tag_id);
+                    $tmap['tag_id'] = array('IN', $tag_id);
                 }
                 $lastUid && $tmap['row_id'] = array('lt', $lastUid);
                 $uids = M('app_tag')->field('`row_id`')->where($tmap)->order('row_id desc')->findAll();
-                $umap['uid'] = array( 'in' , getSubByKey($uids, 'row_id') );
+                $umap['uid'] = array('in', getSubByKey($uids, 'row_id'));
                 $data['data'] = model('User')->where($umap)
                                      ->field('uid')
                                      ->order('uid desc')
@@ -329,7 +329,7 @@ class UserCategoryModel extends Model
                 return $data;
             }
         }
-        $ordermap['uid'] = array( 'in' , getSubByKey($data['data'], 'uid') );
+        $ordermap['uid'] = array('in', getSubByKey($data['data'], 'uid'));
         $uiddata = model('User')->where($ordermap)
                                 ->field('uid')
                                 ->order('uid desc')

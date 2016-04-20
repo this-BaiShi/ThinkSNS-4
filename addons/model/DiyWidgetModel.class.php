@@ -56,7 +56,7 @@ class DiyWidgetModel extends Model
      */
     public function getTagInofs(array $sign)
     {
-        $map['pluginId'] = array('in',$sign);
+        $map['pluginId'] = array('in', $sign);
         $res = implode("','", $sign);
         $data = $this->query("select pluginId,tagLib,content,ext,status from {$this->tablePrefix}diy_widget where pluginId in ('".$res."')");
         $result = array();

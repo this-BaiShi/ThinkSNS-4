@@ -7,7 +7,7 @@
 class UserBlacklistModel extends Model
 {
     protected $tableName = 'user_blacklist';
-    protected $fields = array(0 => 'uid',1 => 'fid',2 => 'ctime');
+    protected $fields = array(0 => 'uid', 1 => 'fid', 2 => 'ctime');
     public static $blackHash = array();
 
     /**

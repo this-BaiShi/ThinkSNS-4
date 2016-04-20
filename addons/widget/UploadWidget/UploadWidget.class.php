@@ -94,9 +94,9 @@ class UploadWidget extends Widget
             }
 
             $data['extension'] = strtolower($data['extension']);
-            $return = array('status' => 1,'data' => $data);
+            $return = array('status' => 1, 'data' => $data);
         } else {
-            $return = array('status' => 0,'data' => $info['info']);
+            $return = array('status' => 0, 'data' => $info['info']);
         }
 
         $isAjaxUrl = isset($_REQUEST['isAjaxUrl']) ? true : false;
@@ -140,7 +140,7 @@ class UploadWidget extends Widget
             $data['src'] = getImageUrl($data['save_path'].$data['save_name']);
             $return = array('error' => 0, 'url' => $data['src']);
         } else {
-            $return = array('error' => 1,'message' => $info['info']);
+            $return = array('error' => 1, 'message' => $info['info']);
         }
         echo json_encode($return);
         exit();
@@ -159,9 +159,9 @@ class UploadWidget extends Widget
             $data = $info['info'][0];
             $data['src'] = getImageUrl($data['save_path'].$data['save_name'], 100, 100, true);
             $data['extension'] = strtolower($data['extension']);
-            $return = array('status' => 1,'data' => $data);
+            $return = array('status' => 1, 'data' => $data);
         } else {
-            $return = array('status' => 0,'data' => $info['info']);
+            $return = array('status' => 0, 'data' => $info['info']);
         }
         echo json_encode($return);
         exit();

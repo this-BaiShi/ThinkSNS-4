@@ -51,7 +51,7 @@ class DiyUser extends TagsAbstract
             case 'follow'://粉丝最多
                 $list = model('UserData')->where("`key`='follower_count'")->field('uid')->order('`value`+0 desc')->limit($limit)->findAll();
 
-                $map['uid'] = array( 'in' , getSubByKey($list, 'uid') );
+                $map['uid'] = array('in', getSubByKey($list, 'uid'));
                 $users = $userDao->getList($map, $limit, 'uid,uname');
                 $kusers = array();
                 foreach ($users as $us) {
@@ -70,7 +70,7 @@ class DiyUser extends TagsAbstract
         $followstate = array();
         if ($attr['style'] == 'down' || $attr['style'] == 'numdown') {
             $fids = getSubByKey($list, 'uid');
-            $follower_map['fid'] = array('IN', $fids );
+            $follower_map['fid'] = array('IN', $fids);
             // 粉丝数
             $follower = model('Follow')->field('COUNT(1) AS `count`,`fid`')->where($follower_map)->group('`fid`')->findAll();
             foreach ($follower as $v) {

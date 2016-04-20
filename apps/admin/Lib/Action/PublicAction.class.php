@@ -64,7 +64,7 @@ class PublicAction extends AdministratorAction
      */
     public function selectDepartment()
     {
-        $return = array('status' => 1,'data' => '');
+        $return = array('status' => 1, 'data' => '');
 
         if (empty($_POST['pid'])) {
             $return['status'] = 0;

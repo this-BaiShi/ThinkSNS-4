@@ -25,7 +25,7 @@ class FeedbackAction extends Action
                 foreach ($touid as $k => $v) {
                     model('Notify')->sendNotify($v['uid'], 'feedback_audit');
                 }
-                $return = array('status' => 1,'data' => L('PUBLIC_REPORTING_INFO'));
+                $return = array('status' => 1, 'data' => L('PUBLIC_REPORTING_INFO'));
                 $this->assign('jumpUrl', U('public/Index/index'));
                 $this->success(L('PUBLIC_SUBMIT_FEEDBACK_SUCCESS'));            // 提交成功，感谢您的反馈
             } else {

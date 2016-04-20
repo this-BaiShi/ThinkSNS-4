@@ -44,7 +44,7 @@ class Db extends Think
     // SQL 执行时间记录
     protected $beginTime;
     // 数据库表达式
-    protected $comparison = array('eq' => '=','neq' => '!=','gt' => '>','egt' => '>=','lt' => '<','elt' => '<=','notlike' => 'NOT LIKE','like' => 'LIKE');
+    protected $comparison = array('eq' => '=', 'neq' => '!=', 'gt' => '>', 'egt' => '>=', 'lt' => '<', 'elt' => '<=', 'notlike' => 'NOT LIKE', 'like' => 'LIKE');
     // 查询表达式
     protected $selectSql = 'SELECT%DISTINCT% %FIELDS% FROM %TABLE%%JOIN%%WHERE%%GROUP%%HAVING%%ORDER%%LIMIT%';
     /**

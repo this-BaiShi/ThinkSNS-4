@@ -7,7 +7,7 @@
 class UserGroupModel extends Model
 {
     protected $tableName = 'user_group';
-    protected $fields = array(0 => 'user_group_id',1 => 'user_group_name',2 => 'ctime',3 => 'user_group_icon',4 => 'user_group_type',5 => 'app_name',6 => 'is_authenticate');
+    protected $fields = array(0 => 'user_group_id', 1 => 'user_group_name', 2 => 'ctime', 3 => 'user_group_icon', 4 => 'user_group_type', 5 => 'app_name', 6 => 'is_authenticate');
 
     /**
      * 添加或修改用户组信息

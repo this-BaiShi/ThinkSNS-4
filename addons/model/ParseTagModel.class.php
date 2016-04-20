@@ -84,7 +84,7 @@ class ParseTagModel
                 $cacheTime = $cacheOpen;
             }
             if ($cacheOpen && $cacheTime != 0 && C('MEMCACHED_ON')) {
-                $cache = service('Cache', array('type' => 'memcache' ));
+                $cache = service('Cache', array('type' => 'memcache'));
                 if (! $value = $cache->getWidget($widgetKey)) {
                     $attrSet = $tagInfo ['attr'];
                     $tagName = $tagInfo ['tagName'];
@@ -200,9 +200,9 @@ class ParseTagModel
             $preg = "/([\n\r\t\s]*)".$this->left.$tagName."\s+(.*)".$this->right.'(.*)'.$this->left."\/".$tagName.$this->right."([\n\r\t\s]*)/siU";
         }
         if ($replace) {
-            $content = preg_replace_callback($preg, array($this, 'parseTagContent' ), $content);
+            $content = preg_replace_callback($preg, array($this, 'parseTagContent'), $content);
         } else {
-            preg_replace_callback($preg, array($this, 'parseTagContent' ), $content);
+            preg_replace_callback($preg, array($this, 'parseTagContent'), $content);
         }
 
         return $content;

@@ -9,7 +9,7 @@ class LogModel    extends    Model
     protected $tableName = 'weiba_log';
     protected $error = '';
     protected $fields = array(
-                            0 => 'id',1 => 'weiba_id',2 => 'uid',3 => 'type',4 => 'content',5 => 'ctime',6 => 'square','_autoinc' => true,'_pk' => 'weiba_id',
+                            0 => 'id', 1 => 'weiba_id', 2 => 'uid', 3 => 'type', 4 => 'content', 5 => 'ctime', 6 => 'square', '_autoinc' => true, '_pk' => 'weiba_id',
                         );
 
     /**

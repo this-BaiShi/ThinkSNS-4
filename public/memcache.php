@@ -104,7 +104,7 @@ function parseMemcacheResults($str)
             if ($l[0] == 'VALUE') { // next line is the value
                 $res[$l[0]][$l[1]] = array();
                 list($flag, $size) = explode(' ', $l[2]);
-                $res[$l[0]][$l[1]]['stat'] = array('flag' => $flag,'size' => $size);
+                $res[$l[0]][$l[1]]['stat'] = array('flag' => $flag, 'size' => $size);
                 $res[$l[0]][$l[1]]['value'] = $lines[++$i];
             }
         } elseif ($line == 'DELETED' || $line == 'NOT_FOUND' || $line == 'OK') {
@@ -154,7 +154,7 @@ function getCacheItems()
         }
     }
 
-    return array('items' => $serverItems,'counts' => $totalItems);
+    return array('items' => $serverItems, 'counts' => $totalItems);
 }
 function getMemcacheStats($total = true)
 {

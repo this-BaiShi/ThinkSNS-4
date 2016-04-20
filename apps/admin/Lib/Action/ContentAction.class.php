@@ -25,7 +25,7 @@ class ContentAction extends AdministratorAction
 {
     public $pageTitle = array();
     //TODO  要移位置
-    public $from = array(0 => '网站',1 => '手机网页版',2 => 'android',3 => 'iphone');
+    public $from = array(0 => '网站', 1 => '手机网页版', 2 => 'android', 3 => 'iphone');
 
     public function feed($isRec = 0, $is_audit = 1)
     {
@@ -35,22 +35,22 @@ class ContentAction extends AdministratorAction
             $_POST['is_audit'] = $isRec = isset($_REQUEST['is_audit']) ? t($_REQUEST['is_audit']) : $isRec;
         }
 
-        $this->pageKeyList = array('feed_id','uid','uname','data','publish_time','type','from','DOACTION');
-        $this->searchKey = array('feed_id','uid','type','rec');
-        $this->opt['type'] = array('0' => L('PUBLIC_ALL_STREAM'),'post' => L('PUBLIC_ORDINARY_WEIBO'),'repost' => L('PUBLIC_SHARE_WEIBO'),'postimage' => L('PUBLIC_PICTURE_WEIBO'),'postfile' => L('PUBLIC_ATTACHMENT_WEIBO'));    //TODO 临时写死
+        $this->pageKeyList = array('feed_id', 'uid', 'uname', 'data', 'publish_time', 'type', 'from', 'DOACTION');
+        $this->searchKey = array('feed_id', 'uid', 'type', 'rec');
+        $this->opt['type'] = array('0' => L('PUBLIC_ALL_STREAM'), 'post' => L('PUBLIC_ORDINARY_WEIBO'), 'repost' => L('PUBLIC_SHARE_WEIBO'), 'postimage' => L('PUBLIC_PICTURE_WEIBO'), 'postfile' => L('PUBLIC_ATTACHMENT_WEIBO'));    //TODO 临时写死
 
-        $this->pageTab[] = array('title' => L('PUBLIC_DYNAMIC_MANAGEMENT'),'tabHash' => 'list','url' => U('admin/Content/feed'));
-        $this->pageTab[] = array('title' => '待审列表','tabHash' => 'unAudit','url' => U('admin/Content/feedUnAudit'));
-        $this->pageTab[] = array('title' => L('PUBLIC_RECYCLE_BIN'),'tabHash' => 'rec','url' => U('admin/Content/feedRec'));
+        $this->pageTab[] = array('title' => L('PUBLIC_DYNAMIC_MANAGEMENT'), 'tabHash' => 'list', 'url' => U('admin/Content/feed'));
+        $this->pageTab[] = array('title' => '待审列表', 'tabHash' => 'unAudit', 'url' => U('admin/Content/feedUnAudit'));
+        $this->pageTab[] = array('title' => L('PUBLIC_RECYCLE_BIN'), 'tabHash' => 'rec', 'url' => U('admin/Content/feedRec'));
 
-        $this->pageButton[] = array('title' => L('PUBLIC_DYNAMIC_SEARCH'),'onclick' => "admin.fold('search_form')");
+        $this->pageButton[] = array('title' => L('PUBLIC_DYNAMIC_SEARCH'), 'onclick' => "admin.fold('search_form')");
         if ($isRec == 0 && $is_audit == 1) {
-            $this->pageButton[] = array('title' => L('PUBLIC_DYNAMIC_DELETE'),'onclick' => "admin.ContentEdit('','delFeed','".L('PUBLIC_STREAM_DELETE')."','".L('PUBLIC_DYNAMIC')."')");
+            $this->pageButton[] = array('title' => L('PUBLIC_DYNAMIC_DELETE'), 'onclick' => "admin.ContentEdit('','delFeed','".L('PUBLIC_STREAM_DELETE')."','".L('PUBLIC_DYNAMIC')."')");
         } elseif ($is_Rec == 0 && $is_audit == 0) {
-            $this->pageButton[] = array('title' => '通过','onclick' => "admin.ContentEdit('','auditFeed','".'通过'."','".L('PUBLIC_DYNAMIC')."')");
-            $this->pageButton[] = array('title' => '删除','onclick' => "admin.ContentEdit('','delFeed','".L('PUBLIC_STREAM_DELETE')."','".L('PUBLIC_DYNAMIC')."')");
+            $this->pageButton[] = array('title' => '通过', 'onclick' => "admin.ContentEdit('','auditFeed','".'通过'."','".L('PUBLIC_DYNAMIC')."')");
+            $this->pageButton[] = array('title' => '删除', 'onclick' => "admin.ContentEdit('','delFeed','".L('PUBLIC_STREAM_DELETE')."','".L('PUBLIC_DYNAMIC')."')");
         } else {
-            $this->pageButton[] = array('title' => L('PUBLIC_REMOVE_COMPLETELY'),'onclick' => "admin.ContentEdit('','deleteFeed','".L('PUBLIC_REMOVE_COMPLETELY')."','".L('PUBLIC_DYNAMIC')."')");
+            $this->pageButton[] = array('title' => L('PUBLIC_REMOVE_COMPLETELY'), 'onclick' => "admin.ContentEdit('','deleteFeed','".L('PUBLIC_REMOVE_COMPLETELY')."','".L('PUBLIC_DYNAMIC')."')");
         }
 
         $isRec == 1 &&  $_REQUEST['tabHash'] = 'rec';
@@ -60,8 +60,8 @@ class ContentAction extends AdministratorAction
         if (!$isRec) {
             $map['is_audit'] = $is_audit == 1 ? 1 : 0;
         }
-        !empty($_POST['feed_id']) && $map['feed_id'] = array('in',explode(',', $_POST['feed_id']));
-        !empty($_POST['uid']) && $map['uid'] = array('in',explode(',', $_POST['uid']));
+        !empty($_POST['feed_id']) && $map['feed_id'] = array('in', explode(',', $_POST['feed_id']));
+        !empty($_POST['uid']) && $map['uid'] = array('in', explode(',', $_POST['uid']));
         !empty($_POST['type']) && $map['type'] = t($_POST['type']);
 
         $listData = model('Feed')->getList($map, 20);
@@ -159,21 +159,21 @@ class ContentAction extends AdministratorAction
         // 搜索区别
         $_POST['rec'] = $isRec = isset($_REQUEST['rec']) ? t($_REQUEST['rec']) : $isRec;
 
-        $this->pageKeyList = array('comment_id','uid','app_uid','source_type','content','ctime','client_type','DOACTION');
-        $this->searchKey = array('comment_id','uid','app_uid');
+        $this->pageKeyList = array('comment_id', 'uid', 'app_uid', 'source_type', 'content', 'ctime', 'client_type', 'DOACTION');
+        $this->searchKey = array('comment_id', 'uid', 'app_uid');
 
-        $this->pageTab[] = array('title' => '评论管理','tabHash' => 'list','url' => U('admin/Content/comment'));
-        $this->pageTab[] = array('title' => '待审评论列表','tabHash' => 'unAudit','url' => U('admin/Content/commentUnAudit'));
-        $this->pageTab[] = array('title' => L('PUBLIC_RECYCLE_BIN'),'tabHash' => 'rec','url' => U('admin/Content/commentRec'));
+        $this->pageTab[] = array('title' => '评论管理', 'tabHash' => 'list', 'url' => U('admin/Content/comment'));
+        $this->pageTab[] = array('title' => '待审评论列表', 'tabHash' => 'unAudit', 'url' => U('admin/Content/commentUnAudit'));
+        $this->pageTab[] = array('title' => L('PUBLIC_RECYCLE_BIN'), 'tabHash' => 'rec', 'url' => U('admin/Content/commentRec'));
 
-        $this->pageButton[] = array('title' => L('PUBLIC_SEARCH_COMMENT'),'onclick' => "admin.fold('search_form')");
+        $this->pageButton[] = array('title' => L('PUBLIC_SEARCH_COMMENT'), 'onclick' => "admin.fold('search_form')");
         if ($isRec == 0 && $is_audit == 1) {
-            $this->pageButton[] = array('title' => L('PUBLIC_DELETE_COMMENT'),'onclick' => "admin.ContentEdit('','delComment','".L('PUBLIC_STREAM_DELETE')."','".L('PUBLIC_STREAM_COMMENT')."')");
+            $this->pageButton[] = array('title' => L('PUBLIC_DELETE_COMMENT'), 'onclick' => "admin.ContentEdit('','delComment','".L('PUBLIC_STREAM_DELETE')."','".L('PUBLIC_STREAM_COMMENT')."')");
         } elseif ($is_Rec == 0 && $is_audit == 0) {
-            $this->pageButton[] = array('title' => '通过','onclick' => "admin.ContentEdit('','auditComment','".'通过'."','".L('PUBLIC_DYNAMIC')."')");
-            $this->pageButton[] = array('title' => '删除','onclick' => "admin.ContentEdit('','delComment','".L('PUBLIC_STREAM_DELETE')."','".L('PUBLIC_DYNAMIC')."')");
+            $this->pageButton[] = array('title' => '通过', 'onclick' => "admin.ContentEdit('','auditComment','".'通过'."','".L('PUBLIC_DYNAMIC')."')");
+            $this->pageButton[] = array('title' => '删除', 'onclick' => "admin.ContentEdit('','delComment','".L('PUBLIC_STREAM_DELETE')."','".L('PUBLIC_DYNAMIC')."')");
         } else {
-            $this->pageButton[] = array('title' => L('PUBLIC_REMOVE_COMPLETELY'),'onclick' => "admin.ContentEdit('','deleteComment','".L('PUBLIC_REMOVE_COMPLETELY')."','".L('PUBLIC_STREAM_COMMENT')."')");
+            $this->pageButton[] = array('title' => L('PUBLIC_REMOVE_COMPLETELY'), 'onclick' => "admin.ContentEdit('','deleteComment','".L('PUBLIC_REMOVE_COMPLETELY')."','".L('PUBLIC_STREAM_COMMENT')."')");
         }
 
         $isRec == 1 &&  $_REQUEST['tabHash'] = 'rec';
@@ -183,9 +183,9 @@ class ContentAction extends AdministratorAction
         if (!$isRec) {
             $map['is_audit'] = $is_audit == 1 ? 1 : 0;
         }
-        !empty($_POST['comment_id']) && $map['comment_id'] = array('in',explode(',', $_POST['comment_id']));
-        !empty($_POST['uid']) && $map['uid'] = array('in',explode(',', $_POST['uid']));
-        !empty($_POST['app_uid']) && $map['app_uid'] = array('in',explode(',', $_POST['app_uid']));
+        !empty($_POST['comment_id']) && $map['comment_id'] = array('in', explode(',', $_POST['comment_id']));
+        !empty($_POST['uid']) && $map['uid'] = array('in', explode(',', $_POST['uid']));
+        !empty($_POST['app_uid']) && $map['app_uid'] = array('in', explode(',', $_POST['app_uid']));
         $listData = model('Comment')->getCommentList($map, 'comment_id desc', 20);
 
         foreach ($listData['data'] as &$v) {
@@ -264,18 +264,18 @@ class ContentAction extends AdministratorAction
         // 搜索区别
         $_POST['rec'] = $isRec = isset($_REQUEST['rec']) ? t($_REQUEST['rec']) : $isRec;
         // 列表字段配置
-        $this->pageKeyList = array('message_id','fuid','from_uid','mix_man','content','mtime','DOACTION');
+        $this->pageKeyList = array('message_id', 'fuid', 'from_uid', 'mix_man', 'content', 'mtime', 'DOACTION');
         // 搜索字段配置
-        $this->searchKey = array('from_uid','mix_man','content');
+        $this->searchKey = array('from_uid', 'mix_man', 'content');
         // Tab标签配置
-        $this->pageTab[] = array('title' => L('PUBLIC_PRIVATE_MESSAGE_MANAGEMENT'),'tabHash' => 'list','url' => U('admin/Content/message'));
-        $this->pageTab[] = array('title' => L('PUBLIC_RECYCLE_BIN'),'tabHash' => 'rec','url' => U('admin/Content/messageRec'));
+        $this->pageTab[] = array('title' => L('PUBLIC_PRIVATE_MESSAGE_MANAGEMENT'), 'tabHash' => 'list', 'url' => U('admin/Content/message'));
+        $this->pageTab[] = array('title' => L('PUBLIC_RECYCLE_BIN'), 'tabHash' => 'rec', 'url' => U('admin/Content/messageRec'));
         // 批量操作按钮配置
-        $this->pageButton[] = array('title' => L('PUBLIC_MASSAGE_SEARCH'),'onclick' => "admin.fold('search_form')");
+        $this->pageButton[] = array('title' => L('PUBLIC_MASSAGE_SEARCH'), 'onclick' => "admin.fold('search_form')");
         if ($isRec == 0) {
-            $this->pageButton[] = array('title' => L('PUBLIC_MASSAGE_DEL'),'onclick' => "admin.ContentEdit('','delMessage','".L('PUBLIC_STREAM_DELETE')."','".L('PUBLIC_PRIVATE_MESSAGE')."');");
+            $this->pageButton[] = array('title' => L('PUBLIC_MASSAGE_DEL'), 'onclick' => "admin.ContentEdit('','delMessage','".L('PUBLIC_STREAM_DELETE')."','".L('PUBLIC_PRIVATE_MESSAGE')."');");
         } else {
-            $this->pageButton[] = array('title' => L('PUBLIC_REMOVE_COMPLETELY'),'onclick' => "admin.ContentEdit('','deleteMessage','".L('PUBLIC_REMOVE_COMPLETELY')."','".L('PUBLIC_PRIVATE_MESSAGE')."')");
+            $this->pageButton[] = array('title' => L('PUBLIC_REMOVE_COMPLETELY'), 'onclick' => "admin.ContentEdit('','deleteMessage','".L('PUBLIC_REMOVE_COMPLETELY')."','".L('PUBLIC_PRIVATE_MESSAGE')."')");
         }
         $isRec == 1 &&  $_REQUEST['tabHash'] = 'rec';
         $this->assign('pageTitle', $isRec ? L('PUBLIC_RECYCLE_BIN') : L('PUBLIC_PRIVATE_MESSAGE_MANAGEMENT'));
@@ -283,15 +283,15 @@ class ContentAction extends AdministratorAction
         $map['a.is_del'] = ($isRec == 1) ? 1 : 0;
         !empty($_POST['from_uid']) && $map['a.from_uid'] = intval($_POST['from_uid']);
         !empty($_POST['mix_man']) && $map['c.member_uid'] = intval($_POST['mix_man']);
-        !empty($_POST['content']) && $map['a.content'] = array('like','%'.t($_POST['content']).'%');
-        $map['b.type'] = array('neq',3);
+        !empty($_POST['content']) && $map['a.content'] = array('like', '%'.t($_POST['content']).'%');
+        $map['b.type'] = array('neq', 3);
         // 获取列表信息
         $listData = model('Message')->getDetailList($map);
         // 整理列表数据
         foreach ($listData['data'] as &$v) {
             $uids = explode('_', $v['min_max']);
             $map = array();
-            $map['uid'] = array('in',$uids);
+            $map['uid'] = array('in', $uids);
             $uname = model('User')->where($map)->getHashList('uid', 'uname');
 
             $v['mix_man'] = implode(',', $uname);
@@ -347,31 +347,31 @@ class ContentAction extends AdministratorAction
         //搜索区别
         $_POST['rec'] = $isRec = isset($_REQUEST['rec']) ? t($_REQUEST['rec']) : $isRec;
 
-        $this->pageKeyList = array('attach_id','name','size','uid','ctime','from','DOACTION');
-        $this->searchKey = array('attach_id','name','from');
+        $this->pageKeyList = array('attach_id', 'name', 'size', 'uid', 'ctime', 'from', 'DOACTION');
+        $this->searchKey = array('attach_id', 'name', 'from');
 
         $this->opt['from'] = array_merge(array('-1' => L('PUBLIC_ALL_STREAM')), $this->from);
-        $this->pageTab[] = array('title' => L('PUBLIC_FILE_MANAGEMENT'),'tabHash' => 'list','url' => U('admin/Content/attach'));
-        $this->pageTab[] = array('title' => L('PUBLIC_RECYCLE_BIN'),'tabHash' => 'rec','url' => U('admin/Content/attachRec'));
+        $this->pageTab[] = array('title' => L('PUBLIC_FILE_MANAGEMENT'), 'tabHash' => 'list', 'url' => U('admin/Content/attach'));
+        $this->pageTab[] = array('title' => L('PUBLIC_RECYCLE_BIN'), 'tabHash' => 'rec', 'url' => U('admin/Content/attachRec'));
 
-        $this->pageButton[] = array('title' => L('PUBLIC_FILE_STREAM_SEARCH'),'onclick' => "admin.fold('search_form')");
+        $this->pageButton[] = array('title' => L('PUBLIC_FILE_STREAM_SEARCH'), 'onclick' => "admin.fold('search_form')");
         if ($isRec == 0) {
-            $this->pageButton[] = array('title' => L('PUBLIC_FILE_STREAM_DEL'),'onclick' => "admin.ContentEdit('','delAttach','".L('PUBLIC_STREAM_DELETE')."','".L('PUBLIC_FILE_STREAM')."');");
+            $this->pageButton[] = array('title' => L('PUBLIC_FILE_STREAM_DEL'), 'onclick' => "admin.ContentEdit('','delAttach','".L('PUBLIC_STREAM_DELETE')."','".L('PUBLIC_FILE_STREAM')."');");
         } else {
-            $this->pageButton[] = array('title' => L('PUBLIC_REMOVE_COMPLETELY'),'onclick' => "admin.ContentEdit('','deleteAttach','".L('PUBLIC_REMOVE_COMPLETELY')."','".L('PUBLIC_FILE_STREAM')."')");
+            $this->pageButton[] = array('title' => L('PUBLIC_REMOVE_COMPLETELY'), 'onclick' => "admin.ContentEdit('','deleteAttach','".L('PUBLIC_REMOVE_COMPLETELY')."','".L('PUBLIC_FILE_STREAM')."')");
         }
 
         $isRec == 1 &&  $_REQUEST['tabHash'] = 'rec';
         $this->assign('pageTitle', $isRec ? L('PUBLIC_RECYCLE_BIN') : L('PUBLIC_FILE_MANAGEMENT'));
         $map['is_del'] = $isRec == 1 ? 1 : 0;    //未删除的 
-        !empty($_POST['attach_id']) && $map['attach_id'] = array('in',explode(',', $_POST['attach_id']));
+        !empty($_POST['attach_id']) && $map['attach_id'] = array('in', explode(',', $_POST['attach_id']));
         $_POST['from'] > 1 && $map['from'] = t($_POST['from']);
-        !empty($_POST['name']) && $map['name'] = array('like','%'.t($_POST['name']).'%');
+        !empty($_POST['name']) && $map['name'] = array('like', '%'.t($_POST['name']).'%');
 
         $listData = model('Attach')->getAttachList($map, '*', 'attach_id desc', 10);
 
         //$listData = model('Comment')->getCommentList($map,'comment_id desc',20);
-        $image = array('png','jpg','gif','jpeg','bmp');
+        $image = array('png', 'jpg', 'gif', 'jpeg', 'bmp');
 
         foreach ($listData['data'] as &$v) {
             $user = model('User')->getUserInfo($v['uid']);
@@ -422,27 +422,27 @@ class ContentAction extends AdministratorAction
         //搜索区别
         $_POST['is_del'] = $isRec = isset($_REQUEST['is_del']) ? t($_REQUEST['is_del']) : $isRec;
 
-        $this->pageKeyList = array('video_id','name','size','uid','ctime','from','DOACTION');
-        $this->searchKey = array('video_id','name','from');
+        $this->pageKeyList = array('video_id', 'name', 'size', 'uid', 'ctime', 'from', 'DOACTION');
+        $this->searchKey = array('video_id', 'name', 'from');
 
         $this->opt['from'] = array_merge(array('-1' => L('PUBLIC_ALL_STREAM')), $this->from);
-        $this->pageTab[] = array('title' => '视频列表','tabHash' => 'list','url' => U('admin/Content/video'));
-        $this->pageTab[] = array('title' => L('PUBLIC_RECYCLE_BIN'),'tabHash' => 'rec','url' => U('admin/Content/videoRec'));
-        $this->pageTab[] = array('title' => '视频配置','tabHash' => 'video_config','url' => U('admin/Content/video_config'));
+        $this->pageTab[] = array('title' => '视频列表', 'tabHash' => 'list', 'url' => U('admin/Content/video'));
+        $this->pageTab[] = array('title' => L('PUBLIC_RECYCLE_BIN'), 'tabHash' => 'rec', 'url' => U('admin/Content/videoRec'));
+        $this->pageTab[] = array('title' => '视频配置', 'tabHash' => 'video_config', 'url' => U('admin/Content/video_config'));
 
-        $this->pageButton[] = array('title' => L('PUBLIC_FILE_STREAM_SEARCH'),'onclick' => "admin.fold('search_form')");
+        $this->pageButton[] = array('title' => L('PUBLIC_FILE_STREAM_SEARCH'), 'onclick' => "admin.fold('search_form')");
         if ($is_del == 0) {
-            $this->pageButton[] = array('title' => L('PUBLIC_FILE_STREAM_DEL'),'onclick' => "admin.ContentEdit('','delVideo','".L('PUBLIC_STREAM_DELETE')."','".L('PUBLIC_FILE_STREAM')."');");
+            $this->pageButton[] = array('title' => L('PUBLIC_FILE_STREAM_DEL'), 'onclick' => "admin.ContentEdit('','delVideo','".L('PUBLIC_STREAM_DELETE')."','".L('PUBLIC_FILE_STREAM')."');");
         } else {
-            $this->pageButton[] = array('title' => L('PUBLIC_REMOVE_COMPLETELY'),'onclick' => "admin.ContentEdit('','deleteVideo','".L('PUBLIC_REMOVE_COMPLETELY')."','".L('PUBLIC_FILE_STREAM')."')");
+            $this->pageButton[] = array('title' => L('PUBLIC_REMOVE_COMPLETELY'), 'onclick' => "admin.ContentEdit('','deleteVideo','".L('PUBLIC_REMOVE_COMPLETELY')."','".L('PUBLIC_FILE_STREAM')."')");
         }
 
         $is_del == 1 &&  $_REQUEST['tabHash'] = 'rec';
         $this->assign('pageTitle', $is_del ? L('PUBLIC_RECYCLE_BIN') : L('视频管理'));
         $map['is_del'] = $is_del == 1 ? 1 : 0;    //未删除的 
-        !empty($_POST['video_id']) && $map['video_id'] = array('in',explode(',', $_POST['video_id']));
+        !empty($_POST['video_id']) && $map['video_id'] = array('in', explode(',', $_POST['video_id']));
         $_POST['from'] > 1 && $map['from'] = t($_POST['from']);
-        !empty($_POST['name']) && $map['name'] = array('like','%'.t($_POST['name']).'%');
+        !empty($_POST['name']) && $map['name'] = array('like', '%'.t($_POST['name']).'%');
 
         // $listData = model('Attach')->getAttachList($map,'*','attach_id desc',10);
         $listData = D('video')->where($map)->findPage(20);
@@ -488,13 +488,13 @@ class ContentAction extends AdministratorAction
     public function video_config()
     {
         $this->assign('pageTitle', L('视频配置'));
-        $this->pageTab[] = array('title' => '视频列表','tabHash' => 'list','url' => U('admin/Content/video'));
-        $this->pageTab[] = array('title' => L('PUBLIC_RECYCLE_BIN'),'tabHash' => 'rec','url' => U('admin/Content/videoRec'));
-        $this->pageTab[] = array('title' => '视频配置','tabHash' => 'video_config','url' => U('admin/Content/video_config'));
+        $this->pageTab[] = array('title' => '视频列表', 'tabHash' => 'list', 'url' => U('admin/Content/video'));
+        $this->pageTab[] = array('title' => L('PUBLIC_RECYCLE_BIN'), 'tabHash' => 'rec', 'url' => U('admin/Content/videoRec'));
+        $this->pageTab[] = array('title' => '视频配置', 'tabHash' => 'video_config', 'url' => U('admin/Content/video_config'));
         $data = model('Xdata')->get('admin_Content:video_config');
         // dump($data);exit;
-        $this->pageKeyList = array('ffmpeg_path','video_server','video_ext','video_size','video_transfer_async');
-        $this->opt['video_transfer_async'] = array(0 => '否',1 => '是');
+        $this->pageKeyList = array('ffmpeg_path', 'video_server', 'video_ext', 'video_size', 'video_transfer_async');
+        $this->opt['video_transfer_async'] = array(0 => '否', 1 => '是');
         $this->savePostUrl = U('admin/Content/do_video_config');
         $this->displayConfig($data);
     }
@@ -521,9 +521,9 @@ class ContentAction extends AdministratorAction
      */
     public function denounce($map)
     {
-        $_GET['id'] && $map['id'] = array( 'in',explode(',', t($_GET['id'])) );
-        $_GET['uid'] && $map['uid'] = array( 'in',explode(',', t($_GET['uid'])) );
-        $_GET['fuid'] && $map['fuid'] = array( 'in',explode(',', t($_GET['fuid'])) );
+        $_GET['id'] && $map['id'] = array('in', explode(',', t($_GET['id'])));
+        $_GET['uid'] && $map['uid'] = array('in', explode(',', t($_GET['uid'])));
+        $_GET['fuid'] && $map['fuid'] = array('in', explode(',', t($_GET['fuid'])));
         $_GET['from'] && $map['from'] = t($_GET['from']);
         $map['state'] = $_GET['state'] ? $_GET['state'] : '0';
         $data = model('Denounce')->getFromList($map);
@@ -554,7 +554,7 @@ class ContentAction extends AdministratorAction
         }
 
         $data[] = L('PUBLIC_CONTENT_REPORT_DELETE');
-        $map['id'] = array('in',t($_POST['ids']));
+        $map['id'] = array('in', t($_POST['ids']));
         $data[] = model('Denounce')->where($map)->findAll();
         // todo 记录知识
         echo model('Denounce')->deleteDenounce(t($_POST['ids']), intval($_POST['state'])) ? '1' : '0';
@@ -573,7 +573,7 @@ class ContentAction extends AdministratorAction
         }
 
         $data[] = L('PUBLIC_CONTENT_REPORT_REVOKE');
-        $map['id'] = array('in',t($_POST['ids']));
+        $map['id'] = array('in', t($_POST['ids']));
         $data[] = model('Denounce')->where($map)->findall();
         //todo 记录知识
         echo model('Denounce')->reviewDenounce(t($_POST['ids'])) ? '1' : '0';
@@ -587,17 +587,17 @@ class ContentAction extends AdministratorAction
         $this->assign('pageTitle', '话题管理');
         // 设置列表主键
         $this->_listpk = 'topic_id';
-        $this->pageTab[] = array('title' => '话题管理','tabHash' => 'list','url' => U('admin/Content/topic'));
-        $this->pageTab[] = array('title' => '推荐话题','tabHash' => 'recommendTopic','url' => U('admin/Content/topic', array('recommend' => 1)));
-        $this->pageTab[] = array('title' => '添加话题','tabHash' => 'addTopic','url' => U('admin/Content/addTopic'));
-        $this->pageButton[] = array('title' => '搜索话题','onclick' => "admin.fold('search_form')");
-        $this->pageButton[] = array('title' => '批量屏蔽','onclick' => "admin.setTopic(3,'',0)");
-        $this->searchKey = array('topic_id','topic_name','lock');
+        $this->pageTab[] = array('title' => '话题管理', 'tabHash' => 'list', 'url' => U('admin/Content/topic'));
+        $this->pageTab[] = array('title' => '推荐话题', 'tabHash' => 'recommendTopic', 'url' => U('admin/Content/topic', array('recommend' => 1)));
+        $this->pageTab[] = array('title' => '添加话题', 'tabHash' => 'addTopic', 'url' => U('admin/Content/addTopic'));
+        $this->pageButton[] = array('title' => '搜索话题', 'onclick' => "admin.fold('search_form')");
+        $this->pageButton[] = array('title' => '批量屏蔽', 'onclick' => "admin.setTopic(3,'',0)");
+        $this->searchKey = array('topic_id', 'topic_name', 'lock');
         $this->searchPostUrl = U('admin/Content/topic', array('tabHash' => $_REQUEST['tabHash'], 'recommend' => $_REQUEST['recommend']));
-        $this->opt['recommend'] = array('0' => L('PUBLIC_SYSTEMD_NOACCEPT'),'1' => '是','2' => '否');
-        $this->opt['essence'] = array('0' => L('PUBLIC_SYSTEMD_NOACCEPT'),'1' => '是','2' => '否');
-        $this->opt['lock'] = array('0' => L('PUBLIC_SYSTEMD_NOACCEPT'),'1' => '是','2' => '否');
-        $this->pageKeyList = array('topic_id','topic_name','note','domain','des','pic','topic_user','outlink','DOACTION');
+        $this->opt['recommend'] = array('0' => L('PUBLIC_SYSTEMD_NOACCEPT'), '1' => '是', '2' => '否');
+        $this->opt['essence'] = array('0' => L('PUBLIC_SYSTEMD_NOACCEPT'), '1' => '是', '2' => '否');
+        $this->opt['lock'] = array('0' => L('PUBLIC_SYSTEMD_NOACCEPT'), '1' => '是', '2' => '否');
+        $this->pageKeyList = array('topic_id', 'topic_name', 'note', 'domain', 'des', 'pic', 'topic_user', 'outlink', 'DOACTION');
         //dump($_POST);exit;
         $listData = model('FeedTopicAdmin')->getTopic('', $_REQUEST['recommend']);
         //dump($listData);exit;
@@ -610,14 +610,14 @@ class ContentAction extends AdministratorAction
     public function addTopic()
     {
         $this->assign('pageTitle', '添加话题');
-        $this->pageTab[] = array('title' => '话题管理','tabHash' => 'list','url' => U('admin/Content/topic'));
-        $this->pageTab[] = array('title' => '推荐话题','tabHash' => 'recommendTopic','url' => U('admin/Content/topic', array('recommend' => 1)));
-        $this->pageTab[] = array('title' => '添加话题','tabHash' => 'addTopic','url' => U('admin/Content/addTopic'));
-        $this->pageKeyList = array('topic_name','note','domain','des','pic','topic_user','outlink','recommend');
+        $this->pageTab[] = array('title' => '话题管理', 'tabHash' => 'list', 'url' => U('admin/Content/topic'));
+        $this->pageTab[] = array('title' => '推荐话题', 'tabHash' => 'recommendTopic', 'url' => U('admin/Content/topic', array('recommend' => 1)));
+        $this->pageTab[] = array('title' => '添加话题', 'tabHash' => 'addTopic', 'url' => U('admin/Content/addTopic'));
+        $this->pageKeyList = array('topic_name', 'note', 'domain', 'des', 'pic', 'topic_user', 'outlink', 'recommend');
         $topic['domain'] = SITE_URL.'/topics/'.'<input type="text" value="" name="domain" id="form_domain">';
-        $this->opt['recommend'] = array('1' => '是','0' => '否');
+        $this->opt['recommend'] = array('1' => '是', '0' => '否');
         //$this->opt['essence'] = array('1'=>'是','0'=>'否');
-        $this->notEmpty = array('topic_name','note');
+        $this->notEmpty = array('topic_name', 'note');
         // 表单URL设置
         $this->savePostUrl = U('admin/Content/doAddTopic');
         $this->onsubmit = 'admin.topicCheck(this)';
@@ -686,7 +686,7 @@ class ContentAction extends AdministratorAction
             $value = 1;
         }
         !is_array($_POST['topic_id']) && $_POST['topic_id'] = array($_POST['topic_id']);
-        $map['topic_id'] = array('in',$_POST['topic_id']);
+        $map['topic_id'] = array('in', $_POST['topic_id']);
         $result = model('FeedTopic')->where($map)->setField($field, $value);
         if (!$result) {
             $return['status'] = 0;
@@ -706,12 +706,12 @@ class ContentAction extends AdministratorAction
     public function editTopic()
     {
         $this->assign('pageTitle', '编辑话题');
-        $this->pageTab[] = array('title' => '话题管理','tabHash' => 'list','url' => U('admin/Content/topic'));
-        $this->pageTab[] = array('title' => '推荐话题','tabHash' => 'recommendTopic','url' => U('admin/Content/topic', array('recommend' => 1)));
-        $this->pageTab[] = array('title' => '添加话题','tabHash' => 'addTopic','url' => U('admin/Content/addTopic'));
-        $this->pageTab[] = array('title' => '编辑话题','tabHash' => 'editTopic','url' => U('admin/Content/editTopic', array('topic_id' => intval($_GET['topic_id']), 'tabHash' => 'editTopic')));
-        $this->pageKeyList = array('topic_id','topic_name','note','domain','des','pic','topic_user','outlink','recommend');
-        $this->opt['recommend'] = array('1' => '是','0' => '否');
+        $this->pageTab[] = array('title' => '话题管理', 'tabHash' => 'list', 'url' => U('admin/Content/topic'));
+        $this->pageTab[] = array('title' => '推荐话题', 'tabHash' => 'recommendTopic', 'url' => U('admin/Content/topic', array('recommend' => 1)));
+        $this->pageTab[] = array('title' => '添加话题', 'tabHash' => 'addTopic', 'url' => U('admin/Content/addTopic'));
+        $this->pageTab[] = array('title' => '编辑话题', 'tabHash' => 'editTopic', 'url' => U('admin/Content/editTopic', array('topic_id' => intval($_GET['topic_id']), 'tabHash' => 'editTopic')));
+        $this->pageKeyList = array('topic_id', 'topic_name', 'note', 'domain', 'des', 'pic', 'topic_user', 'outlink', 'recommend');
+        $this->opt['recommend'] = array('1' => '是', '0' => '否');
         //$this->opt['essence'] = array('1'=>'是','0'=>'否');
         $topic = model('FeedTopic')->where('topic_id='.intval($_GET['topic_id']))->find();
         if ($topic['pic']) {
@@ -783,13 +783,13 @@ class ContentAction extends AdministratorAction
     {
         $this->assign('pageTitle', '模板管理');
 
-        $this->pageTab[] = array('title' => '模板管理','tabHash' => 'template','url' => U('admin/Content/template'));
-        $this->pageTab[] = array('title' => '添加模板','tabHash' => 'upTemplate','url' => U('admin/Content/upTemplate'));
+        $this->pageTab[] = array('title' => '模板管理', 'tabHash' => 'template', 'url' => U('admin/Content/template'));
+        $this->pageTab[] = array('title' => '添加模板', 'tabHash' => 'upTemplate', 'url' => U('admin/Content/upTemplate'));
 
-        $this->pageButton[] = array('title' => '添加模板','onclick' => "location.href='".U('admin/Content/upTemplate')."'");
-        $this->pageButton[] = array('title' => '删除模板','onclick' => 'admin.delTemplate()');
+        $this->pageButton[] = array('title' => '添加模板', 'onclick' => "location.href='".U('admin/Content/upTemplate')."'");
+        $this->pageButton[] = array('title' => '删除模板', 'onclick' => 'admin.delTemplate()');
 
-        $this->pageKeyList = array('tpl_id','name','alias','title','body','lang','type','type2','is_cache','ctime','DOACTION');
+        $this->pageKeyList = array('tpl_id', 'name', 'alias', 'title', 'body', 'lang', 'type', 'type2', 'is_cache', 'ctime', 'DOACTION');
         // 获取模板数据
         $listData = model('Template')->getTemplate();
         foreach ($listData['data'] as &$value) {
@@ -807,19 +807,19 @@ class ContentAction extends AdministratorAction
     public function upTemplate()
     {
         $_REQUEST['tabHash'] = 'upTemplate';
-        $this->pageTab[] = array('title' => '模板管理','tabHash' => 'template','url' => U('admin/Content/template'));
+        $this->pageTab[] = array('title' => '模板管理', 'tabHash' => 'template', 'url' => U('admin/Content/template'));
         if (isset($_GET['tpl_id'])) {
             $this->assign('pageTitle', '编辑模板');
-            $this->pageTab[] = array('title' => '编辑模板','tabHash' => 'upTemplate','url' => U('admin/Content/upTemplate', array('tpl_id' => intval($_GET['tpl_id']))));
+            $this->pageTab[] = array('title' => '编辑模板', 'tabHash' => 'upTemplate', 'url' => U('admin/Content/upTemplate', array('tpl_id' => intval($_GET['tpl_id']))));
         } else {
             $this->assign('pageTitle', '添加模板');
-            $this->pageTab[] = array('title' => '添加模板','tabHash' => 'upTemplate','url' => U('admin/Content/upTemplate'));
+            $this->pageTab[] = array('title' => '添加模板', 'tabHash' => 'upTemplate', 'url' => U('admin/Content/upTemplate'));
         }
 
-        $this->pageKeyList = array('tpl_id','name','alias','title','body','lang','type','type2','is_cache');
+        $this->pageKeyList = array('tpl_id', 'name', 'alias', 'title', 'body', 'lang', 'type', 'type2', 'is_cache');
         $this->opt['is_cache'] = array('否', '是');
 
-        $this->notEmpty = array('name','lang');
+        $this->notEmpty = array('name', 'lang');
         $this->onsubmit = 'admin.checkTemplate(this)';
 
         // 获取信息

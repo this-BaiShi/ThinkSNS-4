@@ -194,7 +194,7 @@ class MessageAction extends BaseAction
      */
     public function doPost()
     {
-        $return = array('data' => L('PUBLIC_SEND_SUCCESS'),'status' => 1);
+        $return = array('data' => L('PUBLIC_SEND_SUCCESS'), 'status' => 1);
         if (empty($_POST['to']) || !CheckPermission('core_normal', 'send_message')) {
             $return['data'] = L('PUBLIC_SYSTEM_MAIL_ISNOT');
             $return['status'] = 0;

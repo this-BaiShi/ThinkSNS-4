@@ -19,7 +19,7 @@ class AttachAction extends Action
         $savename = str_ireplace('..', '', $savename);
 
         list($first, $extension) = explode('.', $savename);
-        $imagetype = array('jpg', 'png', 'gif', 'bmp', 'jpeg' );
+        $imagetype = array('jpg', 'png', 'gif', 'bmp', 'jpeg');
         if (! in_array(strtolower($extension), $imagetype)) {
             return;
         } else {
@@ -302,7 +302,7 @@ class AttachAction extends Action
         ImageDestroy($sdst_r);
         ImageDestroy($img_r);
 
-        $output = array( 'big' => $face_url.'/middle_face.jpg', 'small' => $face_url.'/small_face.jpg' );
+        $output = array('big' => $face_url.'/middle_face.jpg', 'small' => $face_url.'/small_face.jpg');
 
         echo json_encode($output);
     }

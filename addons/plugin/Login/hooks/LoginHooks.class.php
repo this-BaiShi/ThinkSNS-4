@@ -620,7 +620,7 @@ class LoginHooks extends Hooks
         $obj->checkUser('bind');
         if (! isset(self::$validPublish [$_SESSION ['open_platform_type']])) {
             $result ['status'] = 0;
-            $result ['url'] = U('public/Widget/displayAddons', array('class' => __CLASS__, 'type' => "{$type}" ));
+            $result ['url'] = U('public/Widget/displayAddons', array('class' => __CLASS__, 'type' => "{$type}"));
             $result ['info'] = '授权失败';
         }
 
@@ -628,7 +628,7 @@ class LoginHooks extends Hooks
         $userinfo = $obj->userInfo();
         if (!isset($userinfo ['id']) || empty($userinfo ['uname'])) {
             $result ['status'] = 0;
-            $result ['url'] = U('public/Widget/displayAddons', array('class' => __CLASS__, 'type' => "{$type}"  ));
+            $result ['url'] = U('public/Widget/displayAddons', array('class' => __CLASS__, 'type' => "{$type}"));
             $result ['info'] = '获取用户信息失败';
 
             return;

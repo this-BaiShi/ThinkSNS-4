@@ -86,8 +86,8 @@ class HomeAction extends AdministratorAction
         $visitCount = array();
         $today = date('Y-m-d');
         $yesterday = date('Y-m-d', strtotime('-1 day'));
-        $visitCount['today'] = array('pv' => $d[$today]['total_pageviews'],'pu' => $d[$today]['total_users'],'guest' => $d[$today]['total_guests']);
-        $visitCount['yesterday'] = array('pv' => $d[$yesterday]['total_pageviews'],'pu' => $d[$yesterday]['total_users'],'guest' => $d[$yesterday]['total_guests']);
+        $visitCount['today'] = array('pv' => $d[$today]['total_pageviews'], 'pu' => $d[$today]['total_users'], 'guest' => $d[$today]['total_guests']);
+        $visitCount['yesterday'] = array('pv' => $d[$yesterday]['total_pageviews'], 'pu' => $d[$yesterday]['total_users'], 'guest' => $d[$yesterday]['total_guests']);
         $apv = 0;
         $apu = 0;
         $agu = 0;
@@ -97,7 +97,7 @@ class HomeAction extends AdministratorAction
             $agu += $v['total_guests'];
         }
 
-        $visitCount['weekAvg'] = array('pv' => ceil($apv / count($d)),'pu' => ceil($apu / count($d)),'guest' => ceil($agu / count($d)));
+        $visitCount['weekAvg'] = array('pv' => ceil($apv / count($d)), 'pu' => ceil($apu / count($d)), 'guest' => ceil($agu / count($d)));
         $this->assign('visitCount', $visitCount);
 
         $serverInfo[L('PUBLIC_DATABASE_SIZE')] = byte_format($dbsize);
@@ -163,20 +163,20 @@ class HomeAction extends AdministratorAction
     public function logs()
     {
         // 列表key值 DOACTION表示操作
-        $this->pageKeyList = array('id','uid','uname','app_name','ip','data','ctime','isAdmin','type_info','DOACTION');
+        $this->pageKeyList = array('id', 'uid', 'uname', 'app_name', 'ip', 'data', 'ctime', 'isAdmin', 'type_info', 'DOACTION');
         // 搜索key值
-        $this->searchKey = array('uname','app_name',array('ctime','ctime1'),'isAdmin','keyword');
+        $this->searchKey = array('uname', 'app_name', array('ctime', 'ctime1'), 'isAdmin', 'keyword');
         // 针对搜索的特殊选项
-        $this->opt['isAdmin'] = array('0' => L('PUBLIC_USER_LOGS'),'1' => L('PUBLIC_MANAGEMENT_LOG'));
-        $this->opt['app_name'] = array('0' => L('PUBLIC_ALL_STREAM'),'admin' => L('PUBLIC_SYSTEM_BACK'));    //TODO 从目录读取 或者应用表里读取
+        $this->opt['isAdmin'] = array('0' => L('PUBLIC_USER_LOGS'), '1' => L('PUBLIC_MANAGEMENT_LOG'));
+        $this->opt['app_name'] = array('0' => L('PUBLIC_ALL_STREAM'), 'admin' => L('PUBLIC_SYSTEM_BACK'));    //TODO 从目录读取 或者应用表里读取
         // Tab选项
-        $this->pageTab[] = array('title' => '日志列表','tabHash' => 'list','url' => U('admin/Home/logs'));
-        $this->pageTab[] = array('title' => '日志归档','tabHash' => 'down','url' => U('admin/Home/logsArchive'));
+        $this->pageTab[] = array('title' => '日志列表', 'tabHash' => 'list', 'url' => U('admin/Home/logs'));
+        $this->pageTab[] = array('title' => '日志归档', 'tabHash' => 'down', 'url' => U('admin/Home/logsArchive'));
         // 指定查询的表尾
         $table = isset($_REQUEST['table']) ? t($_REQUEST['table']) : '';
         // 列表分页栏按钮
-        $this->pageButton[] = array('title' => L('PUBLIC_SEARCH_INDEX'),'onclick' => "admin.fold('search_form')");
-        $this->pageButton[] = array('title' => L('PUBLIC_SYSTEM_DELALL'),'onclick' => "admin.delselectLog('{$table}')");
+        $this->pageButton[] = array('title' => L('PUBLIC_SEARCH_INDEX'), 'onclick' => "admin.fold('search_form')");
+        $this->pageButton[] = array('title' => L('PUBLIC_SYSTEM_DELALL'), 'onclick' => "admin.delselectLog('{$table}')");
         // 数据的格式化 与pageKeyList保持一致 
         $listData = $this->_getLogsData($table);
         $this->displayList($listData);
@@ -188,14 +188,14 @@ class HomeAction extends AdministratorAction
     public function logsArchive()
     {
         // 列表key值 DOACTION表示操作
-        $this->pageKeyList = array('Name','Engine','Version','Rows','Data_length','Data_free','Create_time','Update_time','Collation','DOACTION');
+        $this->pageKeyList = array('Name', 'Engine', 'Version', 'Rows', 'Data_length', 'Data_free', 'Create_time', 'Update_time', 'Collation', 'DOACTION');
         // Tab选项
-        $this->pageTab[] = array('title' => '日志列表','tabHash' => 'list','url' => U('admin/Home/logs'));
-        $this->pageTab[] = array('title' => '日志归档','tabHash' => 'down','url' => U('admin/Home/logsArchive'));
+        $this->pageTab[] = array('title' => '日志列表', 'tabHash' => 'list', 'url' => U('admin/Home/logs'));
+        $this->pageTab[] = array('title' => '日志归档', 'tabHash' => 'down', 'url' => U('admin/Home/logsArchive'));
         // 列表分页栏按钮
-        $this->pageButton[] = array('title' => L('PUBLIC_LOGS_REMOVE_SEX'),'onclick' => 'admin.cleanLogs(6)');
-        $this->pageButton[] = array('title' => L('PUBLIC_LOGS_REMOVE_SET'),'onclick' => 'admin.cleanLogs(12)');
-        $this->pageButton[] = array('title' => L('PUBLIC_LOGS_REMOVE_LOG'),'onclick' => 'admin.logsArchive()');
+        $this->pageButton[] = array('title' => L('PUBLIC_LOGS_REMOVE_SEX'), 'onclick' => 'admin.cleanLogs(6)');
+        $this->pageButton[] = array('title' => L('PUBLIC_LOGS_REMOVE_SET'), 'onclick' => 'admin.cleanLogs(12)');
+        $this->pageButton[] = array('title' => L('PUBLIC_LOGS_REMOVE_LOG'), 'onclick' => 'admin.logsArchive()');
 
         $data['data'] = D('')->query("SHOW TABLE STATUS LIKE '".C('DB_PREFIX')."x_logs%'") ;
 
@@ -231,7 +231,7 @@ class HomeAction extends AdministratorAction
     public function _cleanLogs()
     {
         // TODO:验证清理权限
-        $return = array('status' => 1,'data' => '');
+        $return = array('status' => 1, 'data' => '');
         if (model('Logs')->cleanLogs($_POST['m'])) {
             $return['data'] = L('PUBLIC_SYSTEM_LOG_REMOVE');
         } else {
@@ -249,7 +249,7 @@ class HomeAction extends AdministratorAction
     public function _logsArchive()
     {
         // TODO:验证权限
-        $return = array('status' => 1,'data' => '');
+        $return = array('status' => 1, 'data' => '');
         if (model('Logs')->logsArchive()) {
             $return['data'] = L('PUBLIC_SYSTEM_LOGSUM_SUCCESS');
         } else {
@@ -266,7 +266,7 @@ class HomeAction extends AdministratorAction
      */
     public function _delLogs()
     {
-        $return = array('status' => 1,'data' => '');
+        $return = array('status' => 1, 'data' => '');
         if (model('Logs')->dellogs($_REQUEST['id'], t($_REQUEST['table']))) {
             $return['data'] = '删除成功';
         } else {
@@ -293,7 +293,7 @@ class HomeAction extends AdministratorAction
         !empty($map['keyword']) && $_map['keyword'] = array('LIKE', '%'.t($map['keyword']).'%');
 
         if (!empty($map['ctime'][0]) && !empty($map['ctime'][1])) {
-            $_map['ctime'] = array('BETWEEN', array(strtotime($map['ctime'][0]),strtotime($map['ctime'][1])));
+            $_map['ctime'] = array('BETWEEN', array(strtotime($map['ctime'][0]), strtotime($map['ctime'][1])));
         } else {
             !empty($map['ctime'][0]) && $_map['ctime'] = array('GT', strtotime($map['ctime'][0]));
             !empty($map['ctime'][1]) && $_map['ctime'] = array('LT', strtotime($map['ctime'][1]));
@@ -335,10 +335,10 @@ class HomeAction extends AdministratorAction
      */
     public function schedule()
     {
-        $this->pageKeyList = array('id','method','schedule_type','modifier','dirlist','month','start_datetime','end_datetime','last_run_time','info');
-        $this->pageTab[] = array('title' => L('PUBLIC_SCHEDULED_TASK_LIST'),'tabHash' => 'list','url' => U('admin/Home/schedule'));
-        $this->pageTab[] = array('title' => L('PUBLIC_SCHEDULED_TASK_CREATE'),'tabHash' => 'new','url' => U('admin/Home/newschedule'));
-        $this->pageButton[] = array('title' => L('PUBLIC_SCHEDULED_TASK_DELETE'),'onclick' => 'admin.delschedule()');
+        $this->pageKeyList = array('id', 'method', 'schedule_type', 'modifier', 'dirlist', 'month', 'start_datetime', 'end_datetime', 'last_run_time', 'info');
+        $this->pageTab[] = array('title' => L('PUBLIC_SCHEDULED_TASK_LIST'), 'tabHash' => 'list', 'url' => U('admin/Home/schedule'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SCHEDULED_TASK_CREATE'), 'tabHash' => 'new', 'url' => U('admin/Home/newschedule'));
+        $this->pageButton[] = array('title' => L('PUBLIC_SCHEDULED_TASK_DELETE'), 'onclick' => 'admin.delschedule()');
 
         $list = model('Schedule')->getScheduleList();
         $listdata['data'] = array();
@@ -354,8 +354,8 @@ class HomeAction extends AdministratorAction
      */
     public function newschedule()
     {
-        $this->pageKeyList = array('task_to_run','schedule_type','modifier','dirlist','month','start_datetime','end_datetime','info');
-        $this->opt['schedule_type'] = array('ONCE' => '只执行一次','MINUTE' => '每分钟','HOURLY' => '每小时','DAILY' => '每小时','WEEKLY' => '每周','MONTHLY' => '每月');
+        $this->pageKeyList = array('task_to_run', 'schedule_type', 'modifier', 'dirlist', 'month', 'start_datetime', 'end_datetime', 'info');
+        $this->opt['schedule_type'] = array('ONCE' => '只执行一次', 'MINUTE' => '每分钟', 'HOURLY' => '每小时', 'DAILY' => '每小时', 'WEEKLY' => '每周', 'MONTHLY' => '每月');
         // 计划任务保存地址
         $this->savePostUrl = U('admin/Home/saveschedule');
         $this->displayConfig(array());
@@ -381,7 +381,7 @@ class HomeAction extends AdministratorAction
      */
     public function doDeleteSchedule()
     {
-        $return = array('status' => 1,'data' => L('PUBLIC_DELETE_SUCCESS'));
+        $return = array('status' => 1, 'data' => L('PUBLIC_DELETE_SUCCESS'));
         $ids = is_array($_POST ['id']) ? $_POST['id'] : array(intval($_POST['id']));
         $res = model('Schedule')->delSchedule($ids);
         if ($res) {
@@ -406,11 +406,11 @@ class HomeAction extends AdministratorAction
     public function systemdata()
     {
         //列表key值 DOACTION表示操作
-        $this->pageKeyList = array('name','key','value','DOACTION');
+        $this->pageKeyList = array('name', 'key', 'value', 'DOACTION');
 
         //tab选项
-        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_DATA_SQLLIST'),'tabHash' => 'list','url' => U('admin/Home/addsystemdata'));
-        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_ADD_DATA'),'tabHash' => 'add','url' => U('admin/Home/addsystemdata'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_DATA_SQLLIST'), 'tabHash' => 'list', 'url' => U('admin/Home/addsystemdata'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_ADD_DATA'), 'tabHash' => 'add', 'url' => U('admin/Home/addsystemdata'));
 
         /*数据的格式化 与listKey保持一致 */
         $data = model('Xdata')->lget('dict');
@@ -440,7 +440,7 @@ class HomeAction extends AdministratorAction
             $this->assign('pageTitle', L('PUBLIC_SYSTEM_ADD_DATA'));
             $detail = array();
         }
-        $this->pageKeyList = array('id','name','key','value');
+        $this->pageKeyList = array('id', 'name', 'key', 'value');
         $this->savePostUrl = U('admin/Home/doaddsystemdata');
         $this->displayConfig($detail);
     }
@@ -477,9 +477,9 @@ class HomeAction extends AdministratorAction
     //删除数据
     public function deladdsystemdata()
     {
-        $return = array('status' => 1,'data' => L('PUBLIC_DELETE_SUCCESS'));
+        $return = array('status' => 1, 'data' => L('PUBLIC_DELETE_SUCCESS'));
         if (empty($_POST['key'])) {
-            $return = array('status' => 0,'data' => L('PUBLIC_ID_NOEXIST'));
+            $return = array('status' => 0, 'data' => L('PUBLIC_ID_NOEXIST'));
             echo json_encode($return);
             exit();
         }
@@ -491,7 +491,7 @@ class HomeAction extends AdministratorAction
         } else {
             $error = model('Xdata')->getError();
             empty($error) && $error = L('SSC_DELETE_FAIL');
-            $return = array('status' => 0,'data' => $error);
+            $return = array('status' => 0, 'data' => $error);
         }
         echo json_encode($return);
         exit();
@@ -503,13 +503,13 @@ class HomeAction extends AdministratorAction
     public function feedback()
     {
         // 列表key值 DOACTION表示操作
-        $this->pageKeyList = array('id','feedbacktype','feedback','uid','cTime','type','DOACTION');
+        $this->pageKeyList = array('id', 'feedbacktype', 'feedback', 'uid', 'cTime', 'type', 'DOACTION');
 
-        $this->pageTab[] = array('title' => L('PUBLIC_FEEDBACK_LIST'),'tabHash' => 'list','url' => U('admin/Home/feedback'));
-        $this->pageTab[] = array('title' => L('PUBLIC_FEEDBACK_TYPE'),'tabHash' => 'type','url' => U('admin/Home/feedbackType'));
+        $this->pageTab[] = array('title' => L('PUBLIC_FEEDBACK_LIST'), 'tabHash' => 'list', 'url' => U('admin/Home/feedback'));
+        $this->pageTab[] = array('title' => L('PUBLIC_FEEDBACK_TYPE'), 'tabHash' => 'type', 'url' => U('admin/Home/feedbackType'));
 
-        $this->pageButton[] = array('title' => L('PUBLIC_ALREADY_PROCESSED'),'onclick' => "location.href = '".U('admin/Home/feedback', array('type' => 'true'))."'");
-        $this->pageButton[] = array('title' => L('PUBLIC_WAIT_PROCESSE'),'onclick' => "location.href = '".U('admin/Home/feedback', array('type' => 'false'))."'");
+        $this->pageButton[] = array('title' => L('PUBLIC_ALREADY_PROCESSED'), 'onclick' => "location.href = '".U('admin/Home/feedback', array('type' => 'true'))."'");
+        $this->pageButton[] = array('title' => L('PUBLIC_WAIT_PROCESSE'), 'onclick' => "location.href = '".U('admin/Home/feedback', array('type' => 'false'))."'");
         // 列表分页栏 按钮
         $this->allSelected = false;
         $this->assign('pageTitle', L('PUBLIC_FEEDBACK_MANAGE'));
@@ -550,12 +550,12 @@ class HomeAction extends AdministratorAction
     public function feedbackType()
     {
         // 列表key值 DOACTION表示操作
-        $this->pageKeyList = array('type_id','type_name','DOACTION');
+        $this->pageKeyList = array('type_id', 'type_name', 'DOACTION');
         // 列表分页栏 按钮
-        $this->pageTab[] = array('title' => L('PUBLIC_FEEDBACK_LIST'),'tabHash' => 'list','url' => U('admin/Home/feedback'));
-        $this->pageTab[] = array('title' => L('PUBLIC_FEEDBACK_TYPE'),'tabHash' => 'type','url' => U('admin/Home/feedbackType'));
+        $this->pageTab[] = array('title' => L('PUBLIC_FEEDBACK_LIST'), 'tabHash' => 'list', 'url' => U('admin/Home/feedback'));
+        $this->pageTab[] = array('title' => L('PUBLIC_FEEDBACK_TYPE'), 'tabHash' => 'type', 'url' => U('admin/Home/feedbackType'));
 
-        $this->pageButton[] = array('title' => L('PUBLIC_FEEDBACK_ADD_TYPE'),'onclick' => "location.href = '".U('admin/Home/addFeedbackType', array('tabHash' => 'type'))."'");
+        $this->pageButton[] = array('title' => L('PUBLIC_FEEDBACK_ADD_TYPE'), 'onclick' => "location.href = '".U('admin/Home/addFeedbackType', array('tabHash' => 'type'))."'");
 
         $this->assign('pageTitle', L('PUBLIC_FEEDBACK_CATEGORY_MANAGE'));
         // 数据的格式化与listKey保持一致		
@@ -579,12 +579,12 @@ class HomeAction extends AdministratorAction
         } else {
             $detail = array();
         }
-        $this->pageKeyList = array('feedbacktype','uid','feedback','cTme');
+        $this->pageKeyList = array('feedbacktype', 'uid', 'feedback', 'cTme');
         $this->savePostUrl = U('admin/Home/delfeedback', array('id' => intval($_GET['id'])));
         $this->submitAlias = L('PUBLIC_MARK_PROCESSED');
 
-        $this->pageTab[] = array('title' => L('PUBLIC_FEEDBACK_LIST'),'tabHash' => 'list','url' => U('admin/Home/feedback'));
-        $this->pageTab[] = array('title' => L('PUBLIC_FEEDBACK_TYPE'),'tabHash' => 'type','url' => U('admin/Home/feedbackType'));
+        $this->pageTab[] = array('title' => L('PUBLIC_FEEDBACK_LIST'), 'tabHash' => 'list', 'url' => U('admin/Home/feedback'));
+        $this->pageTab[] = array('title' => L('PUBLIC_FEEDBACK_TYPE'), 'tabHash' => 'type', 'url' => U('admin/Home/feedbackType'));
 
         $this->assign('pageTitle', L('PUBLIC_DETAILS_LIST'));
 
@@ -594,8 +594,8 @@ class HomeAction extends AdministratorAction
     //添加反馈类型
     public function addFeedbackType()
     {
-        $this->pageTab[] = array('title' => L('PUBLIC_FEEDBACK_LIST'),'tabHash' => 'list','url' => U('admin/Home/feedback'));
-        $this->pageTab[] = array('title' => L('PUBLIC_FEEDBACK_TYPE'),'tabHash' => 'type','url' => U('admin/Home/feedbackType'));
+        $this->pageTab[] = array('title' => L('PUBLIC_FEEDBACK_LIST'), 'tabHash' => 'list', 'url' => U('admin/Home/feedback'));
+        $this->pageTab[] = array('title' => L('PUBLIC_FEEDBACK_TYPE'), 'tabHash' => 'type', 'url' => U('admin/Home/feedbackType'));
         if (!empty($_GET['type_id'])) {
             $this->assign('pageTitle', L('PUBLIC_FEEDBACK_EDIT_TYPE'));
             $detail = D('')->table(C('DB_PREFIX').'feedback_type')->where('type_id='.intval($_GET['type_id']))->find();
@@ -605,7 +605,7 @@ class HomeAction extends AdministratorAction
             $detail = array();
         }
 
-        $this->pageKeyList = array('type_id','type_name');
+        $this->pageKeyList = array('type_id', 'type_name');
         $this->savePostUrl = U('admin/Home/doaddFeedbackType');
         $this->displayConfig($detail);
     }
@@ -670,8 +670,8 @@ class HomeAction extends AdministratorAction
     public function message()
     {
         //$this->pageKeyList = array('user_group_id','type','content');
-        $this->pageKeyList = array('user_group_id','content');    //现在后台只支持发送系统消息
-        $this->opt['type'] = array('0' => L('PUBLIC_MAIL_INLOCALHOST'),'1' => 'Email');
+        $this->pageKeyList = array('user_group_id', 'content');    //现在后台只支持发送系统消息
+        $this->opt['type'] = array('0' => L('PUBLIC_MAIL_INLOCALHOST'), '1' => 'Email');
         $groupHash = model('UserGroup')->getHashUsergroup();
         $this->opt['user_group_id'] = array_merge(array(0 => L('PUBLIC_ALL_USERS')), $groupHash);
         $this->savePostUrl = U('admin/Home/dosendmsg');
@@ -708,14 +708,14 @@ class HomeAction extends AdministratorAction
     public function invatecount()
     {
         // 列表key值 DOACTION表示操作
-        $this->pageKeyList = array('invite_record_id','receiver_uid','inviter_uid','is_audit','is_active','is_init','ctime','recived_email');
+        $this->pageKeyList = array('invite_record_id', 'receiver_uid', 'inviter_uid', 'is_audit', 'is_active', 'is_init', 'ctime', 'recived_email');
         // 搜索key值
-        $this->searchKey = array('inviter_uid','receiver_uid');
+        $this->searchKey = array('inviter_uid', 'receiver_uid');
         // tab选项
-        $this->pageTab[] = array('title' => L('PUBLIC_INVITE_LIST'),'tabHash' => 'list','url' => U('admin/Home/invatecount'));
-        $this->pageTab[] = array('title' => L('PUBLIC_INVITE_TOP'),'tabHash' => 'top','url' => U('admin/Home/invateTop'));
+        $this->pageTab[] = array('title' => L('PUBLIC_INVITE_LIST'), 'tabHash' => 'list', 'url' => U('admin/Home/invatecount'));
+        $this->pageTab[] = array('title' => L('PUBLIC_INVITE_TOP'), 'tabHash' => 'top', 'url' => U('admin/Home/invateTop'));
         // 列表分页栏 按钮
-        $this->pageButton[] = array('title' => L('PUBLIC_SEARCH_INDEX'),'onclick' => "admin.fold('search_form')");
+        $this->pageButton[] = array('title' => L('PUBLIC_SEARCH_INDEX'), 'onclick' => "admin.fold('search_form')");
         // 数据的格式化 与listKey保持一致
         $map = array();
         !empty($_POST['inviter_uid']) && $map['inviter_uid'] = intval($_POST['inviter_uid']);
@@ -744,14 +744,14 @@ class HomeAction extends AdministratorAction
      */
     public function invateTop()
     {
-        $this->pageKeyList = array('sort','inviter_uid','nums','DOACTION');
+        $this->pageKeyList = array('sort', 'inviter_uid', 'nums', 'DOACTION');
         // 搜索key值
         $this->searchKey = array('inviter_uid');
         $_REQUEST['tabHash'] = 'top';
-        $this->pageTab[] = array('title' => L('PUBLIC_INVITE_LIST'),'tabHash' => 'list','url' => U('admin/Home/invatecount'));
-        $this->pageTab[] = array('title' => L('PUBLIC_INVITE_TOP'),'tabHash' => 'top','url' => U('admin/Home/invateTop'));
+        $this->pageTab[] = array('title' => L('PUBLIC_INVITE_LIST'), 'tabHash' => 'list', 'url' => U('admin/Home/invatecount'));
+        $this->pageTab[] = array('title' => L('PUBLIC_INVITE_TOP'), 'tabHash' => 'top', 'url' => U('admin/Home/invateTop'));
         //列表分页栏 按钮
-        $this->pageButton[] = array('title' => L('PUBLIC_SEARCH_INDEX'),'onclick' => "admin.fold('search_form')");
+        $this->pageButton[] = array('title' => L('PUBLIC_SEARCH_INDEX'), 'onclick' => "admin.fold('search_form')");
         $_POST = $this->getSearchPost();
         $uids = empty($_POST['inviter_uid']) ? '' : explode(',', $_POST['inviter_uid']);
         $where = !empty($uids) ? " inviter_uid in ('".implode("','", $uids)."')" : '';
@@ -780,8 +780,8 @@ class HomeAction extends AdministratorAction
         }
         $_GET['inviter_uid'] = intval($_GET['inviter_uid']);
         // 列表key值 DOACTION表示操作
-        $this->pageKeyList = array('invite_record_id','receiver_uid','is_audit','is_active','is_init','ctime','recived_email');
-        $this->pageButton[] = array('title' => L('PUBLIC_BACK'),'onclick' => "window.location.href='".U('admin/Home/invateTop')."'");
+        $this->pageKeyList = array('invite_record_id', 'receiver_uid', 'is_audit', 'is_active', 'is_init', 'ctime', 'recived_email');
+        $this->pageButton[] = array('title' => L('PUBLIC_BACK'), 'onclick' => "window.location.href='".U('admin/Home/invateTop')."'");
         $map['inviter_uid'] = intval($_GET['inviter_uid']);
         // 获取相关数据
         $listData = model('Invite')->getPage($map, 20);
@@ -806,13 +806,13 @@ class HomeAction extends AdministratorAction
     public function tag()
     {
         //列表key值 DOACTION表示操作
-        $this->pageKeyList = array('tag_id','table','name','DOACTION');
+        $this->pageKeyList = array('tag_id', 'table', 'name', 'DOACTION');
         //搜索key值
-        $this->searchKey = array('name','table');
+        $this->searchKey = array('name', 'table');
         $this->opt['table'] = model('Tag')->getTableHash();
 
         //列表分页栏 按钮
-        $this->pageButton[] = array('title' => L('PUBLIC_SEARCH_INDEX'),'onclick' => "admin.fold('search_form')");
+        $this->pageButton[] = array('title' => L('PUBLIC_SEARCH_INDEX'), 'onclick' => "admin.fold('search_form')");
 
         /*数据的格式化 与listKey保持一致 */
         $map = array();
@@ -834,9 +834,9 @@ class HomeAction extends AdministratorAction
         $map['tag_id'] = intval($_REQUEST['tag_id']);
         $map['_string'] = "`table` = '".t($_REQUEST['table'])."'";
         $map['row_id'] = intval($_REQUEST['row_id']);
-        $return = array('status' => 0,'data' => L('PUBLIC_ADMIN_OPRETING_ERROR'));
+        $return = array('status' => 0, 'data' => L('PUBLIC_ADMIN_OPRETING_ERROR'));
         if ($map['tag_id'] > 0 &&  D('')->table(C('DB_PREFIX').'app_tag')->where($map)->delete()) {
-            $return = array('status' => 1,'data' => L('PUBLIC_ADMIN_OPRETING_SUCCESS'));
+            $return = array('status' => 1, 'data' => L('PUBLIC_ADMIN_OPRETING_SUCCESS'));
         }
         echo json_encode($return);
     }
@@ -907,7 +907,7 @@ class HomeAction extends AdministratorAction
             $this->success('保存成功');
         }
 
-        $this->pageKeyList = array( 'cachetype','cachesetting', 'status' );
+        $this->pageKeyList = array('cachetype', 'cachesetting', 'status');
         $this->opt['cachetype'] = array(
                 'File' => '文件缓存',
                 //'Db'=>'数据库缓存',

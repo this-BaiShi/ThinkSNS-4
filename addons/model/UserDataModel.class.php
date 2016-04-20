@@ -7,7 +7,7 @@
 class UserDataModel extends Model
 {
     protected $tableName = 'user_data';
-    protected $fields = array(0 => 'id',1 => 'uid',2 => 'key',3 => 'value',4 => 'mtime',5 => 'at_value');
+    protected $fields = array(0 => 'id', 1 => 'uid', 2 => 'key', 3 => 'value', 4 => 'mtime', 5 => 'at_value');
     protected $uid = '';
 
     /**
@@ -169,7 +169,7 @@ class UserDataModel extends Model
     }
     public function getUserKeyDataByUids($key = 'weibo_count', $uids)
     {
-        $map['uid'] = array( 'in' , $uids );
+        $map['uid'] = array('in', $uids);
         $map['key'] = $key;
         $list = $this->where($map)->field('uid,value')->findAll();
         $rearray = array();
@@ -233,7 +233,7 @@ class UserDataModel extends Model
         }
 
         $map['uid'] = array('in', $uids);
-        $map['key'] = array('in', array('feed_count', 'weibo_count', 'favorite_count', 'following_count', 'follower_count','collect_blog_count','collect_topic_count','collect_total_count'));
+        $map['key'] = array('in', array('feed_count', 'weibo_count', 'favorite_count', 'following_count', 'follower_count', 'collect_blog_count', 'collect_topic_count', 'collect_total_count'));
         $this->where($map)->delete();
 
         foreach ($res as $uid => $vo) {

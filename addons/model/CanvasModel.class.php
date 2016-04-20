@@ -102,7 +102,7 @@ class CanvasModel extends Model
             return false;
         }
         $map['canvas_name'] = $data['canvas_name'];
-        $map['id'] = array( 'neq' , $data['id'] );
+        $map['id'] = array('neq', $data['id']);
         $canvasname = $this->where($map)->getField('canvas_name');
         if ($canvasname) {
             $this->error = '已存在相同的画布名称';

@@ -156,16 +156,16 @@ class CreditModel extends Model
         $data = model('Xdata')->get('admin_Credit:level');
         if (! $data) {
             $creditlevel = array();
-            $creditlevel[] = array('level' => 1,'name' => 'level1','image' => 'level1.png','start' => '0','end' => '1000');
-            $creditlevel[] = array('level' => 2,'name' => 'level2','image' => 'level2.png','start' => '1001','end' => '2000');
-            $creditlevel[] = array('level' => 3,'name' => 'level3','image' => 'level3.png','start' => '2001','end' => '3000');
-            $creditlevel[] = array('level' => 4,'name' => 'level4','image' => 'level4.png','start' => '3001','end' => '4000');
-            $creditlevel[] = array('level' => 5,'name' => 'level5','image' => 'level5.png','start' => '4001','end' => '5000');
-            $creditlevel[] = array('level' => 6,'name' => 'level6','image' => 'level6.png','start' => '5001','end' => '6000');
-            $creditlevel[] = array('level' => 7,'name' => 'level7','image' => 'level7.png','start' => '6001','end' => '7000');
-            $creditlevel[] = array('level' => 8,'name' => 'level8','image' => 'level8.png','start' => '7001','end' => '8000');
-            $creditlevel[] = array('level' => 9,'name' => 'level9','image' => 'level9.png','start' => '8001','end' => '9000');
-            $creditlevel[] = array('level' => 10,'name' => 'level10','image' => 'level10.png','start' => '9001','end' => '1000000');
+            $creditlevel[] = array('level' => 1, 'name' => 'level1', 'image' => 'level1.png', 'start' => '0', 'end' => '1000');
+            $creditlevel[] = array('level' => 2, 'name' => 'level2', 'image' => 'level2.png', 'start' => '1001', 'end' => '2000');
+            $creditlevel[] = array('level' => 3, 'name' => 'level3', 'image' => 'level3.png', 'start' => '2001', 'end' => '3000');
+            $creditlevel[] = array('level' => 4, 'name' => 'level4', 'image' => 'level4.png', 'start' => '3001', 'end' => '4000');
+            $creditlevel[] = array('level' => 5, 'name' => 'level5', 'image' => 'level5.png', 'start' => '4001', 'end' => '5000');
+            $creditlevel[] = array('level' => 6, 'name' => 'level6', 'image' => 'level6.png', 'start' => '5001', 'end' => '6000');
+            $creditlevel[] = array('level' => 7, 'name' => 'level7', 'image' => 'level7.png', 'start' => '6001', 'end' => '7000');
+            $creditlevel[] = array('level' => 8, 'name' => 'level8', 'image' => 'level8.png', 'start' => '7001', 'end' => '8000');
+            $creditlevel[] = array('level' => 9, 'name' => 'level9', 'image' => 'level9.png', 'start' => '8001', 'end' => '9000');
+            $creditlevel[] = array('level' => 10, 'name' => 'level10', 'image' => 'level10.png', 'start' => '9001', 'end' => '1000000');
             model('Xdata')->put('admin_Credit:level', $creditlevel);
         }
 
@@ -258,7 +258,7 @@ class CreditModel extends Model
                     break;
             }
             $c['uid'] = $uid;
-            $c['ctime'] = array('between',array($beginTime,$now));
+            $c['ctime'] = array('between', array($beginTime, $now));
             $times = D('credit_record')->where($c)->count();
             if ($times >= $creditSet['cycle_times']) {
                 $this->info = '积分变更已达上限';

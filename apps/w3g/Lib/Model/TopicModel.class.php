@@ -69,7 +69,7 @@ class TopicModel extends Model
                  " ON t.id=p.tid WHERE t.is_del=0 AND t.gid=$gid AND p.gid = $gid AND p.istopic = 1 AND (t.title like '%$keywords%' OR p.content like '%$keywords%') LIMIT ".$p->firstRow.','.$p->listRows;
         $tList = $this->query($sql);
 
-        return array('html' => $p->show(),'count' => intval($count[0]['count']),'data' => $tList);
+        return array('html' => $p->show(), 'count' => intval($count[0]['count']), 'data' => $tList);
     }
 
     //回收站

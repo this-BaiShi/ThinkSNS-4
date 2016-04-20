@@ -83,8 +83,8 @@ class SelectFriendsAction extends Action
             $typeId = array(
                 //互粉的人性能有问题，不显示这个列表的用户了
                             //array('id'=>1,'name'=>L('follow_each_other')),
-                            array('id' => 2,'name' => '我关注的'),
-                            array('id' => 3,'name' => '我的粉丝'),
+                            array('id' => 2, 'name' => '我关注的'),
+                            array('id' => 3, 'name' => '我的粉丝'),
                           );
         echo json_encode($typeId);
     }

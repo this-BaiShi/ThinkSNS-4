@@ -22,7 +22,7 @@ class MedalAction extends Action
             $user = model('User')->getUserInfo($uid);
             $medals = $user['medals'];
             if ($medals) {
-                $map['id'] = array( 'in' , getSubByKey($medals, 'id') );
+                $map['id'] = array('in', getSubByKey($medals, 'id'));
                 $list = model('Medal')->getList($map, 12);
             } else {
                 $list['count'] = 0;
@@ -41,7 +41,7 @@ class MedalAction extends Action
             $user = model('User')->getUserInfo($uid);
             $medals = $user['medals'];
             if ($medals) {
-                $map['id'] = array( 'in' , getSubByKey($medals, 'id') );
+                $map['id'] = array('in', getSubByKey($medals, 'id'));
                 $list['user_count'] = model('Medal')->where($map)->count();
             } else {
                 $list['user_count'] = 0;

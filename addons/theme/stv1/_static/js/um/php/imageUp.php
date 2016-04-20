@@ -4,9 +4,9 @@
     include 'Uploader.class.php';
     //上传配置
     $config = array(
-        'savePath' => 'upload/' ,             //存储文件夹
-        'maxSize' => 1000 ,                   //允许的文件最大尺寸，单位KB
-        'allowFiles' => array( '.gif' , '.png' , '.jpg' , '.jpeg' , '.bmp' ),  //允许的文件格式
+        'savePath' => 'upload/',             //存储文件夹
+        'maxSize' => 1000,                   //允许的文件最大尺寸，单位KB
+        'allowFiles' => array('.gif', '.png', '.jpg', '.jpeg', '.bmp'),  //允许的文件格式
     );
     //上传文件目录
     $Path = 'upload/';

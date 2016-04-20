@@ -7,7 +7,7 @@
 class WidgetModel extends Model
 {
     protected $tableName = 'widget';
-    protected $fields = array(0 => 'id',1 => 'name',2 => 'desc',3 => 'attrs',4 => 'diyattrs',5 => 'appname','_autoinc' => true,'_pk' => 'id');
+    protected $fields = array(0 => 'id', 1 => 'name', 2 => 'desc', 3 => 'attrs', 4 => 'diyattrs', 5 => 'appname', '_autoinc' => true, '_pk' => 'id');
 
     /**
      * 获取自定义Widget列表 - 未分页型
@@ -293,7 +293,7 @@ class WidgetModel extends Model
                 continue;
             }
             $v = explode(':', $v);
-            $t[] = array('name' => $v[1],'appname' => $v[0]);
+            $t[] = array('name' => $v[1], 'appname' => $v[0]);
         }
         $map['id'] = $id;
         $save['widget_list'] = serialize($t);

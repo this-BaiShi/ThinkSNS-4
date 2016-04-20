@@ -296,7 +296,7 @@ class XattachModel
             $attachIds[] = intval($v);
         }
 
-        $map['attach_id'] = array('in', array_map('intval', $attachIds) );
+        $map['attach_id'] = array('in', array_map('intval', $attachIds));
         $data = M('Attach')->where($map)->field($field)->findAll();
 
         return $data;

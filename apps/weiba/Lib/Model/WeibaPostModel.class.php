@@ -9,10 +9,10 @@ class WeibaPostModel extends Model
     protected $tableName = 'weiba_post';
     protected $error = '';
     protected $fields = array(
-                            0 => 'post_id',1 => 'weiba_id',2 => 'post_uid',3 => 'title',4 => 'content',5 => 'post_time',
-                            6 => 'reply_count',7 => 'read_count',8 => 'last_reply_uid',9 => 'last_reply_time',10 => 'digest',11 => 'top',12 => 'lock',
-                            13 => 'api_key',14 => 'domain',15 => 'is_index',16 => 'index_img',17 => 'reg_ip',
-                            18 => 'is_del',19 => 'feed_id',20 => 'reply_all_count',21 => 'attach',22 => 'form',23 => 'top_time',24 => 'is_index_time','_autoinc' => true,'_pk' => 'post_id',
+                            0 => 'post_id', 1 => 'weiba_id', 2 => 'post_uid', 3 => 'title', 4 => 'content', 5 => 'post_time',
+                            6 => 'reply_count', 7 => 'read_count', 8 => 'last_reply_uid', 9 => 'last_reply_time', 10 => 'digest', 11 => 'top', 12 => 'lock',
+                            13 => 'api_key', 14 => 'domain', 15 => 'is_index', 16 => 'index_img', 17 => 'reg_ip',
+                            18 => 'is_del', 19 => 'feed_id', 20 => 'reply_all_count', 21 => 'attach', 22 => 'form', 23 => 'top_time', 24 => 'is_index_time', '_autoinc' => true, '_pk' => 'post_id',
                         );
 
     /**

@@ -384,7 +384,7 @@ class AdministratorAction extends Action
         }
         if ($key == 'admin_Config:attach') {
             $exts = explode(',', $_POST['attach_allow_extension']);
-            $objext = array('gif','png','jpeg','zip','rar','doc','xls','ppt','docx','xlsx','pptx','pdf','jpg','mp3');
+            $objext = array('gif', 'png', 'jpeg', 'zip', 'rar', 'doc', 'xls', 'ppt', 'docx', 'xlsx', 'pptx', 'pdf', 'jpg', 'mp3');
             $_POST['attach_allow_extension'] = implode(',', array_intersect($exts, $objext));
         }
         $result = model('Xdata')->put($key, $_POST);

@@ -79,7 +79,7 @@ class PageModel extends Model
             return false;
         }
         $map['domain'] = $data['domain'];
-        $map['id'] = array( 'neq', $data['id'] );
+        $map['id'] = array('neq', $data['id']);
         $exsit = $this->where($map)->count();
         if ($exsit) {
             $this->error = '已有相同的链接名称';

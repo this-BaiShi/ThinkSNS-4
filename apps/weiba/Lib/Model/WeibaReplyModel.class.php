@@ -9,8 +9,8 @@ class WeibaReplyModel extends Model
     protected $tableName = 'weiba_reply';
     protected $error = '';
     protected $fields = array(
-                            0 => 'reply_id',1 => 'weiba_id',2 => 'post_id',3 => 'post_uid',4 => 'uid',5 => 'ctime',
-                            6 => 'content',7 => 'is_del',8 => 'comment_id',9 => 'storey',10 => 'attach_id','_autoinc' => true,'_pk' => 'post_id',
+                            0 => 'reply_id', 1 => 'weiba_id', 2 => 'post_id', 3 => 'post_uid', 4 => 'uid', 5 => 'ctime',
+                            6 => 'content', 7 => 'is_del', 8 => 'comment_id', 9 => 'storey', 10 => 'attach_id', '_autoinc' => true, '_pk' => 'post_id',
                         );
 
     /**

@@ -1308,7 +1308,7 @@ function CheckWeibaPermission($weiba_admin, $id, $action, $uid)
     //圈主判断
     if (!$weiba_admin && $id) {
         $map['weiba_id'] = $id;
-        $map['level'] = array('in','2,3');
+        $map['level'] = array('in', '2,3');
         $weiba_admin = D('weiba_follow')->where($map)->order('level desc')->field('follower_uid,level')->findAll();
         $weiba_admin = getSubByKey($weiba_admin, 'follower_uid');
     }
@@ -1563,7 +1563,7 @@ function preg_html($html)
     $p = array("/<[a|A][^>]+(topic=\"true\")+[^>]*+>#([^<]+)#<\/[a|A]>/",
             "/<[a|A][^>]+(data=\")+([^\"]+)\"[^>]*+>[^<]*+<\/[a|A]>/",
             '/<[img|IMG][^>]+(src=")+([^"]+)"[^>]*+>/', );
-    $t = array('topic{data=$2}','$2','img{data=$2}');
+    $t = array('topic{data=$2}', '$2', 'img{data=$2}');
     $html = preg_replace($p, $t, $html);
     $html = strip_tags($html, '<br/>');
 

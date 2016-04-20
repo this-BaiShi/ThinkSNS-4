@@ -9,7 +9,7 @@
 class ValidationModel extends Model
 {
     protected $tableName = 'validation';
-    protected $fields = array(0 => 'validation_id',1 => 'type',2 => 'from_uid',3 => 'to_user',4 => 'data',5 => 'code',6 => 'target_url',7 => 'is_active',8 => 'ctime','_autoinc' => true,'_pk' => 'validation_id');
+    protected $fields = array(0 => 'validation_id', 1 => 'type', 2 => 'from_uid', 3 => 'to_user', 4 => 'data', 5 => 'code', 6 => 'target_url', 7 => 'is_active', 8 => 'ctime', '_autoinc' => true, '_pk' => 'validation_id');
 
     /**
      * 添加验证

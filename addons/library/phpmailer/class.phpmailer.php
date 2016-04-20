@@ -1696,7 +1696,7 @@ class PHPMailer
    */
   public function EncodeQPphp($input = '', $line_max = 76, $space_conv = false)
   {
-      $hex = array('0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F');
+      $hex = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F');
       $lines = preg_split('/(?:\r\n|\r|\n)/', $input);
       $eol = "\r\n";
       $escape = '=';
@@ -2400,7 +2400,7 @@ class PHPMailer
     protected function doCallback($isSent, $to, $cc, $bcc, $subject, $body)
     {
         if (!empty($this->action_function) && function_exists($this->action_function)) {
-            $params = array($isSent,$to,$cc,$bcc,$subject,$body);
+            $params = array($isSent, $to, $cc, $bcc, $subject, $body);
             call_user_func_array($this->action_function, $params);
         }
     }

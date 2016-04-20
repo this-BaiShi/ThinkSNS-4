@@ -72,7 +72,7 @@ function getContentUrl($url)
 function is_iphone()
 {
     $user_agent = $_SERVER['HTTP_USER_AGENT'];
-    $mobile_agents = array('iphone','ipad','ipod');
+    $mobile_agents = array('iphone', 'ipad', 'ipod');
     $is_iphone = false;
     foreach ($mobile_agents as $device) {
         if (stristr($user_agent, $device)) {

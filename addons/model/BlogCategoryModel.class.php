@@ -180,7 +180,7 @@ class BlogCategoryModel extends BaseModel
      */
     public function getUserCategory($uid)
     {
-        $map['uid'] = array( 'in',"$uid,0" );
+        $map['uid'] = array('in', "$uid,0");
         $result = $this->where($map)->field('name,id,uid')->order('`uid` ASC, id ASC')->findAll();
 
         return $result;

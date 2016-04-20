@@ -319,12 +319,12 @@ class TestAction extends Action
     public function tree()
     {
         $category = array(
-            array('id' => 1, 'name' => 'A1', 'pid' => 0 ),
-            array('id' => 2, 'name' => 'A2', 'pid' => 1 ),
-            array('id' => 3, 'name' => 'A3', 'pid' => 1 ),
-            array('id' => 4, 'name' => 'A4', 'pid' => 2 ),
-            array('id' => 5, 'name' => 'A5', 'pid' => 4 ),
-            array('id' => 6, 'name' => 'A6', 'pid' => 3 ),
+            array('id' => 1, 'name' => 'A1', 'pid' => 0),
+            array('id' => 2, 'name' => 'A2', 'pid' => 1),
+            array('id' => 3, 'name' => 'A3', 'pid' => 1),
+            array('id' => 4, 'name' => 'A4', 'pid' => 2),
+            array('id' => 5, 'name' => 'A5', 'pid' => 4),
+            array('id' => 6, 'name' => 'A6', 'pid' => 3),
         );
 
         print_r($this->_tree($category));
@@ -694,7 +694,7 @@ class TestAction extends Action
 
     public function updataStorey()
     {
-        $map['data'] = array('neq','N;');
+        $map['data'] = array('neq', 'N;');
         $commentlist = D('comment')->where($map)->findAll();
         foreach ($commentlist as $v) {
             $data = unserialize($v['data']);

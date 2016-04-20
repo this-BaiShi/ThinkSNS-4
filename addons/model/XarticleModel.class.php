@@ -7,7 +7,7 @@
 class XarticleModel extends Model
 {
     protected $tableName = 'x_article';
-    protected $fields = array('id','title','uid','mtime','sort','content','attach','type');
+    protected $fields = array('id', 'title', 'uid', 'mtime', 'sort', 'content', 'attach', 'type');
 
     /**
      * 保存公告数据

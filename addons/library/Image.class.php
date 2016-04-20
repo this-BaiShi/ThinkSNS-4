@@ -385,9 +385,9 @@ class Image
         } else {
             $im = @imagecreate($width, $height);
         }
-        $r = array(225,255,255,223);
-        $g = array(225,236,237,255);
-        $b = array(225,236,166,125);
+        $r = array(225, 255, 255, 223);
+        $g = array(225, 236, 237, 255);
+        $b = array(225, 236, 166, 125);
         $key = mt_rand(0, 3);
 
         $backColor = imagecolorallocate($im, $r[$key], $g[$key], $b[$key]);    //背景色（随机）
@@ -512,9 +512,9 @@ class Image
         $letter = implode(' ', $verifyCode);
         $_SESSION[$verifyName] = $verifyCode;
         $im = imagecreate($width, $height);
-        $r = array(225,255,255,223);
-        $g = array(225,236,237,255);
-        $b = array(225,236,166,125);
+        $r = array(225, 255, 255, 223);
+        $g = array(225, 236, 237, 255);
+        $b = array(225, 236, 166, 125);
         $key = mt_rand(0, 3);
         $backColor = imagecolorallocate($im, $r[$key], $g[$key], $b[$key]);
         $borderColor = imagecolorallocate($im, 100, 100, 100);                    //边框色
@@ -553,10 +553,10 @@ class Image
      */
     public static function UPCA($code, $type = 'png', $lw = 2, $hi = 100)
     {
-        static $Lencode = array('0001101','0011001','0010011','0111101','0100011',
-                         '0110001','0101111','0111011','0110111','0001011', );
-        static $Rencode = array('1110010','1100110','1101100','1000010','1011100',
-                         '1001110','1010000','1000100','1001000','1110100', );
+        static $Lencode = array('0001101', '0011001', '0010011', '0111101', '0100011',
+                         '0110001', '0101111', '0111011', '0110111', '0001011', );
+        static $Rencode = array('1110010', '1100110', '1101100', '1000010', '1011100',
+                         '1001110', '1010000', '1000100', '1001000', '1110100', );
         $ends = '101';
         $center = '01010';
         /* UPC-A Must be 11 digits, we compute the checksum. */

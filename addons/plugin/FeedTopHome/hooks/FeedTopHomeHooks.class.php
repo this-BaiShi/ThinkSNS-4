@@ -102,8 +102,8 @@ class FeedTopHomeHooks extends Hooks
         $this->assign('diggArr', $diggArr);
 
         $cancomment_old_type = array(
-            'post','repost','postimage','postfile',
-            'weiba_post','weiba_repost',
+            'post', 'repost', 'postimage', 'postfile',
+            'weiba_post', 'weiba_repost',
             'blog_post', 'blog_repost',
             'event_post', 'event_repost',
             'vote_post', 'vote_repost',
@@ -117,7 +117,7 @@ class FeedTopHomeHooks extends Hooks
         if (!empty($uids)) {
             $map = array();
             $map['uid'] = $GLOBALS['ts']['mid'];
-            $map['fid'] = array('in',$uids);
+            $map['fid'] = array('in', $uids);
             $followUids = model('Follow')->where($map)->getAsFieldArray('fid');
             $this->assign('followUids', $followUids);
 

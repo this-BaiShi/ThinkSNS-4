@@ -53,7 +53,7 @@ class GroupFeedListWidget extends Widget
             unset($_REQUEST['loadId']);
             $this->limitnums = 40;
         } else {
-            $return = array('status' => -1,'msg' => L('PUBLIC_LOADING_ID_ISNULL'));
+            $return = array('status' => -1, 'msg' => L('PUBLIC_LOADING_ID_ISNULL'));
             $_REQUEST['loadId'] = intval($_REQUEST['loadId']);
             $this->limitnums = 10;
         }
@@ -66,9 +66,9 @@ class GroupFeedListWidget extends Widget
         // 查看是否有更多数据
         if (empty($content['html'])) {
             // 没有更多的
-            $return = array('status' => 0,'msg' => L('PUBLIC_WEIBOISNOTNEW'));
+            $return = array('status' => 0, 'msg' => L('PUBLIC_WEIBOISNOTNEW'));
         } else {
-            $return = array('status' => 1,'msg' => L('PUBLIC_SUCCESS_LOAD'));
+            $return = array('status' => 1, 'msg' => L('PUBLIC_SUCCESS_LOAD'));
             $return['html'] = $content['html'];
             $return['loadId'] = $content['lastId'];
             $return['firstId'] = (empty($_REQUEST['p']) && empty($_REQUEST['loadId'])) ? $content['firstId'] : 0;
@@ -83,7 +83,7 @@ class GroupFeedListWidget extends Widget
      */
     public function loadNew()
     {
-        $return = array('status' => -1,'msg' => '');
+        $return = array('status' => -1, 'msg' => '');
         $_REQUEST['maxId'] = intval($_REQUEST['maxId']);
         if (empty($_REQUEST['maxId'])) {
             echo json_encode($return);
@@ -92,9 +92,9 @@ class GroupFeedListWidget extends Widget
         $content = $this->getData($_REQUEST, '_FeedList.html');
         if (empty($content['html'])) {
             //没有最新的
-            $return = array('status' => 0,'msg' => L('PUBLIC_WEIBOISNOTNEW'));
+            $return = array('status' => 0, 'msg' => L('PUBLIC_WEIBOISNOTNEW'));
         } else {
-            $return = array('status' => 1,'msg' => L('PUBLIC_SUCCESS_LOAD'));
+            $return = array('status' => 1, 'msg' => L('PUBLIC_SUCCESS_LOAD'));
             $return['html'] = $content['html'];
             $return['maxId'] = intval($content['firstId']);
             $return['count'] = intval($content['count']);
@@ -114,7 +114,7 @@ class GroupFeedListWidget extends Widget
         $var['feed_key'] = t($var['feed_key']);
         $var['cancomment'] = isset($var['cancomment']) ? $var['cancomment'] : 1;
         //$var['cancomment_old_type'] = array('post','repost','postimage','postfile');
-        $var['cancomment_old_type'] = array('post','repost','postimage','postfile','postvideo');
+        $var['cancomment_old_type'] = array('post', 'repost', 'postimage', 'postfile', 'postvideo');
         // 获取分享配置
         $weiboSet = model('Xdata')->get('admin_Config:feed');
         $var = array_merge($var, $weiboSet);
@@ -163,7 +163,7 @@ class GroupFeedListWidget extends Widget
             if (!empty($uids)) {
                 $map = array();
                 $map['uid'] = $GLOBALS['ts']['mid'];
-                $map['fid'] = array('in',$uids);
+                $map['fid'] = array('in', $uids);
                 $var['followUids'] = model('Follow')->where($map)->getAsFieldArray('fid');
             } else {
                 $var['followUids'] = array();
@@ -186,7 +186,7 @@ class GroupFeedListWidget extends Widget
     {
         $var['cancomment'] = isset($var['cancomment']) ? $var['cancomment'] : 1;
         //$var['cancomment_old_type'] = array('post','repost','postimage','postfile');
-        $var['cancomment_old_type'] = array('post','repost','postimage','postfile','weiba_post','weiba_repost');
+        $var['cancomment_old_type'] = array('post', 'repost', 'postimage', 'postfile', 'weiba_post', 'weiba_repost');
         $weiboSet = model('Xdata')->get('admin_Config:feed');
         $var = array_merge($var, $weiboSet);
         $var['remarkHash'] = model('Follow')->getRemarkHash($GLOBALS['ts']['mid']);
@@ -195,10 +195,10 @@ class GroupFeedListWidget extends Widget
 
         if ($var['loadId'] > 0) { //非第一次
             $topics['topic_id'] = $var['topic_id'];
-            $topics['feed_id'] = array('lt',intval($var['loadId']));
-            $map['feed_id'] = array('in',getSubByKey(D('feed_topic_link')->where($topics)->field('feed_id')->select(), 'feed_id'));
+            $topics['feed_id'] = array('lt', intval($var['loadId']));
+            $map['feed_id'] = array('in', getSubByKey(D('feed_topic_link')->where($topics)->field('feed_id')->select(), 'feed_id'));
         } else {
-            $map['feed_id'] = array('in',getSubByKey(D('feed_topic_link')->where('topic_id='.$var['topic_id'])->field('feed_id')->select(), 'feed_id'));
+            $map['feed_id'] = array('in', getSubByKey(D('feed_topic_link')->where('topic_id='.$var['topic_id'])->field('feed_id')->select(), 'feed_id'));
         }
         if (!empty($var['feed_type'])) {
             $map['type'] = t($var['feed_type']);
@@ -228,7 +228,7 @@ class GroupFeedListWidget extends Widget
             if (!empty($uids)) {
                 $map = array();
                 $map['uid'] = $GLOBALS['ts']['mid'];
-                $map['fid'] = array('in',$uids);
+                $map['fid'] = array('in', $uids);
                 $var['followUids'] = model('Follow')->where($map)->getAsFieldArray('fid');
             } else {
                 $var['followUids'] = array();

@@ -77,7 +77,7 @@ class MedalModel extends Model
             $unames[$n['uid']] = $n['uname'];
         }
 
-        $gmap['id'] = array('in' , $mids );
+        $gmap['id'] = array('in', $mids);
         $medals = $this->where($gmap)->findAll();
         $medalnames = array();
         foreach ($medals as $m) {

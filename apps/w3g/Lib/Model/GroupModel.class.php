@@ -150,7 +150,7 @@ class GroupModel extends Model
                 $group[$v['gid']]['c'] = D('Member')->where($in.' AND gid='.$v['gid'])->count();
             }
 
-            return array($group,$p->show());
+            return array($group, $p->show());
         }
 
         return false;

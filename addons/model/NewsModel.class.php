@@ -85,7 +85,7 @@ class NewsModel extends Model
      */
     public function setNews($uid)
     {
-        $ret = array( 'ret' => false, 'msg' => '更新信息失败' );
+        $ret = array('ret' => false, 'msg' => '更新信息失败');
         $news = D('News');
         if ($news->create()) {
             $news->uid = ($uid) ? $uid : 0 ;
@@ -95,7 +95,7 @@ class NewsModel extends Model
                 $result = $news->add();
             }
             if ($result) {
-                $ret = array( 'ret' => true, 'msg' => '成功更新信息' );
+                $ret = array('ret' => true, 'msg' => '成功更新信息');
             } else {
                 $ret['msg'] = $news->getError();
             }
@@ -133,10 +133,10 @@ class NewsModel extends Model
     public function getList($limit = 20, $type = 0, $keywords = '', $order = '', $findPage = true)
     {
         $map = array();
-        $map['state'] = array('GT',0);
+        $map['state'] = array('GT', 0);
 
         if ($keywords) {
-            $map['news_title'] = array('like','%'.$keywords.'%');
+            $map['news_title'] = array('like', '%'.$keywords.'%');
         }
         if ($order == '') {
             $order = 'is_top desc,news_id desc' ;
@@ -146,7 +146,7 @@ class NewsModel extends Model
             $childs = $this->getChildTids($type);
             if ($childs) {
                 $childs[] = $type;
-                $map['type_id'] = array('in',$childs);
+                $map['type_id'] = array('in', $childs);
             } else {
                 $map['type_id'] = $type ;
             }
@@ -194,7 +194,7 @@ class NewsModel extends Model
             'news_id' => $id,
         );
         if ($is_admin == false) {
-            $map['state'] = array('GT',0);
+            $map['state'] = array('GT', 0);
         }
         $v = $this->where($map)->find();
         if ($v) {
@@ -229,7 +229,7 @@ class NewsModel extends Model
             if ($find['uid']) {
                 $info['source_user_info'] = model('User')->getUserInfo($find['uid']);
             }
-            $info['source_url'] = U('news/Index/detail', array('id' => $id ));
+            $info['source_url'] = U('news/Index/detail', array('id' => $id));
             $info['source_body'] = $find['news_title'].'<a class="ico-details" href="'.U('news/Index/show', array('id' => $id)).'"></a>';
 
             return $info;

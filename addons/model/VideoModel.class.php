@@ -21,7 +21,7 @@ class OldVideoModel extends Model
         $videoinfo = pathinfo($_FILES['video']['name']);
         $video_ext = $videoinfo['extension'];
 
-        $allowExts = $video_config['video_ext'] ? explode(',', $video_config['video_ext']) : array('mp4','flv');
+        $allowExts = $video_config['video_ext'] ? explode(',', $video_config['video_ext']) : array('mp4', 'flv');
         // $uploadCondition = $_FILES['pic'] && $_FILES['video'] && in_array(strtolower($image_ext),$allowExts,true) && in_array(strtolower($video_ext),$allowExts,true);
         $uploadCondition = $_FILES['video'] && in_array(strtolower($video_ext), $allowExts, true);
         // return $_FILES['video'];
@@ -605,7 +605,7 @@ class OldVideoModel extends Model
      */
     public function doEditVideo($id, $type, $title)
     {
-        $return = array('status' => '0','data' => L('PUBLIC_ADMIN_OPRETING_ERROR'));        // 操作失败
+        $return = array('status' => '0', 'data' => L('PUBLIC_ADMIN_OPRETING_ERROR'));        // 操作失败
         if (empty($id)) {
             $return['data'] = L('视频ID不能为空');            // 附件ID不能为空
         } else {
@@ -621,7 +621,7 @@ class OldVideoModel extends Model
             }
             if ($res) {
                 //TODO:是否记录知识，以及后期缓存处理
-                $return = array('status' => 1,'data' => L('PUBLIC_ADMIN_OPRETING_SUCCESS'));        // 操作成功
+                $return = array('status' => 1, 'data' => L('PUBLIC_ADMIN_OPRETING_SUCCESS'));        // 操作成功
             }
         }
 

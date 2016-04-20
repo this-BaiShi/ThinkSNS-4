@@ -930,7 +930,7 @@ class GroupAction extends BaseAction
     private function _getGroupInfo(&$group_list)
     {
         $gids = getSubByKey($group_list['data'], 'id');
-        $map['gid'] = array('in' , $gids);
+        $map['gid'] = array('in', $gids);
         $map['uid'] = $this->mid;
         $usercounts = D('GroupUserCount')->where($map)->findAll();
         $gcount = array();

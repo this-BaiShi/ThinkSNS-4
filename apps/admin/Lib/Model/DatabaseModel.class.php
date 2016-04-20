@@ -66,7 +66,7 @@ class DatabaseModel extends Model
 
         $tabledump .= "\n";
 
-        return array('complete' => $complete,'startform' => $startfrom,'tabledump' => $tabledump);
+        return array('complete' => $complete, 'startform' => $startfrom, 'tabledump' => $tabledump);
     }
 
     public function splitsql($sqldump)

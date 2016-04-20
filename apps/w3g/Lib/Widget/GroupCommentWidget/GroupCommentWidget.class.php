@@ -40,7 +40,7 @@ class GroupCommentWidget extends Widget
             $userPrivacy = model('UserPrivacy')->getPrivacy($this->mid, $var['app_uid']);
 
             if ($userPrivacy['comment_weibo'] == 1) {
-                $return = array('status' => 0,'data' => L('PUBLIC_CONCENT_TIPES'));
+                $return = array('status' => 0, 'data' => L('PUBLIC_CONCENT_TIPES'));
 
                 return $var['isAjax'] == 1 ?  json_encode($return) : $return['data'];
             }
@@ -79,7 +79,7 @@ class GroupCommentWidget extends Widget
         $ajax = $var['isAjax'];
         unset($var, $data);
         //输出数据
-        $return = array('status' => 1,'data' => $content);
+        $return = array('status' => 1, 'data' => $content);
 
         return $ajax == 1 ? json_encode($return) : $return['data'];
     }
@@ -112,7 +112,7 @@ class GroupCommentWidget extends Widget
     public function addcomment()
     {
         // 返回结果集默认值
-        $return = array('status' => 0,'data' => L('PUBLIC_CONCENT_IS_ERROR'));
+        $return = array('status' => 0, 'data' => L('PUBLIC_CONCENT_IS_ERROR'));
         // 获取接收数据
         $data = $_POST;
         // 安全过滤

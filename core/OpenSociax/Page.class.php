@@ -74,7 +74,7 @@ class Page
  */
 
     // 分页显示定制
-    public $config = array('header' => '条记录','prev' => '上一页','next' => '下一页','first' => '第一页','last' => '最后一页');
+    public $config = array('header' => '条记录', 'prev' => '上一页', 'next' => '下一页', 'first' => '第一页', 'last' => '最后一页');
 
     /**
      * 架构函数

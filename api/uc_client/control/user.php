@@ -174,7 +174,7 @@ class usercontrol extends base
             $status = $_ENV['user']->get_user_by_uid($username);
         }
         if ($status) {
-            return array($status['uid'],$status['username'],$status['email']);
+            return array($status['uid'], $status['username'], $status['email']);
         } else {
             return 0;
         }

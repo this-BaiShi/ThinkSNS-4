@@ -20,7 +20,7 @@ class GroupShareModel
     public function shareFeed($data, $from = 'share', $lessUids = null)
     {
         // 返回的数据结果集
-        $return = array('status' => 0,'data' => L('PUBLIC_SHARE_FAILED'));            // 分享失败
+        $return = array('status' => 0, 'data' => L('PUBLIC_SHARE_FAILED'));            // 分享失败
         // 验证数据正确性
         if (empty($data['sid'])) {
             return $return;
@@ -128,7 +128,7 @@ class GroupShareModel
      */
     public function shareMessage($data)
     {
-        $return = array('status' => 0,'data' => L('PUBLIC_SHARE_FAILED'));            // 分享失败
+        $return = array('status' => 0, 'data' => L('PUBLIC_SHARE_FAILED'));            // 分享失败
         $app = t($data['app_name']);
         $msg['to'] = trim($data['uids'], ',');
         if (empty($msg['to'])) {
@@ -153,7 +153,7 @@ class GroupShareModel
             // 	model('Notify')->sendNotify($v, 'new_message', $config);
             // }
 
-            $return = array('status' => 1,'data' => L('PUBLIC_SHARE_SUCCESS'));            // 分享成功
+            $return = array('status' => 1, 'data' => L('PUBLIC_SHARE_SUCCESS'));            // 分享成功
         }
 
         return $return;

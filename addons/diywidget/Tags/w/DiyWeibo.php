@@ -61,13 +61,13 @@ class DiyWeibo extends TagsAbstract
         switch ($attr['source']) {
             case 'user'://指定用户分享
                 if (!empty($attr['user'])) {
-                    $map['uid'] = array( 'in', explode(',', $attr['user']) );
+                    $map['uid'] = array('in', explode(',', $attr['user']));
                 }
                 break;
             case 'topic'://指定话题分享
                 if (!empty($attr['topic'])) {
                     $fids = model('FeedTopic')->getFeedIdByTopic($attr['topic']);
-                    $map['feed_id'] = array( 'in' , $fids );
+                    $map['feed_id'] = array('in', $fids);
                 }
                 break;
         }

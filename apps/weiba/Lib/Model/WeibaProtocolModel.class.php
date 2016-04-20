@@ -55,7 +55,7 @@ class WeibaProtocolModel extends Model
             $map['weiba_id'] = array('in', getSubByKey($sfollow, 'weiba_id'));
             $map['is_del'] = 0;
             $map['status'] = 1;
-            $map['uid'] = array('neq',$uid);
+            $map['uid'] = array('neq', $uid);
             $post_list = D('weiba')->where($map)->findPage(20);
             //帖子推荐
             $sql = 'SELECT a.* FROM `ts_weiba_post` a, `ts_weiba` b WHERE a.weiba_id=b.weiba_id AND ( b.`is_del` = 0 ) AND ( b.`status` = 1 )  AND ( a.`recommend` = 1 ) AND ( a.`is_del` = 0 ) ORDER BY a.recommend_time desc LIMIT 10';
@@ -101,7 +101,7 @@ class WeibaProtocolModel extends Model
             if ($uid != $_SESSION['mid']) {
                 $map['status'] = 1;
             }
-            $map['status'] = array('in',array('0','1'));
+            $map['status'] = array('in', array('0', '1'));
             $post_list = D('weiba')->where($map)->findPage(20);
             //帖子推荐
             $sql = 'SELECT a.* FROM `ts_weiba_post` a, `ts_weiba` b WHERE a.weiba_id=b.weiba_id AND ( b.`is_del` = 0 ) AND ( b.`status` = 1 )  AND ( a.`recommend` = 1 ) AND ( a.`is_del` = 0 ) ORDER BY a.recommend_time desc LIMIT 10';

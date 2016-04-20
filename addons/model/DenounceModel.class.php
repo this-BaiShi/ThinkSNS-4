@@ -7,7 +7,7 @@
 class DenounceModel extends Model
 {
     protected $tableName = 'denounce';
-    protected $fields = array(0 => 'id',1 => 'from',2 => 'aid',3 => 'state',4 => 'uid',5 => 'fuid',6 => 'reason',7 => 'content',8 => 'ctime',9 => 'source_url');
+    protected $fields = array(0 => 'id', 1 => 'from', 2 => 'aid', 3 => 'state', 4 => 'uid', 5 => 'fuid', 6 => 'reason', 7 => 'content', 8 => 'ctime', 9 => 'source_url');
 
     /**
      * 获取相应类型的举报列表

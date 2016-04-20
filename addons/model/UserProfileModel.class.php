@@ -10,7 +10,7 @@ class UserProfileModel    extends    Model
     const DEPARTMENT_KEY = 'department';            // 部门的字段KEY
 
     protected $tableName = 'user_profile';
-    protected $fields = array(0 => 'uid',1 => 'field_id',2 => 'field_data',3 => 'privacy');
+    protected $fields = array(0 => 'uid', 1 => 'field_id', 2 => 'field_data', 3 => 'privacy');
 
     public static $profileSetting = array();        // 静态档案配置字段
     public static $sysProfile = array('intro', 'work_position', 'mobile', 'tel', 'work_director', 'department');            // 系统默认的字段，用户数据里面必须有的
@@ -352,7 +352,7 @@ class UserProfileModel    extends    Model
 
         foreach ($profile as $k => $v) {
             if (isset($profileSetting[$k])) {
-                $r[$profileSetting[$k]['field_key']] = array('name' => $profileSetting[$k]['field_name'],'value' => $v['field_data']);
+                $r[$profileSetting[$k]['field_key']] = array('name' => $profileSetting[$k]['field_name'], 'value' => $v['field_data']);
             }
         }
 

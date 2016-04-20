@@ -18,7 +18,7 @@
 class LogsModel extends Model
 {
     protected $tableName = 'x_logs';
-    protected $fields = array('id','uid','uname','app_name','group','action','data','ctime','url','isAdmin','ip','keyword');
+    protected $fields = array('id', 'uid', 'uname', 'app_name', 'group', 'action', 'data', 'ctime', 'url', 'isAdmin', 'ip', 'keyword');
 
     public $option;                // 知识配置字段
     public $keyword;            // 知识关键字
@@ -250,7 +250,7 @@ class LogsModel extends Model
             $result = $s->xpath("//root/action[@type='".$_data['action']."']");
         }
         // 异常情况
-        $return = array('info' => L('PUBLIC_PERMISSION_POINT_NOEXIST'),'data' => L('PUBLIC_PERMISSION_POINT_NOEXIST'));            // 权限节点不存在，权限节点不存在
+        $return = array('info' => L('PUBLIC_PERMISSION_POINT_NOEXIST'), 'data' => L('PUBLIC_PERMISSION_POINT_NOEXIST'));            // 权限节点不存在，权限节点不存在
 
            if ($result) {
                $return['info'] = (string) $result[0]['info'];

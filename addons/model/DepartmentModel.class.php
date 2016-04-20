@@ -10,7 +10,7 @@ class DepartmentModel extends Model
     const FIELD_KEY = 'department';            // 部门的字段KEY
 
     protected $tableName = 'department';
-    protected $fields = array(0 => 'department_id',1 => 'title',2 => 'parent_dept_id',3 => 'display_order',4 => 'ctime');
+    protected $fields = array(0 => 'department_id', 1 => 'title', 2 => 'parent_dept_id', 3 => 'display_order', 4 => 'ctime');
 
     protected $treeDo;                    // 分类树模型
 
@@ -19,7 +19,7 @@ class DepartmentModel extends Model
      */
     public function _initialize()
     {
-        $field = array('id' => 'department_id','name' => 'title','pid' => 'parent_dept_id','sort' => 'display_order');
+        $field = array('id' => 'department_id', 'name' => 'title', 'pid' => 'parent_dept_id', 'sort' => 'display_order');
         tsload(ADDON_PATH.'/model/CateTreeModel');
         $this->treeDo = new CateTreeModel('department');
         $this->treeDo->setField($field);
@@ -167,7 +167,7 @@ class DepartmentModel extends Model
             $fieldids = D('user_profile_setting')->where("form_type='selectDepart'")->field('field_id')->findAll();
             $fids = getSubByKey($fieldids, 'field_id');
             $profilemap['field_data'] = $id;
-            $profilemap['field_id'] = array( 'in' , $fids );
+            $profilemap['field_id'] = array('in', $fids);
             D('user_profile')->setField('field_data', $pid, $profilemap);
 
             $this->cleanCache();

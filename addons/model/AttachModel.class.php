@@ -112,7 +112,7 @@ class AttachModel extends Model
      */
     public function doEditAttach($id, $type, $title)
     {
-        $return = array('status' => '0','data' => L('PUBLIC_ADMIN_OPRETING_ERROR'));        // 操作失败
+        $return = array('status' => '0', 'data' => L('PUBLIC_ADMIN_OPRETING_ERROR'));        // 操作失败
         if (empty($id)) {
             $return['data'] = L('PUBLIC_ATTACHMENT_ID_NOEXIST');            // 附件ID不能为空
         } else {
@@ -128,7 +128,7 @@ class AttachModel extends Model
             }
             if ($res) {
                 //TODO:是否记录知识，以及后期缓存处理
-                $return = array('status' => 1,'data' => L('PUBLIC_ADMIN_OPRETING_SUCCESS'));        // 操作成功
+                $return = array('status' => 1, 'data' => L('PUBLIC_ADMIN_OPRETING_SUCCESS'));        // 操作成功
             }
         }
 

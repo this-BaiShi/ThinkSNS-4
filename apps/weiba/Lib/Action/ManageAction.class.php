@@ -215,7 +215,7 @@ class ManageAction extends Action
         !is_array($_POST['follower_uid']) && $_POST['follower_uid'] = array($_POST['follower_uid']);
         $map['weiba_id'] = intval($_POST['weiba_id']);
         $followerUid = array_map('intval', $_POST['follower_uid']);
-        $map['follower_uid'] = array('in',$followerUid);
+        $map['follower_uid'] = array('in', $followerUid);
         $result = D('weiba_follow')->where($map)->delete();
         if (!$result) {
             $return['status'] = 0;

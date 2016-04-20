@@ -101,7 +101,7 @@ class DenouceWidget extends Widget
         }
         $return = array();
         if ($isDenounce = model('Denounce')->where($map)->count()) {
-            $return = array('status' => 0,'data' => L('PUBLIC_REPORTING_INFO'));
+            $return = array('status' => 0, 'data' => L('PUBLIC_REPORTING_INFO'));
         } else {
             $map['content'] = h($_POST['content']);
             $map['reason'] = t($_POST['reason']);
@@ -116,9 +116,9 @@ class DenouceWidget extends Widget
                 foreach ($touid as $k => $v) {
                     model('Notify')->sendNotify($v['uid'], 'denouce_audit');
                 }
-                $return = array('status' => 1,'data' => '您已经成功举报此信息');
+                $return = array('status' => 1, 'data' => '您已经成功举报此信息');
             } else {
-                $return = array('status' => 0,'data' => L('PUBLIC_REPORT_ERROR'));
+                $return = array('status' => 0, 'data' => L('PUBLIC_REPORT_ERROR'));
             }
         }
         exit(json_encode($return));

@@ -32,15 +32,15 @@ class UserApi extends Api
         $data['profile'] = model('UserProfile')->getUserProfileForApi($this->user_id);
 
         $profileHash = model('UserProfile')->getUserProfileSetting();
-        $data['profile']['email'] = array('name' => '邮箱','value' => $data['email']);
+        $data['profile']['email'] = array('name' => '邮箱', 'value' => $data['email']);
         foreach (UserProfileModel::$sysProfile as $k) {
             if (!isset($data['profile'][$k])) {
-                $data['profile'][$k] = array('name' => $profileHash[$k]['field_name'],'value' => '');
+                $data['profile'][$k] = array('name' => $profileHash[$k]['field_name'], 'value' => '');
             }
         }
 
         //用户统计信息
-        $defaultCount = array('following_count' => 0,'follower_count' => 0,'feed_count' => 0,'favorite_count' => 0,'unread_atme' => 0,'weibo_count' => 0);
+        $defaultCount = array('following_count' => 0, 'follower_count' => 0, 'feed_count' => 0, 'favorite_count' => 0, 'unread_atme' => 0, 'weibo_count' => 0);
 
         $defaultCount['video_count'] = model('Feed')->where(array('uid' => $this->user_id, 'type' => 'postvideo', 'is_del' => 0))->count();
         $count = model('UserData')->getUserData($this->user_id);
@@ -352,9 +352,9 @@ class UserApi extends Api
     public function wap_search_user()
     {
         $key = t($this->data['key']);
-        $map['uname'] = array('LIKE',$key);
-        $map['email'] = array('LIKE',$key);
-        $map['login'] = array('LIKE',$key);
+        $map['uname'] = array('LIKE', $key);
+        $map['email'] = array('LIKE', $key);
+        $map['login'] = array('LIKE', $key);
         $map['_logic'] = 'or';
         $userlist = M('user')->where($map)->findAll();
 
@@ -562,8 +562,8 @@ class UserApi extends Api
         //longitude < ($longitude + 1) AND longitude > ($longitude - 1)
         $limit = 20;
         $this->data['limit'] && $limit = intval($this->data['limit']);
-        $map['last_latitude'] = array( 'between' , ($latitude - 1).','.($latitude + 1) );
-        $map['last_longitude'] = array( 'between' , ($longitude - 1).','.($longitude + 1) );
+        $map['last_latitude'] = array('between', ($latitude - 1).','.($latitude + 1));
+        $map['last_longitude'] = array('between', ($longitude - 1).','.($longitude + 1));
 
         $data = D('mobile_user')->where($map)->field('uid')->findpage($limit);
         $data['data'] = $this->getUserInfos(getSubByKey($data['data'], 'uid'), $data['data'], 'basic');
@@ -678,7 +678,7 @@ class UserApi extends Api
 
     public function formatByFirstLetter($list)
     {
-        $peoplelist = array('#' => array(),'A' => array(),'B' => array(),'C' => array(),'D' => array(),'E' => array(),'F' => array(),'G' => array(),'H' => array(),'I' => array(),'J' => array(),'K' => array(),'L' => array(),'M' => array(),'N' => array(),'O' => array(),'P' => array(),'Q' => array(),'R' => array(),'S' => array(),'T' => array(),'U' => array(),'V' => array(),'W' => array(),'X' => array(),'Y' => array(),'Z' => array());
+        $peoplelist = array('#' => array(), 'A' => array(), 'B' => array(), 'C' => array(), 'D' => array(), 'E' => array(), 'F' => array(), 'G' => array(), 'H' => array(), 'I' => array(), 'J' => array(), 'K' => array(), 'L' => array(), 'M' => array(), 'N' => array(), 'O' => array(), 'P' => array(), 'Q' => array(), 'R' => array(), 'S' => array(), 'T' => array(), 'U' => array(), 'V' => array(), 'W' => array(), 'X' => array(), 'Y' => array(), 'Z' => array());
         foreach ($list as $k => $v) {
             $first_letter = getFirstLetter($v['uname']);
             switch ($first_letter) {

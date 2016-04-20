@@ -42,7 +42,7 @@ class WeibaAction extends BaseAction
         $weiba_detail = $this->_top_link($weiba_id);
         //吧主
         $map['weiba_id'] = $weiba_id;
-        $map['level'] = array('in','2,3');
+        $map['level'] = array('in', '2,3');
         $weiba_master = D('weiba_follow')->where($map)->order('level desc,id')->field('follower_uid,level')->findAll();
         $this->assign('weiba_master', $weiba_master);
 
@@ -436,7 +436,7 @@ class WeibaAction extends BaseAction
     public function my()
     {
         $weiba_arr = getSubByKey(D('weiba', 'weiba')->where('is_del=0 and status=1')->field('weiba_id')->findAll(), 'weiba_id');  //未删除且通过审核的微吧
-        $map['weiba_id'] = array('in',$weiba_arr);
+        $map['weiba_id'] = array('in', $weiba_arr);
         $map['is_del'] = 0;
         $type = in_array(t($_GET['type']), array('myPost', 'myReply', 'myWeiba', 'myFavorite', 'myFollowing')) ? t($_GET['type']) : 'index';
         switch ($type) {
@@ -446,12 +446,12 @@ class WeibaAction extends BaseAction
                 break;
             case 'myReply':
                 $myreply = D('weiba_reply', 'weiba')->where('uid='.$this->mid)->order('ctime desc')->field('post_id')->findAll();
-                $map['post_id'] = array('in',array_unique(getSubByKey($myreply, 'post_id')));
+                $map['post_id'] = array('in', array_unique(getSubByKey($myreply, 'post_id')));
                 $post_list = D('weiba_post', 'weiba')->where($map)->order('last_reply_time desc')->findpage(20);
                 break;
             case 'myFavorite':
                 $myFavorite = D('weiba_favorite', 'weiba')->where('uid='.$this->mid)->order('favorite_time desc')->findAll();
-                $map['post_id'] = array('in',getSubByKey($myFavorite, 'post_id'));
+                $map['post_id'] = array('in', getSubByKey($myFavorite, 'post_id'));
                 $post_list = D('weiba_post', 'weiba')->where($map)->order('post_time desc')->findpage(20);
                 break;
             case 'myWeiba':
@@ -470,7 +470,7 @@ class WeibaAction extends BaseAction
                         $weibas[] = $v;
                     }
                 }
-                $map['weiba_id'] = array('in',$weibas);
+                $map['weiba_id'] = array('in', $weibas);
                 $post_list = D('weiba_post', 'weiba')->where($map)->order('last_reply_time desc')->findpage(20);
                 break;
         }

@@ -7,7 +7,7 @@
 class GroupAtmeModel extends Model
 {
     protected $tableNmae = 'group_atme';
-    protected $fields = array(0 => 'atme_id',1 => 'app',2 => 'table',3 => 'row_id',4 => 'uid',5 => 'gid','_pk' => 'atme_id');
+    protected $fields = array(0 => 'atme_id', 1 => 'app', 2 => 'table', 3 => 'row_id', 4 => 'uid', 5 => 'gid', '_pk' => 'atme_id');
 
     private $_app = null;                       // 所属应用
     private $_app_table = null;                 // 所属资源表
@@ -104,7 +104,7 @@ class GroupAtmeModel extends Model
         // 获取@用户的UID数组
         $uids = $this->getUids($content, $extra_uids, $row_id, $less_uids);
         //过滤非团队成员
-        $map['uid'] = array('in' , $uids);
+        $map['uid'] = array('in', $uids);
         $map['gid'] = $gid;
         $map['status'] = 1;
         $ismemberuid = D('Member')->where($map)->field('uid')->findAll();
@@ -141,7 +141,7 @@ class GroupAtmeModel extends Model
                     if (!$v['uid']) {
                         continue;
                     }
-                    $udata[] = array('uid' => $v['uid'],'uname' => $v['uname'],'avatar_small' => $v['avatar_small'],'search_key' => $v['search_key']);
+                    $udata[] = array('uid' => $v['uid'], 'uname' => $v['uname'], 'avatar_small' => $v['avatar_small'], 'search_key' => $v['search_key']);
                 }
                 //更新userdata表里面的最近@的人的信息
                 $userdata->setField('at_value', serialize($udata), "`key`='user_recentat' AND uid=".$GLOBALS['ts']['mid']);
@@ -152,7 +152,7 @@ class GroupAtmeModel extends Model
                     if (!$v['uid']) {
                         continue;
                     }
-                    $udata[] = array('uid' => $v['uid'],'uname' => $v['uname'],'avatar_small' => $v['avatar_small'],'search_key' => $v['search_key']);
+                    $udata[] = array('uid' => $v['uid'], 'uname' => $v['uname'], 'avatar_small' => $v['avatar_small'], 'search_key' => $v['search_key']);
                 }
                 $data['uid'] = $GLOBALS['ts']['mid'];
                 $data['key'] = 'user_recentat';

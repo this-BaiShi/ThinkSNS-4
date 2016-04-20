@@ -7,10 +7,10 @@
 class PublicSearchModel extends Model
 {
     protected $tableName = 'search';
-    protected $fields = array(0 => 'doc_id',1 => 'app',2 => 'type',3 => 'string01',4 => 'string02',
-                                5 => 'string03',6 => 'string04',7 => 'string05',8 => 'int01',9 => 'int02',
-                                10 => 'int03',11 => 'int04',12 => 'int05',13 => 'file_path',14 => 'content',
-                                15 => 'mtime',16 => 'data',17 => 'int06',18 => 'int07',19 => 'int08',20 => 'int09',21 => 'int10', );
+    protected $fields = array(0 => 'doc_id', 1 => 'app', 2 => 'type', 3 => 'string01', 4 => 'string02',
+                                5 => 'string03', 6 => 'string04', 7 => 'string05', 8 => 'int01', 9 => 'int02',
+                                10 => 'int03', 11 => 'int04', 12 => 'int05', 13 => 'file_path', 14 => 'content',
+                                15 => 'mtime', 16 => 'data', 17 => 'int06', 18 => 'int07', 19 => 'int08', 20 => 'int09', 21 => 'int10', );
 
     public $appid = 0;                // 应用ID
 
@@ -111,11 +111,11 @@ class PublicSearchModel extends Model
         $tablist = array();
         if ($type == 1) { //用户
         } else {
-            $tablist[1] = array('tabkey' => 'int04','tabvalue' => '1','tabtitle' => L('PUBLIC_ORIGINAL_STREAM'),'count' => 0);
-            $tablist[2] = array('tabkey' => 'int04','tabvalue' => '2','tabtitle' => L('PUBLIC_SHARE_STREAM'),'count' => 0);
-            $tablist[3] = array('tabkey' => 'int04','tabvalue' => '3','tabtitle' => L('PUBLIC_IMAGE_STREAM'),'count' => 0);
-            $tablist[4] = array('tabkey' => 'int04','tabvalue' => '4','tabtitle' => L('PUBLIC_FILE_STREAM'),'count' => 0);
-            $tablist[0] = array('tabkey' => 'int04','tabvalue' => '0','tabtitle' => L('PUBLIC_STREAM_LIKE'),'count' => 0);
+            $tablist[1] = array('tabkey' => 'int04', 'tabvalue' => '1', 'tabtitle' => L('PUBLIC_ORIGINAL_STREAM'), 'count' => 0);
+            $tablist[2] = array('tabkey' => 'int04', 'tabvalue' => '2', 'tabtitle' => L('PUBLIC_SHARE_STREAM'), 'count' => 0);
+            $tablist[3] = array('tabkey' => 'int04', 'tabvalue' => '3', 'tabtitle' => L('PUBLIC_IMAGE_STREAM'), 'count' => 0);
+            $tablist[4] = array('tabkey' => 'int04', 'tabvalue' => '4', 'tabtitle' => L('PUBLIC_FILE_STREAM'), 'count' => 0);
+            $tablist[0] = array('tabkey' => 'int04', 'tabvalue' => '0', 'tabtitle' => L('PUBLIC_STREAM_LIKE'), 'count' => 0);
         }
 
         return $tablist;
@@ -296,7 +296,7 @@ class PublicSearchModel extends Model
         $maxId = $this->where($map)->field('MAX(int03) AS maxId')->find();
         $maxId = intval($maxId['maxId']);
 
-        $fmap['feed_id'] = array('gt',$maxId);
+        $fmap['feed_id'] = array('gt', $maxId);
         $feedIds = model('Feed')->where($fmap)->getAsFieldArray('feed_id');
         if (empty($feedIds)) {
             return false;
@@ -306,7 +306,7 @@ class PublicSearchModel extends Model
         $add['type'] = 'feed';
         $add['int01'] = 0;
         $add['int02'] = 2;
-        $feedType = array('post' => 1,'repost' => 2,'postimage' => 3,'postfile' => 4);
+        $feedType = array('post' => 1, 'repost' => 2, 'postimage' => 3, 'postfile' => 4);
         foreach ($feedInfos as $v) {
             $add['string01'] = t($v['title']);
             $add['int03'] = $v['feed_id'];

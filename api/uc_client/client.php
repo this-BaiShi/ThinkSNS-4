@@ -271,7 +271,7 @@ function uc_app_ls()
 function uc_feed_add($icon, $uid, $username, $title_template = '', $title_data = '', $body_template = '', $body_data = '', $body_general = '', $target_ids = '', $images = array())
 {
     return call_user_func(UC_API_FUNC, 'feed', 'add',
-        array(  'icon' => $icon,
+        array('icon' => $icon,
             'appid' => UC_APPID,
             'uid' => $uid,
             'username' => $username,
@@ -677,8 +677,8 @@ function uc_avatar($uid, $type = 'virtual', $returnhtml = 1)
             'src', $uc_avatarflash,
             'id', 'mycamera',
             'name', 'mycamera',
-            'quality','high',
-            'bgcolor','#ffffff',
+            'quality', 'high',
+            'bgcolor', '#ffffff',
             'menu', 'false',
             'swLiveConnect', 'true',
             'allowScriptAccess', 'always',

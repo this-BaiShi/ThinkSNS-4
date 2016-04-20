@@ -86,7 +86,7 @@ class base
 
         if (empty($_ENV[$model])) {
             require_once UC_ROOT."./model/$model.php";
-            $temp = array('app','user');
+            $temp = array('app', 'user');
 
             if (in_array($model, $temp)) {
                 eval('$_ENV[$model] = new '.$model.'models($base);');

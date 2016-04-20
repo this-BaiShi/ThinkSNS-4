@@ -757,7 +757,7 @@ class RelatedUserModel extends Model
         }
         // 获取相同地区的用户
         $limit = $limit * 10;
-        $map['birthday'] = array('BETWEEN',array($ret['sdate'],$ret['edate']));
+        $map['birthday'] = array('BETWEEN', array($ret['sdate'], $ret['edate']));
         $user = $this->_user_model->field('uid')->where($map)->limit($limit)->findAll();
         $data = getSubByKey($user, 'uid');
         $data = array_diff($data, $this->_exclude_uids);

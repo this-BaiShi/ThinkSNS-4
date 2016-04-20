@@ -697,7 +697,7 @@ class MessageModel extends Model
      */
     public function doEditMessage($message_id, $type, $title)
     {
-        $return = array('status' => '0','data' => L('PUBLIC_ADMIN_OPRETING_ERROR'));            // 操作失败
+        $return = array('status' => '0', 'data' => L('PUBLIC_ADMIN_OPRETING_ERROR'));            // 操作失败
         if (empty($message_id)) {
             $return['data'] = L('PUBLIC_WRONG_DATA');           // 错误的参数
         } else {
@@ -713,7 +713,7 @@ class MessageModel extends Model
             }
             if ($res) {
                 // TODO:是否记录知识,以及后期缓存处理
-                $return = array('status' => 1,'data' => L('PUBLIC_ADMIN_OPRETING_SUCCESS'));
+                $return = array('status' => 1, 'data' => L('PUBLIC_ADMIN_OPRETING_SUCCESS'));
             }
         }
 

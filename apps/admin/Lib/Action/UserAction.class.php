@@ -56,9 +56,9 @@ class UserAction extends AdministratorAction
         // 数据的格式化与listKey保持一致
         $listData = $this->_getUserList('20', array(), 'index');
         // 列表批量操作按钮
-        $this->pageButton[] = array('title' => L('PUBLIC_SEARCH_USER'),'onclick' => "admin.fold('search_form')");
-        $this->pageButton[] = array('title' => L('PUBLIC_TRANSFER_USER_GROUP'),'onclick' => 'admin.changeUserGroup()');
-        $this->pageButton[] = array('title' => '禁用用户','onclick' => 'admin.delUser()');
+        $this->pageButton[] = array('title' => L('PUBLIC_SEARCH_USER'), 'onclick' => "admin.fold('search_form')");
+        $this->pageButton[] = array('title' => L('PUBLIC_TRANSFER_USER_GROUP'), 'onclick' => 'admin.changeUserGroup()');
+        $this->pageButton[] = array('title' => '禁用用户', 'onclick' => 'admin.delUser()');
         // 转移用户部门，如果需要请将下面的注释打开
         // $this->pageButton[] = array('title'=>L('PUBLIC_TRANSFER_DEPARTMENT'),'onclick'=>"admin.changeUserDepartment()");
         $this->displayList($listData);
@@ -75,8 +75,8 @@ class UserAction extends AdministratorAction
         // 数据的格式化与listKey保持一致
         $listData = $this->_getUserList(20, array('is_audit' => 0, 'is_del' => '0'), 'pending');
         // 列表批量操作按钮
-        $this->pageButton[] = array('title' => L('PUBLIC_SEARCH_USER'),'onclick' => "admin.fold('search_form')");
-        $this->pageButton[] = array('title' => L('PUBLIC_AUDIT_USER_SUCCESS'),'onclick' => "admin.auditUser('',1)");
+        $this->pageButton[] = array('title' => L('PUBLIC_SEARCH_USER'), 'onclick' => "admin.fold('search_form')");
+        $this->pageButton[] = array('title' => L('PUBLIC_AUDIT_USER_SUCCESS'), 'onclick' => "admin.auditUser('',1)");
 
         $this->displayList($listData);
     }
@@ -120,23 +120,23 @@ class UserAction extends AdministratorAction
     {
         $_REQUEST['tabHash'] = 'online';
         // tab选项
-        $this->pageTab[] = array('title' => L('PUBLIC_USER_LIST'),'tabHash' => 'index','url' => U('admin/User/index'));
-        $this->pageTab[] = array('title' => L('PUBLIC_PENDING_LIST'),'tabHash' => 'pending','url' => U('admin/User/pending'));
-        $this->pageTab[] = array('title' => L('PUBLIC_DISABLE_LIST'),'tabHash' => 'dellist','url' => U('admin/User/dellist'));
+        $this->pageTab[] = array('title' => L('PUBLIC_USER_LIST'), 'tabHash' => 'index', 'url' => U('admin/User/index'));
+        $this->pageTab[] = array('title' => L('PUBLIC_PENDING_LIST'), 'tabHash' => 'pending', 'url' => U('admin/User/pending'));
+        $this->pageTab[] = array('title' => L('PUBLIC_DISABLE_LIST'), 'tabHash' => 'dellist', 'url' => U('admin/User/dellist'));
         // $this->pageTab[] = array('title'=>'在线用户列表','tabHash'=>'online','url'=>U('admin/User/online'));
-        $this->pageTab[] = array('title' => L('PUBLIC_ADD_USER_INFO'),'tabHash' => 'addUser','url' => U('admin/User/addUser'));
+        $this->pageTab[] = array('title' => L('PUBLIC_ADD_USER_INFO'), 'tabHash' => 'addUser', 'url' => U('admin/User/addUser'));
         // 搜索选项的key值
-        $this->searchKey = array('uid','uname','email','sex','user_group',array('ctime','ctime1'));
+        $this->searchKey = array('uid', 'uname', 'email', 'sex', 'user_group', array('ctime', 'ctime1'));
         // 针对搜索的特殊选项
-        $this->opt['sex'] = array('0' => L('PUBLIC_SYSTEMD_NOACCEPT'),'1' => L('PUBLIC_MALE'),'2' => L('PUBLIC_FEMALE'));
-        $this->opt['identity'] = array('0' => L('PUBLIC_SYSTEMD_NOACCEPT'),'1' => L('PUBLIC_PERSONAL'),'2' => L('PUBLIC_ORGANIZATION'));
+        $this->opt['sex'] = array('0' => L('PUBLIC_SYSTEMD_NOACCEPT'), '1' => L('PUBLIC_MALE'), '2' => L('PUBLIC_FEMALE'));
+        $this->opt['identity'] = array('0' => L('PUBLIC_SYSTEMD_NOACCEPT'), '1' => L('PUBLIC_PERSONAL'), '2' => L('PUBLIC_ORGANIZATION'));
         $this->opt['user_group'] = array_merge(array('0' => L('PUBLIC_SYSTEMD_NOACCEPT')), model('UserGroup')->getHashUsergroup());
         // 列表批量操作按钮
-        $this->pageButton[] = array('title' => L('PUBLIC_SEARCH_USER'),'onclick' => "admin.fold('search_form')");
+        $this->pageButton[] = array('title' => L('PUBLIC_SEARCH_USER'), 'onclick' => "admin.fold('search_form')");
 
         $this->opt['user_group'] = array_merge(array('0' => L('PUBLIC_SYSTEMD_NOACCEPT')), model('UserGroup')->getHashUsergroup());
 
-        $this->pageKeyList = array('uid','uname','user_group','location','ctime','last_operating_ip');
+        $this->pageKeyList = array('uid', 'uname', 'user_group', 'location', 'ctime', 'last_operating_ip');
 
         $listData = $this->_getUserOnlineList(20, $map);
 
@@ -153,10 +153,10 @@ class UserAction extends AdministratorAction
         $userInfo = model('User')->getUserInfo($uid);
         $this->pageTitle['viewIP'] = '查看IP - 用户：'.$userInfo['uname'].'（'.$userInfo['email'].'）';
         // tab选项
-        $this->pageTab[] = array('title' => '查看IP','tabHash' => 'viewIP','url' => U('admin/User/viewIP', array('tabHash' => 'viewIP', 'uid' => $uid)));
-        $this->pageTab[] = array('title' => '登录知识','tabHash' => 'loginLog','url' => U('admin/User/loginLog', array('tabHash' => 'loginLog', 'uid' => $uid)));
+        $this->pageTab[] = array('title' => '查看IP', 'tabHash' => 'viewIP', 'url' => U('admin/User/viewIP', array('tabHash' => 'viewIP', 'uid' => $uid)));
+        $this->pageTab[] = array('title' => '登录知识', 'tabHash' => 'loginLog', 'url' => U('admin/User/loginLog', array('tabHash' => 'loginLog', 'uid' => $uid)));
         // 列表key值 DOACTION表示操作
-        $this->pageKeyList = array('id','day','action','ip','DOACTION');
+        $this->pageKeyList = array('id', 'day', 'action', 'ip', 'DOACTION');
         // 获取相关数据
         $listData = model('Online')->getUserOperatingList($uid);
         // foreach($listData['data'] as $k => $v) {
@@ -176,10 +176,10 @@ class UserAction extends AdministratorAction
         $userInfo = model('User')->getUserInfo($uid);
         $this->pageTitle['loginLog'] = '登录知识 - 用户：'.$userInfo['uname'].'（'.$userInfo['email'].'）';
         // tab选项
-        $this->pageTab[] = array('title' => '查看IP','tabHash' => 'viewIP','url' => U('admin/User/viewIP', array('tabHash' => 'viewIP', 'uid' => $uid)));
-        $this->pageTab[] = array('title' => '登录知识','tabHash' => 'loginLog','url' => U('admin/User/loginLog', array('tabHash' => 'loginLog', 'uid' => $uid)));
+        $this->pageTab[] = array('title' => '查看IP', 'tabHash' => 'viewIP', 'url' => U('admin/User/viewIP', array('tabHash' => 'viewIP', 'uid' => $uid)));
+        $this->pageTab[] = array('title' => '登录知识', 'tabHash' => 'loginLog', 'url' => U('admin/User/loginLog', array('tabHash' => 'loginLog', 'uid' => $uid)));
         // 列表key值 DOACTION表示操作
-        $this->pageKeyList = array('login_logs_id','ip','ctime','DOACTION');
+        $this->pageKeyList = array('login_logs_id', 'ip', 'ctime', 'DOACTION');
         // 获取相关数据
         $map['uid'] = $uid;
         $listData = D('login_logs')->where($map)->findPage(20);
@@ -232,18 +232,18 @@ class UserAction extends AdministratorAction
     private function _initUserListAdminMenu($type)
     {
         // tab选项
-        $this->pageTab[] = array('title' => L('PUBLIC_USER_LIST'),'tabHash' => 'index','url' => U('admin/User/index'));
-        $this->pageTab[] = array('title' => L('PUBLIC_PENDING_LIST'),'tabHash' => 'pending','url' => U('admin/User/pending'));
-        $this->pageTab[] = array('title' => L('PUBLIC_DISABLE_LIST'),'tabHash' => 'dellist','url' => U('admin/User/dellist'));
-        $this->pageTab[] = array('title' => '禁言用户','tabHash' => 'disableSendList','url' => U('admin/User/disableSendList'));
+        $this->pageTab[] = array('title' => L('PUBLIC_USER_LIST'), 'tabHash' => 'index', 'url' => U('admin/User/index'));
+        $this->pageTab[] = array('title' => L('PUBLIC_PENDING_LIST'), 'tabHash' => 'pending', 'url' => U('admin/User/pending'));
+        $this->pageTab[] = array('title' => L('PUBLIC_DISABLE_LIST'), 'tabHash' => 'dellist', 'url' => U('admin/User/dellist'));
+        $this->pageTab[] = array('title' => '禁言用户', 'tabHash' => 'disableSendList', 'url' => U('admin/User/disableSendList'));
         // $this->pageTab[] = array('title'=>'在线用户列表','tabHash'=>'online','url'=>U('admin/User/online'));
-        $this->pageTab[] = array('title' => L('PUBLIC_ADD_USER_INFO'),'tabHash' => 'addUser','url' => U('admin/User/addUser'));
+        $this->pageTab[] = array('title' => L('PUBLIC_ADD_USER_INFO'), 'tabHash' => 'addUser', 'url' => U('admin/User/addUser'));
         // 搜索选项的key值
         // $this->searchKey = array('uid','uname','email','sex','department','user_group',array('ctime','ctime1'));
-        $this->searchKey = array('uid','uname','email','mobile','sex','user_group','user_category',array('ctime','ctime1'));
+        $this->searchKey = array('uid', 'uname', 'email', 'mobile', 'sex', 'user_group', 'user_category', array('ctime', 'ctime1'));
         // 针对搜索的特殊选项
-        $this->opt['sex'] = array('0' => L('PUBLIC_SYSTEMD_NOACCEPT'),'1' => L('PUBLIC_MALE'),'2' => L('PUBLIC_FEMALE'));
-        $this->opt['identity'] = array('0' => L('PUBLIC_SYSTEMD_NOACCEPT'),'1' => L('PUBLIC_PERSONAL'),'2' => L('PUBLIC_ORGANIZATION'));
+        $this->opt['sex'] = array('0' => L('PUBLIC_SYSTEMD_NOACCEPT'), '1' => L('PUBLIC_MALE'), '2' => L('PUBLIC_FEMALE'));
+        $this->opt['identity'] = array('0' => L('PUBLIC_SYSTEMD_NOACCEPT'), '1' => L('PUBLIC_PERSONAL'), '2' => L('PUBLIC_ORGANIZATION'));
         //$this->opt['user_group'] = array_merge(array('0'=>L('PUBLIC_SYSTEMD_NOACCEPT')),model('UserGroup')->getHashUsergroup());
         $this->opt['user_group'] = model('UserGroup')->getHashUsergroup();
         $this->opt['user_group'][0] = L('PUBLIC_SYSTEMD_NOACCEPT');
@@ -257,14 +257,14 @@ class UserAction extends AdministratorAction
         // 列表key值 DOACTION表示操作
         switch (strtolower($type)) {
             case 'index':
-                $this->pageKeyList = array('uid','uname','user_group','location','is_audit','is_active','is_init','ctime','reg_ip','DOACTION');
+                $this->pageKeyList = array('uid', 'uname', 'user_group', 'location', 'is_audit', 'is_active', 'is_init', 'ctime', 'reg_ip', 'DOACTION');
                 break;
             case 'dellist':
             case 'disablesendlist':
-                $this->pageKeyList = array('uid','uname','user_group','location','is_audit','is_active','is_init','ctime','reg_ip','disable_time','DOACTION');
+                $this->pageKeyList = array('uid', 'uname', 'user_group', 'location', 'is_audit', 'is_active', 'is_init', 'ctime', 'reg_ip', 'disable_time', 'DOACTION');
                 break;
             case 'pending':
-                $this->pageKeyList = array('uid','uname','location','ctime','reg_ip','DOACTION');
+                $this->pageKeyList = array('uid', 'uname', 'location', 'ctime', 'reg_ip', 'DOACTION');
                 break;
         }
 
@@ -475,25 +475,25 @@ class UserAction extends AdministratorAction
         $this->_initUserListAdminMenu();
         //注册配置(添加用户页隐藏审核按钮)
         $regInfo = model('Xdata')->get('admin_Config:register');
-        $this->pageKeyList = array('email', 'phone', 'uname','password','sex');
+        $this->pageKeyList = array('email', 'phone', 'uname', 'password', 'sex');
         if ($regInfo['register_audit'] == 1) {
             $this->pageKeyList = array_merge($this->pageKeyList, array('is_audit'));
-            $this->opt['is_audit'] = array('1' => '是','2' => '否');
+            $this->opt['is_audit'] = array('1' => '是', '2' => '否');
         }
         if ($regInfo['need_active'] == 1) {
             $this->pageKeyList = array_merge($this->pageKeyList, array('is_active'));
-            $this->opt['is_active'] = array('1' => '是','2' => '否');
+            $this->opt['is_active'] = array('1' => '是', '2' => '否');
         }
         $this->pageKeyList = array_merge($this->pageKeyList, array('user_group'));
         $this->opt['type'] = array('2' => L('PUBLIC_SYSTEM_FIELD'));
         // 字段选项配置
-        $this->opt['sex'] = array('1' => L('PUBLIC_MALE'),'2' => L('PUBLIC_FEMALE'));
+        $this->opt['sex'] = array('1' => L('PUBLIC_MALE'), '2' => L('PUBLIC_FEMALE'));
         $this->opt['user_group'] = model('UserGroup')->getHashUsergroupNoncertified();
         $map['pid'] = array('NEQ', 0);
         $this->opt['user_category'] = model('UserCategory')->getAllHash($map);
         // 表单URL设置
         $this->savePostUrl = U('admin/User/doAddUser');
-        $this->notEmpty = array('uname','password','user_group');
+        $this->notEmpty = array('uname', 'password', 'user_group');
         $this->onsubmit = 'admin.addUserSubmitCheck(this)';
 
         $this->displayConfig();
@@ -527,10 +527,10 @@ class UserAction extends AdministratorAction
         // 初始化用户列表管理菜单
         $this->_initUserListAdminMenu();
         // 列表key值 DOACTION表示操作
-        $this->pageKeyList = array('uid','email','mobile','uname','password','sex','user_group');
+        $this->pageKeyList = array('uid', 'email', 'mobile', 'uname', 'password', 'sex', 'user_group');
         $this->opt['type'] = array('2' => L('PUBLIC_SYSTEM_FIELD'));
         // 字段选项配置
-        $this->opt['sex'] = array('1' => L('PUBLIC_MALE'),'2' => L('PUBLIC_FEMALE'));
+        $this->opt['sex'] = array('1' => L('PUBLIC_MALE'), '2' => L('PUBLIC_FEMALE'));
         //$this->opt['identity'] = array('1'=>L('PUBLIC_PERSONAL'),'2'=>L('PUBLIC_ORGANIZATION'));
         // $user_department = model('Department')->getAllHash(0);
         $usergroupHash = model('UserGroup')->getHashUsergroupNoncertified();
@@ -538,7 +538,7 @@ class UserAction extends AdministratorAction
         unset($usergroupHash[4]);
         $this->opt['user_group'] = $usergroupHash;
 
-        $this->opt['is_active'] = array('1' => L('PUBLIC_SYSTEMD_TRUE'),'0' => L('PUBLIC_SYSTEMD_FALSE'));
+        $this->opt['is_active'] = array('1' => L('PUBLIC_SYSTEMD_TRUE'), '0' => L('PUBLIC_SYSTEMD_FALSE'));
 
         //获取用户资料
         $uid = intval($_REQUEST['uid']);
@@ -556,7 +556,7 @@ class UserAction extends AdministratorAction
         //获取用户组信息
         $userInfo['user_group'] = model('UserGroupLink')->getUserGroup($uid);
         $userInfo['user_group'] = $userInfo['user_group'][$uid];
-        $map['pid'] = array('neq',0);
+        $map['pid'] = array('neq', 0);
         $this->opt['user_category'] = model('UserCategory')->getAllHash($map);
         $userInfo['user_category'] = getSubByKey(model('UserCategory')->getRelatedUserInfo($uid), 'user_category_id');
 
@@ -568,7 +568,7 @@ class UserAction extends AdministratorAction
         $this->savePostUrl = U('admin/User/doUpdateUser');
 
         // $this->notEmpty = array('email','uname','department_id');
-        $this->notEmpty = array('email','mobile','uname','user_group');
+        $this->notEmpty = array('email', 'mobile', 'uname', 'user_group');
         $this->onsubmit = 'admin.checkUser(this)';
 
         $this->displayConfig($userInfo);
@@ -771,16 +771,16 @@ class UserAction extends AdministratorAction
     {
 
         //tab选项
-        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_FIELDLIST'),'tabHash' => 'profile','url' => U('admin/User/profile'));
-        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_CATEGORYLIST'),'tabHash' => 'category','url' => U('admin/User/profileCategory'));
-        $this->pageTab[] = array('title' => L('PUBLIC_ADD_FIELD'),'tabHash' => 'addField','url' => U('admin/User/addProfileField'));
-        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_ADD_CATEGORY'),'tabHash' => 'addCateogry','url' => U('admin/User/addProfileCategory'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_FIELDLIST'), 'tabHash' => 'profile', 'url' => U('admin/User/profile'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_CATEGORYLIST'), 'tabHash' => 'category', 'url' => U('admin/User/profileCategory'));
+        $this->pageTab[] = array('title' => L('PUBLIC_ADD_FIELD'), 'tabHash' => 'addField', 'url' => U('admin/User/addProfileField'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_ADD_CATEGORY'), 'tabHash' => 'addCateogry', 'url' => U('admin/User/addProfileCategory'));
 
         //字段列表key值 DOACTION表示操作
-        $this->pageKeyList = array('field_id','field_key','field_name','field_type','visiable','editable','required','DOACTION');
+        $this->pageKeyList = array('field_id', 'field_key', 'field_name', 'field_type', 'visiable', 'editable', 'required', 'DOACTION');
 
         //列表批量操作按钮ed
-        $this->pageButton[] = array('title' => L('PUBLIC_ADD_FIELD'),'onclick' => "location.href='".U('admin/User/addProfileField', array('tabHash' => 'addField'))."'");
+        $this->pageButton[] = array('title' => L('PUBLIC_ADD_FIELD'), 'onclick' => "location.href='".U('admin/User/addProfileField', array('tabHash' => 'addField'))."'");
 
         $map = array();
 
@@ -827,16 +827,16 @@ class UserAction extends AdministratorAction
     {
 
         //tab选项
-        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_FIELDLIST'),'tabHash' => 'profile','url' => U('admin/User/profile'));
-        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_CATEGORYLIST'),'tabHash' => 'category','url' => U('admin/User/profileCategory'));
-        $this->pageTab[] = array('title' => L('PUBLIC_ADD_FIELD'),'tabHash' => 'addField','url' => U('admin/User/addProfileField'));
-        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_ADD_CATEGORY'),'tabHash' => 'addCateogry','url' => U('admin/User/addProfileCategory'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_FIELDLIST'), 'tabHash' => 'profile', 'url' => U('admin/User/profile'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_CATEGORYLIST'), 'tabHash' => 'category', 'url' => U('admin/User/profileCategory'));
+        $this->pageTab[] = array('title' => L('PUBLIC_ADD_FIELD'), 'tabHash' => 'addField', 'url' => U('admin/User/addProfileField'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_ADD_CATEGORY'), 'tabHash' => 'addCateogry', 'url' => U('admin/User/addProfileCategory'));
 
         //分类列表key值 DOACTION表示操作
-        $this->pageKeyList = array('field_id','field_key','field_name','DOACTION');
+        $this->pageKeyList = array('field_id', 'field_key', 'field_name', 'DOACTION');
 
         //列表批量操作按钮
-        $this->pageButton[] = array('title' => L('PUBLIC_SYSTEM_ADD_CATEGORY'),'onclick' => "location.href='".U('admin/User/addProfileCategory', array('tabHash' => 'addCateogry'))."'");
+        $this->pageButton[] = array('title' => L('PUBLIC_SYSTEM_ADD_CATEGORY'), 'onclick' => "location.href='".U('admin/User/addProfileCategory', array('tabHash' => 'addCateogry'))."'");
         //$this->pageButton[] = array('title'=>'删除选中','onclick'=>"admin.delProfileField()");
 
         $map = array();
@@ -880,13 +880,13 @@ class UserAction extends AdministratorAction
     {
 
         //tab选项
-        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_FIELDLIST'),'tabHash' => 'profile','url' => U('admin/User/profile'));
-        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_CATEGORYLIST'),'tabHash' => 'category','url' => U('admin/User/profileCategory'));
-        $this->pageTab[] = array('title' => L('PUBLIC_ADD_FIELD'),'tabHash' => 'addField','url' => U('admin/User/addProfileField'));
-        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_ADD_CATEGORY'),'tabHash' => 'addCateogry','url' => U('admin/User/addProfileCategory'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_FIELDLIST'), 'tabHash' => 'profile', 'url' => U('admin/User/profile'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_CATEGORYLIST'), 'tabHash' => 'category', 'url' => U('admin/User/profileCategory'));
+        $this->pageTab[] = array('title' => L('PUBLIC_ADD_FIELD'), 'tabHash' => 'addField', 'url' => U('admin/User/addProfileField'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_ADD_CATEGORY'), 'tabHash' => 'addCateogry', 'url' => U('admin/User/addProfileCategory'));
 
         //列表key值 DOACTION表示操作
-        $this->pageKeyList = array('field_id','type','field_key','field_name','field_type');
+        $this->pageKeyList = array('field_id', 'type', 'field_key', 'field_name', 'field_type');
         $this->opt['type'] = array('1' => L('PUBLIC_SYSTEM_CATEGORY'));
 
         //获取配置信息
@@ -898,7 +898,7 @@ class UserAction extends AdministratorAction
 
         $this->savePostUrl = U('admin/User/doSaveProfileField');
 
-        $this->notEmpty = array('field_key','field_name');
+        $this->notEmpty = array('field_key', 'field_name');
         $this->onsubmit = 'admin.checkProfile(this)';
 
         $this->displayConfig($setting);
@@ -913,14 +913,14 @@ class UserAction extends AdministratorAction
     {
         $_GET['id'] = intval($_GET['id']);
         //tab选项
-        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_FIELDLIST'),'tabHash' => 'profile','url' => U('admin/User/profile'));
-        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_CATEGORYLIST'),'tabHash' => 'category','url' => U('admin/User/profileCategory'));
-        $this->pageTab[] = array('title' => L('PUBLIC_ADD_FIELD'),'tabHash' => 'addField','url' => U('admin/User/addProfileField'));
-        $edit && $this->pageTab[] = array('title' => L('PUBLIC_EDIT_FIELD'),'tabHash' => 'editField','url' => U('admin/User/editProfileField', array('id' => $_REQUEST['id'])));
-        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_ADD_CATEGORY'),'tabHash' => 'addCateogry','url' => U('admin/User/addProfileCategory'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_FIELDLIST'), 'tabHash' => 'profile', 'url' => U('admin/User/profile'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_CATEGORYLIST'), 'tabHash' => 'category', 'url' => U('admin/User/profileCategory'));
+        $this->pageTab[] = array('title' => L('PUBLIC_ADD_FIELD'), 'tabHash' => 'addField', 'url' => U('admin/User/addProfileField'));
+        $edit && $this->pageTab[] = array('title' => L('PUBLIC_EDIT_FIELD'), 'tabHash' => 'editField', 'url' => U('admin/User/editProfileField', array('id' => $_REQUEST['id'])));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_ADD_CATEGORY'), 'tabHash' => 'addCateogry', 'url' => U('admin/User/addProfileCategory'));
 
         //列表key值 DOACTION表示操作
-        $this->pageKeyList = array('field_id','type','field_key','field_name','field_type','visiable','editable','required','privacy','form_type','form_default_value','validation','tips');
+        $this->pageKeyList = array('field_id', 'type', 'field_key', 'field_name', 'field_type', 'visiable', 'editable', 'required', 'privacy', 'form_type', 'form_default_value', 'validation', 'tips');
         $this->opt['type'] = array('2' => L('PUBLIC_SYSTEM_FIELD'));
 
         //获取字段分类列表
@@ -931,16 +931,16 @@ class UserAction extends AdministratorAction
 
         //字段选项配置
         $this->opt['field_type'] = $cate_array;
-        $this->opt['visiable'] = array('1' => L('PUBLIC_SYSTEMD_TRUE'),'0' => L('PUBLIC_SYSTEMD_FALSE'));
-        $this->opt['editable'] = array('1' => L('PUBLIC_SYSTEMD_TRUE'),'0' => L('PUBLIC_SYSTEMD_FALSE'));
-        $this->opt['required'] = array('1' => L('PUBLIC_SYSTEMD_TRUE'),'0' => L('PUBLIC_SYSTEMD_FALSE'));
-        $this->opt['privacy'] = array('0' => L('PUBLIC_WEIBO_COMMENT_ALL'),'1' => L('PUBLIC_SYSTEM_PARENT_SEE'),'2' => L('PUBLIC_SYSTEM_FOLLOWING_SEE'),'3' => L('PUBLIC_SYSTEM_FOLLW_SEE'));
+        $this->opt['visiable'] = array('1' => L('PUBLIC_SYSTEMD_TRUE'), '0' => L('PUBLIC_SYSTEMD_FALSE'));
+        $this->opt['editable'] = array('1' => L('PUBLIC_SYSTEMD_TRUE'), '0' => L('PUBLIC_SYSTEMD_FALSE'));
+        $this->opt['required'] = array('1' => L('PUBLIC_SYSTEMD_TRUE'), '0' => L('PUBLIC_SYSTEMD_FALSE'));
+        $this->opt['privacy'] = array('0' => L('PUBLIC_WEIBO_COMMENT_ALL'), '1' => L('PUBLIC_SYSTEM_PARENT_SEE'), '2' => L('PUBLIC_SYSTEM_FOLLOWING_SEE'), '3' => L('PUBLIC_SYSTEM_FOLLW_SEE'));
         $this->opt['form_type'] = model('UserProfile')->getUserProfileInputType();
 
         $detail = !empty($_GET['id']) ? D('UserProfileSetting')->where("field_id='{$_GET['id']}'")->find() : array();
         $this->savePostUrl = !empty($detail) ?  U('admin/User/doSaveProfileField') :  U('admin/User/doAddProfileField');
 
-        $this->notEmpty = array('field_key','field_name','field_type');
+        $this->notEmpty = array('field_key', 'field_name', 'field_type');
         $this->onsubmit = 'admin.checkProfile(this)';
         $this->displayConfig($detail);
     }
@@ -948,14 +948,14 @@ class UserAction extends AdministratorAction
     public function editProfileField()
     {
         //tab选项
-        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_FIELDLIST'),'tabHash' => 'profile','url' => U('admin/User/profile'));
-        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_CATEGORYLIST'),'tabHash' => 'category','url' => U('admin/User/profileCategory'));
-        $this->pageTab[] = array('title' => L('PUBLIC_ADD_FIELD'),'tabHash' => 'addField','url' => U('admin/User/addProfileField'));
-        $edit && $this->pageTab[] = array('title' => L('PUBLIC_EDIT_FIELD'),'tabHash' => 'editField','url' => U('admin/User/editProfileField', array('id' => $_REQUEST['id'])));
-        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_ADD_CATEGORY'),'tabHash' => 'addCateogry','url' => U('admin/User/addProfileCategory'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_FIELDLIST'), 'tabHash' => 'profile', 'url' => U('admin/User/profile'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_CATEGORYLIST'), 'tabHash' => 'category', 'url' => U('admin/User/profileCategory'));
+        $this->pageTab[] = array('title' => L('PUBLIC_ADD_FIELD'), 'tabHash' => 'addField', 'url' => U('admin/User/addProfileField'));
+        $edit && $this->pageTab[] = array('title' => L('PUBLIC_EDIT_FIELD'), 'tabHash' => 'editField', 'url' => U('admin/User/editProfileField', array('id' => $_REQUEST['id'])));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_ADD_CATEGORY'), 'tabHash' => 'addCateogry', 'url' => U('admin/User/addProfileCategory'));
 
         //列表key值 DOACTION表示操作
-        $this->pageKeyList = array('field_id','type','field_key','field_name','field_type','visiable','editable','required','privacy','form_type','form_default_value','validation','tips');
+        $this->pageKeyList = array('field_id', 'type', 'field_key', 'field_name', 'field_type', 'visiable', 'editable', 'required', 'privacy', 'form_type', 'form_default_value', 'validation', 'tips');
         $this->opt['type'] = array('2' => L('PUBLIC_SYSTEM_FIELD'));
 
         //获取字段分类列表
@@ -966,16 +966,16 @@ class UserAction extends AdministratorAction
 
         //字段选项配置
         $this->opt['field_type'] = $cate_array;
-        $this->opt['visiable'] = array('1' => L('PUBLIC_SYSTEMD_TRUE'),'0' => L('PUBLIC_SYSTEMD_FALSE'));
-        $this->opt['editable'] = array('1' => L('PUBLIC_SYSTEMD_TRUE'),'0' => L('PUBLIC_SYSTEMD_FALSE'));
-        $this->opt['required'] = array('1' => L('PUBLIC_SYSTEMD_TRUE'),'0' => L('PUBLIC_SYSTEMD_FALSE'));
-        $this->opt['privacy'] = array('0' => L('PUBLIC_WEIBO_COMMENT_ALL'),'1' => L('PUBLIC_SYSTEM_PARENT_SEE'),'2' => L('PUBLIC_SYSTEM_FOLLOWING_SEE'),'3' => L('PUBLIC_SYSTEM_FOLLW_SEE'));
+        $this->opt['visiable'] = array('1' => L('PUBLIC_SYSTEMD_TRUE'), '0' => L('PUBLIC_SYSTEMD_FALSE'));
+        $this->opt['editable'] = array('1' => L('PUBLIC_SYSTEMD_TRUE'), '0' => L('PUBLIC_SYSTEMD_FALSE'));
+        $this->opt['required'] = array('1' => L('PUBLIC_SYSTEMD_TRUE'), '0' => L('PUBLIC_SYSTEMD_FALSE'));
+        $this->opt['privacy'] = array('0' => L('PUBLIC_WEIBO_COMMENT_ALL'), '1' => L('PUBLIC_SYSTEM_PARENT_SEE'), '2' => L('PUBLIC_SYSTEM_FOLLOWING_SEE'), '3' => L('PUBLIC_SYSTEM_FOLLW_SEE'));
         $this->opt['form_type'] = model('UserProfile')->getUserProfileInputType();
 
         $detail = !empty($_GET['id']) ? D('UserProfileSetting')->where("field_id='{$_GET['id']}'")->find() : array();
         $this->savePostUrl = !empty($detail) ?  U('admin/User/doSaveProfileField') :  U('admin/User/doAddProfileField');
 
-        $this->notEmpty = array('field_key','field_name','field_type');
+        $this->notEmpty = array('field_key', 'field_name', 'field_type');
         $this->onsubmit = 'admin.checkProfile(this)';
         $this->displayConfig($detail);
         // $this->addProfileField(true);
@@ -989,28 +989,28 @@ class UserAction extends AdministratorAction
     {
 
         //tab选项
-        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_FIELDLIST'),'tabHash' => 'profile','url' => U('admin/User/profile'));
-        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_CATEGORYLIST'),'tabHash' => 'category','url' => U('admin/User/profileCategory'));
-        $this->pageTab[] = array('title' => L('PUBLIC_ADD_FIELD'),'tabHash' => 'addField','url' => U('admin/User/addProfileField'));
-        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_ADD_CATEGORY'),'tabHash' => 'addCateogry','url' => U('admin/User/addProfileCategory'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_FIELDLIST'), 'tabHash' => 'profile', 'url' => U('admin/User/profile'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_CATEGORYLIST'), 'tabHash' => 'category', 'url' => U('admin/User/profileCategory'));
+        $this->pageTab[] = array('title' => L('PUBLIC_ADD_FIELD'), 'tabHash' => 'addField', 'url' => U('admin/User/addProfileField'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_ADD_CATEGORY'), 'tabHash' => 'addCateogry', 'url' => U('admin/User/addProfileCategory'));
 
         //列表key值 DOACTION表示操作
-        $this->pageKeyList = array('type','field_key','field_name','field_type');
+        $this->pageKeyList = array('type', 'field_key', 'field_name', 'field_type');
         $this->opt['type'] = array('1' => L('PUBLIC_SYSTEM_CATEGORY'));
 
         //字段选项配置
         $this->opt['field_type'] = array('0' => L('PUBLIC_SYSTEM_PCATEGORY'));
-        $this->opt['visiable'] = array('1' => L('PUBLIC_SYSTEMD_TRUE'),'0' => L('PUBLIC_SYSTEMD_FALSE'));
-        $this->opt['editable'] = array('1' => L('PUBLIC_SYSTEMD_TRUE'),'0' => L('PUBLIC_SYSTEMD_FALSE'));
-        $this->opt['required'] = array('1' => L('PUBLIC_SYSTEMD_TRUE'),'0' => L('PUBLIC_SYSTEMD_FALSE'));
-        $this->opt['privacy'] = array('0' => L('PUBLIC_WEIBO_COMMENT_ALL'),'1' => L('PUBLIC_SYSTEM_PARENT_SEE'),'2' => L('PUBLIC_SYSTEM_FOLLOWING_SEE'),'3' => L('PUBLIC_SYSTEM_FOLLW_SEE'));
+        $this->opt['visiable'] = array('1' => L('PUBLIC_SYSTEMD_TRUE'), '0' => L('PUBLIC_SYSTEMD_FALSE'));
+        $this->opt['editable'] = array('1' => L('PUBLIC_SYSTEMD_TRUE'), '0' => L('PUBLIC_SYSTEMD_FALSE'));
+        $this->opt['required'] = array('1' => L('PUBLIC_SYSTEMD_TRUE'), '0' => L('PUBLIC_SYSTEMD_FALSE'));
+        $this->opt['privacy'] = array('0' => L('PUBLIC_WEIBO_COMMENT_ALL'), '1' => L('PUBLIC_SYSTEM_PARENT_SEE'), '2' => L('PUBLIC_SYSTEM_FOLLOWING_SEE'), '3' => L('PUBLIC_SYSTEM_FOLLW_SEE'));
         $this->opt['form_type'] = model('UserProfile')->getUserProfileInputType();
 
         $this->savePostUrl = U('admin/User/doAddProfileField');
 
         $detail = !empty($_GET['id']) ? D('UserProfileSetting')->where("field_id='{$_GET['id']}'")->find() : array();
 
-        $this->notEmpty = array('field_key','field_name');
+        $this->notEmpty = array('field_key', 'field_name');
         $this->onsubmit = 'admin.checkProfile(this)';
 
         $this->displayConfig($detail);
@@ -1107,10 +1107,10 @@ class UserAction extends AdministratorAction
 
     public function domoveDepart()
     {
-        $return = array('status' => '0','data' => L('PUBLIC_ADMIN_OPRETING_ERROR'));
+        $return = array('status' => '0', 'data' => L('PUBLIC_ADMIN_OPRETING_ERROR'));
         if (!empty($_POST['uid']) && !empty($_POST['topid'])) {
             if ($res = model('User')->domoveDepart($_POST['uid'], $_POST['topid'])) {
-                $return = array('status' => 1,'data' => L('PUBLIC_ADMIN_OPRETING_SUCCESS'));
+                $return = array('status' => 1, 'data' => L('PUBLIC_ADMIN_OPRETING_SUCCESS'));
                 //TODO 记录知识
             } else {
                 $return['data'] = model('User')->getError();
@@ -1130,10 +1130,10 @@ class UserAction extends AdministratorAction
 
     public function domoveUsergroup()
     {
-        $return = array('status' => '0','data' => L('PUBLIC_ADMIN_OPRETING_ERROR'));
+        $return = array('status' => '0', 'data' => L('PUBLIC_ADMIN_OPRETING_ERROR'));
         if (!empty($_POST['uid']) && !empty($_POST['user_group_id'])) {
             if ($res = model('UserGroupLink')->domoveUsergroup($_POST['uid'], $_POST['user_group_id'])) {
-                $return = array('status' => 1,'data' => L('PUBLIC_ADMIN_OPRETING_SUCCESS'));
+                $return = array('status' => 1, 'data' => L('PUBLIC_ADMIN_OPRETING_SUCCESS'));
                 //TODO 记录知识
             } else {
                 $return['data'] = model('UserGroup')->getError();
@@ -1150,12 +1150,12 @@ class UserAction extends AdministratorAction
     {
         // tab选项
         $this->pageTab[] = array('title' => '认证分类', 'tabHash' => 'verifyCategory', 'url' => U('admin/User/verifyCategory'));
-        $this->pageTab[] = array('title' => '置顶用户','tabHash' => 'config','url' => U('admin/User/verifyConfig'));
-        $this->pageTab[] = array('title' => '添加认证用户','tabHash' => 'addverify','url' => U('admin/User/addVerify'));
-        $this->pageTab[] = array('title' => '待认证用户','tabHash' => 'verify','url' => U('admin/User/verify'));
-        $this->pageTab[] = array('title' => '待认证机构','tabHash' => 'verifyGroup','url' => U('admin/User/verifyGroup'));
-        $this->pageTab[] = array('title' => '已认证用户','tabHash' => 'verified','url' => U('admin/User/verified'));
-        $this->pageTab[] = array('title' => '已认证机构','tabHash' => 'verifiedGroup','url' => U('admin/User/verifiedGroup'));
+        $this->pageTab[] = array('title' => '置顶用户', 'tabHash' => 'config', 'url' => U('admin/User/verifyConfig'));
+        $this->pageTab[] = array('title' => '添加认证用户', 'tabHash' => 'addverify', 'url' => U('admin/User/addVerify'));
+        $this->pageTab[] = array('title' => '待认证用户', 'tabHash' => 'verify', 'url' => U('admin/User/verify'));
+        $this->pageTab[] = array('title' => '待认证机构', 'tabHash' => 'verifyGroup', 'url' => U('admin/User/verifyGroup'));
+        $this->pageTab[] = array('title' => '已认证用户', 'tabHash' => 'verified', 'url' => U('admin/User/verified'));
+        $this->pageTab[] = array('title' => '已认证机构', 'tabHash' => 'verifiedGroup', 'url' => U('admin/User/verifiedGroup'));
     }
 
     /**
@@ -1164,9 +1164,9 @@ class UserAction extends AdministratorAction
     public function verify()
     {
         $this->_initVerifyAdminMenu();
-        $this->pageButton[] = array('title' => '驳回认证','onclick' => "admin.verify('',-1)");
+        $this->pageButton[] = array('title' => '驳回认证', 'onclick' => "admin.verify('',-1)");
 
-        $this->pageKeyList = array('uname','usergroup_id','category','realname','idcard','phone','reason','info','attachment','DOACTION');
+        $this->pageKeyList = array('uname', 'usergroup_id', 'category', 'realname', 'idcard', 'phone', 'reason', 'info', 'attachment', 'DOACTION');
         $listData = D('user_verified')->where('verified=0 and usergroup_id!=6')->findpage(20);
         // 获取认证分类的Hash数组
         $categoryHash = model('CategoryTree')->setTable('user_verified_category')->getCategoryHash();
@@ -1199,9 +1199,9 @@ class UserAction extends AdministratorAction
     public function verifyGroup()
     {
         $this->_initVerifyAdminMenu();
-        $this->pageButton[] = array('title' => '驳回认证','onclick' => "admin.verify('',-1,6)");
+        $this->pageButton[] = array('title' => '驳回认证', 'onclick' => "admin.verify('',-1,6)");
 
-        $this->pageKeyList = array('uname','usergroup_id','category','company','realname','idcard','phone','reason','info','attachment','DOACTION');
+        $this->pageKeyList = array('uname', 'usergroup_id', 'category', 'company', 'realname', 'idcard', 'phone', 'reason', 'info', 'attachment', 'DOACTION');
         $listData = D('user_verified')->where('verified=0 and usergroup_id=6')->findpage(20);
         // 获取认证分类的Hash数组
         $categoryHash = model('CategoryTree')->setTable('user_verified_category')->getCategoryHash();
@@ -1234,9 +1234,9 @@ class UserAction extends AdministratorAction
     public function verified()
     {
         $this->_initVerifyAdminMenu();
-        $this->pageButton[] = array('title' => '驳回认证','onclick' => "admin.verify('',-1)");
+        $this->pageButton[] = array('title' => '驳回认证', 'onclick' => "admin.verify('',-1)");
 
-        $this->pageKeyList = array('uname','usergroup_id','category','realname','idcard','phone','reason','info','attachment','DOACTION');
+        $this->pageKeyList = array('uname', 'usergroup_id', 'category', 'realname', 'idcard', 'phone', 'reason', 'info', 'attachment', 'DOACTION');
         $listData = D('user_verified')->where('verified=1 and usergroup_id!=6')->order('id DESC')->findpage(20);
         // 获取认证分类的Hash数组
         $categoryHash = model('CategoryTree')->setTable('user_verified_category')->getCategoryHash();
@@ -1270,9 +1270,9 @@ class UserAction extends AdministratorAction
     public function verifiedGroup()
     {
         $this->_initVerifyAdminMenu();
-        $this->pageButton[] = array('title' => '驳回认证','onclick' => "admin.verify('',-1,6)");
+        $this->pageButton[] = array('title' => '驳回认证', 'onclick' => "admin.verify('',-1,6)");
 
-        $this->pageKeyList = array('uname','usergroup_id','category','company','realname','idcard','phone','reason','info','attachment','DOACTION');
+        $this->pageKeyList = array('uname', 'usergroup_id', 'category', 'company', 'realname', 'idcard', 'phone', 'reason', 'info', 'attachment', 'DOACTION');
         $listData = D('user_verified')->where('verified=1 and usergroup_id=6')->order('id DESC')->findpage(20);
         // 获取认证分类的Hash数组
         $categoryHash = model('CategoryTree')->setTable('user_verified_category')->getCategoryHash();
@@ -1320,7 +1320,7 @@ class UserAction extends AdministratorAction
         $status = intval($_POST['status']);
         $id = $_POST['id'];
         if (is_array($id)) {
-            $map['id'] = array('in',$id);
+            $map['id'] = array('in', $id);
         } else {
             $map['id'] = $id;
         }
@@ -1432,7 +1432,7 @@ class UserAction extends AdministratorAction
     {
         $this->_initVerifyAdminMenu();
         // 列表key值 DOACTION表示操作
-        $this->pageKeyList = array('uname','usergroup_id','user_verified_category_id','company','realname','idcard','phone','reason','info','attach');
+        $this->pageKeyList = array('uname', 'usergroup_id', 'user_verified_category_id', 'company', 'realname', 'idcard', 'phone', 'reason', 'info', 'attach');
         // 字段选项配置
         $auType = model('UserGroup')->where('is_authenticate=1')->select();
         foreach ($auType as $k => $v) {
@@ -1445,7 +1445,7 @@ class UserAction extends AdministratorAction
         }
         // 表单URL设置
         $this->savePostUrl = U('admin/User/doAddVerify');
-        $this->notEmpty = array('uname','usergroup_id','company','realname','idcard','phone','reason','info');
+        $this->notEmpty = array('uname', 'usergroup_id', 'company', 'realname', 'idcard', 'phone', 'reason', 'info');
         $this->onload[] = 'admin.addVerifyConfig(5)';
         //$this->onsubmit = 'admin.addVerifySubmitCheck(this)';
 
@@ -1573,7 +1573,7 @@ class UserAction extends AdministratorAction
     {
         $this->_initVerifyAdminMenu();
 
-        $this->pageKeyList = array('uid','uname','usergroup_id','user_verified_category_id','company','realname','idcard','phone','reason','info','attach');
+        $this->pageKeyList = array('uid', 'uname', 'usergroup_id', 'user_verified_category_id', 'company', 'realname', 'idcard', 'phone', 'reason', 'info', 'attach');
 
         $id = intval($_REQUEST['id']);
         $verifyInfo = D('user_verified')->where('id='.$id)->find();
@@ -1594,7 +1594,7 @@ class UserAction extends AdministratorAction
 
         $this->savePostUrl = U('admin/User/doEditVerify');
         $this->onsubmit = 'admin.editVerifySubmitCheck(this)';
-        $this->notEmpty = array('usergroup_id','company','realname','idcard','phone','reason','info');
+        $this->notEmpty = array('usergroup_id', 'company', 'realname', 'idcard', 'phone', 'reason', 'info');
         $this->onload[] = "admin.addVerifyConfig({$verifyInfo['usergroup_id']})";
         $this->displayConfig($verifyInfo);
     }
@@ -1671,10 +1671,10 @@ class UserAction extends AdministratorAction
         //$this->displayTree($treeData, 'user_verified_category');
 
         //分类列表key值 DOACTION表示操作
-        $this->pageKeyList = array('user_verified_category_id','title','pCategory','DOACTION');
+        $this->pageKeyList = array('user_verified_category_id', 'title', 'pCategory', 'DOACTION');
 
         //列表批量操作按钮
-        $this->pageButton[] = array('title' => L('PUBLIC_SYSTEM_ADD_CATEGORY'),'onclick' => 'admin.addVerifyCategory()');
+        $this->pageButton[] = array('title' => L('PUBLIC_SYSTEM_ADD_CATEGORY'), 'onclick' => 'admin.addVerifyCategory()');
 
         //取用户列表
         $listData = D('user_verified_category')->findpage(20);
@@ -1806,7 +1806,7 @@ class UserAction extends AdministratorAction
     public function findPeopleConfig()
     {
         // tab选项
-        $this->pageTab[] = array('title' => '找人配置','tabHash' => 'findPeopleConfig','url' => U('admin/User/findPeopleConfig'));
+        $this->pageTab[] = array('title' => '找人配置', 'tabHash' => 'findPeopleConfig', 'url' => U('admin/User/findPeopleConfig'));
         // 配置用户存储基本字段
         $this->pageKeyList = array('findPeople');
         $findtype['tag'] = '按标签';
@@ -1859,9 +1859,9 @@ class UserAction extends AdministratorAction
         // 初始化
         $this->_officialInit();
         // 列表批量操作按钮
-        $this->pageButton[] = array('title' => '移除','onclick' => 'admin.removeOfficialUser()');
+        $this->pageButton[] = array('title' => '移除', 'onclick' => 'admin.removeOfficialUser()');
         // 列表key值 DOACTION表示操作
-        $this->pageKeyList = array('official_id','uid','uname','title','info','DOACTION');
+        $this->pageKeyList = array('official_id', 'uid', 'uname', 'title', 'info', 'DOACTION');
         // 获取用户列表
         $listData = model('UserOfficial')->getUserOfficialList();
         // 组装数据
@@ -1883,12 +1883,12 @@ class UserAction extends AdministratorAction
         // 初始化
         $this->_officialInit();
         // 列表key值 DOACTION表示操作
-        $this->pageKeyList = array('uids', 'category','info');
+        $this->pageKeyList = array('uids', 'category', 'info');
         // 字段选项配置
         $this->opt['category'] = model('CategoryTree')->setTable('user_official_category')->getCategoryHash();
         // 表单URL设置
         $this->savePostUrl = U('admin/User/doOfficialAddUser');
-        $this->notEmpty = array('uids','category');
+        $this->notEmpty = array('uids', 'category');
 
         $this->displayConfig();
     }
@@ -1948,9 +1948,9 @@ class UserAction extends AdministratorAction
      */
     private function _officialInit()
     {
-        $this->pageTab[] = array('title' => '推荐分类','tabHash' => 'officialCategory','url' => U('admin/User/officialCategory'));
-        $this->pageTab[] = array('title' => '置顶用户','tabHash' => 'official','url' => U('admin/User/official'));
-        $this->pageTab[] = array('title' => '添加推荐用户','tabHash' => 'officialAddUser','url' => U('admin/User/officialAddUser'));
-        $this->pageTab[] = array('title' => '已推荐用户','tabHash' => 'officialList','url' => U('admin/User/officialList'));
+        $this->pageTab[] = array('title' => '推荐分类', 'tabHash' => 'officialCategory', 'url' => U('admin/User/officialCategory'));
+        $this->pageTab[] = array('title' => '置顶用户', 'tabHash' => 'official', 'url' => U('admin/User/official'));
+        $this->pageTab[] = array('title' => '添加推荐用户', 'tabHash' => 'officialAddUser', 'url' => U('admin/User/officialAddUser'));
+        $this->pageTab[] = array('title' => '已推荐用户', 'tabHash' => 'officialList', 'url' => U('admin/User/officialList'));
     }
 }

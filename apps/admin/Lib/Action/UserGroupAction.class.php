@@ -22,9 +22,9 @@ class UserGroupAction extends AdministratorAction
     {
 
          // 页面具有的字段，可以移动到配置文件中！！！
-        $this->pageKeyList = array('user_group_id','app_name','user_group_name','user_group_type','user_group_icon','is_authenticate','DOACTION');
+        $this->pageKeyList = array('user_group_id', 'app_name', 'user_group_name', 'user_group_type', 'user_group_icon', 'is_authenticate', 'DOACTION');
 
-        $this->pageButton[] = array('title' => L('PUBLIC_ADD_USER_GROUP'),'onclick' => 'admin.addUserGroup()');
+        $this->pageButton[] = array('title' => L('PUBLIC_ADD_USER_GROUP'), 'onclick' => 'admin.addUserGroup()');
         // $this->pageButton[] = array('title'=>L('PUBLIC_DELETE_USER_GROUP'),'onclick'=>"admin.delUserGroup(this)");
 
         $list = model('UserGroup')->findPage(10);
@@ -60,10 +60,10 @@ class UserGroupAction extends AdministratorAction
             }
         }
 
-        $this->pageKeyList = array('user_group_id','user_group_name','user_group_icon','user_group_type','is_authenticate');
+        $this->pageKeyList = array('user_group_id', 'user_group_name', 'user_group_icon', 'user_group_type', 'is_authenticate');
 
-        $this->opt['user_group_type'] = array(0 => L('PUBLIC_ORDINARY'),1 => L('PUBLIC_SPECIAL'));
-        $this->opt['is_authenticate'] = array(1 => '是',0 => '否');
+        $this->opt['user_group_type'] = array(0 => L('PUBLIC_ORDINARY'), 1 => L('PUBLIC_SPECIAL'));
+        $this->opt['is_authenticate'] = array(1 => '是', 0 => '否');
 
         require_once ADDON_PATH.'/library/io/Dir.class.php';
         $dirs = new Dir(THEME_PUBLIC_PATH.'/image/usergroup');
@@ -93,7 +93,7 @@ class UserGroupAction extends AdministratorAction
     //删除用户
     public function delgroup()
     {
-        $return = array('status' => 1,'data' => L('PUBLIC_DELETE_SUCCESS'));
+        $return = array('status' => 1, 'data' => L('PUBLIC_DELETE_SUCCESS'));
         if (empty($_POST['gid'])) {
             $return['status'] = 0;
             $return['data'] = L('PUBLIC_USERGROUP_ISNOT');

@@ -34,7 +34,7 @@ class WeibaReplyWidget extends Widget
         $var['order'] = 'ASC';
         $var['initNums'] = model('Xdata')->getConfig('weibo_nums', 'feed');
         $map['weiba_id'] = $data['weiba_id'];
-        $map['level'] = array('gt',1);
+        $map['level'] = array('gt', 1);
         $var['weiba_admin'] = getSubByKey(D('weiba_follow', 'weiba')->where($map)->findAll(), 'follower_uid');
 
         $_REQUEST['p'] = $_GET['p'] ? $_GET['p'] : $_POST['p'];
@@ -65,7 +65,7 @@ class WeibaReplyWidget extends Widget
         $ajax = $var['isAjax'];
         unset($var, $data);
         //输出数据
-        $return = array('status' => 1,'data' => $content);
+        $return = array('status' => 1, 'data' => $content);
 
         return $ajax == 1 ? json_encode($return) : $return['data'];
     }
@@ -86,7 +86,7 @@ class WeibaReplyWidget extends Widget
             $return['data'] = '您是黑名单用户没有发帖权限！';
             exit(json_encode($return));
         }
-        $return = array('status' => 0,'data' => L('PUBLIC_CONCENT_IS_ERROR'));
+        $return = array('status' => 0, 'data' => L('PUBLIC_CONCENT_IS_ERROR'));
         $data['weiba_id'] = intval($_POST['weiba_id']);
         $data['post_id'] = intval($_POST['post_id']);
         $data['post_uid'] = intval($_POST['post_uid']);

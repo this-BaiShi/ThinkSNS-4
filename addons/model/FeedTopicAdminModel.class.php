@@ -19,7 +19,7 @@ class FeedTopicAdminModel extends Model
         }
         if ($_POST) {
             $_POST['topic_id'] && $map['topic_id'] = intval($_POST['topic_id']);
-            $_POST['topic_name'] && $map['topic_name'] = array('like','%'.t($_POST['topic_name']).'%');
+            $_POST['topic_name'] && $map['topic_name'] = array('like', '%'.t($_POST['topic_name']).'%');
             $_POST['recommend'] && $map['recommend'] = $_POST['recommend'] == 1 ? 1 : 0;
             $_POST['essence'] && $map['essence'] = $_POST['essence'] == 1 ? 1 : 0;
             $_POST['lock'] && $map['lock'] = $_POST['lock'] == 1 ? 1 : 0;

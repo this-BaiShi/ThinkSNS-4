@@ -7,7 +7,7 @@
 class UserPrivacyModel extends Model
 {
     protected $tableName = 'user_privacy';
-    protected $fields = array(0 => 'uid',1 => 'key',2 => 'value');
+    protected $fields = array(0 => 'uid', 1 => 'key', 2 => 'value');
 
     /**
      * 获取指定用户的隐私设置

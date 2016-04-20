@@ -7,7 +7,7 @@
 class MailModel
 {
     // 允许发送邮件的类型
-    public static $allowed = array('Register','unAudit','resetPass','resetPassOk','invateOpen','invate','atme','comment','reply');
+    public static $allowed = array('Register', 'unAudit', 'resetPass', 'resetPassOk', 'invateOpen', 'invate', 'atme', 'comment', 'reply');
     public $message;
 
     /**

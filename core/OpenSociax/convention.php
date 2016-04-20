@@ -23,7 +23,7 @@ return array(
     'GZIP_OPEN' => false,      // 开启Gzip模式
     'DEVELOP_MODE' => true,       // 开发模式，开启后台表单的配置
     'APP_PLUGIN_ON' => true,       // 是否开启插件机制
-    'DEFAULT_APPS' => array('public','admin','home','page','wap','w3g'), //默认核心应用
+    'DEFAULT_APPS' => array('public', 'admin', 'home', 'page', 'wap', 'w3g'), //默认核心应用
 
     /* 项目设定 */
     'SITE_LOGO' => 'image/logo.png', //默认的站点logo
@@ -49,7 +49,7 @@ return array(
     'DEFAULT_CHARSET' => 'utf-8',        // 默认输出编码
     'DEFAULT_TIMEZONE' => 'PRC',            // 默认时区
     'DEFAULT_LANG' => 'zh-cn',        // 默认语言
-    'DEFAULT_LANG_TYPE' => array('zh-cn','zh-tw','en'), //默认支持的语言类型
+    'DEFAULT_LANG_TYPE' => array('zh-cn', 'zh-tw', 'en'), //默认支持的语言类型
 
     /* 数据库设置 */
     'DB_TYPE' => 'mysql',     // 数据库类型
@@ -79,7 +79,7 @@ return array(
     'MEMCACHE_HOST' => '127.0.0.1:11211',    //Memcache 默认的主机，支持简单的多机集群	如:	"127.0.0.1:11211,127.0.0.2:11211"
 
     /* 错误设置 */
-    'ERROR_MESSAGE' => '您浏览的页面暂时发生了错误！请稍后再试～',//错误显示信息,非调试模式有效
+    'ERROR_MESSAGE' => '您浏览的页面暂时发生了错误！请稍后再试～', //错误显示信息,非调试模式有效
     'ERROR_PAGE' => '',    // 错误定向页面
 
     /* 语言设置 */
@@ -89,7 +89,7 @@ return array(
     /* 知识设置 */
     'LOG_RECORD' => false,   // 默认不记录知识
     'LOG_FILE_SIZE' => 2097152,    // 知识文件大小限制
-    'LOG_RECORD_LEVEL' => array('EMERG','ALERT','CRIT','ERR'),// 允许记录的知识级别
+    'LOG_RECORD_LEVEL' => array('EMERG', 'ALERT', 'CRIT', 'ERR'), // 允许记录的知识级别
 
     /* SESSION设置 */
     'SESSION_AUTO_START' => true,    // 是否自动开启Session
@@ -118,7 +118,7 @@ return array(
     'TMPL_ACTION_ERROR' => 'Public:success', // 默认错误跳转对应的模板文件
     'TMPL_ACTION_SUCCESS' => 'Public:success', // 默认成功跳转对应的模板文件
     'TMPL_TRACE_FILE' => THINK_PATH.'/Tpl/PageTrace.tpl.php',     // 页面Trace的模板文件
-    'TMPL_EXCEPTION_FILE' => THINK_PATH.'/Tpl/ThinkException.tpl.php',// 异常页面的模板文件
+    'TMPL_EXCEPTION_FILE' => THINK_PATH.'/Tpl/ThinkException.tpl.php', // 异常页面的模板文件
     'TMPL_FILE_DEPR' => '/', //模板文件MODULE_NAME与ACTION_NAME之间的分割符，只对项目分组部署有效
     'TMPL_CACHE_PATH' => CORE_RUN_PATH.'/tplcache/', //模板文件缓存路径
 

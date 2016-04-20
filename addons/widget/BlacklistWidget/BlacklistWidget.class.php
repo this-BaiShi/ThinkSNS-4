@@ -54,7 +54,7 @@ class BlacklistWidget extends Widget
      */
     public function addUser()
     {
-        $r = array('data' => '请选择用户','status' => '0');
+        $r = array('data' => '请选择用户', 'status' => '0');
         if (!empty($_POST['fid'])) {
             if ($res = model('UserBlacklist')->addUser($GLOBALS['ts']['mid'], t($_POST['fid']))) {
                 $finfo = model('User')->getUserInfo($_POST['fid']);
@@ -74,7 +74,7 @@ class BlacklistWidget extends Widget
      */
     public function removeUser()
     {
-        $r = array('data' => L('PUBLIC_USER_ID_ISNULL'),'status' => '0');
+        $r = array('data' => L('PUBLIC_USER_ID_ISNULL'), 'status' => '0');
         if (!empty($_POST['fid'])) {
             if ($res = model('UserBlacklist')->removeUser($GLOBALS['ts']['mid'], t($_POST['fid']))) {
                 $r['data'] = L('PUBLIC_MOVE_USER_SUCCESS');

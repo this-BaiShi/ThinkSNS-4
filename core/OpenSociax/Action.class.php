@@ -267,7 +267,7 @@ abstract class Action
             $GLOBALS['time_run_detail']['action_init_user_info'] = microtime(true);
 
             // 未初始化
-            $module_arr = array('Register' => 1,'Passport' => 1,'Account' => 1);
+            $module_arr = array('Register' => 1, 'Passport' => 1, 'Account' => 1);
             if (0 < $this->mid && 0 == $this->user ['is_init'] && APP_NAME != 'admin' && ! isset($module_arr [MODULE_NAME])) {
                 // 注册完成后就开启此功能
                 if ($this->user ['is_active'] == '0') {

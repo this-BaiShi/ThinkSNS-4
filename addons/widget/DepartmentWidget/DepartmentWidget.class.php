@@ -52,18 +52,18 @@ class DepartmentWidget extends Widget
                 $var['sid'] = !empty($data['sid']) ? intval($data['sid']) : 0;
 
                 //全部部门
-                $pInfo[] = array('sid' => 0,'pid' => 0,'name' => L('PUBLIC_DEPARTMENT_ALL'));
+                $pInfo[] = array('sid' => 0, 'pid' => 0, 'name' => L('PUBLIC_DEPARTMENT_ALL'));
 
                 $list = $this->_getList($var['sid']);
 
                 $childInfo = array();
 
                 foreach ($list['_child'] as $v) {
-                    $pInfo[] = array('sid' => $v['department_id'],'pid' => $v['parent_dept_id'],'name' => $v['title']);
+                    $pInfo[] = array('sid' => $v['department_id'], 'pid' => $v['parent_dept_id'], 'name' => $v['title']);
 
                     if ($v['department_id'] == $var['sid'] || $v['department_id'] == $var['pid']) {
                         foreach ($v['_child'] as $vv) {
-                            $childInfo[] = array('sid' => $vv['department_id'],'pid' => $vv['parent_dept_id'],'name' => $vv['title']);
+                            $childInfo[] = array('sid' => $vv['department_id'], 'pid' => $vv['parent_dept_id'], 'name' => $vv['title']);
                         }
                     }
                 }
@@ -124,7 +124,7 @@ class DepartmentWidget extends Widget
     */
    public function selectDepartment()
    {
-       $return = array('status' => 1,'data' => '');
+       $return = array('status' => 1, 'data' => '');
 
        $return['data'] = model('Department')->getHashDepartment(t($_REQUEST['pid']), t($_REQUEST['sid']), t($_REQUEST['nosid']), t($_REQUEST['notop']));
 

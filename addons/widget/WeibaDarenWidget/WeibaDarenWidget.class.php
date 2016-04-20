@@ -130,7 +130,7 @@ class OldWeibaDarenWidget extends Widget
         $var ['user'] = S($key);
         if ($var ['user'] === false || intval($_REQUEST ['rel']) == 1) {
             $uidlist = M('user_group_link')->where('user_group_id=7')->limit(1000)->select();
-            $map['follower_uid'] = array('in',getSubByKey($uidlist, 'uid'));
+            $map['follower_uid'] = array('in', getSubByKey($uidlist, 'uid'));
             if ($data ['weibaid']) {
                 $map['weiba_id'] = $weibaid;
             }

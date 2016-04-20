@@ -381,7 +381,7 @@
 
     // ----- For each file in the list check the attributes
     $v_supported_attributes
-    = array( PCLZIP_ATT_FILE_NAME => 'mandatory', PCLZIP_ATT_FILE_NEW_SHORT_NAME => 'optional', PCLZIP_ATT_FILE_NEW_FULL_NAME => 'optional', PCLZIP_ATT_FILE_MTIME => 'optional', PCLZIP_ATT_FILE_CONTENT => 'optional', PCLZIP_ATT_FILE_COMMENT => 'optional',
+    = array(PCLZIP_ATT_FILE_NAME => 'mandatory', PCLZIP_ATT_FILE_NEW_SHORT_NAME => 'optional', PCLZIP_ATT_FILE_NEW_FULL_NAME => 'optional', PCLZIP_ATT_FILE_MTIME => 'optional', PCLZIP_ATT_FILE_CONTENT => 'optional', PCLZIP_ATT_FILE_COMMENT => 'optional',
                         );
       foreach ($v_att_list as $v_entry) {
           $v_result = $this->privFileDescrParseAtt($v_entry,
@@ -559,7 +559,7 @@
 
     // ----- For each file in the list check the attributes
     $v_supported_attributes
-    = array( PCLZIP_ATT_FILE_NAME => 'mandatory', PCLZIP_ATT_FILE_NEW_SHORT_NAME => 'optional', PCLZIP_ATT_FILE_NEW_FULL_NAME => 'optional', PCLZIP_ATT_FILE_MTIME => 'optional', PCLZIP_ATT_FILE_CONTENT => 'optional', PCLZIP_ATT_FILE_COMMENT => 'optional',
+    = array(PCLZIP_ATT_FILE_NAME => 'mandatory', PCLZIP_ATT_FILE_NEW_SHORT_NAME => 'optional', PCLZIP_ATT_FILE_NEW_FULL_NAME => 'optional', PCLZIP_ATT_FILE_MTIME => 'optional', PCLZIP_ATT_FILE_CONTENT => 'optional', PCLZIP_ATT_FILE_COMMENT => 'optional',
                         );
       foreach ($v_att_list as $v_entry) {
           $v_result = $this->privFileDescrParseAtt($v_entry,
@@ -948,7 +948,7 @@
     $v_arg_trick = array(PCLZIP_OPT_BY_INDEX, $p_index);
       $v_options_trick = array();
       $v_result = $this->privParseOptions($v_arg_trick, sizeof($v_arg_trick), $v_options_trick,
-                                        array(PCLZIP_OPT_BY_INDEX => 'optional' ));
+                                        array(PCLZIP_OPT_BY_INDEX => 'optional'));
       if ($v_result != 1) {
           return 0;
       }
@@ -1258,7 +1258,7 @@
   // --------------------------------------------------------------------------------
   public function errorName($p_with_code = false)
   {
-      $v_name = array( PCLZIP_ERR_NO_ERROR => 'PCLZIP_ERR_NO_ERROR',
+      $v_name = array(PCLZIP_ERR_NO_ERROR => 'PCLZIP_ERR_NO_ERROR',
                       PCLZIP_ERR_WRITE_OPEN_FAIL => 'PCLZIP_ERR_WRITE_OPEN_FAIL',
                       PCLZIP_ERR_READ_OPEN_FAIL => 'PCLZIP_ERR_READ_OPEN_FAIL',
                       PCLZIP_ERR_INVALID_PARAMETER => 'PCLZIP_ERR_INVALID_PARAMETER',

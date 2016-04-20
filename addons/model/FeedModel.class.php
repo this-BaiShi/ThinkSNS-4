@@ -10,7 +10,7 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 class FeedModel extends Model
 {
     protected $tableName = 'feed';
-    protected $fields = array('feed_id','uid','type','app','app_row_id','app_row_table','publish_time','is_del','from','comment_count','repost_count','comment_all_count','digg_count','is_repost','is_audit','latitude','longitude','address','is_recommend','recommend_time','_pk' => 'feed_id');
+    protected $fields = array('feed_id', 'uid', 'type', 'app', 'app_row_id', 'app_row_table', 'publish_time', 'is_del', 'from', 'comment_count', 'repost_count', 'comment_all_count', 'digg_count', 'is_repost', 'is_audit', 'latitude', 'longitude', 'address', 'is_recommend', 'recommend_time', '_pk' => 'feed_id');
 
     public $templateFile = '';            // 模板文件
 
@@ -46,12 +46,12 @@ class FeedModel extends Model
         }
 
         //分享类型合法性验证 - 临时解决方案
-        $checkType = array('post','repost','postvideo','postfile','postimage','weiba_post','weiba_repost', 'long_post', 'photo_post', 'photo_repost', 'vote_post', 'vote_repost', 'event_post', 'event_repost', 'blog_post', 'blog_repost', 'poster_post', 'poster_repost');
+        $checkType = array('post', 'repost', 'postvideo', 'postfile', 'postimage', 'weiba_post', 'weiba_repost', 'long_post', 'photo_post', 'photo_repost', 'vote_post', 'vote_repost', 'event_post', 'event_repost', 'blog_post', 'blog_repost', 'poster_post', 'poster_repost');
         if (!in_array($type, $checkType)) {
             $type = 'post';
         }
         //应用类型验证 用于分享框 - 临时解决方案
-        $checkApp = array('w3g','public','weiba','tipoff', 'photo', 'vote', 'event', 'blog','poster');
+        $checkApp = array('w3g', 'public', 'weiba', 'tipoff', 'photo', 'vote', 'event', 'blog', 'poster');
         if (!in_array($app, $checkApp)) {
             $app = 'public';
             $type = 'post';
@@ -204,7 +204,7 @@ class FeedModel extends Model
             $attach_info['app_name'] = 'public';
             $attach_info['table'] = 'feed';
             $attach_info['row_id'] = $feed_id;
-            $attach_map['attach_id'] = array('IN',$data['attach_id']);
+            $attach_map['attach_id'] = array('IN', $data['attach_id']);
             model('Attach')->where($attach_map)->save($attach_info);
             if (!$return) {
                 $this->error = L('PUBLIC_CACHE_FAIL');                // Feed缓存写入失败
@@ -707,10 +707,10 @@ class FeedModel extends Model
         $r = array();
         foreach ($feedlist as $v) {
             if (!empty($v['sourceInfo'])) {
-                $r[$v['uid']] = array('feed_id' => $v['feed_id'],'title' => getShort(t($v['sourceInfo']['shareHtml']), 30, '...'));
+                $r[$v['uid']] = array('feed_id' => $v['feed_id'], 'title' => getShort(t($v['sourceInfo']['shareHtml']), 30, '...'));
             } else {
                 $t = unserialize($v['feed_data']);
-                $r[$v['uid']] = array('feed_id' => $v['feed_id'],'title' => getShort(t($t['body']), 30, '...'));
+                $r[$v['uid']] = array('feed_id' => $v['feed_id'], 'title' => getShort(t($t['body']), 30, '...'));
             }
         }
 
@@ -1267,7 +1267,7 @@ class FeedModel extends Model
             }
         }
         if ($Stime && $Etime) {
-            $map['a.publish_time'] = array('between',array($Stime,$Etime));
+            $map['a.publish_time'] = array('between', array($Stime, $Etime));
         }
         $table = "{$this->tablePrefix}feed AS a LEFT JOIN {$this->tablePrefix}feed_data AS b ON a.feed_id = b.feed_id";
         $feedlist = $this->table($table)->field('a.feed_id')->where($map)->order('a.publish_time DESC')->findPage($limit);

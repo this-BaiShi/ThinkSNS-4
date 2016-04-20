@@ -85,9 +85,9 @@ class Image
         } else {
             $im = @imagecreate($width, $height);
         }
-        $r = array(225,255,255,223);
-        $g = array(225,236,237,255);
-        $b = array(225,236,166,125);
+        $r = array(225, 255, 255, 223);
+        $g = array(225, 236, 237, 255);
+        $b = array(225, 236, 166, 125);
         $key = mt_rand(0, 3);
 
         $backColor = imagecolorallocate($im, $r[$key], $g[$key], $b[$key]);    //背景色（随机）

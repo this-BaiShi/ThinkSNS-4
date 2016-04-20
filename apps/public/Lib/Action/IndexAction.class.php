@@ -760,9 +760,9 @@ class IndexAction extends Action
             case 'notify':
                 $map['uid'] = $this->mid;
                 if ($_POST['t'] == 'digg') {
-                    $map['node'] = array('eq','digg');
+                    $map['node'] = array('eq', 'digg');
                 } else {
-                    $map['node'] = array('neq','digg');
+                    $map['node'] = array('neq', 'digg');
                 }
                 $list = D('notify_message')->where($map)->order('ctime desc')->findpage(20);
                 //重写分页链接

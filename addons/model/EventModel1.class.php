@@ -283,7 +283,7 @@ class EventModel extends BaseModel
             $contact_info = M('user_profile')->getField('data', "uid={$data['uid']} AND module='contact'");
             $contact_info = unserialize($contact_info);
 
-            $need_fields = array('手机','QQ','MSN');
+            $need_fields = array('手机', 'QQ', 'MSN');
             foreach ($contact_fields as $field) {
                 if (in_array($field['fieldname'], $need_fields) && !empty($contact_info[$field['fieldkey']])) {
                     $contacts .= $field['fieldname'].':'.$contact_info[$field['fieldkey']].' ';
@@ -510,7 +510,7 @@ class EventModel extends BaseModel
             model('Credit')->setUserCredit($v['uid'], 'delete_event');
             $v = $v['optsId'];
         }
-        $opts_map['id'] = array('in',$optsIds);
+        $opts_map['id'] = array('in', $optsIds);
 
         //删除活动
         if ($this->where($eventId)->delete()) {
@@ -549,7 +549,7 @@ class EventModel extends BaseModel
             throw new ThinkException('不允许空条件操作数据库');
         }
         $optsIds = $this->where($map)->getField('optsId');
-        $map_opts['id'] = array('in',$optsIds);
+        $map_opts['id'] = array('in', $optsIds);
 
         switch ($act) {
             case 'recommend':   //推荐
@@ -580,7 +580,7 @@ class EventModel extends BaseModel
         foreach ($opts_ids as &$v) {
             $v = $v['id'];
         }
-        $event_map['optsId'] = array('in',$opts_ids);
+        $event_map['optsId'] = array('in', $opts_ids);
         $event_ids = $this->where($event_map)->findAll();
         $typeDao = self::factoryModel('type');
         foreach ($event_ids as &$v) {

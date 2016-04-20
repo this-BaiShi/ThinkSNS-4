@@ -514,7 +514,7 @@ class WebMessageModel
         }
 
         $direction = $direction == 'lt' ? 'lt' : 'gt';
-        $map = array( 'list_id' => $roomId,);
+        $map = array('list_id' => $roomId, );
         $messageId = intval($messageId);
         if ($messageId > 0) {
             $map['message_id'] = array($direction, $messageId);

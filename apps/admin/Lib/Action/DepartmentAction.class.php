@@ -32,7 +32,7 @@ class DepartmentAction extends AdministratorAction
         $this->assign('field', array('id' => 'department_id', 'name' => 'title', 'sort' => 'display_order'));
         $this->assign('_func', 'department');    //JS操作函数前缀	
 
-        $this->pageKeyList = array('department_id','title','parent_dept_id','display_order','ctime','DOACTION');
+        $this->pageKeyList = array('department_id', 'title', 'parent_dept_id', 'display_order', 'ctime', 'DOACTION');
 
         $this->savePostUrl = U('admin/Department/index');    //添加部门的数据提交地址
 
@@ -52,7 +52,7 @@ class DepartmentAction extends AdministratorAction
     public function doeditDepartment()
     {
         $id = intval($_POST['id']);
-        $return = array('status' => 1,'data' => L('PUBLIC_DEPARTMENT_MODIFY_SUCCESS'));
+        $return = array('status' => 1, 'data' => L('PUBLIC_DEPARTMENT_MODIFY_SUCCESS'));
         if (empty($id)) {
             $return['status'] = 0;
             $return['data'] = L('PUBLIC_SELECT_DEPARTMENT');
@@ -88,7 +88,7 @@ class DepartmentAction extends AdministratorAction
     {
         $id = intval($_POST['id']);
         $pid = intval($_POST['topid']);
-        $return = array('status' => 1,'data' => L('PUBLIC_MOVE_DEPARTMENT_SUCCESS'));
+        $return = array('status' => 1, 'data' => L('PUBLIC_MOVE_DEPARTMENT_SUCCESS'));
         if (empty($id)) {
             $return['status'] = 0;
             $return['data'] = L('PUBLIC_SELECT_DEPARTMENT');
@@ -127,7 +127,7 @@ class DepartmentAction extends AdministratorAction
     {
         $id = intval($_POST['id']);
         $pid = intval($_POST['topid']);
-        $return = array('status' => 1,'data' => L('PUBLIC_DELETE_SUCCESS'));
+        $return = array('status' => 1, 'data' => L('PUBLIC_DELETE_SUCCESS'));
         if (empty($id)) {
             $return['status'] = 0;
             $return['data'] = L('PUBLIC_SELECT_DEPARTMENT');

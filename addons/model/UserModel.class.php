@@ -924,7 +924,7 @@ class UserModel extends Model
             $userGroup = model('UserGroupLink')->getUserGroupData($uid);
             $user ['api_user_group'] = $userGroup [$uid];
             $user ['user_group'] = $userGroup [$uid];
-            $only = array(array(),array());
+            $only = array(array(), array());
 // 			$authenticate = array();
             foreach ($userGroup [$uid] as $value) {
                 ($value ['user_group_id'] == 5 || $value ['user_group_id'] == 6) && $value ['company'] = M('user_verified')->where("uid=$uid and usergroup_id=".$value ['user_group_id'])->getField('company');

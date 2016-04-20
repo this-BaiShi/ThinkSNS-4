@@ -19,7 +19,7 @@ class MedalListWidget extends Widget
             return;
         }
         $medalids = getSubByKey($medals, 'id');
-        $map['medal_id'] = array( 'in' , $medalids );
+        $map['medal_id'] = array('in', $medalids);
         //加入缓存 如果勋章数目有变化的话 重新获取在缓存
         $key = 'medal_user_'.$map['uid'].'_'.count($medalids);
         $usermedal = model('Cache')->get($key);

@@ -50,7 +50,7 @@
                 $eday = substr($etime, 6, 2);
                 $etime = mktime(0, 0, 0, $emonth, $eday, $eyear);
 
-                return array( 'between',array( $stime,$etime ) );
+                return array('between', array($stime, $etime));
             }
 
             //如果输入时间是YYYYMM格式
@@ -59,7 +59,7 @@
             $start = $start_temp[0];
             $end = $end_temp[1];
 
-            return array( 'between',array( $start,$end ) );
+            return array('between', array($start, $end));
         }
 
         /**
@@ -81,7 +81,7 @@
 
                 //判断时间.处理结束日期
                 switch (true) {
-                    case in_array($month, array( 1, 3, 5, 7, 8, 10, 12 )):
+                    case in_array($month, array(1, 3, 5, 7, 8, 10, 12)):
                         $day = 31;
                         break;
                     case 2 == $month:
@@ -110,6 +110,6 @@
             }
 
             //fd( array( friendlyDate($start),friendlyDate($end) ) );
-            return array( $start,$end );
+            return array($start, $end);
         }
     }

@@ -40,8 +40,8 @@
      public $http_header = array();
      private $contentType;
      private $postFields;
-     private static $paramsOnUrlMethod = array('GET','DELETE');
-     private static $supportExtension = array('json','xml');
+     private static $paramsOnUrlMethod = array('GET', 'DELETE');
+     private static $supportExtension = array('json', 'xml');
   #For tmpFile
     private $file = null;
   #Set the useragnet.

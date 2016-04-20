@@ -10,7 +10,7 @@
 class NotifyModel extends Model
 {
     protected $tableName = 'notify_node';
-    protected $fields = array(0 => 'id',1 => 'node',2 => 'nodeinfo',3 => 'appname',4 => 'content_key',5 => 'title_key',6 => 'send_email',7 => 'send_message',8 => 'type');
+    protected $fields = array(0 => 'id', 1 => 'node', 2 => 'nodeinfo', 3 => 'appname', 4 => 'content_key', 5 => 'title_key', 6 => 'send_email', 7 => 'send_message', 8 => 'type');
 
     protected $_config = array();            // 配置字段
 
@@ -497,7 +497,7 @@ class NotifyModel extends Model
             // }
         }
 
-        return array('list' => $list,'count' => $count);
+        return array('list' => $list, 'count' => $count);
     }
 
     /**

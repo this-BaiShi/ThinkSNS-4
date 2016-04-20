@@ -24,8 +24,8 @@
 
 class ScheduleModel extends Model
 {
-    private $MONTH_ARRAY = array('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec');
-    private $WEEK_ARRAY = array('Mon','Tue','Wed','Thu','Fri','Sat','Sun');
+    private $MONTH_ARRAY = array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
+    private $WEEK_ARRAY = array('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun');
 
     private $model;
     private $schedule = array();

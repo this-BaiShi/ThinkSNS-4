@@ -7,7 +7,7 @@
 class UserOfficialModel extends Model
 {
     protected $tableName = 'user_official';
-    protected $fields = array(0 => 'uid',1 => 'info',2 => 'user_official_category_id');
+    protected $fields = array(0 => 'uid', 1 => 'info', 2 => 'user_official_category_id');
     /**
      * 获取指定官方用户的信息
      * @param  array $uids 用户ID

@@ -36,7 +36,7 @@ class AdSpaceAddons extends NormalAddons
         $page = isset($_GET['page']) ? t($_GET['page']) : 'addAdSpace';
         if ($page === 'editAdSpace') {
             unset($menu['addAdSpace']);
-            $menu['editAdSpace'] = array('content' => '编辑广告位','param' => array('id' => intval($_GET['id'])));
+            $menu['editAdSpace'] = array('content' => '编辑广告位', 'param' => array('id' => intval($_GET['id'])));
         }
 
         return $menu;

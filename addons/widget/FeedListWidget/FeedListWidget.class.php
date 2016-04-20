@@ -199,7 +199,7 @@ class FeedListWidget extends Widget
         isset($var['cancomment']) or $var['cancomment'] = 1;
 
         // # 模式
-        $var['cancomment_old_type'] = array( 'post', 'repost', 'postimage', 'postfile', 'weiba_post', 'weiba_repost', 'blog_post', 'blog_repost', 'event_post', 'event_repost', 'vote_post', 'vote_repost', 'photo_post', 'photo_repost');
+        $var['cancomment_old_type'] = array('post', 'repost', 'postimage', 'postfile', 'weiba_post', 'weiba_repost', 'blog_post', 'blog_repost', 'event_post', 'event_repost', 'vote_post', 'vote_repost', 'photo_post', 'photo_repost');
 
         // # 合并配置
         $var = array_merge($var, model('Xdata')->get('admin_Config:feed'));

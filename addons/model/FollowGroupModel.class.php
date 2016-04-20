@@ -9,7 +9,7 @@ class FollowGroupModel extends Model
     const CACHE_PREFIX = 'follow';
 
     protected $tableName = 'user_follow_group';
-    protected $fields = array(0 => 'follow_group_id',1 => 'title',2 => 'uid',3 => 'ctime');
+    protected $fields = array(0 => 'follow_group_id', 1 => 'title', 2 => 'uid', 3 => 'ctime');
 
     /**
      * 获取指定用户所有的关组分组
@@ -48,7 +48,7 @@ class FollowGroupModel extends Model
                                         ->order('group.follow_group_id ASC')
                                         ->findAll();
             if (empty($follow_group_status)) {
-                $follow_group_status[0] = array('gid' => 0,'title' => L('PUBLIC_UNGROUP'));            // 未分组
+                $follow_group_status[0] = array('gid' => 0, 'title' => L('PUBLIC_UNGROUP'));            // 未分组
             }
 
             return $follow_group_status;
@@ -74,7 +74,7 @@ class FollowGroupModel extends Model
             $_follow_group_status[$f_g_s_v['uid']][$f_g_s_v['fid']][] = $f_g_s_v;
         }
         foreach ($fids as $fid) {
-            empty($_follow_group_status[$uid][$fid]) && $_follow_group_status[$uid][$fid][] = array('gid' => 0,'title' => L('PUBLIC_UNGROUP'));            // 未分组
+            empty($_follow_group_status[$uid][$fid]) && $_follow_group_status[$uid][$fid][] = array('gid' => 0, 'title' => L('PUBLIC_UNGROUP'));            // 未分组
         }
 
         return $_follow_group_status[$uid];
@@ -90,12 +90,12 @@ class FollowGroupModel extends Model
     {
         S(self::CACHE_PREFIX.'list_'.$uid, null);
         S(self::CACHE_PREFIX."usergroup_{$uid}_{$gid}", null);
-        $map = array('uid' => intval($uid),'fid' => intval($fid));
+        $map = array('uid' => intval($uid), 'fid' => intval($fid));
         $follow_id = D('UserFollow')->getField('follow_id', $map);
         $gid = $this->getField('follow_group_id', "uid={$map['uid']} AND follow_group_id={$gid}");
         if ($follow_id && $gid) {
             $linkModel = D('UserFollowGroupLink');
-            $data = array('follow_group_id' => $gid,'follow_id' => $follow_id,'fid' => $map['fid'],'uid' => $map['uid']);
+            $data = array('follow_group_id' => $gid, 'follow_id' => $follow_id, 'fid' => $map['fid'], 'uid' => $map['uid']);
             if ($action == null) {
                 $linkModel->where($data)->delete() || $linkModel->add($data);
             } elseif ($action == 'add') {
@@ -135,11 +135,11 @@ class FollowGroupModel extends Model
             return 0;
         }
         // 验证分组是否存在
-        $map = array('uid' => $uid,'title' => $title);
+        $map = array('uid' => $uid, 'title' => $title);
         $_gid = $this->getField('follow_group_id', $map);
         if (!$_gid) {
             if ($gid == null) {
-                $data = array('uid' => $uid,'title' => $title,'ctime' => time());
+                $data = array('uid' => $uid, 'title' => $title, 'ctime' => time());
                 $gid = $this->add($data);
 
                 return $gid;
@@ -148,7 +148,7 @@ class FollowGroupModel extends Model
                 if (!$gid) {
                     return 0;
                 }
-                $data = array('follow_group_id' => $gid,'uid' => $uid,'title' => $title);
+                $data = array('follow_group_id' => $gid, 'uid' => $uid, 'title' => $title);
                 $res = $this->save($data);
 
                 return 1;

@@ -37,17 +37,17 @@ class RankAction extends Action
         $userCheckDao = D('check_info');
         $ranklistkey = 'user_rank_list_'.$type;
         if ($type == 1) {
-            $followermap['uid'] = array('in' , $fids);
+            $followermap['uid'] = array('in', $fids);
 
-            $experiencemap['uid'] = array('in' , $fids);
+            $experiencemap['uid'] = array('in', $fids);
 
-            $scoremap['uid'] = array('in' , $fids);
+            $scoremap['uid'] = array('in', $fids);
 
-            $medalmap['uid'] = array('in' , $fids);
+            $medalmap['uid'] = array('in', $fids);
 
-            $checkmap['uid'] = array('in' , $fids);
+            $checkmap['uid'] = array('in', $fids);
 
-            $checktmap['uid'] = array('in' , $fids);
+            $checktmap['uid'] = array('in', $fids);
 
             $ranklistkey = 'user_rank_list_'.$type.'_'.$this->mid;
         }
@@ -118,7 +118,7 @@ class RankAction extends Action
                 }
             }
             $res = array(
-                    'followeruids' => $followeruids ,
+                    'followeruids' => $followeruids,
                     'experienceuids' => $experienceuids,
                     'scoreuids' => $scoreuids,
                     'medaluids' => $medaluids,
@@ -160,11 +160,11 @@ class RankAction extends Action
             $followerrank = $userDataDao->where($followermap)->count();
             $followerrank += 1;
 
-            $experiencemap['experience'] = array( 'gt' , $userCredit['experience'] );
+            $experiencemap['experience'] = array('gt', $userCredit['experience']);
             $experiencerank = $creditUserDao->where($experiencemap)->count();
             $experiencerank += 1;
 
-            $scoremap['score'] = array( 'gt' , $userCredit['score'] );
+            $scoremap['score'] = array('gt', $userCredit['score']);
             $scorerank = $creditUserDao->where($scoremap)->count();
             $scorerank += 1;
 
@@ -379,7 +379,7 @@ class RankAction extends Action
         if (!empty($uids)) {
             $map = array();
             $map['uid'] = $GLOBALS['ts']['mid'];
-            $map['fid'] = array('in',$uids);
+            $map['fid'] = array('in', $uids);
             $data['followUids'] = model('Follow')->where($map)->getAsFieldArray('fid');
         } else {
             $data['followUids'] = array();
@@ -390,8 +390,8 @@ class RankAction extends Action
         $this->assign('order', $order);
 
         $cancomment_old_type = array(
-            'post','repost','postimage','postfile',
-            'weiba_post','weiba_repost',
+            'post', 'repost', 'postimage', 'postfile',
+            'weiba_post', 'weiba_repost',
             'blog_post', 'blog_repost',
             'event_post', 'event_repost',
             'vote_post', 'vote_repost',
@@ -424,11 +424,11 @@ class RankAction extends Action
     {
         $map['status'] = 0;
         $map['lock'] = 0;
-        $map['ctime'] = array( 'gt' , strtotime(date('Ymd')) );
+        $map['ctime'] = array('gt', strtotime(date('Ymd')));
         $today = model('FeedTopic')->where($map)->order('count desc')->limit('10')->findAll();
-        $map['ctime'] = array( 'gt' , (time() - 604800) );
+        $map['ctime'] = array('gt', (time() - 604800));
         $week = model('FeedTopic')->where($map)->order('count desc')->limit('10')->findAll();
-        $map['ctime'] = array( 'gt' , (time() - 2592000) );
+        $map['ctime'] = array('gt', (time() - 2592000));
         $month = model('FeedTopic')->where($map)->order('count desc')->limit('10')->findAll();
         $this->assign('today', $today);
         $this->assign('week', $week);

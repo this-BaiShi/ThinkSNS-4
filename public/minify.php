@@ -11,7 +11,7 @@ if (extension_loaded('zlib')) {
     ob_start('ob_gzhandler');
 }
 
-$allowed_content_types = array('js','css');
+$allowed_content_types = array('js', 'css');
 
 $getfiles = explode(',', strip_tags($_GET['f']));
 

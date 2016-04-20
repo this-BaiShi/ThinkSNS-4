@@ -947,7 +947,7 @@ class RegisterAction extends Action
         $map['is_del'] = 0;
         $list = D('Group')->where($map)->order('rand()')->limit('4')->select();
         $cids = getSubByKey($list, 'cid0');
-        $cmap['id'] = array('in' , $cids );
+        $cmap['id'] = array('in', $cids);
         $cateinfos = D('Category')->where($cmap)->field('id,title')->findAll();
         $cnames = array();
         foreach ($cateinfos as $cate) {

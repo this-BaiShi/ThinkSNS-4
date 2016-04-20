@@ -42,10 +42,10 @@ class TaskAction extends Action
                     switch ($ck) {
                         case 'endtime':
                             $endtime = explode('|', $condition->endtime);
-                            $cons[] = array( 'status' => $v['condition_desc']['endtime'], 'desc' => '领取时间：'.$endtime[0].' - '.$endtime[1] );
+                            $cons[] = array('status' => $v['condition_desc']['endtime'], 'desc' => '领取时间：'.$endtime[0].' - '.$endtime[1]);
                             break;
                         case 'userlevel':
-                            $cons[] = array( 'status' => $v['condition_desc']['userlevel'], 'desc' => '用户等级：T( '.$condition->userlevel.' )' );
+                            $cons[] = array('status' => $v['condition_desc']['userlevel'], 'desc' => '用户等级：T( '.$condition->userlevel.' )');
                             break;
                         case 'usergroup':
                             $groups = explode(',', $condition->usergroup);
@@ -54,21 +54,21 @@ class TaskAction extends Action
                                 $ginfo = model('UserGroup')->getUserGroup($g);
                                 $gname .= ' '.$ginfo['user_group_name'];
                             }
-                            $cons[] = array( 'status' => $v['condition_desc']['usergroup'], 'desc' => '用户组：'.$gname );
+                            $cons[] = array('status' => $v['condition_desc']['usergroup'], 'desc' => '用户组：'.$gname);
                             break;
                         case 'regtime':
                             $regtime = explode('|', $condition->regtime);
-                            $cons[] = array( 'status' => $v['condition_desc']['regtime'], 'desc' => '用户注册时间：'.$regtime[0].' - '.$regtime[1] );
+                            $cons[] = array('status' => $v['condition_desc']['regtime'], 'desc' => '用户注册时间：'.$regtime[0].' - '.$regtime[1]);
                             break;
                         case 'topic':
                             $topic = $condition->topic;
-                            $cons[] = array( 'status' => $v['condition_desc']['topic'], 'desc' => '发布指定话题：'.$topic );
+                            $cons[] = array('status' => $v['condition_desc']['topic'], 'desc' => '发布指定话题：'.$topic);
                             break;
                     }
                 }
             }
             if ($v['task_condition_name']) {
-                $cons[] = array( 'status' => $v['condition_desc']['task_condition'] , 'desc' => '前置任务：'.$v['task_condition_name'] );
+                $cons[] = array('status' => $v['condition_desc']['task_condition'], 'desc' => '前置任务：'.$v['task_condition_name']);
             }
             if ($v['num']) {
                 $v['surplus'] = '剩余领取数：'.$v['condition_desc']['medalnum'];
@@ -194,7 +194,7 @@ class TaskAction extends Action
                 $reward->medal->name && $info .= ' 获得勋章‘'.$reward->medal->name.'’';
                 //获得奖励
                 model('Task')->getReward($reward->exp, $reward->score, $reward->medal->id, $GLOBALS['ts']['mid']);
-                $res = array('allcomplete' => $allcomplete , 'tasktype' => $_POST['tasktype'] ,'info' => $info);
+                $res = array('allcomplete' => $allcomplete, 'tasktype' => $_POST['tasktype'], 'info' => $info);
                 echo json_encode($res);
             } else {
                 echo 0;

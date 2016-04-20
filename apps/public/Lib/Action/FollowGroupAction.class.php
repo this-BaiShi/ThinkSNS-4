@@ -171,7 +171,7 @@ class FollowGroupAction extends Action
      */
     public function saveRemark()
     {
-        $r = array('status' => 0,'data' => L('PUBLIC_REMARK_ADD_FAIL'));            // 备注添加失败
+        $r = array('status' => 0, 'data' => L('PUBLIC_REMARK_ADD_FAIL'));            // 备注添加失败
         // 设置备注
         if (!empty($_POST['fid'])) {
             $map['uid'] = $GLOBALS['ts']['mid'];
@@ -180,7 +180,7 @@ class FollowGroupAction extends Action
             // 默认全部编辑正确
             D('')->table(C('DB_PREFIX').'user_follow')->where($map)->save($save);
             S('follow_remark_'.$map['uid'], null);
-            $r = array('status' => 1,'data' => $save['remark']);
+            $r = array('status' => 1, 'data' => $save['remark']);
         }
         exit(json_encode($r));
     }

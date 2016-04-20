@@ -21,10 +21,10 @@ class AdminAction extends AdministratorAction
         $this->pageTitle['auditList'] = '已审核列表';
         $this->pageTitle['unauditList'] = '未审核列表';
         // 管理分页项目
-        $this->pageTab[] = array('title' => $this->pageTitle['index'],'tabHash' => 'index','url' => U('channel/Admin/index'));
-        $this->pageTab[] = array('title' => $this->pageTitle['channelCategory'],'tabHash' => 'channelCategory','url' => U('channel/Admin/channelCategory'));
-        $this->pageTab[] = array('title' => $this->pageTitle['auditList'],'tabHash' => 'auditList','url' => U('channel/Admin/auditList'));
-        $this->pageTab[] = array('title' => $this->pageTitle['unauditList'],'tabHash' => 'unauditList','url' => U('channel/Admin/unauditList'));
+        $this->pageTab[] = array('title' => $this->pageTitle['index'], 'tabHash' => 'index', 'url' => U('channel/Admin/index'));
+        $this->pageTab[] = array('title' => $this->pageTitle['channelCategory'], 'tabHash' => 'channelCategory', 'url' => U('channel/Admin/channelCategory'));
+        $this->pageTab[] = array('title' => $this->pageTitle['auditList'], 'tabHash' => 'auditList', 'url' => U('channel/Admin/auditList'));
+        $this->pageTab[] = array('title' => $this->pageTitle['unauditList'], 'tabHash' => 'unauditList', 'url' => U('channel/Admin/unauditList'));
 
         $this->_model_category = model('CategoryTree')->setTable('channel_category');
 
@@ -52,7 +52,7 @@ class AdminAction extends AdministratorAction
     {
         $_GET['pid'] = intval($_GET['pid']);
         $treeData = $this->_model_category->getNetworkList();
-        $extra = array('attach','desc', 'show_type' => array('瀑布流', '列表'), 'user_bind', 'topic_bind');
+        $extra = array('attach', 'desc', 'show_type' => array('瀑布流', '列表'), 'user_bind', 'topic_bind');
         $channelConf = model('Xdata')->get('channel_Admin:index');
         $defaultExtra = array('show_type' => $channelConf['show_type']);
         $extra = encodeCategoryExtra($extra, $defaultExtra);
@@ -69,7 +69,7 @@ class AdminAction extends AdministratorAction
     public function auditList()
     {
         // 批量操作按钮
-        $this->pageButton[] = array('title' => '取消推荐','onclick' => 'admin.cancelRecommended()');
+        $this->pageButton[] = array('title' => '取消推荐', 'onclick' => 'admin.cancelRecommended()');
         // 获取列表数据
         $map['status'] = 1;
         $listData = $this->_getData($map, 'audit');
@@ -83,8 +83,8 @@ class AdminAction extends AdministratorAction
     public function unauditList()
     {
         // 批量操作按钮
-        $this->pageButton[] = array('title' => '通过审核','onclick' => 'admin.auditChannelList()');
-        $this->pageButton[] = array('title' => '驳回','onclick' => 'admin.rejectChannel()');
+        $this->pageButton[] = array('title' => '通过审核', 'onclick' => 'admin.auditChannelList()');
+        $this->pageButton[] = array('title' => '驳回', 'onclick' => 'admin.rejectChannel()');
         // 获取列表数据
         $map['status'] = 0;
         $listData = $this->_getData($map, 'unaudit');
@@ -127,7 +127,7 @@ class AdminAction extends AdministratorAction
             foreach ($rowIds as $v) {
                 $config['feed_content'] = getShort(D('feed_data')->where('feed_id='.$v)->getField('feed_content'), 10);
                 $channel_category = D('channel')->where('feed_id='.$v)->findAll();
-                $map['channel_category_id'] = array('in',getSubByKey($channel_category, 'channel_category_id'));
+                $map['channel_category_id'] = array('in', getSubByKey($channel_category, 'channel_category_id'));
                 $config['channel_name'] = implode(',', getSubByKey(D('channel_category')->where($map)->field('title')->findAll(), 'title'));
                 $config['feed_url'] = '<a target="_blank" href="'.U('public/Profile/feed', array('feed_id' => $v, 'uid' => $channel_category[0][uid])).'">'.$config['feed_content'].'</a>';
                 model('Notify')->sendNotify($uid, 'channel_add_feed', $config);
@@ -169,7 +169,7 @@ class AdminAction extends AdministratorAction
     private function _getData($map, $type)
     {
         // 键值对
-        $this->pageKeyList = array('id','cid','uname','content','status','category','DOACTION');
+        $this->pageKeyList = array('id', 'cid', 'uname', 'content', 'status', 'category', 'DOACTION');
         $data = D('Channel', 'channel')->getChannelList($map);
         // 组装数据
         foreach ($data['data'] as &$value) {

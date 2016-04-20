@@ -234,7 +234,7 @@ class IndexAction extends Action
     public function myWeiba()
     {
         $weiba_arr = getSubByKey(D('weiba')->where('is_del=0 and status=1')->field('weiba_id')->findAll(), 'weiba_id');  //未删除且通过审核的微吧
-        $map['weiba_id'] = array('in',$weiba_arr);
+        $map['weiba_id'] = array('in', $weiba_arr);
         $map['is_del'] = 0;
         $type = in_array(t($_GET['type']), array('myPost', 'myReply', 'myWeiba', 'myFavorite', 'myFollowing')) ? t($_GET['type']) : 'myFollowing';
         switch ($type) {
@@ -244,12 +244,12 @@ class IndexAction extends Action
                 break;
             case 'myReply':
                 $myreply = D('weiba_reply')->where('uid='.$this->mid)->order('ctime desc')->field('post_id')->findAll();
-                $map['post_id'] = array('in',array_unique(getSubByKey($myreply, 'post_id')));
+                $map['post_id'] = array('in', array_unique(getSubByKey($myreply, 'post_id')));
                 $post_list = D('weiba_post')->where($map)->order('last_reply_time desc')->findpage(20);
                 break;
             case 'myFavorite':
                 $myFavorite = D('weiba_favorite')->where('uid='.$this->mid)->order('favorite_time desc')->findAll();
-                $map['post_id'] = array('in',getSubByKey($myFavorite, 'post_id'));
+                $map['post_id'] = array('in', getSubByKey($myFavorite, 'post_id'));
                 $post_list = D('weiba_post')->where($map)->order('post_time desc')->findpage(20);
                 break;
             case 'myWeiba':
@@ -268,7 +268,7 @@ class IndexAction extends Action
                         $weibas[] = $v;
                     }
                 }
-                $map['weiba_id'] = array('in',$weibas);
+                $map['weiba_id'] = array('in', $weibas);
                 $post_list = D('weiba_post')->where($map)->order('last_reply_time desc')->findpage(20);
                 break;
         }
@@ -311,7 +311,7 @@ class IndexAction extends Action
         $weiba_detail['logo'] = getImageUrlByAttachId($weiba_detail['logo'], 200, 200);
         //圈主
         $map['weiba_id'] = $weiba_id;
-        $map['level'] = array('in','2,3');
+        $map['level'] = array('in', '2,3');
         $weiba_admin = D('weiba_follow')->where($map)->order('level desc')->field('follower_uid,level')->findAll();
         if ($weiba_admin) {
             foreach ($weiba_admin as $k => $v) {
@@ -530,7 +530,7 @@ class IndexAction extends Action
             case 2:
                 //圈主
                 $map['weiba_id'] = $weibaid;
-                $map['level'] = array('in','2,3');
+                $map['level'] = array('in', '2,3');
                 $weiba_admin = D('weiba_follow')->where($map)->order('level desc')->field('follower_uid,level')->findAll();
 
                 if (!in_array($this->mid, getSubByKey($weiba_admin, 'follower_uid')) && !CheckPermission('core_admin', 'admin_login')) {
@@ -603,7 +603,7 @@ class IndexAction extends Action
                     break;
                 case 2:
                     $map['weiba_id'] = $weibaid;
-                    $map['level'] = array('in','2,3');
+                    $map['level'] = array('in', '2,3');
                     $weiba_admin = D('weiba_follow')->where($map)->order('level desc')->field('follower_uid')->findAll();
                     if (!in_array($this->mid, getSubByKey($weiba_admin, 'follower_uid')) && !CheckPermission('core_admin', 'admin_login')) {
                         $this->error('对不起，您没有发帖权限，仅限该吧管理员发帖！', $type);
@@ -751,7 +751,7 @@ class IndexAction extends Action
         $this->assign('weiba_name', $weiba_name);
         //获得圈主uid
         $map['weiba_id'] = $post_detail['weiba_id'];
-        $map['level'] = array('in','2,3');
+        $map['level'] = array('in', '2,3');
         $weiba_admin = getSubByKey(D('weiba_follow')->where($map)->order('level desc')->field('follower_uid')->findAll(), 'follower_uid');
         $weiba_manage = false;
         if (CheckWeibaPermission($weiba_admin, 0, 'weiba_global_top')
@@ -769,7 +769,7 @@ class IndexAction extends Action
         $tofollow = model('Follow')->getFollowStateByFids($this->mid, array($post_detail['post_uid']));
         $this->assign('tofollow', $tofollow);
 
-        $map1['post_id'] = array('neq',$post_id);
+        $map1['post_id'] = array('neq', $post_id);
         $map1['post_uid'] = $this->mid;
         $map1['is_del'] = 0;
         $otherPost = D('weiba_post')->where($map1)->order('reply_count desc')->limit(5)->findAll();
@@ -880,7 +880,7 @@ class IndexAction extends Action
         $post_detail = D('weiba_post')->where('post_id='.$post_id)->find();
         //获得圈主uid
         $map['weiba_id'] = $post_detail['weiba_id'];
-        $map['level'] = array('in','2,3');
+        $map['level'] = array('in', '2,3');
         $weiba_admin = getSubByKey(D('weiba_follow')->where($map)->order('level desc')->field('follower_uid')->findAll(), 'follower_uid');
         //管理权限判断
         if (!CheckWeibaPermission($weiba_admin, 0, 'weiba_edit')) {
@@ -1217,7 +1217,7 @@ class IndexAction extends Action
         $map['status'] = 1;
         if ($_REQUEST['type'] == '1') {
             //搜微吧
-            $map['weiba_name'] = array('like','%'.$k.'%');
+            $map['weiba_name'] = array('like', '%'.$k.'%');
             //$where['intro'] = array('like','%'.$k.'%');
             //$where['_logic'] = 'or';
             //$map['_complex'] = $where;
@@ -1236,8 +1236,8 @@ class IndexAction extends Action
             $this->display('search_weiba');
         } else {
             //搜帖子
-            $map['weiba_id'] = array('in',getSubByKey(D('weiba')->where('is_del=0')->field('weiba_id')->findAll(), 'weiba_id'));
-            $map['title'] = array('like','%'.$k.'%');
+            $map['weiba_id'] = array('in', getSubByKey(D('weiba')->where('is_del=0')->field('weiba_id')->findAll(), 'weiba_id'));
+            $map['title'] = array('like', '%'.$k.'%');
             //$where['content'] = array('like','%'.$k.'%');
             //$where['_logic'] = 'or';
             //$map['_complex'] = $where;
@@ -1790,8 +1790,8 @@ class IndexAction extends Action
      */
     private function _postList()
     {
-        $map['weiba_id'] = array('in',getSubByKey(D('weiba')->where('is_del=0 and status=1')->field('weiba_id')->findAll(), 'weiba_id'));
-        $map['top'] = array('neq',2);
+        $map['weiba_id'] = array('in', getSubByKey(D('weiba')->where('is_del=0 and status=1')->field('weiba_id')->findAll(), 'weiba_id'));
+        $map['top'] = array('neq', 2);
         $map['is_del'] = 0;
         $postList = D('weiba_post')->where($map)->order('post_time desc')->findpage(20);
         if ($postList['nowPage'] == 1) {  //列表第一页加上全局置顶的帖子
@@ -1899,7 +1899,7 @@ class IndexAction extends Action
     private function _weiba_daren($weibaid = 0)
     {
         $uidlist = M('user_group_link')->where('user_group_id=7')->limit(1000)->select();
-        $map['follower_uid'] = array('in',getSubByKey($uidlist, 'uid'));
+        $map['follower_uid'] = array('in', getSubByKey($uidlist, 'uid'));
         if ($weibaid > 0) {
             $map['weiba_id'] = $weibaid;
         }
@@ -1918,7 +1918,7 @@ class IndexAction extends Action
     private function _weiba_darens($weibaid = 0)
     {
         $uidlist = M('user_group_link')->where('user_group_id=5')->limit(1000)->select();
-        $map['follower_uid'] = array('in',getSubByKey($uidlist, 'uid'));
+        $map['follower_uid'] = array('in', getSubByKey($uidlist, 'uid'));
         if ($weibaid > 0) {
             $map['weiba_id'] = $weibaid;
         }
@@ -1941,7 +1941,7 @@ class IndexAction extends Action
         $weiba = getSubByKey($list, 'weiba_id');
         unset($map);
         $map['recommend'] = 1;
-        $map['weiba_id'] = array('in',$weiba);
+        $map['weiba_id'] = array('in', $weiba);
         $p = $_REQUEST['p'];
         if (!$p) {
             $p = 1;

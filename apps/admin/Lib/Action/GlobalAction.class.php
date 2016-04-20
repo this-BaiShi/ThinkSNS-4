@@ -345,7 +345,7 @@ class GlobalAction extends AdministratorAction
     {
         set_time_limit(0);
         //查询用户ID
-        $_POST['uId'] && $map['uid'] = array('in',explode(',', t($_POST['uId'])));
+        $_POST['uId'] && $map['uid'] = array('in', explode(',', t($_POST['uId'])));
         $_POST['gId'] != 'all' && $map['user_group_id'] = intval($_POST['gId']);
         // $_POST['active']!='all' && $map['is_active'] = intval($_POST['active']);
         $user = M('user_group_link')->where($map)->field('DISTINCT uid')->findAll();
@@ -404,10 +404,10 @@ class GlobalAction extends AdministratorAction
     public function creditLevel()
     {
         $_REQUEST['tabHash'] = 'level';
-        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_POINT_RULE'),'tabHash' => 'rule','url' => U('admin/Global/credit'));
-        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_POINT_TYPE'),'tabHash' => 'type','url' => U('admin/Global/creditType'));
-        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_POINT_SETTING'),'tabHash' => 'user','url' => U('admin/Global/creditUser'));
-        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_POINT_LEVEL'),'tabHash' => 'level','url' => U('admin/Global/creditLevel'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_POINT_RULE'), 'tabHash' => 'rule', 'url' => U('admin/Global/credit'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_POINT_TYPE'), 'tabHash' => 'type', 'url' => U('admin/Global/creditType'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_POINT_SETTING'), 'tabHash' => 'user', 'url' => U('admin/Global/creditUser'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_POINT_LEVEL'), 'tabHash' => 'level', 'url' => U('admin/Global/creditLevel'));
         $this->pageTitle[ACTION_NAME] = L('PUBLIC_SYSTEM_POINT_LEVEL');
         $list = model('Credit')->getLevel();
         $this->assign('list', $list);
@@ -424,12 +424,12 @@ class GlobalAction extends AdministratorAction
         }
 
         $_REQUEST['tabHash'] = 'level';
-        $this->pageKeyList = array('level','name','image','start','end');
+        $this->pageKeyList = array('level', 'name', 'image', 'start', 'end');
 
-        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_POINT_RULE'),'tabHash' => 'rule','url' => U('admin/Global/credit'));
-        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_POINT_TYPE'),'tabHash' => 'type','url' => U('admin/Global/creditType'));
-        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_POINT_SETTING'),'tabHash' => 'user','url' => U('admin/Global/creditUser'));
-        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_POINT_LEVEL'),'tabHash' => 'level','url' => U('admin/Global/creditLevel'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_POINT_RULE'), 'tabHash' => 'rule', 'url' => U('admin/Global/credit'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_POINT_TYPE'), 'tabHash' => 'type', 'url' => U('admin/Global/creditType'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_POINT_SETTING'), 'tabHash' => 'user', 'url' => U('admin/Global/creditUser'));
+        $this->pageTab[] = array('title' => L('PUBLIC_SYSTEM_POINT_LEVEL'), 'tabHash' => 'level', 'url' => U('admin/Global/creditLevel'));
 
         $this->savePostUrl = U('admin/Global/setCreditLevel');
         $list = model('Credit')->getLevel();

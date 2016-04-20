@@ -333,7 +333,7 @@ class PeopleModel extends model
                         unset($tag_id);
                     }
                 }
-                $maps['tag_id'] = array('in',$tagId);
+                $maps['tag_id'] = array('in', $tagId);
             } else {
                 $tagId = D('tag')->where(array('name' => t($tagInfo['title'])))->getField('tag_id');
                 $maps['tag_id'] = $tagId;
@@ -342,7 +342,7 @@ class PeopleModel extends model
             $maps['app'] = 'public';
             $maps['table'] = 'user';
             $tag_user = D('app_tag')->where($maps)->findAll();
-            $map['uid'] = array('in',getSubByKey($tag_user, 'row_id'));
+            $map['uid'] = array('in', getSubByKey($tag_user, 'row_id'));
             // $table .= ' LEFT JOIN `'.C('DB_PREFIX').'user_category_link` AS c ON u.uid = c.uid';
             // // 若是第一级 TODO
             // $categoryInfo = model('UserCategory')->where('user_category_id='.intval($data['cid']))->find();

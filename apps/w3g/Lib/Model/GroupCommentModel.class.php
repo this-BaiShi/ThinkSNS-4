@@ -7,7 +7,7 @@
 class GroupCommentModel extends Model
 {
     protected $tableName = 'group_comment';
-    protected $fields = array('comment_id','gid','app','table','row_id','app_uid','uid','content','to_comment_id','to_uid','data','ctime','is_del','client_type','is_audit','storey');
+    protected $fields = array('comment_id', 'gid', 'app', 'table', 'row_id', 'app_uid', 'uid', 'content', 'to_comment_id', 'to_uid', 'data', 'ctime', 'is_del', 'client_type', 'is_audit', 'storey');
 
     private $_app = null;                                                   // 所属应用
     private $_app_table = null;                                             // 所属资源表
@@ -309,7 +309,7 @@ class GroupCommentModel extends Model
         if (empty($id)) {
             $return['data'] = L('PUBLIC_WRONG_DATA');            // 错误的参数
         } else {
-            $map['comment_id'] = is_array($id) ? array('IN',$id) : intval($id);
+            $map['comment_id'] = is_array($id) ? array('IN', $id) : intval($id);
             $save['is_del'] = $type == 'delComment' ? 1 : 0;
             if ($type == 'deleteComment') {
                 $res = $this->where($map)->delete();

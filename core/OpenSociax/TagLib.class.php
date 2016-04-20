@@ -50,7 +50,7 @@ class TagLib
      */
     protected $tpl;
 
-    protected $comparison = array(' nheq ' => ' !== ',' heq ' => ' === ',' neq ' => ' != ',' eq ' => ' == ',' egt ' => ' >= ',' gt ' => ' > ',' elt ' => ' <= ',' lt ' => ' < ');
+    protected $comparison = array(' nheq ' => ' !== ', ' heq ' => ' === ', ' neq ' => ' != ', ' eq ' => ' == ', ' egt ' => ' >= ', ' gt ' => ' > ', ' elt ' => ' <= ', ' lt ' => ' < ');
 
     /**
      * 架构函数

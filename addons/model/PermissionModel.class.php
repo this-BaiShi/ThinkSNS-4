@@ -191,7 +191,7 @@ class PermissionModel
             $grouppermission = $this->getGroupPermission($gid);
         }
 
-        return array('groupInfo' => $groupInfo,'permission' => $permission,'grouppermission' => $grouppermission);
+        return array('groupInfo' => $groupInfo, 'permission' => $permission, 'grouppermission' => $grouppermission);
     }
 
     /**

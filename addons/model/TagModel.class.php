@@ -7,7 +7,7 @@
 class TagModel extends Model
 {
     protected $tableName = 'tag';
-    protected $fields = array(0 => 'tag_id',1 => 'name','_pk' => 'tag_id');
+    protected $fields = array(0 => 'tag_id', 1 => 'name', '_pk' => 'tag_id');
 
     private $_app = null;                    // 所属应用
     private $_app_table = null;                // 所属资源表

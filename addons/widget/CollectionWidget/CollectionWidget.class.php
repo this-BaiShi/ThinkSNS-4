@@ -44,7 +44,7 @@ class CollectionWidget extends Widget
      */
     public function addColl()
     {
-        $return = array('status' => 0,'data' => L('PUBLIC_FAVORITE_FAIL'));
+        $return = array('status' => 0, 'data' => L('PUBLIC_FAVORITE_FAIL'));
         if (empty($_POST['sid']) || empty($_POST['stable'])) {
             $return['data'] = L('PUBLIC_RESOURCE_ERROR');
             echo json_encode($return);
@@ -65,7 +65,7 @@ class CollectionWidget extends Widget
         }
 
         if (model('Collection')->addCollection($data)) {
-            $return = array('status' => 1,'data' => L('PUBLIC_FAVORITE_SUCCESS'));
+            $return = array('status' => 1, 'data' => L('PUBLIC_FAVORITE_SUCCESS'));
         } else {
             $return['data'] = model('Collection')->getError();
             empty($return['data']) && $return['data'] = L('PUBLIC_FAVORITE_FAIL');
@@ -79,14 +79,14 @@ class CollectionWidget extends Widget
      */
     public function delColl()
     {
-        $return = array('status' => 0,'data' => L('PUBLIC_EDLFAVORITE_ERROR'));
+        $return = array('status' => 0, 'data' => L('PUBLIC_EDLFAVORITE_ERROR'));
         if (empty($_POST['sid']) || empty($_POST['stable'])) {
             $return['data'] = L('PUBLIC_RESOURCE_ERROR');
             echo json_encode($return);
             exit();
         }
         if (model('Collection')->delCollection(intval($_POST['sid']), t($_POST['stable']))) {
-            $return = array('status' => 1,'data' => L('PUBLIC_CANCEL_ERROR'));
+            $return = array('status' => 1, 'data' => L('PUBLIC_CANCEL_ERROR'));
         } else {
             $return['data'] = model('Collection')->getError();
             empty($return['data']) && $return['data'] = L('PUBLIC_EDLFAVORITE_ERROR');

@@ -224,7 +224,7 @@ class SearchAction extends Action
                     $maps['table'] = 'user';
                     $maps['tag_id'] = $tagid;
                     $user_ids = getSubByKey(D('app_tag')->where($maps)->field('row_id as uid')->order('row_id desc')->findAll(), 'uid');
-                    $map['uid'] = array('in',$user_ids);
+                    $map['uid'] = array('in', $user_ids);
                     $map['is_active'] = 1;
                     $map['is_audit'] = 1;
                     $map['is_init'] = 1;

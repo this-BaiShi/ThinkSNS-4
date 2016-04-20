@@ -37,7 +37,7 @@ class IndexAction extends Action
             if (!$setting['channelid']) {
                 $list = D('Channel', 'channel')->where($map)->order('rand()')->limit(8)->findAll();
             } else {
-                $map['feed_channel_link_id'] = array('in',$setting['channelid']);
+                $map['feed_channel_link_id'] = array('in', $setting['channelid']);
                 $list = D('Channel', 'channel')->where($map)->order('rand()')->limit(8)->findAll();
             }
 

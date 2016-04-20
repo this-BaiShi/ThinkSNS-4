@@ -33,8 +33,8 @@ class ContentWidget extends Widget
             $var['categoryJson'] = json_encode($data['channelCategory']);
         }
         $var['cancomment_old_type'] = array(
-            'post','repost','postimage','postfile',
-            'weiba_post','weiba_repost',
+            'post', 'repost', 'postimage', 'postfile',
+            'weiba_post', 'weiba_repost',
             'blog_post', 'blog_repost',
             'event_post', 'event_repost',
             'vote_post', 'vote_repost',

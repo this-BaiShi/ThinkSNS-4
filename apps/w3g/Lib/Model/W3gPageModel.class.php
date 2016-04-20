@@ -52,7 +52,7 @@ class W3gPageModel
     {
         $map['a.is_del'] = 0;
         // 动态类型
-        $weiboType = array('post','repost','postimage','postfile','postvideo');
+        $weiboType = array('post', 'repost', 'postimage', 'postfile', 'postvideo');
         in_array($type, $weiboType) && $map['a.type'] = $type;
         // 加上自己的信息，若不需要此数据，请屏蔽下面语句
         $map['_string'] = 'a.uid = '.$mid.' OR b.uid = '.$mid;
@@ -66,7 +66,7 @@ class W3gPageModel
     {
         $map['a.is_del'] = 0;
         // 动态类型
-        $weiboType = array('post','repost','postimage','postfile','postvideo');
+        $weiboType = array('post', 'repost', 'postimage', 'postfile', 'postvideo');
         in_array($type, $weiboType) && $map['a.type'] = $type;
         // 加上自己的信息，若不需要此数据，请屏蔽下面语句
         $map['_string'] = 'a.uid = '.$mid.' OR b.uid = '.$mid;
@@ -88,7 +88,7 @@ class W3gPageModel
         $map['uid'] = $mid;
         $map['is_del'] = 0;
         // 动态类型
-        $weiboType = array('post','repost','postimage','postfile','postvideo');
+        $weiboType = array('post', 'repost', 'postimage', 'postfile', 'postvideo');
         in_array($type, $weiboType) && $map['a.type'] = $type;
         // 加上自己的信息，若不需要此数据，请屏蔽下面语句
         // $map['_string'] = 'a.uid = '.$mid.' OR b.uid = '.$mid;

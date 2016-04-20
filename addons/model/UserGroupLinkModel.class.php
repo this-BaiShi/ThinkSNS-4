@@ -7,7 +7,7 @@
 class UserGroupLinkModel extends Model
 {
     protected $tableName = 'user_group_link';
-    protected $fields = array(0 => 'id',1 => 'uid',2 => 'user_group_id');
+    protected $fields = array(0 => 'id', 1 => 'uid', 2 => 'user_group_id');
 
     /**
      * 转移用户的用户组

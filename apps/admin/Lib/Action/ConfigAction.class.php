@@ -226,7 +226,7 @@ class ConfigAction extends AdministratorAction
             $access = array_keys(model('App')->getAccess());
             foreach ($access as &$v) {
                 $value = $v;
-                $this->opt[$v] = array('1' => '是','0' => '否');
+                $this->opt[$v] = array('1' => '是', '0' => '否');
             }
             $this->pageKeyList = $access;
         }
@@ -1335,7 +1335,7 @@ class ConfigAction extends AdministratorAction
                 '_self' => L('PUBLIC_CURRENT_WINDOW'),
                 '_parent' => L('PUBLIC_PARENT_WINDOW'),
         );
-        $opt = array(1 => L('PUBLIC_HEAD_NAVIGATION'),2 => L('PUBLIC_BOTTOM_NAVIGATION'),3 => '游客导航');
+        $opt = array(1 => L('PUBLIC_HEAD_NAVIGATION'), 2 => L('PUBLIC_BOTTOM_NAVIGATION'), 3 => '游客导航');
         $addtitle = $opt[$addtype] ;
         $this->opt ['position'] = isset($_GET ['id']) ? array(
                 $defaultdata ['position'] => $addtitle,
