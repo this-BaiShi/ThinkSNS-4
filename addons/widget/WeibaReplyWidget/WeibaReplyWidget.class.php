@@ -144,7 +144,7 @@ class WeibaReplyWidget extends Widget
             $datas['uid'] = $this->mid;
             $datas['ctime'] = time();
             $datas['client_type'] = getVisitorClient();
-            $datas['from'] = 'weiba';
+            // $datas['from'] = 'weiba';
             $data['cancomment'] = 1;
             $data['list_count'] = intval($_POST['list_count']);
             // 解锁
@@ -155,7 +155,7 @@ class WeibaReplyWidget extends Widget
                 D('weiba_reply', 'weiba')->where('reply_id='.$data['reply_id'])->save($data1);
                 // 给应用UID添加一个未读的评论数
                 if ($GLOBALS['ts']['mid'] != $datas['app_uid'] && $datas['app_uid'] != '') {
-                    !$notCount && model('UserData')->updateKey('unread_comment', 1, true, $datas['app_uid']);
+                    !$notCount && model('UserData')->updateKey('unread_comment_weiba', 1, true, $datas['app_uid']);
                 }
                 model('Feed')->cleanCache($datas['row_id']);
             }
