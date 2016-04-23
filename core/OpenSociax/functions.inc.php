@@ -1575,9 +1575,6 @@ function parse_html($html)
 {
     $html = htmlspecialchars_decode($html);
 
-    /* 过滤不安全的html */
-    $html = h($html);
-
     //以下三个过滤是旧版兼容方法-可屏蔽
     $html = preg_replace('/img{data=([^}]*)}/', ' ', $html);
     $html = preg_replace('/topic{data=([^}]*)}/', '<a href="$1" topic="true">#$1#</a>', $html);

@@ -157,7 +157,7 @@ class AccountAction extends Action
         if (!empty($_POST ['sex'])) {
             $save ['sex'] = 1 == intval($_POST ['sex']) ? 1 : 2;
             // $save['lang'] = t($_POST['lang']);
-            $save ['intro'] = t($_POST ['intro']);
+            $save ['intro'] = $_POST ['intro'] ? formatEmoji(true,t($_POST ['intro'])) : '';
 
             /* # 检查用户简介是否超出字数限制 */
             if (get_str_length($save['intro']) > 150) {

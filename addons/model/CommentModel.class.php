@@ -222,9 +222,7 @@ class CommentModel extends Model
             $pk = D($add['table'])->getPk();
             $where = "`{$pk}`={$add['row_id']}";
             D($add['table'])->setInc('comment_count', $where);
-            //兼容旧版本app
-//            D($add['table'])->setInc('commentCount', $where);
-//            D($add['table'])->setInc('comment_all_count', $where);
+            
             D($add['app'])->setInc('commentCount', $where);
             D($add['app'])->setInc('comment_all_count', $where);
             //评论时间

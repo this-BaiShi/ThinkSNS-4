@@ -262,26 +262,6 @@ class UserModel extends Model
         }
 
         return $user;
-
-        // $uid = intval ( $uid );
-        // if ($uid <= 0) {
-        // 	$this->error = L ( 'PUBLIC_UID_INDEX_ILLEAGAL' ); // UID参数值不合法
-        // 	return false;
-        // }
-        // if ($user = static_cache ( 'user_info_' . $uid )) {
-        // 	return $user;
-        // }
-        // // 查询缓存数据
-        // $user = model ( 'Cache' )->get ( 'ui_' . $uid );
-
-        // if (! $user) {
-        // 	$this->error = L ( 'PUBLIC_GET_USERINFO_FAIL' ); // 获取用户信息缓存失败
-        // 	$map ['uid'] = $uid;
-        // 	$user = $this->_getUserInfo ( $map );
-        // }
-        // static_cache ( 'user_info_' . $uid, $user );
-
-        // return $user;
     }
 
     /**
@@ -307,25 +287,6 @@ class UserModel extends Model
         }
 
         return $user;
-
-        // $uid = intval ( $uid );
-        // if ($uid <= 0) {
-        // 	$this->error = L ( 'PUBLIC_UID_INDEX_ILLEAGAL' ); // UID参数值不合法
-        // 	return false;
-        // }
-        // if ($user = static_cache ( 'user_info_search' . $uid )) {
-        // 	return $user;
-        // }
-        // // 查询缓存数据
-        // $user = model ( 'Cache' )->get ( 'ui_' . $uid );
-        // if (! $user) {
-        // 	$this->error = L ( 'PUBLIC_GET_USERINFO_FAIL' ); // 获取用户信息缓存失败
-        // 	$map ['uid'] = $uid;
-        // 	$user = $this->_getUserInfo ( $map, $field );
-        // }
-        // static_cache ( 'user_info_search' . $uid, $user );
-
-        // return $user;
     }
 
     /**
@@ -952,6 +913,7 @@ class UserModel extends Model
             $user ['group_icon'] = implode('&nbsp;', $groupIcon);
             //$user ['auth_icon'] = implode ( ' ', $authIcon );
             $user ['credit_info'] = model('Credit')->getUserCredit($uid);
+            $user ['intro']     = $user['intro'] ? formatEmoji(false , $user['intro']) : '';
 
             model('Cache')->set('ui_'.$uid, $user, 600);
             static_cache('user_info_'.$uid, $user);
