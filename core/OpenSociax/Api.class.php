@@ -275,7 +275,15 @@ class Api
 
         $GLOBALS['time_run_detail']['obstart'] = microtime(true);
 
-        if (constant('API_VERSION')) {
+        $pharApiFile = sprintf('%s/api/ts-api.phar', TS_ROOT);
+        if (
+            constant('API_VERSION') &&
+            API_VERSION == 'sociax' &&
+            !\Medz\Component\Filesystem\Filesystem::exists(sprintf('%s/api/sociax', TS_ROOT))
+        ) {
+            $class_file = sprintf('phar://%s/%sApi.class.php', $pharApiFile, MODULE_NAME);
+
+        } elseif (constant('API_VERSION')) {
             $class_file = SITE_PATH.'/api/'.API_VERSION.'/'.MODULE_NAME.'Api.class.php';
         } else {
             $class_file = SITE_PATH.'/api/thinksns/'.MODULE_NAME.'Api.class.php';

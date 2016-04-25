@@ -21,3 +21,5 @@
 /src/Vendor
 /storage
 /composer.lock
+api/ts-api.phar
+api/phar.php
