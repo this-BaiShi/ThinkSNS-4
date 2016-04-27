@@ -157,7 +157,7 @@ class InviteModel extends Model
         $isUsed = $this->where($map)->getField('is_used');
         $result = 0;
         if (!is_null($isUsed)) {
-            $result = ($isUsed === '0') ? 1 : 2;
+            $result = ($isUsed === 0) ? 1 : 2;
         }
 
         return $result;
