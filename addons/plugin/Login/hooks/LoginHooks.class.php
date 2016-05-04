@@ -297,6 +297,12 @@ class LoginHooks extends Hooks
         //             $this->error("该同步操作管理员已关闭");
         //         }
         $type = strtolower($param['type']);
+
+        if (!in_array($type, array_keys(self::$validLogin))) {
+            echo '<dl class="pop_sync"><dt></dt>请求的第三方账户类型不存在！</dl>';
+            exit;
+        }
+
         // 展示"开始绑定"按钮
         $map ['uid'] = $this->mid;
         $map ['type'] = $type;
