@@ -161,6 +161,14 @@ class CommentWidget extends Widget
                 'data' => L('PUBLIC_CONCENT_IS_ERROR'),
         );
 
+        //检测用户是否被禁言
+        if($isDisabled = model('DisableUser')->isDisableUser($this->mid,'post'))
+        {
+            return json_encode(array(
+                'status' => 0,
+                'data' => '您已经被禁言了',
+            ));
+        }
         // 获取接收数据
         $data ['app'] = t($_POST ['app_name']);
         $data ['table'] = t($_POST ['table_name']);

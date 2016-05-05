@@ -29,6 +29,13 @@ class FeedModel extends Model
      */
     public function put($uid, $app = 'public', $type = '', $data = array(), $app_id = 0, $app_table = 'feed', $extUid = null, $lessUids = null, $isAtMe = true, $is_repost = 0)
     {
+
+        //检测用户是否被禁言
+        if($isDisabled = model('DisableUser')->isDisableUser($uid,'post'))
+        {
+            $this->error = '您已经被禁言了..';
+            return false;
+        }
         if (isSubmitLocked()) {
             $this->error = '发布内容过于频繁，请稍后再试';
 

@@ -309,7 +309,7 @@ class AttachModel extends Model
     {
         $data = array(
             'table' => t($data['table']),
-            'row_id' => t($data['row_id']),
+            'row_id' => $data['row_id'] ? intval($data['row_id']) : 0,
             'app_name' => t($data['app_name']),
             'attach_type' => t($options['attach_type']),
             'uid' => (int) $data['uid'] ? $data['uid'] : $GLOBALS['ts']['mid'],
