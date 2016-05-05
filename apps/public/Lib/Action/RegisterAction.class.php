@@ -463,15 +463,6 @@ class RegisterAction extends Action
                 $this->error($this->_register_model->getLastError());
             }
         } elseif ($regType === 'phone') {
-            // if (!model('Captcha')->checkRegisterCode($phone , $regCode) ) {  //已关闭
-            // 	$this->error('验证码错误，请检查验证码');
-            // }
-            // if(!$this->_register_model->isValidPhone($phone)){
-            // 	$this->error($this->_register_model->getLastError());
-            // }
-            // if(!$this->_register_model->isValidName($uname)) {
-            // 	$this->error($this->_register_model->getLastError());
-            // }
 
             /* # 验证手机号码 or 验证用户名 */
             if (!$this->_register_model->isValidPhone($phone) or !$this->_register_model->isValidName($uname)) {
@@ -487,19 +478,15 @@ class RegisterAction extends Action
             $this->_config['need_active'] = 0;
         }
 
-        // $this->error($phone);
-
         $login_salt = rand(11111, 99999);
         $map['uname'] = $uname;
         $map['sex'] = $sex;
         $map['login_salt'] = $login_salt;
         $map['password'] = md5(md5($password).$login_salt);
         if ($regType === 'email') {
-            // $map['login'] = $map['email'] = $email;
             $map['email'] = $email;
             $login = $email;
         } elseif ($regType === 'phone') {
-            // $map['login'] = $phone;
             $map['phone'] = $phone;
             $login = $phone;
         } else {
@@ -508,19 +495,12 @@ class RegisterAction extends Action
         $map['reg_ip'] = get_client_ip();
         $map['ctime'] = time();
 
-        // $this->error(json_encode($map));
-
-        // 添加地区信息
-/*		$map['location'] = t($_POST['city_names']);
-        $cityIds = t($_POST['city_ids']);
-        $cityIds = explode(',', $cityIds);
-        isset($cityIds[0]) && $map['province'] = intval($cityIds[0]);
-        isset($cityIds[1]) && $map['city'] = intval($cityIds[1]);
-        isset($cityIds[2]) && $map['area'] = intval($cityIds[2]);*/
         // 审核状态： 0-需要审核；1-通过审核
         $map['is_audit'] = $this->_config['register_audit'] ? 0 : 1;
+
         // 需求添加 - 若后台没有填写邮件配置，将直接过滤掉激活操作
         $isActive = $this->_config['need_active'] ? 0 : 1;
+
         if ($isActive == 0) {
             $emailConf = model('Xdata')->get('admin_Config:email');
             if (empty($emailConf['email_host']) || empty($emailConf['email_account']) || empty($emailConf['email_password'])) {
@@ -582,7 +562,6 @@ class RegisterAction extends Action
                 $other['uid'] = $uid;
                 D('login')->add($other);
             }
-
             //判断是否需要审核
             if ($this->_config['register_audit']) {
                 $this->redirect('public/Register/waitForAudit', array('uid' => $uid));
