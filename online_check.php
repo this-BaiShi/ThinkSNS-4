@@ -10,7 +10,10 @@ if (!ini_get('date.timezone') and function_exists('date_default_timezone_set')) 
     date_default_timezone_set('Asia/Shanghai');
 }
 
+// ini_set('display_errors', true);
 error_reporting(0);
+// set_time_limit(0);
+
 //session 设置
 ini_set('session.cookie_httponly', 1);
 //设置session路径到本地
@@ -37,7 +40,11 @@ $uid = isset($_GET['uid']) ? intval($_GET['uid']) : 0;
 $uname = t($_GET['uname']) ? t($_GET['uname']) : 'guest';
 $agent = getBrower();
 $ip = getClientIp();
+
+$refer = '站内';
+isset($_SERVER['HTTP_REFERER']) &&
 $refer = addslashes($_SERVER['HTTP_REFERER']);
+
 $isGuest = ($uid == -1 || $uid == 0) ? 1 : 0;
 $isIntranet = (substr($ip, 0, 2) == '10.') ? 1 : 0;
 $cTime = time();
@@ -76,7 +83,8 @@ if ($_GET['action'] == 'trace') {
     $result = Capsule::table('online_logs')
         ->insert(
             array(
-                'day' => 'CURRENT_DATE',
+                // 'day' => 'CURRENT_DATE',
+                'day' => date('Y-m-d'),
                 'uid' => $uid,
                 'uname' => $uname,
                 'action' => $action,
@@ -253,8 +261,8 @@ function cookie($name, $value = '', $option = null)
 {
     // 默认设置
     $config = array(
-        'prefix' => $GLOBALS['config']['COOKIE_PREFIX'], // cookie 名称前缀
-        'expire' => $GLOBALS['config']['COOKIE_EXPIRE'], // cookie 保存时间
+        'prefix' => isset($GLOBALS['config']['COOKIE_PREFIX']) ?: '', // cookie 名称前缀
+        'expire' => isset($GLOBALS['config']['COOKIE_EXPIRE']) ?: 3600, // cookie 保存时间
         'path' => '/',   // cookie 保存路径
         'domain' => '', // cookie 有效域名
     );
