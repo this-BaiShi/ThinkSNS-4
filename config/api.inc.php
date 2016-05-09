@@ -8,5 +8,6 @@ return array(
         'Oauth/*' => true,
         'ProductShare/*' => true,
         'Public/*' => true,
+        'Information/reader' => true,
     ),
 );
