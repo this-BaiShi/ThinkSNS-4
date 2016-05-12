@@ -454,7 +454,6 @@ class FollowModel extends Model
             $fids[$key] = intval($value);
         }
 
-
         $follow_data = $this->where(" ( uid = '{$uid}' AND fid IN({$fids}) ) OR ( uid IN({$fids}) and fid = '{$uid}')")->findAll();
         $follow_states = $this->_formatFollowState($uid, $fids, $follow_data);
 
