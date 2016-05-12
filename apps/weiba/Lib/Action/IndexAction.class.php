@@ -711,7 +711,6 @@ class IndexAction extends Action
                 return $this->ajaxReturn($result, '发布成功', 1);
             }
         } else {
-            var_dump(D('weiba_post'));
             $this->error('发布失败，等待返回修改发布', $type);
         }
     }
