@@ -3,6 +3,9 @@
 $baseDir = dirname(__FILE__) . '/';
 
 $finder = \Symfony\CS\Finder\DefaultFinder::create()
+    ->exclude('_runtime')
+    ->exclude('data')
+    ->exclude('storage')
     ->exclude('vendor')
     ->exclude('.svn')
     ->exclude('.git')
@@ -10,7 +13,7 @@ $finder = \Symfony\CS\Finder\DefaultFinder::create()
     ->in($baseDir)
 ;
 
-return Symfony\CS\Config\Config::create()
+return \Symfony\CS\Config\Config::create()
     ->level(Symfony\CS\FixerInterface::PSR2_LEVEL)
     ->fixers(array(
         'double_arrow_multiline_whitespaces',
