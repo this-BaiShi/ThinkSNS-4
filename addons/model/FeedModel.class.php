@@ -31,9 +31,9 @@ class FeedModel extends Model
     {
 
         //检测用户是否被禁言
-        if($isDisabled = model('DisableUser')->isDisableUser($uid,'post'))
-        {
+        if ($isDisabled = model('DisableUser')->isDisableUser($uid, 'post')) {
             $this->error = '您已经被禁言了..';
+
             return false;
         }
         if (isSubmitLocked()) {
