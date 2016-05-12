@@ -102,7 +102,6 @@ class AdminAction extends AdministratorAction
             $data['admin_uid'] = 0;
         }
 
-
         $data['recommend'] = intval($_POST['recommend']);
         $data['status'] = 1;
 
