@@ -670,6 +670,7 @@ class IndexAction extends Action
         $data['post_time'] = time();
         $data['last_reply_uid'] = $this->mid;
         $data['last_reply_time'] = $data['post_time'];
+        $data['feed_id'] = 0;
 
         /* # 格式化emoji */
         $data['title'] = formatEmoji(true, $data['title']);
@@ -710,6 +711,7 @@ class IndexAction extends Action
                 return $this->ajaxReturn($result, '发布成功', 1);
             }
         } else {
+            var_dump(D('weiba_post'));
             $this->error('发布失败，等待返回修改发布', $type);
         }
     }
