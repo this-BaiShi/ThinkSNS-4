@@ -445,12 +445,17 @@ class FollowModel extends Model
      */
     public function getFollowStateByFids($uid, $fids)
     {
-        array_map('intval', $fids);
-        $_fids = is_array($fids) ? implode(',', $fids) : $fids;
-        if (empty($_fids)) {
-            return array();
+        if (is_string($fids)) {
+            $fids = explode(',', $fids);
         }
-        $follow_data = $this->where(" ( uid = '{$uid}' AND fid IN({$_fids}) ) OR ( uid IN({$_fids}) and fid = '{$uid}')")->findAll();
+        $fids = (array) $fids;
+
+        foreach ($fids as $key => $value) {
+            $fids[$key] = intval($value);
+        }
+
+
+        $follow_data = $this->where(" ( uid = '{$uid}' AND fid IN({$fids}) ) OR ( uid IN({$fids}) and fid = '{$uid}')")->findAll();
         $follow_states = $this->_formatFollowState($uid, $fids, $follow_data);
 
         return $follow_states [$uid];
