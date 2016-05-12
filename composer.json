@@ -50,6 +50,9 @@
         "symfony/polyfill-mbstring": "~1.0",
         "illuminate/database": "4.1.*"
     },
+    "require-dev": {
+        "fabpot/php-cs-fixer": "^1.11"
+    },
     "config": {
         "vendor-dir": "src/Vendor/",
         "preferred-install": "dist"
