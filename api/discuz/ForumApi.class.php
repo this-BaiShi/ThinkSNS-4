@@ -2,6 +2,7 @@
 
 /** *  * @author jason * */require_once 'BaseApi.class.php';class ForumApi extends BaseApi
 {
+
     //获取全部版块    public function forumindex()
     {
         $content = $this->getContentFormDiscuz('forumindex');

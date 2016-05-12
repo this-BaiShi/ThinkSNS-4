@@ -2,6 +2,7 @@
 
 /** *  * @author jason * */include SITE_PATH.'/api/uc_client/client.php';class BaseApi extends Api
 {
+
     public $discuzURl = 'http://i/dz3';
 
     public $version = 1;
