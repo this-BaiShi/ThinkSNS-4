@@ -81,7 +81,7 @@ class SettingAction extends BaseAction
         $this->need_login();
         if ($_POST['ajaxSubmit']) {
             $map['uid'] = $this->mid;
-            $_POST['intro'] = $_POST['intro'] ? formatEmoji(true,$_POST['intro']) : '';
+            $_POST['intro'] = $_POST['intro'] ? formatEmoji(true, $_POST['intro']) : '';
             D('user')->where($map)->setField('intro', t($_POST['intro']));
             //清空用户数据缓存
             model('User')->cleanCache($this->mid);
