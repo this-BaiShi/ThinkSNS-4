@@ -282,7 +282,6 @@ class Api
             !\Medz\Component\Filesystem\Filesystem::exists(sprintf('%s/api/sociax', TS_ROOT))
         ) {
             $class_file = sprintf('phar://%s/%sApi.class.php', $pharApiFile, MODULE_NAME);
-
         } elseif (constant('API_VERSION')) {
             $class_file = SITE_PATH.'/api/'.API_VERSION.'/'.MODULE_NAME.'Api.class.php';
         } else {
