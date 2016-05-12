@@ -49,7 +49,7 @@ class Ftp
      * 连接FTP服务器
      * @param string $host                       　　 服务器地址
      * @param string $username　　　用户名
-     * @param string $password　　　密码
+     * @param string $password　　　密�      �
      * @param int    $port　　　　           服务器端口，默认值为21
      * @param bool   $pasv                       是否开启被动模式
      * @param bool   $ssl　　　　            　是否使用SSL连接
