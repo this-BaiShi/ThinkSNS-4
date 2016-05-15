@@ -4,7 +4,6 @@ $baseDir = dirname(__FILE__) . '/';
 
 $finder = \Symfony\CS\Finder\DefaultFinder::create()
     ->exclude('_runtime')
-    ->exclude('_runtime')
     ->exclude('data')
     ->exclude('storage')
     ->exclude('vendor')
