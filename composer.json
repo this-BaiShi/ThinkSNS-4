@@ -58,7 +58,11 @@
         "preferred-install": "dist"
     },
     "autoload": {
-        "classmap": ["src/Ts.php"],
+        "classmap": [
+            "src/Ts.php",
+            "addons/utility/MedzValidator.php",
+            "addons/utility/MedzZip.php"
+        ],
         "psr-4": {
             "Ts\\": "src/",
             "Ts\\Base\\": "src/Bases/",
