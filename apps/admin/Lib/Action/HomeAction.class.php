@@ -4,6 +4,9 @@
  * @author liuxiaoqing <liuxiaoqing@zhishisoft.com>
  * @version TS3.O
  */
+    
+use Illuminate\Database\Capsule\Manager as Capsule;
+
 tsload(APPS_PATH.'/admin/Lib/Action/AdministratorAction.class.php');
 
 class HomeAction extends AdministratorAction
@@ -35,9 +38,6 @@ class HomeAction extends AdministratorAction
      */
     public function statistics()
     {
-        // 插入统计数据
-        $gradeInfo = model('System')->upgrade();
-
         $statistics = array();
 
         /*
@@ -50,11 +50,13 @@ class HomeAction extends AdministratorAction
         $serverInfo[L('PUBLIC_SERVER_PHP')] = PHP_OS.' / PHP v'.PHP_VERSION;
         $serverInfo[L('PUBLIC_SERVER_SOFT')] = $_SERVER['SERVER_SOFTWARE'];
         $serverInfo[L('PUBLIC_UPLOAD_PERMISSION')] = (@ini_get('file_uploads')) ? ini_get('upload_max_filesize') : '<font color="red">no</font>';
+
         // 数据库信息
-        $mysqlinfo = D('')->query('SELECT VERSION() AS version');
-        $serverInfo[L('PUBLIC_MYSQL')] = $mysqlinfo[0]['version'] ;
+        $mysqlinfo = Capsule::selectOne('SELECT VERSION() AS version');
+        $serverInfo[L('PUBLIC_MYSQL')] = $mysqlinfo['version'] ;
 
         $t = D('')->query("SHOW TABLE STATUS LIKE '".C('DB_PREFIX')."%'");
+        $dbsize = 0;
         foreach ($t as $k) {
             $dbsize += $k['Data_length'] + $k['Index_length'];
         }
