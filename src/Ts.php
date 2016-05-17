@@ -117,7 +117,7 @@ final class Ts
         $name = implode(self::DS, $name);
         $name .= $ext;
         unset($ext);
-        $name = 'file://'.$name;
+        // $name = 'file://'.$name;
         /* 是否已经加载过了 */
         if (in_array($name, self::$_files)) {
             return true;
