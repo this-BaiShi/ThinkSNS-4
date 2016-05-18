@@ -2,7 +2,6 @@
 
 /** *  * @author jason * */require_once 'BaseApi.class.php';class UserApi extends BaseApi
 {
-
     //获取用户信息    public function profile()
     {
         if (empty($this->data['uid'])) {

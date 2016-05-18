@@ -150,13 +150,13 @@ define('APP_PUBLIC_URL', sprintf('%s%s/app/%s', SITE_URL, TS_STORAGE, strtolower
 //设置语言包
 setLang();
 
-/**
+/*
  * 新应用入口文件
  */
 if (file_exists(sprintf('%s/bootstrap.php', APP_PATH))) {
     Ts::import(APP_PATH, 'bootstrap', '.php');
 
-/**
+/*
  * 兼容旧的应用
  */
 } elseif (file_exists(sprintf('%s/common.php', APP_COMMON_PATH))) {

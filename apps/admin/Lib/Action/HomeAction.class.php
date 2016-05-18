@@ -4,7 +4,7 @@
  * @author liuxiaoqing <liuxiaoqing@zhishisoft.com>
  * @version TS3.O
  */
-    
+
 use Illuminate\Database\Capsule\Manager as Capsule;
 
 tsload(APPS_PATH.'/admin/Lib/Action/AdministratorAction.class.php');

@@ -518,8 +518,8 @@ class RegisterAction extends Action
         }
 
         $map['domain'] = '';
-        $map['city']   = 0;
-        $map['area']   = 0;
+        $map['city'] = 0;
+        $map['area'] = 0;
         $map['is_del'] = 0;
 
         $uid = $this->_user_model->add($map);
