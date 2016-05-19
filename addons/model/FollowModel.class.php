@@ -108,6 +108,7 @@ class FollowModel extends Model
             $map ['uid'] = $uid;
             $map ['fid'] = $fid;
             $map ['ctime'] = time();
+            $map['remark'] = '';
             $result = $this->add($map);
             // 通知和分享
             $config ['uname'] = getUserName($uid);
