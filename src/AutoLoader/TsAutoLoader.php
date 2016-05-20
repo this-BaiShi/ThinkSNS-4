@@ -25,6 +25,10 @@ class TsAutoLoader
         $namespace = str_replace('\\', Ts::DS, $namespace);
         $namespace = explode(Ts::DS, $namespace);
         switch ($namespace[0]) {
+            case 'Vendor':
+                $namespace = VendorAutoLoader::autoLoader($namespace);
+                break;
+
             case 'Ts':
             default:
                 $namespace = self::autoLoader($namespace);

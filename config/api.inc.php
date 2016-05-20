@@ -9,5 +9,6 @@ return array(
         'ProductShare/*' => true,
         'Public/*' => true,
         'Information/reader' => true,
+        'Project/test'	=>	true,
     ),
 );

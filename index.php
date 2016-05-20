@@ -4,13 +4,13 @@
 // error_reporting(E_ERROR ^ E_NOTICE ^ E_WARNING);
 error_reporting(E_ALL);
 
-/* ///调试、找错时请去掉///前空格
+ ///调试、找错时请去掉///前空格
 ini_set('display_errors',true);
 error_reporting(E_ALL);
 set_time_limit(0);
-// */
+// 
 
-define('DEBUG', false);
+define('DEBUG', true);
 
 $mem_run_end = memory_get_usage();
 $time_run_end = microtime(true);

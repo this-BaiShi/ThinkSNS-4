@@ -13,7 +13,8 @@ if (!defined('SITE_PATH')) {
 return array(
 
     /* ThinkSNS v4 */
-    'VERSION' => '4.3.1', // # ThinkSNS 版本
+    'VERSION' => '4.3.0', // # ThinkSNS 版本
     'UPURL' => 'http://demo.thinksns.com/upgrade/entry.php', // # 升级地址
+    'UTILITY' => ADDON_PATH.DIRECTORY_SEPARATOR.'utility'.DIRECTORY_SEPARATOR, // # 工具目录
 
 );

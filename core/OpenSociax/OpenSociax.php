@@ -25,8 +25,8 @@ tsconfig(include CONF_PATH.'/html.inc.php');
 tsconfig(include CONF_PATH.'/router.inc.php');
 
 if (!isset($_REQUEST['app']) && !isset($_REQUEST['mod']) && !isset($_REQUEST['act'])) {
-    $ts['_app'] = 'public';
-    $ts['_mod'] = 'Passport';
+    $ts['_app'] = 'admin';
+    $ts['_mod'] = 'Public';
     $ts['_act'] = 'login';
 } else {
     $ts['_app'] = isset($_REQUEST['app']) && !empty($_REQUEST['app']) ? $_REQUEST['app'] : tsconfig('DEFAULT_APP');
@@ -150,23 +150,10 @@ define('APP_PUBLIC_URL', sprintf('%s%s/app/%s', SITE_URL, TS_STORAGE, strtolower
 //设置语言包
 setLang();
 
-/*
- * 新应用入口文件
- */
-if (file_exists(sprintf('%s/bootstrap.php', APP_PATH))) {
-    Ts::import(APP_PATH, 'bootstrap', '.php');
-
-/*
- * 兼容旧的应用
- */
-} elseif (file_exists(sprintf('%s/common.php', APP_COMMON_PATH))) {
-    Ts::import(APP_COMMON_PATH, 'common', '.php');
-}
-
 //载入应用函数库
-// if (file_exists(APP_COMMON_PATH.'/common.php')) {
-//     tsload(APP_COMMON_PATH.'/common.php');
-// }
+if (file_exists(APP_COMMON_PATH.'/common.php')) {
+    tsload(APP_COMMON_PATH.'/common.php');
+}
 
 //合并应用配置
 if (file_exists(APP_CONFIG_PATH.'/config.php')) {
@@ -188,6 +175,9 @@ if (C('DEPLOY_STATIC')) {
     tsdefine('THEME_PUBLIC_URL', PUBLIC_URL.'/'.THEME_NAME);
     tsdefine('APP_PUBLIC_URL', THEME_PUBLIC_URL.'/'.TRUE_APPNAME);
 }
+
+// # 加载通用验证类
+tsload(ADDON_PATH.'/utility/MedzValidator.php');
 
 //载入插件钩子
 //$ts['_config']['hooks']	=	array('app_init'=>array('check_access','check_access2'));
