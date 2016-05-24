@@ -2,14 +2,13 @@
 
 use Ts\Model;
 use Medz\Component\EmojiFormat;
-use MedzValidator;
 
 /**
  * 用户模型 - 数据对象模型
  * @author jason <yangjs17@yeah.net> 
  * @version TS3.0
  */
-class UserModel extends Model
+class UserModel extends \Model
 {
     protected $tableName = 'user';
     protected $error = '';
@@ -938,6 +937,8 @@ class UserModel extends Model
             //$user ['auth_icon'] = implode ( ' ', $authIcon );
             $user ['credit_info'] = model('Credit')->getUserCredit($uid);
             $user ['intro'] = $user['intro'] ? formatEmoji(false, $user['intro']) : '';
+
+            $user['uname'] = EmojiFormat::de($user['uname']);
 
             model('Cache')->set('ui_'.$uid, $user, 600);
             static_cache('user_info_'.$uid, $user);
