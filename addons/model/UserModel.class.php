@@ -938,7 +938,7 @@ class UserModel extends \Model
             $user ['credit_info'] = model('Credit')->getUserCredit($uid);
             $user ['intro'] = $user['intro'] ? formatEmoji(false, $user['intro']) : '';
 
-            $user['uname'] = EmojiFormat::de($user['uname']);
+            // $user['uname'] = EmojiFormat::de($user['uname']);
 
             model('Cache')->set('ui_'.$uid, $user, 600);
             static_cache('user_info_'.$uid, $user);
