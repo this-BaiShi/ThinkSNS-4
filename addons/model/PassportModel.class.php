@@ -320,6 +320,11 @@ class PassportModel
         return $this->loginLocalWithoutPassword($login, $is_remember_me);
     }
 
+    public function noPasswordLogin($uid, $is_remember_me = false)
+    {
+        return $this->_recordLogin($uid, $is_remember_me);
+    }
+
     /**
      * 设置登录状态、记录登录知识
      * @param  int  $uid            用户ID
