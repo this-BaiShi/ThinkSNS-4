@@ -63,12 +63,18 @@ class User extends Model
     public function scopeByUserName($query, $username)
     {
         $username = EmojiFormat::en($username);
+
         return $query->where('uname', '=', $username);
     }
 
     public function scopeByUid($query, $uid)
     {
-        return $query->where('uid' '=', intval($uid));
+        return $query->where('uid', '=', intval($uid));
+    }
+
+    public function scopeByEmail($query, $email)
+    {
+        return $query->where('email', '=', $email);
     }
 
     public function setUnameAttribute($username)
