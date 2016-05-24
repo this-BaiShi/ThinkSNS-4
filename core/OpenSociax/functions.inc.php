@@ -2113,7 +2113,7 @@ function getShortPinyin($string, $encode = 'utf-8', $unknow = null)
 {
     $pre = $unknow !== null ? $unknow : mb_substr($string, 0, 1, $encode);
     $string = Pinyin::getShortPinyin($string, $encode);
-    $string = substr($string, 0, 1);
+    $string = mb_substr($string, 0, 1);
     $string = strtoupper($string); /* 转为大写 */
     if (!in_array($string, explode(',', 'Q,W,E,R,T,Y,U,I,O,P,A,S,D,F,G,H,J,K,L,M,N,B,V,C,X,Z'))) {
         $string = $pre;
