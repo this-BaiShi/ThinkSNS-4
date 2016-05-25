@@ -25,6 +25,7 @@ class qzone
     //用户资料
     public function userInfo()
     {
+        // print_r($_SESSION['qzone']);exit();
         $get_user_info = 'https://graph.qq.com/user/get_user_info?'
                 .'access_token='.$_SESSION['qzone']['access_token']['oauth_token']
                 .'&oauth_consumer_key='.QZONE_KEY
@@ -37,6 +38,7 @@ class qzone
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $info = curl_exec($ch);
         $me = json_decode($info);
+        // return $me;
         $user['id'] = $_SESSION['qzone']['openid'];
         $user['uname'] = $me->nickname;
         $user['province'] = 0;
