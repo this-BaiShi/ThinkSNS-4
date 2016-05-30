@@ -1,5 +1,4 @@
 <?php
-
 /**
  * ThinkSNS App基类
  * @author  liuxiaoqing <liuxiaoqing@zhishisoft.com>
@@ -124,11 +123,7 @@ class App
             isMobile()                                                                           and
             in_array('wap', C('DEFAULT_APPS'))
         ) {
-            if (\Medz\Component\Filesystem\Filesystem::exists(TS_APPLICATION.'/h5') === true) {
-                U('h5/index/index', '', true);
-            } else {
-                U('w3g/Public/home', '', true);
-            }
+            U('w3g/Public/home', '', true);
         }
 
         $GLOBALS['time_run_detail']['addons_end'] = microtime(true);
