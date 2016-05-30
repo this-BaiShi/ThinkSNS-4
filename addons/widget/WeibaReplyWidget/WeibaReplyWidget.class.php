@@ -77,8 +77,7 @@ class WeibaReplyWidget extends Widget
     public function addReply()
     {
         //检测用户是否被禁言
-        if($isDisabled = model('DisableUser')->isDisableUser($this->mid,'post'))
-        {
+        if ($isDisabled = model('DisableUser')->isDisableUser($this->mid, 'post')) {
             exit(json_encode(array(
                 'status' => 0,
                 'data' => '您已经被禁言了',

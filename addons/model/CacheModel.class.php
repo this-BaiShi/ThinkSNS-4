@@ -155,7 +155,7 @@ class CacheModel
 
     /**
      * 缓存写入次数
-     * @return 获取缓存写入次数
+     * @return 获取缓存写� �次数
      */
     public function W()
     {

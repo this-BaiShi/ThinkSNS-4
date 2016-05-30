@@ -573,8 +573,7 @@ class IndexAction extends Action
     public function doPost()
     {
         //检测用户是否被禁言
-        if($isDisabled = model('DisableUser')->isDisableUser($this->mid,'post'))
-        {
+        if ($isDisabled = model('DisableUser')->isDisableUser($this->mid, 'post')) {
             return array(
                 'status' => 0,
                 'msg' => '您已经被禁言了',
@@ -670,6 +669,7 @@ class IndexAction extends Action
         $data['post_time'] = time();
         $data['last_reply_uid'] = $this->mid;
         $data['last_reply_time'] = $data['post_time'];
+        $data['feed_id'] = 0;
 
         /* # 格式化emoji */
         $data['title'] = formatEmoji(true, $data['title']);

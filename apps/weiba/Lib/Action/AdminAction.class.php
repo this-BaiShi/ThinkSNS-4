@@ -96,9 +96,12 @@ class AdminAction extends AdministratorAction
         $data['intro'] = $_POST['intro'];
         $data['who_can_post'] = intval($_POST['who_can_post']);
         if ($_POST['admin_uid']) {
-            $data['admin_uid'] = t($_POST['admin_uid']);
+            $data['admin_uid'] = intval($_POST['admin_uid']);
             $data['follower_count'] = 1;
+        } else {
+            $data['admin_uid'] = 0;
         }
+
         $data['recommend'] = intval($_POST['recommend']);
         $data['status'] = 1;
 
@@ -109,6 +112,7 @@ class AdminAction extends AdministratorAction
         }
 
         $res = D('Weiba', 'weiba')->add($data);
+
         if ($res) {
             if ($_POST['admin_uid']) {      //超级圈主加入微吧
                 $follow['follower_uid'] = $data['admin_uid'];

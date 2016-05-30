@@ -108,6 +108,7 @@ class FollowModel extends Model
             $map ['uid'] = $uid;
             $map ['fid'] = $fid;
             $map ['ctime'] = time();
+            $map['remark'] = '';
             $result = $this->add($map);
             // 通知和分享
             $config ['uname'] = getUserName($uid);
@@ -445,11 +446,18 @@ class FollowModel extends Model
      */
     public function getFollowStateByFids($uid, $fids)
     {
-        array_map('intval', $fids);
-        $_fids = is_array($fids) ? implode(',', $fids) : $fids;
-        if (empty($_fids)) {
-            return array();
+        if (is_string($fids)) {
+            $fids = explode(',', $fids);
         }
+        $fids = (array) $fids;
+
+        foreach ($fids as $key => $value) {
+            $fids[$key] = intval($value);
+        }
+
+        $_fids = implode(',', $fids);
+        $uid = intval($uid);
+
         $follow_data = $this->where(" ( uid = '{$uid}' AND fid IN({$_fids}) ) OR ( uid IN({$_fids}) and fid = '{$uid}')")->findAll();
         $follow_states = $this->_formatFollowState($uid, $fids, $follow_data);
 

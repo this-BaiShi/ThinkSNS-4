@@ -43,6 +43,10 @@ class FeedTopicModel extends Model
         } else {
             $map['count'] = 1;
             $map['ctime'] = time();
+            $map['status'] = 0;
+            $map['lock'] = 0;
+            $map['domain'] = '';
+            $map['recommend'] = 0;
             $topicId = $this->add($map);
             if ($feedId) {
                 $this->addFeedJoinTopic($topicId, $feedId, $type);

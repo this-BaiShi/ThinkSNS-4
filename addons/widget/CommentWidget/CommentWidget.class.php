@@ -162,8 +162,7 @@ class CommentWidget extends Widget
         );
 
         //检测用户是否被禁言
-        if($isDisabled = model('DisableUser')->isDisableUser($this->mid,'post'))
-        {
+        if ($isDisabled = model('DisableUser')->isDisableUser($this->mid, 'post')) {
             return json_encode(array(
                 'status' => 0,
                 'data' => '您已经被禁言了',

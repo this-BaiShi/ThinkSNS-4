@@ -50,12 +50,19 @@
         "symfony/polyfill-mbstring": "~1.0",
         "illuminate/database": "4.1.*"
     },
+    "require-dev": {
+        "fabpot/php-cs-fixer": "^1.11"
+    },
     "config": {
         "vendor-dir": "src/Vendor/",
         "preferred-install": "dist"
     },
     "autoload": {
-        "classmap": ["src/Ts.php"],
+        "classmap": [
+            "src/Ts.php",
+            "addons/utility/MedzValidator.php",
+            "addons/utility/MedzZip.php"
+        ],
         "psr-4": {
             "Ts\\": "src/",
             "Ts\\Base\\": "src/Bases/",

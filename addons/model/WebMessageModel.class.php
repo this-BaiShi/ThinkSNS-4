@@ -58,6 +58,7 @@ class WebMessageModel
                 'member_num' => 2,
                 'min_max' => $minMax,
                 'mtime' => $time,
+                'last_message' => '',
             );
             $listId = $this->room()->add($data);
             if ($listId) {

@@ -14,5 +14,4 @@ class InformationList extends Model
     protected $table = 'information_list';
 
     protected $primaryKey = 'id';
-
 } // END class InformationList extends Model

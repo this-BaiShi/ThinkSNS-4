@@ -222,7 +222,7 @@ class CommentModel extends Model
             $pk = D($add['table'])->getPk();
             $where = "`{$pk}`={$add['row_id']}";
             D($add['table'])->setInc('comment_count', $where);
-            
+
             D($add['app'])->setInc('commentCount', $where);
             D($add['app'])->setInc('comment_all_count', $where);
             //评论时间
@@ -233,7 +233,7 @@ class CommentModel extends Model
                 /* 如果是微吧 */
                 if (!$notCount and $add['app'] == 'weiba') {
                     model('UserData')->updateKey('unread_comment_weiba', 1, true, $add['app_uid']);
-                } elseif (!$notCount ) {
+                } elseif (!$notCount) {
                     model('UserData')->updateKey('unread_comment', 1, true, $add['app_uid']);
                 }
             }

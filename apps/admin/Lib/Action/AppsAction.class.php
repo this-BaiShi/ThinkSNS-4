@@ -139,6 +139,10 @@ class AppsAction extends AdministratorAction
             $this->error(L('PUBLIC_SYSTEM_APP_INSTALLERROR'));
         }
 
+        if (!isset($_POST['display_order']) || !$_POST['display_order']) {
+            $_POST['display_order'] = 1;
+        }
+
         $status = model('App')->saveApp($_POST);
 
         if ($status === true) {

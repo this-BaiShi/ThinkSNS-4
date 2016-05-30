@@ -51,11 +51,11 @@ class Store
     const DRIVER_REDIS = 3;
 
      // DRIVER_FILE 或者 DRIVER_MC 或者 DRIVER_REDIS（推荐）
-    public static $driver = self::DRIVER_FILE;
+    public static $driver = self::DRIVER_MC;
 
     //$driver为DRIVER_MC/DRIVER_REDIS时需要配置memcached/redis服务端ip和端口
     public static $gateway = array(
-        '127.0.0.1:6379',
+        '127.0.0.1:11212',
     );
 
     // $driver为DRIVER_FILE时要配置此项，实际配置在最下面一行

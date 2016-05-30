@@ -94,26 +94,27 @@ class IndexAction extends Action
             $map['status'] = 1;
             if ($weibaId) {
                 $map['weiba_id'] = array('in', $weibaId);
-                $order = 'field(weiba_id,'.implode(',', $weibaId).')';
+                $order = 'FIND_IN_SET(weiba_id,\''.implode(',', $weibaId).'\')';
                 $weiba_recommend = $weiba->where($map)->order($order)->limit(6)->select();
             }
             if (!$weibaId || !$weiba_recommend) {
                 $weiba_recommend = array();
             }
-            //当推荐微吧不足3 或 6 时自动补齐
+            //当推荐微吧不足2 或 4 时自动补齐
             $count = count($weiba_recommend);
-            if ($count < 3 || ($count > 3 && $count < 6)) {
-                if ($count != 0) {
-                    $map['weiba_id'] = array('not in', $weibaId);
-                } elseif (isset($map['weiba_id'])) {
-                    unset($map['weiba_id']);
+            // if ($count < 2 || ($count > 2 && $count < 4)) {
+                if ($count < 4) {
+                    if ($count != 0) {
+                        $map['weiba_id'] = array('not in', $weibaId);
+                    } elseif (isset($map['weiba_id'])) {
+                        unset($map['weiba_id']);
+                    }
+                    $order = 'recommend DESC,follower_count DESC';
+                    $weiba->where($map)->order($order);
+                    $limit = 4 - $count;
+                    $array = $weiba->limit($limit)->select();
+                    $weiba_recommend = array_merge($weiba_recommend, $array);
                 }
-                $order = 'recommend DESC,follower_count DESC';
-                $weiba->where($map)->order($order);
-                $limit = ($count < 3 ? 3 : 6) - $count;
-                $array = $weiba->limit($limit)->select();
-                $weiba_recommend = array_merge($weiba_recommend, $array);
-            }
 
             foreach ($weiba_recommend as $k => $v) {
                 $weiba_recommend[$k]['logo'] = getImageUrlByAttachId($v['logo']);
@@ -127,7 +128,6 @@ class IndexAction extends Action
                     $weiba_recommend[$k]['post'] = $weiba_post;
                 }
             }
-
             $this->assign('weiba_recommend', $weiba_recommend);
 
             //精彩帖子
