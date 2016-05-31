@@ -539,6 +539,7 @@ class LoginHooks extends Hooks
             $platform = new $type ();
             $platform->checkUser('login');
             $userinfo = $platform->userInfo();
+            // var_dump($userinfo);exit();
             // 检查是否成功获取用户信息
             if (empty($userinfo ['id']) || empty($userinfo ['uname'])) {
                 $result ['status'] = 0;

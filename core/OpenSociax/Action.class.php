@@ -1,4 +1,7 @@
 <?php
+    
+use Medz\Component\EmojiFormat;
+
 /**
  * ThinkSNS Action控制器基类
  * @author  liuxiaoqing <liuxiaoqing@zhishisoft.com>
@@ -363,6 +366,8 @@ abstract class Action
 
             $GLOBALS['time_run_detail']['action_init_user_disable'] = microtime(true);
         }
+
+        $this->user = EmojiFormat::de($this->user);
 
         $this->assign('mid', $this->mid);   //登录者
         $this->assign('uid', $this->uid);   //访问对象
