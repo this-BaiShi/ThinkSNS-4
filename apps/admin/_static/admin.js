@@ -1845,7 +1845,3 @@ admin.edit_tab = function(action,id){
     var title = action+"礼物";
     ui.box.load(U('gift/Admin/edit_gift_tab')+ '&id='+id,title+'信息');
 };
-
-admin.add_tag = function(id){
-    ui.box.load(U('project/Admin/edit_tag')+ '&id='+id,'标签');
-}

@@ -181,7 +181,6 @@ PS：手动升级覆盖文件后千万不要刷新本页面，直接点击上方
         file_exists($sqlPath) and file_put_contents($sqlPath, '-- 暂无升级 SQL --');
 
         // # 解压增量包
-        import(C('UTILITY').'MedzZip.php');
         $zip = new MedzZip;
         $zip->init() or $this->showError('初始化解压程序失败！');
 
@@ -215,7 +214,6 @@ PS：手动升级覆盖文件后千万不要刷新本页面，直接点击上方
         $filename = urldecode($filename);
         $filename = DATA_PATH.'/'.'upgrade/'.$filename;
 
-        import(C('UTILITY').'MedzZip.php');
         $zip = new MedzZip;
         $zip->init();
 

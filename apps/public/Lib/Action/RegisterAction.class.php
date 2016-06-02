@@ -516,7 +516,14 @@ class RegisterAction extends Action
         } else {
             $map['search_key'] = $map['uname'];
         }
+
+        $map['domain'] = '';
+        $map['city'] = 0;
+        $map['area'] = 0;
+        $map['is_del'] = 0;
+
         $uid = $this->_user_model->add($map);
+
         if ($uid) {
             // 添加积分
             model('Credit')->setUserCredit($uid, 'init_default');
