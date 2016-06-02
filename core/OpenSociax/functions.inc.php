@@ -1214,29 +1214,36 @@ function byte_format($size, $dec = 2)
 
 /**
  * 获取客户端IP地址
+ * @param  int   $type 返回类型 0 返回IP地址 1 返回IPV4地址数字
+ * @param  bool  $adv  是否进行高级模式获取（有可能被伪装）
+ * @return mixed
  */
-function get_client_ip($type = 0)
+function get_client_ip($type = 0, $adv = false)
 {
     $type = $type ? 1 : 0;
     static $ip = null;
-    if ($ip !== null) {
+    if (null !== $ip) {
         return $ip[$type];
     }
-    if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-        $arr = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-        $pos = array_search('unknown', $arr);
-        if (false !== $pos) {
-            unset($arr[$pos]);
+    if ($adv) {
+        if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $arr = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+            $pos = array_search('unknown', $arr);
+            if (false !== $pos) {
+                unset($arr[$pos]);
+            }
+            $ip = trim($arr[0]);
+        } elseif (isset($_SERVER['HTTP_CLIENT_IP'])) {
+            $ip = $_SERVER['HTTP_CLIENT_IP'];
+        } elseif (isset($_SERVER['REMOTE_ADDR'])) {
+            $ip = $_SERVER['REMOTE_ADDR'];
         }
-        $ip = trim($arr[0]);
-    } elseif (isset($_SERVER['HTTP_CLIENT_IP'])) {
-        $ip = $_SERVER['HTTP_CLIENT_IP'];
     } elseif (isset($_SERVER['REMOTE_ADDR'])) {
         $ip = $_SERVER['REMOTE_ADDR'];
     }
     // IP地址合法验证
     $long = sprintf('%u', ip2long($ip));
-    $ip = $long ? array($ip, $long) : array('127.0.0.1', 0);
+    $ip = $long ? array($ip, $long) : array('0.0.0.0', 0);
 
     return $ip[$type];
 }
@@ -1544,9 +1551,9 @@ function friendlyDate($sTime, $type = 'normal', $alt = 'false')
         } elseif ($dTime >= 3600 && $dDay == 0) {
             return intval($dTime / 3600).'小时前';
         } elseif ($dYear == 0) {
-            return date('m-d', $sTime);
+            return date('Y-m-d H:i:s', $sTime);
         } else {
-            return date('Y-m-d', $sTime);
+            return date('Y-m-d H:i:s', $sTime);
         }
     }
 }
@@ -2106,7 +2113,7 @@ function getShortPinyin($string, $encode = 'utf-8', $unknow = null)
 {
     $pre = $unknow !== null ? $unknow : mb_substr($string, 0, 1, $encode);
     $string = Pinyin::getShortPinyin($string, $encode);
-    $string = substr($string, 0, 1);
+    $string = mb_substr($string, 0, 1);
     $string = strtoupper($string); /* 转为大写 */
     if (!in_array($string, explode(',', 'Q,W,E,R,T,Y,U,I,O,P,A,S,D,F,G,H,J,K,L,M,N,B,V,C,X,Z'))) {
         $string = $pre;
@@ -3293,6 +3300,7 @@ function RemoveXSS($val)
 
     return $val;
 }
+
 
 //接口数据统一返回格式
 function rd($data = '',$message='成功',$status=1){
