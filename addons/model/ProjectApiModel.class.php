@@ -221,6 +221,7 @@ class ProjectApiModel extends \Model
 			->where('table','list')
 			->orderBy('ctime','desc')
 			->count();
+			$_return['support_num'] =  D('order_log')->where(array('list_id'=>$value['list_id']))->count();
 			$_return['digg'] = D('list_digg')->where(array('list_id'=>$value['list_id']))->count();
 			$_return['uid'] = $value['uid'];
 			$_return['uname'] = getUserName($value['uid']);
@@ -271,6 +272,7 @@ class ProjectApiModel extends \Model
 			->where('row_id',$value['list_id'])
 			->where('table','list')
 			->count();
+			$_return['support_num'] =  D('order_log')->where(array('list_id'=>$value['list_id']))->count();
 			$_return['content'] = Model\ListData::find($value['list_id'])->topic()->pluck('content');
 			$_return['digg'] = D('list_digg')->where(array('list_id'=>$value['list_id']))->count();
 			$_return['uid'] = $value['uid'];
@@ -304,14 +306,8 @@ class ProjectApiModel extends \Model
 					$map['ctime'] = time();
 					$do = D('list_digg')->add($map);
 
-					$log['type'] = 2;
-					$log['project'] = $listinfo['type'];
-					$log['link_id'] = $id;
-					$log['uid'] = $uid;
-					$log['ctime'] = time();
-					D('user_log')->add($log);
-
-
+					$this->addLog(2,$listinfo['type'],$id,$uid);//添加记录
+					D('ProjectMessage')->addMessage($uid,$listinfo['uid'],2,$id,'list');//给对方发送消息
 					if ($do) {
 						return array(
 							'status'	=>	1,
@@ -330,7 +326,14 @@ class ProjectApiModel extends \Model
 					$logmap['project'] = $listinfo['type'];
 					$logmap['link_id'] = $id;
 					$logmap['type'] = 2;
-					D('user_log')->where($logmap)->delete(); 
+					D('user_log')->where($logmap)->delete();//删除记录
+
+					$messagemap['table'] = 'list';
+					$messagemap['uid'] = $uid;
+					$messagemap['to_uid'] = $listinfo['uid'];
+					$messagemap['link_id'] = $id;
+					$messagemap['type'] = 2;
+					D('user_message')->where($messagemap)->delete();//删除消息
 
 					if ($do) {
 						return array(
@@ -346,13 +349,19 @@ class ProjectApiModel extends \Model
 				}
 
 				break;
-			case 'comment':
+			case 'comment'://点赞评论不做记录
 				$map['comment_id'] = $id;
 				$map['uid'] = $uid;
 				$info = D('comment_digg')->where($map)->find();
+
+				$commentinfo = D('comment')->where(array('comment_id'=>$id))->find();
+
 				if (!$info) {
 					$map['ctime'] = time();
 					$do = D('comment_digg')->add($map);
+
+					D('ProjectMessage')->addMessage($uid,$commentinfo['uid'],2,$id,'comment');//给对方发送消息
+
 					if ($do) {
 						return array(
 							'status'	=>	1,
@@ -366,6 +375,12 @@ class ProjectApiModel extends \Model
 					}
 				}else{
 					$do = D('comment_digg')->where($map)->delete();
+					$messagemap['table'] = 'comment';
+					$messagemap['uid'] = $uid;
+					$messagemap['to_uid'] = $commentinfo['uid'];
+					$messagemap['link_id'] = $id;
+					$messagemap['type'] = 2;
+					D('user_message')->where($messagemap)->delete();//删除消息
 					if ($do) {
 						return array(
 							'status'	=>	1,
@@ -424,6 +439,17 @@ class ProjectApiModel extends \Model
 			$_return['uname'] = getUserName($value['uid']);
 			$_return['avatar'] = getUserFace($value['uid']);
 			$_return['ctime'] = friendlyDate($value['ctime']);
+			$_return['is_collection'] = isCollection($value['link_id'],$uid);
+			$_return['is_digg'] = isDigg($value['link_id'],$uid);
+			$_return['comment'] = Model\Comment::where('to_comment_id',0)
+			->where('row_id',$value['link_id'])
+			->where('table','list')
+			->count();
+			$_return['digg'] = D('list_digg')->where(array('list_id'=>$value['link_id']))->count();
+			if ($value['type'] == 1) {
+				$commentinfo = D('comment')->where(array('comment_id'=>$link_id))->find();
+				$_return['comment_info'] = $commentinfo['content'];
+			}
 
 			$return[] = $_return;
 			unset($_return); 
@@ -435,7 +461,7 @@ class ProjectApiModel extends \Model
 	//添加记录
 	public function addLog($type,$project,$link_id,$uid){
 		if (!empty($type)&&!empty($link_id)&&!empty($uid)) {
-			$addinfo['type'] = intval($type);
+			$addinfo['type'] = intval($type);//1-评论 2-点赞  3-支持
 			$addinfo['project'] = intval($project);
 			$addinfo['link_id'] = intval($link_id);
 			$addinfo['uid'] = intval($uid);
@@ -446,4 +472,131 @@ class ProjectApiModel extends \Model
 		}
 	}
 
+	//列表详情
+	public function showDetail($list_id,$uid){
+		$map['list_id'] = $list_id;
+		$info = D('list')->where($map)->find();
+		if (empty($info)) {
+			return false;
+		}
+		if (!empty($info['cover'])) {
+			$attach = D('Attach')->getAttachById($info['cover']);
+			$return['cover'] = UPLOAD_URL.'/'.$attach['save_path'].$attach['save_name'];
+		}
+		$return['uname'] = getUserName($info['uid']);
+		$return['avatar'] = getUserFace($info['uid']);
+		$return['title'] = $info['title'];
+		$return['content'] = $info['intro'];
+		$return['ctime'] = friendlyDate($info['ctime']);
+		$return['is_collection'] = isCollection($info['list_id'],$uid);
+		$return['is_digg'] = isDigg($info['list_id'],$uid);
+		$return['comment'] = Model\Comment::where('to_comment_id',0)
+		->where('row_id',$info['list_id'])
+		->where('table','list')
+		->count();
+		$return['digg'] = D('list_digg')->where(array('list_id'=>$info['list_id']))->count();
+		$return['url'] = U('w3g/Project/showProject',array('list_id'=>$info['list_id']));
+		$return['support_num'] =  D('order_log')->where(array('list_id'=>$info['list_id']))->count();
+		$order_logs = D('order_log')->where(array('list_id'=>$info['list_id']))->limit(3)->select();
+		if (!empty($order_logs)) {
+			foreach ($order_logs as $key => &$value) {
+				$_user['uid'] = $value['uid'];
+				$_user['uname'] = getUserName($value['uid']);
+				$_user['avatar'] = getUserFace($value['uid']);
+
+				$return['support_user'][] = $_user;
+				unset($_user);
+			}
+		}
+
+		// $commentmap['table'] = 'list';
+		// $commentmap['row_id'] = $list_id;
+		// $comment = D('Comment')->getCommentList($commentmap,'comment_id desc',4,true);
+		// if (empty($comment['data'])) {
+		// 	$return['commentlist'] = $comment['data'];
+		// }
+		if ($info['type'] == 1) {
+			$tags = Model\TagLink::where('list_id',$info['list_id'])->get();
+			foreach ($tags as $tag) {
+				$_tag = $tag->tag()->first()->toArray();
+				$return['tags'][] = $_tag;
+				unset($_tag);
+			}
+		}else{
+			$data = D("project_data")->where(array('data_id'=>$info['data_id']))->find();
+			$sum = D('order_sum')->where(array('list_id'=>$info['list_id']))->find();
+			$return['stime'] = friendlyDate($data['stime']);
+			$return['etime'] = friendlyDate($data['etime']);
+			$return['days_sum'] = intval(($data['etime']-$data['stime'])/(3600*24));//总共天数
+			if ((time()-$data['stime'])>0) {
+				$return['remain'] = intval((time()-$data['stime'])/(3600*24));//剩余天数
+			}else{
+				$return['remain'] = $return['days_sum'];
+			}	
+			
+			$return['amount'] = $data['amount'];
+			$return['use'] = $data['use'];
+			if (empty($sum)) {
+				$return['sum'] = 0;
+			}else{
+				$return['sum'] = $sum['sum'];
+			}
+		}
+
+
+		return $return;
+	}
+
+
+	//获取全部支持者
+	public function getAllSupportUser($list_id,$limit){
+		$order_logs = D('order_log')->where(array('list_id'=>$list_id))->limit($limit)->select();
+		if (!empty($order_logs)) {
+			foreach ($order_logs as $key => &$value) {
+				$_user['uid'] = $value['uid'];
+				$_user['uname'] = getUserName($value['uid']);
+				$_user['avatar'] = getUserFace($value['uid']);
+				$_user['ctime'] = friendlyDate($value['ctime']);
+				$return[] = $_user;
+				unset($_user);
+			}
+		}
+		return $return;
+	}
+
+	//获取首页数据
+	public function getHomeData(){
+		$return['banner'] = D('application_slide')->select(); 
+		foreach ($return['banner'] as $key => &$value) {
+			$attach = D('Attach')->getAttachById($info['image']);
+			$value['image'] = UPLOAD_URL.'/'.$attach['save_path'].$attach['save_name'];
+		}
+		$list = D('list')->where(array('type'=>2))->order('is_top desc,ctime desc')->limit($limit)->select();
+		foreach ($list as $key => &$value) {
+			$attach = D('Attach')->getAttachById($value['cover']);
+			$_return['cover'] = UPLOAD_URL.'/'.$attach['save_path'].$attach['save_name'];
+			$_return['list_id'] = $value['list_id'];
+			$_return['is_collection'] = isCollection($value['list_id'],$uid);
+			$_return['is_digg'] = isDigg($value['list_id'],$uid);
+			$_return['intro'] = $value['intro'];
+			$_return['title'] = $value['title'];
+			$_return['comment'] = Model\Comment::where('to_comment_id',0)
+			->where('row_id',$value['list_id'])
+			->where('table','list')
+			->orderBy('ctime','desc')
+			->count();
+			$_return['support_num'] =  D('order_log')->where(array('list_id'=>$value['list_id']))->count();
+			$_return['digg'] = D('list_digg')->where(array('list_id'=>$value['list_id']))->count();
+			$_return['uid'] = $value['uid'];
+			$_return['uname'] = getUserName($value['uid']);
+			$_return['avatar'] = getUserFace($value['uid']);
+			$_return['ctime'] = friendlyDate($value['ctime']);
+
+			$return['list'][] = $_return;
+			unset($_return);
+			unset($attach);
+		}
+
+		return $return;
+	}
 }

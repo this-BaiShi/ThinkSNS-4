@@ -84,6 +84,16 @@ class Api
 
         //白名单无需认证
         if ($canaccess) {
+           if (isset($_REQUEST['oauth_token'])) {
+                $verifycode['oauth_token'] = h($_REQUEST['oauth_token']);
+                $verifycode['oauth_token_secret'] = h($_REQUEST['oauth_token_secret']);
+                $verifycode['type'] = 'location';
+                $login = D('Login')->where($verifycode)->getField('uid');
+                if (isset($login) && $login > 0) {
+                    $this->mid = (int) $login;
+                    $_SESSION['mid'] = $this->mid;
+                }
+            }//白名单验证token 判断uid
             return;
         }
 

@@ -14,7 +14,7 @@ class AdminAction extends AdministratorAction
 
 	private function _initTab(){
 		$this->pageTab[] = array('title'=>'话题列表','tabHash'=>'index','url'=>U('project/Admin/index'));
-		$this->pageTab[] = array('title'=>'项目列表','tabHash'=>'list','url'=>U('project/Admin/index'));
+		$this->pageTab[] = array('title'=>'项目列表','tabHash'=>'project','url'=>U('project/Admin/project'));
 		$this->pageTab[] = array('title'=>'话题标签','tabHash'=>'taglist','url'=>U('project/Admin/taglist'));
 		$this->pageTab[] = array('title'=>'邀请列表','tabHash'=>'list','url'=>U('project/Admin/index'));
 		$this->pageTab[] = array('title'=>'邀请列表','tabHash'=>'list','url'=>U('project/Admin/index'));
@@ -37,6 +37,7 @@ class AdminAction extends AdministratorAction
 		$list['data'] = $this->model->getTag(); 
 		foreach ($list['data'] as $key => &$value) {
 			$value['DOCATION'] = '<a href='.U('project/Admin/delTag',array('tag_id'=>$value['tag_id'])).'>删除</a>';
+			$value['DOCATION'] .= '<a href='.U('project/Admin/edit_tag',array('tag_id'=>$value['tag_id'])).'>编辑</a>';
 		}
 
 
@@ -46,6 +47,7 @@ class AdminAction extends AdministratorAction
 	//添加/修改标签
 	public function edit_tag(){
 		$this->pageKeyList = array('tag_name','style');
+
 
 		$this->displayConfig($data);
 	}

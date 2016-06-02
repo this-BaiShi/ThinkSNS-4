@@ -10,5 +10,8 @@ return array(
         'Public/*' => true,
         'Information/reader' => true,
         'Project/test'	=>	true,
+        'Project/getProjectList'	=>	true,
+        'Project/getTopicList'	=>	true,
+        'Project/home'	=>	true,
     ),
 );
