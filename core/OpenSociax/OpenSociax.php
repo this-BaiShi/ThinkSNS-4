@@ -25,8 +25,8 @@ tsconfig(include CONF_PATH.'/html.inc.php');
 tsconfig(include CONF_PATH.'/router.inc.php');
 
 if (!isset($_REQUEST['app']) && !isset($_REQUEST['mod']) && !isset($_REQUEST['act'])) {
-    $ts['_app'] = 'public';
-    $ts['_mod'] = 'Passport';
+    $ts['_app'] = 'admin';
+    $ts['_mod'] = 'Public';
     $ts['_act'] = 'login';
 } else {
     $ts['_app'] = isset($_REQUEST['app']) && !empty($_REQUEST['app']) ? $_REQUEST['app'] : tsconfig('DEFAULT_APP');
