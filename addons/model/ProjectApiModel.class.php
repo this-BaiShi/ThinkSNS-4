@@ -204,6 +204,7 @@ class ProjectApiModel extends \Model
 	public function getProjectList($catid,$uid,$limit){
 		$list = Model\ListData::join('project_data','list.data_id','=','project_data.data_id')
 		->where('list.type','2')
+		->where('list.is_del','0')
 		->where('project_data.category_id',$catid)
 		->skip($limit['skip'])
 		->take($limit['take'])
@@ -240,6 +241,7 @@ class ProjectApiModel extends \Model
 		switch ($type) {
 			case '1':
 				$list = Model\ListData::where('type','1')
+				->where('is_del','0')
 				->skip($limit['skip'])
 				->take($limit['take'])
 				->orderBy('ctime','desc')
@@ -247,6 +249,7 @@ class ProjectApiModel extends \Model
 				break;//全部
 			case '2':
 				$list = Model\ListData::where('type','1')
+				->where('is_del','0')
 				->where('is_hot',1)
 				->skip($limit['skip'])
 				->take($limit['take'])
@@ -255,6 +258,7 @@ class ProjectApiModel extends \Model
 				break;//热门
 			case '3':
 				$list = Model\ListData::where('type','1')
+				->where('is_del','0')
 				->where('is_recommend',1)
 				->skip($limit['skip'])
 				->take($limit['take'])
@@ -429,26 +433,52 @@ class ProjectApiModel extends \Model
 		foreach ($list as $key => $value) {
 			$_return['link_id'] = $value['link_id'];
 			$_return['type'] = $value['type'];
-			$listinfo = D('list')->where(array('list_id'=>$value['link_id']))->find();
-			if (!empty($listinfo['cover'])) {
-				$attach = D('Attach')->getAttachById($listinfo['cover']);
-				$_return['cover'] = UPLOAD_URL.'/'.$attach['save_path'].$attach['save_name'];
-			}
-			$_return['title'] = $listinfo['title'];
-			$_return['intro'] = $listinfo['intro'];
-			$_return['uname'] = getUserName($value['uid']);
-			$_return['avatar'] = getUserFace($value['uid']);
-			$_return['ctime'] = friendlyDate($value['ctime']);
-			$_return['is_collection'] = isCollection($value['link_id'],$uid);
-			$_return['is_digg'] = isDigg($value['link_id'],$uid);
-			$_return['comment'] = Model\Comment::where('to_comment_id',0)
-			->where('row_id',$value['link_id'])
-			->where('table','list')
-			->count();
-			$_return['digg'] = D('list_digg')->where(array('list_id'=>$value['link_id']))->count();
+
+
 			if ($value['type'] == 1) {
-				$commentinfo = D('comment')->where(array('comment_id'=>$link_id))->find();
+				$commentinfo = D('comment')->where(array('comment_id'=>$value['link_id']))->find();
+				if (!empty($commentinfo['to_comment_id'])) {
+					$firstcomment = D('comment')->where(array('comment_id'=>$commentinfo['to_comment_id']))->find();
+				}
+
+				$listinfo = D('list')->where(array('list_id'=>$commentinfo['row_id']))->find();
+				if (!empty($listinfo['cover'])) {
+					$attach = D('Attach')->getAttachById($listinfo['cover']);
+					$_return['cover'] = UPLOAD_URL.'/'.$attach['save_path'].$attach['save_name'];
+				}
+				$_return['list_id'] = $listinfo['list_id'];
+				$_return['title'] = $listinfo['title'];
+				$_return['intro'] = $listinfo['intro'];
+				$_return['uname'] = getUserName($value['uid']);
+				$_return['avatar'] = getUserFace($value['uid']);
+				$_return['ctime'] = friendlyDate($value['ctime']);
+				$_return['is_collection'] = isCollection($value['link_id'],$uid);
+				$_return['is_digg'] = isDigg($value['link_id'],$uid);
+				$_return['comment'] = Model\Comment::where('to_comment_id',0)
+				->where('row_id',$value['link_id'])
+				->where('table','list')
+				->count();
+				$_return['digg'] = D('list_digg')->where(array('list_id'=>$value['link_id']))->count();
 				$_return['comment_info'] = $commentinfo['content'];
+			}else{
+				$listinfo = D('list')->where(array('list_id'=>$value['link_id']))->find();
+				if (!empty($listinfo['cover'])) {
+					$attach = D('Attach')->getAttachById($listinfo['cover']);
+					$_return['cover'] = UPLOAD_URL.'/'.$attach['save_path'].$attach['save_name'];
+				}
+				$_return['list_id'] = $listinfo['list_id'];
+				$_return['title'] = $listinfo['title'];
+				$_return['intro'] = $listinfo['intro'];
+				$_return['uname'] = getUserName($value['uid']);
+				$_return['avatar'] = getUserFace($value['uid']);
+				$_return['ctime'] = friendlyDate($value['ctime']);
+				$_return['is_collection'] = isCollection($value['link_id'],$uid);
+				$_return['is_digg'] = isDigg($value['link_id'],$uid);
+				$_return['comment'] = Model\Comment::where('to_comment_id',0)
+				->where('row_id',$value['link_id'])
+				->where('table','list')
+				->count();
+				$_return['digg'] = D('list_digg')->where(array('list_id'=>$value['link_id']))->count();
 			}
 
 			$return[] = $_return;
@@ -492,6 +522,7 @@ class ProjectApiModel extends \Model
 		$return['is_digg'] = isDigg($info['list_id'],$uid);
 		$return['comment'] = Model\Comment::where('to_comment_id',0)
 		->where('row_id',$info['list_id'])
+		->where('to_comment_id',0)
 		->where('table','list')
 		->count();
 		$return['digg'] = D('list_digg')->where(array('list_id'=>$info['list_id']))->count();
@@ -565,11 +596,11 @@ class ProjectApiModel extends \Model
 	}
 
 	//获取首页数据
-	public function getHomeData(){
+	public function getHomeData($limit){
 		$return['banner'] = D('application_slide')->select(); 
-		foreach ($return['banner'] as $key => &$value) {
-			$attach = D('Attach')->getAttachById($info['image']);
-			$value['image'] = UPLOAD_URL.'/'.$attach['save_path'].$attach['save_name'];
+		foreach ($return['banner'] as $key2 => &$value2) {
+			$attach = D('Attach')->getAttachById($value2['image']);
+			$value2['image'] = UPLOAD_URL.'/'.$attach['save_path'].$attach['save_name'];
 		}
 		$list = D('list')->where(array('type'=>2))->order('is_top desc,ctime desc')->limit($limit)->select();
 		foreach ($list as $key => &$value) {
@@ -599,4 +630,172 @@ class ProjectApiModel extends \Model
 
 		return $return;
 	}
+
+	//获取支持我的
+	public function getUserSupport($uid,$limit,$type){
+		if ($type == 1) {
+			$list = D('order_log')->where(array('uid'=>$uid))->limit($limit)->select();
+		}else{
+			$list = D('order_log')->where(array('to_uid'=>$uid))->group('list_id')->limit($limit)->select();
+		}
+		
+		if (empty($list)) {
+			return false;
+		}
+		foreach ($list as $key => $value) {
+			$_return['uid'] = $value['uid'];
+			$_return['uname'] = getUserName($value['uid']);
+			$_return['avatar'] = getUserFace($value['uid']);
+			$_return['to_uname'] = getUserName($value['to_uid']);
+			$_return['to_avatar'] = getUserFace($value['to_uid']);
+			if ($type == 1) {
+				$_return['support_num'] = $value['num'];
+				$_return['support_time'] = friendlyDate($value['ctime']);
+			}
+			$info = D('list')->where(array('list_id'=>$value['list_id']))->find();
+			if ($info['type'] == 2) {
+				$data = D('project_data')->where(array('data_id'=>$info['data_id']))->find();
+				if (time()>$data['etime']) {
+					$_return['status'] = 0;//已结束
+				}else{
+					$_return['status'] = 1;//进行中
+				}
+			}
+			$order_logs = D('order_log')->where(array('list_id'=>$info['list_id']))->limit(3)->select();
+			if (!empty($order_logs)) {
+				foreach ($order_logs as $key => &$value) {
+					$_user['uid'] = $value['uid'];
+					$_user['uname'] = getUserName($value['uid']);
+					$_user['avatar'] = getUserFace($value['uid']);
+
+					$_return['support_user'][] = $_user;
+					unset($_user);
+				}
+			}
+			$order_info = D('order_sum')->where(array('list_id'=>$info['list_id']))->find();
+			$_return['sum'] = $order_info['sum'];
+			$_return['ctime'] = friendlyDate($info['ctime']);
+			$_return['list_id'] = $info['list_id'];
+			$_return['title'] = $info['title'];
+			$_return['intro'] = $info['intro'];
+			if (!empty($info['cover'])) {
+				$attach = D('Attach')->getAttachById($info['cover']);
+				$_return['cover'] = UPLOAD_URL.'/'.$attach['save_path'].$attach['save_name'];
+			}
+			$return[] = $_return;
+			unset($info);
+			unset($attach);
+			unset($_return);
+
+		}
+		return $return;
+	}
+
+
+	//获取我发起的
+	public function getMyProject($uid,$limit,$type){
+		$map['uid'] = $uid;
+		$map['type'] = $type;
+		$list = D('list')->where($map)->limit($limit)->order('ctime desc')->select();
+		if (empty($list)) {
+			return false;
+		}
+		if ($type == 1) {
+			foreach ($list as $key => &$value) {
+				$_return['list_id'] = $value['list_id'];
+				$_return['is_collection'] = isCollection($value['list_id'],$uid);
+				$_return['is_digg'] = isDigg($value['list_id'],$uid);
+				$_return['intro'] = $value['intro'];
+				$_return['title'] = $value['title'];
+				$_return['comment'] = Model\Comment::where('to_comment_id',0)
+				->where('row_id',$value['list_id'])
+				->where('table','list')
+				->count();
+				$_return['support_num'] =  D('order_log')->where(array('list_id'=>$value['list_id']))->count();
+				$_return['content'] = Model\ListData::find($value['list_id'])->topic()->pluck('content');
+				$_return['digg'] = D('list_digg')->where(array('list_id'=>$value['list_id']))->count();
+				$_return['uid'] = $value['uid'];
+				$_return['uname'] = getUserName($value['uid']);
+				$_return['avatar'] = getUserFace($value['uid']);
+				$_return['ctime'] = friendlyDate($value['ctime']);
+				$tags = Model\TagLink::where('list_id',$value['list_id'])->get();
+				foreach ($tags as $tag) {
+					$_tag = $tag->tag()->first()->toArray();
+					$_return['tags'][] = $_tag;
+					unset($_tag);
+				}
+
+				$return[] = $_return;
+				unset($_return);
+			}
+		}else{
+			foreach ($list as $key => &$value) {
+				$attach = D('Attach')->getAttachById($value['cover']);
+				$_return['cover'] = UPLOAD_URL.'/'.$attach['save_path'].$attach['save_name'];
+				$_return['list_id'] = $value['list_id'];
+				$_return['is_collection'] = isCollection($value['list_id'],$uid);
+				$_return['is_digg'] = isDigg($value['list_id'],$uid);
+				$_return['intro'] = $value['intro'];
+				$_return['title'] = $value['title'];
+				$_return['comment'] = Model\Comment::where('to_comment_id',0)
+				->where('row_id',$value['list_id'])
+				->where('table','list')
+				->orderBy('ctime','desc')
+				->count();
+				$_return['support_num'] =  D('order_log')->where(array('list_id'=>$value['list_id']))->count();
+				$_return['digg'] = D('list_digg')->where(array('list_id'=>$value['list_id']))->count();
+				$_return['uid'] = $value['uid'];
+				$_return['uname'] = getUserName($value['uid']);
+				$_return['avatar'] = getUserFace($value['uid']);
+				$_return['ctime'] = friendlyDate($value['ctime']);
+
+				$return[] = $_return;
+				unset($_return);
+				unset($attach);
+			}
+		}
+		return $return;
+	}
+
+	public function search($key,$limit,$uid){
+		$sql = " title like '%".$key."%' or intro like '%".$key."%'";
+		$list = D('list')->where($sql)->order('ctime desc')->limit($limit)->select();
+		if (empty($list)) {
+			return false;
+		}
+		foreach ($list as $key => $value) {
+			if (!empty($value['cover'])) {
+				$attach = D('Attach')->getAttachById($value['cover']);
+				$_return['cover'] = UPLOAD_URL.'/'.$attach['save_path'].$attach['save_name'];
+				unset($attach);
+			}
+
+			$_return['list_id'] = $value['list_id'];
+			$_return['is_collection'] = isCollection($value['list_id'],$uid);
+			$_return['is_digg'] = isDigg($value['list_id'],$uid);
+			$_return['intro'] = $value['intro'];
+			$_return['title'] = $value['title'];
+			$_return['comment'] = Model\Comment::where('to_comment_id',0)
+			->where('row_id',$value['list_id'])
+			->where('table','list')
+			->orderBy('ctime','desc')
+			->count();
+			$_return['support_num'] =  D('order_log')->where(array('list_id'=>$value['list_id']))->count();
+			$_return['digg'] = D('list_digg')->where(array('list_id'=>$value['list_id']))->count();
+			$_return['uid'] = $value['uid'];
+			$_return['uname'] = getUserName($value['uid']);
+			$_return['avatar'] = getUserFace($value['uid']);
+			$_return['ctime'] = friendlyDate($value['ctime']);
+			$tags = Model\TagLink::where('list_id',$value['list_id'])->get();
+			foreach ($tags as $tag) {
+				$_tag = $tag->tag()->first()->toArray();
+				$_return['tags'][] = $_tag;
+				unset($_tag);
+			}
+			$return[] = $_return;
+			unset($_return);
+		}
+		return $return;
+	}
+
 }

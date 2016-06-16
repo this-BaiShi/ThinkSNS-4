@@ -28,8 +28,6 @@ function pg(){
     return $limit;
 }
 
-
-
 /*
     处理api端的富文本编辑内容
  */
@@ -49,17 +47,48 @@ function contentApi($content){
 
     return $content;
 }
+function isDigg($id,$uid,$type='list'){
+    switch ($type) {
+        case 'list':
+            $map['list_id'] = $id;
+            $map['uid'] = $uid;
+            $info = D('list_digg')->where($map)->find();
+            break;
+        case 'comment':
+            $map['comment_id'] = $id;
+            $map['uid'] = $uid;
+            $info = D('comment_digg')->where($map)->find();
+            break;
+    }
+    if ($info) {
+        return 1;
+    }else{
+        return 0;
+    }
+}
 
+//是否已收藏
 function isCollection($id,$uid,$source_app='project',$source_table_name='list'){
-	$map['source_id'] = $id;
-	$map['source_app'] = $source_app;
-	$map['source_table_name'] = $source_table_name;
-	$map['uid'] = $uid;
+    $map['source_id'] = $id;
+    $map['source_app'] = $source_app;
+    $map['source_table_name'] = $source_table_name;
+    $map['uid'] = $uid;
 
-	$info = D('collection')->where($map)->find();
-	if ($info) {
-		return 1;
-	}else{
-		return 0;
-	}
+    $info = D('collection')->where($map)->find();
+    if ($info) {
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
+//新版框架分页
+function pgnew(){
+    $page = !empty($_REQUEST['page']) ? intval($_REQUEST['page']) : 1;
+    $num = !empty($_REQUEST['num']) ? intval($_REQUEST['num']) : 10;
+
+    $return['skip'] =  ($page-1)*$num;
+    $return['take'] = $num;
+
+    return $return;
 }

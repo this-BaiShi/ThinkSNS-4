@@ -134,7 +134,7 @@ $menu = array(
                 '发现轮播' => U('admin/Application/index'),
                 'Socket设置' => U('admin/Application/socket'),
                 '极光推送' => U('admin/Application/jpush'),
-                '关于我们' => U('admin/Application/about'),
+                '相关协议' => U('admin/Application/about'),
                 '反馈管理' => U('admin/Application/feedback'),
             ),
         ),

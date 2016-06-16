@@ -33,8 +33,11 @@ class ProjectMessageModel extends Model
 	public function getMessage($type,$limit,$uid){
 		$map['type'] = $type;
 		$map['to_uid'] = $uid;
+		// $map['is_read'] = 0;
 
 		$list = D('user_message')->where($map)->limit($limit)->select();
+		//unset($map['is_read']);
+		D('user_message')->where($map)->setField('is_read',1);//调用列表时直接设为已读
 		if (empty($list)) {
 			return false;
 		}
@@ -50,26 +53,58 @@ class ProjectMessageModel extends Model
 				case 'comment':
 					$info = D('comment')->where(array('comment_id'=>$value['link_id']))->find();
 					$list_info = D('list')->where(array('list_id'=>$info['row_id']))->find();
+					if (!empty($list_info['cover'])) {
+						$attach = D('Attach')->getAttachById($list_info['cover']);
+						$_return['cover'] = UPLOAD_URL.'/'.$attach['save_path'].$attach['save_name'];
+						unset($attach);
+					}
+					$_return['to_commend_id'] = $info['to_commend_id'];
 					$_return['list_id'] = $list_info['list_id'];
 					$_return['comment_content'] = $info['content'];
 					$_return['title'] = $list_info['title'];
 					$_return['content'] = $list_info['intro'];
+					if ($list_info['type'] == 1) {
+						$_return['source_type'] = 1;//赞评论话题
+					}else{
+						$_return['source_type'] = 2;//赞评论项目
+					}
+					$_return['type'] = 1;
+					
 					break;
 				case 'list':
 					$info = D('list')->where(array('list_id'=>$value['link_id']))->find();
 					$_return['list_id'] = $info['list_id'];
 					$_return['title'] = $info['title'];
 					$_return['content'] = $info['intro'];
+					$_return['source_type'] = $info['type'];
+					if ($info['type'] == 1) {
+						$_return['source_type'] = 3;//赞话题
+					}else{
+						$_return['source_type'] = 4;//赞项目
+					}
+					if (!empty($info['cover'])) {
+						$attach = D('Attach')->getAttachById($info['cover']);
+						$_return['cover'] = UPLOAD_URL.'/'.$attach['save_path'].$attach['save_name'];
+						unset($attach);
+					}
 					break;
 				default:
 					# code...
 					break;
-			}
+			}//data_type 1-评论 2-话题 3-项目
 
 			$return[] = $_return;
 			unset($_return);
 		}
 		return $return;
+	}
+
+	//设为已读
+	public function setRead($uid,$type){
+		$map['uid'] = $uid;
+		$map['type'] = $type;
+		$do = D('user_message')->where($map)->setField('is_read',1);
+		return true;
 	}
 
 }

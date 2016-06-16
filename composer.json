@@ -58,6 +58,7 @@
         "preferred-install": "dist"
     },
     "autoload": {
+        "files":["src/Tools/functions.php"],
         "classmap": [
             "src/Ts.php",
             "addons/utility/MedzValidator.php",

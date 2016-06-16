@@ -13,5 +13,10 @@ return array(
         'Project/getProjectList'	=>	true,
         'Project/getTopicList'	=>	true,
         'Project/home'	=>	true,
+        'Project/search'  =>  true,
+        'Project/getCatList'  =>  true,
+        'Project/showDetail' => true,
+        'ProjectComment/getCommentList' => true,
+        'Project/getAllSupportUser' =>  true,
     ),
 );

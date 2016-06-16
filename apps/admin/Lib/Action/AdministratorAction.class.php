@@ -480,4 +480,29 @@ class AdministratorAction extends Action
 
         return file_put_contents($file, $content);
     }
+
+    /*
+     *   常规改变状态
+     *   table 表名
+     *   id    查询字段
+     *   field  设置字段  0置为1  1置为0 
+     */
+    public function changeStatus(){
+        $table = $_GET['table'];
+        $key = $_GET['key'];
+        $id = intval($_GET['id']);
+        $field = ($_GET['field']);
+        $map[$key] = $id;
+        $status = D($table)->where($map)->getField($field);
+        if ($status == '0') {
+            $rs = D($table)->where($map)->setField($field,'1');
+        }else{
+            $rs = D($table)->where($map)->setField($field,'0');
+        }
+        if ($rs) {
+            $this->success('设置成功！');
+        }else{
+            $this->error('设置失败！');
+        }
+    }
 }

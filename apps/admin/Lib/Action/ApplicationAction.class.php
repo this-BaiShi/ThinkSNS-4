@@ -19,12 +19,12 @@ class ApplicationAction extends AdministratorAction
     protected $type = array(
         'false' => '仅展示',
         'url' => 'URL地址',
-        'weiba' => '微吧',
-        'post' => '帖子',
-        'weibo' => '微博',
-        'topic' => '话题',
-        'channel' => '频道',
-        'user' => '用户',
+        // 'weiba' => '微吧',
+        // 'post' => '帖子',
+        // 'weibo' => '微博',
+        // 'topic' => '话题',
+        // 'channel' => '频道',
+        // 'user' => '用户',
     );
 
     /**
@@ -178,16 +178,38 @@ class ApplicationAction extends AdministratorAction
      *
      * @author Medz Seven <lovevipdsw@vip.qq.com>
      **/
+    private function initTab(){
+        $this->pageTab[] = array(
+            'title' => '关于我们设置',
+            'tabHash' => 'about',
+            'url' => U('admin/Application/about'),
+        );
+        $this->pageTab[] = array('title' => '发起人协议','tabHash' => 'treaty','url' => U('admin/Application/treaty'));
+        $this->pageTab[] = array('title' => '发起人须知','tabHash' => 'know','url' => U('admin/Application/know'));
+    }
+
     public function about()
     {
         $this->pageKeyList = array('about');
-        array_push($this->pageTab, array(
-            'title' => '关于我们设置',
-            'hash' => 'about',
-            'url' => U('admin/Application/about'),
-        ));
+        $this->initTab();
+
         $this->displayConfig();
     }
+    public function treaty()
+    {
+        $this->pageKeyList = array('treaty');
+        $this->initTab();
+
+        $this->displayConfig();
+    }
+    public function know()
+    {
+        $this->pageKeyList = array('know');
+        $this->initTab();
+
+        $this->displayConfig();
+    }    
+
     /*================= Application about setting end   ========================*/
 
     /*================ Application feedback setting start ======================*/
